@@ -60,6 +60,7 @@ runs:
         echo "::set-output name=unknown_files::$(git diff --diff-filter=X --name-only ${HEAD_SHA} || true)"
         echo "::set-output name=all_changed_files::$(git diff --diff-filter="*" --name-only ${HEAD_SHA} || true)"
       shell: bash
+
 branding:
   icon: git-pull-request
   color: white
