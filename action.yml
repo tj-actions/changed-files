@@ -6,6 +6,26 @@ inputs:
     description: 'GITHUB_TOKEN or a Repo scoped PAT'
     required: true
     default: ${{ github.token }}
+    
+outputs:
+  added_files:
+    description: List of added files.
+  copied_files:
+    description: List of copied files.
+  deleted_files:
+    description: List of deleted files.
+  modified_files:
+    description: List of modified files
+  renamed_files:
+    description: List of renamed files.
+  changed_files:
+    description: List of changed files
+  unmerged_files:
+    description: List of unmerged files.
+  unknown_files:
+    description: List of unknown files.
+  all_changed_files:
+    description: List of all changed files.
 
 runs:
   using: 'docker'
