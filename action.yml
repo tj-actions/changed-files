@@ -59,15 +59,15 @@ runs:
         
         HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
         
-        ADDED_FILES="$(git diff --diff-filter=A --name-only ${HEAD_SHA} || true)"
-        COPIED_FILES="$(git diff --diff-filter=C --name-only ${HEAD_SHA} || true)"
-        DELETED_FILES="$(git diff --diff-filter=D --name-only ${HEAD_SHA} || true)"
-        MODIFIED_FILES="$(git diff --diff-filter=M --name-only ${HEAD_SHA} || true)"
-        RENAMED_FILES="$(git diff --diff-filter=R --name-only ${HEAD_SHA} || true)"
-        CHANGED_FILES="$(git diff --diff-filter=T --name-only ${HEAD_SHA} || true)"
-        UNMERGED_FILES="$(git diff --diff-filter=R --name-only ${HEAD_SHA} || true)"
-        UNKNOWN_FILES="$(git diff --diff-filter=X --name-only ${HEAD_SHA} || true)"
-        ALL_CHANGED_FILES="$(git diff --diff-filter="*" --name-only ${HEAD_SHA} || true)"
+        ADDED_FILES=($(git diff --diff-filter=A --name-only ${HEAD_SHA} || true))
+        COPIED_FILES=($(git diff --diff-filter=C --name-only ${HEAD_SHA} || true))
+        DELETED_FILES=($(git diff --diff-filter=D --name-only ${HEAD_SHA} || true))
+        MODIFIED_FILES=($(git diff --diff-filter=M --name-only ${HEAD_SHA} || true))
+        RENAMED_FILES=($(git diff --diff-filter=R --name-only ${HEAD_SHA} || true))
+        CHANGED_FILES=($(git diff --diff-filter=T --name-only ${HEAD_SHA} || true))
+        UNMERGED_FILES=($(git diff --diff-filter=R --name-only ${HEAD_SHA} || true))
+        UNKNOWN_FILES=($(git diff --diff-filter=X --name-only ${HEAD_SHA} || true))
+        ALL_CHANGED_FILES=($(git diff --diff-filter="*" --name-only ${HEAD_SHA} || true))
 
         echo "Getting diff..."
         echo "::set-output name=added_files::$ADDED_FILES"
