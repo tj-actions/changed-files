@@ -49,10 +49,6 @@ runs:
         TARGET_BRANCH=${GITHUB_BASE_REF}
         CURRENT_BRANCH=${GITHUB_HEAD_REF}
 
-        echo "Getting base branch..."
-        git config --local remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-        git config --local --add remote.origin.fetch "+refs/tags/*:refs/tags/*"
-
         git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
 
         echo "Getting head sha..."
