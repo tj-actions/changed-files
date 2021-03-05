@@ -58,17 +58,27 @@ runs:
         echo "Getting head sha..."
         
         HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
+        
+        ADDED=${$(git diff --diff-filter=A --name-only "$HEAD_SHA" || true)//$'\n'/}
+        COPIED=${$(git diff --diff-filter=C --name-only "$HEAD_SHA" || true)//$'\n'/}
+        DELETED=${$(git diff --diff-filter=D --name-only "$HEAD_SHA" || true)//$'\n'/}
+        MODIFIED=${$(git diff --diff-filter=M --name-only "$HEAD_SHA" || true)//$'\n'/}
+        RENAMED=${$(git diff --diff-filter=R --name-only "$HEAD_SHA" || true)//$'\n'/}
+        CHANGED=${$(git diff --diff-filter=T --name-only "$HEAD_SHA" || true)//$'\n'/}
+        UNMERGED=${$(git diff --diff-filter=U --name-only "$HEAD_SHA" || true)//$'\n'/}
+        UNKNOWN=${$(git diff --diff-filter=X --name-only "$HEAD_SHA" || true)//$'\n'/}
+        ALL_CHANGED=${$(git diff --diff-filter='*' --name-only "$HEAD_SHA" || true)//$'\n'/}
 
         echo "Getting diff..."
-        echo "::set-output name=added_files::${$(git diff --diff-filter=A --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=copied_files::${$(git diff --diff-filter=C --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=deleted_files::${$(git diff --diff-filter=D --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=modified_files::${$(git diff --diff-filter=M --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=renamed_files::${$(git diff --diff-filter=R --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=changed_files::${$(git diff --diff-filter=T --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=unmerged_files::${$(git diff --diff-filter=U --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=unknown_files::${$(git diff --diff-filter=X --name-only ${HEAD_SHA} || true)//$'\n'/}"
-        echo "::set-output name=all_changed_files::${$(git diff --diff-filter='*' --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=added_files::$ADDED"
+        echo "::set-output name=copied_files::$COPIED"
+        echo "::set-output name=deleted_files::$DELETED"
+        echo "::set-output name=modified_files::$MODIFIED"
+        echo "::set-output name=renamed_files::$RENAMED"
+        echo "::set-output name=changed_files::$CHANGED"
+        echo "::set-output name=unmerged_files::$UNMERGED"
+        echo "::set-output name=unknown_files::$UNKNOWN"
+        echo "::set-output name=all_changed_files::$ALL_CHANGED"
       shell: bash
 
 branding:
