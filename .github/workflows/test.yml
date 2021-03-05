@@ -29,11 +29,3 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
-      - name: Run changed-files with pipe
-        id: changed-files-pipe
-        uses: ./
-        with:
-          separator: "|"
-      - name: Show output
-        run: |
-          echo "${{ toJSON(steps.changed-files-pipe.outputs) }}"
