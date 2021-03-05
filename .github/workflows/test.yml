@@ -22,13 +22,13 @@ jobs:
         uses: ./
       - name: Show output
         run: |
-          echo "Added Files: ${{ steps.changes-files.outputs.added_files }}"
-          echo "Copied Files: ${{ steps.changes-files.outputs.copied_files }}"
-          echo "Deleted Files: ${{ steps.changes-files.outputs.deleted_files }}"
-          echo "Modified Files: ${{ steps.changes-files.outputs.modified_files }}"
-          echo "Renamed Files: ${{ steps.changes-files.outputs.renamed_files }}"
-          echo "Changed Files: ${{ steps.changes-files.outputs.changed_files }}"
-          echo "Unmerged Files: ${{ steps.changes-files.outputs.unmerged_files }}"
-          echo "Unknown Files: ${{ steps.changes-files.outputs.unknown_files }}"
-          echo "All Changed Files: ${{ steps.changes-files.outputs.all_changed_files }}"
+          echo "Added Files: ${{ steps.changed-files.outputs.added_files }}"
+          echo "Copied Files: ${{ steps.changed-files.outputs.copied_files }}"
+          echo "Deleted Files: ${{ steps.changed-files.outputs.deleted_files }}"
+          echo "Modified Files: ${{ steps.changed-files.outputs.modified_files }}"
+          echo "Renamed Files: ${{ steps.changed-files.outputs.renamed_files }}"
+          echo "Changed Files: ${{ steps.changed-files.outputs.changed_files }}"
+          echo "Unmerged Files: ${{ steps.changed-files.outputs.unmerged_files }}"
+          echo "Unknown Files: ${{ steps.changed-files.outputs.unknown_files }}"
+          echo "All Changed Files: ${{ steps.changed-files.outputs.all_changed_files }}"
           
