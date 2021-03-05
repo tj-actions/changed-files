@@ -2,30 +2,39 @@ name: Get modified files
 description: Get modified files
 author: tj-actions
 inputs:
-  token:
-    description: 'GITHUB_TOKEN or a Repo scoped PAT'
+  separator:
+    description: 'Split character for array output'
     required: true
-    default: ${{ github.token }}
-    
+    default: " "
+
 outputs:
   added_files:
     description: List of added files.
+    value: ${{ steps.changed-files.outputs.added_files }}
   copied_files:
     description: List of copied files.
+    value: ${{ steps.changed-files.outputs.copied_files }}
   deleted_files:
     description: List of deleted files.
+    value: ${{ steps.changed-files.outputs.deleted_files }}
   modified_files:
-    description: List of modified files
+    description: List of modified files.
+    value: ${{ steps.changed-files.outputs.modified_files }}
   renamed_files:
     description: List of renamed files.
+    value: ${{ steps.changed-files.outputs.renamed_files }}
   changed_files:
-    description: List of changed files
+    description: List of changed files.
+    value: ${{ steps.changed-files.outputs.changed_files }}
   unmerged_files:
     description: List of unmerged files.
+    value: ${{ steps.changed-files.outputs.unmerged_files }}
   unknown_files:
     description: List of unknown files.
+    value: ${{ steps.changed-files.outputs.unknown_files }}
   all_changed_files:
     description: List of all changed files.
+    value: ${{ steps.changed-files.outputs.all_changed_files }}
 
 runs:
   using: 'composite'
@@ -40,26 +49,34 @@ runs:
         TARGET_BRANCH=${GITHUB_BASE_REF}
         CURRENT_BRANCH=${GITHUB_HEAD_REF}
 
-        echo "Getting base branch..."
-        git config --local remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-        git config --local --add remote.origin.fetch "+refs/tags/*:refs/tags/*"
-
         git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
 
         echo "Getting head sha..."
+        
         HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
+        
+        ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        ALL_CHANGED=$(git diff --diff-filter='*' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
 
         echo "Getting diff..."
-        echo "::set-output name=added_files::$(git diff --diff-filter=A --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=copied_files::$(git diff --diff-filter=C --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=deleted_files::$(git diff --diff-filter=D --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=modified_files::$(git diff --diff-filter=M --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=renamed_files::$(git diff --diff-filter=R --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=changed_files::$(git diff --diff-filter=T --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=unmerged_files::$(git diff --diff-filter=R --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=unknown_files::$(git diff --diff-filter=X --name-only ${HEAD_SHA} || true)"
-        echo "::set-output name=all_changed_files::$(git diff --diff-filter="*" --name-only ${HEAD_SHA} || true)"
+        echo "::set-output name=added_files::$ADDED"
+        echo "::set-output name=copied_files::$COPIED"
+        echo "::set-output name=deleted_files::$DELETED"
+        echo "::set-output name=modified_files::$MODIFIED"
+        echo "::set-output name=renamed_files::$RENAMED"
+        echo "::set-output name=changed_files::$CHANGED"
+        echo "::set-output name=unmerged_files::$UNMERGED"
+        echo "::set-output name=unknown_files::$UNKNOWN"
+        echo "::set-output name=all_changed_files::$ALL_CHANGED"
       shell: bash
+
 branding:
   icon: git-pull-request
   color: white

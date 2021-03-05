@@ -15,20 +15,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1
-      - name: Run changed-files
+      - name: Run changed-files with defaults
         id: changed-files
         uses: ./
       - name: Show output
         run: |
-          echo "Added Files: ${{ steps.changed-files.outputs.added_files }}"
-          echo "Copied Files: ${{ steps.changed-files.outputs.copied_files }}"
-          echo "Deleted Files: ${{ steps.changed-files.outputs.deleted_files }}"
-          echo "Modified Files: ${{ steps.changed-files.outputs.modified_files }}"
-          echo "Renamed Files: ${{ steps.changed-files.outputs.renamed_files }}"
-          echo "Changed Files: ${{ steps.changed-files.outputs.changed_files }}"
-          echo "Unmerged Files: ${{ steps.changed-files.outputs.unmerged_files }}"
-          echo "Unknown Files: ${{ steps.changed-files.outputs.unknown_files }}"
-          echo "All Changed Files: ${{ steps.changed-files.outputs.all_changed_files }}"
-          
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+      - name: Run changed-files with comma separator
+        id: changed-files-comma
+        uses: ./
+        with:
+          separator: ","
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
