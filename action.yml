@@ -1,0 +1,17 @@
+name: Get modified files
+description: Get modified files
+author: tj-actions
+inputs:
+  token:
+    description: 'GITHUB_TOKEN or a Repo scoped PAT'
+    required: true
+    default: ${{ github.token }}
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.token }}
+branding:
+  icon: git-pull-request
+  color: white
