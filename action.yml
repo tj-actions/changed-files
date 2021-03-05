@@ -27,6 +27,7 @@ outputs:
   all_changed_files:
     description: List of all changed files.
 
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
