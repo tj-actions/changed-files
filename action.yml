@@ -70,15 +70,15 @@ runs:
         read -a ALL_CHANGED_FILES <<< "$(git diff --diff-filter='*' --name-only ${HEAD_SHA} || true)"
 
         echo "Getting diff..."
-        echo "::set-output name=added_files::$ADDED_FILES"
-        echo "::set-output name=copied_files::$COPIED_FILES"
-        echo "::set-output name=deleted_files::$DELETED_FILES"
-        echo "::set-output name=modified_files::$MODIFIED_FILES"
-        echo "::set-output name=renamed_files::$RENAMED_FILES"
-        echo "::set-output name=changed_files::$CHANGED_FILES"
-        echo "::set-output name=unmerged_files::$UNMERGED_FILES"
-        echo "::set-output name=unknown_files::$UNKNOWN_FILES"
-        echo "::set-output name=all_changed_files::$ALL_CHANGED_FILES"
+        echo "::set-output name=added_files::${{ toJSON($ADDED_FILES) }}"
+        echo "::set-output name=copied_files::${{ toJSON($COPIED_FILES) }}"
+        echo "::set-output name=deleted_files::${{ toJSON($DELETED_FILES) }}"
+        echo "::set-output name=modified_files::${{ toJSON($MODIFIED_FILES) }}"
+        echo "::set-output name=renamed_files::${{ toJSON($RENAMED_FILES) }}"
+        echo "::set-output name=changed_files::${{ toJSON($CHANGED_FILES) }}"
+        echo "::set-output name=unmerged_files::${{ toJSON($UNMERGED_FILES) }}"
+        echo "::set-output name=unknown_files::${{ toJSON($UNKNOWN_FILES) }}"
+        echo "::set-output name=all_changed_files::${{ toJSON($ALL_CHANGED_FILES) }}"
       shell: bash
 
 branding:
