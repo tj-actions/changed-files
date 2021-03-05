@@ -56,6 +56,7 @@ runs:
         git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
 
         echo "Getting head sha..."
+        
         HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
         
         ADDED_FILES="$(git diff --diff-filter=A --name-only ${HEAD_SHA} || true)"
