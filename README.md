@@ -14,9 +14,9 @@ Get modified files
 
 ## Inputs
 
-|   Input       |    type    |  required     |  default                      |  description  |
+|   Input       |    type    |  required      |  default                      |  description  |
 |:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
-| token         |  `string`   |    `true`    | `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
+| separator         |  `string`   |    `true` |                          ` ` |  Separator to return outputs        |
 
 
 
