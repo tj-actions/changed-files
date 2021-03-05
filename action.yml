@@ -60,15 +60,15 @@ runs:
         HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
 
         echo "Getting diff..."
-        echo "::set-output name=added_files::${{ $(git diff --diff-filter=A --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=copied_files::${{ $(git diff --diff-filter=C --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=deleted_files::${{ $(git diff --diff-filter=D --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=modified_files::${{ $(git diff --diff-filter=M --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=renamed_files::${{ $(git diff --diff-filter=R --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=changed_files::${{ $(git diff --diff-filter=T --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=unmerged_files::${{ $(git diff --diff-filter=U --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=unknown_files::${{ $(git diff --diff-filter=X --name-only ${HEAD_SHA} || true) }}"
-        echo "::set-output name=all_changed_files::${{ $(git diff --diff-filter='*' --name-only ${HEAD_SHA} || true) }}"
+        echo "::set-output name=added_files::${$(git diff --diff-filter=A --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=copied_files::${$(git diff --diff-filter=C --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=deleted_files::${$(git diff --diff-filter=D --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=modified_files::${$(git diff --diff-filter=M --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=renamed_files::${$(git diff --diff-filter=R --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=changed_files::${$(git diff --diff-filter=T --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=unmerged_files::${$(git diff --diff-filter=U --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=unknown_files::${$(git diff --diff-filter=X --name-only ${HEAD_SHA} || true)//$'\n'/}"
+        echo "::set-output name=all_changed_files::${$(git diff --diff-filter='*' --name-only ${HEAD_SHA} || true)//$'\n'/}"
       shell: bash
 
 branding:
