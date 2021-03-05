@@ -7,8 +7,47 @@ Get modified files
 ...
     steps:
       - uses: actions/checkout@v2
-      - name: Get modified files
-        uses: tj-actions/changed-files@v1
+      - name: Get modified files with defaults
+        id: changed-files
+        uses: ./
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+      
+      # Outputs:
+      # {
+      #    added_files: ,
+      #    copied_files: ,
+      #    deleted_files: ,
+      #    modified_files: .github/workflows/test.yml HISTORY.md action.yml ,
+      #    renamed_files: ,
+      #    changed_files: ,
+      #    unmerged_files: ,
+      #    unknown_files: ,
+      #    all_changed_files: 
+      #  }
+      
+      - name: Get modified files with comma separator
+        id: changed-files-comma
+        uses: ./
+        with:
+          separator: ","
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+
+      # Outputs:
+      # {
+      #    added_files: ,
+      #    copied_files: ,
+      #    deleted_files: ,
+      #    modified_files: .github/workflows/test.yml,HISTORY.md,action.yml,,
+      #    renamed_files: ,
+      #    changed_files: ,
+      #    unmerged_files: ,
+      #    unknown_files: ,
+      #    all_changed_files: 
+      #  }
 ```
 
 
