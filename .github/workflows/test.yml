@@ -15,10 +15,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Run changed-files
+      - name: Run changed-files with defaults
         id: changed-files
         uses: ./
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
-          
+      - name: Run changed-files with comma separator
+        id: changed-files-comma
+        uses: ./
+        with:
+          separator: ","
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+      - name: Run changed-files with pipe
+        id: changed-files-pipe
+        uses: ./
+        with:
+          separator: "|"
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-pipe.outputs) }}"
