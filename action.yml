@@ -10,22 +10,31 @@ inputs:
 outputs:
   added_files:
     description: List of added files.
+    value: ${{ steps.changed-files.outputs.added_files }}
   copied_files:
     description: List of copied files.
+    value: ${{ steps.changed-files.outputs.copied_files }}
   deleted_files:
     description: List of deleted files.
+    value: ${{ steps.changed-files.outputs.deleted_files }}
   modified_files:
-    description: List of modified files
+    description: List of modified files.
+    value: ${{ steps.changed-files.outputs.modified_files }}
   renamed_files:
     description: List of renamed files.
+    value: ${{ steps.changed-files.outputs.renamed_files }}
   changed_files:
-    description: List of changed files
+    description: List of changed files.
+    value: ${{ steps.changed-files.outputs.changed_files }}
   unmerged_files:
     description: List of unmerged files.
+    value: ${{ steps.changed-files.outputs.unmerged_files }}
   unknown_files:
     description: List of unknown files.
+    value: ${{ steps.changed-files.outputs.unknown_files }}
   all_changed_files:
     description: List of all changed files.
+    value: ${{ steps.changed-files.outputs.all_changed_files }}
 
 runs:
   using: 'composite'
