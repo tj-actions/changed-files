@@ -37,7 +37,6 @@ runs:
           exit 0;
         fi
 
-        GITHUB_TOKEN=$1
         TARGET_BRANCH=${GITHUB_BASE_REF}
         CURRENT_BRANCH=${GITHUB_HEAD_REF}
 
