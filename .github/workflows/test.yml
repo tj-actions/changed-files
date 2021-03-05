@@ -20,5 +20,5 @@ jobs:
         uses: ./
       - name: Show output
         run: |
-          echo "${{ steps.changed-files.output }}"
+          echo "${{ steps.changed-files.outputs }}"
           
