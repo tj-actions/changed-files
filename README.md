@@ -16,7 +16,7 @@ Get modified files
 
 |   Input       |    type    |  required      |  default                      |  description  |
 |:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
-| separator         |  `string`   |    `true` |                          ` ` |  Separator to return outputs        |
+| separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
 
 
 
@@ -24,8 +24,16 @@ Get modified files
 
 Features
 --------
+- Added Files
+- Copied Files
+- Deleted Files
+- Modified Files
+- Renamed Files
+- Changed Files
+- Unmerged Files
+- Unknown Files
+- All Changed Files
 
-* TODO
 
 
 Credits
