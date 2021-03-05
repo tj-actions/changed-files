@@ -2,7 +2,7 @@ FROM alpine:3.13.2
 
 LABEL maintainer="Tonye Jack <jtonye@ymail.com>"
 
-RUN apk add bash
+RUN apk add bash git
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
