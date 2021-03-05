@@ -28,10 +28,12 @@ outputs:
     description: List of all changed files.
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.token }}
+  using: 'composite'
+  steps:
+    - id: changed-files
+      run: |
+        bash entrypoint.sh
+      shell: bash
 branding:
   icon: git-pull-request
   color: white
