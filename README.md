@@ -1,3 +1,5 @@
+[![CI](https://github.com/tj-actions/changed-files/actions/workflows/test.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/test.yml)
+
 changed-files
 -------------
 
