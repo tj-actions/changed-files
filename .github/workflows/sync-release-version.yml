@@ -16,6 +16,8 @@ jobs:
           pattern: 'tj-actions/changed-files@'
           paths: |
             README.md
+      - name: Generate CHANGELOG
+        uses: tj-actions/github-changelog-generator@v1.3
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
