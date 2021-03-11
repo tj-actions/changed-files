@@ -29,18 +29,6 @@ Using the default separator.
 | all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) are selected if there <br/> is any file that matches other <br/> criteria in the comparison; <br/> if there is no file that <br/> matches other criteria, <br/> nothing is selected.  |
 
 
- # {
-      #    added_files: ,
-      #    copied_files: ,
-      #    deleted_files: ,
-      #    modified_files: .github/workflows/test.yml,HISTORY.md,action.yml,
-      #    renamed_files: ,
-      #    changed_files: ,
-      #    unmerged_files: ,
-      #    unknown_files: ,
-      #    all_changed_files: 
-      #  }
-
 ## Usage
 
 ```yaml
