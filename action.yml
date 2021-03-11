@@ -55,15 +55,15 @@ runs:
         
         HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
         
-        ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
-        ALL_CHANGED=$(git diff --diff-filter='*' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" )
+        ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        ALL_CHANGED=$(git diff --diff-filter='*' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
 
         echo "Getting diff..."
         echo "::set-output name=added_files::$ADDED"
