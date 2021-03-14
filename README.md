@@ -6,6 +6,31 @@ changed-files
 Get modified files using [`git diff --diff-filter`](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203) to locate all files that have been modified relative to the default branch.
 
 
+## Usage
+
+```yaml
+...
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get modified files with defaults
+        id: changed-files
+        uses: ./
+      
+      - name: Get modified files with comma separator
+        id: changed-files-comma
+        uses: ./
+        with:
+          separator: ","
+       
+      - name: List all added files
+        run: |
+          for file in "${{ steps.changed-files.outputs.added_files }}"; do
+            echo $file
+          done
+        
+```
+
+
 ## Inputs
 
 |   Input       |    type    |  required      |  default                      |  description  |
@@ -30,23 +55,6 @@ Using the default separator.
 | unknown_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unknown (X)  |
 | all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) are selected if there <br/> is any file that matches other <br/> criteria in the comparison; <br/> if there is no file that <br/> matches other criteria, <br/> nothing is selected.  |
 
-
-## Usage
-
-```yaml
-...
-    steps:
-      - uses: actions/checkout@v2
-      - name: Get modified files with defaults
-        id: changed-files
-        uses: ./
-      
-      - name: Get modified files with comma separator
-        id: changed-files-comma
-        uses: ./
-        with:
-          separator: ","
-```
 
 
 * Free software: [MIT license](LICENSE)
