@@ -14,11 +14,11 @@ Get modified files using [`git diff --diff-filter`](https://git-scm.com/docs/git
       - uses: actions/checkout@v2
       - name: Get modified files using defaults
         id: changed-files
-        uses: tj-actions/changed-files@v2
+        uses: tj-actions/changed-files@v2.1
       
       - name: Get modified files using a comma separator
         id: changed-files-comma
-        uses: tj-actions/changed-files@v2
+        uses: tj-actions/changed-files@v2.1
         with:
           separator: ","
        
