@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - '**'
   pull_request:
     branches:
       - main
@@ -15,6 +16,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Show github context
+        run: |
+          echo "${{ toJSON(github.event) }}"
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
