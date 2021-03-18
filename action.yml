@@ -1,5 +1,5 @@
-name: Get modified files
-description: Get modified files
+name: Get changed files
+description: Get changed files
 author: tj-actions
 inputs:
   separator:
