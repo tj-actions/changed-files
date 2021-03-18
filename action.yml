@@ -1,5 +1,5 @@
-name: Get changed files
-description: Get changed files
+name: Diff changed files
+description: Diff changed files
 author: tj-actions
 inputs:
   separator:
