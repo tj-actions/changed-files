@@ -22,6 +22,7 @@ jobs:
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
+
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
