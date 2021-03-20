@@ -21,6 +21,11 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+      - name: List all changed files
+        run: |
+          for file in "${{ steps.changed-files.outputs.changed_files }}"; do
+            echo $file
+          done
       - name: Run changed-files with comma separator
         id: changed-files-comma
         uses: ./
