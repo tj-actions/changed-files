@@ -8,6 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: hmarr/auto-approve-action@v2
-      if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]' || github.actor == 'renovate[bot]' || github.actor == 'renovate'
+      if: |
+        github.actor == 'dependabot[bot]' ||
+        github.actor == 'dependabot' ||
+        github.actor == 'dependabot-preview[bot]' ||
+        github.actor == 'dependabot-preview' ||
+        github.actor == 'renovate[bot]' ||
+        github.actor == 'renovate'
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
