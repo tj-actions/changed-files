@@ -1,5 +1,17 @@
 # Changelog
 
+## [v3](https://github.com/tj-actions/changed-files/tree/v3) (2021-04-02)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.1...v3)
+
+**Merged pull requests:**
+
+- Update action.yml [\#11](https://github.com/tj-actions/changed-files/pull/11) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#10](https://github.com/tj-actions/changed-files/pull/10) ([jackton1](https://github.com/jackton1))
+- Configure Renovate [\#9](https://github.com/tj-actions/changed-files/pull/9) ([renovate[bot]](https://github.com/apps/renovate))
+- Update test.yml [\#8](https://github.com/tj-actions/changed-files/pull/8) ([jackton1](https://github.com/jackton1))
+- Upgraded to v2.1 [\#6](https://github.com/tj-actions/changed-files/pull/6) ([jackton1](https://github.com/jackton1))
+
 ## [v2.1](https://github.com/tj-actions/changed-files/tree/v2.1) (2021-03-18)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v2...v2.1)
