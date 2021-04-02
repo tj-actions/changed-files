@@ -69,7 +69,7 @@ Using the default separator.
 
 ## Example
 
-![Screen Shot 2021-04-02 at 8 29 43 AM](https://user-images.githubusercontent.com/17484350/113415634-a0a87b00-938d-11eb-8d77-e1befa0f28ab.png)
+![Screen Shot 2021-04-02 at 9 03 05 AM](https://user-images.githubusercontent.com/17484350/113417842-51187e00-9392-11eb-9a22-aa126858ac1c.png)
 
 
 * Free software: [MIT license](LICENSE)
