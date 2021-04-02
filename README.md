@@ -29,12 +29,12 @@ Get modified files using [`git diff --diff-filter`](https://git-scm.com/docs/git
           done
           
       - name: Run step when a file changes in a PR relative to the default branch
-        if: contains(${{ steps.changed-files.outputs.modified_files }}, 'my-file.txt')
+        if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
         run: |
             echo "Your file my-file.txt has been modified."
 
       - name: Run step when a file is deleted in a PR relative to the default branch
-        if: contains(${{ steps.changed-files.outputs.deleted_files }}, 'test.txt')
+        if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
             echo "Your test.txt has been deleted."
             
