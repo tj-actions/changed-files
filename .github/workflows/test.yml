@@ -19,18 +19,22 @@ jobs:
         id: changed-files
         uses: ./
       - name: Show output
+        if: github.event_name == 'pull_request'
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
       - name: List all modified files
+        if: github.event_name == 'pull_request'
         run: |
           for file in "${{ steps.changed-files.outputs.modified_files }}"; do
             echo $file
           done
       - name: Run changed-files with comma separator
+        if: github.event_name == 'pull_request'
         id: changed-files-comma
         uses: ./
         with:
           separator: ","
       - name: Show output
+        if: github.event_name == 'pull_request'
         run: |
           echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
