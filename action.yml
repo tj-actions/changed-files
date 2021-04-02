@@ -63,7 +63,7 @@ runs:
         CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
         UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
         UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        ALL_CHANGED=$(git diff --diff-filter='*' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        ALL_CHANGED=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
 
         echo "Getting diff..."
         echo "::set-output name=added_files::$ADDED"
