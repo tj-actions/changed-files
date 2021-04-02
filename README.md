@@ -5,6 +5,12 @@ changed-files
 
 Get modified files using [`git diff --diff-filter`](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203) to locate all files that have been modified relative to the default branch.
 
+> NOTE: :warning: This action should only run on the following events :warning:
+> * [pull_request](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request)
+> * [pull_request_review](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_review)
+> * [pull_request_review_comment](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_review_comment)
+> * [pull_request_target](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_target)
+
 
 ## Usage
 
