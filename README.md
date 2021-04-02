@@ -70,7 +70,7 @@ Using the default separator.
 | changed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that have their type changed (T) |
 | unmerged_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unmerged (U) |
 | unknown_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unknown (X)  |
-| all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) are selected if there <br/> is any file that matches other <br/> criteria in the comparison; <br/> if there is no file that <br/> matches other criteria, <br/> nothing is selected.  |
+| all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) i.e a combination of all options above.  |
 
 
 ## Example
