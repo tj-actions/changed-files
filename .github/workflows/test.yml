@@ -16,6 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run changed-files with defaults
+        if: github.event_name == 'pull_request'
         id: changed-files
         uses: ./
       - name: Show output
