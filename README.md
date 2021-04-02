@@ -69,7 +69,8 @@ Using the default separator.
 
 ## Example
 
-<img width="448" alt="Screen Shot 2021-04-02 at 9 04 12 AM" src="https://user-images.githubusercontent.com/17484350/113417925-773e1e00-9392-11eb-96b5-115d6964f441.png">
+![Screen Shot 2021-04-02 at 9 06 04 AM](https://user-images.githubusercontent.com/17484350/113418057-b9fff600-9392-11eb-84e5-f5a91bfa8b11.png)
+
 
 
 * Free software: [MIT license](LICENSE)
