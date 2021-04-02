@@ -67,6 +67,10 @@ Using the default separator.
 | all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) are selected if there <br/> is any file that matches other <br/> criteria in the comparison; <br/> if there is no file that <br/> matches other criteria, <br/> nothing is selected.  |
 
 
+## Example
+
+![Screen Shot 2021-04-02 at 8 20 04 AM](https://user-images.githubusercontent.com/17484350/113415111-828e4b00-938c-11eb-9129-678922e39e5c.png)
+
 
 * Free software: [MIT license](LICENSE)
 

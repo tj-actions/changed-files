@@ -28,6 +28,10 @@ jobs:
           for file in "${{ steps.changed-files.outputs.modified_files }}"; do
             echo $file
           done
+      - name: Run step when README.md changes
+        if: github.event_name == 'pull_request' && contains(${{ steps.changed-files.outputs.modified_files }}, 'README.md')
+        run: |
+            echo "Your README.md has been modified."
       - name: Run changed-files with comma separator
         if: github.event_name == 'pull_request'
         id: changed-files-comma
