@@ -9,15 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Sync release version
+      - name: Sync release version.
         uses: tj-actions/sync-release-version@v8
         id: sync-release-version
         with:
-          pattern: 'tj-actions/changed-files@'
+          pattern: '${{ github.repository }}@'
           paths: |
             README.md
       - name: Generate CHANGELOG
         uses: tj-actions/github-changelog-generator@v1.3
+        with:
+          output: 'HISTORY.md'
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
