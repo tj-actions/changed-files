@@ -14,6 +14,30 @@ Get modified files using [`git diff --diff-filter`](https://git-scm.com/docs/git
 
 ## Usage
 
+With defaults
+
+```yaml
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v3.1
+```
+
+
+## Example
+
 ```yaml
 ...
     steps:
