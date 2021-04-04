@@ -1,9 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -16,15 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run changed-files with defaults
-        if: github.event_name == 'pull_request'
         id: changed-files
         uses: ./
       - name: Show output
-        if: github.event_name == 'pull_request'
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
       - name: List all modified files
-        if: github.event_name == 'pull_request'
         run: |
           for file in "${{ steps.changed-files.outputs.modified_files }}"; do
             echo $file
@@ -34,12 +28,10 @@ jobs:
         run: |
           echo "Your README.md has been modified ${{ steps.changed-files.outputs.modified_files }}."
       - name: Run changed-files with comma separator
-        if: github.event_name == 'pull_request'
         id: changed-files-comma
         uses: ./
         with:
           separator: ","
       - name: Show output
-        if: github.event_name == 'pull_request'
         run: |
           echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
