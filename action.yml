@@ -36,7 +36,7 @@ outputs:
     description: List of all changed files.
     value: ${{ steps.changed-files.outputs.all_changed_files }}
   all_modified_files:
-    description: List of all changed modified and added files
+    description: List of all copied modified and added files
     value: ${{ steps.changed-files.outputs.all_modified_files }}
 
 runs:
