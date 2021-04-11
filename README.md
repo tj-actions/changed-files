@@ -71,6 +71,26 @@ jobs:
         
 ```
 
+### Running [pre-commit](https://pre-commit.com/) on all modified files
+
+```yaml
+...
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # otherwise, you will fail to push refs to dest repo
+      
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v3.2
+
+      - name: Pre-commit
+        uses: pre-commit/action@v2.0.0
+        with:
+          extra_args: -v --hook-stage push --files ${{ steps.changed-files.outputs.all_modified_files }}
+          token: ${{ secrets.github_token }}
+```
+
 
 ## Inputs
 
