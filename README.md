@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v3.1
+        uses: tj-actions/changed-files@v3.2
 ```
 
 
@@ -44,11 +44,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get changed files using defaults
         id: changed-files
-        uses: tj-actions/changed-files@v3.1
+        uses: tj-actions/changed-files@v3.2
       
       - name: Get changed files using a comma separator
         id: changed-files-comma
-        uses: tj-actions/changed-files@v3.1
+        uses: tj-actions/changed-files@v3.2
         with:
           separator: ","
        

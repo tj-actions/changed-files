@@ -1,5 +1,15 @@
 # Changelog
 
+## [v3.2](https://github.com/tj-actions/changed-files/tree/v3.2) (2021-04-11)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.1...v3.2)
+
+**Merged pull requests:**
+
+- Add support for all modified files [\#16](https://github.com/tj-actions/changed-files/pull/16) ([jackton1](https://github.com/jackton1))
+- Update test.yml [\#14](https://github.com/tj-actions/changed-files/pull/14) ([jackton1](https://github.com/jackton1))
+- Upgraded to v3.1 [\#13](https://github.com/tj-actions/changed-files/pull/13) ([jackton1](https://github.com/jackton1))
+
 ## [v3.1](https://github.com/tj-actions/changed-files/tree/v3.1) (2021-04-04)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v3...v3.1)
