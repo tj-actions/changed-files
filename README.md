@@ -95,6 +95,7 @@ Using the default separator.
 | unmerged_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unmerged (U) |
 | unknown_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unknown (X)  |
 | all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) <br /> *i.e a combination of all options above.*  |
+| all_modified_files   |  `string`    |    'new.txt other.png ...'     |  Select all modified files (*) <br /> *i.e a combination of all added, <br />copied and modified files (ACM).*  |
 
 
 ## Example
