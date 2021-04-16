@@ -1,5 +1,44 @@
 {
   "extends": [
     "config:base"
+  ],
+  "enabled": true,
+  "prHourlyLimit": 10,
+  "prConcurrentLimit": 5,
+  "rebaseWhen": "behind-base-branch",
+  "addLabels": [
+    "dependencies"
+  ],
+  "assignees": [
+    "jackton1"
+  ],
+  "assignAutomerge": true,
+  "dependencyDashboard": true,
+  "dependencyDashboardAutoclose": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "rebaseWhen": "behind-base-branch",
+      "addLabels": [
+        "automerge"
+      ]
+    },
+    {
+      "description": "docker images",
+      "matchLanguages": [
+        "docker"
+      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "rebaseWhen": "behind-base-branch",
+      "addLabels": [
+        "automerge"
+      ],
+      "automerge": true
+    }
   ]
 }
