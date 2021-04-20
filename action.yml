@@ -50,7 +50,6 @@ runs:
         fi
 
         TARGET_BRANCH=${GITHUB_BASE_REF}
-        CURRENT_BRANCH=${GITHUB_HEAD_REF}
 
         git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
 
