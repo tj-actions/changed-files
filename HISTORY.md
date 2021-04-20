@@ -1,5 +1,14 @@
 # Changelog
 
+## [v3.3](https://github.com/tj-actions/changed-files/tree/v3.3) (2021-04-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.2...v3.3)
+
+**Merged pull requests:**
+
+- Update action.yml [\#18](https://github.com/tj-actions/changed-files/pull/18) ([jackton1](https://github.com/jackton1))
+- Upgraded to v3.2 [\#17](https://github.com/tj-actions/changed-files/pull/17) ([jackton1](https://github.com/jackton1))
+
 ## [v3.2](https://github.com/tj-actions/changed-files/tree/v3.2) (2021-04-11)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.1...v3.2)
