@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Get changed files
-        id: changed-files
+        id: changed_files
         uses: tj-actions/changed-files@v3.3
 ```
 
@@ -43,28 +43,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Get changed files using defaults
-        id: changed-files
+        id: changed_files
         uses: tj-actions/changed-files@v3.3
       
       - name: Get changed files using a comma separator
-        id: changed-files-comma
+        id: changed_files_comma
         uses: tj-actions/changed-files@v3.3
         with:
           separator: ","
        
       - name: List all added files
         run: |
-          for file in "${{ steps.changed-files.outputs.added_files }}"; do
+          for file in "${{ steps.changed_files.outputs.added_files }}"; do
             echo $file
           done
           
       - name: Run step when a file changes in a PR relative to the default branch
-        if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
+        if: contains(steps.changed_files.outputs.modified_files, 'my-file.txt')
         run: |
             echo "Your file my-file.txt has been modified."
 
       - name: Run step when a file is deleted in a PR relative to the default branch
-        if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
+        if: contains(steps.changed_files.outputs.deleted_files, 'test.txt')
         run: |
             echo "Your test.txt has been deleted."
             
@@ -81,13 +81,13 @@ jobs:
           fetch-depth: 0  # otherwise, you will fail to push refs to dest repo
       
       - name: Get changed files
-        id: changed-files
+        id: changed_files
         uses: tj-actions/changed-files@v3.3
 
       - name: Pre-commit
         uses: pre-commit/action@v2.0.0
         with:
-          extra_args: -v --hook-stage push --files ${{ steps.changed-files.outputs.all_modified_files }}
+          extra_args: -v --hook-stage push --files ${{ steps.changed_files.outputs.all_modified_files }}
           token: ${{ secrets.github_token }}
 ```
 
