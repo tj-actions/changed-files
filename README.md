@@ -6,6 +6,7 @@ changed-files
 Get all modified files relative to the default branch.
 
 > NOTE: :warning: This action should only run on the following events :warning:
+> * [push](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#push)
 > * [pull_request](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request)
 > * [pull_request_review](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_review)
 > * [pull_request_review_comment](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_review_comment)
