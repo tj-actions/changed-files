@@ -15,7 +15,7 @@ Get all modified files relative to the default branch.
 
 ## Usage
 
-Push event
+### Push event
 
 ```yaml
 name: CI
@@ -39,7 +39,7 @@ jobs:
 ```
 
 
-Pull Request events
+### Pull Request events
 
 ```yaml
 name: CI
