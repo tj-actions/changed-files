@@ -17,7 +17,7 @@ Get all modified files relative to the default branch.
 
 Push event
 
-```
+```yaml
 name: CI
 
 on:
