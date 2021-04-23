@@ -80,5 +80,5 @@ runs:
       shell: bash
 
 branding:
-  icon: list
+  icon: file-text
   color: white
