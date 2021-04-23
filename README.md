@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
       - name: Get changed files
         id: changed_files
         uses: tj-actions/changed-files@v3.3
