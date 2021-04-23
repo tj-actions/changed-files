@@ -15,7 +15,31 @@ Get all modified files relative to the default branch.
 
 ## Usage
 
-With defaults
+Push event
+
+```
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changed_files
+        uses: tj-actions/changed-files@v3.3
+```
+
+
+Pull Request events
 
 ```yaml
 name: CI
