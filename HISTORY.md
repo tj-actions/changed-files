@@ -1,5 +1,18 @@
 # Changelog
 
+## [v4](https://github.com/tj-actions/changed-files/tree/v4) (2021-04-23)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.3...v4)
+
+**Implemented enhancements:**
+
+- Feature request [\#15](https://github.com/tj-actions/changed-files/issues/15)
+- Added support for push events [\#21](https://github.com/tj-actions/changed-files/pull/21) ([jackton1](https://github.com/jackton1))
+
+**Merged pull requests:**
+
+- Upgraded to v3.3 [\#19](https://github.com/tj-actions/changed-files/pull/19) ([jackton1](https://github.com/jackton1))
+
 ## [v3.3](https://github.com/tj-actions/changed-files/tree/v3.3) (2021-04-20)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.2...v3.3)
