@@ -10,78 +10,51 @@ inputs:
 outputs:
   added_files:
     description: List of added files.
-    value: ${{ steps.pr_changed_files.outputs.added_files }} || ${{ steps.push_changed_files.outputs.added_files }}
+    value: ${{ steps.changed_files.outputs.added_files }}
   copied_files:
     description: List of copied files.
-    value: ${{ steps.pr_changed_files.outputs.copied_files }} || ${{ steps.push_changed_files.outputs.copied_files }}
+    value: ${{ steps.changed_files.outputs.copied_files }}
   deleted_files:
     description: List of deleted files.
-    value: ${{ steps.pr_changed_files.outputs.deleted_files }} || ${{ steps.push_changed_files.outputs.deleted_files }}
+    value: ${{ steps.changed_files.outputs.deleted_files }}
   modified_files:
     description: List of modified files.
-    value: ${{ steps.pr_changed_files.outputs.modified_files }} || ${{ steps.push_changed_files.outputs.modified_files }}
+    value: ${{ steps.changed_files.outputs.modified_files }}
   renamed_files:
     description: List of renamed files.
-    value: ${{ steps.pr_changed_files.outputs.renamed_files }} || ${{ steps.push_changed_files.outputs.renamed_files }}
+    value: ${{ steps.changed_files.outputs.renamed_files }}
   changed_files:
     description: List of changed files.
-    value: ${{ steps.pr_changed_files.outputs.changed_files }} || ${{ steps.push_changed_files.outputs.changed_files }}
+    value: ${{ steps.changed_files.outputs.changed_files }}
   unmerged_files:
     description: List of unmerged files.
-    value: ${{ steps.pr_changed_files.outputs.unmerged_files }} || ${{ steps.push_changed_files.outputs.unmerged_files }}
+    value: ${{ steps.changed_files.outputs.unmerged_files }}
   unknown_files:
     description: List of unknown files.
-    value: ${{ steps.pr_changed_files.outputs.unknown_files }} || ${{ steps.push_changed_files.outputs.unknown_files }}
+    value: ${{ steps.changed_files.outputs.unknown_files }}
   all_changed_files:
     description: List of all changed files.
-    value: ${{ steps.pr_changed_files.outputs.all_changed_files }} || ${{ steps.push_changed_files.outputs.all_changed_files }}
+    value: ${{ steps.changed_files.outputs.all_changed_files }}
   all_modified_files:
     description: List of all copied modified and added files
-    value: ${{ steps.pr_changed_files.outputs.all_modified_files }} || ${{ steps.push_changed_files.outputs.all_modified_files }}
+    value: ${{ steps.changed_files.outputs.all_modified_files }}
 
 runs:
   using: 'composite'
   steps:
-    - id: push_changed_files
-      if: github.event_name == 'push'
+    - id: changed_files
       run: |
-        HEAD_SHA=$(git rev-parse HEAD^1 || true)
- 
-        ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        ALL_CHANGED=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        ALL_MODIFIED_FILES=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-
-        echo "Getting diff..."
-        echo "::set-output name=added_files::$ADDED"
-        echo "::set-output name=copied_files::$COPIED"
-        echo "::set-output name=deleted_files::$DELETED"
-        echo "::set-output name=modified_files::$MODIFIED"
-        echo "::set-output name=renamed_files::$RENAMED"
-        echo "::set-output name=changed_files::$CHANGED"
-        echo "::set-output name=unmerged_files::$UNMERGED"
-        echo "::set-output name=unknown_files::$UNKNOWN"
-        echo "::set-output name=all_changed_files::$ALL_CHANGED"
-        echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
-      shell: bash
-
-    - id: pr_changed_files
-      if: github.event_name == 'pull_request'
-      run: |
-        TARGET_BRANCH=${GITHUB_BASE_REF}
-
-        git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
-
         echo "Getting head sha..."
-        
-        HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
-        
+
+        if [[ -z $GITHUB_BASE_REF ]]; then
+          HEAD_SHA=$(git rev-parse HEAD^1 || true)
+        else
+          TARGET_BRANCH=${GITHUB_BASE_REF}
+          git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
+          HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
+        fi
+
+        echo "Getting diff..."
         ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
         COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
         DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
@@ -93,7 +66,7 @@ runs:
         ALL_CHANGED=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
         ALL_MODIFIED_FILES=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
 
-        echo "Getting diff..."
+        
         echo "::set-output name=added_files::$ADDED"
         echo "::set-output name=copied_files::$COPIED"
         echo "::set-output name=deleted_files::$DELETED"
@@ -107,5 +80,5 @@ runs:
       shell: bash
 
 branding:
-  icon: git-pull-request
+  icon: git-commit
   color: white
