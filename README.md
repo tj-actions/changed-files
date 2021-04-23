@@ -3,7 +3,7 @@
 changed-files
 -------------
 
-Get all modified files relative to the default branch.
+Get all modified files relative to the default branch or preceding commit.
 
 > NOTE: :warning: This action should only run on the following events :warning:
 > * [push](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#push)
