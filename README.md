@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v4
+        uses: tj-actions/changed-files@v4.1
 ```
 
 
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v4
+        uses: tj-actions/changed-files@v4.1
 ```
 
 
@@ -62,11 +62,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get changed files using defaults
         id: changed_files
-        uses: tj-actions/changed-files@v4
+        uses: tj-actions/changed-files@v4.1
       
       - name: Get changed files using a comma separator
         id: changed_files_comma
-        uses: tj-actions/changed-files@v4
+        uses: tj-actions/changed-files@v4.1
         with:
           separator: ","
        
@@ -100,7 +100,7 @@ jobs:
       
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v4
+        uses: tj-actions/changed-files@v4.1
 
       - name: Pre-commit
         uses: pre-commit/action@v2.0.0
