@@ -80,5 +80,5 @@ runs:
       shell: bash
 
 branding:
-  icon: git-commit
+  icon: list
   color: white
