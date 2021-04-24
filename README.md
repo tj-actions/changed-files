@@ -6,8 +6,6 @@ changed-files
 Get all modified files relative to the default branch or preceding commit.
 
 
-## Usage
-
 ## Outputs
 
 Using the default separator.
@@ -45,6 +43,7 @@ Using the default separator.
 | separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
 
 
+## Usage
 
 ### Push event
 
