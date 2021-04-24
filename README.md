@@ -54,27 +54,6 @@ on:
   push:
     branches:
       - main
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    name: Test changed-files
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-      - name: Get changed files
-        id: changed_files
-        uses: tj-actions/changed-files@v4.2
-```
-
-
-### Pull Request events
-
-```yaml
-name: CI
-
-on:
   pull_request:
     branches:
       - main
@@ -85,9 +64,18 @@ jobs:
     name: Test changed-files
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+      
       - name: Get changed files
         id: changed_files
         uses: tj-actions/changed-files@v4.2
+      
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed_files.outputs.all_modified_files }}"; do
+            echo "$file was modified"
+          done
 ```
 
 
@@ -110,7 +98,7 @@ jobs:
       - name: List all added files
         run: |
           for file in "${{ steps.changed_files.outputs.added_files }}"; do
-            echo $file
+            echo "$file was added"
           done
           
       - name: Run step when a file changes in a PR relative to the default branch
