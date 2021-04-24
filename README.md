@@ -45,8 +45,6 @@ Using the default separator.
 
 ## Usage
 
-### Push event
-
 ```yaml
 name: CI
 
