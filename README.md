@@ -130,6 +130,7 @@ Using the default separator.
 | D         | Deleted      |
 | R         | Renamed      |
 | T         | Type changed |
+| U         | Unmerged     |
 | X         | Unknown      |
 
 
@@ -143,6 +144,7 @@ Using the default separator.
 | modified_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Modified (M) |
 | renamed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Renamed (R)  |
 | changed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that have their type changed (T) |
+| unmerged_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unmerged (U) |
 | unknown_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unknown (X)  |
 
 
