@@ -8,6 +8,44 @@ Get all modified files relative to the default branch or preceding commit.
 
 ## Usage
 
+## Outputs
+
+Using the default separator.
+
+| Acronym   |  Meaning     |
+|:---------:|:------------:|
+| A         | Added        |
+| C         | Copied       |
+| M         | Modified.    |
+| D         | Deleted      |
+| R         | Renamed      |
+| T         | Type changed |
+| U         | Unmerged     |
+| X         | Unknown      |
+
+
+|   Output             |    type      |  example                       |         description                      |
+|:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
+| all_modified_files   |  `string`    |    'new.txt other.png ...'     |  Select all modified files <br /> *i.e a combination of all added, <br />copied and modified files (ACM).*  |
+| all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) <br /> *i.e a combination of all options below.*  |
+| added_files         |  `string`    |    'new.txt other.png ...'     |  Select only files that are Added (A)    |
+| copied_files        |  `string`    |    'new.txt other.png ...'     |  Select only files that are Copied (C)   |
+| deleted_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Deleted (D)  |
+| modified_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Modified (M) |
+| renamed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Renamed (R)  |
+| changed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that have their type changed (T) |
+| unmerged_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unmerged (U) |
+| unknown_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unknown (X)  |
+
+
+## Inputs
+
+|   Input       |    type    |  required      |  default                      |  description  |
+|:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
+| separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
+
+
+
 ### Push event
 
 ```yaml
@@ -109,43 +147,6 @@ jobs:
           token: ${{ secrets.github_token }}
 ```
 
-
-## Inputs
-
-|   Input       |    type    |  required      |  default                      |  description  |
-|:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
-| separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
-
-
-
-## Outputs
-
-Using the default separator.
-
-| Acronym   |  Meaning     |
-|:---------:|:------------:|
-| A         | Added        |
-| C         | Copied       |
-| M         | Modified.    |
-| D         | Deleted      |
-| R         | Renamed      |
-| T         | Type changed |
-| U         | Unmerged     |
-| X         | Unknown      |
-
-
-|   Output             |    type      |  example                       |         description                      |
-|:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
-| all_modified_files   |  `string`    |    'new.txt other.png ...'     |  Select all modified files <br /> *i.e a combination of all added, <br />copied and modified files (ACM).*  |
-| all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) <br /> *i.e a combination of all options below.*  |
-| added_files         |  `string`    |    'new.txt other.png ...'     |  Select only files that are Added (A)    |
-| copied_files        |  `string`    |    'new.txt other.png ...'     |  Select only files that are Copied (C)   |
-| deleted_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Deleted (D)  |
-| modified_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Modified (M) |
-| renamed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Renamed (R)  |
-| changed_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that have their type changed (T) |
-| unmerged_files      |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unmerged (U) |
-| unknown_files       |  `string`    |    'new.txt other.png ...'     |  Select only files that are Unknown (X)  |
 
 
 
