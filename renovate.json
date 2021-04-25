@@ -21,7 +21,7 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
       "automerge": true,
       "rebaseWhen": "behind-base-branch",
       "addLabels": [
@@ -33,7 +33,7 @@
       "matchLanguages": [
         "docker"
       ],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
       "rebaseWhen": "behind-base-branch",
       "addLabels": [
         "automerge"
