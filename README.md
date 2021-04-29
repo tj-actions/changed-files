@@ -45,6 +45,11 @@ Using the default separator.
 
 ## Usage
 
+> :warning: NOTE: :warning:
+> * For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
+
+
+
 ```yaml
 name: CI
 
