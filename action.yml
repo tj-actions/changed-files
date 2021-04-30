@@ -6,6 +6,10 @@ inputs:
     description: 'Split character for array output'
     required: true
     default: " "
+  files:
+    description: 'Check for file changes for all files listed (Defaults to the entire repo)'
+    required: false
+    default: ""
 
 outputs:
   added_files:
@@ -54,29 +58,60 @@ runs:
           HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
         fi
 
-        echo "Getting diff..."
-        ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        ALL_CHANGED=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        ALL_MODIFIED_FILES=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+        if [[ -z $INPUT_FILES ]]; then
 
+          echo "Getting diff..."
+
+          ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          ALL_CHANGED=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
+          ALL_MODIFIED_FILES=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
         
-        echo "::set-output name=added_files::$ADDED"
-        echo "::set-output name=copied_files::$COPIED"
-        echo "::set-output name=deleted_files::$DELETED"
-        echo "::set-output name=modified_files::$MODIFIED"
-        echo "::set-output name=renamed_files::$RENAMED"
-        echo "::set-output name=changed_files::$CHANGED"
-        echo "::set-output name=unmerged_files::$UNMERGED"
-        echo "::set-output name=unknown_files::$UNKNOWN"
-        echo "::set-output name=all_changed_files::$ALL_CHANGED"
-        echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
+          echo "::set-output name=added_files::$ADDED"
+          echo "::set-output name=copied_files::$COPIED"
+          echo "::set-output name=deleted_files::$DELETED"
+          echo "::set-output name=modified_files::$MODIFIED"
+          echo "::set-output name=renamed_files::$RENAMED"
+          echo "::set-output name=changed_files::$CHANGED"
+          echo "::set-output name=unmerged_files::$UNMERGED"
+          echo "::set-output name=unknown_files::$UNKNOWN"
+          echo "::set-output name=all_changed_files::$ALL_CHANGED"
+          echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
+
+        else
+          ADDED_FILES=()
+        
+          for path in ${INPUT_FILES}
+          do
+             echo "Checking for file changes: \"${path}\"..."
+             MODIFIED_FILE=$(git diff --diff-filter=ACMUXTR --name-only | grep -E "(${path})" || true)
+
+             if [[ -z $MODIFIED_FILE ]]; then
+               # Find unstaged changes
+               MODIFIED_FILE=$(git status --porcelain | awk '{ print $2 }' | grep -E "(${path})" || true)
+             fi
+
+             if [[ -n ${MODIFIED_FILE} ]]; then
+               echo "Found uncommited changes at: ${path}"
+               CHANGED_FILES+=("${path}")
+             fi
+          done
+
+          if [[ -z ${CHANGED_FILES} ]]; then
+            echo "::set-output name=files_changed::false"
+          else
+            echo "::set-output name=files_changed::true"
+            echo "::set-output name=changed_files::${CHANGED_FILES}"
+          fi
+        fi
+        
+        
       shell: bash
 
 branding:
