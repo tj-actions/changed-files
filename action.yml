@@ -113,7 +113,7 @@ runs:
             ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
           done
 
-          IFS="${{ inputs.separator }}"
+          export IFS=${{ inputs.separator }}
 
           ADDED=$(echo "${ADDED[*]}")
           COPIED=$(echo "${COPIED[*]}")
