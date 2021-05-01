@@ -124,7 +124,7 @@ runs:
           ALL_CHANGED=$(echo "$ALL_CHANGED" | sed -E 's/(${{ inputs.separator }})$//')
           ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed -E 's/(${{ inputs.separator }})$//')
           
-          SEP_INPUT_FILES=$(echo $INPUT_FILES || sed -E 's/ /(${{ inputs.separator }})/')
+          SEP_INPUT_FILES=$(echo $INPUT_FILES || sed -E 's/ /(${{ inputs.separator }})/g')
           
           if [[ $ALL_MODIFIED_FILES -eq $SEP_INPUT_FILES ]]; then
             echo "::set-output name=has_changes::true"
