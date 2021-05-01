@@ -33,7 +33,7 @@ Using the default separator.
 |   Output             |    type      |  example                       |         description                      |
 |:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
 | all_modified_files   |  `string`    |    'new.txt other.png ...'     |  Select all modified files <br /> *i.e a combination of all added, <br />copied and modified files (ACM).*  |
-| has_all_changed          |  `string`     |     `true OR false`             |  Returns `true` only when the filenames provided using `files` input have all changed |
+| all_changed          |  `string`     |     `true OR false`             |  Returns `true` only when the filenames provided using `files` input have all changed |
 | all_changed_files   |  `string`    |    'new.txt other.png ...'     |  Select all paths (*) <br /> *i.e a combination of all options below.*  |
 | added_files         |  `string`    |    'new.txt other.png ...'     |  Select only files that are Added (A)    |
 | copied_files        |  `string`    |    'new.txt other.png ...'     |  Select only files that are Copied (C)   |
@@ -138,7 +138,7 @@ jobs:
             ^(mynewfile|custom)
 
        - name: Run step if all files listed above have changed
-         if: steps.changed-files-specific.outputs.has_all_changed
+         if: steps.changed-files-specific.outputs.all_changed
          run: |
            echo "Both my-file.txt and test.txt have changed."
         
