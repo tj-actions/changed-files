@@ -1,33 +1,17 @@
 # Changelog
 
-## [v5.3](https://github.com/tj-actions/changed-files/tree/v5.3) (2021-05-01)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...v5.3)
-
-**Merged pull requests:**
-
-- Fixed bug with all\_changed when array is empty [\#46](https://github.com/tj-actions/changed-files/pull/46) ([jackton1](https://github.com/jackton1))
-- Upgraded to v5.2 [\#45](https://github.com/tj-actions/changed-files/pull/45) ([jackton1](https://github.com/jackton1))
-- Upgraded to v5.1 [\#44](https://github.com/tj-actions/changed-files/pull/44) ([jackton1](https://github.com/jackton1))
-
-## [v5.2](https://github.com/tj-actions/changed-files/tree/v5.2) (2021-05-01)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.1...v5.2)
-
-## [v5.1](https://github.com/tj-actions/changed-files/tree/v5.1) (2021-05-01)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5...v5.1)
-
-**Merged pull requests:**
-
-- Upgraded to v5 [\#43](https://github.com/tj-actions/changed-files/pull/43) ([jackton1](https://github.com/jackton1))
-
 ## [v5](https://github.com/tj-actions/changed-files/tree/v5) (2021-05-01)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.4...v5)
 
 **Merged pull requests:**
 
+- Update README.md [\#48](https://github.com/tj-actions/changed-files/pull/48) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.3 [\#47](https://github.com/tj-actions/changed-files/pull/47) ([jackton1](https://github.com/jackton1))
+- Fixed bug with all\_changed when array is empty [\#46](https://github.com/tj-actions/changed-files/pull/46) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.2 [\#45](https://github.com/tj-actions/changed-files/pull/45) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.1 [\#44](https://github.com/tj-actions/changed-files/pull/44) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5 [\#43](https://github.com/tj-actions/changed-files/pull/43) ([jackton1](https://github.com/jackton1))
 - Upgraded to v5 [\#40](https://github.com/tj-actions/changed-files/pull/40) ([jackton1](https://github.com/jackton1))
 - Switch to using a bash script. [\#39](https://github.com/tj-actions/changed-files/pull/39) ([jackton1](https://github.com/jackton1))
 - Upgraded to v4.4 [\#38](https://github.com/tj-actions/changed-files/pull/38) ([jackton1](https://github.com/jackton1))
