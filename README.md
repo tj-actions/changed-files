@@ -138,9 +138,14 @@ jobs:
             ^(mynewfile|custom)
 
        - name: Run step if all files listed above have changed
-         if: steps.changed-files-specific.outputs.all_changed
+         if: steps.changed-files-specific.outputs.all_changed == 'true'
          run: |
            echo "Both my-file.txt and test.txt have changed."
+        
+       - name: Run step if any of the listed files above change
+         if: steps.changed-files-specific.outputs.any_changed == 'true'
+         run: |
+           echo "Either my-file.txt or test.txt have changed."
         
 ```
 
