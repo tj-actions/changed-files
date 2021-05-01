@@ -134,6 +134,9 @@ runs:
           # shellcheck disable=SC2001
           OUTPUT_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed "s/$INPUT_SEPARATOR/ /g")
           ALL_INPUT_FILES=${INPUT_FILES//\n/ }
+          
+          echo "Input files: ${ALL_INPUT_FILES[@]}"
+          echo "Output all modified files: ${OUTPUT_ALL_MODIFIED_FILES[@]}"
 
           SORTED_INPUT_FILES=()
           SORTED_OUTPUT_ALL_MODIFIED_FILES=()
