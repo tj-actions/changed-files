@@ -106,16 +106,16 @@ runs:
             ALL_MODIFIED_FILES_ARRAY+=("$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)")
           done
 
-          ADDED=$(echo "${ADDED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          COPIED=$(echo "${COPIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          DELETED=$(echo "${DELETED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          MODIFIED=$(echo "${MODIFIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          RENAMED=$(echo "${RENAMED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          CHANGED=$(echo "${CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          UNMERGED=$(echo "${UNMERGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          UNKNOWN=$(echo "${UNKNOWN_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-          ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
+          ADDED=$(echo "${ADDED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          COPIED=$(echo "${COPIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          DELETED=$(echo "${DELETED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          MODIFIED=$(echo "${MODIFIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          RENAMED=$(echo "${RENAMED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          CHANGED=$(echo "${CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          UNMERGED=$(echo "${UNMERGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          UNKNOWN=$(echo "${UNKNOWN_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+          ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
 
         fi
 
@@ -133,13 +133,22 @@ runs:
         if [[ -n "$INPUT_FILES" ]]; then
           # shellcheck disable=SC2001
           OUTPUT_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed "s/$INPUT_SEPARATOR/ /g")
-          ALL_INPUT_FILES=${INPUT_FILES//\n/ }
+          ALL_INPUT_FILES=$(echo "$INPUT_FILES" | tr "\n" " " | xargs)
+          
+          echo "Input files: ${ALL_INPUT_FILES[@]}"
+          echo "Output all modified files: ${OUTPUT_ALL_MODIFIED_FILES[@]}"
+
           SORTED_INPUT_FILES=()
           SORTED_OUTPUT_ALL_MODIFIED_FILES=()
+
           IFS=" " read -r -a SORTED_INPUT_FILES <<< "$(sort <<<"${ALL_INPUT_FILES[*]}")"
           IFS=" " read -r -a SORTED_OUTPUT_ALL_MODIFIED_FILES <<< "$(sort <<<"${OUTPUT_ALL_MODIFIED_FILES[*]}")"
+
           if [[ ${#SORTED_OUTPUT_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
             echo "::set-output name=any_changed::true"
+            
+            echo "Sorted input files: ${SORTED_INPUT_FILES[@]}"
+            echo "Sorted output all modified files: ${SORTED_OUTPUT_ALL_MODIFIED_FILES[@]}"
 
             if [[ "${SORTED_INPUT_FILES[*]}" == "${SORTED_OUTPUT_ALL_MODIFIED_FILES[*]}" ]]; then
               echo "::set-output name=all_changed::true"
