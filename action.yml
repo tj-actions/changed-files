@@ -54,6 +54,8 @@ runs:
   steps:
     - id: changed_files
       run: |
+        set -e
+
         export INPUT_FILES="${{ inputs.files }}"
         export INPUT_SEPARATOR="${{ inputs.separator }}"
         echo "Getting head sha..."
@@ -80,9 +82,6 @@ runs:
           UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-
-          echo "All changed files: $ALL_CHANGED"
-          echo "All modified files: $ALL_MODIFIED_FILES"
         else
           ADDED_ARRAY=()
           COPIED_ARRAY=()
@@ -98,18 +97,20 @@ runs:
           for path in ${INPUT_FILES}
           do
             echo "Checking for file changes: \"${path}\"..."
-            IFS=" " read -r -a ADDED_ARRAY <<< "$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a COPIED_ARRAY <<< "$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a DELETED_ARRAY <<< "$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a MODIFIED_ARRAY <<< "$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a RENAMED_ARRAY <<< "$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a CHANGED_ARRAY <<< "$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a UNMERGED_ARRAY <<< "$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a UNKNOWN_ARRAY <<< "$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a ALL_CHANGED_ARRAY <<< "$(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
-            IFS=" " read -r -a ALL_MODIFIED_FILES_ARRAY <<< "$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)"
+            IFS=" " 
+            
+            ADDED_ARRAY+=($(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            COPIED_ARRAY+=($(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            DELETED_ARRAY+=($(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            MODIFIED_ARRAY+=($(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            RENAMED_ARRAY+=($(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            CHANGED_ARRAY+=($(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            UNMERGED_ARRAY+=($(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            UNKNOWN_ARRAY+=($(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            ALL_CHANGED_ARRAY+=($(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
+            ALL_MODIFIED_FILES_ARRAY+=($(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true))
           done
-
+          
           ADDED=$(echo "${ADDED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
           COPIED=$(echo "${COPIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
           DELETED=$(echo "${DELETED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
@@ -120,12 +121,22 @@ runs:
           UNKNOWN=$(echo "${UNKNOWN_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
-
-          echo "All changed files: $ALL_CHANGED"
-          echo "All modified files: $ALL_MODIFIED_FILES"
-
-          # shellcheck disable=SC2001
-          OUTPUT_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed "s/$INPUT_SEPARATOR/ /g")
+        
+        fi
+        
+        echo "Added files: $ADDED"
+        echo "Copied files: $COPIED"
+        echo "Deleted files: $DELETED"
+        echo "Modified files: $MODIFIED"
+        echo "Renamed files: $RENAMED"
+        echo "Changed files: $CHANGED"
+        echo "Unmerged files: $UNMERGED"
+        echo "Unknown files: $UNKNOWN"
+        echo "All changed files: $ALL_CHANGED"
+        echo "All modified files: $ALL_MODIFIED_FILES"
+        
+        if [[ -n "$INPUT_FILES" ]]; then
+          OUTPUT_ALL_MODIFIED_FILES=${ALL_MODIFIED_FILES//$INPUT_SEPARATOR/ )
           ALL_INPUT_FILES=${INPUT_FILES//\n/ }
 
           SORTED_INPUT_FILES=()
