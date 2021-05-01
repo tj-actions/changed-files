@@ -45,8 +45,8 @@ jobs:
         uses: ./
         with:
           files: |
-            action.yml
             .github/workflows/test.yml
+            action.yml
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
@@ -55,8 +55,8 @@ jobs:
         uses: ./
         with:
           files: |
-            action.yml
             .github/workflows/test.yml
+            action.yml
           separator: ","
       - name: Show output
         run: |
