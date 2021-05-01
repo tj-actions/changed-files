@@ -3,11 +3,13 @@
 changed-files
 -------------
 
-Get all modified files relative to the default branch or preceding commit.
+Get all modified files relative to the default branch (`pull_request*` events) or last commit (`push` events).
 
 
 ## Features
-- List all files that have changed .
+- List all files that have changed
+  - Between the current pull request branch and the default branch
+  - Between the last commit and the current pushed change.
 - List only a subset of files that can be used to detect changes.
 - Report on a subset of files that have all change.
 - Report on a subset of files that have at least one file change.
