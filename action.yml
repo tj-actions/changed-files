@@ -80,18 +80,6 @@ runs:
           UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
           ALL_CHANGED=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
           ALL_MODIFIED_FILES=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | tr "\n" "${{ inputs.separator }}" | sed -E 's/(${{ inputs.separator }})$//')
-        
-          echo "::set-output name=added_files::$ADDED"
-          echo "::set-output name=copied_files::$COPIED"
-          echo "::set-output name=deleted_files::$DELETED"
-          echo "::set-output name=modified_files::$MODIFIED"
-          echo "::set-output name=renamed_files::$RENAMED"
-          echo "::set-output name=changed_files::$CHANGED"
-          echo "::set-output name=unmerged_files::$UNMERGED"
-          echo "::set-output name=unknown_files::$UNKNOWN"
-          echo "::set-output name=all_changed_files::$ALL_CHANGED"
-          echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
-
         else
           ADDED=()
           COPIED=()
@@ -142,23 +130,23 @@ runs:
             echo "::set-output name=all_changed::false"
           fi
           
-          if [[ -n $SORTED_OUTPUT_ALL_MODIFIED_FILES ]]; then 
+          if [[ ${#SORTED_OUTPUT_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
             echo "::set-output name=any_changed::true"
           else
             echo "::set-output name=any_changed::false"
           fi
-
-          echo "::set-output name=added_files::$ADDED"
-          echo "::set-output name=copied_files::$COPIED"
-          echo "::set-output name=deleted_files::$DELETED"
-          echo "::set-output name=modified_files::$MODIFIED"
-          echo "::set-output name=renamed_files::$RENAMED"
-          echo "::set-output name=changed_files::$CHANGED"
-          echo "::set-output name=unmerged_files::$UNMERGED"
-          echo "::set-output name=unknown_files::$UNKNOWN"
-          echo "::set-output name=all_changed_files::$ALL_CHANGED"
-          echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
         fi
+
+        echo "::set-output name=added_files::$ADDED"
+        echo "::set-output name=copied_files::$COPIED"
+        echo "::set-output name=deleted_files::$DELETED"
+        echo "::set-output name=modified_files::$MODIFIED"
+        echo "::set-output name=renamed_files::$RENAMED"
+        echo "::set-output name=changed_files::$CHANGED"
+        echo "::set-output name=unmerged_files::$UNMERGED"
+        echo "::set-output name=unknown_files::$UNKNOWN"
+        echo "::set-output name=all_changed_files::$ALL_CHANGED"
+        echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
       shell: bash
 
 branding:
