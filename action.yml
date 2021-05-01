@@ -134,14 +134,14 @@ runs:
           IFS=" " read -r -a SORTED_INPUT_FILES <<< "$(sort <<<"${ALL_INPUT_FILES[*]}")"
           IFS=" " read -r -a SORTED_OUTPUT_ALL_MODIFIED_FILES <<< "$(sort <<<"${OUTPUT_ALL_MODIFIED_FILES[*]}")"
 
-          if [[ "${SORTED_INPUT_FILES[*]}" == "${SORTED_OUTPUT_ALL_MODIFIED_FILES[*]}" ]]; then
-            echo "::set-output name=all_changed::true"
-          else
-            echo "::set-output name=all_changed::false"
-          fi
-
           if [[ ${#SORTED_OUTPUT_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
             echo "::set-output name=any_changed::true"
+            
+            if [[ "${SORTED_INPUT_FILES[*]}" == "${SORTED_OUTPUT_ALL_MODIFIED_FILES[*]}" ]]; then
+              echo "::set-output name=all_changed::true"
+            else
+              echo "::set-output name=all_changed::false"
+            fi
           else
             echo "::set-output name=any_changed::false"
           fi
