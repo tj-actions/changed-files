@@ -50,3 +50,14 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+      - name: Run changed-files with specific files comma separator
+        id: changed-files-specific-comma
+        uses: ./
+        with:
+          files: |
+            action.yml
+            .github/workflows/test.yml
+          separator: ","
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
