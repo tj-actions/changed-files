@@ -82,7 +82,7 @@ runs:
           ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
 
           echo "All changed files: $ALL_CHANGED"
-          echo "All modified files: ALL_MODIFIED_FILES"
+          echo "All modified files: $ALL_MODIFIED_FILES"
         else
           ADDED_ARRAY=()
           COPIED_ARRAY=()
@@ -122,7 +122,7 @@ runs:
           ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
 
           echo "All changed files: $ALL_CHANGED"
-          echo "All modified files: ALL_MODIFIED_FILES"
+          echo "All modified files: $ALL_MODIFIED_FILES"
 
           # shellcheck disable=SC2001
           OUTPUT_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed "s/$INPUT_SEPARATOR/ /g")
