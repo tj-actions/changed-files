@@ -132,7 +132,7 @@ runs:
           IFS=$'\n' SORTED_INPUT_FILES=($(sort <<<"${INPUT_FILES[*]}"))
           IFS=$'\n' SORTED_OUTPUT_ALL_MODIFIED_FILES=($(sort <<<"${OUTPUT_ALL_MODIFIED_FILES[*]}"))
           
-          if [[ $SORTED_INPUT_FILES -eq $SORTED_OUTPUT_ALL_MODIFIED_FILES ]]; then
+          if [[ "${SORTED_INPUT_FILES[*]}" == "${SORTED_OUTPUT_ALL_MODIFIED_FILES[*]}" ]]; then
             echo "::set-output name=has_changed::true"
           else
             echo "::set-output name=has_changed::false"
