@@ -94,7 +94,6 @@ runs:
           do
             echo "Checking for file changes: \"${path}\"..."
             IFS=" "
-
             ADDED_ARRAY+=("$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)")
             COPIED_ARRAY+=("$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)")
             DELETED_ARRAY+=("$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)")
