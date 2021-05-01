@@ -6,6 +6,14 @@ changed-files
 Get all modified files relative to the default branch or preceding commit.
 
 
+## Features
+- List all files that have changed .
+- List only a subset of files that can be used to detect changes.
+- Report on a subset of files that have all change.
+- Report on a subset of files that have at least one file change.
+- Regex pattern matching on a subset of files.
+
+
 ## Outputs
 
 Using the default separator.
@@ -123,6 +131,11 @@ jobs:
           files: |
             my-file.txt
             test.txt
+            new.txt
+            test_directory
+            .(py|jpeg)$   
+            .(sql)$
+            ^(mynewfile|custom)
 
        - name: Run step if all files listed above have changed
          if: steps.changed-files-specific.outputs.has_changed
