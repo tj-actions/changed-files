@@ -102,16 +102,16 @@ runs:
           do
             echo "Checking for file changes: \"${path}\"..."
 
-            ADDED_FILES+=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})")
-            COPIED_FILES+=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})")
-            DELETED_FILES+=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})")
-            MODIFIED_FILES+=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})")
-            RENAMED_FILES+=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})")
-            CHANGED_FILES+=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})")
-            UNMERGED_FILES+=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})")
-            UNKNOWN_FILES+=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})")
-            ALL_CHANGED+=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | grep -E "(${path})")
-            ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})")
+            ADDED_FILES+=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            COPIED_FILES+=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            DELETED_FILES+=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            MODIFIED_FILES+=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            RENAMED_FILES+=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            CHANGED_FILES+=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            UNMERGED_FILES+=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            UNKNOWN_FILES+=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            ALL_CHANGED+=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
 
           done
 
