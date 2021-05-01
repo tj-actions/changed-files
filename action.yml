@@ -57,8 +57,10 @@ runs:
           git fetch --depth=1 origin ${TARGET_BRANCH}:${TARGET_BRANCH}
           HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
         fi
+        
+        INPUT_FILES="${{ inputs.files }}"
 
-        if [[ -z "${{ inputs.files }}" ]]; then
+        if [[ -z "$INPUT_FILES" ]]; then
 
           echo "Getting diff..."
 
