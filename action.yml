@@ -42,6 +42,9 @@ outputs:
   all_modified_files:
     description: List of all copied modified and added files
     value: ${{ steps.changed_files.outputs.all_modified_files }}
+  has_changed:
+    description: Return true only when all files provided using the files input have all changed.
+    value: ${{ steps.changed_files.outputs.has_changed }}
 
 runs:
   using: 'composite'
