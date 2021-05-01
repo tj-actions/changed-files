@@ -142,7 +142,7 @@ runs:
             echo "::set-output name=all_changed::false"
           fi
           
-          if [[ -n "$OUTPUT_ALL_MODIFIED_FILES" ]]; then 
+          if [[ -n $SORTED_OUTPUT_ALL_MODIFIED_FILES ]]; then 
             echo "::set-output name=any_changed::true"
           else
             echo "::set-output name=any_changed::false"
