@@ -109,12 +109,12 @@ jobs:
       - name: Run step when a file changes
         if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
         run: |
-            echo "Your file my-file.txt has been modified."
+          echo "Your file my-file.txt has been modified."
 
       - name: Run step when a file has been deleted
         if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
-            echo "Your test.txt has been deleted."
+          echo "Your test.txt has been deleted."
 
       - name: Get specific changed files
         id: changed-files-specific
