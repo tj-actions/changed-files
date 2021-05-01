@@ -57,6 +57,7 @@ runs:
         export INPUT_FILES="${{ inputs.files }}"
         export INPUT_SEPARATOR="${{ inputs.separator }}"
         echo "Getting head sha..."
+
         if [[ -z $GITHUB_BASE_REF ]]; then
           HEAD_SHA=$(git rev-parse HEAD^1 || true)
         else
@@ -64,6 +65,8 @@ runs:
           git fetch --depth=1 origin "${TARGET_BRANCH}":"${TARGET_BRANCH}"
           HEAD_SHA=$(git rev-parse "${TARGET_BRANCH}" || true)
         fi
+
+        echo "Using head sha: $HEAD_SHA..."
 
         if [[ -z "$INPUT_FILES" ]]; then
           echo "Getting diff..."
@@ -77,6 +80,9 @@ runs:
           UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+
+          echo "All changed files: $ALL_CHANGED"
+          echo "All modified files: ALL_MODIFIED_FILES"
         else
           ADDED_ARRAY=()
           COPIED_ARRAY=()
@@ -114,6 +120,9 @@ runs:
           UNKNOWN=$(echo "${UNKNOWN_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
           ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//")
+
+          echo "All changed files: $ALL_CHANGED"
+          echo "All modified files: ALL_MODIFIED_FILES"
 
           # shellcheck disable=SC2001
           OUTPUT_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed "s/$INPUT_SEPARATOR/ /g")
