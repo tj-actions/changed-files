@@ -42,9 +42,9 @@ outputs:
   all_modified_files:
     description: List of all copied modified and added files
     value: ${{ steps.changed_files.outputs.all_modified_files }}
-  has_changed:
+  all_changed:
     description: Return true only when all files provided using the files input have all changed.
-    value: ${{ steps.changed_files.outputs.has_changed }}
+    value: ${{ steps.changed_files.outputs.all_changed }}
 
 runs:
   using: 'composite'
@@ -134,9 +134,9 @@ runs:
           IFS=$'\n' SORTED_OUTPUT_ALL_MODIFIED_FILES=($(sort <<<"${OUTPUT_ALL_MODIFIED_FILES[*]}"))
           
           if [[ "${SORTED_INPUT_FILES[*]}" == "${SORTED_OUTPUT_ALL_MODIFIED_FILES[*]}" ]]; then
-            echo "::set-output name=has_changed::true"
+            echo "::set-output name=all_changed::true"
           else
-            echo "::set-output name=has_changed::false"
+            echo "::set-output name=all_changed::false"
           fi
 
           echo "::set-output name=added_files::$ADDED"
