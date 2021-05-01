@@ -1,11 +1,13 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v5.3](https://github.com/tj-actions/changed-files/tree/v5.3) (2021-05-01)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...v5.3)
 
 **Merged pull requests:**
 
+- Fixed bug with all\_changed when array is empty [\#46](https://github.com/tj-actions/changed-files/pull/46) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.2 [\#45](https://github.com/tj-actions/changed-files/pull/45) ([jackton1](https://github.com/jackton1))
 - Upgraded to v5.1 [\#44](https://github.com/tj-actions/changed-files/pull/44) ([jackton1](https://github.com/jackton1))
 
 ## [v5.2](https://github.com/tj-actions/changed-files/tree/v5.2) (2021-05-01)
