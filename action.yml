@@ -101,28 +101,28 @@ runs:
           for path in ${INPUT_FILES}
           do
             echo "Checking for file changes: \"${path}\"..."
-            ADDED+=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            COPIED+=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            DELETED+=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            MODIFIED+=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            RENAMED+=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            CHANGED+=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            UNMERGED+=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            UNKNOWN+=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            ALL_CHANGED+=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
-            ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            ADDED+=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            COPIED+=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            DELETED+=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            MODIFIED+=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            RENAMED+=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            CHANGED+=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            UNMERGED+=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            UNKNOWN+=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            ALL_CHANGED+=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
+            ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s${{ inputs.separator }}" || true)
           done
 
-          ADDED=$(IFS="${{ inputs.separator }}"; echo "${ADDED[*]}")
-          COPIED=$(IFS="${{ inputs.separator }}"; echo "${COPIED[*]}")
-          DELETED=$(IFS="${{ inputs.separator }}"; echo "${DELETED[*]}")
-          MODIFIED=$(IFS="${{ inputs.separator }}"; echo "${MODIFIED[*]}")
-          RENAMED=$(IFS="${{ inputs.separator }}"; echo "${RENAMED[*]}")
-          CHANGED=$(IFS="${{ inputs.separator }}"; echo "${CHANGED[*]}")
-          UNMERGED=$(IFS="${{ inputs.separator }}"; echo "${UNMERGED[*]}")
-          UNKNOWN=$(IFS="${{ inputs.separator }}"; echo "${UNKNOWN[*]}")
-          ALL_CHANGED=$(IFS="${{ inputs.separator }}"; echo "${ALL_CHANGED[*]}")
-          ALL_MODIFIED_FILES=$(IFS="${{ inputs.separator }}"; echo "${ALL_MODIFIED_FILES[*]}")
+          ADDED=$(echo "$ADDED" | sed -E 's/(${{ inputs.separator }})$//')
+          COPIED=$(echo $COPIED | sed -E 's/(${{ inputs.separator }})$//')
+          DELETED=$(echo "$DELETED" | sed -E 's/(${{ inputs.separator }})$//')
+          MODIFIED=$(echo "$MODIFIED" | sed -E 's/(${{ inputs.separator }})$//')
+          RENAMED=$(echo "$RENAMED" | sed -E 's/(${{ inputs.separator }})$//')
+          CHANGED=$(echo "$CHANGED" | sed -E 's/(${{ inputs.separator }})$//')
+          UNMERGED=$(echo "$UNMERGED" | sed -E 's/(${{ inputs.separator }})$//')
+          UNKNOWN=$(echo "$UNKNOWN" | sed -E 's/(${{ inputs.separator }})$//')
+          ALL_CHANGED=$(echo "$ALL_CHANGED" | sed -E 's/(${{ inputs.separator }})$//')
+          ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | sed -E 's/(${{ inputs.separator }})$//')
 
           echo "::set-output name=added_files::$ADDED"
           echo "::set-output name=copied_files::$COPIED"
