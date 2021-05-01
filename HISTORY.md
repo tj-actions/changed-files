@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Upgraded to v5 [\#40](https://github.com/tj-actions/changed-files/pull/40) ([jackton1](https://github.com/jackton1))
 - Switch to using a bash script. [\#39](https://github.com/tj-actions/changed-files/pull/39) ([jackton1](https://github.com/jackton1))
 - Upgraded to v4.4 [\#38](https://github.com/tj-actions/changed-files/pull/38) ([jackton1](https://github.com/jackton1))
 
