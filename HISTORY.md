@@ -1,5 +1,27 @@
 # Changelog
 
+## [v4.3](https://github.com/tj-actions/changed-files/tree/v4.3) (2021-05-01)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.2...v4.3)
+
+**Fixed bugs:**
+
+- fatal error when using @v4.2 [\#28](https://github.com/tj-actions/changed-files/issues/28)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+- Add support for watching a subset of files. [\#20](https://github.com/tj-actions/changed-files/issues/20)
+
+**Merged pull requests:**
+
+- Add support to filter only specific files [\#31](https://github.com/tj-actions/changed-files/pull/31) ([jackton1](https://github.com/jackton1))
+- Bump tj-actions/sync-release-version from v8 to v8.5 [\#30](https://github.com/tj-actions/changed-files/pull/30) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Upgrade to GitHub-native Dependabot [\#29](https://github.com/tj-actions/changed-files/pull/29) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update tj-actions/github-changelog-generator action to v1.6 [\#26](https://github.com/tj-actions/changed-files/pull/26) ([renovate[bot]](https://github.com/apps/renovate))
+- Update README.md [\#25](https://github.com/tj-actions/changed-files/pull/25) ([jackton1](https://github.com/jackton1))
+- Upgraded to v4.2 [\#24](https://github.com/tj-actions/changed-files/pull/24) ([jackton1](https://github.com/jackton1))
+
 ## [v4.2](https://github.com/tj-actions/changed-files/tree/v4.2) (2021-04-23)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.1...v4.2)
@@ -67,11 +89,14 @@
 - Configure Renovate [\#9](https://github.com/tj-actions/changed-files/pull/9) ([renovate[bot]](https://github.com/apps/renovate))
 - Update test.yml [\#8](https://github.com/tj-actions/changed-files/pull/8) ([jackton1](https://github.com/jackton1))
 - Upgraded to v2.1 [\#6](https://github.com/tj-actions/changed-files/pull/6) ([jackton1](https://github.com/jackton1))
-- Upgraded to v2 [\#5](https://github.com/tj-actions/changed-files/pull/5) ([jackton1](https://github.com/jackton1))
 
 ## [v2.1](https://github.com/tj-actions/changed-files/tree/v2.1) (2021-03-18)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v2...v2.1)
+
+**Merged pull requests:**
+
+- Upgraded to v2 [\#5](https://github.com/tj-actions/changed-files/pull/5) ([jackton1](https://github.com/jackton1))
 
 ## [v2](https://github.com/tj-actions/changed-files/tree/v2) (2021-03-14)
 
