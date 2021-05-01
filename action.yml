@@ -54,7 +54,11 @@ runs:
   steps:
     - id: changed_files
       run: |
+        export INPUT_FILES="${{ inputs.files }}"
+        export INPUT_SEPARATOR="${{ inputs.separator }}"
         bash entrypoint.sh
+        unset INPUT_FILES
+        unset INPUT_SEPARATOR
       shell: bash
 
 branding:
