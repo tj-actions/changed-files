@@ -87,14 +87,14 @@ runs:
           echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
 
         else
-          ADDED_FILES=()
-          COPIED_FILES=()
-          DELETED_FILES=()
-          MODIFIED_FILES=()
-          RENAMED_FILES=()
-          CHANGED_FILES=()
-          UNMERGED_FILES=()
-          UNKNOWN_FILES=()
+          ADDED=()
+          COPIED=()
+          DELETED=()
+          MODIFIED=()
+          RENAMED=()
+          CHANGED=()
+          UNMERGED=()
+          UNKNOWN=()
           ALL_CHANGED=()
           ALL_MODIFIED_FILES=()
 
@@ -102,29 +102,30 @@ runs:
           do
             echo "Checking for file changes: \"${path}\"..."
 
-            ADDED_FILES+="$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            COPIED_FILES+="$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            DELETED_FILES+="$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            MODIFIED_FILES+="$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            RENAMED_FILES+="$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            CHANGED_FILES+="$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            UNMERGED_FILES+="$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            UNKNOWN_FILES+="$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            ALL_CHANGED+="$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-            ALL_MODIFIED_FILES+="$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)${{ inputs.separator }}"
-"
+            ADDED+=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            COPIED+=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            DELETED+=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            MODIFIED+=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            RENAMED+=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            CHANGED+=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            UNMERGED+=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            UNKNOWN+=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            ALL_CHANGED+=$(git diff --diff-filter='*ACDMRTUX' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
+            ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
           done
 
-          echo "::set-output name=added_files::$ADDED"
-          echo "::set-output name=copied_files::$COPIED"
-          echo "::set-output name=deleted_files::$DELETED"
-          echo "::set-output name=modified_files::$MODIFIED"
-          echo "::set-output name=renamed_files::$RENAMED"
-          echo "::set-output name=changed_files::$CHANGED"
-          echo "::set-output name=unmerged_files::$UNMERGED"
-          echo "::set-output name=unknown_files::$UNKNOWN"
-          echo "::set-output name=all_changed_files::$ALL_CHANGED"
-          echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
+          IFS=${{ inputs.separator }}
+
+          echo "::set-output name=added_files::${ADDED[*]}"
+          echo "::set-output name=copied_files::${COPIED[*]}"
+          echo "::set-output name=deleted_files::${DELETED[*]}"
+          echo "::set-output name=modified_files::${MODIFIED[*]}"
+          echo "::set-output name=renamed_files::${RENAMED[*]}"
+          echo "::set-output name=changed_files::${CHANGED[*]}"
+          echo "::set-output name=unmerged_files::${UNMERGED[*]}"
+          echo "::set-output name=unknown_files::${UNKNOWN[*]}"
+          echo "::set-output name=all_changed_files::${ALL_CHANGED[*]}"
+          echo "::set-output name=all_modified_files::${ALL_MODIFIED_FILES[*]}"
         fi
       shell: bash
 
