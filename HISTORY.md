@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...HEAD)
+
+**Merged pull requests:**
+
+- Upgraded to v5.1 [\#44](https://github.com/tj-actions/changed-files/pull/44) ([jackton1](https://github.com/jackton1))
+
+## [v5.2](https://github.com/tj-actions/changed-files/tree/v5.2) (2021-05-01)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.1...v5.2)
+
 ## [v5.1](https://github.com/tj-actions/changed-files/tree/v5.1) (2021-05-01)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v5...v5.1)
