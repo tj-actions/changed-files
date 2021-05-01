@@ -1,5 +1,17 @@
 # Changelog
 
+## [v4.6](https://github.com/tj-actions/changed-files/tree/v4.6) (2021-05-01)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.3...v4.6)
+
+**Merged pull requests:**
+
+- Update .gitignore [\#36](https://github.com/tj-actions/changed-files/pull/36) ([jackton1](https://github.com/jackton1))
+- Add support for any changed file. [\#35](https://github.com/tj-actions/changed-files/pull/35) ([jackton1](https://github.com/jackton1))
+- Update .gitignore [\#34](https://github.com/tj-actions/changed-files/pull/34) ([jackton1](https://github.com/jackton1))
+- Renamed has\_changed to all\_changed [\#33](https://github.com/tj-actions/changed-files/pull/33) ([jackton1](https://github.com/jackton1))
+- Upgraded to v4.3 [\#32](https://github.com/tj-actions/changed-files/pull/32) ([jackton1](https://github.com/jackton1))
+
 ## [v4.3](https://github.com/tj-actions/changed-files/tree/v4.3) (2021-05-01)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.2...v4.3)
