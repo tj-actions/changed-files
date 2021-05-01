@@ -54,7 +54,7 @@ runs:
   steps:
     - id: changed_files
       run: |
-        sh entrypoint.sh
+        bash entrypoint.sh
       shell: bash
 
 branding:
