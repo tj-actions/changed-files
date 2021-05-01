@@ -17,8 +17,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
