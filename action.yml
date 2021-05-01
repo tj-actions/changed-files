@@ -130,8 +130,12 @@ runs:
           OUTPUT_ALL_MODIFIED_FILES=$(echo $ALL_MODIFIED_FILES | sed "s/(${{ inputs.separator }})/ /g")
           ALL_INPUT_FILES=$(echo $INPUT_FILES | sed "s/\n/ /g")
           
+          echo "Files: $OUTPUT_ALL_MODIFIED_FILES != $ALL_INPUT_FILES"
+          
           IFS=$'\n' SORTED_INPUT_FILES=($(sort <<<"${ALL_INPUT_FILES[*]}"))
           IFS=$'\n' SORTED_OUTPUT_ALL_MODIFIED_FILES=($(sort <<<"${OUTPUT_ALL_MODIFIED_FILES[*]}"))
+          
+          echo "Files: $SORTED_INPUT_FILES != $SORTED_OUTPUT_ALL_MODIFIED_FILES"
           
           if [[ "${SORTED_INPUT_FILES[*]}" == "${SORTED_OUTPUT_ALL_MODIFIED_FILES[*]}" ]]; then
             echo "::set-output name=has_changed::true"
