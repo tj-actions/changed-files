@@ -99,13 +99,13 @@ jobs:
         uses: tj-actions/changed-files@v4.2
         with:
           separator: ","
-       
+
       - name: List all added files
         run: |
           for file in "${{ steps.changed-files.outputs.added_files }}"; do
             echo "$file was added"
           done
-          
+
       - name: Run step when a file changes
         if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
         run: |
@@ -115,7 +115,19 @@ jobs:
         if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
             echo "Your test.txt has been deleted."
-            
+
+      - name: Get specific changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v4.2
+        with:
+          files: |
+            my-file.txt
+            test.txt
+
+       - name: Run step if all files listed above have changed
+         if: steps.changed-files-specific.outputs.has_changed
+         run: |
+           echo "Both my-file.txt and test.txt have changed."
         
 ```
 
