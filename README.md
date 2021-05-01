@@ -176,19 +176,6 @@ jobs:
 * Free software: [MIT license](LICENSE)
 
 
-Features
---------
-- Added Files
-- Copied Files
-- Deleted Files
-- Modified Files
-- Renamed Files
-- Changed Files
-- Unmerged Files
-- Unknown Files
-- All Changed Files
-
-
 Credits
 -------
 
