@@ -127,9 +127,9 @@ runs:
           SEP_INPUT_FILES=$(echo $INPUT_FILES || sed -E 's/ /(${{ inputs.separator }})/g')
           
           if [[ $ALL_MODIFIED_FILES -eq $SEP_INPUT_FILES ]]; then
-            echo "::set-output name=has_changes::true"
+            echo "::set-output name=has_changed::true"
           else
-            echo "::set-output name=has_changes::false"
+            echo "::set-output name=has_changed::false"
           fi
 
           echo "::set-output name=added_files::$ADDED"
