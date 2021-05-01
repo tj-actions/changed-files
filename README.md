@@ -41,6 +41,7 @@ Using the default separator.
 |   Input       |    type    |  required      |  default                      |  description  |
 |:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
 | separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
+| files         |  `string|string[]`   |    `false` |                           |  Restricted list of specific files to watch for changes |
 
 
 ## Usage
