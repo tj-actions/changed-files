@@ -36,9 +36,9 @@ outputs:
   unknown_files:
     description: List of unknown files.
     value: ${{ steps.changed_files.outputs.unknown_files }}
-  all_changed_files:
+  changed_files:
     description: List of all changed files.
-    value: ${{ steps.changed_files.outputs.all_changed_files }}
+    value: ${{ steps.changed_files.outputs.changed_files }}
   all_modified_files:
     description: List of all copied modified and added files
     value: ${{ steps.changed_files.outputs.all_modified_files }}
