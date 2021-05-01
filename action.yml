@@ -113,18 +113,16 @@ runs:
             ALL_MODIFIED_FILES+=$(git diff --diff-filter='ACM' --name-only "$HEAD_SHA" | grep -E "(${path})" || true)
           done
 
-          export IFS=${{ inputs.separator }}
-
-          ADDED=$(echo "${ADDED[*]}")
-          COPIED=$(echo "${COPIED[*]}")
-          DELETED=$(echo "${DELETED[*]}")
-          MODIFIED=$(echo "${MODIFIED[*]}")
-          RENAMED=$(echo "${RENAMED[*]}")
-          CHANGED=$(echo "${CHANGED[*]}")
-          UNMERGED=$(echo "${UNMERGED[*]}")
-          UNKNOWN=$(echo "${UNKNOWN[*]}")
-          ALL_CHANGED=$(echo "${ALL_CHANGED[*]}")
-          ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES[*]}")
+          ADDED=$(IFS="${{ inputs.separator }}"; echo "${ADDED[*]}")
+          COPIED=$(IFS="${{ inputs.separator }}"; echo "${COPIED[*]}")
+          DELETED=$(IFS="${{ inputs.separator }}"; echo "${DELETED[*]}")
+          MODIFIED=$(IFS="${{ inputs.separator }}"; echo "${MODIFIED[*]}")
+          RENAMED=$(IFS="${{ inputs.separator }}"; echo "${RENAMED[*]}")
+          CHANGED=$(IFS="${{ inputs.separator }}"; echo "${CHANGED[*]}")
+          UNMERGED=$(IFS="${{ inputs.separator }}"; echo "${UNMERGED[*]}")
+          UNKNOWN=$(IFS="${{ inputs.separator }}"; echo "${UNKNOWN[*]}")
+          ALL_CHANGED=$(IFS="${{ inputs.separator }}"; echo "${ALL_CHANGED[*]}")
+          ALL_MODIFIED_FILES=$(IFS="${{ inputs.separator }}"; echo "${ALL_MODIFIED_FILES[*]}")
 
           echo "::set-output name=added_files::$ADDED"
           echo "::set-output name=copied_files::$COPIED"
