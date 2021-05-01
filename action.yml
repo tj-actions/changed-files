@@ -58,7 +58,7 @@ runs:
           HEAD_SHA=$(git rev-parse ${TARGET_BRANCH} || true)
         fi
 
-        if [[ -z $INPUT_FILES ]]; then
+        if [[ -z "${{ inputs.files }}" ]]; then
 
           echo "Getting diff..."
 
