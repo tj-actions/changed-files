@@ -11,9 +11,9 @@ Get all modified files relative to the default branch (`pull_request*` events) o
   - Between the current pull request branch and the default branch
   - Between the last commit and the current pushed change.
 - List only a subset of files that can be used to detect changes.
-- Report on a subset of files that have all change.
-- Report on a subset of files that have at least one file change.
-- Regex pattern matching on a subset of files.
+  - Report on files that have all changed.
+  - Report on files that have at least one file change.
+  - Regex pattern matching on a subset of files.
 
 
 ## Outputs
