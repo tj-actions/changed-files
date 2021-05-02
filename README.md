@@ -75,7 +75,7 @@ on:
       - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     name: Test changed-files
     steps:
