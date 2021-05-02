@@ -1,5 +1,14 @@
 # Changelog
 
+## [v5.1](https://github.com/tj-actions/changed-files/tree/v5.1) (2021-05-01)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5...v5.1)
+
+**Merged pull requests:**
+
+- Strip leading whitespaces [\#50](https://github.com/tj-actions/changed-files/pull/50) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5 [\#49](https://github.com/tj-actions/changed-files/pull/49) ([jackton1](https://github.com/jackton1))
+
 ## [v5](https://github.com/tj-actions/changed-files/tree/v5) (2021-05-01)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.4...v5)
