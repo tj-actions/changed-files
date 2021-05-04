@@ -16,6 +16,45 @@ Get all modified files relative to the default branch (`pull_request*` events) o
   - Regex pattern matching on a subset of files.
 
 
+## Usage
+
+> NOTE: :warning:
+> * For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
+
+
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+      
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v5.1
+      
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
+            echo "$file was modified"
+          done
+```
+
+
 ## Outputs
 
 Using the default separator.
@@ -54,45 +93,6 @@ Using the default separator.
 |:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
 | separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
 | files         |  `string OR string[]`   |    `false` |                           |  Restricted list of specific files to watch for changes |
-
-
-## Usage
-
-> NOTE: :warning:
-> * For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
-
-
-
-```yaml
-name: CI
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    name: Test changed-files
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-      
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v5.1
-      
-      - name: List all modified files
-        run: |
-          for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
-            echo "$file was modified"
-          done
-```
 
 
 ## Example
