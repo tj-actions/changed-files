@@ -57,8 +57,6 @@ jobs:
 
 ## Outputs
 
-Using the default separator.
-
 | Acronym   |  Meaning     |
 |:---------:|:------------:|
 | A         | Added        |
