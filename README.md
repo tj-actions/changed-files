@@ -89,7 +89,7 @@ jobs:
 
 |   Input       |    type    |  required      |  default                      |  description  |
 |:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
-| separator         |  `string`   |    `true` |                          `' '` |  Separator to return outputs        |
+| separator         |  `string`   |    `true` |                          `' '` |  Output string separator   |
 | files         |  `string OR string[]`   |    `false` |                           |  Restricted list of specific files to watch for changes |
 
 
