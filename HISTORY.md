@@ -1,5 +1,23 @@
 # Changelog
 
+## [v5.2](https://github.com/tj-actions/changed-files/tree/v5.2) (2021-05-06)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.1...v5.2)
+
+**Implemented enhancements:**
+
+- \[shellcheck\]: Resolve SC2001 [\#42](https://github.com/tj-actions/changed-files/issues/42)
+- \[shellcheck\]: Resolve SC2128 [\#41](https://github.com/tj-actions/changed-files/issues/41)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Update tj-actions/github-changelog-generator action to v1.8 [\#52](https://github.com/tj-actions/changed-files/pull/52) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v5.1 [\#51](https://github.com/tj-actions/changed-files/pull/51) ([jackton1](https://github.com/jackton1))
+
 ## [v5.1](https://github.com/tj-actions/changed-files/tree/v5.1) (2021-05-01)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v5...v5.1)
@@ -47,7 +65,6 @@
 
 **Closed issues:**
 
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 - Add support for watching a subset of files. [\#20](https://github.com/tj-actions/changed-files/issues/20)
 
 **Merged pull requests:**
