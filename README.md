@@ -20,6 +20,7 @@ Get all modified files relative to the default branch (`pull_request*` events) o
 
 > NOTE: :warning:
 > * For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
+> * When using `persist-credentials: false` for `actions/checkout@v2` you need to specify the `token` using the `token: "${{ ... }}"` input.
 
 
 
@@ -89,6 +90,7 @@ jobs:
 
 |   Input       |    type    |  required      |  default                      |  description  |
 |:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
+| token         |  `string`   |    `false`    | `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
 | separator         |  `string`   |    `true` |                          `' '` |  Output string separator   |
 | files         |  `string OR string[]`   |    `false` |                           |  Restricted list of specific files to watch for changes |
 
