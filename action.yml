@@ -2,6 +2,10 @@ name: Changed files
 description: Get all changed files
 author: tj-actions
 inputs:
+  token:
+    description: 'Github token'
+    required: true
+    default: ${{ github.token }}
   separator:
     description: 'Split character for array output'
     required: true
@@ -55,6 +59,8 @@ runs:
     - id: changed_files
       run: |
         set -e
+        
+        git remote set-url origin "https://${{ inputs.token }}@github.com/${{ github.repository }}"
 
         export INPUT_FILES="${{ inputs.files }}"
         export INPUT_SEPARATOR="${{ inputs.separator }}"
