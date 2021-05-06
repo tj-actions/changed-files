@@ -160,7 +160,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # otherwise, you will fail to push refs to dest repo
+          fetch-depth: 0
       
       - name: Get changed files
         id: changed-files
