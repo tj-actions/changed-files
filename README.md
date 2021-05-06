@@ -20,7 +20,8 @@ Get all modified files relative to the default branch (`pull_request*` events) o
 
 > NOTE: :warning:
 > * For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
-> * When using `persist-credentials: false` for `actions/checkout@v2` you need to specify the `token` using the `token: "${{ ... }}"` input.
+> * When using `persist-credentials: false` with `actions/checkout@v2` action 
+>    you need to specify the `token` using the `token` input.
 
 
 
