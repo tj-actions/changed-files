@@ -102,6 +102,7 @@ jobs:
 ...
     steps:
       - uses: actions/checkout@v2
+
       - name: Get changed files using defaults
         id: changed-files
         uses: tj-actions/changed-files@v5.2
