@@ -1,5 +1,19 @@
 # Changelog
 
+## [v5.3](https://github.com/tj-actions/changed-files/tree/v5.3) (2021-05-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...v5.3)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Add warning message when the head sha is empty [\#56](https://github.com/tj-actions/changed-files/pull/56) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/sync-release-version action to v8.6 [\#55](https://github.com/tj-actions/changed-files/pull/55) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v5.2 [\#53](https://github.com/tj-actions/changed-files/pull/53) ([jackton1](https://github.com/jackton1))
+
 ## [v5.2](https://github.com/tj-actions/changed-files/tree/v5.2) (2021-05-06)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.1...v5.2)
@@ -8,10 +22,6 @@
 
 - \[shellcheck\]: Resolve SC2001 [\#42](https://github.com/tj-actions/changed-files/issues/42)
 - \[shellcheck\]: Resolve SC2128 [\#41](https://github.com/tj-actions/changed-files/issues/41)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
