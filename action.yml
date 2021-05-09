@@ -75,7 +75,7 @@ runs:
         
         if [[ -z $HEAD_SHA ]]; then
           echo "::warning::Unable to determine the head sha: $HEAD_SHA."
-          echo "::warning::You seem to be misssing `fetch-depth: 0` or `fetch-depth: 2`"
+          echo "::warning::You seem to be missing `fetch-depth: 0` or `fetch-depth: 2`"
         else
           echo "Using head sha: $HEAD_SHA..."
 
