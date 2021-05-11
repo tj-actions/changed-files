@@ -1,0 +1,24 @@
+name: automerge
+on:
+  check_suite:
+    types:
+      - rerequested
+      - completed
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    if: |
+      github.actor == 'pre-commit-ci' ||
+      github.actor == 'pre-commit-ci[bot]' ||
+      github.actor == 'dependabot[bot]' ||
+      github.actor == 'dependabot'
+    steps:
+      - name: automerge
+        uses: pascalgn/automerge-action@v0.13.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          MERGE_METHOD: "rebase"
+          UPDATE_METHOD: "rebase"
+          MERGE_RETRIES: "6"
+          MERGE_RETRY_SLEEP: "10000"
