@@ -13,7 +13,7 @@ jobs:
       github.actor == 'dependabot'
     steps:
       - name: automerge
-        uses: pascalgn/automerge-action@v0.13.1
+        uses: pascalgn/automerge-action@v0.14.1
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           MERGE_METHOD: "rebase"
