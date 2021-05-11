@@ -9,8 +9,6 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     if: |
-      github.actor == 'pre-commit-ci' ||
-      github.actor == 'pre-commit-ci[bot]' ||
       github.actor == 'dependabot[bot]' ||
       github.actor == 'dependabot'
     steps:
