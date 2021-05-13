@@ -11,8 +11,7 @@ Get all modified files relative to the default branch (`pull_request*` events) o
   - Between the current pull request branch and the default branch
   - Between the last commit and the current pushed change.
 - Restrict change detection to a subset of files.
-  - Report on files that have all changed.
-  - Report on files that have at least one file change.
+  - Report on files that have at least one change.
   - Regex pattern matching on a subset of files.
 
 
@@ -74,7 +73,6 @@ jobs:
 
 |   Output             |    type      |  example                       |         description                      |
 |:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
-| all_changed          |  `string`     |     `true` OR `false`             |  Returns `true` only when the filenames provided using the `files` input have all changed |
 | any_changed          |  `string`     |     `true` OR `false`             |  Returns `true` when any of the filenames provided using the `files` input has changed |
 | all_modified_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all modified files <br /> *i.e a combination of all added, <br />copied and modified files (ACM).*  |
 | all_changed_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all paths (*) <br /> *i.e a combination of all options below.*  |
@@ -143,11 +141,6 @@ jobs:
             .(sql)$
             ^(mynewfile|custom)
 
-       - name: Run step if all files listed above have changed
-         if: steps.changed-files-specific.outputs.all_changed == 'true'
-         run: |
-           echo "All files listed above has changed."
-        
        - name: Run step if any of the listed files above change
          if: steps.changed-files-specific.outputs.any_changed == 'true'
          run: |
