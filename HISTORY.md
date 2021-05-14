@@ -1,12 +1,26 @@
 # Changelog
 
-## [v5.3](https://github.com/tj-actions/changed-files/tree/v5.3) (2021-05-08)
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...v5.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.3...v6)
 
 **Closed issues:**
 
+- Improve test coverage [\#54](https://github.com/tj-actions/changed-files/issues/54)
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Bump peter-evans/create-pull-request from 3.9.1 to 3.9.2 [\#63](https://github.com/tj-actions/changed-files/pull/63) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Deprecate all\_changed output. [\#62](https://github.com/tj-actions/changed-files/pull/62) ([jackton1](https://github.com/jackton1))
+- Bump peter-evans/create-pull-request from 3 to 3.9.1 [\#61](https://github.com/tj-actions/changed-files/pull/61) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 2 to 2.3.4 [\#60](https://github.com/tj-actions/changed-files/pull/60) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Fixed typo [\#58](https://github.com/tj-actions/changed-files/pull/58) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.3 [\#57](https://github.com/tj-actions/changed-files/pull/57) ([jackton1](https://github.com/jackton1))
+
+## [v5.3](https://github.com/tj-actions/changed-files/tree/v5.3) (2021-05-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.2...v5.3)
 
 **Merged pull requests:**
 
