@@ -65,6 +65,13 @@ jobs:
             .github/workflows/test.yml
             action.yml
           separator: ","
+      - name: Verify any_changed files comma separator
+        if: contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') || contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml')
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "true" ]]; then
+            echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
+          fi
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
