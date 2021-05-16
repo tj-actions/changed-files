@@ -1,5 +1,23 @@
 # Changelog
 
+## [v6.1](https://github.com/tj-actions/changed-files/tree/v6.1) (2021-05-16)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.1)
+
+**Fixed bugs:**
+
+- \[BUG\] any\_changed reports true without matching changed files [\#67](https://github.com/tj-actions/changed-files/issues/67)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Fixed bug with any\_changed boolean [\#68](https://github.com/tj-actions/changed-files/pull/68) ([jackton1](https://github.com/jackton1))
+- Update cirrus-actions/rebase action to v1.5 [\#66](https://github.com/tj-actions/changed-files/pull/66) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v6 [\#64](https://github.com/tj-actions/changed-files/pull/64) ([jackton1](https://github.com/jackton1))
+
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-14)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.3...v6)
@@ -7,7 +25,6 @@
 **Closed issues:**
 
 - Improve test coverage [\#54](https://github.com/tj-actions/changed-files/issues/54)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
