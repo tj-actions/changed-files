@@ -52,6 +52,7 @@ jobs:
         run: |
           if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != 'true' ]]; then
             echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
           fi
       - name: Show output
         run: |
