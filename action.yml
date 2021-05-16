@@ -116,16 +116,16 @@ runs:
               ALL_MODIFIED_FILES_ARRAY+=("$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs printf "%s$INPUT_SEPARATOR" || true)")
             done
 
-            ADDED=$(echo "${ADDED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            COPIED=$(echo "${COPIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            DELETED=$(echo "${DELETED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            MODIFIED=$(echo "${MODIFIED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            RENAMED=$(echo "${RENAMED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            CHANGED=$(echo "${CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            UNMERGED=$(echo "${UNMERGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            UNKNOWN=$(echo "${UNKNOWN_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
-            ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed -E "s/($INPUT_SEPARATOR)$//" | xargs)
+            ADDED=$(echo "${ADDED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            COPIED=$(echo "${COPIED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            DELETED=$(echo "${DELETED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            MODIFIED=$(echo "${MODIFIED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            RENAMED=$(echo "${RENAMED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            CHANGED=$(echo "${CHANGED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            UNMERGED=$(echo "${UNMERGED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            UNKNOWN=$(echo "${UNKNOWN_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
+            ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[@]}" | sed "s/'"$INPUT_SEPARATOR"'$//" | xargs)
           fi
         fi
 
