@@ -142,13 +142,12 @@ runs:
 
         if [[ -n "$INPUT_FILES" ]]; then
           # shellcheck disable=SC2001
-          OUTPUT_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | tr "$INPUT_SEPARATOR" " " | xargs)
           ALL_INPUT_FILES=$(echo "$INPUT_FILES" | tr "\n" " " | xargs)
           
           echo "Input files: ${ALL_INPUT_FILES[@]}"
-          echo "Matching modified files: ${OUTPUT_ALL_MODIFIED_FILES[@]}"
+          echo "Matching modified files: ${ALL_MODIFIED_FILES[@]}"
 
-          if [[ ${#OUTPUT_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
+          if [[ ${#ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
             echo "::set-output name=any_changed::true"
           else
             echo "::set-output name=any_changed::false"
