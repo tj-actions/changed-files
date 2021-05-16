@@ -116,16 +116,17 @@ runs:
               ALL_MODIFIED_FILES_ARRAY+=("$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true)")
             done
             
-            ADDED=${ADDED_ARRAY[*]// /$INPUT_SEPARATOR}
-            COPIED=${COPIED_ARRAY[*]// /$INPUT_SEPARATOR}
-            DELETED=${DELETED_ARRAY[*]// /$INPUT_SEPARATOR}
-            MODIFIED=${MODIFIED_ARRAY[*]// /$INPUT_SEPARATOR}
-            RENAMED=${RENAMED_ARRAY[*]// /$INPUT_SEPARATOR}
-            CHANGED=${CHANGED_ARRAY[*]// /$INPUT_SEPARATOR}
-            UNMERGED=${UNMERGED_ARRAY[*]// /$INPUT_SEPARATOR}
-            UNKNOWN=${UNKNOWN_ARRAY[*]// /$INPUT_SEPARATOR}
-            ALL_CHANGED=${ALL_CHANGED_ARRAY[*]// /$INPUT_SEPARATOR}
-            ALL_MODIFIED_FILES=${ALL_MODIFIED_FILES_ARRAY[*]// /$INPUT_SEPARATOR}
+            IFS=$INPUT_SEPARATOR
+            ADDED=$(echo "${ADDED_ARRAY[*]}")
+            COPIED=$(echo "${COPIED_ARRAY[*]}")
+            DELETED=$(echo "${DELETED_ARRAY[*]}")
+            MODIFIED=$(echo "${MODIFIED_ARRAY[*]}")
+            RENAMED=$(echo "${RENAMED_ARRAY[*]}")
+            CHANGED=$(echo "${CHANGED_ARRAY[*]}")
+            UNMERGED=$(echo "${UNMERGED_ARRAY[*]}")
+            UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}")
+            ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}")
+            ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}")
           fi
         fi
 
