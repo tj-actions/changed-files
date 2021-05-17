@@ -74,8 +74,8 @@ jobs:
 |   Output             |    type      |  example                       |         description                      |
 |:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
 | any_changed          |  `string`     |     `true` OR `false`             |  Returns `true` when any of the filenames provided using the `files` input has changed |
-| all_modified_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all modified files <br /> *i.e a combination of all added, <br />copied and modified files (ACM).*  |
-| all_changed_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all paths (*) <br /> *i.e a combination of all options below.*  |
+| all_modified_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all modified files <br /> i.e *a combination of all added, <br />copied and modified files (ACM).*  |
+| all_changed_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all paths (*) <br /> i.e *a combination of all options below.*  |
 | added_files         |  `string`    |    `'new.txt other.png ...'`    |  Select only files that are Added (A)    |
 | copied_files        |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Copied (C)   |
 | deleted_files       |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Deleted (D)  |
