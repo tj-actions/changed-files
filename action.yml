@@ -115,8 +115,6 @@ runs:
               ALL_CHANGED_ARRAY+=("$(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true)")
               ALL_MODIFIED_FILES_ARRAY+=("$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true)")
             done
-            
-            IFS=$INPUT_SEPARATOR
              
             ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
             COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
