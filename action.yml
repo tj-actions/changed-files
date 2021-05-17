@@ -116,16 +116,16 @@ runs:
               ALL_MODIFIED_FILES_ARRAY+=("$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true)")
             done
              
-            ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            CHANGED=$(echo "${CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
-            ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            ADDED=$(echo "${ADDED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            COPIED=$(echo "${COPIED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            DELETED=$(echo "${DELETED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            RENAMED=$(echo "${RENAMED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            CHANGED=$(echo "${CHANGED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" |  tr -s ' '  | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+            ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" |  tr -s ' ' | sed 's/  */'"$INPUT_SEPARATOR"'/g')
           fi
         fi
 
