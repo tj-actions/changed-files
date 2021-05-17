@@ -1,5 +1,22 @@
 # Changelog
 
+## [v6.2](https://github.com/tj-actions/changed-files/tree/v6.2) (2021-05-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.1...v6.2)
+
+**Fixed bugs:**
+
+- Fixed bug with trailing separator [\#74](https://github.com/tj-actions/changed-files/pull/74) ([jackton1](https://github.com/jackton1))
+
+**Merged pull requests:**
+
+- Remove unused line [\#75](https://github.com/tj-actions/changed-files/pull/75) ([jackton1](https://github.com/jackton1))
+- Update action.yml [\#73](https://github.com/tj-actions/changed-files/pull/73) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#72](https://github.com/tj-actions/changed-files/pull/72) ([jackton1](https://github.com/jackton1))
+- Improve test coverage [\#71](https://github.com/tj-actions/changed-files/pull/71) ([jackton1](https://github.com/jackton1))
+- Update action.yml [\#70](https://github.com/tj-actions/changed-files/pull/70) ([jackton1](https://github.com/jackton1))
+- Upgraded to v6.1 [\#69](https://github.com/tj-actions/changed-files/pull/69) ([jackton1](https://github.com/jackton1))
+
 ## [v6.1](https://github.com/tj-actions/changed-files/tree/v6.1) (2021-05-16)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.1)
