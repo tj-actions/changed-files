@@ -170,7 +170,8 @@ jobs:
 
 
 ## Example
-![Screen Shot 2021-05-13 at 4 55 30 PM](https://user-images.githubusercontent.com/17484350/118186772-1cc1c400-b40c-11eb-8fe8-b651e674ce96.png)
+![Screen Shot 2021-05-13 at 4 55 30 PM](https://user-images.githubusercontent.com/17484350/118186772-1cc1c400-b40c-11eb-8fe8-b651e674ce96.png) ![Screen Shot 2021-05-21 at 8 38 31 AM](https://user-images.githubusercontent.com/17484350/119138539-fc979380-ba0f-11eb-802c-6e403faac300.png)
+
 
 
 * Free software: [MIT license](LICENSE)
