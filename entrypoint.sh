@@ -16,7 +16,7 @@ fi
 
 if [[ -z $HEAD_SHA ]]; then
   echo "::warning::Unable to determine the head sha: $HEAD_SHA."
-  echo "::warning::You seem to be missing `fetch-depth: 0` or `fetch-depth: 2`"
+  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'"
   exit 1
 else
   echo "Using head sha: $HEAD_SHA..."
@@ -47,27 +47,47 @@ else
     do
       echo "Checking for file changes: \"${path}\"..."
       IFS=" "
+      # shellcheck disable=SC2207
       ADDED_ARRAY+=($(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       COPIED_ARRAY+=($(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       DELETED_ARRAY+=($(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       MODIFIED_ARRAY+=($(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       RENAMED_ARRAY+=($(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       CHANGED_ARRAY+=($(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       UNMERGED_ARRAY+=($(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       UNKNOWN_ARRAY+=($(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       ALL_CHANGED_ARRAY+=($(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+      # shellcheck disable=SC2207
       ALL_MODIFIED_FILES_ARRAY+=($(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
     done
 
+    # shellcheck disable=SC2001
     ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     CHANGED=$(echo "${CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+    # shellcheck disable=SC2001
     ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
   fi
 fi
