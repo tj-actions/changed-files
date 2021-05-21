@@ -4,9 +4,6 @@ set -e
 
 git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
 
-INPUT_FILES="${INPUT_FILES}"
-INPUT_SEPARATOR="${INPUT_SEPARATOR}"
-
 echo "Getting head sha..."
 
 if [[ -z $GITHUB_BASE_REF ]]; then
