@@ -86,8 +86,8 @@ if [[ -n "$INPUT_FILES" ]]; then
   # shellcheck disable=SC2001
   ALL_INPUT_FILES=$(echo "$INPUT_FILES" | tr "\n" " " | xargs)
 
-  echo "Input files: ${ALL_INPUT_FILES[@]}"
-  echo "Matching modified files: ${ALL_MODIFIED_FILES[@]}"
+  echo "Input files: ${ALL_INPUT_FILES[*]}"
+  echo "Matching modified files: ${ALL_MODIFIED_FILES[*]}"
   if [[ -n "$ALL_MODIFIED_FILES" ]]; then
     echo "::set-output name=any_changed::true"
   else
