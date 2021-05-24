@@ -17,12 +17,11 @@ Retrieve all changed, added, modified and deleted files relative to the default 
 
 ## Usage
 
-> NOTE: :warning:
-> * For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
-> * When using `persist-credentials: false` with `actions/checkout@v2` 
-> 
->     you'll need to specify a `token` using the `token` input.
 
+
+> NOTE: :warning:
+> * **IMPORTANT:** For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case. 
+> * When using `persist-credentials: false` with `actions/checkout@v2` you'll need to specify a `token` using the `token` input.
 
 
 ```yaml
