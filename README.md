@@ -3,7 +3,19 @@
 changed-files
 -------------
 
-Retrieve all changed, added, modified and deleted files relative to the default branch (`pull_request*` events) or last commit (`push` event).
+Retrieve all changed files relative to the default branch (`pull_request*` events) or a previous commit (`push` event).
+
+This includes detecting files that were:
+
+- Added
+- Copied
+- Modified 
+- Deleted 
+- Renamed
+- Type changed 
+- Unmerged   
+- Unknown
+
 
 
 ## Features
