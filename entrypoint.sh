@@ -15,7 +15,7 @@ else
 fi
 
 if [[ $exit_status -ne 0 ]]; then
-  echo "::warning::Unable to determine the head sha: $HEAD_SHA."
+  echo "::warning::Unable to determine the head sha"
   echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'"
   exit 1
 fi
