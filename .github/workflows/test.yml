@@ -19,6 +19,7 @@ jobs:
       
       - name: Run changed-files with defaults
         id: changed-files
+        continue-on-error: true
         uses: ./
       
       - name: Show output
