@@ -7,11 +7,11 @@ git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY
 echo "Getting head sha..."
 
 if [[ -z $GITHUB_BASE_REF ]]; then
-  HEAD_SHA=$(git rev-parse HEAD^1 || true)
+  HEAD_SHA=$(git rev-parse HEAD^1 2>/dev/null || true)
 else
   TARGET_BRANCH=${GITHUB_BASE_REF}
   git fetch --depth=1 origin "${TARGET_BRANCH}":"${TARGET_BRANCH}"
-  HEAD_SHA=$(git rev-parse "${TARGET_BRANCH}" || true)
+  HEAD_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>/dev/null || true)
 fi
 
 if [[ -z $HEAD_SHA ]]; then
