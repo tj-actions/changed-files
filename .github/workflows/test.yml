@@ -9,6 +9,21 @@ on:
       - main
 
 jobs:
+  test-no-head-sha:
+    runs-on: ubuntu-latest
+    name: Test changed-files missing head sha
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v2
+      
+      - name: Run changed-files with defaults
+        id: changed-files
+        uses: ./
+      
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+
   test:
     runs-on: ubuntu-latest
     name: Test changed-files
