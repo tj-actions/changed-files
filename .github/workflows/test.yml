@@ -4,11 +4,28 @@ on:
   push:
     branches:
       - main
+      - '**'
   pull_request:
     branches:
       - main
 
 jobs:
+  test-no-head-sha:
+    runs-on: ubuntu-latest
+    name: Test changed-files missing head sha
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v2
+      
+      - name: Run changed-files with defaults
+        id: changed-files
+        continue-on-error: true
+        uses: ./
+      
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+
   test:
     runs-on: ubuntu-latest
     name: Test changed-files
