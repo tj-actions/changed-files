@@ -1,15 +1,42 @@
 # Changelog
 
-## [v6.2](https://github.com/tj-actions/changed-files/tree/v6.2) (2021-05-17)
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.1...v6.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Added usage link to warning message [\#84](https://github.com/tj-actions/changed-files/pull/84) ([jackton1](https://github.com/jackton1))
+- Update pascalgn/automerge-action action to v0.14.2 [\#83](https://github.com/tj-actions/changed-files/pull/83) ([renovate[bot]](https://github.com/apps/renovate))
+- Update README.md [\#82](https://github.com/tj-actions/changed-files/pull/82) ([jackton1](https://github.com/jackton1))
+
+## [v6.2](https://github.com/tj-actions/changed-files/tree/v6.2) (2021-05-25)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.2)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-25)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.1...v6)
 
 **Fixed bugs:**
 
 - Fixed bug with trailing separator [\#74](https://github.com/tj-actions/changed-files/pull/74) ([jackton1](https://github.com/jackton1))
 
+**Closed issues:**
+
+- Should the Major Issue Version Point to the Latest Minor? [\#79](https://github.com/tj-actions/changed-files/issues/79)
+
 **Merged pull requests:**
 
+- Update test.yml [\#81](https://github.com/tj-actions/changed-files/pull/81) ([jackton1](https://github.com/jackton1))
+- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#80](https://github.com/tj-actions/changed-files/pull/80) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Switch to a docker based action [\#78](https://github.com/tj-actions/changed-files/pull/78) ([jackton1](https://github.com/jackton1))
+- Exit with error when HEAD sha is empty [\#77](https://github.com/tj-actions/changed-files/pull/77) ([jackton1](https://github.com/jackton1))
+- Upgraded to v6.2 [\#76](https://github.com/tj-actions/changed-files/pull/76) ([jackton1](https://github.com/jackton1))
 - Remove unused line [\#75](https://github.com/tj-actions/changed-files/pull/75) ([jackton1](https://github.com/jackton1))
 - Update action.yml [\#73](https://github.com/tj-actions/changed-files/pull/73) ([jackton1](https://github.com/jackton1))
 - Update README.md [\#72](https://github.com/tj-actions/changed-files/pull/72) ([jackton1](https://github.com/jackton1))
@@ -19,7 +46,7 @@
 
 ## [v6.1](https://github.com/tj-actions/changed-files/tree/v6.1) (2021-05-16)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.3...v6.1)
 
 **Fixed bugs:**
 
@@ -27,24 +54,13 @@
 
 **Closed issues:**
 
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+- Improve test coverage [\#54](https://github.com/tj-actions/changed-files/issues/54)
 
 **Merged pull requests:**
 
 - Fixed bug with any\_changed boolean [\#68](https://github.com/tj-actions/changed-files/pull/68) ([jackton1](https://github.com/jackton1))
 - Update cirrus-actions/rebase action to v1.5 [\#66](https://github.com/tj-actions/changed-files/pull/66) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6 [\#64](https://github.com/tj-actions/changed-files/pull/64) ([jackton1](https://github.com/jackton1))
-
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-14)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.3...v6)
-
-**Closed issues:**
-
-- Improve test coverage [\#54](https://github.com/tj-actions/changed-files/issues/54)
-
-**Merged pull requests:**
-
 - Bump peter-evans/create-pull-request from 3.9.1 to 3.9.2 [\#63](https://github.com/tj-actions/changed-files/pull/63) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Deprecate all\_changed output. [\#62](https://github.com/tj-actions/changed-files/pull/62) ([jackton1](https://github.com/jackton1))
 - Bump peter-evans/create-pull-request from 3 to 3.9.1 [\#61](https://github.com/tj-actions/changed-files/pull/61) ([dependabot[bot]](https://github.com/apps/dependabot))
@@ -84,6 +100,8 @@
 
 - Strip leading whitespaces [\#50](https://github.com/tj-actions/changed-files/pull/50) ([jackton1](https://github.com/jackton1))
 - Upgraded to v5 [\#49](https://github.com/tj-actions/changed-files/pull/49) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#48](https://github.com/tj-actions/changed-files/pull/48) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.3 [\#47](https://github.com/tj-actions/changed-files/pull/47) ([jackton1](https://github.com/jackton1))
 
 ## [v5](https://github.com/tj-actions/changed-files/tree/v5) (2021-05-01)
 
@@ -91,8 +109,6 @@
 
 **Merged pull requests:**
 
-- Update README.md [\#48](https://github.com/tj-actions/changed-files/pull/48) ([jackton1](https://github.com/jackton1))
-- Upgraded to v5.3 [\#47](https://github.com/tj-actions/changed-files/pull/47) ([jackton1](https://github.com/jackton1))
 - Fixed bug with all\_changed when array is empty [\#46](https://github.com/tj-actions/changed-files/pull/46) ([jackton1](https://github.com/jackton1))
 - Upgraded to v5.2 [\#45](https://github.com/tj-actions/changed-files/pull/45) ([jackton1](https://github.com/jackton1))
 - Upgraded to v5.1 [\#44](https://github.com/tj-actions/changed-files/pull/44) ([jackton1](https://github.com/jackton1))
