@@ -16,7 +16,7 @@ fi
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::warning::Unable to determine the head sha"
-  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'"
+  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
 fi
 
