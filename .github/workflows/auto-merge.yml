@@ -19,7 +19,7 @@ jobs:
       - name: automerge
         uses: pascalgn/automerge-action@v0.14.2
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
           MERGE_METHOD: "rebase"
           UPDATE_METHOD: "rebase"
           MERGE_RETRIES: "6"
