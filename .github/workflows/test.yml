@@ -22,9 +22,18 @@ jobs:
         continue-on-error: true
         uses: ./
       
-      - name: Show output
+      - name: Show output on success
+        if: success()
+        run: |
+          echo "Expected previous step to fail"
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+          exit 1
+      
+      - name: Show output on failure
+        if: failure()
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+          
 
   test:
     runs-on: ubuntu-latest
