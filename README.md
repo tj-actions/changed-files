@@ -148,7 +148,7 @@ jobs:
             test.txt
             new.txt
             test_directory
-            .(py|jpeg)$   
+            .(png|jpeg)$   
             .(sql)$
             ^(mynewfile|custom)
 
