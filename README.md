@@ -5,18 +5,6 @@ changed-files
 
 Retrieve all changed files relative to the default branch (`pull_request*` events) or a previous commit (`push` event).
 
-This includes detecting files that were:
-
-- Added
-- Copied
-- Modified 
-- Deleted 
-- Renamed
-- Type changed 
-- Unmerged   
-- Unknown
-
-
 
 ## Features
 - List all files that have changed
@@ -28,8 +16,6 @@ This includes detecting files that were:
 
 
 ## Usage
-
-
 
 > NOTE: :warning:
 > * **IMPORTANT:** For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case. 
