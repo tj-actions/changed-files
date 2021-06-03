@@ -3,7 +3,7 @@
 changed-files
 -------------
 
-Retrieve all changed files relative to the default branch (`pull_request*` events) or a previous commit (`push` event).
+Retrieve all changed files relative to the default branch (`pull_request*` events) or a previous commit (`push` event) returning the **absolute path** to all changed files from the project root.
 
 
 ## Features
@@ -71,16 +71,16 @@ jobs:
 |   Output             |    type      |  example                       |         description                      |
 |:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
 | any_changed          |  `string`     |     `true` OR `false`             |  Returns `true` when any of the filenames provided using the `files` input has changed |
-| all_modified_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all modified files <br /> i.e *a combination of all added, <br />copied and modified files (ACM).*  |
-| all_changed_files   |  `string`    |    `'new.txt other.png ...'`     |  Select all paths (*) <br /> i.e *a combination of all options below.*  |
-| added_files         |  `string`    |    `'new.txt other.png ...'`    |  Select only files that are Added (A)    |
-| copied_files        |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Copied (C)   |
-| deleted_files       |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Deleted (D)  |
-| modified_files      |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Modified (M) |
-| renamed_files       |  `string`    |    `'new.txt other.png ...'`    |  Select only files that are Renamed (R)  |
-| changed_files       |  `string`    |    `'new.txt other.png ...'`     |  Select only files that have their file type changed (T) |
-| unmerged_files      |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Unmerged (U) |
-| unknown_files       |  `string`    |    `'new.txt other.png ...'`     |  Select only files that are Unknown (X)  |
+| all_modified_files   |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select all modified files <br /> i.e *a combination of all added, <br />copied and modified files (ACM).*  |
+| all_changed_files   |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select all paths (*) <br /> i.e *a combination of all options below.*  |
+| added_files         |  `string`    |    `'new.txt path/to/file.png ...'`    |  Select only files that are Added (A)    |
+| copied_files        |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Copied (C)   |
+| deleted_files       |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Deleted (D)  |
+| modified_files      |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Modified (M) |
+| renamed_files       |  `string`    |    `'new.txt path/to/file.png ...'`    |  Select only files that are Renamed (R)  |
+| changed_files       |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that have their file type changed (T) |
+| unmerged_files      |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Unmerged (U) |
+| unknown_files       |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Unknown (X)  |
 
 
 ## Inputs
