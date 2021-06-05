@@ -175,9 +175,7 @@ jobs:
 ![Screen Shot 2021-06-03 at 7 01 57 AM](https://user-images.githubusercontent.com/17484350/120634754-9f510880-c439-11eb-9e7b-5184bd8f7939.png)
 
 
-
 * Free software: [MIT license](LICENSE)
-
 
 If you feel generous and want to show some extra appreciation:
 
