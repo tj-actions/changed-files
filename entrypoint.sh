@@ -6,7 +6,11 @@ git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY
 
 echo "Getting HEAD info..."
 
-CURR_SHA=$(git rev-parse HEAD 2>&1) && exit_status=$? || exit_status=$?
+if [[ -z $GITHUB_SHA ]]; then
+  CURR_SHA=$(git rev-parse HEAD 2>&1) && exit_status=$? || exit_status=$?
+else
+  CURR_SHA=$GITHUB_SHA
+fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
   PREV_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
