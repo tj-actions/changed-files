@@ -13,6 +13,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "monoxgas",
+      "name": "Nick Landers",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1223016?v=4",
+      "profile": "https://github.com/monoxgas",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
