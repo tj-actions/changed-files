@@ -1,12 +1,31 @@
 # Changelog
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
+- Request: Option to Output Whole File Path [\#88](https://github.com/tj-actions/changed-files/issues/88)
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Clean up debug message [\#93](https://github.com/tj-actions/changed-files/pull/93) ([jackton1](https://github.com/jackton1))
+- Make the changes between two commits more explicit [\#92](https://github.com/tj-actions/changed-files/pull/92) ([monoxgas](https://github.com/monoxgas))
+- Updated README.md [\#91](https://github.com/tj-actions/changed-files/pull/91) ([jackton1](https://github.com/jackton1))
+- Punctuation [\#90](https://github.com/tj-actions/changed-files/pull/90) ([jsoref](https://github.com/jsoref))
+- Update README.md [\#89](https://github.com/tj-actions/changed-files/pull/89) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
@@ -16,11 +35,7 @@
 
 ## [v6.2](https://github.com/tj-actions/changed-files/tree/v6.2) (2021-05-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.2)
-
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-25)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.1...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.1...v6.2)
 
 **Fixed bugs:**
 
