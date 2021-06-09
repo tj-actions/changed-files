@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "jsoref",
+      "name": "Josh Soref",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2119212?v=4",
+      "profile": "https://github.com/jsoref",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "changed-files",
+  "projectOwner": "tj-actions",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
