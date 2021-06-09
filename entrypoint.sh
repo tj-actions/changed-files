@@ -36,7 +36,7 @@ else
   fi
 fi
 
-echo "Retrieving changes between head sha: $PREV_SHA -> $CURR_SHA"
+echo "Retrieving changes between $PREV_SHA → $CURR_SHA"
 
 if [[ -z "$INPUT_FILES" ]]; then
   echo "Getting diff..."
