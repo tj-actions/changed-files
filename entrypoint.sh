@@ -4,14 +4,20 @@ set -e
 
 git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
 
-echo "Getting head sha..."
+echo "Getting HEAD info..."
+
+if [[ -z $GITHUB_SHA ]]; then
+  CURR_SHA=$(git rev-parse HEAD 2>&1) && exit_status=$? || exit_status=$?
+else
+  CURR_SHA=$GITHUB_SHA
+fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
-  HEAD_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
+  PREV_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
 else
   TARGET_BRANCH=${GITHUB_BASE_REF}
   git fetch --depth=1 origin "${TARGET_BRANCH}":"${TARGET_BRANCH}"
-  HEAD_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
+  PREV_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
 fi
 
 if [[ $exit_status -ne 0 ]]; then
@@ -20,20 +26,20 @@ if [[ $exit_status -ne 0 ]]; then
   exit 1
 fi
 
-echo "Using head sha: $HEAD_SHA..."
+echo "Diffing changes between $PREV_SHA -> $CURR_SHA"
 
 if [[ -z "$INPUT_FILES" ]]; then
   echo "Getting diff..."
-  ADDED=$(git diff --diff-filter=A --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  COPIED=$(git diff --diff-filter=C --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  DELETED=$(git diff --diff-filter=D --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  MODIFIED=$(git diff --diff-filter=M --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  RENAMED=$(git diff --diff-filter=R --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  CHANGED=$(git diff --diff-filter=T --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  UNMERGED=$(git diff --diff-filter=U --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  UNKNOWN=$(git diff --diff-filter=X --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  ADDED=$(git diff --diff-filter=A --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  COPIED=$(git diff --diff-filter=C --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  DELETED=$(git diff --diff-filter=D --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  MODIFIED=$(git diff --diff-filter=M --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  RENAMED=$(git diff --diff-filter=R --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  CHANGED=$(git diff --diff-filter=T --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  UNMERGED=$(git diff --diff-filter=U --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  UNKNOWN=$(git diff --diff-filter=X --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
 else
   ADDED_ARRAY=()
   COPIED_ARRAY=()
@@ -50,25 +56,25 @@ else
     echo "Checking for file changes: \"${path}\"..."
     IFS=" "
     # shellcheck disable=SC2207
-    ADDED_ARRAY+=($(git diff --diff-filter=A --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    ADDED_ARRAY+=($(git diff --diff-filter=A --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    COPIED_ARRAY+=($(git diff --diff-filter=C --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    COPIED_ARRAY+=($(git diff --diff-filter=C --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    DELETED_ARRAY+=($(git diff --diff-filter=D --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    DELETED_ARRAY+=($(git diff --diff-filter=D --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    MODIFIED_ARRAY+=($(git diff --diff-filter=M --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    MODIFIED_ARRAY+=($(git diff --diff-filter=M --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    RENAMED_ARRAY+=($(git diff --diff-filter=R --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    RENAMED_ARRAY+=($(git diff --diff-filter=R --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    CHANGED_ARRAY+=($(git diff --diff-filter=T --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    CHANGED_ARRAY+=($(git diff --diff-filter=T --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    UNMERGED_ARRAY+=($(git diff --diff-filter=U --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    UNMERGED_ARRAY+=($(git diff --diff-filter=U --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    UNKNOWN_ARRAY+=($(git diff --diff-filter=X --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    UNKNOWN_ARRAY+=($(git diff --diff-filter=X --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    ALL_CHANGED_ARRAY+=($(git diff --diff-filter="*ACDMRTUX" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    ALL_CHANGED_ARRAY+=($(git diff --diff-filter="*ACDMRTUX" --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
     # shellcheck disable=SC2207
-    ALL_MODIFIED_FILES_ARRAY+=($(git diff --diff-filter="ACM" --name-only "$HEAD_SHA" | grep -E "(${path})" | xargs || true))
+    ALL_MODIFIED_FILES_ARRAY+=($(git diff --diff-filter="ACM" --name-only "$PREV_SHA" "$CURR_SHA" | grep -E "(${path})" | xargs || true))
   done
 
   # shellcheck disable=SC2001
