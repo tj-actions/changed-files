@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "monoxgas",
+      "name": "Nick Landers",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1223016?v=4",
+      "profile": "https://github.com/monoxgas",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "changed-files",
+  "projectOwner": "tj-actions",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
