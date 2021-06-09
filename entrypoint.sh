@@ -12,21 +12,31 @@ else
   CURR_SHA=$GITHUB_SHA
 fi
 
+if [[ $exit_status -ne 0 ]]; then
+  echo "::warning::Unable to determine the current head sha"
+  exit 1
+fi
+
 if [[ -z $GITHUB_BASE_REF ]]; then
   PREV_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
+  
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::warning::Unable to determine the previous commit sha"
+    echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+    exit 1
+  fi
 else
   TARGET_BRANCH=${GITHUB_BASE_REF}
   git fetch --depth=1 origin "${TARGET_BRANCH}":"${TARGET_BRANCH}"
   PREV_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
+  
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::warning::Unable to determine the base ref sha for ${TARGET_BRANCH}"
+    exit 1
+  fi
 fi
 
-if [[ $exit_status -ne 0 ]]; then
-  echo "::warning::Unable to determine the head sha"
-  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
-  exit 1
-fi
-
-echo "Diffing changes between $PREV_SHA -> $CURR_SHA"
+echo "Retrieving changes between head sha: $PREV_SHA -> $CURR_SHA"
 
 if [[ -z "$INPUT_FILES" ]]; then
   echo "Getting diff..."
