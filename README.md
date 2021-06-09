@@ -7,8 +7,8 @@ Retrieve all changed files relative to the default branch (`pull_request*` event
 
 
 ## Features
-- List all files that have changed
-  - Between the current pull request branch and the default branch
+- List all files that have changed.
+  - Between the current pull request branch and the default branch.
   - Between the last commit and the current pushed change.
 - Restrict change detection to a subset of files.
   - Report on files that have at least one change.
@@ -60,7 +60,7 @@ jobs:
 |:---------:|:------------:|
 | A         | Added        |
 | C         | Copied       |
-| M         | Modified.    |
+| M         | Modified     |
 | D         | Deleted      |
 | R         | Renamed      |
 | T         | Type changed |
@@ -68,29 +68,28 @@ jobs:
 | X         | Unknown      |
 
 
-|   Output             |    type      |  example                       |         description                      |
-|:-------------------:|:------------:|:------------------------------:|:----------------------------------------:|
-| any_changed          |  `string`     |     `true` OR `false`             |  Returns `true` when any of the filenames provided using the `files` input has changed |
-| all_modified_files   |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select all modified files <br /> i.e *a combination of all added, <br />copied and modified files (ACM).*  |
-| all_changed_files   |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select all paths (*) <br /> i.e *a combination of all options below.*  |
-| added_files         |  `string`    |    `'new.txt path/to/file.png ...'`    |  Select only files that are Added (A)    |
-| copied_files        |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Copied (C)   |
-| deleted_files       |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Deleted (D)  |
-| modified_files      |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Modified (M) |
-| renamed_files       |  `string`    |    `'new.txt path/to/file.png ...'`    |  Select only files that are Renamed (R)  |
-| changed_files       |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that have their file type changed (T) |
-| unmerged_files      |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Unmerged (U) |
-| unknown_files       |  `string`    |    `'new.txt path/to/file.png ...'`     |  Select only files that are Unknown (X)  |
+|   Output             |    type      |  example                           |         description                      |
+|:--------------------:|:------------:|:----------------------------------:|:----------------------------------------:|
+| any_changed          |  `string`    |  `true` OR `false`                 |  Returns `true` when any of the filenames provided using the `files` input has changed |
+| all_modified_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all modified files <br /> i.e. *a combination of all added, <br />copied and modified files (ACM).*  |
+| all_changed_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all paths (*) <br /> i.e. *a combination of all options below.*  |
+| added_files          |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Added (A)    |
+| copied_files         |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Copied (C)   |
+| deleted_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Deleted (D)  |
+| modified_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Modified (M) |
+| renamed_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Renamed (R)  |
+| changed_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that have their file type changed (T) | 
+| unmerged_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unmerged (U) |
+| unknown_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unknown (X)  |
 
 
 ## Inputs
 
 |   Input       |    type    |  required      |  default                      |  description  |
-|:-------------:|:-----------:|:-------------:|:----------------------------:|:-------------:|
-| token         |  `string`   |    `false`    | `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
-| separator         |  `string`   |    `true` |                          `' '` |  Output string separator   |
+|:-------------:|:-----------:|:-------------:|:-----------------------------:|:-------------:|
+| token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
+| separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
 | files         |  `string` OR `string[]`   |    `false` |                           |  Restricted list <br> or string of specific <br> files or filename <br> to watch for changes |
-
 
 ## Example
 
