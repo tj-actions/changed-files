@@ -17,7 +17,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` event
     *   Between the last commit and the current pushed change.
 *   Restrict change detection to a subset of files.
     *   Report on files that have at least one change.
-    *   Regex pattern matching on a subset of files.
+    *   [Regex pattern](https://www.gnu.org/software/grep/manual/grep.html#Regular-Expressions) matching on a subset of files.
 
 ## Usage
 
