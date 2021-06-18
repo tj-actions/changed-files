@@ -1,12 +1,16 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v8.1](https://github.com/tj-actions/changed-files/tree/v8.1) (2021-06-18)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8...v8.1)
+
+**Closed issues:**
+
+- Rename changed\_files -\> type\_changed\_files [\#105](https://github.com/tj-actions/changed-files/issues/105)
 
 **Merged pull requests:**
 
-- Updated README.md [\#103](https://github.com/tj-actions/changed-files/pull/103) ([jackton1](https://github.com/jackton1))
+- Rename changed\_files to type\_changed\_files [\#109](https://github.com/tj-actions/changed-files/pull/109) ([jackton1](https://github.com/jackton1))
 
 ## [v8](https://github.com/tj-actions/changed-files/tree/v8) (2021-06-18)
 
@@ -20,6 +24,11 @@
 
 **Merged pull requests:**
 
+- Fixed missing env variables [\#108](https://github.com/tj-actions/changed-files/pull/108) ([jackton1](https://github.com/jackton1))
+- Add macos to test. [\#107](https://github.com/tj-actions/changed-files/pull/107) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#106](https://github.com/tj-actions/changed-files/pull/106) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8 [\#104](https://github.com/tj-actions/changed-files/pull/104) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#103](https://github.com/tj-actions/changed-files/pull/103) ([jackton1](https://github.com/jackton1))
 - Add support for multiple platforms [\#102](https://github.com/tj-actions/changed-files/pull/102) ([jackton1](https://github.com/jackton1))
 - Update alpine Docker tag to v3.14.0 [\#99](https://github.com/tj-actions/changed-files/pull/99) ([renovate[bot]](https://github.com/apps/renovate))
 - Updated README.md [\#98](https://github.com/tj-actions/changed-files/pull/98) ([jackton1](https://github.com/jackton1))
@@ -29,7 +38,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -45,13 +54,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
