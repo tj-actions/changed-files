@@ -63,7 +63,7 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
-        INPUT_TOKEN: ${{ inputs.github_token }}
+        INPUT_TOKEN: ${{ inputs.token }}
         INPUT_FILES: ${{ inputs.files }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
 
