@@ -40,6 +40,8 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
 
   test:
     name: Test changed-files
@@ -60,15 +62,21 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
       - name: List all modified files
         run: |
           for file in "${{ steps.changed-files.outputs.modified_files }}"; do
             echo $file
           done
+        shell:
+          bash
       - name: Run step when README.md changes
         if: contains(steps.changed-files.outputs.modified_files, 'README.md')
         run: |
           echo "Your README.md has been modified ${{ steps.changed-files.outputs.modified_files }}."
+        shell:
+          bash
       - name: Run changed-files with comma separator
         id: changed-files-comma
         uses: ./
@@ -77,6 +85,8 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+        shell:
+          bash
       - name: Run changed-files with specific files
         id: changed-files-specific
         uses: ./
@@ -91,9 +101,13 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
             exit 1
           fi
+        shell:
+          bash
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+        shell:
+          bash
       - name: Run changed-files with specific files comma separator
         id: changed-files-specific-comma
         uses: ./
@@ -109,6 +123,10 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
             exit 1
           fi
+        shell:
+          bash
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
+        shell:
+          bash
