@@ -32,7 +32,6 @@ Retrieve all changed files relative to the default branch (`pull_request*` event
 > *   **IMPORTANT:** For `push` events to work you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   When using `persist-credentials: false` with `actions/checkout@v2` you'll need to specify a `token` using the `token` input.
 
-
 ```yaml
 name: CI
 
