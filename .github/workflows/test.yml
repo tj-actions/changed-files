@@ -24,7 +24,7 @@ jobs:
     name: Test changed-files missing head sha
     runs-on: ${{ matrix.platform }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
 
@@ -45,7 +45,7 @@ jobs:
     name: Test changed-files
     runs-on: ${{ matrix.platform }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
 
