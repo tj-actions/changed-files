@@ -18,37 +18,37 @@ inputs:
 outputs:
   added_files:
     description: List of added files.
-    value: ${{ steps.changed_files.outputs.added_files }}
+    value: ${{ steps.changed-files.outputs.added_files }}
   copied_files:
     description: List of copied files.
-    value: ${{ steps.changed_files.outputs.copied_files }}
+    value: ${{ steps.changed-files.outputs.copied_files }}
   deleted_files:
     description: List of deleted files.
-    value: ${{ steps.changed_files.outputs.deleted_files }}
+    value: ${{ steps.changed-files.outputs.deleted_files }}
   modified_files:
     description: List of modified files.
-    value: ${{ steps.changed_files.outputs.modified_files }}
+    value: ${{ steps.changed-files.outputs.modified_files }}
   renamed_files:
     description: List of renamed files.
-    value: ${{ steps.changed_files.outputs.renamed_files }}
+    value: ${{ steps.changed-files.outputs.renamed_files }}
   changed_files:
     description: List of changed files.
-    value: ${{ steps.changed_files.outputs.changed_files }}
+    value: ${{ steps.changed-files.outputs.changed_files }}
   unmerged_files:
     description: List of unmerged files.
-    value: ${{ steps.changed_files.outputs.unmerged_files }}
+    value: ${{ steps.changed-files.outputs.unmerged_files }}
   unknown_files:
     description: List of unknown files.
-    value: ${{ steps.changed_files.outputs.unknown_files }}
+    value: ${{ steps.changed-files.outputs.unknown_files }}
   all_changed_files:
     description: List of all changed files.
-    value: ${{ steps.changed_files.outputs.all_changed_files }}
+    value: ${{ steps.changed-files.outputs.all_changed_files }}
   all_modified_files:
     description: List of all copied modified and added files.
-    value: ${{ steps.changed_files.outputs.all_modified_files }}
+    value: ${{ steps.changed-files.outputs.all_modified_files }}
   any_changed:
     description: Return true only when any files provided using the files input have changed.
-    value: ${{ steps.changed_files.outputs.any_changed }}
+    value: ${{ steps.changed-files.outputs.any_changed }}
 
 runs:
   using: 'composite'
