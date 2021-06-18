@@ -53,7 +53,8 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - run: $GITHUB_ACTION_PATH/entrypoint.sh | bash
+    - run: |
+        bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
       shell: bash
       env:
