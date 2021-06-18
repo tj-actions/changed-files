@@ -51,7 +51,8 @@ if [[ -z "$INPUT_FILES" ]]; then
   ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
   ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
 else
-  echo "Changes detection restricted to: \n$INPUT_FILES"
+  echo "Changes detection restricted to:"
+  echo "$INPUT_FILES"
   ADDED_ARRAY=()
   COPIED_ARRAY=()
   DELETED_ARRAY=()
