@@ -58,6 +58,9 @@ runs:
       id: changed-files
       shell: bash
       env:
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_BASE_REF: ${{ github.base_ref }}
+        GITHUB_REPOSITORY: ${{ githu.repository }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_TOKEN: ${{ inputs.github_token }}
