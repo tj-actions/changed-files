@@ -1,5 +1,32 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8...HEAD)
+
+**Merged pull requests:**
+
+- Updated README.md [\#103](https://github.com/tj-actions/changed-files/pull/103) ([jackton1](https://github.com/jackton1))
+
+## [v8](https://github.com/tj-actions/changed-files/tree/v8) (2021-06-18)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v7...v8)
+
+**Closed issues:**
+
+- support windows-latest [\#101](https://github.com/tj-actions/changed-files/issues/101)
+- issues with failed getting changed files [\#100](https://github.com/tj-actions/changed-files/issues/100)
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Add support for multiple platforms [\#102](https://github.com/tj-actions/changed-files/pull/102) ([jackton1](https://github.com/jackton1))
+- Update alpine Docker tag to v3.14.0 [\#99](https://github.com/tj-actions/changed-files/pull/99) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#98](https://github.com/tj-actions/changed-files/pull/98) ([jackton1](https://github.com/jackton1))
+- docs: add monoxgas as a contributor for code [\#97](https://github.com/tj-actions/changed-files/pull/97) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- docs: add jsoref as a contributor for doc [\#96](https://github.com/tj-actions/changed-files/pull/96) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Upgraded to v7 [\#94](https://github.com/tj-actions/changed-files/pull/94) ([jackton1](https://github.com/jackton1))
+
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
@@ -7,7 +34,6 @@
 **Closed issues:**
 
 - Request: Option to Output Whole File Path [\#88](https://github.com/tj-actions/changed-files/issues/88)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
