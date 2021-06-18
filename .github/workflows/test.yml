@@ -10,9 +10,24 @@ on:
       - main
 
 jobs:
-  test-no-head-sha:
+  shellcheck:
+    name: Run shellcheck
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v2
+      - name: shellcheck
+        uses: reviewdog/action-shellcheck@v1.5
+
+  test-no-head-sha:
     name: Test changed-files missing head sha
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v2
@@ -25,32 +40,43 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
 
   test:
-    runs-on: ubuntu-latest
     name: Test changed-files
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1.5
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
       - name: List all modified files
         run: |
           for file in "${{ steps.changed-files.outputs.modified_files }}"; do
             echo $file
           done
+        shell:
+          bash
       - name: Run step when README.md changes
         if: contains(steps.changed-files.outputs.modified_files, 'README.md')
         run: |
           echo "Your README.md has been modified ${{ steps.changed-files.outputs.modified_files }}."
+        shell:
+          bash
       - name: Run changed-files with comma separator
         id: changed-files-comma
         uses: ./
@@ -59,6 +85,8 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+        shell:
+          bash
       - name: Run changed-files with specific files
         id: changed-files-specific
         uses: ./
@@ -73,9 +101,13 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
             exit 1
           fi
+        shell:
+          bash
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+        shell:
+          bash
       - name: Run changed-files with specific files comma separator
         id: changed-files-specific-comma
         uses: ./
@@ -91,6 +123,10 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
             exit 1
           fi
+        shell:
+          bash
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
+        shell:
+          bash
