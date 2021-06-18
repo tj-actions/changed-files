@@ -54,7 +54,7 @@ jobs:
       
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v7
+        uses: tj-actions/changed-files@v8
       
       - name: List all modified files
         run: |
@@ -107,11 +107,11 @@ jobs:
 
       - name: Get changed files using defaults
         id: changed-files
-        uses: tj-actions/changed-files@v7
+        uses: tj-actions/changed-files@v8
       
       - name: Get changed files using a comma separator
         id: changed-files-comma
-        uses: tj-actions/changed-files@v7
+        uses: tj-actions/changed-files@v8
         with:
           separator: ","
 
@@ -133,7 +133,7 @@ jobs:
 
       - name: Get specific changed files
         id: changed-files-specific
-        uses: tj-actions/changed-files@v7
+        uses: tj-actions/changed-files@v8
         with:
           files: |
             my-file.txt
@@ -162,7 +162,7 @@ jobs:
       
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v7
+        uses: tj-actions/changed-files@v8
 
       - name: Pre-commit
         uses: pre-commit/action@v2.0.0
