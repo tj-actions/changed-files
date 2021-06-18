@@ -45,7 +45,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
       - uses: actions/checkout@v2
