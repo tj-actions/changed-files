@@ -31,9 +31,9 @@ outputs:
   renamed_files:
     description: List of renamed files.
     value: ${{ steps.changed-files.outputs.renamed_files }}
-  changed_files:
-    description: List of changed files.
-    value: ${{ steps.changed-files.outputs.changed_files }}
+  type_changed_files:
+    description: List of files that had type changes.
+    value: ${{ steps.changed-files.outputs.type_changed_files }}
   unmerged_files:
     description: List of unmerged files.
     value: ${{ steps.changed-files.outputs.unmerged_files }}
