@@ -11,7 +11,7 @@ inputs:
     required: true
     default: " "
   files:
-    description: 'Check for file changes for all files listed (Defaults to the entire repo)'
+    description: 'Check for changes using only this list of files (Defaults to the entire repo)'
     required: false
     default: ""
 
