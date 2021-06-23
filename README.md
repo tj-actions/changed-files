@@ -11,6 +11,7 @@
 Retrieve all changed files relative to the default branch (`pull_request*` based events) or a previous commit (`push` based event) returning the **absolute path** to all changed files from the project root.
 
 ## Features
+
 *   Boolean output indicating that certain files have been modified.
 *   List all files that have changed.
     *   Between the current pull request branch and the default branch.
