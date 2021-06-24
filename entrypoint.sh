@@ -36,7 +36,7 @@ else
   fi
 fi
 
-echo "Retrieving changes between $PREV_SHA → $CURR_SHA"
+echo "Retrieving changes between $PREV_SHA ($TARGET_BRANCH) ← $CURR_SHA ($GITHUB_HEAD_REF)"
 
 if [[ -z "$INPUT_FILES" ]]; then
   echo "Getting diff..."
