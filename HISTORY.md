@@ -1,5 +1,20 @@
 # Changelog
 
+## [v8.2](https://github.com/tj-actions/changed-files/tree/v8.2) (2021-06-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.1...v8.2)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Update arrow direction and added branch information [\#113](https://github.com/tj-actions/changed-files/pull/113) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#112](https://github.com/tj-actions/changed-files/pull/112) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/verify-changed-files action to v7 [\#111](https://github.com/tj-actions/changed-files/pull/111) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v8.1 [\#110](https://github.com/tj-actions/changed-files/pull/110) ([jackton1](https://github.com/jackton1))
+
 ## [v8.1](https://github.com/tj-actions/changed-files/tree/v8.1) (2021-06-18)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8...v8.1)
@@ -20,7 +35,6 @@
 
 - support windows-latest [\#101](https://github.com/tj-actions/changed-files/issues/101)
 - issues with failed getting changed files [\#100](https://github.com/tj-actions/changed-files/issues/100)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
