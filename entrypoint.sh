@@ -19,6 +19,8 @@ fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
   PREV_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
+  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
+  CURRENT_BRANCH=$TARGET_BRANCH
   
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the previous commit sha"
@@ -27,6 +29,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   fi
 else
   TARGET_BRANCH=${GITHUB_BASE_REF}
+  CURRENT_BRANCH=$GITHUB_HEAD_REF
   git fetch --depth=1 origin "${TARGET_BRANCH}":"${TARGET_BRANCH}"
   PREV_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
   
@@ -36,7 +39,7 @@ else
   fi
 fi
 
-echo "Retrieving changes between $PREV_SHA ($TARGET_BRANCH) ← $CURR_SHA ($GITHUB_HEAD_REF)"
+echo "Retrieving changes between $PREV_SHA ($TARGET_BRANCH) ← $CURR_SHA ($CURRENT_BRANCH)"
 
 if [[ -z "$INPUT_FILES" ]]; then
   echo "Getting diff..."
