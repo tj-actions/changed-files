@@ -1,5 +1,14 @@
 # Changelog
 
+## [v8.3](https://github.com/tj-actions/changed-files/tree/v8.3) (2021-06-25)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.2...v8.3)
+
+**Merged pull requests:**
+
+- Fixed empty branch name in debug message [\#115](https://github.com/tj-actions/changed-files/pull/115) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.2 [\#114](https://github.com/tj-actions/changed-files/pull/114) ([jackton1](https://github.com/jackton1))
+
 ## [v8.2](https://github.com/tj-actions/changed-files/tree/v8.2) (2021-06-24)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.1...v8.2)
