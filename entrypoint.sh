@@ -2,6 +2,8 @@
 
 set -e
 
+echo "::group::changed-files"
+
 git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
 
 echo "Getting HEAD info..."
@@ -146,3 +148,5 @@ echo "::set-output name=unmerged_files::$UNMERGED"
 echo "::set-output name=unknown_files::$UNKNOWN"
 echo "::set-output name=all_changed_files::$ALL_CHANGED"
 echo "::set-output name=all_modified_files::$ALL_MODIFIED_FILES"
+
+echo "::endgroup::"
