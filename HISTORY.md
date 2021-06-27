@@ -1,5 +1,19 @@
 # Changelog
 
+## [v8.4](https://github.com/tj-actions/changed-files/tree/v8.4) (2021-06-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.3...v8.4)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Update reviewdog/action-shellcheck action to v1.6 [\#118](https://github.com/tj-actions/changed-files/pull/118) ([renovate[bot]](https://github.com/apps/renovate))
+- Add message grouping [\#117](https://github.com/tj-actions/changed-files/pull/117) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.3 [\#116](https://github.com/tj-actions/changed-files/pull/116) ([jackton1](https://github.com/jackton1))
+
 ## [v8.3](https://github.com/tj-actions/changed-files/tree/v8.3) (2021-06-25)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.2...v8.3)
@@ -12,10 +26,6 @@
 ## [v8.2](https://github.com/tj-actions/changed-files/tree/v8.2) (2021-06-24)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.1...v8.2)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
