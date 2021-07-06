@@ -41,7 +41,7 @@ else
   fi
 fi
 
-echo "Retrieving changes between $PREV_SHA ($TARGET_BRANCH) ← $CURR_SHA ($CURRENT_BRANCH)"
+echo "Retrieving changes between $PREV_SHA ($TARGET_BRANCH) → $CURR_SHA ($CURRENT_BRANCH)"
 
 if [[ -z "$INPUT_FILES" ]]; then
   echo "Getting diff..."
