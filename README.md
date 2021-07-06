@@ -174,7 +174,8 @@ jobs:
 
 ## Example
 
-![Screen Shot 2021-05-13 at 4 55 30 PM](https://user-images.githubusercontent.com/17484350/118186772-1cc1c400-b40c-11eb-8fe8-b651e674ce96.png)
+![Screen Shot 2021-07-06 at 2 50 23 PM](https://user-images.githubusercontent.com/17484350/124651978-96ed5280-de69-11eb-86d5-396a4c1a980f.png)
+
 
 ![Screen Shot 2021-07-06 at 2 46 00 PM](https://user-images.githubusercontent.com/17484350/124651480-f8f98800-de68-11eb-954c-6c0e09a9de6d.png)
 
