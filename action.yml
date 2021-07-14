@@ -15,9 +15,9 @@ inputs:
     required: false
     default: ""
   sha:
-    description: 'Commit sha'
-    required: false
-    default: ""
+    description: 'Specify a different commit SHA to be used for comparing changes'
+    required: true
+    default: ${{ github.sha }}
 
 outputs:
   added_files:
@@ -58,8 +58,6 @@ runs:
   using: 'composite'
   steps:
     - run: |
-        # Override GITHUB_SHA if we have inputs.sha
-        export GITHUB_SHA=${{ inputs.sha != '' && inputs.sha || github.sha }}
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
       shell: bash
@@ -68,6 +66,7 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
+        INPUT_SHA: ${{ inputs.sha }}
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_FILES: ${{ inputs.files }}
         INPUT_SEPARATOR: ${{ inputs.separator }}

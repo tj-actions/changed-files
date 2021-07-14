@@ -8,10 +8,10 @@ git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY
 
 echo "Getting HEAD info..."
 
-if [[ -z $GITHUB_SHA ]]; then
+if [[ -z $INPUT_SHA ]]; then
   CURR_SHA=$(git rev-parse HEAD 2>&1) && exit_status=$? || exit_status=$?
 else
-  CURR_SHA=$GITHUB_SHA
+  CURR_SHA=$INPUT_SHA
 fi
 
 if [[ $exit_status -ne 0 ]]; then
