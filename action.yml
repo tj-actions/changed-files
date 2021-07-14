@@ -14,6 +14,10 @@ inputs:
     description: 'Check for changes using only this list of files (Defaults to the entire repo)'
     required: false
     default: ""
+  sha:
+    description: 'Commit sha'
+    required: false
+    default: ""
 
 outputs:
   added_files:
@@ -54,11 +58,12 @@ runs:
   using: 'composite'
   steps:
     - run: |
+        # Override GITHUB_SHA if we have inputs.sha
+        export GITHUB_SHA=${{ inputs.sha != '' && inputs.sha || github.sha }}
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
       shell: bash
       env:
-        GITHUB_SHA: ${{ github.sha }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
