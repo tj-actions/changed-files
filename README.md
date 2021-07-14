@@ -147,6 +147,11 @@ jobs:
          if: steps.changed-files-specific.outputs.any_changed == 'true'
          run: |
            echo "One or more files listed above has changed."
+      - name: Use a different commit SHA as the base
+        id: changed-files-comma
+        uses: tj-actions/changed-files@v8.4
+        with:
+          sha: ${{ github.event.pull_request.head.sha }}
         
 ```
 

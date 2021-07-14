@@ -14,6 +14,10 @@ inputs:
     description: 'Check for changes using only this list of files (Defaults to the entire repo)'
     required: false
     default: ""
+  sha:
+    description: 'Specify a different commit SHA to be used for comparing changes'
+    required: true
+    default: ${{ github.sha }}
 
 outputs:
   added_files:
@@ -58,11 +62,11 @@ runs:
       id: changed-files
       shell: bash
       env:
-        GITHUB_SHA: ${{ github.sha }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
+        INPUT_SHA: ${{ inputs.sha }}
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_FILES: ${{ inputs.files }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
