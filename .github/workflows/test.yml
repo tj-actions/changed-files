@@ -130,3 +130,13 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
         shell:
           bash
+      - name: Run changed-files with custom sha
+        id: changed-files-custom-sha
+        uses: ./
+        with:
+          sha: ${{ github.event.pull_request.head.sha && github.event.pull_request.head.sha || github.sha }}
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-custom-sha.outputs) }}"
+        shell:
+          bash
