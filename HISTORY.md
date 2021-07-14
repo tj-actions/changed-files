@@ -1,5 +1,19 @@
 # Changelog
 
+## [v8.5](https://github.com/tj-actions/changed-files/tree/v8.5) (2021-07-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.4...v8.5)
+
+**Merged pull requests:**
+
+- Updated README.md [\#128](https://github.com/tj-actions/changed-files/pull/128) ([jackton1](https://github.com/jackton1))
+- docs: add Kras4ooo as a contributor for code, doc [\#127](https://github.com/tj-actions/changed-files/pull/127) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Add custom source sha [\#126](https://github.com/tj-actions/changed-files/pull/126) ([Kras4ooo](https://github.com/Kras4ooo))
+- Updated README.md [\#123](https://github.com/tj-actions/changed-files/pull/123) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#122](https://github.com/tj-actions/changed-files/pull/122) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#120](https://github.com/tj-actions/changed-files/pull/120) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.4 [\#119](https://github.com/tj-actions/changed-files/pull/119) ([jackton1](https://github.com/jackton1))
+
 ## [v8.4](https://github.com/tj-actions/changed-files/tree/v8.4) (2021-06-26)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.3...v8.4)
