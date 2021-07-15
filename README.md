@@ -98,7 +98,7 @@ jobs:
 | token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
 | separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
 | files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these list of file(s) <br> (Defaults to the entire repo) |
-| sha           |  `sha`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA used for comparing changes  |
+| sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA used for comparing changes  |
 
 ## Example
 
