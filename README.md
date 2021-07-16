@@ -146,11 +146,12 @@ jobs:
             .(sql)$
             ^(mynewfile|custom)
 
-       - name: Run step if any of the listed files above change
-         if: steps.changed-files-specific.outputs.any_changed == 'true'
-         run: |
-           echo "One or more files listed above has changed."
-      - name: Use a different commit SHA as the base
+      - name: Run step if any of the listed files above change
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files listed above has changed."
+
+      - name: Use a different commit SHA
         id: changed-files-comma
         uses: tj-actions/changed-files@v8.5
         with:
