@@ -133,22 +133,6 @@ jobs:
         if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
           echo "Your test.txt has been deleted."
-      
-      - name: Use a source file or list of file(s) to populate to files input.
-        id: changed-files-specific-source-file
-        uses: ./
-        with:
-          files-from-source-file: |
-            test/changed-files-list.txt
-
-      - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
-        id: changed-files-specific-source-file-and-specify-files
-        uses: ./
-        with:
-          files-from-source-file: |
-            test/changed-files-list.txt
-          files: |
-            .github/workflows/rebase.yml
 
       - name: Get specific changed files
         id: changed-files-specific
@@ -167,6 +151,22 @@ jobs:
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
+      
+            - name: Use a source file or list of file(s) to populate to files input.
+        id: changed-files-specific-source-file
+        uses: ./
+        with:
+          files-from-source-file: |
+            test/changed-files-list.txt
+
+      - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
+        id: changed-files-specific-source-file-and-specify-files
+        uses: ./
+        with:
+          files-from-source-file: |
+            test/changed-files-list.txt
+          files: |
+            .github/workflows/rebase.yml
 
       - name: Use a different commit SHA
         id: changed-files-comma
