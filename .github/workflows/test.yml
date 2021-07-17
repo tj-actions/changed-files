@@ -189,7 +189,7 @@ jobs:
           workflow_id: 'test.yml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run changed-files with a custom base sha
-        id: changed-files-custom-sha
+        id: changed-files-custom-base-sha
         uses: ./
         with:
           base_sha: ${{ steps.last_successful_commit.outputs.commit_hash }}
