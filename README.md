@@ -200,7 +200,8 @@ jobs:
 
 ![Screen Shot 2021-07-06 at 2 50 23 PM](https://user-images.githubusercontent.com/17484350/124651978-96ed5280-de69-11eb-86d5-396a4c1a980f.png)
 
-![Screen Shot 2021-07-06 at 2 46 00 PM](https://user-images.githubusercontent.com/17484350/124651480-f8f98800-de68-11eb-954c-6c0e09a9de6d.png)
+![Screen Shot 2021-07-17 at 10 52 48 AM](https://user-images.githubusercontent.com/17484350/126040772-30b65afb-a6b5-4150-b312-ac2017ba7b98.png)
+
 
 *   Free software: [MIT license](LICENSE)
 
