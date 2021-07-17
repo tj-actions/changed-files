@@ -63,7 +63,7 @@ runs:
     - run: |
         FILES=()
 
-        if [[ -n $INPUT_FILES_FROM_SOURCE_FILE && -z $INPUT_FILES ]]; then
+        if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
           for path in $INPUT_FILES_FROM_SOURCE_FILE
           do
             IFS=" " read -r -a FILES <<< "$(sort -u test/changed-files-list.txt | xargs)"
@@ -87,7 +87,7 @@ runs:
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_SHA: ${{ inputs.sha }}
         INPUT_TOKEN: ${{ inputs.token }}
-        INPUT_FILES: ${{ inputs.files || steps.source-input-files.outputs.files }}
+        INPUT_FILES: ${{ join("${{ inputs.files }} ${{ steps.source-input-files.outputs }}") }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
 
 branding:
