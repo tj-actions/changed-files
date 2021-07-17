@@ -170,7 +170,7 @@ jobs:
             .github/workflows/rebase.yml
 
       - name: Use a different commit SHA
-        id: changed-files-comma
+        id: changed-files-custom-sha
         uses: tj-actions/changed-files@v8.6
         with:
           sha: ${{ github.event.pull_request.head.sha }}
