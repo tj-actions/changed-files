@@ -67,7 +67,7 @@ runs:
         if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
           for file in $INPUT_FILES_FROM_SOURCE_FILE
           do
-            FILES+=$(cat $file | tr "\n" " " | sort -u)
+            FILES+=$(cat $file | sort -u | tr "\n" " " )
           done
         fi
 
