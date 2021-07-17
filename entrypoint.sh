@@ -68,6 +68,7 @@ else
   UNKNOWN_ARRAY=()
   ALL_CHANGED_ARRAY=()
   ALL_MODIFIED_FILES_ARRAY=()
+
   for path in ${UNIQUE_FILES}
   do
     echo "Checking for file changes: \"${path}\"..."
