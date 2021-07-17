@@ -125,7 +125,7 @@ jobs:
           fi
         shell:
           bash
-      - name: Run changed-files with specific files
+      - name: Run changed-files with specific files from a source file
         id: changed-files-specific-source-file
         uses: ./
         with:
@@ -148,7 +148,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
-      - name: Run changed-files with specific files comma separator
+      - name: Run changed-files with specific files from a source file using a comma separator
         id: changed-files-specific-comma-source-file
         uses: ./
         with:
