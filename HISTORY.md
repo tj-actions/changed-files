@@ -1,5 +1,18 @@
 # Changelog
 
+## [v8.7](https://github.com/tj-actions/changed-files/tree/v8.7) (2021-07-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.6...v8.7)
+
+**Implemented enhancements:**
+
+- \[Feature\] Get Changed files since last successful Action run [\#131](https://github.com/tj-actions/changed-files/issues/131)
+
+**Merged pull requests:**
+
+- Added support for a custom base sha. [\#135](https://github.com/tj-actions/changed-files/pull/135) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.6 [\#134](https://github.com/tj-actions/changed-files/pull/134) ([jackton1](https://github.com/jackton1))
+
 ## [v8.6](https://github.com/tj-actions/changed-files/tree/v8.6) (2021-07-17)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.5...v8.6)
