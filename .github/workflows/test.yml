@@ -204,7 +204,6 @@ jobs:
         with:
           files: |
             .github/workflows/test.yml
-            action.yml
       - name: Verify only_changed files
         if: steps.changed-files-specific-only-changed.outputs.other_changed_files != ''
         run: |
