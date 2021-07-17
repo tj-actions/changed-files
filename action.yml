@@ -65,9 +65,9 @@ runs:
         CURRENT_FILES=()
 
         if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
-          for path in $INPUT_FILES_FROM_SOURCE_FILE
+          for file in $INPUT_FILES_FROM_SOURCE_FILE
           do
-            IFS=$'\n' read -d '' -r -a CURRENT_FILES < $path
+            IFS=$'\n' read -d '' -r -a CURRENT_FILES < "$file"
             FILES+=$CURRENT_FILES
           done
         fi
