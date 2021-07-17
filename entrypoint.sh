@@ -56,6 +56,8 @@ if [[ -z "$INPUT_FILES" ]]; then
   ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
   ALL_MODIFIED_FILES=$(git diff --diff-filter="ACM" --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
 else
+  UNIQUE_FILES=$(echo "$INPUT_FILES" | tr ' ' '\n' | sort -u | xargs)
+
   ADDED_ARRAY=()
   COPIED_ARRAY=()
   DELETED_ARRAY=()
@@ -66,7 +68,7 @@ else
   UNKNOWN_ARRAY=()
   ALL_CHANGED_ARRAY=()
   ALL_MODIFIED_FILES_ARRAY=()
-  for path in ${INPUT_FILES}
+  for path in ${UNIQUE_FILES}
   do
     echo "Checking for file changes: \"${path}\"..."
     IFS=" "
