@@ -155,14 +155,14 @@ jobs:
       
       - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
-        uses: ./
+        uses: tj-actions/changed-files@v8.6
         with:
           files_from_source_file: |
             test/changed-files-list.txt
 
       - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
         id: changed-files-specific-source-file-and-specify-files
-        uses: ./
+        uses: tj-actions/changed-files@v8.6
         with:
           files_from_source_file: |
             test/changed-files-list.txt
@@ -174,6 +174,12 @@ jobs:
         uses: tj-actions/changed-files@v8.6
         with:
           sha: ${{ github.event.pull_request.head.sha }}
+          
+      - name: Use a different base SHA
+        id: changed-files-custom-base-sha
+        uses: tj-actions/changed-files@v8.6
+        with:
+          base_sha: "2096ed0"
         
 ```
 
