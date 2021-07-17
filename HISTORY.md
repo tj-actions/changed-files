@@ -1,5 +1,18 @@
 # Changelog
 
+## [v8.8](https://github.com/tj-actions/changed-files/tree/v8.8) (2021-07-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.7...v8.8)
+
+**Implemented enhancements:**
+
+- \[Feature\] Ability to run a workflow if and only if certain file/directory changes [\#124](https://github.com/tj-actions/changed-files/issues/124)
+
+**Merged pull requests:**
+
+- Added support for detecting non specific file changes. [\#137](https://github.com/tj-actions/changed-files/pull/137) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.7 [\#136](https://github.com/tj-actions/changed-files/pull/136) ([jackton1](https://github.com/jackton1))
+
 ## [v8.7](https://github.com/tj-actions/changed-files/tree/v8.7) (2021-07-17)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.6...v8.7)
