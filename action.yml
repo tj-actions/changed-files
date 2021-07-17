@@ -87,7 +87,7 @@ runs:
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_SHA: ${{ inputs.sha }}
         INPUT_TOKEN: ${{ inputs.token }}
-        INPUT_FILES: ${{ join(format('{0} {1}', ${{ inputs.files }}, ${{ steps.source-input-files.outputs }}), ' ') }}
+        INPUT_FILES: ${{ join(format('{0} {1}', inputs.files, steps.source-input-files.outputs), ' ') }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
 
 branding:
