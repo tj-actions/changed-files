@@ -152,7 +152,7 @@ jobs:
         run: |
           echo "One or more files listed above has changed."
       
-            - name: Use a source file or list of file(s) to populate to files input.
+      - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
         uses: ./
         with:
