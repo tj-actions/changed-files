@@ -99,6 +99,7 @@ jobs:
 | separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
 | files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these list of file(s) <br> (Defaults to the entire repo) |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA used for comparing changes  |
+| files-from-source-file |  `string`      |    `false`     |                    | Source file used populate <br>  the files input.  |
 
 ## Example
 
@@ -132,6 +133,22 @@ jobs:
         if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
           echo "Your test.txt has been deleted."
+      
+      - name: Use a source file or list of file(s) to populate to files input.
+        id: changed-files-specific-source-file
+        uses: ./
+        with:
+          files-from-source-file: |
+            test/changed-files-list.txt
+
+      - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
+        id: changed-files-specific-source-file-and-specify-files
+        uses: ./
+        with:
+          files-from-source-file: |
+            test/changed-files-list.txt
+          files: |
+            .github/workflows/rebase.yml
 
       - name: Get specific changed files
         id: changed-files-specific
