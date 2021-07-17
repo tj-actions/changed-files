@@ -195,6 +195,6 @@ jobs:
           base_sha: ${{ steps.last_successful_commit.outputs.commit_hash }}
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-custom-sha.outputs) }}"
+          echo "${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}"
         shell:
           bash
