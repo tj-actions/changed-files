@@ -10,6 +10,10 @@ inputs:
     description: 'Split character for array output'
     required: true
     default: " "
+  files-from-source-file:
+    description: 'Source file to populate the files input'
+    required: false
+    default: ""
   files:
     description: 'Check for changes using only this list of files (Defaults to the entire repo)'
     required: false
@@ -58,6 +62,22 @@ runs:
   using: 'composite'
   steps:
     - run: |
+        FILES=()
+
+        if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
+          for file in $INPUT_FILES_FROM_SOURCE_FILE
+          do
+            FILES+=$(cat $file | sort -u | tr "\n" " " )
+          done
+        fi
+
+        echo "::set-output name=files::$FILES"
+      id: source-input-files
+      shell: bash
+      env:
+        INPUT_FILES: ${{ inputs.files }}
+        INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files-from-source-file }}
+    - run: |
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
       shell: bash
@@ -68,7 +88,7 @@ runs:
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_SHA: ${{ inputs.sha }}
         INPUT_TOKEN: ${{ inputs.token }}
-        INPUT_FILES: ${{ inputs.files }}
+        INPUT_FILES: ${{ join(format('{0} {1}', inputs.files, steps.source-input-files.outputs.files), ' ') }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
 
 branding:

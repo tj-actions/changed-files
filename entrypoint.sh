@@ -43,7 +43,9 @@ fi
 
 echo "Retrieving changes between $PREV_SHA ($TARGET_BRANCH) → $CURR_SHA ($CURRENT_BRANCH)"
 
-if [[ -z "$INPUT_FILES" ]]; then
+UNIQUE_FILES=$(echo "$INPUT_FILES" | tr ' ' '\n' | sort -u | xargs)
+
+if [[ -z "$UNIQUE_FILES" ]]; then
   echo "Getting diff..."
   ADDED=$(git diff --diff-filter=A --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
   COPIED=$(git diff --diff-filter=C --name-only "$PREV_SHA" "$CURR_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
@@ -66,7 +68,8 @@ else
   UNKNOWN_ARRAY=()
   ALL_CHANGED_ARRAY=()
   ALL_MODIFIED_FILES_ARRAY=()
-  for path in ${INPUT_FILES}
+
+  for path in ${UNIQUE_FILES}
   do
     echo "Checking for file changes: \"${path}\"..."
     IFS=" "
@@ -125,9 +128,9 @@ echo "Unknown files: $UNKNOWN"
 echo "All changed files: $ALL_CHANGED"
 echo "All modified files: $ALL_MODIFIED_FILES"
 
-if [[ -n "$INPUT_FILES" ]]; then
+if [[ -n "$UNIQUE_FILES" ]]; then
   # shellcheck disable=SC2001
-  ALL_INPUT_FILES=$(echo "$INPUT_FILES" | tr "\n" " " | xargs)
+  ALL_INPUT_FILES=$(echo "$UNIQUE_FILES" | tr "\n" " " | xargs)
 
   echo "Input files: ${ALL_INPUT_FILES[*]}"
   echo "Matching modified files: ${ALL_MODIFIED_FILES[*]}"

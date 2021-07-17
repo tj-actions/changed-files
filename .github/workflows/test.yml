@@ -125,6 +125,45 @@ jobs:
           fi
         shell:
           bash
+      - name: Run changed-files with specific files from a source file
+        id: changed-files-specific-source-file
+        uses: ./
+        with:
+          files-from-source-file: |
+            test/changed-files-list.txt
+            test/changed-files-list.txt
+          files: |
+            .github/workflows/rebase.yml
+      - name: Verify any_changed files
+        if: "!contains(steps.changed-files-specific.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, '.github/workflows/test.yml')"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+        shell:
+          bash
+      - name: Run changed-files with specific files from a source file using a comma separator
+        id: changed-files-specific-comma-source-file
+        uses: ./
+        with:
+          files-from-source-file: |
+            test/changed-files-list.txt
+          separator: ","
+      - name: Verify any_changed files comma separator
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml')"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
