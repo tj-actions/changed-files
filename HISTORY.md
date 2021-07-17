@@ -1,5 +1,20 @@
 # Changelog
 
+## [v8.6](https://github.com/tj-actions/changed-files/tree/v8.6) (2021-07-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.5...v8.6)
+
+**Implemented enhancements:**
+
+- \[Feature\] Get specific changed files reading a file [\#130](https://github.com/tj-actions/changed-files/issues/130)
+- \[Feature\] Rename `files` -\> `paths` [\#125](https://github.com/tj-actions/changed-files/issues/125)
+
+**Merged pull requests:**
+
+- Updated README.md [\#133](https://github.com/tj-actions/changed-files/pull/133) ([jackton1](https://github.com/jackton1))
+- Added support for retrieving the files input using a source file. [\#132](https://github.com/tj-actions/changed-files/pull/132) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.5 [\#129](https://github.com/tj-actions/changed-files/pull/129) ([jackton1](https://github.com/jackton1))
+
 ## [v8.5](https://github.com/tj-actions/changed-files/tree/v8.5) (2021-07-14)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.4...v8.5)
