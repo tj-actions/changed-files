@@ -62,11 +62,13 @@ runs:
   steps:
     - run: |
         FILES=()
+        CURRENT_FILES=()
 
         if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
           for path in $INPUT_FILES_FROM_SOURCE_FILE
           do
-            IFS=" " read -r -a FILES <<< "$(sort -u $path)"
+            IFS=$'\n' read -d '' -r -a CURRENT_FILES < $path
+            FILES+=$CURRENT_FILES
           done
         fi
 
