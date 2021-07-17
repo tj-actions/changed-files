@@ -10,7 +10,7 @@ inputs:
     description: 'Split character for array output'
     required: true
     default: " "
-  files-from-source-file:
+  files_from_source_file:
     description: 'Source file to populate the files input'
     required: false
     default: ""
@@ -19,9 +19,12 @@ inputs:
     required: false
     default: ""
   sha:
-    description: 'Specify a different commit SHA used for comparing changes'
+    description: 'Specify a current commit SHA used for comparing changes'
     required: true
     default: ${{ github.sha }}
+  base_sha:
+    description: 'Specify a base commit SHA on used for comparing changes'
+    required: false
 
 outputs:
   added_files:
@@ -76,7 +79,7 @@ runs:
       shell: bash
       env:
         INPUT_FILES: ${{ inputs.files }}
-        INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files-from-source-file }}
+        INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files_from_source_file }}
     - run: |
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
@@ -87,6 +90,7 @@ runs:
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_SHA: ${{ inputs.sha }}
+        INPUT_BASE_SHA: ${{ inputs.base_sha }}
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_FILES: ${{ join(format('{0} {1}', inputs.files, steps.source-input-files.outputs.files), ' ') }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
