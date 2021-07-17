@@ -198,3 +198,24 @@ jobs:
           echo "${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}"
         shell:
           bash
+      - name: Run changed-files with specific files (only-changed)
+        id: changed-files-specific-only-changed
+        uses: ./
+        with:
+          files: |
+            .github/workflows/test.yml
+            action.yml
+      - name: Verify only_changed files
+        if: steps.changed-files-specific-only-changed.outputs.other_changed_files != ''
+        run: |
+          if [[ "${{ steps.changed-files-specific-only-changed.outputs.only_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-only-changed.outputs.only_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-specific-only-changed.outputs) }}"
+        shell:
+          bash
