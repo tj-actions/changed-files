@@ -13,6 +13,7 @@ inputs:
   files-from-source-file:
     description: 'Source file to populate the files input'
     required: false
+    default: ""
   files:
     description: 'Check for changes using only this list of files (Defaults to the entire repo)'
     required: false
