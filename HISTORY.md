@@ -1,5 +1,14 @@
 # Changelog
 
+## [v8.9](https://github.com/tj-actions/changed-files/tree/v8.9) (2021-07-18)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.8...v8.9)
+
+**Merged pull requests:**
+
+- Updated README.md [\#139](https://github.com/tj-actions/changed-files/pull/139) ([jackton1](https://github.com/jackton1))
+- Upgraded to v8.8 [\#138](https://github.com/tj-actions/changed-files/pull/138) ([jackton1](https://github.com/jackton1))
+
 ## [v8.8](https://github.com/tj-actions/changed-files/tree/v8.8) (2021-07-17)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.7...v8.8)
