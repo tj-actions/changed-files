@@ -205,8 +205,6 @@ jobs:
           token: ${{ secrets.github_token }}
 ```
 
-## Example
-
 ![Screen Shot 2021-07-06 at 2 50 23 PM](https://user-images.githubusercontent.com/17484350/124651978-96ed5280-de69-11eb-86d5-396a4c1a980f.png)
 
 ![Screen Shot 2021-07-17 at 10 52 48 AM](https://user-images.githubusercontent.com/17484350/126040772-30b65afb-a6b5-4150-b312-ac2017ba7b98.png)
