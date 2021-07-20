@@ -154,6 +154,11 @@ jobs:
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
+          
+      - name: Run step if only the files listed above change
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
+        run: |
+          echo "Only files listed above have changed."
       
       - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
