@@ -1,5 +1,24 @@
 # Changelog
 
+## [v9](https://github.com/tj-actions/changed-files/tree/v9) (2021-07-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.9...v9)
+
+**Fixed bugs:**
+
+- \[BUG\] \<any\_changed doesn't capture changes due to renaming files\> [\#144](https://github.com/tj-actions/changed-files/issues/144)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Update `any_changed` to include renamed files. [\#145](https://github.com/tj-actions/changed-files/pull/145) ([jackton1](https://github.com/jackton1))
+- Update codacy/codacy-analysis-cli-action action to v4 [\#143](https://github.com/tj-actions/changed-files/pull/143) ([renovate[bot]](https://github.com/apps/renovate))
+- Update codacy/codacy-analysis-cli-action action to v3 [\#142](https://github.com/tj-actions/changed-files/pull/142) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v8.9 [\#140](https://github.com/tj-actions/changed-files/pull/140) ([jackton1](https://github.com/jackton1))
+
 ## [v8.9](https://github.com/tj-actions/changed-files/tree/v8.9) (2021-07-18)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.8...v8.9)
@@ -67,10 +86,6 @@
 ## [v8.4](https://github.com/tj-actions/changed-files/tree/v8.4) (2021-06-26)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.3...v8.4)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
