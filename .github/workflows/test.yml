@@ -18,7 +18,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v2
       - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1.6
+        uses: reviewdog/action-shellcheck@v1.7
 
   test-no-head-sha:
     name: Test changed-files missing head sha
