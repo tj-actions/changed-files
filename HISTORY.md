@@ -1,5 +1,23 @@
 # Changelog
 
+## [v9.1](https://github.com/tj-actions/changed-files/tree/v9.1) (2021-07-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v9...v9.1)
+
+**Implemented enhancements:**
+
+- \[Feature\] any\_changed doesn't capture changes due to deleting files [\#148](https://github.com/tj-actions/changed-files/issues/148)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Detect deleted files via any\_changed output [\#149](https://github.com/tj-actions/changed-files/pull/149) ([jackton1](https://github.com/jackton1))
+- Update reviewdog/action-shellcheck action to v1.7 [\#147](https://github.com/tj-actions/changed-files/pull/147) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v9 [\#146](https://github.com/tj-actions/changed-files/pull/146) ([jackton1](https://github.com/jackton1))
+
 ## [v9](https://github.com/tj-actions/changed-files/tree/v9) (2021-07-24)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v8.9...v9)
@@ -7,10 +25,6 @@
 **Fixed bugs:**
 
 - \[BUG\] \<any\_changed doesn't capture changes due to renaming files\> [\#144](https://github.com/tj-actions/changed-files/issues/144)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -150,7 +164,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -166,13 +180,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
