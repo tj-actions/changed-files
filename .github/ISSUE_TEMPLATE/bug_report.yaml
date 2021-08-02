@@ -41,6 +41,7 @@ body:
       label: What OS are you seeing the problem on?
       multiple: true
       options:
+        - all
         - ubuntu-latest or ubuntu-20.04
         - ubuntu-18.04
         - macos-latest or macos-10.15
