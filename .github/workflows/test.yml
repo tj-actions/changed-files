@@ -181,7 +181,7 @@ jobs:
           bash
       - name: Get branch name
         id: branch-name
-        uses: tj-actions/branch-names@v4.5
+        uses: tj-actions/branch-names@v4.8
       - uses: nrwl/last-successful-commit-action@v1
         id: last_successful_commit
         with:
