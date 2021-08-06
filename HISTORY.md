@@ -1,5 +1,27 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.2...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Dedupe the output list of changed files [\#151](https://github.com/tj-actions/changed-files/issues/151)
+
+## [v9.2](https://github.com/tj-actions/changed-files/tree/v9.2) (2021-08-06)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.1...v9.2)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Dedupe output file names. [\#153](https://github.com/tj-actions/changed-files/pull/153) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/branch-names action to v4.8 [\#152](https://github.com/tj-actions/changed-files/pull/152) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v9.1 [\#150](https://github.com/tj-actions/changed-files/pull/150) ([jackton1](https://github.com/jackton1))
+
 ## [v9.1](https://github.com/tj-actions/changed-files/tree/v9.1) (2021-07-30)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v9...v9.1)
@@ -7,10 +29,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] any\_changed doesn't capture changes due to deleting files [\#148](https://github.com/tj-actions/changed-files/issues/148)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
