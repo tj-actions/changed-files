@@ -108,6 +108,25 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
+      - name: Run changed-files with specific files comma check duplicates
+        id: changed-files-specific-duplicate-output
+        uses: ./
+        with:
+          files: |
+            entrypoint.sh
+            *.sh
+      - name: Verify all_changed_files files has no duplicates
+        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_modified_files, 'entrypoint.sh')
+        run: |
+          ALL_CHANGED_FILES=(${{ steps.changed-files-specific-duplicate-output.outputs.all_modified_files }})
+          UNIQUE_ALL_CHANGED_FILES=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | sort -u | xargs)
+
+          if [[ "$ALL_CHANGED_FILES[@]" != "$UNIQUE_ALL_CHANGED_FILES[@]" ]]; then
+            echo "Duplicate output: Expected "$UNIQUE_ALL_CHANGED_FILES" got $ALL_CHANGED_FILES"
+            exit 1
+          fi
+        shell:
+          bash
       - name: Run changed-files with specific files comma separator
         id: changed-files-specific-comma
         uses: ./

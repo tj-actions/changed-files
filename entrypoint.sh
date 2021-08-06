@@ -104,25 +104,25 @@ else
   done
 
   # shellcheck disable=SC2001
-  ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
   # shellcheck disable=SC2001
-  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr ' ' '\n' | sort -u | xargs)
 fi
 
 echo "Added files: $ADDED"
