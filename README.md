@@ -147,6 +147,7 @@ jobs:
             test.txt
             new.txt
             test_directory
+            *.sh
             .(png|jpeg)$   
             .(sql)$
             ^(mynewfile|custom)
