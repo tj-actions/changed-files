@@ -1,5 +1,18 @@
 # Changelog
 
+## [v1.0.0](https://github.com/tj-actions/changed-files/tree/v1.0.0) (2021-08-18)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.3...v1.0.0)
+
+**Fixed bugs:**
+
+- Setting remote URL breaks other steps that are using it [\#158](https://github.com/tj-actions/changed-files/issues/158)
+
+**Merged pull requests:**
+
+- Fix persisting origin URL [\#159](https://github.com/tj-actions/changed-files/pull/159) ([jackton1](https://github.com/jackton1))
+- Upgraded to v9.3 [\#157](https://github.com/tj-actions/changed-files/pull/157) ([jackton1](https://github.com/jackton1))
+
 ## [v9.3](https://github.com/tj-actions/changed-files/tree/v9.3) (2021-08-09)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.2...v9.3)
@@ -188,7 +201,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -204,13 +217,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
