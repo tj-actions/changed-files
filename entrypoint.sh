@@ -4,7 +4,7 @@ set -e
 
 echo "::group::changed-files"
 
-git remote set-url origin "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
+git remote add temp_changed_files "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
 
 echo "Getting HEAD info..."
 
@@ -36,7 +36,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
-  git fetch origin "${TARGET_BRANCH}":"${TARGET_BRANCH}"
+  git fetch temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}"
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
   else
@@ -161,6 +161,8 @@ if [[ -n "$UNIQUE_FILES" ]]; then
   fi
 
 fi
+
+git remote remove temp_changed_files
 
 echo "::set-output name=added_files::$ADDED"
 echo "::set-output name=copied_files::$COPIED"
