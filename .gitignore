@@ -1,2 +1,4 @@
 .idea/
 .envrc
+tag.sh
+untag.sh

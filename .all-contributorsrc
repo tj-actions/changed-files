@@ -32,6 +32,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "IvanPizhenko",
+      "name": "Ivan Pizhenko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11859904?v=4",
+      "profile": "https://github.com/IvanPizhenko",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

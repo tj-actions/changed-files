@@ -25,6 +25,9 @@ inputs:
   base_sha:
     description: 'Specify a base commit SHA on used for comparing changes'
     required: false
+  path:
+    description: 'Specify checkout path (same as in the GitHub checkout action)'
+    required: false
 
 outputs:
   added_files:
@@ -100,6 +103,7 @@ runs:
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_FILES: ${{ join(format('{0} {1}', inputs.files, steps.source-input-files.outputs.files), ' ') }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
+        INPUT_PATH: ${{ inputs.path }}
 
 branding:
   icon: file-text
