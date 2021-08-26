@@ -31,12 +31,12 @@ jobs:
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v2
-      
+
       - name: Run changed-files with defaults
         id: changed-files
         continue-on-error: true
         uses: ./
-      
+
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
@@ -235,5 +235,31 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files-specific-only-changed.outputs) }}"
+        shell:
+          bash
+      - name: Remove current checkout
+        run: rm -rf ./*
+        shell:
+          bash
+      - name: Checkout into another_dir
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: another_dir
+      - name: Run changed-files with defaults on another_dir
+        id: changed-files-another-dir
+        uses: ./
+        with:
+          path: another_dir
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-another-dir.outputs) }}"
+        shell:
+          bash
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed-files-another-dir.outputs.modified_files }}"; do
+            echo $file
+          done
         shell:
           bash
