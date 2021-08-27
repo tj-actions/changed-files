@@ -7,13 +7,12 @@ echo "::group::changed-files"
 echo "Resolving repository path..."
 
 if [[ ! -z $INPUT_PATH ]]; then
-  CONSTRUCTED_REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
-  REAL_REPO_DIR=$(realpath "$CONSTRUCTED_REPO_DIR")
-  if [[ ! -d "$REAL_REPO_DIR" ]]; then
-    echo "::warning::Invalid repository directory"
+  REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
+  if [[ ! -d "$REPO_DIR" ]]; then
+    echo "::warning::Invalid repository path"
     exit 1
   fi
-  cd "$REAL_REPO_DIR"
+  cd "$REPO_DIR"
 fi
 
 git remote add temp_changed_files "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
