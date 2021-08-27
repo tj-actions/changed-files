@@ -26,7 +26,7 @@ inputs:
     description: 'Specify a base commit SHA on used for comparing changes'
     required: false
   path:
-    description: 'Specify a relative path under $GITHUB_WORKSPACE to location of the repository'
+    description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
     required: false
 
 outputs:
