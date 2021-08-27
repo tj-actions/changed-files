@@ -104,7 +104,7 @@ jobs:
 | base_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
 | files_from_source_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
-| path | `string` | `false` | no default value | Relative path under `GITHUB_WORKSPACE` to the repository |
+| path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
 
 ## Example
 

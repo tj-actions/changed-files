@@ -26,7 +26,7 @@ inputs:
     description: 'Specify a base commit SHA on used for comparing changes'
     required: false
   path:
-    description: 'Specify checkout path (same as in the GitHub checkout action)'
+    description: 'Specify a relative path under $GITHUB_WORKSPACE to location of the repository'
     required: false
 
 outputs:

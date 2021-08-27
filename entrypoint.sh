@@ -5,6 +5,7 @@ set -e
 echo "::group::changed-files"
 
 echo "Resolving repository path..."
+
 if [[ ! -z $INPUT_PATH ]]; then
   CONSTRUCTED_REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
   REAL_REPO_DIR=$(realpath "$CONSTRUCTED_REPO_DIR")
