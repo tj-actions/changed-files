@@ -53,11 +53,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-      
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v1.0.0
-      
+
       - name: List all modified files
         run: |
           for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
@@ -104,6 +104,7 @@ jobs:
 | base_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
 | files_from_source_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
+| path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
 
 ## Example
 
@@ -115,7 +116,7 @@ jobs:
       - name: Get changed files using defaults
         id: changed-files
         uses: tj-actions/changed-files@v1.0.0
-      
+
       - name: Get changed files using a comma separator
         id: changed-files-comma
         uses: tj-actions/changed-files@v1.0.0
@@ -148,7 +149,7 @@ jobs:
             new.txt
             test_directory
             *.sh
-            .(png|jpeg)$   
+            .(png|jpeg)$
             .(sql)$
             ^(mynewfile|custom)
 
@@ -156,12 +157,12 @@ jobs:
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
-          
+
       - name: Run step if only the files listed above change
         if: steps.changed-files-specific.outputs.only_changed == 'true'
         run: |
           echo "Only files listed above have changed."
-      
+
       - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
         uses: tj-actions/changed-files@v1.0.0
@@ -183,13 +184,13 @@ jobs:
         uses: tj-actions/changed-files@v1.0.0
         with:
           sha: ${{ github.event.pull_request.head.sha }}
-          
+
       - name: Use a different base SHA
         id: changed-files-custom-base-sha
         uses: tj-actions/changed-files@v1.0.0
         with:
           base_sha: "2096ed0"
-        
+
 ```
 
 ### Running [pre-commit](https://pre-commit.com/) on all modified files
@@ -200,7 +201,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v1.0.0

@@ -20,6 +20,59 @@ jobs:
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.7
 
+  test-multiple-repositories:
+    name: Test with multiple repositories
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout into dir1
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: dir1
+      - name: Run changed-files with defaults on the dir1
+        id: changed-files-dir1
+        uses: ./dir1
+        with:
+          path: dir1
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-dir1.outputs) }}"
+        shell:
+          bash
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed-files-dir1.outputs.modified_files }}"; do
+            echo $file
+          done
+        shell:
+          bash
+      - name: Checkout into dir2
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: dir2
+      - name: Run changed-files with defaults on the dir2
+        id: changed-files-dir2
+        uses: ./dir2
+        with:
+          path: dir2
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-dir2.outputs) }}"
+        shell:
+          bash
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed-files-dir2.outputs.modified_files }}"; do
+            echo $file
+          done
+        shell:
+          bash
+
   test-no-head-sha:
     name: Test changed-files missing head sha
     runs-on: ${{ matrix.platform }}
@@ -31,12 +84,12 @@ jobs:
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v2
-      
+
       - name: Run changed-files with defaults
         id: changed-files
         continue-on-error: true
         uses: ./
-      
+
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"

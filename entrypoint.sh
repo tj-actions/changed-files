@@ -4,6 +4,17 @@ set -e
 
 echo "::group::changed-files"
 
+echo "Resolving repository path..."
+
+if [[ -n $INPUT_PATH ]]; then
+  REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
+  if [[ ! -d "$REPO_DIR" ]]; then
+    echo "::warning::Invalid repository path"
+    exit 1
+  fi
+  cd "$REPO_DIR"
+fi
+
 git remote add temp_changed_files "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
 
 echo "Getting HEAD info..."
@@ -27,7 +38,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   fi
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
   CURRENT_BRANCH=$TARGET_BRANCH
-  
+
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the previous commit sha"
     echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
@@ -42,7 +53,7 @@ else
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA
   fi
-  
+
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the base ref sha for ${TARGET_BRANCH}"
     exit 1
