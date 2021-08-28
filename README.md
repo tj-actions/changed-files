@@ -57,7 +57,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
 
       - name: List all modified files
         run: |
@@ -116,11 +116,11 @@ jobs:
 
       - name: Get changed files using defaults
         id: changed-files
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
 
       - name: Get changed files using a comma separator
         id: changed-files-comma
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           separator: ","
 
@@ -142,7 +142,7 @@ jobs:
 
       - name: Get specific changed files
         id: changed-files-specific
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           files: |
             my-file.txt
@@ -166,14 +166,14 @@ jobs:
 
       - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           files_from_source_file: |
             test/changed-files-list.txt
 
       - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
         id: changed-files-specific-source-file-and-specify-files
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           files_from_source_file: |
             test/changed-files-list.txt
@@ -182,13 +182,13 @@ jobs:
 
       - name: Use a different commit SHA
         id: changed-files-custom-sha
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           sha: ${{ github.event.pull_request.head.sha }}
 
       - name: Use a different base SHA
         id: changed-files-custom-base-sha
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           base_sha: "2096ed0"
           
@@ -200,7 +200,7 @@ jobs:
 
       - name: Run changed-files with defaults on the dir1
         id: changed-files-for-subfolder
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
         with:
           path: subfolder
 
@@ -217,7 +217,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v1.0.0
+        uses: tj-actions/changed-files@v1.0.1
 
       - name: Pre-commit
         uses: pre-commit/action@v2.0.0

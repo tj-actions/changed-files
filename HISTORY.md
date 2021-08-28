@@ -1,5 +1,33 @@
 # Changelog
 
+## [v1.0.1](https://github.com/tj-actions/changed-files/tree/v1.0.1) (2021-08-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.0...v1.0.1)
+
+**Implemented enhancements:**
+
+- \[Feature\] Add support for checkout path [\#167](https://github.com/tj-actions/changed-files/issues/167)
+
+**Fixed bugs:**
+
+- \[BUG\] Deleted files not detected [\#165](https://github.com/tj-actions/changed-files/issues/165)
+- \[BUG\] changed-files unable to initialize git repository on custom container image [\#164](https://github.com/tj-actions/changed-files/issues/164)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Updated README.md [\#172](https://github.com/tj-actions/changed-files/pull/172) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#171](https://github.com/tj-actions/changed-files/pull/171) ([jackton1](https://github.com/jackton1))
+- docs: add IvanPizhenko as a contributor for code, doc [\#170](https://github.com/tj-actions/changed-files/pull/170) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Implement path parameter [\#168](https://github.com/tj-actions/changed-files/pull/168) ([IvanPizhenko](https://github.com/IvanPizhenko))
+- Update peter-evans/create-pull-request action to v3.10.1 [\#163](https://github.com/tj-actions/changed-files/pull/163) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/branch-names action to v4.9 [\#162](https://github.com/tj-actions/changed-files/pull/162) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/remark action to v1.7 [\#161](https://github.com/tj-actions/changed-files/pull/161) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v1.0.0 [\#160](https://github.com/tj-actions/changed-files/pull/160) ([jackton1](https://github.com/jackton1))
+
 ## [v1.0.0](https://github.com/tj-actions/changed-files/tree/v1.0.0) (2021-08-18)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.3...v1.0.0)
@@ -30,10 +58,6 @@
 ## [v9.2](https://github.com/tj-actions/changed-files/tree/v9.2) (2021-08-06)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.1...v9.2)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
