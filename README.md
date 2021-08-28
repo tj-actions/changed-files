@@ -12,6 +12,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 
 *   Easy to debug.
 *   Boolean output indicating that certain files have been modified.
+*   Multiple repository support.
 *   List all files that have changed.
     *   Between the current pull request branch and the default branch.
     *   Between the last commit and the current pushed change.
