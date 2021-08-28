@@ -28,10 +28,6 @@ jobs:
       matrix:
         platform: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Checkout into dir1
         uses: actions/checkout@v2
         with:
@@ -39,7 +35,7 @@ jobs:
           path: dir1
       - name: Run changed-files with defaults on the dir1
         id: changed-files-dir1
-        uses: ./
+        uses: ./dir1
         with:
           path: dir1
       - name: Show output
@@ -61,7 +57,7 @@ jobs:
           path: dir2
       - name: Run changed-files with defaults on the dir2
         id: changed-files-dir2
-        uses: ./
+        uses: ./dir2
         with:
           path: dir2
       - name: Show output
