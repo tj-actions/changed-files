@@ -6,7 +6,7 @@ echo "::group::changed-files"
 
 echo "Resolving repository path..."
 
-if [[ ! -z $INPUT_PATH ]]; then
+if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
   if [[ ! -d "$REPO_DIR" ]]; then
     echo "::warning::Invalid repository path"
