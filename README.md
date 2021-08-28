@@ -191,6 +191,18 @@ jobs:
         uses: tj-actions/changed-files@v1.0.0
         with:
           base_sha: "2096ed0"
+          
+      - name: Checkout into dir1
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: subfolder
+
+      - name: Run changed-files with defaults on the dir1
+        id: changed-files-for-subfolder
+        uses: tj-actions/changed-files@v1.0.0
+        with:
+          path: subfolder
 
 ```
 
