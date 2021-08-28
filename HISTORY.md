@@ -1,5 +1,18 @@
 # Changelog
 
+## [v1.0.2](https://github.com/tj-actions/changed-files/tree/v1.0.2) (2021-08-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.1...v1.0.2)
+
+**Fixed bugs:**
+
+- \[BUG\] Error: xargs: unmatched single quote [\#169](https://github.com/tj-actions/changed-files/issues/169)
+
+**Merged pull requests:**
+
+- Fixed bug with parsing filenames that contain quotes [\#174](https://github.com/tj-actions/changed-files/pull/174) ([jackton1](https://github.com/jackton1))
+- Upgraded to v1.0.1 [\#173](https://github.com/tj-actions/changed-files/pull/173) ([jackton1](https://github.com/jackton1))
+
 ## [v1.0.1](https://github.com/tj-actions/changed-files/tree/v1.0.1) (2021-08-28)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.0...v1.0.1)
