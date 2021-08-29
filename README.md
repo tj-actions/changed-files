@@ -83,9 +83,9 @@ jobs:
 |:--------------------:|:------------:|:----------------------------------:|:----------------------------------------:|
 | any_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has changed. <br /> i.e. *using a combination of all added, <br />copied, modified and renamed files (ACMR).* |
 | only_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input have changed. |
-| other_changed_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all modified files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACM).*  |
+| other_changed_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACM).*  |
 | all_modified_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all modified files <br /> i.e. *a combination of all added, <br />copied, modified and renamed files (ACMR).*  |
-| all_changed_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all paths (\*) <br /> i.e. *a combination of (ACMRDTUX).*  |
+| all_changed_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed files (\*) <br /> i.e. *a combination of (ACMRDTUX).*  |
 | added_files          |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Added (A)    |
 | copied_files         |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Copied (C)   |
 | deleted_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Deleted (D)  |
