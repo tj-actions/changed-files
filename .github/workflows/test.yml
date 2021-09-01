@@ -208,6 +208,55 @@ jobs:
             .github/workflows/test.yml
             action.yml
           separator: ","
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+        shell:
+          bash
+      - name: Verify any_changed files comma separator
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml')"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Run changed-files with specific files pipe separator
+        id: changed-files-specific-pipe
+        uses: ./
+        with:
+          files: |
+            .github/workflows/test.yml
+            action.yml
+          separator: "|"
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+        shell:
+          bash
+      - name: Verify any_changed files comma separator
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml')"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Run changed-files with specific files forward slash separator
+        id: changed-files-specific-forward-slash
+        uses: ./
+        with:
+          files: |
+            .github/workflows/test.yml
+            action.yml
+          separator: "/"
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+        shell:
+          bash
       - name: Verify any_changed files comma separator
         if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml')"
         run: |
