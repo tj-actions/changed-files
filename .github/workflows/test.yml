@@ -130,6 +130,26 @@ jobs:
           echo "Your README.md has been modified ${{ steps.changed-files.outputs.modified_files }}."
         shell:
           bash
+      - name: Run changed-files with forward slash separator
+        id: changed-files-forward-slash
+        uses: ./
+        with:
+          separator: "/"
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-forward-slash.outputs) }}"
+        shell:
+          bash
+      - name: Run changed-files with pipe separator
+        id: changed-files-pipe
+        uses: ./
+        with:
+          separator: "|"
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-pipe.outputs) }}"
+        shell:
+          bash
       - name: Run changed-files with comma separator
         id: changed-files-comma
         uses: ./

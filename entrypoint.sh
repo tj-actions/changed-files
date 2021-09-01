@@ -66,16 +66,16 @@ UNIQUE_FILES=$(echo "$INPUT_FILES" | tr " " "\n" | sort -u | xargs -0)
 
 if [[ -z "$UNIQUE_FILES" ]]; then
   echo "Getting diff..."
-  ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  MODIFIED=$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  RENAMED=$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  TYPE_CHANGED=$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
-  ALL_MODIFIED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed -E "s/($INPUT_SEPARATOR)$//")
+  ADDED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  COPIED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  DELETED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  MODIFIED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  RENAMED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  TYPE_CHANGED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  UNMERGED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  UNKNOWN=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  ALL_CHANGED=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
+  ALL_MODIFIED_FILES=$(IFS=$INPUT_SEPARATOR;printf "%s" "$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")")
 else
   ADDED_ARRAY=()
   COPIED_ARRAY=()
@@ -115,25 +115,25 @@ else
   done
 
   # shellcheck disable=SC2001
-  ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
   # shellcheck disable=SC2001
-  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's@  *@'"$INPUT_SEPARATOR"'@g' | tr " " "\n" | sort -u | xargs -0)
 fi
 
 echo "Added files: $ADDED"
