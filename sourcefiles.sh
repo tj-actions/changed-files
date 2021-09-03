@@ -1,3 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "::group::changed-files-files-from-source-file"
+
 FILES=()
 
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
@@ -9,3 +15,5 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
 fi
 
 echo "::set-output name=files::${FILES[*]}"
+
+echo "::endgroup::"
