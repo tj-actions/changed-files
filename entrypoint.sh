@@ -114,26 +114,27 @@ else
     ALL_MODIFIED_FILES_ARRAY+=($(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true))
   done
 
-  # shellcheck disable=SC2001
-  ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  # shellcheck disable=SC2001
-  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  IFS=$'\n' read -r -a ADDED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ADDED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a COPIED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${COPIED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a DELETED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${DELETED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a MODIFIED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${MODIFIED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a RENAMED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${RENAMED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a TYPE_CHANGED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${TYPE_CHANGED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a UNMERGED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${UNMERGED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a UNKNOWN_UNIQUE_ARRAY <<< "$(sort -u  <<<"${UNKNOWN_ARRAY[*]}")"
+  IFS=$'\n' read -r -a ALL_CHANGED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ALL_CHANGED_ARRAY[*]}")"
+  IFS=$'\n' read -r -a ALL_MODIFIED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ALL_MODIFIED_FILES_ARRAY[*]}")"
+
+  ADDED=$(echo "${ADDED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  COPIED=$(echo "${COPIED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  DELETED=$(echo "${DELETED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  MODIFIED=$(echo "${MODIFIED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  RENAMED=$(echo "${RENAMED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  UNMERGED=$(echo "${UNMERGED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  UNKNOWN=$(echo "${UNKNOWN_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  ALL_CHANGED=$(echo "${ALL_CHANGED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
 fi
 
 echo "Added files: $ADDED"
@@ -148,7 +149,6 @@ echo "All changed files: $ALL_CHANGED"
 echo "All modified files: $ALL_MODIFIED_FILES"
 
 if [[ -n "$UNIQUE_FILES" ]]; then
-  # shellcheck disable=SC2001
   ALL_INPUT_FILES=$(echo "$UNIQUE_FILES" | tr "\n" " " | xargs -0)
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
