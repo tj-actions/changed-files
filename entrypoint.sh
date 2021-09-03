@@ -62,9 +62,9 @@ fi
 
 echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
 
-UNIQUE_FILES=$(echo "$INPUT_FILES" | tr " " "\n" | sort -u | xargs -0)
+IFS=$'\n' read -r -a UNIQUE_FILES <<< "$(sort -u  <<<"${INPUT_FILES[*]}")"
 
-if [[ -z "$UNIQUE_FILES" ]]; then
+if [[ -z "${UNIQUE_FILES[*]}" ]]; then
   echo "Getting diff..."
   ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
   COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
