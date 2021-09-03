@@ -167,6 +167,11 @@ jobs:
           files: |
             .github/workflows/test.yml
             action.yml
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
+        shell:
+          bash
       - name: Verify any_changed files
         if: "!contains(steps.changed-files-specific.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, '.github/workflows/test.yml')"
         run: |
@@ -174,11 +179,6 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
             exit 1
           fi
-        shell:
-          bash
-      - name: Show output
-        run: |
-          echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files comma check duplicates
