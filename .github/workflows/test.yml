@@ -40,7 +40,7 @@ jobs:
           path: dir1
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-dir1.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-dir1.outputs) }}'
         shell:
           bash
       - name: List all modified files
@@ -62,7 +62,7 @@ jobs:
           path: dir2
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-dir2.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-dir2.outputs) }}'
         shell:
           bash
       - name: List all modified files
@@ -114,7 +114,7 @@ jobs:
         uses: ./
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files.outputs) }}"
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
         shell:
           bash
       - name: List all modified files
@@ -137,7 +137,7 @@ jobs:
           separator: "/"
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-forward-slash.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-forward-slash.outputs) }}'
         shell:
           bash
       - name: Run changed-files with pipe separator
@@ -147,7 +147,7 @@ jobs:
           separator: "|"
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-pipe.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-pipe.outputs) }}'
         shell:
           bash
       - name: Run changed-files with comma separator
@@ -157,7 +157,7 @@ jobs:
           separator: ","
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files
@@ -178,7 +178,7 @@ jobs:
           bash
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files comma check duplicates
@@ -210,7 +210,7 @@ jobs:
           separator: ","
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
         shell:
           bash
       - name: Verify any_changed files comma separator
@@ -232,7 +232,7 @@ jobs:
           separator: "|"
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
         shell:
           bash
       - name: Verify any_changed files comma separator
@@ -254,7 +254,7 @@ jobs:
           separator: "/"
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-comma.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
         shell:
           bash
       - name: Verify any_changed files comma separator
@@ -286,7 +286,7 @@ jobs:
           bash
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files from a source file using a comma separator
@@ -307,7 +307,7 @@ jobs:
           bash
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-specific-comma.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-specific-comma.outputs) }}'
         shell:
           bash
       - name: Run changed-files with custom sha
@@ -317,7 +317,7 @@ jobs:
           sha: ${{ github.event.pull_request.head.sha }}
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-custom-sha.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-custom-sha.outputs) }}'
         shell:
           bash
       - name: Get branch name
@@ -336,7 +336,7 @@ jobs:
           base_sha: ${{ steps.last_successful_commit.outputs.commit_hash }}
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files (only-changed)
@@ -356,6 +356,6 @@ jobs:
           bash
       - name: Show output
         run: |
-          echo "${{ toJSON(steps.changed-files-specific-only-changed.outputs) }}"
+          echo '${{ toJSON(steps.changed-files-specific-only-changed.outputs) }}'
         shell:
           bash
