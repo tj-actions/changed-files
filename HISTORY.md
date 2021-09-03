@@ -1,5 +1,19 @@
 # Changelog
 
+## [v1.0.3](https://github.com/tj-actions/changed-files/tree/v1.0.3) (2021-09-03)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.2...v1.0.3)
+
+**Implemented enhancements:**
+
+- \[Feature\] Documentation for difference between all\_changed\_files and all\_modified\_files [\#177](https://github.com/tj-actions/changed-files/issues/177)
+
+**Merged pull requests:**
+
+- Update removing trailing separator [\#182](https://github.com/tj-actions/changed-files/pull/182) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#178](https://github.com/tj-actions/changed-files/pull/178) ([jackton1](https://github.com/jackton1))
+- Upgraded to v1.0.2 [\#176](https://github.com/tj-actions/changed-files/pull/176) ([jackton1](https://github.com/jackton1))
+
 ## [v1.0.2](https://github.com/tj-actions/changed-files/tree/v1.0.2) (2021-08-28)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.1...v1.0.2)
