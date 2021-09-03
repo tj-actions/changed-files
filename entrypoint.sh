@@ -147,13 +147,13 @@ if [[ -n "$UNIQUE_FILES" ]]; then
   echo "Input files: ${ALL_INPUT_FILES[*]}"
   echo "Matching modified files: ${ALL_MODIFIED_FILES[*]}"
 
-  if [[ -n "$ALL_MODIFIED_FILES" ]]; then
+  if [[ ${#ALL_MODIFIED_FILES[@]} -ne 0 ]]; then
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
   fi
 
-  if [[ -n "$OTHER_CHANGED_FILES" ]]; then
+  if [[ ${#OTHER_CHANGED_FILES[@]} -ne 0 ]]; then
     echo "Non Matching modified files: ${OTHER_CHANGED_FILES[*]}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED_FILES"
