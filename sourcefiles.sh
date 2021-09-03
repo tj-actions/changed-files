@@ -2,7 +2,7 @@
 
 set -e
 
-echo "::group::changed-files-files-from-source-file"
+echo "::group::changed-files-from-source-file"
 
 FILES=()
 
