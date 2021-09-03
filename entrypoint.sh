@@ -142,7 +142,7 @@ if [[ -n "$UNIQUE_FILES" ]]; then
   ALL_INPUT_FILES=$(echo "$UNIQUE_FILES" | tr "\n" " " | xargs -0)
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
-  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " " | xargs -0)
+  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " " | sed "s/.$//" | xargs -0)
 
   echo "Input files: ${ALL_INPUT_FILES[*]}"
   echo "Matching modified files: ${ALL_MODIFIED_FILES[*]}"
