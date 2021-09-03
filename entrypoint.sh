@@ -62,7 +62,7 @@ fi
 
 echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
 
-IFS=$'\n' read -r -a UNIQUE_FILES <<< "$(sort -u  <<<"${INPUT_FILES[*]}")"
+UNIQUE_FILES=$(echo "$INPUT_FILES" | tr " " "\n" | sort -u | xargs -0)
 
 if [[ -z "${UNIQUE_FILES[*]}" ]]; then
   echo "Getting diff..."
