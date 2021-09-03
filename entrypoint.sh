@@ -115,16 +115,16 @@ else
   IFS=$'\n' read -r -a ALL_CHANGED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ALL_CHANGED_ARRAY[*]}")"
   IFS=$'\n' read -r -a ALL_MODIFIED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ALL_MODIFIED_FILES_ARRAY[*]}")"
 
-  ADDED=$(echo "${ADDED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  COPIED=$(echo "${COPIED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  DELETED=$(echo "${DELETED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  MODIFIED=$(echo "${MODIFIED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  RENAMED=$(echo "${RENAMED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  TYPE_CHANGED=$(echo "${TYPE_CHANGED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  UNMERGED=$(echo "${UNMERGED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  UNKNOWN=$(echo "${UNKNOWN_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  ALL_CHANGED=$(echo "${ALL_CHANGED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_UNIQUE_ARRAY[*]}" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  ADDED=$(echo "${ADDED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  COPIED=$(echo "${COPIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  DELETED=$(echo "${DELETED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  MODIFIED=$(echo "${MODIFIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  RENAMED=$(echo "${RENAMED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  UNMERGED=$(echo "${UNMERGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  UNKNOWN=$(echo "${UNKNOWN_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  ALL_CHANGED=$(echo "${ALL_CHANGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
 fi
 
 echo "Added files: $ADDED"
