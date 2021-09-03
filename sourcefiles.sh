@@ -9,11 +9,9 @@ IFS=$'\n' read -r -a FILES <<<"${INPUT_FILES[*]}"
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
-    IFS=$'\n' read -d '' -r -a ALL_FILES < "$file"
-    for fileName in "${ALL_FILES[@]}"
-    do
-         FILES+=("$fileName")
-    done
+    while read -r fileName; do
+      FILES+=("$fileName")
+    done <"$file"
   done
 fi
 
