@@ -10,13 +10,13 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
     IFS=$'\n' read -r UNIQUE_FILES <<< "$file"
-    FILES+=("${UNIQUE_FILES[@]}")
+    FILES+=("${UNIQUE_FILES[*]}")
   done
 fi
 
 echo "Input Files: ${FILES[*]}"
 
-IFS=' ' read -r -a ALL_UNIQUE_FILES <<< "$(sort -u <<<"${FILES[*]}")"
+IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[*]}" | tr " " "\n" | sort -u | tr "\n" " ")"
 
 echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
 
