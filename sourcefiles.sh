@@ -4,7 +4,7 @@ set -e
 
 echo "::group::changed-files-from-source-file"
 
-FILES=()
+IFS=$'\n' read -r -a FILES <<<"${INPUT_FILES[*]}"
 
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
@@ -14,9 +14,7 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   done
 fi
 
-FILES+=("${INPUT_FILES[@]}")
-
-echo "Input files: ${FILES[*]}"
+echo "Input Files: ${FILES[*]}"
 
 IFS=$'\n' read -r -a ALL_UNIQUE_FILES <<< "$(sort -u <<<"${FILES[*]}")"
 
