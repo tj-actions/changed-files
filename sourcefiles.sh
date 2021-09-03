@@ -10,7 +10,7 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
     IFS=$'\n' read -d '' -r -a ALL_FILES < "$file"
-    FILES+=("${ALL_FILES// }")
+    FILES+=("${ALL_FILES[@]}")
   done
 fi
 
