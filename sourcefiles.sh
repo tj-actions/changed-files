@@ -16,7 +16,7 @@ fi
 
 echo "Input Files: ${FILES[*]}"
 
-IFS=$'\n' read -r -a ALL_UNIQUE_FILES <<< "$(sort -u <<<"${FILES[*]}")"
+IFS=' ' read -r -a ALL_UNIQUE_FILES <<< "$(sort -u <<<"${FILES[*]}")"
 
 echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
 
