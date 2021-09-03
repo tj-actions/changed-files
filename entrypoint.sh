@@ -115,16 +115,16 @@ else
   IFS=$'\n' read -r -a ALL_CHANGED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ALL_CHANGED_ARRAY[*]}")"
   IFS=$'\n' read -r -a ALL_MODIFIED_UNIQUE_ARRAY <<< "$(sort -u  <<<"${ALL_MODIFIED_FILES_ARRAY[*]}")"
 
-  ADDED=$(echo "${ADDED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  COPIED=$(echo "${COPIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  DELETED=$(echo "${DELETED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  MODIFIED=$(echo "${MODIFIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  RENAMED=$(echo "${RENAMED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  TYPE_CHANGED=$(echo "${TYPE_CHANGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  UNMERGED=$(echo "${UNMERGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  UNKNOWN=$(echo "${UNKNOWN_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  ALL_CHANGED=$(echo "${ALL_CHANGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
-  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/.$//")
+  ADDED=$(echo "${ADDED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  COPIED=$(echo "${COPIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  DELETED=$(echo "${DELETED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  MODIFIED=$(echo "${MODIFIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  RENAMED=$(echo "${RENAMED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  UNMERGED=$(echo "${UNMERGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  UNKNOWN=$(echo "${UNKNOWN_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  ALL_CHANGED=$(echo "${ALL_CHANGED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
+  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_UNIQUE_ARRAY[*]}" | tr " " "$INPUT_SEPARATOR" | sed "s/(${INPUT_SEPARATOR//\//\\/})$//")
 fi
 
 echo "Added files: $ADDED"
@@ -142,7 +142,7 @@ if [[ -n "$UNIQUE_FILES" ]]; then
   ALL_INPUT_FILES=$(echo "$UNIQUE_FILES" | tr "\n" " " | xargs -0)
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
-  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " " | sed "s/.$//" | xargs -0)
+  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | xargs -0)
 
   echo "Input files: ${ALL_INPUT_FILES[*]}"
   echo "Matching modified files: ${ALL_MODIFIED_FILES[*]}"
