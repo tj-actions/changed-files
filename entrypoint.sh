@@ -86,6 +86,8 @@ else
   ALL_CHANGED_ARRAY=()
   ALL_MODIFIED_FILES_ARRAY=()
 
+  echo "Input files: ${INPUT_FILES[*]}"
+
   for path in ${INPUT_FILES}
   do
     echo "Checking for file changes: \"${path}\"..."
@@ -124,20 +126,21 @@ else
   ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
-  IFS=" " read -r -a UNIQUE_ALL_MODIFIED_FILES <<< "$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | tr "\n" " ")"
-  IFS=" " read -r -a OTHER_CHANGED_FILES <<< "$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " ")"
+  IFS=" " read -r -a UNIQUE_ALL_MODIFIED_FILES_ARRAY <<< "$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | tr "\n" " ")"
+  IFS=" " read -r -a OTHER_CHANGED_FILES_ARRAY <<< "$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " ")"
 
-  echo "Input files: ${INPUT_FILES[*]}"
-  echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES[*]}"
+  OTHER_CHANGED_FILES=$(echo "${OTHER_CHANGED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  if [[ -n "${UNIQUE_ALL_MODIFIED_FILES[*]}" ]]; then
+  echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES_ARRAY[*]}"
+
+  if [[ -n "${UNIQUE_ALL_MODIFIED_FILES_ARRAY[*]}" ]]; then
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
   fi
 
-  if [[ -n "${OTHER_CHANGED_FILES[*]}" ]]; then
-    echo "Non Matching modified files: ${OTHER_CHANGED_FILES[*]}"
+  if [[ -n "${OTHER_CHANGED_FILES_ARRAY[*]}" ]]; then
+    echo "Non Matching modified files: ${OTHER_CHANGED_FILES_ARRAY[*]}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED_FILES"
   else
