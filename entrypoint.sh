@@ -146,7 +146,7 @@ if [[ -n "$UNIQUE_FILES" ]]; then
   echo "Input files: ${UNIQUE_FILES[*]}"
   echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES[*]}"
 
-  if [[ -n "$UNIQUE_ALL_MODIFIED_FILES[@]" ]]; then
+  if [[ ${#UNIQUE_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
