@@ -114,16 +114,16 @@ else
     ALL_MODIFIED_FILES_ARRAY+=($(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true))
   done
 
-  ADDED=$(echo "${ADDED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  COPIED=$(echo "${COPIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  DELETED=$(echo "${DELETED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
-  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | sed 's/  */'"$INPUT_SEPARATOR"'/g' | tr " " "\n" | sort -u | xargs -0)
+  ADDED=$(echo "${ADDED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  COPIED=$(echo "${COPIED_ARRAY[*]}" tr " " "\n" | sort -u | xargs -0)
+  DELETED=$(echo "${DELETED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  RENAMED=$(echo "${RENAMED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  UNMERGED=$(echo "${UNMERGED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
+  ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
 fi
 
 echo "Added files: $ADDED"
