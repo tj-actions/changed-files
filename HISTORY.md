@@ -1,5 +1,23 @@
 # Changelog
 
+## [v1.1.0](https://github.com/tj-actions/changed-files/tree/v1.1.0) (2021-09-04)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.3...v1.1.0)
+
+**Implemented enhancements:**
+
+- \[Feature\] Specify sed delimiter or escaping forward slashes used in separator [\#180](https://github.com/tj-actions/changed-files/issues/180)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Update pascalgn/automerge-action action to v0.14.3 [\#184](https://github.com/tj-actions/changed-files/pull/184) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v1.0.3 [\#183](https://github.com/tj-actions/changed-files/pull/183) ([jackton1](https://github.com/jackton1))
+- Update handling separator. [\#181](https://github.com/tj-actions/changed-files/pull/181) ([jackton1](https://github.com/jackton1))
+
 ## [v1.0.3](https://github.com/tj-actions/changed-files/tree/v1.0.3) (2021-09-03)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.2...v1.0.3)
@@ -39,10 +57,6 @@
 
 - \[BUG\] Deleted files not detected [\#165](https://github.com/tj-actions/changed-files/issues/165)
 - \[BUG\] changed-files unable to initialize git repository on custom container image [\#164](https://github.com/tj-actions/changed-files/issues/164)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
