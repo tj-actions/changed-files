@@ -122,21 +122,9 @@ else
   UNKNOWN=$(echo "${UNKNOWN_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-fi
 
-echo "Added files: $ADDED"
-echo "Copied files: $COPIED"
-echo "Deleted files: $DELETED"
-echo "Modified files: $MODIFIED"
-echo "Renamed files: $RENAMED"
-echo "Type Changed files: $TYPE_CHANGED"
-echo "Unmerged files: $UNMERGED"
-echo "Unknown files: $UNKNOWN"
-echo "All changed files: $ALL_CHANGED"
-echo "All modified files: $ALL_MODIFIED_FILES"
 
-if [[ -n "$INPUT_FILES" ]]; then
-  IFS=$INPUT_SEPARATOR read -r -a UNIQUE_ALL_MODIFIED_FILES <<< "$ALL_MODIFIED_FILES"
+  UNIQUE_ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | tr "\n" " ")
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
   OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " ")
@@ -157,8 +145,18 @@ if [[ -n "$INPUT_FILES" ]]; then
   else
     echo "::set-output name=only_changed::true"
   fi
-
 fi
+
+echo "Added files: $ADDED"
+echo "Copied files: $COPIED"
+echo "Deleted files: $DELETED"
+echo "Modified files: $MODIFIED"
+echo "Renamed files: $RENAMED"
+echo "Type Changed files: $TYPE_CHANGED"
+echo "Unmerged files: $UNMERGED"
+echo "Unknown files: $UNKNOWN"
+echo "All changed files: $ALL_CHANGED"
+echo "All modified files: $ALL_MODIFIED_FILES"
 
 git remote remove temp_changed_files
 
