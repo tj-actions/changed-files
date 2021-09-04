@@ -115,7 +115,7 @@ else
   done
 
   ADDED=$(echo "${ADDED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
-  COPIED=$(echo "${COPIED_ARRAY[*]}" tr " " "\n" | sort -u | xargs -0)
+  COPIED=$(echo "${COPIED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
   DELETED=$(echo "${DELETED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
   MODIFIED=$(echo "${MODIFIED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
   RENAMED=$(echo "${RENAMED_ARRAY[*]}" | tr " " "\n" | sort -u | xargs -0)
