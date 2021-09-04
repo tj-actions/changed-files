@@ -123,21 +123,20 @@ else
   ALL_CHANGED=$(echo "${ALL_CHANGED_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  UNIQUE_ALL_MODIFIED_FILES=$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | tr "\n" " ")
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
-
-  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " ")
+  IFS=" " read -r -a UNIQUE_ALL_MODIFIED_FILES <<< "$(echo "${ALL_MODIFIED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | tr "\n" " ")"
+  IFS=" " read -r -a OTHER_CHANGED_FILES <<< "$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " ")"
 
   echo "Input files: ${INPUT_FILES[*]}"
   echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES[*]}"
 
-  if [[ -n "$UNIQUE_ALL_MODIFIED_FILES" ]]; then
+  if [[ -n "${UNIQUE_ALL_MODIFIED_FILES[*]}" ]]; then
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
   fi
 
-  if [[ -n "$OTHER_CHANGED_FILES" ]]; then
+  if [[ -n "${OTHER_CHANGED_FILES[*]}" ]]; then
     echo "Non Matching modified files: ${OTHER_CHANGED_FILES[*]}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED_FILES"
