@@ -62,9 +62,7 @@ fi
 
 echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
 
-UNIQUE_FILES=$(echo "$INPUT_FILES" | tr " " "\n" | sort -u | xargs -0)
-
-if [[ -z "${UNIQUE_FILES[*]}" ]]; then
+if [[ -z "${INPUT_FILES[*]}" ]]; then
   echo "Getting diff..."
   ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -88,7 +86,7 @@ else
   ALL_CHANGED_ARRAY=()
   ALL_MODIFIED_FILES_ARRAY=()
 
-  for path in ${UNIQUE_FILES}
+  for path in ${INPUT_FILES}
   do
     echo "Checking for file changes: \"${path}\"..."
     IFS=" "
@@ -137,13 +135,13 @@ echo "Unknown files: $UNKNOWN"
 echo "All changed files: $ALL_CHANGED"
 echo "All modified files: $ALL_MODIFIED_FILES"
 
-if [[ -n "$UNIQUE_FILES" ]]; then
+if [[ -n "$INPUT_FILES" ]]; then
   IFS=$INPUT_SEPARATOR read -r -a UNIQUE_ALL_MODIFIED_FILES <<< "$ALL_MODIFIED_FILES"
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
-  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | xargs -0)
+  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${UNIQUE_ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " ")
 
-  echo "Input files: ${UNIQUE_FILES[*]}"
+  echo "Input files: ${INPUT_FILES[*]}"
   echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES[*]}"
 
   if [[ ${#UNIQUE_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
