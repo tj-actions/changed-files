@@ -66,16 +66,16 @@ UNIQUE_FILES=$(echo "$INPUT_FILES" | tr " " "\n" | sort -u | xargs -0)
 
 if [[ -z "${UNIQUE_FILES[*]}" ]]; then
   echo "Getting diff..."
-  ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  MODIFIED=$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  RENAMED=$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  TYPE_CHANGED=$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
-  ALL_MODIFIED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | tr "\n" "$INPUT_SEPARATOR" | sed "s/.$//")
+  ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  MODIFIED=$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  RENAMED=$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  TYPE_CHANGED=$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  ALL_CHANGED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
+  ALL_MODIFIED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | xargs -0 | sed 's/  */'"$INPUT_SEPARATOR"'/g')
 else
   ADDED_ARRAY=()
   COPIED_ARRAY=()
@@ -140,7 +140,7 @@ echo "All modified files: $ALL_MODIFIED_FILES"
 if [[ -n "$UNIQUE_FILES" ]]; then
   ALL_OTHER_CHANGED_FILES=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
-  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | tr "\n" " " | xargs -0)
+  OTHER_CHANGED_FILES=$(echo "${ALL_OTHER_CHANGED_FILES[@]}" "${ALL_MODIFIED_FILES[@]}" | tr " " "\n" | sort | uniq -u | xargs -0)
 
   echo "Input files: ${UNIQUE_FILES[*]}"
   echo "Matching modified files: ${ALL_MODIFIED_FILES[*]}"
