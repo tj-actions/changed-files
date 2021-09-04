@@ -131,7 +131,7 @@ else
   echo "Input files: ${INPUT_FILES[*]}"
   echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES[*]}"
 
-  if [[ ${#UNIQUE_ALL_MODIFIED_FILES[@]} -gt 0 ]]; then
+  if [[ -n "$UNIQUE_ALL_MODIFIED_FILES" ]]; then
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
