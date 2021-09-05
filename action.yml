@@ -64,11 +64,20 @@ outputs:
     description: Return true only when any files provided using the files input have changed.
     value: ${{ steps.changed-files.outputs.any_changed }}
   only_changed:
-    description: Return true only when only files provided using the files input have changed.
+    description: Return true when all files provided using the files input have changed.
     value: ${{ steps.changed-files.outputs.only_changed }}
   other_changed_files:
     description: Return list of changed files not listed in the files input.
     value: ${{ steps.changed-files.outputs.other_changed_files }}
+  any_deleted:
+    description: Return true only when any files provided using the files input have been deleted.
+    value: ${{ steps.changed-files.outputs.any_deleted }}
+  only_deleted:
+    description: Return true when all files provided using the files input have been deleted.
+    value: ${{ steps.changed-files.outputs.only_deleted }}
+  other_deleted_files:
+    description: Return list of deleted files not listed in the files input.
+    value: ${{ steps.changed-files.outputs.other_deleted_files }}
 
 runs:
   using: 'composite'
