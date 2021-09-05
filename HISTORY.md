@@ -1,5 +1,21 @@
 # Changelog
 
+## [v1.1.1](https://github.com/tj-actions/changed-files/tree/v1.1.1) (2021-09-05)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.0...v1.1.1)
+
+**Implemented enhancements:**
+
+- \[Feature\] Rename `all_changed_files` to `all_changed_and_modified_files` [\#179](https://github.com/tj-actions/changed-files/issues/179)
+- \[Feature\] Add support for `any_deleted` and `only_deleted` boolean output. [\#166](https://github.com/tj-actions/changed-files/issues/166)
+
+**Merged pull requests:**
+
+- Added support for detecting deleted files. [\#188](https://github.com/tj-actions/changed-files/pull/188) ([jackton1](https://github.com/jackton1))
+- Rename all\_changed\_files to all\_changed\_and\_modified\_files. [\#187](https://github.com/tj-actions/changed-files/pull/187) ([jackton1](https://github.com/jackton1))
+- Update other\_changed\_files output to also use the separator [\#186](https://github.com/tj-actions/changed-files/pull/186) ([jackton1](https://github.com/jackton1))
+- Upgraded to v1.1.0 [\#185](https://github.com/tj-actions/changed-files/pull/185) ([jackton1](https://github.com/jackton1))
+
 ## [v1.1.0](https://github.com/tj-actions/changed-files/tree/v1.1.0) (2021-09-04)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.3...v1.1.0)
