@@ -144,7 +144,7 @@ else
     echo "Non Matching modified files: ${OTHER_MODIFIED_FILES_ARRAY[*]}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_MODIFIED_FILES"
-  else
+  elif [[ -n "${UNIQUE_ALL_MODIFIED_FILES_ARRAY[*]}" ]]; then
     echo "::set-output name=only_changed::true"
   fi
 
@@ -155,9 +155,9 @@ else
 
   OTHER_DELETED_FILES=$(echo "${OTHER_DELETED_FILES_ARRAY[*]}" | tr " " "\n" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_FILES_ARRAY[*]}"
+  echo "Matching modified files: ${UNIQUE_DELETED_FILES_ARRAY[*]}"
 
-  if [[ -n "${UNIQUE_ALL_MODIFIED_FILES_ARRAY[*]}" ]]; then
+  if [[ -n "${UNIQUE_DELETED_FILES_ARRAY[*]}" ]]; then
     echo "::set-output name=any_deleted::true"
   else
     echo "::set-output name=any_deleted::false"
@@ -167,7 +167,7 @@ else
     echo "Non Matching modified files: ${OTHER_DELETED_FILES_ARRAY[*]}"
     echo "::set-output name=only_deleted::false"
     echo "::set-output name=other_deleted_files::$OTHER_DELETED_FILES"
-  else
+  elif [[ -n "${UNIQUE_DELETED_FILES_ARRAY[*]}" ]]; then
     echo "::set-output name=only_deleted::true"
   fi
 fi
