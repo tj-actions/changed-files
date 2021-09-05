@@ -83,9 +83,10 @@ jobs:
 |:--------------------:|:------------:|:----------------------------------:|:----------------------------------------:|
 | any_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has changed. <br /> i.e. *using a combination of all added, <br />copied, modified and renamed files (ACMR).* |
 | only_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input have changed. |
+| other_changed_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACMR).*  |
 | any_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been deleted. |
 | only_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input has been deleted. |
-| other_changed_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACMR).*  |
+| other_deleted_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other deleted files <br/> not listed in the files input <br /> i.e. *a  combination of all deleted files  |
 | all_modified_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all modified files <br /> i.e. *a combination of all added, <br />copied, modified and renamed files (ACMR).*  |
 | all_changed_and_modified_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed <br /> and modified files <br /> i.e. *a combination of (ACMRDTUX).*  |
 | added_files          |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Added (A)    |
