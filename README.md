@@ -213,13 +213,19 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          path: subfolder
+          path: dir1
 
       - name: Run changed-files with defaults on the dir1
-        id: changed-files-for-subfolder
+        id: changed-files-for-dir1
         uses: tj-actions/changed-files@v1.1.2
         with:
-          path: subfolder
+          path: dir1
+
+      - name: List all added files in dir1
+        run: |
+          for file in "${{ steps.changed-files-for-dir1.outputs.added_files }}"; do
+            echo "$file was added"
+          done
 ```
 
 ### Running [pre-commit](https://pre-commit.com/) on all modified files
