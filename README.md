@@ -1,12 +1,12 @@
-[![CI](https://github.com/tj-actions/changed-files/actions/workflows/test.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/test.yml) [![Update release version.](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a3822d6c37f644bc99a5faa0bfb9c2c1)](https://www.codacy.com/gh/tj-actions/changed-files/dashboard?utm_source=github.com\&utm_medium=referral\&utm_content=tj-actions/changed-files\&utm_campaign=Badge_Grade) [![Public workflows that use this action.](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi-tj-actions1.vercel.app%2Fapi%2Fgithub-actions%2Fused-by%3Faction%3Dtj-actions%2Fchanged-files%26badge%3Dtrue)](https://github.com/search?o=desc\&q=tj-actions+changed-files+language%3AYAML\&s=\&type=Code) 
+[![CI](https://github.com/tj-actions/changed-files/actions/workflows/test.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/test.yml) [![Update release version.](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a3822d6c37f644bc99a5faa0bfb9c2c1)](https://www.codacy.com/gh/tj-actions/changed-files/dashboard?utm\_source=github.com\&utm\_medium=referral\&utm\_content=tj-actions/changed-files\&utm\_campaign=Badge\_Grade) [![Public workflows that use this action.](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi-tj-actions1.vercel.app%2Fapi%2Fgithub-actions%2Fused-by%3Faction%3Dtj-actions%2Fchanged-files%26badge%3Dtrue)](https://github.com/search?o=desc\&q=tj-actions+changed-files+language%3AYAML\&s=\&type=Code)
 
-[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?logo=ubuntu&logoColor=white)](https://github.com/tj-actions/changed-files) 
-[![Mac OS](https://img.shields.io/badge/mac%20os-000000?logo=macos&logoColor=F0F0F0)](https://github.com/tj-actions/changed-files)
-[![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=white)](https://github.com/tj-actions/changed-files)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?logo=ubuntu\&logoColor=white)](https://github.com/tj-actions/changed-files)
+[![Mac OS](https://img.shields.io/badge/mac%20os-000000?logo=macos\&logoColor=F0F0F0)](https://github.com/tj-actions/changed-files)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows\&logoColor=white)](https://github.com/tj-actions/changed-files)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all\_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -28,9 +28,9 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 
 ## Supported Platforms
 
-*   [`ubuntu-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
-*   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
-*   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
+*   [`ubuntu-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob\_idruns-on)
+*   [`macos-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob\_idruns-on)
+*   [`windows-*`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob\_idruns-on)
 
 ## Usage
 
@@ -85,33 +85,33 @@ jobs:
 
 |   Output             |    type      |  example                           |         description                      |
 |:--------------------:|:------------:|:----------------------------------:|:----------------------------------------:|
-| any_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has changed. <br /> i.e. *using a combination of all added, <br />copied, modified and renamed files (ACMR).* |
-| only_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input have changed. (ACMR) |
-| other_changed_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACMR).*  |
-| any_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been deleted. (D).\* |
-| only_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input has been deleted. (D) |
-| other_deleted_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other deleted files <br/> not listed in the files input <br /> i.e. *a  combination of all deleted files (D).*  |
-| all_modified_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all modified files <br /> i.e. a combination of all added, <br />copied, modified and renamed files (ACMR).\*  |
-| all_changed_and_modified_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed <br /> and modified files <br /> i.e. *a combination of (ACMRDTUX).*  |
-| added_files          |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Added (A)    |
-| copied_files         |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Copied (C)   |
-| deleted_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Deleted (D)  |
-| modified_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Modified (M) |
-| renamed_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Renamed (R)  |
-| type_changed_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that have their file type changed (T) |
-| unmerged_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unmerged (U) |
-| unknown_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unknown (X)  |
+| any\_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has changed. <br /> i.e. *using a combination of all added, <br />copied, modified and renamed files (ACMR).* |
+| only\_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input have changed. (ACMR) |
+| other\_changed\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACMR).*  |
+| any\_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been deleted. (D).\* |
+| only\_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input has been deleted. (D) |
+| other\_deleted\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other deleted files <br/> not listed in the files input <br /> i.e. *a  combination of all deleted files (D).*  |
+| all\_modified\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all modified files <br /> i.e. a combination of all added, <br />copied, modified and renamed files (ACMR).\*  |
+| all\_changed\_and\_modified\_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed <br /> and modified files <br /> i.e. *a combination of (ACMRDTUX).*  |
+| added\_files          |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Added (A)    |
+| copied\_files         |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Copied (C)   |
+| deleted\_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Deleted (D)  |
+| modified\_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Modified (M) |
+| renamed\_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Renamed (R)  |
+| type\_changed\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that have their file type changed (T) |
+| unmerged\_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unmerged (U) |
+| unknown\_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unknown (X)  |
 
 ## Inputs
 
 |   Input       |    type    |  required      |  default                      |  description  |
 |:-------------:|:-----------:|:-------------:|:-----------------------------:|:-------------:|
-| token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
+| token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB\_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github\_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
 | separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
 | files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these <br> list of file(s) <br> (Defaults to the <br> entire repo) |
-| base_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
+| base\_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
-| files_from_source_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
+| files\_from\_source\_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
 | path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
 
 ## Example
