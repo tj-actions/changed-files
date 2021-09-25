@@ -18,7 +18,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v2
       - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1.7
+        uses: reviewdog/action-shellcheck@v1.9
 
   test-multiple-repositories:
     name: Test with multiple repositories
