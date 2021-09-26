@@ -15,7 +15,9 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-git remote add temp_changed_files "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
+SERVER_URL=$(echo "$GITHUB_SERVER_URL" | awk -F/ '{print $3}')
+
+git remote add temp_changed_files "https://${INPUT_TOKEN}@${SERVER_URL}/${GITHUB_REPOSITORY}"
 
 echo "Getting HEAD info..."
 
