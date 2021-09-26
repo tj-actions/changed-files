@@ -1,5 +1,31 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.3...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] in entrypoint is referring to gihub.com repository [\#196](https://github.com/tj-actions/changed-files/issues/196)
+
+## [v1.1.3](https://github.com/tj-actions/changed-files/tree/v1.1.3) (2021-09-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.2...v1.1.3)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Fixed bug setting the server URL for github enterprise server [\#198](https://github.com/tj-actions/changed-files/pull/198) ([jackton1](https://github.com/jackton1))
+- Update reviewdog/action-shellcheck action to v1.9 [\#197](https://github.com/tj-actions/changed-files/pull/197) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated test [\#195](https://github.com/tj-actions/changed-files/pull/195) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#194](https://github.com/tj-actions/changed-files/pull/194) ([jackton1](https://github.com/jackton1))
+- Bump tj-actions/branch-names from 4.9 to 5 [\#193](https://github.com/tj-actions/changed-files/pull/193) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Updated README.md [\#192](https://github.com/tj-actions/changed-files/pull/192) ([jackton1](https://github.com/jackton1))
+- Upgraded to v1.1.2 [\#190](https://github.com/tj-actions/changed-files/pull/190) ([jackton1](https://github.com/jackton1))
+
 ## [v1.1.2](https://github.com/tj-actions/changed-files/tree/v1.1.2) (2021-09-05)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.1...v1.1.2)
@@ -31,10 +57,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] Specify sed delimiter or escaping forward slashes used in separator [\#180](https://github.com/tj-actions/changed-files/issues/180)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
