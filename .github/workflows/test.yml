@@ -79,7 +79,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
+        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022, windows-2016]
 
     steps:
       - name: Checkout to branch
@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
+        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022, windows-2016]
 
     steps:
       - name: Checkout
