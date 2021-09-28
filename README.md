@@ -151,9 +151,9 @@ jobs:
             test.txt
             new.txt
             test_directory
-            *.sh
+            \.sh$
             .(png|jpeg)$
-            .(sql)$
+            .(sql|py)$
             ^(mynewfile|custom)
 
       - name: Run step if any of the listed files above change
