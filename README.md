@@ -16,7 +16,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 
 ## Features
 
-*   Fast execution.
+*   Fast execution (0-2 seconds).
 *   Easy to debug.
 *   Boolean output indicating that certain files have been modified.
 *   Multiple repository support.
