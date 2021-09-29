@@ -194,7 +194,7 @@ jobs:
           files_from_source_file: |
             test/changed-files-list.txt
           files: |
-            .github/workflows/rebase.yml
+            test.txt
 
       - name: Use a different commit SHA
         id: changed-files-custom-sha
