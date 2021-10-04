@@ -1,12 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v10](https://github.com/tj-actions/changed-files/tree/v10) (2021-10-03)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.3...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.3...v10)
 
 **Fixed bugs:**
 
+- \[BUG\] Glob vs regex in readme and execution when using \* in with: files: [\#200](https://github.com/tj-actions/changed-files/issues/200)
 - \[BUG\] in entrypoint is referring to gihub.com repository [\#196](https://github.com/tj-actions/changed-files/issues/196)
+
+**Merged pull requests:**
+
+- Update README.md [\#201](https://github.com/tj-actions/changed-files/pull/201) ([jackton1](https://github.com/jackton1))
+- Upgraded to v1.1.3 [\#199](https://github.com/tj-actions/changed-files/pull/199) ([jackton1](https://github.com/jackton1))
 
 ## [v1.1.3](https://github.com/tj-actions/changed-files/tree/v1.1.3) (2021-09-26)
 
@@ -312,7 +318,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -328,13 +334,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
