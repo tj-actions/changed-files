@@ -45,7 +45,7 @@ jobs:
           bash
       - name: List all modified files
         run: |
-          for file in "${{ steps.changed-files-dir1.outputs.modified_files }}"; do
+          for file in ${{ steps.changed-files-dir1.outputs.modified_files }}; do
             echo "$file"
           done
         shell:
@@ -67,7 +67,7 @@ jobs:
           bash
       - name: List all modified files
         run: |
-          for file in "${{ steps.changed-files-dir2.outputs.modified_files }}"; do
+          for file in ${{ steps.changed-files-dir2.outputs.modified_files }}; do
             echo "$file"
           done
         shell:
@@ -119,7 +119,7 @@ jobs:
           bash
       - name: List all modified files
         run: |
-          for file in "${{ steps.changed-files.outputs.modified_files }}"; do
+          for file in ${{ steps.changed-files.outputs.modified_files }}; do
             echo $file
           done
         shell:
