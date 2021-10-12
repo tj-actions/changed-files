@@ -60,7 +60,7 @@ jobs:
 
       - name: List all modified files
         run: |
-          for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
+          for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
             echo "$file was modified"
           done
 ```
@@ -128,7 +128,7 @@ jobs:
 
       - name: List all added files
         run: |
-          for file in "${{ steps.changed-files.outputs.added_files }}"; do
+          for file in ${{ steps.changed-files.outputs.added_files }}; do
             echo "$file was added"
           done
 
@@ -169,14 +169,14 @@ jobs:
       - name: Run step if any of the listed files above is deleted
         if: steps.changed-files.outputs.any_deleted == "true"
         run: |
-          for file in "${{ steps.changed-files.outputs.deleted_files }}"; do
+          for file in ${{ steps.changed-files.outputs.deleted_files }}; do
             echo "$file was deleted"
           done
 
       - name: Run step if all listed files above have been deleted
         if: steps.changed-files.outputs.only_deleted == "true"
         run: |
-          for file in "${{ steps.changed-files.outputs.deleted_files }}"; do
+          for file in ${{ steps.changed-files.outputs.deleted_files }}; do
             echo "$file was deleted"
           done
 
@@ -222,7 +222,7 @@ jobs:
 
       - name: List all added files in dir1
         run: |
-          for file in "${{ steps.changed-files-for-dir1.outputs.added_files }}"; do
+          for file in ${{ steps.changed-files-for-dir1.outputs.added_files }}; do
             echo "$file was added"
           done
 ```
