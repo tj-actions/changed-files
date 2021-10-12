@@ -1,5 +1,20 @@
 # Changelog
 
+## [v10.1](https://github.com/tj-actions/changed-files/tree/v10.1) (2021-10-12)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10...v10.1)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- docs: add talva-tr as a contributor for code [\#205](https://github.com/tj-actions/changed-files/pull/205) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Update entrypoint.sh [\#204](https://github.com/tj-actions/changed-files/pull/204) ([talva-tr](https://github.com/talva-tr))
+- Update tj-actions/verify-changed-files action to v8 [\#203](https://github.com/tj-actions/changed-files/pull/203) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v10 [\#202](https://github.com/tj-actions/changed-files/pull/202) ([jackton1](https://github.com/jackton1))
+
 ## [v10](https://github.com/tj-actions/changed-files/tree/v10) (2021-10-03)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.3...v10)
@@ -17,10 +32,6 @@
 ## [v1.1.3](https://github.com/tj-actions/changed-files/tree/v1.1.3) (2021-09-26)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.2...v1.1.3)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
