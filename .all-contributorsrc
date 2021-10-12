@@ -42,6 +42,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "talva-tr",
+      "name": "talva-tr",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82046981?v=4",
+      "profile": "https://github.com/talva-tr",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
