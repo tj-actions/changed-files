@@ -19,7 +19,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Fast execution (0-2 seconds on average).
 *   Easy to debug.
 *   Boolean output indicating that certain files have been modified.
-*   Multiple repository.
+*   Multiple repositories.
 *   Self hosted runners.
 *   GitHub Enterprise Server.
 *   List all files that have changed.
