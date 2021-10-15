@@ -312,7 +312,12 @@ jobs:
           files: |
             .github/workflows/rebase.yml
       - name: Verify any_changed from source files
-        if: "!contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/test.yml')"
+        if: |
+          (
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') && 
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/rebase.yml')
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_changed }})"
