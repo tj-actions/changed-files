@@ -21,7 +21,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Boolean output indicating that certain files have been modified.
 *   Multiple repositories.
 *   Self hosted runners.
-*   Github Enterprise Server.
+*   GitHub Enterprise Server.
 *   Supports all platforms.
 *   List all files that have changed.
     *   Between the current pull request branch and the default branch.
