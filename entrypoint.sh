@@ -137,8 +137,8 @@ else
 
   ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
-  IFS=" " read -r -a UNIQUE_ALL_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_MODIFIED_ARRAY[@]}" | sort -u | tr "\n" " ")"
-  IFS=" " read -r -a OTHER_MODIFIED_ARRAY <<< "$(echo "${ALL_OTHER_MODIFIED[@]}" "${UNIQUE_ALL_MODIFIED_ARRAY[@]}" | xargs -0 printf "%s\n" | sort | uniq -u | tr "\n" " ")"
+  IFS=$'\n' read -r -a UNIQUE_ALL_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_MODIFIED_ARRAY[@]}" | sort -u)"
+  IFS=$'\n' read -r -a OTHER_MODIFIED_ARRAY <<< "$(echo "${ALL_OTHER_MODIFIED[@]}" "${UNIQUE_ALL_MODIFIED_ARRAY[@]}" | xargs -0 printf "%s\n" | sort -u)"
 
   OTHER_MODIFIED=$(printf "%s\n" "${OTHER_MODIFIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
@@ -160,8 +160,8 @@ else
 
   OTHER_DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
-  IFS=" " read -r -a UNIQUE_DELETED_ARRAY <<< "$(printf "%s\n" "${DELETED_ARRAY[@]}" | sort -u | tr "\n" " ")"
-  IFS=" " read -r -a OTHER_DELETED_ARRAY <<< "$(echo "${OTHER_DELETED[@]}" "${UNIQUE_DELETED_ARRAY[@]}" | xargs -0 printf "%s\n" | sort | uniq -u | tr "\n" " ")"
+  IFS=$'\n' read -r -a UNIQUE_DELETED_ARRAY <<< "$(printf "%s\n" "${DELETED_ARRAY[@]}" | sort -u)"
+  IFS=$'\n' read -r -a OTHER_DELETED_ARRAY <<< "$(echo "${OTHER_DELETED[@]}" "${UNIQUE_DELETED_ARRAY[@]}" | xargs -0 printf "%s\n" | sort -u)"
 
   OTHER_DELETED=$(printf "%s\n" "${OTHER_DELETED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
