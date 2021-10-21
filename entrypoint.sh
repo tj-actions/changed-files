@@ -138,7 +138,7 @@ else
   ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
   IFS=$'\n' read -r -a UNIQUE_ALL_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_MODIFIED_ARRAY[@]}" | sort -u)"
-  IFS=$'\n' read -r -a OTHER_MODIFIED_ARRAY <<< "$(echo "${ALL_OTHER_MODIFIED[@]}" "${UNIQUE_ALL_MODIFIED_ARRAY[@]}" | xargs printf "%s\n" | sort | uniq -u)"
+  IFS=$'\n' read -r -a OTHER_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_OTHER_MODIFIED[@]}" "${UNIQUE_ALL_MODIFIED_ARRAY[@]}" | sort | uniq -u)"
 
   OTHER_MODIFIED=$(printf "%s\n" "${OTHER_MODIFIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
