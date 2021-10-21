@@ -1,6 +1,7 @@
 name: Changed files
 description: Get all changed files for push and pull request events.
 author: tj-actions
+
 inputs:
   token:
     description: 'Github token'
