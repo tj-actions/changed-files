@@ -137,6 +137,17 @@ else
 
   ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
 
+  echo "ADDED: $ADDED"
+  echo "COPIED: $COPIED"
+  echo "DELETED: $DELETED"
+  echo "MODIFIED: $MODIFIED"
+  echo "TYPE_CHANGED: $TYPE_CHANGED"
+  echo "UNMERGED: $UNMERGED"
+  echo "UNKNOWN: $UNKNOWN"
+  echo "ALL_CHANGED_AND_MODIFIED: $ALL_CHANGED_AND_MODIFIED"
+  echo "ALL_MODIFIED: $ALL_MODIFIED"
+  echo "ALL_OTHER_MODIFIED: $ALL_OTHER_MODIFIED"
+
   IFS=$'\n' read -r -a UNIQUE_ALL_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_MODIFIED_ARRAY[@]}" | sort -u)"
   IFS=$'\n' read -r -a OTHER_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_OTHER_MODIFIED[@]}" "${UNIQUE_ALL_MODIFIED_ARRAY[@]}" | sort | uniq -u)"
 
