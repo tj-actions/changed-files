@@ -8,6 +8,13 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this feature request!
+  - type: checkboxes
+    attributes:
+      label: Is this feature missing in the latest version?
+      description: Please upgrade to the latest version to verify that this feature is still missing.
+      options:
+        - label: I'm using the latest release
+          required: true
   - type: textarea
     id: what-happened
     attributes:
