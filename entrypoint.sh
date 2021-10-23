@@ -77,120 +77,102 @@ if [[ -z "${INPUT_FILES[*]}" ]]; then
   ALL_CHANGED_AND_MODIFIED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
-  ADDED_ARRAY=()
-  COPIED_ARRAY=()
-  DELETED_ARRAY=()
-  MODIFIED_ARRAY=()
-  RENAMED_ARRAY=()
-  TYPE_CHANGED_ARRAY=()
-  UNMERGED_ARRAY=()
-  UNKNOWN_ARRAY=()
-  ALL_CHANGED_AND_MODIFIED_ARRAY=()
-  ALL_MODIFIED_ARRAY=()
+  ADDED=""
+  COPIED=""
+  DELETED=""
+  MODIFIED=""
+  RENAMED=""
+  TYPE_CHANGED=""
+  UNMERGED=""
+  UNKNOWN=""
+  ALL_CHANGED_AND_MODIFIED=""
+  ALL_MODIFIED=""
 
   echo "Input files: ${INPUT_FILES[*]}"
 
   for path in ${INPUT_FILES}
   do
     echo "Checking for file changes: \"${path}\"..."
-    IFS=" " read -r -a ADDED_CURRENT_ARRAY <<< "$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    ADDED_ARRAY=("${ADDED_ARRAY[@]}" "${ADDED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a COPIED_CURRENT_ARRAY <<< "$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    COPIED_ARRAY=("${COPIED_ARRAY[@]}" "${COPIED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a DELETED_CURRENT_ARRAY <<< "$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    DELETED_ARRAY=("${DELETED_ARRAY[@]}" "${DELETED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a MODIFIED_CURRENT_ARRAY <<< "$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    MODIFIED_ARRAY=("${MODIFIED_ARRAY[@]}" "${MODIFIED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a RENAMED_CURRENT_ARRAY <<< "$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    RENAMED_ARRAY=("${RENAMED_ARRAY[@]}" "${RENAMED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a TYPE_CHANGED_CURRENT_ARRAY <<< "$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    TYPE_CHANGED_ARRAY=("${TYPE_CHANGED_ARRAY[@]}" "${TYPE_CHANGED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a UNMERGED_CURRENT_ARRAY <<< "$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    UNMERGED_ARRAY=("${UNMERGED_ARRAY[@]}" "${UNMERGED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a UNKNOWN_CURRENT_ARRAY <<< "$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    UNKNOWN_ARRAY=("${UNKNOWN_ARRAY[@]}" "${UNKNOWN_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a ALL_CHANGED_AND_MODIFIED_CURRENT_ARRAY <<< "$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    ALL_CHANGED_AND_MODIFIED_ARRAY=("${ALL_CHANGED_AND_MODIFIED_ARRAY[@]}" "${ALL_CHANGED_AND_MODIFIED_CURRENT_ARRAY[@]}")
-
-    IFS=" " read -r -a ALL_MODIFIED_CURRENT_ARRAY <<< "$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | xargs -0 || true)"
-    ALL_MODIFIED_ARRAY=("${ALL_MODIFIED_ARRAY[@]}" "${ALL_MODIFIED_CURRENT_ARRAY[@]}")
+    ADDED+=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    COPIED+=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    DELETED+=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    MODIFIED+=$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    RENAMED+=$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    TYPE_CHANGED+=$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    UNMERGED+=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    UNKNOWN+=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    ALL_CHANGED_AND_MODIFIED+=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
+    ALL_MODIFIED+=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${path})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' || true)
   done
 
-  ADDED=$(printf "%s\n" "${ADDED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  COPIED=$(printf "%s\n" "${COPIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  DELETED=$(printf "%s\n" "${DELETED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  MODIFIED=$(printf "%s\n" "${MODIFIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  RENAMED=$(printf "%s\n" "${RENAMED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  TYPE_CHANGED=$(printf "%s\n" "${TYPE_CHANGED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNMERGED=$(printf "%s\n" "${UNMERGED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNKNOWN=$(printf "%s\n" "${UNKNOWN_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED_AND_MODIFIED=$(printf "%s\n" "${ALL_CHANGED_AND_MODIFIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(printf "%s\n" "${ALL_MODIFIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
+  if [[ -n $ALL_OTHER_MODIFIED ]]; then
+    if [[ -n "$UNIQUE_ALL_MODIFIED" ]]; then
+      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${UNIQUE_ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+    else
+      OTHER_MODIFIED=$ALL_OTHER_MODIFIED
+    fi
+  fi
 
-  echo "ADDED: $ADDED"
-  echo "COPIED: $COPIED"
-  echo "DELETED: $DELETED"
-  echo "MODIFIED: $MODIFIED"
-  echo "TYPE_CHANGED: $TYPE_CHANGED"
-  echo "UNMERGED: $UNMERGED"
-  echo "UNKNOWN: $UNKNOWN"
-  echo "ALL_CHANGED_AND_MODIFIED: $ALL_CHANGED_AND_MODIFIED"
-  echo "ALL_MODIFIED: $ALL_MODIFIED"
-  echo "ALL_OTHER_MODIFIED: $ALL_OTHER_MODIFIED"
+  echo "Matching modified files: ${UNIQUE_ALL_MODIFIED}"
 
-  IFS=$'\n' read -r -a UNIQUE_ALL_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_MODIFIED_ARRAY[@]}" | sort -u)"
-  IFS=$'\n' read -r -a OTHER_MODIFIED_ARRAY <<< "$(printf "%s\n" "${ALL_OTHER_MODIFIED[@]}" "${UNIQUE_ALL_MODIFIED_ARRAY[@]}" | sort | uniq -u)"
-
-  OTHER_MODIFIED=$(printf "%s\n" "${OTHER_MODIFIED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-
-  echo "Matching modified files: ${UNIQUE_ALL_MODIFIED_ARRAY[*]}"
-
-  if [[ -n "${UNIQUE_ALL_MODIFIED_ARRAY[*]}" ]]; then
+  if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
   fi
 
-  if [[ -n "${OTHER_MODIFIED_ARRAY[*]}" ]]; then
-    echo "Non Matching modified files: ${OTHER_MODIFIED_ARRAY[*]}"
+  OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+
+  if [[ -n "${OTHER_MODIFIED}" ]]; then
+    echo "Non Matching modified files: ${OTHER_MODIFIED}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_MODIFIED"
-  elif [[ -n "${UNIQUE_ALL_MODIFIED_ARRAY[*]}" ]]; then
+  elif [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
     echo "::set-output name=only_changed::true"
   fi
 
-  OTHER_DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
+  ALL_OTHER_DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  IFS=$'\n' read -r -a UNIQUE_DELETED_ARRAY <<< "$(printf "%s\n" "${DELETED_ARRAY[@]}" | sort -u)"
-  IFS=$'\n' read -r -a OTHER_DELETED_ARRAY <<< "$(echo "${OTHER_DELETED[@]}" "${UNIQUE_DELETED_ARRAY[@]}" | xargs -0 printf "%s\n" | sort -u)"
+  if [[ -n $ALL_OTHER_DELETED ]]; then
+    if [[ -n "$UNIQUE_ALL_DELETED" ]]; then
+      OTHER_DELETED=$(echo "${ALL_OTHER_DELETED}|${UNIQUE_ALL_DELETED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+    else
+      OTHER_DELETED=$ALL_OTHER_DELETED
+    fi
+  fi
 
-  OTHER_DELETED=$(printf "%s\n" "${OTHER_DELETED_ARRAY[@]}" | sort -u | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  echo "Matching deleted files: ${UNIQUE_ALL_DELETED}"
 
-  echo "Matching deleted files: ${UNIQUE_DELETED_ARRAY[*]}"
-
-  if [[ -n "${UNIQUE_DELETED_ARRAY[*]}" ]]; then
+  if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
     echo "::set-output name=any_deleted::true"
   else
     echo "::set-output name=any_deleted::false"
   fi
 
-  if [[ -n "${OTHER_DELETED_ARRAY[*]}" ]]; then
-    echo "Non Matching deleted files: ${OTHER_DELETED_ARRAY[*]}"
+  OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+
+  if [[ -n "${OTHER_DELETED}" ]]; then
+    echo "Non Matching deleted files: ${OTHER_DELETED}"
     echo "::set-output name=only_deleted::false"
     echo "::set-output name=other_deleted_files::$OTHER_DELETED"
-  elif [[ -n "${UNIQUE_DELETED_ARRAY[*]}" ]]; then
+  elif [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
     echo "::set-output name=only_deleted::true"
   fi
+
+  ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  COPIED=$(echo "${COPIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  MODIFIED=$(echo "${MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  RENAMED=$(echo "${RENAMED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 fi
 
 echo "Added files: $ADDED"
