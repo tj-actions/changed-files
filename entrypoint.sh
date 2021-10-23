@@ -80,7 +80,7 @@ else
 
   echo "Input files: ${INPUT_FILES[*]}"
 
-  FILES=$(printf '%s\n' "${INPUT_FILES[@]}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  FILES=$(echo "${INPUT_FILES[*]}" | awk '{gsub(/ /,"\n"); print $0;}' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   echo "Checking for file changes: \"${FILES}\"..."
   ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
