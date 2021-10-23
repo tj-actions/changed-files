@@ -1,8 +1,17 @@
 # Changelog
 
-## [v10.1](https://github.com/tj-actions/changed-files/tree/v10.1) (2021-10-12)
+## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-10-23)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10...v10.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10.1...v11)
+
+**Implemented enhancements:**
+
+- \[Feature\] fetch HEAD without tags [\#220](https://github.com/tj-actions/changed-files/issues/220)
+
+**Fixed bugs:**
+
+- \[BUG\] Spaces in file names are not handled correctly [\#216](https://github.com/tj-actions/changed-files/issues/216)
+- \[BUG\] Usage of quotes around array items  [\#208](https://github.com/tj-actions/changed-files/issues/208)
 
 **Closed issues:**
 
@@ -10,8 +19,27 @@
 
 **Merged pull requests:**
 
+- Updated README.md [\#221](https://github.com/tj-actions/changed-files/pull/221) ([jackton1](https://github.com/jackton1))
+- Miscellaneous code cleanup [\#219](https://github.com/tj-actions/changed-files/pull/219) ([jackton1](https://github.com/jackton1))
+- Fixed bug with separator for filenames that contain spaces [\#218](https://github.com/tj-actions/changed-files/pull/218) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#215](https://github.com/tj-actions/changed-files/pull/215) ([jackton1](https://github.com/jackton1))
+- Bump tj-actions/sync-release-version from 8.7 to 9 [\#214](https://github.com/tj-actions/changed-files/pull/214) ([dependabot[bot]](https://github.com/apps/dependabot))
+- docs: add eltociear as a contributor for doc [\#213](https://github.com/tj-actions/changed-files/pull/213) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Update README.md [\#212](https://github.com/tj-actions/changed-files/pull/212) ([eltociear](https://github.com/eltociear))
+- Fixed error with test [\#211](https://github.com/tj-actions/changed-files/pull/211) ([jackton1](https://github.com/jackton1))
+- Update actions/checkout action to v2.3.5 [\#210](https://github.com/tj-actions/changed-files/pull/210) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated usage of quotes around array items. [\#209](https://github.com/tj-actions/changed-files/pull/209) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#207](https://github.com/tj-actions/changed-files/pull/207) ([jackton1](https://github.com/jackton1))
+- Upgraded to v10.1 [\#206](https://github.com/tj-actions/changed-files/pull/206) ([jackton1](https://github.com/jackton1))
+
+## [v10.1](https://github.com/tj-actions/changed-files/tree/v10.1) (2021-10-12)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10...v10.1)
+
+**Merged pull requests:**
+
 - docs: add talva-tr as a contributor for code [\#205](https://github.com/tj-actions/changed-files/pull/205) ([allcontributors[bot]](https://github.com/apps/allcontributors))
-- Update entrypoint.sh [\#204](https://github.com/tj-actions/changed-files/pull/204) ([talva-tr](https://github.com/talva-tr))
+- Add support for updating the current HEAD [\#204](https://github.com/tj-actions/changed-files/pull/204) ([talva-tr](https://github.com/talva-tr))
 - Update tj-actions/verify-changed-files action to v8 [\#203](https://github.com/tj-actions/changed-files/pull/203) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v10 [\#202](https://github.com/tj-actions/changed-files/pull/202) ([jackton1](https://github.com/jackton1))
 
