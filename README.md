@@ -262,6 +262,12 @@ Support me with a :star:
 
 [![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
 
+## Known Limitation
+- Spaces in filenames can introduce bugs when using bash loops. See: [Issue #216](https://github.com/tj-actions/changed-files/issues/216)
+   - However this action should handle spaces in filenames, recommend using a separator that would prevent further issues.
+      ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
+
+
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
