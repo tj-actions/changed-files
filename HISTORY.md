@@ -2,11 +2,26 @@
 
 ## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.2...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Changed files not working on self hosted runners [\#227](https://github.com/tj-actions/changed-files/issues/227)
+
+## [v11.2](https://github.com/tj-actions/changed-files/tree/v11.2) (2021-10-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.1...v11.2)
 
 **Implemented enhancements:**
 
 - \[Feature\] fetch HEAD without tags [\#220](https://github.com/tj-actions/changed-files/issues/220)
+
+**Merged pull requests:**
+
+- Resolved bug with already existing remote [\#230](https://github.com/tj-actions/changed-files/pull/230) ([jackton1](https://github.com/jackton1))
+- Revert "bug/fix error with already existing remote" [\#229](https://github.com/tj-actions/changed-files/pull/229) ([jackton1](https://github.com/jackton1))
+- bug/fix error with already existing remote [\#228](https://github.com/tj-actions/changed-files/pull/228) ([jackton1](https://github.com/jackton1))
+- Upgraded to v11.1 [\#226](https://github.com/tj-actions/changed-files/pull/226) ([jackton1](https://github.com/jackton1))
 
 ## [v11.1](https://github.com/tj-actions/changed-files/tree/v11.1) (2021-10-25)
 
