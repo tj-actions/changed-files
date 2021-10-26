@@ -33,7 +33,7 @@ echo "Getting HEAD info..."
 if [[ -z $INPUT_SHA ]]; then
   CURRENT_SHA=$(git rev-parse HEAD 2>&1) && exit_status=$? || exit_status=$?
 else
-  CURRENT_SHA=$INPUT_SHA
+  CURRENT_SHA=$INPUT_SHA && exit_status=$? || exit_status=$?
 fi
 
 if [[ $exit_status -ne 0 ]]; then
