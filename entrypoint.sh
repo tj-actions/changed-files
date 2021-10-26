@@ -17,11 +17,7 @@ fi
 
 SERVER_URL=$(echo "$GITHUB_SERVER_URL" | awk -F/ '{print $3}')
 
-git ls-remote temp_changed_files 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-if [[ $exit_status -ne 0 ]]; then
-  git remote add temp_changed_files "https://${INPUT_TOKEN}@${SERVER_URL}/${GITHUB_REPOSITORY}"
-fi
+git remote add temp_changed_files "https://${INPUT_TOKEN}@${SERVER_URL}/${GITHUB_REPOSITORY}"
 
 echo "Getting HEAD info..."
 
