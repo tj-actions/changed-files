@@ -1,12 +1,30 @@
 # Changelog
 
-## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-10-23)
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10.1...v11)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.1...HEAD)
 
 **Implemented enhancements:**
 
 - \[Feature\] fetch HEAD without tags [\#220](https://github.com/tj-actions/changed-files/issues/220)
+
+## [v11.1](https://github.com/tj-actions/changed-files/tree/v11.1) (2021-10-25)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v11.1)
+
+**Closed issues:**
+
+- \[BUG\] not able to find only python files [\#224](https://github.com/tj-actions/changed-files/issues/224)
+
+**Merged pull requests:**
+
+- Disable automatic tag following [\#225](https://github.com/tj-actions/changed-files/pull/225) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#223](https://github.com/tj-actions/changed-files/pull/223) ([jackton1](https://github.com/jackton1))
+- Upgraded to v11 [\#222](https://github.com/tj-actions/changed-files/pull/222) ([jackton1](https://github.com/jackton1))
+
+## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-10-23)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10.1...v11)
 
 **Fixed bugs:**
 
@@ -357,7 +375,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -373,13 +391,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
