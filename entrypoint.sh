@@ -48,8 +48,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch temp_changed_files --no-tags -u "${TARGET_BRANCH}":"${TARGET_BRANCH}"
-    PREVIOUS_SHA=$(git rev-parse "temp_changed_files/$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+    PREVIOUS_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA
   fi
