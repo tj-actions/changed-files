@@ -39,6 +39,7 @@ fi
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::warning::Unable to determine the current head sha"
+  git remote remove temp_changed_files
   exit 1
 fi
 
@@ -54,6 +55,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the previous commit sha"
     echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+    git remote remove temp_changed_files
     exit 1
   fi
 else
@@ -68,6 +70,7 @@ else
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the base ref sha for ${TARGET_BRANCH}"
+    git remote remove temp_changed_files
     exit 1
   fi
 fi
