@@ -1,12 +1,17 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v11.3](https://github.com/tj-actions/changed-files/tree/v11.3) (2021-10-27)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.2...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.2...v11.3)
 
 **Fixed bugs:**
 
 - \[BUG\] Changed files not working on self hosted runners [\#227](https://github.com/tj-actions/changed-files/issues/227)
+
+**Merged pull requests:**
+
+- \[Security\]: Prevent persisting the remote when there are errors [\#232](https://github.com/tj-actions/changed-files/pull/232) ([jackton1](https://github.com/jackton1))
+- Upgraded to v11.2 [\#231](https://github.com/tj-actions/changed-files/pull/231) ([jackton1](https://github.com/jackton1))
 
 ## [v11.2](https://github.com/tj-actions/changed-files/tree/v11.2) (2021-10-26)
 
@@ -390,7 +395,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -406,13 +411,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
