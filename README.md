@@ -232,7 +232,7 @@ jobs:
 
       - name: Run changed-files with since_last_remote_commit set to true
         id: changed-files-since-last-remote-commit
-        uses: tj-actions/changed-files@v11.3
+        uses: tj-actions/changed-files@v11.4
         with:
           since_last_remote_commit: 'true'
 
