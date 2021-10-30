@@ -111,7 +111,7 @@ jobs:
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
 | files\_from\_source\_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
 | path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
-| since_last_remote_commit | `string` | `false` | `false` | Use the last commit <br> on the remote branch <br> as the base_sha for push event. |
+| since_last_remote_commit | `string` | `false` | `false` | Use the last commit on the remote <br> branch as the `base_sha` for push event.<br> (Defaults to the previous commit). |
 
 ## Example
 
