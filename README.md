@@ -236,9 +236,6 @@ jobs:
         with:
           since_last_remote_commit: 'true'
 
-      - name: Show output
-        run: |
-          echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
 ```
 
 ### Running [pre-commit](https://pre-commit.com/) on all modified files
