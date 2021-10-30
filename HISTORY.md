@@ -1,5 +1,21 @@
 # Changelog
 
+## [v11.4](https://github.com/tj-actions/changed-files/tree/v11.4) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.3...v11.4)
+
+**Implemented enhancements:**
+
+- \[Feature\] Get changed files in all commits in push [\#234](https://github.com/tj-actions/changed-files/issues/234)
+
+**Merged pull requests:**
+
+- Updated README.md [\#238](https://github.com/tj-actions/changed-files/pull/238) ([jackton1](https://github.com/jackton1))
+- Revert "Update base\_sha to use the last commit on the current branch for push event" [\#237](https://github.com/tj-actions/changed-files/pull/237) ([jackton1](https://github.com/jackton1))
+- Support retrieving changed files between the last remote commit and the current HEAD for push events [\#236](https://github.com/tj-actions/changed-files/pull/236) ([jackton1](https://github.com/jackton1))
+- Update base\_sha to use the last commit on the current branch for push event [\#235](https://github.com/tj-actions/changed-files/pull/235) ([jackton1](https://github.com/jackton1))
+- Upgraded to v11.3 [\#233](https://github.com/tj-actions/changed-files/pull/233) ([jackton1](https://github.com/jackton1))
+
 ## [v11.3](https://github.com/tj-actions/changed-files/tree/v11.3) (2021-10-27)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.2...v11.3)
