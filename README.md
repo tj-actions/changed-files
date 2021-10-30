@@ -229,6 +229,16 @@ jobs:
           for file in ${{ steps.changed-files-for-dir1.outputs.added_files }}; do
             echo "$file was added"
           done
+
+      - name: Run changed-files with since_last_remote_commit set to true
+        id: changed-files-since-last-remote-commit
+        uses: tj-actions/changed-files@v11.3
+        with:
+          since_last_remote_commit: 'true'
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
 ```
 
 ### Running [pre-commit](https://pre-commit.com/) on all modified files
