@@ -44,13 +44,14 @@ if [[ $exit_status -ne 0 ]]; then
 fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
+  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
+  CURRENT_BRANCH=$TARGET_BRANCH
+
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
   else
-    PREVIOUS_SHA=$INPUT_BASE_SHA
+    PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
-  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
-  CURRENT_BRANCH=$TARGET_BRANCH
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the previous commit sha"
