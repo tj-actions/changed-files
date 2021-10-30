@@ -230,7 +230,7 @@ jobs:
             echo "$file was added"
           done
 
-      - name: Run changed-files with since_last_remote_commit set to true
+      - name: Run changed-files using the last commit on the remote branch
         id: changed-files-since-last-remote-commit
         uses: tj-actions/changed-files@v11.5
         with:
