@@ -26,6 +26,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   List all files that have changed.
     *   Between the current pull request branch and the default branch.
     *   Between the last commit and the current pushed change.
+    *   Between the last remote branch commit and the current HEAD.
 *   Restrict change detection to a subset of files.
     *   Report on files that have at least one change.
     *   [Regex pattern](https://www.gnu.org/software/grep/manual/grep.html#Regular-Expressions) matching on a subset of files.
