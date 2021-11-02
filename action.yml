@@ -97,7 +97,7 @@ runs:
     - run: |
         if [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && -z "${{ inputs.base_sha }}" ]]; then
+        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
           echo "::set-output name=base_sha::${{ github.event.before }}"
         fi
       id: base-sha
