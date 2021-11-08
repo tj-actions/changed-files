@@ -1,5 +1,13 @@
 # Changelog
 
+## [v11.6](https://github.com/tj-actions/changed-files/tree/v11.6) (2021-11-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.1...v11.6)
+
+**Merged pull requests:**
+
+- Upgraded to v1.2.1 [\#248](https://github.com/tj-actions/changed-files/pull/248) ([jackton1](https://github.com/jackton1))
+
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
