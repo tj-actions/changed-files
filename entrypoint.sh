@@ -63,7 +63,7 @@ else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
   
-  git fetch temp_changed_files --no-tags -u --progress --depth=1 origin "$INPUT_BASE_SHA"
+  git fetch temp_changed_files --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA"
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
