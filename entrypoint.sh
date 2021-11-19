@@ -62,7 +62,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
-  git fetch temp_changed_files --no-tags -u "${TARGET_BRANCH}":"${TARGET_BRANCH}"
+
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
   else
@@ -71,6 +71,7 @@ else
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the base ref sha for ${TARGET_BRANCH}"
+    echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
     git remote remove temp_changed_files
     exit 1
   fi
