@@ -22,6 +22,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Multiple repositories.
 *   Self hosted runners.
 *   GitHub Enterprise Server.
+*   Monorepos (Fetches only the last remote commit)
 *   Supports all platforms.
 *   List all files that have changed.
     *   Between the current pull request branch and the default branch.
@@ -37,6 +38,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 >
 > *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   When using `persist-credentials: false` with `actions/checkout@v2` you'll need to specify a `token` using the `token` input.
+> *   For monorepos were pulling all the branch history might not be desired the `fetch-depth` can be omitted.
 
 ```yaml
 name: CI
