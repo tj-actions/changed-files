@@ -259,9 +259,8 @@ jobs:
           token: ${{ secrets.github_token }}
 ```
 
-![Screen Shot 2021-07-06 at 2 50 23 PM](https://user-images.githubusercontent.com/17484350/124651978-96ed5280-de69-11eb-86d5-396a4c1a980f.png)
+<img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
-![Screen Shot 2021-07-17 at 10 52 48 AM](https://user-images.githubusercontent.com/17484350/126040772-30b65afb-a6b5-4150-b312-ac2017ba7b98.png)
 
 *   Free software: [MIT license](LICENSE)
 
