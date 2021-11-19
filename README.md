@@ -261,7 +261,6 @@ jobs:
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
-
 *   Free software: [MIT license](LICENSE)
 
 If you feel generous and want to show some extra appreciation:
