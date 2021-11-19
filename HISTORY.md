@@ -1,5 +1,24 @@
 # Changelog
 
+## [v1.2.2](https://github.com/tj-actions/changed-files/tree/v1.2.2) (2021-11-19)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.6...v1.2.2)
+
+**Fixed bugs:**
+
+- \[BUG\] pull request with `since_last_remote_commit = true` returns fatal: bad object [\#253](https://github.com/tj-actions/changed-files/issues/253)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Updated git fetch to pull the last remote commit [\#254](https://github.com/tj-actions/changed-files/pull/254) ([jackton1](https://github.com/jackton1))
+- Update reviewdog/action-shellcheck action to v1.12 [\#252](https://github.com/tj-actions/changed-files/pull/252) ([renovate[bot]](https://github.com/apps/renovate))
+- Update reviewdog/action-shellcheck action to v1.11 [\#250](https://github.com/tj-actions/changed-files/pull/250) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v11.6 [\#249](https://github.com/tj-actions/changed-files/pull/249) ([jackton1](https://github.com/jackton1))
+
 ## [v11.6](https://github.com/tj-actions/changed-files/tree/v11.6) (2021-11-08)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.1...v11.6)
@@ -15,10 +34,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] Improve documentation [\#244](https://github.com/tj-actions/changed-files/issues/244)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
