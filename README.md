@@ -12,7 +12,7 @@
 
 ## changed-files
 
-Retrieve all changed files relative to the default branch (`pull_request*` based events) or a previous commit (`push` based event) returning the **absolute path** to all changed files from the project root.
+Retrieve all changed files relative to the default branch (`pull_request*` based events) or the last remote commit (`push` based event) returning the **absolute path** to all changed files from the project root.
 
 ## Features
 
