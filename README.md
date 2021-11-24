@@ -71,6 +71,16 @@ jobs:
           done
 ```
 
+If you feel generous and want to show some extra appreciation:
+
+Support this project with a :star:
+
+[![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
+
+[buymeacoffee]: https://www.buymeacoffee.com/jackton1
+
+[buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png
+
 ## Outputs
 
 | Acronym   |  Meaning     |
@@ -264,12 +274,6 @@ jobs:
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
 *   Free software: [MIT license](LICENSE)
-
-If you feel generous and want to show some extra appreciation:
-
-Support me with a :star:
-
-[![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
 
 ## Known Limitation
 
