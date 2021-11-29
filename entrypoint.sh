@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo
+set -eu
 
 echo "::group::changed-files"
 
