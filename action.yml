@@ -95,6 +95,7 @@ runs:
         INPUT_FILES: ${{ inputs.files }}
         INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files_from_source_file }}
     - run: |
+        # "Set up the bash sha..."
         if [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
         elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
