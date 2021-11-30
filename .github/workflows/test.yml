@@ -97,7 +97,7 @@ jobs:
           bash
 
   test-non-existent-base-sha:
-    name: Test changed-files missing head sha
+    name: Test changed-files invalid head sha
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
