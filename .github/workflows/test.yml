@@ -113,7 +113,7 @@ jobs:
         continue-on-error: true
         uses: ./
         with:
-          base-sha: "4554456"
+          base_sha: "4554456"
 
       - name: Show output
         run: |
