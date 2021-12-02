@@ -73,29 +73,6 @@ jobs:
         shell:
           bash
 
-  test-no-head-sha:
-    name: Test changed-files missing head sha
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022, windows-2016]
-
-    steps:
-      - name: Checkout to branch
-        uses: actions/checkout@v2
-
-      - name: Run changed-files with defaults
-        id: changed-files
-        continue-on-error: true
-        uses: ./
-
-      - name: Show output
-        run: |
-          echo "${{ toJSON(steps.changed-files.outputs) }}"
-        shell:
-          bash
-
   test-non-existent-base-sha:
     name: Test changed-files invalid head sha
     runs-on: ${{ matrix.platform }}
