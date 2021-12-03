@@ -74,7 +74,7 @@ jobs:
           bash
 
   test-non-existent-base-sha:
-    name: Test changed-files invalid head sha
+    name: Test changed-files non existent base sha
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -85,7 +85,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v2
 
-      - name: Run changed-files with invalid base sha
+      - name: Run changed-files with non existent base sha
         id: changed-files
         continue-on-error: true
         uses: ./
@@ -95,6 +95,20 @@ jobs:
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
+          
+      - name: Run changed-files-specific with non existent base sha
+        id: changed-files-specific
+        continue-on-error: true
+        uses: ./
+        with:
+          files: action.yml
+          base_sha: "4554456"
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
 
