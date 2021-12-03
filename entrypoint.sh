@@ -37,6 +37,9 @@ else
   CURRENT_SHA=$INPUT_SHA && exit_status=$? || exit_status=$?
 fi
 
+git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+
 if [[ $exit_status -ne 0 ]]; then
   echo "::warning::Unable to determine the current head sha"
   git remote remove temp_changed_files
@@ -52,6 +55,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
+  
+  git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the previous commit sha"
@@ -70,6 +75,8 @@ else
     git fetch --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA
   fi
+  
+  git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::warning::Unable to determine the base ref sha for ${TARGET_BRANCH}"
@@ -80,18 +87,6 @@ else
 fi
 
 echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
-
-echo "Verifing commit hash..."
-
-git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-if [[ $exit_status -ne 0 ]]; then
-  echo "::warning::Unable to determine changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
-  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
-  git remote remove temp_changed_files
-  exit 1
-fi
 
 echo "Getting diff..."
 
