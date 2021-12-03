@@ -93,6 +93,8 @@ if [[ $exit_status -ne 0 ]]; then
   exit 1
 fi
 
+echo "Getting diff..."
+
 if [[ -z "${INPUT_FILES[*]}" ]]; then
   ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
