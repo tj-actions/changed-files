@@ -83,8 +83,8 @@ echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA
 
 echo "Verifing commit hash..."
 
-git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" && exit_status=$? || exit_status=$?
-git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" && exit_status=$? || exit_status=$?
+git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::warning::Unable to determine changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
