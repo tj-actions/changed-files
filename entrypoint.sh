@@ -56,6 +56,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     PREVIOUS_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
+    TARGET_BRANCH=$(git name-rev --name-only --exclude="tags/*" "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
   fi
   
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
@@ -66,9 +67,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     git remote remove temp_changed_files
     exit 1
   fi
-  
-  TARGET_BRANCH=$(git name-rev --name-only --exclude="tags/*" "$PREVIOUS_SHA")
 else
+  TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   if [[ -z $INPUT_BASE_SHA ]]; then
@@ -77,6 +77,7 @@ else
   else
     git fetch --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA
+    TARGET_BRANCH=$(git name-rev --name-only --exclude="tags/*" "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
   fi
 
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
@@ -87,8 +88,6 @@ else
     git remote remove temp_changed_files
     exit 1
   fi
-  
-  TARGET_BRANCH=$(git name-rev --name-only --exclude="tags/*" "$PREVIOUS_SHA")
 fi
 
 echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
