@@ -73,8 +73,8 @@ jobs:
         shell:
           bash
 
-  test-no-head-sha:
-    name: Test changed-files missing head sha
+  test-non-existent-base-sha:
+    name: Test changed-files non existent base sha
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -85,14 +85,69 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v2
 
-      - name: Run changed-files with defaults
+      - name: Run changed-files with non existent base sha
         id: changed-files
-        continue-on-error: true
         uses: ./
+        continue-on-error: true
+        with:
+          base_sha: "4554456"
 
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
+          
+      - name: Run changed-files-specific with non existent base sha
+        id: changed-files-specific
+        uses: ./
+        continue-on-error: true
+        with:
+          files: action.yml
+          base_sha: "4554456"
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
+        shell:
+          bash
+
+  test-non-existent-sha:
+    name: Test changed-files non existent sha
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022, windows-2016]
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v2
+
+      - name: Run changed-files with non existent sha
+        id: changed-files
+        uses: ./
+        continue-on-error: true
+        with:
+          base_sha: "4554456"
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
+          
+      - name: Run changed-files-specific with non existent sha
+        id: changed-files-specific
+        uses: ./
+        continue-on-error: true
+        with:
+          files: action.yml
+          base_sha: "4554456"
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
 
