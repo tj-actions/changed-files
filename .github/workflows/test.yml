@@ -434,15 +434,6 @@ jobs:
           echo '${{ toJSON(steps.changed-files-custom-sha.outputs) }}'
         shell:
           bash
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5
-      - uses: nrwl/last-successful-commit-action@v1
-        id: last_successful_commit
-        with:
-          branch: ${{ steps.branch-name.outputs.base_ref_branch }}
-          workflow_id: 'test.yml'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run changed-files with since_last_remote_commit set to true
         id: changed-files-since-last-remote-commit
         uses: ./
@@ -453,12 +444,25 @@ jobs:
           echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
         shell:
           bash
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+        if: github.event_name == 'pull_request'
+      - uses: nrwl/last-successful-commit-action@v1
+        id: last_successful_commit
+        if: github.event_name == 'pull_request'
+        with:
+          branch: ${{ steps.branch-name.outputs.base_ref_branch }}
+          workflow_id: 'test.yml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run changed-files with a custom base sha
+        if: github.event_name == 'pull_request'
         id: changed-files-custom-base-sha
         uses: ./
         with:
           base_sha: ${{ steps.last_successful_commit.outputs.commit_hash }}
       - name: Show output
+        if: github.event_name == 'pull_request'
         run: |
           echo '${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}'
         shell:
