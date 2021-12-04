@@ -100,7 +100,6 @@ runs:
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
         elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event_name }}" == "pull_request" ]]; then
           echo "::set-output name=base_sha::${{ github.event.pull_request.base.sha }}"
-        fi 
         elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event_name }}" == "push" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
           echo "::set-output name=base_sha::${{ github.event.before }}"
         fi
