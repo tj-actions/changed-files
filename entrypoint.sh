@@ -24,7 +24,7 @@ git ls-remote --exit-code temp_changed_files 1>/dev/null 2>&1 && exit_status=$? 
 if [[ $exit_status -ne 0 ]]; then
   echo "No 'temp_changed_files' remote found"
   echo "Creating 'temp_changed_files' remote..."
-  git remote remove temp_changed_files 1>/dev/null || true
+  git remote remove temp_changed_files 2>/dev/null || true
   git remote add temp_changed_files "https://${INPUT_TOKEN}@${SERVER_URL}/${GITHUB_REPOSITORY}"
 else
   echo "Found 'temp_changed_files' remote"
