@@ -1,5 +1,23 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...HEAD)
+
+**Implemented enhancements:**
+
+- I cant get `since_last_remote_commit` to work properly on pull\_request event [\#276](https://github.com/tj-actions/changed-files/issues/276)
+
+## [v1.3.1](https://github.com/tj-actions/changed-files/tree/v1.3.1) (2021-12-04)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.8...v1.3.1)
+
+**Merged pull requests:**
+
+- Fixed regression bug with base\_sha for pull\_request [\#278](https://github.com/tj-actions/changed-files/pull/278) ([jackton1](https://github.com/jackton1))
+- Prevent outputting remote not found error message. [\#277](https://github.com/tj-actions/changed-files/pull/277) ([jackton1](https://github.com/jackton1))
+- Upgraded to v11.8 [\#275](https://github.com/tj-actions/changed-files/pull/275) ([jackton1](https://github.com/jackton1))
+
 ## [v11.8](https://github.com/tj-actions/changed-files/tree/v11.8) (2021-12-04)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.0...v11.8)
