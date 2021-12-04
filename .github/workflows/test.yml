@@ -88,9 +88,9 @@ jobs:
       - name: Run changed-files with non existent base sha
         id: changed-files
         uses: ./
+        continue-on-error: true
         with:
           base_sha: "4554456"
-          continue-on-error: true
 
       - name: Show output
         run: |
@@ -101,9 +101,9 @@ jobs:
       - name: Run changed-files-specific with non existent base sha
         id: changed-files-specific
         uses: ./
+        continue-on-error: true
         with:
           files: action.yml
-          continue-on-error: true
           base_sha: "4554456"
 
       - name: Show output
