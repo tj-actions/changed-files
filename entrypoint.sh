@@ -42,6 +42,7 @@ git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::warning::Unable to locate the current sha: $CURRENT_SHA"
+  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   git remote remove temp_changed_files
   exit 1
 fi
