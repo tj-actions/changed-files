@@ -33,6 +33,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
     *   Report on files that have at least one change.
     *   [Regex pattern](https://www.gnu.org/software/grep/manual/grep.html#Regular-Expressions) matching on a subset of files.
 
+
 ## Usage
 
 > NOTE: :warning:
