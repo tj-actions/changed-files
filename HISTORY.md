@@ -1,12 +1,16 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11.9)
 
 **Implemented enhancements:**
 
 - I cant get `since_last_remote_commit` to work properly on pull\_request event [\#276](https://github.com/tj-actions/changed-files/issues/276)
+
+**Merged pull requests:**
+
+- Upgraded to v1.3.1 [\#279](https://github.com/tj-actions/changed-files/pull/279) ([jackton1](https://github.com/jackton1))
 
 ## [v1.3.1](https://github.com/tj-actions/changed-files/tree/v1.3.1) (2021-12-04)
 
