@@ -98,10 +98,12 @@ runs:
         # "Set base sha..."
         if [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event_name }}" == "pull_request" ]]; then
-          echo "::set-output name=base_sha::${{ github.event.pull_request.base.sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event_name }}" == "push" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
-          echo "::set-output name=base_sha::${{ github.event.before }}"
+        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
+          if [[ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            echo "::set-output name=base_sha::${{ github.event.before }}"
+          else
+            echo "::set-output name=base_sha::${{ github.sha }}"
+          fi
         fi
       id: base-sha
       shell: bash
