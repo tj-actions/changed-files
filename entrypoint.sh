@@ -49,6 +49,7 @@ if [[ $exit_status -ne 0 ]]; then
 fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
+  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
   CURRENT_BRANCH=$TARGET_BRANCH
 
   if [[ -z $INPUT_BASE_SHA ]]; then
