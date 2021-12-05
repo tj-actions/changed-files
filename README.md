@@ -125,7 +125,7 @@ Support this project with a :star:
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
 | files\_from\_source\_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
 | path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
-| since\_last\_remote\_commit | `string` | `false` | `false` | Use the last commit on the remote <br> branch as the `base_sha` <br> (Defaults to the previous commit). <br /> NOTE: This requires <br /> using `fetch-depth: 0` <br /> with `actions/checkout@v2` |
+| since\_last\_remote\_commit | `string` | `false` | `false` | Use the last commit on the remote <br> branch as the `base_sha` <br> (Defaults to the previous commit). <br /> NOTE: This requires <br /> `fetch-depth: 0` <br /> with `actions/checkout@v2` |
 
 ## Example
 
