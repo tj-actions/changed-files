@@ -19,7 +19,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 
 *   Fast execution (0-2 seconds on average).
 *   Easy to debug.
-*   Boolean output indicating that certain files have been modified.
+*   Boolean output indicating that certain files have been changed.
 *   Multiple repositories.
 *   Self hosted runners.
 *   GitHub Enterprise Server.
@@ -65,10 +65,10 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v11.9
 
-      - name: List all modified files
+      - name: List all changed files
         run: |
-          for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
-            echo "$file was modified"
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
           done
 ```
 
@@ -268,7 +268,7 @@ Support this project with a :star:
       - name: Pre-commit
         uses: pre-commit/action@v2.0.0
         with:
-          extra_args: -v --hook-stage push --files ${{ steps.changed-files.outputs.all_modified_files }}
+          extra_args: -v --hook-stage push --files ${{ steps.changed-files.outputs.all_changed_files }}
           token: ${{ secrets.github_token }}
 ```
 

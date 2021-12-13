@@ -62,9 +62,9 @@ outputs:
   all_changed_and_modified_files:
     description: List of all changed files.
     value: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
-  all_modified_files:
+  all_changed_files:
     description: List of all copied modified and added files.
-    value: ${{ steps.changed-files.outputs.all_modified_files }}
+    value: ${{ steps.changed-files.outputs.all_changed_files }}
   any_changed:
     description: Return true only when any files provided using the files input have changed.
     value: ${{ steps.changed-files.outputs.any_changed }}

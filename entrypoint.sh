@@ -103,7 +103,7 @@ if [[ -z "${INPUT_FILES[*]}" ]]; then
   UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED_AND_MODIFIED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
   echo "Input files: ${INPUT_FILES[*]}"
 
@@ -119,23 +119,23 @@ else
   UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED_AND_MODIFIED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n $ALL_OTHER_MODIFIED ]]; then
-    if [[ -n "$UNIQUE_ALL_MODIFIED" ]]; then
-      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${UNIQUE_ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ -n "$UNIQUE_ALL_CHANGED" ]]; then
+      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${UNIQUE_ALL_CHANGED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_MODIFIED=$ALL_OTHER_MODIFIED
     fi
   fi
 
-  UNIQUE_ALL_MODIFIED=$(echo "${UNIQUE_ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_CHANGED=$(echo "${UNIQUE_ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
-    echo "Matching modified files: ${UNIQUE_ALL_MODIFIED}"
+  if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
+    echo "Matching modified files: ${UNIQUE_ALL_CHANGED}"
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
@@ -147,7 +147,7 @@ else
     echo "Non Matching modified files: ${OTHER_MODIFIED}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_MODIFIED"
-  elif [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
+  elif [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
     echo "::set-output name=only_changed::true"
   fi
 
@@ -189,7 +189,7 @@ else
   UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 fi
 
 echo "Added files: $ADDED"
@@ -200,8 +200,8 @@ echo "Renamed files: $RENAMED"
 echo "Type Changed files: $TYPE_CHANGED"
 echo "Unmerged files: $UNMERGED"
 echo "Unknown files: $UNKNOWN"
-echo "All changed files: $ALL_CHANGED_AND_MODIFIED"
-echo "All modified files: $ALL_MODIFIED"
+echo "All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
+echo "All changed files: $ALL_CHANGED"
 
 git remote remove temp_changed_files
 
@@ -214,6 +214,6 @@ echo "::set-output name=type_changed_files::$TYPE_CHANGED"
 echo "::set-output name=unmerged_files::$UNMERGED"
 echo "::set-output name=unknown_files::$UNKNOWN"
 echo "::set-output name=all_changed_and_modified_files::$ALL_CHANGED_AND_MODIFIED"
-echo "::set-output name=all_modified_files::$ALL_MODIFIED"
+echo "::set-output name=all_changed_files::$ALL_CHANGED"
 
 echo "::endgroup::"
