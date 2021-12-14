@@ -1,12 +1,35 @@
 # Changelog
 
+## [v1.1.4](https://github.com/tj-actions/changed-files/tree/v1.1.4) (2021-12-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v1.1.4)
+
+**Implemented enhancements:**
+
+- \[Feature\] Add "any\_modified", "other\_modified\_files" and "all\_modified" outputs containing created, edit, renamed, or deleted files [\#282](https://github.com/tj-actions/changed-files/issues/282)
+
+**Fixed bugs:**
+
+- \[BUG\] Failed to get change files on pull\_request merge event [\#281](https://github.com/tj-actions/changed-files/issues/281)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- \[PR 2\]: Added support for listing all\_modified\_files. [\#285](https://github.com/tj-actions/changed-files/pull/285) ([jackton1](https://github.com/jackton1))
+- Update peter-evans/create-pull-request action to v3.12.0 [\#284](https://github.com/tj-actions/changed-files/pull/284) ([renovate[bot]](https://github.com/apps/renovate))
+- \[PR 1\]: Renamed all\_modified\_files to all\_changed\_files [\#283](https://github.com/tj-actions/changed-files/pull/283) ([jackton1](https://github.com/jackton1))
+- Upgraded to v11.9 [\#280](https://github.com/tj-actions/changed-files/pull/280) ([jackton1](https://github.com/jackton1))
+
 ## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11.9)
 
 **Implemented enhancements:**
 
-- I cant get `since_last_remote_commit` to work properly on pull\_request event [\#276](https://github.com/tj-actions/changed-files/issues/276)
+- Can't get `since_last_remote_commit` to work properly on pull\_request event [\#276](https://github.com/tj-actions/changed-files/issues/276)
 
 **Merged pull requests:**
 
@@ -74,10 +97,6 @@
 
 - \[BUG\] pull request with `since_last_remote_commit = true` returns fatal: bad object [\#253](https://github.com/tj-actions/changed-files/issues/253)
 
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
-
 **Merged pull requests:**
 
 - Updated git fetch to pull the last remote commit [\#254](https://github.com/tj-actions/changed-files/pull/254) ([jackton1](https://github.com/jackton1))
@@ -103,7 +122,7 @@
 
 **Merged pull requests:**
 
-- Updated formatting of all changed debug message [\#247](https://github.com/tj-actions/changed-files/pull/247) ([jackton1](https://github.com/jackton1))
+- Updated formatting of all modified debug message [\#247](https://github.com/tj-actions/changed-files/pull/247) ([jackton1](https://github.com/jackton1))
 - Update reviewdog/action-shellcheck action to v1.10 [\#246](https://github.com/tj-actions/changed-files/pull/246) ([renovate[bot]](https://github.com/apps/renovate))
 - Update peter-evans/create-pull-request action to v3.11.0 [\#245](https://github.com/tj-actions/changed-files/pull/245) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
@@ -350,12 +369,12 @@
 
 **Fixed bugs:**
 
-- \[BUG\] `all_changed_files` show deleted files [\#155](https://github.com/tj-actions/changed-files/issues/155)
+- \[BUG\] `all_modified_files` show deleted files [\#155](https://github.com/tj-actions/changed-files/issues/155)
 - \[BUG\] Dedupe the output list of changed files [\#151](https://github.com/tj-actions/changed-files/issues/151)
 
 **Merged pull requests:**
 
-- Remove deleted files from the all\_changed\_files output [\#156](https://github.com/tj-actions/changed-files/pull/156) ([jackton1](https://github.com/jackton1))
+- Remove deleted files from the all\_modified\_files output [\#156](https://github.com/tj-actions/changed-files/pull/156) ([jackton1](https://github.com/jackton1))
 - Upgraded to v9.2 [\#154](https://github.com/tj-actions/changed-files/pull/154) ([jackton1](https://github.com/jackton1))
 
 ## [v9.2](https://github.com/tj-actions/changed-files/tree/v9.2) (2021-08-06)
@@ -734,7 +753,7 @@
 
 **Merged pull requests:**
 
-- Add support for all changed files [\#16](https://github.com/tj-actions/changed-files/pull/16) ([jackton1](https://github.com/jackton1))
+- Add support for all modified files [\#16](https://github.com/tj-actions/changed-files/pull/16) ([jackton1](https://github.com/jackton1))
 - Update test.yml [\#14](https://github.com/tj-actions/changed-files/pull/14) ([jackton1](https://github.com/jackton1))
 - Upgraded to v3.1 [\#13](https://github.com/tj-actions/changed-files/pull/13) ([jackton1](https://github.com/jackton1))
 
