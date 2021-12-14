@@ -129,7 +129,7 @@ else
   UNIQUE_ALL_CHANGED=$(echo "${UNIQUE_ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
-    echo "Matching modified files: ${UNIQUE_ALL_CHANGED}"
+    echo "Matching changed files: ${UNIQUE_ALL_CHANGED}"
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
