@@ -1,5 +1,13 @@
 # Changelog
 
+## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.4...v12)
+
+**Merged pull requests:**
+
+- Upgraded to v1.1.4 [\#286](https://github.com/tj-actions/changed-files/pull/286) ([jackton1](https://github.com/jackton1))
+
 ## [v1.1.4](https://github.com/tj-actions/changed-files/tree/v1.1.4) (2021-12-14)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v1.1.4)
@@ -114,7 +122,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -128,13 +136,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
