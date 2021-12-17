@@ -33,15 +33,14 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
     *   Report on files that have at least one change.
     *   [Regex pattern](https://www.gnu.org/software/grep/manual/grep.html#Regular-Expressions) matching on a subset of files.
 
-
 > NOTE: :warning:
-> * All users referencing the legacy `v1.x.x` version, are required to switch to `v*` or `v*.*` versioning semantic.
-> * A breaking change was introduced in `v1.x.x` legacy version, which is no longer supported and future updates would only be made to `v*` or `v*.*`.
+>
+> *   All users referencing the legacy `v1.x.x` version, are required to switch to `v*` or `v*.*` versioning semantic.
+> *   A breaking change was introduced in `v1.x.x` legacy version, which is no longer supported and future updates would only be made to `v*` or `v*.*`.
 
 |  Legacy version     |   Recommended version |
 |---------------------|-----------------------|
 |  `v1.x.x`           |    `v12`          |
-
 
 ## Usage
 
