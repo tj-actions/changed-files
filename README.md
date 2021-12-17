@@ -35,7 +35,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 
 
 > NOTE: :warning:
-> * All users refrencing the legacy `v1.x.x` version, are required to switch to `v*` or `v*.*` versioning semantic.
+> * All users referencing the legacy `v1.x.x` version, are required to switch to `v*` or `v*.*` versioning semantic.
 > * A breaking change was introduced in `v1.x.x` legacy version, which is no longer supported and future updates would only be made to `v*` or `v*.*`.
 
 |  Legacy version     |   Recommended version |
