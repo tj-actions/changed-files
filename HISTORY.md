@@ -1,16 +1,24 @@
 # Changelog
 
-## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
+## [v2.0.0](https://github.com/tj-actions/changed-files/tree/v2.0.0) (2021-12-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.1.4...v12)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12...v2.0.0)
+
+**Fixed bugs:**
+
+- \[BUG\] Files input doesn't work when running with `act` [\#251](https://github.com/tj-actions/changed-files/issues/251)
+
+**Closed issues:**
+
+- Breaking changes in patch updates? [\#288](https://github.com/tj-actions/changed-files/issues/288)
 
 **Merged pull requests:**
 
-- Upgraded to v1.1.4 [\#286](https://github.com/tj-actions/changed-files/pull/286) ([jackton1](https://github.com/jackton1))
+- Upgraded to v12 [\#287](https://github.com/tj-actions/changed-files/pull/287) ([jackton1](https://github.com/jackton1))
 
-## [v1.1.4](https://github.com/tj-actions/changed-files/tree/v1.1.4) (2021-12-14)
+## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v1.1.4)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v12)
 
 **Implemented enhancements:**
 
@@ -26,6 +34,7 @@
 
 **Merged pull requests:**
 
+- Upgraded to v1.1.4 [\#286](https://github.com/tj-actions/changed-files/pull/286) ([jackton1](https://github.com/jackton1))
 - \[PR 2\]: Added support for listing all\_modified\_files. [\#285](https://github.com/tj-actions/changed-files/pull/285) ([jackton1](https://github.com/jackton1))
 - Update peter-evans/create-pull-request action to v3.12.0 [\#284](https://github.com/tj-actions/changed-files/pull/284) ([renovate[bot]](https://github.com/apps/renovate))
 - \[PR 1\]: Renamed all\_modified\_files to all\_changed\_files [\#283](https://github.com/tj-actions/changed-files/pull/283) ([jackton1](https://github.com/jackton1))
