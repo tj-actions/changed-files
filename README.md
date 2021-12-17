@@ -40,7 +40,8 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 
 |  Legacy version     |   Recommended version |
 |---------------------|-----------------------|
-|  `v1.x.x`           |    `v12`          |
+|  `v2.x.x`           |    `v12`              |
+|  `v1.x.x`           |    `v11.x`            |
 
 ## Usage
 
