@@ -1,5 +1,25 @@
 # Changelog
 
+## [v12.1](https://github.com/tj-actions/changed-files/tree/v12.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.0...v12.1)
+
+**Fixed bugs:**
+
+- \[BUG\] The `other_modified_files` contains all modified files even those that match the file `filter`. [\#293](https://github.com/tj-actions/changed-files/issues/293)
+- \[BUG\] The `only_modified` is evaluated to `true` even when `other_modified_files` is not empty. [\#292](https://github.com/tj-actions/changed-files/issues/292)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Fixed regression bug with other\_modified and other\_changed outputs [\#294](https://github.com/tj-actions/changed-files/pull/294) ([jackton1](https://github.com/jackton1))
+- Update reviewdog/action-shellcheck action to v1.13 [\#291](https://github.com/tj-actions/changed-files/pull/291) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v2.0.0 [\#290](https://github.com/tj-actions/changed-files/pull/290) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#289](https://github.com/tj-actions/changed-files/pull/289) ([jackton1](https://github.com/jackton1))
+
 ## [v2.0.0](https://github.com/tj-actions/changed-files/tree/v2.0.0) (2021-12-17)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v12...v2.0.0)
@@ -27,10 +47,6 @@
 **Fixed bugs:**
 
 - \[BUG\] Failed to get change files on pull\_request merge event [\#281](https://github.com/tj-actions/changed-files/issues/281)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -131,7 +147,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -145,13 +161,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
