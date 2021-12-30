@@ -1,8 +1,20 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...HEAD)
+
+**Merged pull requests:**
+
+- Upgraded to v12.2 [\#297](https://github.com/tj-actions/changed-files/pull/297) ([jackton1](https://github.com/jackton1))
+
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
