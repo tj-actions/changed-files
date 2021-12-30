@@ -155,12 +155,12 @@ Support this project with a :star:
           done
 
       - name: Run step when a file changes
-        if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
+        if: contains(steps.changed-files.outputs.modified_files, "my-file.txt")
         run: |
           echo "Your my-file.txt file has been modified."
 
       - name: Run step when a file has been deleted
-        if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
+        if: contains(steps.changed-files.outputs.deleted_files, "test.txt")
         run: |
           echo "Your test.txt file has been deleted."
 
@@ -179,12 +179,12 @@ Support this project with a :star:
             ^(mynewfile|custom)
 
       - name: Run step if any of the listed files above change
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        if: steps.changed-files-specific.outputs.any_changed == "true"
         run: |
           echo "One or more files listed above has changed."
 
       - name: Run step if only the files listed above change
-        if: steps.changed-files-specific.outputs.only_changed == 'true'
+        if: steps.changed-files-specific.outputs.only_changed == "true"
         run: |
           echo "Only files listed above have changed."
 
@@ -252,7 +252,7 @@ Support this project with a :star:
         id: changed-files-since-last-remote-commit
         uses: tj-actions/changed-files@v12.1
         with:
-          since_last_remote_commit: 'true'
+          since_last_remote_commit: "true"
 
 ```
 
