@@ -25,7 +25,7 @@ fi
 echo "Input Files:"
 echo "${FILES[*]}"
 
-IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[@]}" | tr " " "\n" | sort -u | tr "\n" " ")"
+IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[*]}" | sort -u | tr "\n" " ")"
 
 echo "All Unique Input files:"
 echo "${ALL_UNIQUE_FILES[*]}"
