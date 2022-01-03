@@ -4,18 +4,20 @@ set -e
 
 echo "::group::changed-files-from-source-file"
 
-FILES=$INPUT_FILES
+FILES=""
 
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
     while read -r fileName; do
-      FILES+="\n$fileName"
+      FILES+=$(printf "%s\n" "$fileName")
     done <"$file"
   done
 fi
 
-echo "Input Files: $FILES"
+FILES+=$INPUT_FILES
+
+printf "Input Files: %s" $FILES
 
 ALL_UNIQUE_FILES=$(printf "$FILES" | sort -u)
 
