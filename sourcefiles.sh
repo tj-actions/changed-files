@@ -19,7 +19,7 @@ echo "Input Files: ${FILES[*]}"
 
 IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[@]}" | tr " " "\n" | sort -u)"
 
-echo "Unique Input files: $(printf '%\n' "${ALL_UNIQUE_FILES[@]}"
+echo "Unique Input files: $(printf '%\n' "${ALL_UNIQUE_FILES[@]}")"
 
 echo "::set-output name=files::$(printf '%\n' "${ALL_UNIQUE_FILES[@]}")"
 
