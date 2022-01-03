@@ -165,7 +165,11 @@ jobs:
         with:
           fetch-depth: 0
       - name: Dump GitHub context
-        run: echo '${{ toJson(github) }}'
+        run: |
+          echo '${{ toJson(github.event) }}'
+          echo '==========================='
+          echo '${{ toJson(github.context) }}'
+          echo '==========================='
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
