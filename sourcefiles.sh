@@ -17,7 +17,7 @@ fi
 
 FILES+=$INPUT_FILES
 
-printf "Input Files: %s" $FILES
+printf "Input Files: %s" "$FILES"
 
 ALL_UNIQUE_FILES=$(printf "$FILES" | sort -u)
 
