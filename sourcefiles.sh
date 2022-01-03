@@ -16,7 +16,7 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
 fi
 
 echo "Input Files:"
-printf '%s\n' "${FILES[@]}"
+printf "%s\n" "${FILES[@]}"
 
 IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(printf "%s\n" "${FILES[@]}" | sort -u | tr "\n" " ")"
 
