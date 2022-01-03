@@ -165,11 +165,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Dump GitHub context
-        run: |
-          echo '${{ toJson(github.event) }}'
-          echo '==========================='
-          echo '${{ toJson(github.context) }}'
-          echo '==========================='
+        if: github.event_name == 'pull_request'
+        run: echo '${{ toJson(github) }}' || true
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
