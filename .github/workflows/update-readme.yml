@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run test
-        uses: tj-actions/remark@v2.1
+        uses: tj-actions/remark@v2.3
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v8
