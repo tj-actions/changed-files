@@ -17,10 +17,10 @@ fi
 
 printf 'Input Files: \n%s\n' "${FILES[@]}"
 
-IFS=$"\n" read -r -a ALL_UNIQUE_FILES <<< "$(printf "%s\n" "${FILES[@]}" | sort -u)"
+IFS=$'\n' read -r -a ALL_UNIQUE_FILES <<< "$(printf "%s\n" "${FILES[@]}" | sort -u)"
 
 printf 'All Unique Input files: \n%s\n' "${ALL_UNIQUE_FILES[@]}"
 
-echo "::set-output name=files::${ALL_UNIQUE_FILES[@]}"
+echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"
 
 echo "::endgroup::"
