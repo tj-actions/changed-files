@@ -24,7 +24,7 @@ fi
 
 echo "Input Files: ${FILES[*]}"
 
-mapfile -t ALL_UNIQUE_FILES < <(printf '%s\n' "${FILES[@]}" | sort -u)
+IFS=$'\n' ALL_UNIQUE_FILES=($(sort -u <<<"${FILES[*]}")); unset IFS
 
 echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
 
