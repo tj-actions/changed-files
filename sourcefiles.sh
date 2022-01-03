@@ -15,19 +15,19 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   done
 fi
 
-if [[ -n $INPUT_FILES ]]; then
+if [[ -n "${INPUT_FILES[@]}" ]]; then
   for fileName in $INPUT_FILES
   do
     FILES+=("$fileName")
   done
 fi
 
-echo "Input Files: ${FILES[@]}"
+echo "Input Files: ${FILES[*]}"
 
-ALL_UNIQUE_FILES=($(printf "%s\n" "${FILES[@]}" | sort -u))
+mapfile -t ALL_UNIQUE_FILES < <(printf '%s\n' "${FILES[@]}" | sort -u)
 
-echo "All Unique Input files: ${ALL_UNIQUE_FILES[@]}"
+echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
 
-echo "::set-output name=files::${ALL_UNIQUE_FILES[@]}"
+echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"
 
 echo "::endgroup::"
