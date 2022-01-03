@@ -106,6 +106,11 @@ runs:
       env:
         INPUT_FILES: ${{ inputs.files }}
         INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files_from_source_file }}
+    - name: Glob match
+      uses: tj-actions/glob@v1
+      id: glob
+      with:
+        files: ${{ steps.source-input-files.outputs.files }}
     - run: |
         # "Set base sha..."
         if [[ -n "${{ inputs.base_sha }}" ]]; then
@@ -132,7 +137,7 @@ runs:
         INPUT_SHA: ${{ inputs.sha }}
         INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
         INPUT_TOKEN: ${{ inputs.token }}
-        INPUT_FILES: ${{ steps.source-input-files.outputs.files }}
+        INPUT_FILES: ${{ steps.glob.outputs.paths }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
         INPUT_PATH: ${{ inputs.path }}
 
