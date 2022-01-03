@@ -110,7 +110,7 @@ runs:
       uses: tj-actions/glob@v1
       id: glob
       with:
-        files: ${{ join(steps.source-input-files.outputs.files, '\n') }}
+        files: ${{ steps.source-input-files.outputs.files }}
     - run: |
         # "Set base sha..."
         if [[ -n "${{ inputs.base_sha }}" ]]; then
