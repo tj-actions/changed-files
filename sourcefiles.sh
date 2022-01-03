@@ -19,9 +19,9 @@ FILES+=$INPUT_FILES
 
 printf "Input Files: %s" "$FILES"
 
-ALL_UNIQUE_FILES=$(printf "$FILES" | sort -u)
+ALL_UNIQUE_FILES=$(printf "%s" "$FILES" | sort -u)
 
-echo "All Unique Input files: $ALL_UNIQUE_FILES"
+printf "All Unique Input files: %s" "$ALL_UNIQUE_FILES"
 
 echo "::set-output name=files::$ALL_UNIQUE_FILES"
 
