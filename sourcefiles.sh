@@ -15,11 +15,13 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   done
 fi
 
-echo "Input Files: ${FILES[*]}"
+echo "Input Files:"
+echo "${FILES[*]}"
 
 IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[@]}" | tr " " "\n" | sort -u | tr "\n" " ")"
 
-echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
+echo "All Unique Input files:"
+echo "${ALL_UNIQUE_FILES[*]}"
 
 echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"
 
