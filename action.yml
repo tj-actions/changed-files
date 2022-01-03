@@ -107,7 +107,7 @@ runs:
         INPUT_FILES: ${{ inputs.files }}
         INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files_from_source_file }}
     - name: Glob match
-      uses: tj-actions/glob@v1.1
+      uses: tj-actions/glob@v1.2
       id: glob
       with:
         files: ${{ steps.source-input-files.outputs.files }}
