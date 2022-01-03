@@ -15,7 +15,7 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   done
 fi
 
-if [[ -n "${INPUT_FILES[@]}" ]]; then
+if [[ -n $INPUT_FILES ]]; then
   for fileName in $INPUT_FILES
   do
     FILES+=("$fileName")
