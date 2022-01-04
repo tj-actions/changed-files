@@ -4,7 +4,7 @@ set -e
 
 echo "::group::changed-files-from-source-file"
 
-FILES=()
+FILES=$(echo "${INPUT_FILES}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
 
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
@@ -15,20 +15,12 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   done
 fi
 
-if [[ -n $INPUT_FILES ]]; then
-  for fileName in $INPUT_FILES
-  do
-    FILES+=("$fileName")
-  done
-fi
+echo "Input Files: ${FILES[*]}"
 
+ALL_UNIQUE_FILES=$(echo "${FILES[*]}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
 
-IFS=' '; echo "Input Files: ${FILES[*]}"; unset IFS
+echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
 
-read -r -a ALL_UNIQUE_FILES <<< "$(IFS=$'\n'; echo "${FILES[*]}" | sort -u | tr "\n" " "; unset IFS)"
-
-IFS=' '; echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"; unset IFS
-
-IFS=' '; echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"; unset IFS
+echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"
 
 echo "::endgroup::"
