@@ -4,28 +4,19 @@ set -e
 
 echo "::group::changed-files-from-source-file"
 
-FILES=()
+IFS=$'\n' read -d '' -r -a FILES <<< "$INPUT_FILES"
 
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
-    while read -r fileName; do
-      FILES+=("$fileName")
-    done <"$file"
+    IFS=$'\n' read -d '' -r -a CURRENT_FILES < "$file"
+    FILES=("${FILES[@]}" "${CURRENT_FILES[@]}")
   done
 fi
-
-if [[ -n $INPUT_FILES ]]; then
-  for fileName in $INPUT_FILES
-  do
-    FILES+=("$fileName")
-  done
-fi
-
 
 IFS=' '; echo "Input Files: ${FILES[*]}"; unset IFS
 
-read -r -a ALL_UNIQUE_FILES <<< "$(IFS=$'\n'; echo "${FILES[*]}" | sort -u | tr "\n" " "; unset IFS)"
+IFS=$'\n' read -r -a ALL_UNIQUE_FILES <<< "$(IFS=$'\n'; echo "${FILES[*]}" | sort -u; unset IFS)"
 
 IFS=' '; echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"; unset IFS
 
