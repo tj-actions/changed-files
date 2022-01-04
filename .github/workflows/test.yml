@@ -342,7 +342,7 @@ jobs:
         uses: ./
         with:
           files: |
-            .github/workflows/test.yml
+            **/test.yml
             action.yml
           separator: "|"
       - name: Show output
