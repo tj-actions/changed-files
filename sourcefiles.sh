@@ -24,7 +24,7 @@ fi
 
 echo "Input Files: ${FILES[*]}"
 
-IFS=$'\n' ALL_UNIQUE_FILES=($(sort -u <<<"${FILES[*]}")); unset IFS
+IFS=$'\n' read -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[*]}" | sort -u | tr "\n" " ")" unset IFS
 
 echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
 
