@@ -22,12 +22,13 @@ if [[ -n $INPUT_FILES ]]; then
   done
 fi
 
-echo "Input Files: ${FILES}"
 
-read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[*]}" | sort -u | tr "\n" " ")" unset IFS
+IFS=' '; echo "Input Files: ${FILES[*]}"; unset IFS
 
-echo "All Unique Input files: ${ALL_UNIQUE_FILES}"
+read -r -a ALL_UNIQUE_FILES <<< "$(IFS=$'\n'; echo "${FILES[*]}" | sort -u | tr "\n" " "; unset IFS)"
 
-echo "::set-output name=files::${ALL_UNIQUE_FILES}"
+IFS=' '; echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"; unset IFS
+
+IFS=' '; echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"; unset IFS
 
 echo "::endgroup::"
