@@ -19,7 +19,7 @@ CLEAN_FILES=$(echo "${RAW_FILES}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}E
 
 CLEAN_INPUT_FILES=$(echo "${INPUT_FILES}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
 
-FILES=(${CLEAN_FILES[@]} ${CLEAN_INPUT_FILES[@]})
+FILES=("${CLEAN_FILES[@]}" "${CLEAN_INPUT_FILES[@]}")
 
 echo "Input Files: ${FILES[*]}"
 
