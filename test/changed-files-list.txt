@@ -1,4 +1,5 @@
 .github/workflows/test.yml
 action.yml
 action.yml
-!action.yml
+action.yml
+!*.txt
