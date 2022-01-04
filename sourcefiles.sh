@@ -4,16 +4,20 @@ set -e
 
 echo "::group::changed-files-from-source-file"
 
-FILES=$(echo "${INPUT_FILES}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
+FILES=()
 
 if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
     while read -r fileName; do
-      FILES=("${FILES[@]}" "$fileName")
+      FILES+=( "$fileName" )
     done <"$file"
   done
 fi
+
+CLEAN_INPUT_FILES=$(echo "${INPUT_FILES}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
+
+FILES=(${FILES[@]} ${CLEAN_INPUT_FILES[@]})
 
 echo "Input Files: ${FILES[*]}"
 
