@@ -15,17 +15,15 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   done
 fi
 
-CLEAN_FILES=$(echo "${RAW_FILES[*]}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
+IFS=" " read -r -a CLEAN_FILES <<< "$(echo "${RAW_FILES[*]}" | tr "\r\n" "\n" | tr " " "\n" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')"
 
-CLEAN_INPUT_FILES=$(echo "${INPUT_FILES}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
+IFS=" " read -r -a CLEAN_INPUT_FILES <<< "$(echo "${INPUT_FILES}" | tr "\r\n" "\n" | tr " " "\n" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')"
 
 FILES=("${CLEAN_FILES[@]}" "${CLEAN_INPUT_FILES[@]}")
 
-echo "Input Files: ${FILES[*]}"
+IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[@]}" | tr "\r\n" "\n" | tr " " "\n" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')"
 
-ALL_UNIQUE_FILES=$(echo "${FILES[*]}" | sort -u | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')
-
-echo "All Unique Input files: ${ALL_UNIQUE_FILES[*]}"
+echo "Input files: ${ALL_UNIQUE_FILES[*]}"
 
 echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"
 
