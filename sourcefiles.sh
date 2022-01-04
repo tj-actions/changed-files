@@ -10,7 +10,7 @@ if [[ -n $INPUT_FILES_FROM_SOURCE_FILE ]]; then
   for file in $INPUT_FILES_FROM_SOURCE_FILE
   do
     while read -r fileName; do
-      FILES+=("$fileName")
+      FILES=("${FILES[@]}" "$fileName")
     done <"$file"
   done
 fi
