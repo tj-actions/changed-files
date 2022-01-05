@@ -31,7 +31,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
     *   Between the last remote branch commit and the current HEAD.
 *   Restrict change detection to a subset of files.
     *   Report on files that have at least one change.
-    *   [Regex pattern](https://www.gnu.org/software/grep/manual/grep.html#Regular-Expressions) matching on a subset of files.
+    *   [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching on a subset of files.
 
 ## Usage
 
@@ -173,10 +173,10 @@ Support this project with a :star:
             test.txt
             new.txt
             test_directory
-            \.sh$
-            .(png|jpeg)$
-            .(sql|py)$
-            ^(mynewfile|custom)
+            *.sh
+            *.png
+            *.jpeg
+            **/migrate-*.sql
 
       - name: Run step if any of the listed files above change
         if: steps.changed-files-specific.outputs.any_changed == "true"

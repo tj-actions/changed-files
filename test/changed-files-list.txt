@@ -2,3 +2,4 @@
 action.yml
 action.yml
 action.yml
+!*.txt

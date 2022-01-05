@@ -342,7 +342,7 @@ jobs:
         uses: ./
         with:
           files: |
-            .github/workflows/test.yml
+            **/test.yml
             action.yml
           separator: "|"
       - name: Show output
@@ -425,7 +425,7 @@ jobs:
             test/changed-files-list.txt
             test/changed-files-list.txt
           files: |
-            .github/workflows/rebase.yml
+            **/workflows/rebase.yml
       - name: Verify any_changed from source files
         if: |
           (
@@ -555,7 +555,7 @@ jobs:
         uses: ./
         with:
           files: |
-            .github/workflows/test.yml
+            .github/**/test.yml
       - name: Verify only_changed files
         if: steps.changed-files-specific-only-changed.outputs.other_changed_files != ''
         run: |
