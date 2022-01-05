@@ -425,7 +425,7 @@ jobs:
             test/changed-files-list.txt
             test/changed-files-list.txt
           files: |
-            **/rebase.yml
+            **/workflows/rebase.yml
       - name: Verify any_changed from source files
         if: |
           (
