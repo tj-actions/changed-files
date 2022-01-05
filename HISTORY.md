@@ -1,20 +1,36 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-01-05)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+
+**Implemented enhancements:**
+
+- \[Feature\] Make it easier to exclude files [\#265](https://github.com/tj-actions/changed-files/issues/265)
+- \[Feature\] Support the same filter syntax as GitHub Workflows [\#264](https://github.com/tj-actions/changed-files/issues/264)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
+- Upgraded tj-actions/glob to v3.2 [\#306](https://github.com/tj-actions/changed-files/pull/306) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/remark action to v2.3 [\#305](https://github.com/tj-actions/changed-files/pull/305) ([renovate[bot]](https://github.com/apps/renovate))
+- Add support for using github's glob pattern syntax [\#304](https://github.com/tj-actions/changed-files/pull/304) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/remark action to v2 [\#302](https://github.com/tj-actions/changed-files/pull/302) ([renovate[bot]](https://github.com/apps/renovate))
+- Bump tj-actions/github-changelog-generator from 1.10 to 1.11 [\#300](https://github.com/tj-actions/changed-files/pull/300) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update tj-actions/github-changelog-generator action to v1.10 [\#299](https://github.com/tj-actions/changed-files/pull/299) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v2.0.1 [\#298](https://github.com/tj-actions/changed-files/pull/298) ([jackton1](https://github.com/jackton1))
 - Upgraded to v12.2 [\#297](https://github.com/tj-actions/changed-files/pull/297) ([jackton1](https://github.com/jackton1))
-
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
 
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
@@ -29,10 +45,6 @@
 
 - \[BUG\] The `other_modified_files` contains all modified files even those that match the file `filter`. [\#293](https://github.com/tj-actions/changed-files/issues/293)
 - \[BUG\] The `only_modified` is evaluated to `true` even when `other_modified_files` is not empty. [\#292](https://github.com/tj-actions/changed-files/issues/292)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
