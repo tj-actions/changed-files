@@ -104,6 +104,8 @@ runs:
       id: source-input-files
       shell: bash
       env:
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_FILES: ${{ inputs.files }}
         INPUT_FILES_FROM_SOURCE_FILE: ${{ inputs.files_from_source_file }}
     - run: |
