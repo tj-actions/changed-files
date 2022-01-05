@@ -175,6 +175,7 @@ Support this project with a :star:
             test_directory
             *.sh
             *.png
+            !*.md
             *.jpeg
             **/migrate-*.sql
 
