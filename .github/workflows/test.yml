@@ -425,7 +425,7 @@ jobs:
             test/changed-files-list.txt
             test/changed-files-list.txt
           files: |
-            .github/workflows/rebase.yml
+            **/rebase.yml
       - name: Verify any_changed from source files
         if: |
           (
@@ -555,7 +555,7 @@ jobs:
         uses: ./
         with:
           files: |
-            .github/workflows/test.yml
+            *.yml
       - name: Verify only_changed files
         if: steps.changed-files-specific-only-changed.outputs.other_changed_files != ''
         run: |
