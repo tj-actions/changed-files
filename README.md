@@ -31,7 +31,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
     *   Between the last remote branch commit and the current HEAD.
 *   Restrict change detection to a subset of files.
     *   Report on files that have at least one change.
-    *   [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching a subset of files.
+    *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
 
 ## Usage
 
