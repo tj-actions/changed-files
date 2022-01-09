@@ -106,9 +106,7 @@ if [[ -z "${INPUT_FILES[*]}" ]]; then
   ALL_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
-  echo "Input files: ${INPUT_FILES[*]}"
-
-  FILES=$(echo "${INPUT_FILES[*]}" | awk '{gsub(/ /,"\n"); print $0;}' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  echo "Input files: $INPUT_FILES"
 
   echo "Checking for file changes: \"${FILES}\"..."
   ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
