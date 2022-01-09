@@ -1,5 +1,22 @@
 # Changelog
 
+## [v3.0.1](https://github.com/tj-actions/changed-files/tree/v3.0.1) (2022-01-09)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.0...v3.0.1)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Update tj-actions/glob action to v3.3 [\#313](https://github.com/tj-actions/changed-files/pull/313) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#312](https://github.com/tj-actions/changed-files/pull/312) ([jackton1](https://github.com/jackton1))
+- Clean up unused code [\#311](https://github.com/tj-actions/changed-files/pull/311) ([jackton1](https://github.com/jackton1))
+- doc: add Zamiell as a contributor for doc [\#310](https://github.com/tj-actions/changed-files/pull/310) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- spelling/grammar [\#309](https://github.com/tj-actions/changed-files/pull/309) ([Zamiell](https://github.com/Zamiell))
+- Upgraded to v3.0.0 [\#308](https://github.com/tj-actions/changed-files/pull/308) ([jackton1](https://github.com/jackton1))
+
 ## [v3.0.0](https://github.com/tj-actions/changed-files/tree/v3.0.0) (2022-01-05)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v13...v3.0.0)
@@ -16,10 +33,6 @@
 
 - \[Feature\] Make it easier to exclude files [\#265](https://github.com/tj-actions/changed-files/issues/265)
 - \[Feature\] Support the same filter syntax as GitHub Workflows [\#264](https://github.com/tj-actions/changed-files/issues/264)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -621,7 +634,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -637,13 +650,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
