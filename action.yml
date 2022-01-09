@@ -100,6 +100,19 @@ runs:
   using: 'composite'
   steps:
     - run: |
+        # "Set base sha..."
+        if [[ -n "${{ inputs.base_sha }}" ]]; then
+          echo "::set-output name=base_sha::${{ inputs.base_sha }}"
+        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
+          if [[ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            echo "::set-output name=base_sha::${{ github.event.before }}"
+          else
+            echo "::set-output name=base_sha::${{ github.sha }}"
+          fi
+        fi
+      id: base-sha
+      shell: bash
+    - run: |
         bash $GITHUB_ACTION_PATH/sourcefiles.sh
       id: source-input-files
       shell: bash
@@ -114,19 +127,6 @@ runs:
       with:
         files: ${{ steps.source-input-files.outputs.files }}
         files-separator: " "
-    - run: |
-        # "Set base sha..."
-        if [[ -n "${{ inputs.base_sha }}" ]]; then
-          echo "::set-output name=base_sha::${{ inputs.base_sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
-          if [[ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
-            echo "::set-output name=base_sha::${{ github.event.before }}"
-          else
-            echo "::set-output name=base_sha::${{ github.sha }}"
-          fi
-        fi
-      id: base-sha
-      shell: bash
     - run: |
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
