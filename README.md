@@ -274,6 +274,8 @@ Support this project with a :star:
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
 
+* [tj-actions/glob](https://github.com/tj-actions/glob)
+
 ## Report Bugs
 
 Report bugs at https://github.com/tj-actions/changed-files/issues.
