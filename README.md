@@ -40,7 +40,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 > *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   When using `persist-credentials: false` with `actions/checkout@v2` you'll need to specify a `token` using the `token` input.
 > *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch-depth` for `pull_request` events.
-> *   For files located in a sub-directory ensure that the pattern specified contains `**` to match any preceding directories or explicitly pass the full path relative to the project root. See: [#314](https://github.com/tj-actions/changed-files/issues/314)
+> *   For files located in a sub-directory ensure that the pattern specified contains `**` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [#314](https://github.com/tj-actions/changed-files/issues/314)
 
 ```yaml
 name: CI
