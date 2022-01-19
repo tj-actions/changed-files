@@ -20,11 +20,11 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Fast execution (0-2 seconds on average).
 *   Easy to debug.
 *   Boolean output indicating that certain files have been changed.
-*   Multiple repositories.
-*   Self hosted runners.
-*   GitHub Enterprise Server.
-*   Monorepos (Fetches only the last remote commit)
-*   Supports all platforms.
+*   Multiple repositories support.
+*   Runs on self hosted runners.
+*   GitHub Enterprise Server support.
+*   Monorepos (Fetches only the last remote commit).
+*   Supports all platforms (Linux, MacOS, Windows).
 *   List all files that have changed.
     *   Between the current pull request branch and the default branch.
     *   Between the last commit and the current pushed change.
