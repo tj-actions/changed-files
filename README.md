@@ -156,12 +156,12 @@ Support this project with a :star:
           done
 
       - name: Run step when a file changes
-        if: contains(steps.changed-files.outputs.modified_files, "my-file.txt")
+        if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
         run: |
           echo "Your my-file.txt file has been modified."
 
       - name: Run step when a file has been deleted
-        if: contains(steps.changed-files.outputs.deleted_files, "test.txt")
+        if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
           echo "Your test.txt file has been deleted."
 
