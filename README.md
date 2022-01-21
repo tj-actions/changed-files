@@ -181,24 +181,24 @@ Support this project with a :star:
             **/migrate-*.sql
 
       - name: Run step if any of the listed files above change
-        if: steps.changed-files-specific.outputs.any_changed == "true"
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
 
       - name: Run step if only the files listed above change
-        if: steps.changed-files-specific.outputs.only_changed == "true"
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
         run: |
           echo "Only files listed above have changed."
 
       - name: Run step if any of the listed files above is deleted
-        if: steps.changed-files.outputs.any_deleted == "true"
+        if: steps.changed-files.outputs.any_deleted == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.deleted_files }}; do
             echo "$file was deleted"
           done
 
       - name: Run step if all listed files above have been deleted
-        if: steps.changed-files.outputs.only_deleted == "true"
+        if: steps.changed-files.outputs.only_deleted == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.deleted_files }}; do
             echo "$file was deleted"
