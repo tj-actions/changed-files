@@ -156,12 +156,12 @@ Support this project with a :star:
           done
 
       - name: Run step when a file changes
-        if: contains(steps.changed-files.outputs.modified_files, "my-file.txt")
+        if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
         run: |
           echo "Your my-file.txt file has been modified."
 
       - name: Run step when a file has been deleted
-        if: contains(steps.changed-files.outputs.deleted_files, "test.txt")
+        if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
         run: |
           echo "Your test.txt file has been deleted."
 
@@ -181,24 +181,24 @@ Support this project with a :star:
             **/migrate-*.sql
 
       - name: Run step if any of the listed files above change
-        if: steps.changed-files-specific.outputs.any_changed == "true"
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
 
       - name: Run step if only the files listed above change
-        if: steps.changed-files-specific.outputs.only_changed == "true"
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
         run: |
           echo "Only files listed above have changed."
 
       - name: Run step if any of the listed files above is deleted
-        if: steps.changed-files.outputs.any_deleted == "true"
+        if: steps.changed-files.outputs.any_deleted == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.deleted_files }}; do
             echo "$file was deleted"
           done
 
       - name: Run step if all listed files above have been deleted
-        if: steps.changed-files.outputs.only_deleted == "true"
+        if: steps.changed-files.outputs.only_deleted == 'true'
         run: |
           for file in ${{ steps.changed-files.outputs.deleted_files }}; do
             echo "$file was deleted"
