@@ -223,7 +223,7 @@ jobs:
             .github/workflows/test.yml
             action.yml
             test/changed-files-list.txt
-            !*.txt
+            !**/*.txt
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
