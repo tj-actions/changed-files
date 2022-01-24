@@ -222,9 +222,18 @@ jobs:
           files: |
             .github/workflows/test.yml
             action.yml
+            test/changed-files-list.txt
+            !*.txt
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
+        shell:
+          bash
+      - name: Check if a excluded file is not included in any_changed
+        if: "contains(steps.changed-files-specific.outputs.all_changed_files, 'test/changed-files-list.txt')"
+        run: |
+          echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+          exit 1
         shell:
           bash
       - name: Verify any_changed for specific files
@@ -236,6 +245,13 @@ jobs:
           fi
         shell:
           bash
+      - name: Check if a excluded file is not included in any_modified
+        if: "contains(steps.changed-files-specific.outputs.all_modified_files, 'test/changed-files-list.txt')"
+        run: |
+          echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific.outputs.any_modified }})"
+          exit 1
+        shell:
+          bash
       - name: Verify any_modified for specific files
         if: "!contains(steps.changed-files-specific.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, '.github/workflows/test.yml')"
         run: |
@@ -243,6 +259,13 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_modified }})"
             exit 1
           fi
+        shell:
+          bash
+      - name: Check if a excluded file is not included in any_deleted
+        if: "contains(steps.changed-files-specific.outputs.deleted_files, 'test/changed-files-list.txt')"
+        run: |
+          echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific.outputs.any_deleted }})"
+          exit 1
         shell:
           bash
       - name: Verify any_deleted for specific files
@@ -426,6 +449,13 @@ jobs:
             test/changed-files-list.txt
           files: |
             **/workflows/rebase.yml
+      - name: Check if a excluded file is not included in any_changed
+        if: contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/changed-files-list.txt')
+        run: |
+          echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific-source-file.outputs.any_changed }})"
+          exit 1
+        shell:
+          bash
       - name: Verify any_changed from source files
         if: |
           (
@@ -440,6 +470,13 @@ jobs:
           fi
         shell:
           bash
+      - name: Check if a excluded file is not included in any_modified
+        if: contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/changed-files-list.txt')
+        run: |
+          echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific-source-file.outputs.any_modified }})"
+          exit 1
+        shell:
+          bash
       - name: Verify any_modified from source files
         if: |
           (
@@ -452,6 +489,13 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_modified }})"
             exit 1
           fi
+        shell:
+          bash
+      - name: Check if a excluded file is not included in any_deleted
+        if: contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/changed-files-list.txt')
+        run: |
+          echo "Invalid output: Expected (true) got (${{ steps.changed-files-specific-source-file.outputs.any_deleted }})"
+          exit 1
         shell:
           bash
       - name: Verify any_deleted from source files
