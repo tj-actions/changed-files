@@ -121,7 +121,7 @@ else
   ALL_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "(${INPUT_FILES})" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   ALL_OTHER_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
     echo "Matching changed files: ${UNIQUE_ALL_CHANGED}"
@@ -134,7 +134,7 @@ else
 
   if [[ -n $ALL_OTHER_CHANGED ]]; then
     if [[ -n "$UNIQUE_ALL_CHANGED" ]]; then
-      OTHER_CHANGED=$(echo "${ALL_OTHER_CHANGED}|${UNIQUE_ALL_CHANGED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+      OTHER_CHANGED=$(echo "${ALL_OTHER_CHANGED}|${UNIQUE_ALL_CHANGED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_CHANGED=$ALL_OTHER_CHANGED
     fi
@@ -151,7 +151,7 @@ else
   fi
 
   ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
     echo "Matching modified files: ${UNIQUE_ALL_MODIFIED}"
@@ -164,7 +164,7 @@ else
 
   if [[ -n $ALL_OTHER_MODIFIED ]]; then
     if [[ -n "$UNIQUE_ALL_MODIFIED" ]]; then
-      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${UNIQUE_ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${UNIQUE_ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_MODIFIED=$ALL_OTHER_MODIFIED
     fi
@@ -181,7 +181,7 @@ else
   fi
 
   ALL_OTHER_DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
     echo "Matching deleted files: ${UNIQUE_ALL_DELETED}"
@@ -194,7 +194,7 @@ else
 
   if [[ -n $ALL_OTHER_DELETED ]]; then
     if [[ -n "$UNIQUE_ALL_DELETED" ]]; then
-      OTHER_DELETED=$(echo "${ALL_OTHER_DELETED}|${UNIQUE_ALL_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+      OTHER_DELETED=$(echo "${ALL_OTHER_DELETED}|${UNIQUE_ALL_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_DELETED=$ALL_OTHER_DELETED
     fi
