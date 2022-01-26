@@ -93,7 +93,7 @@ echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA
 
 echo "Getting diff..."
 
-if [[ -z "${INPUT_FILES[*]}" ]]; then
+if [[ -z "$INPUT_FILES_PATTERN" ]]; then
   ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -106,19 +106,19 @@ if [[ -z "${INPUT_FILES[*]}" ]]; then
   ALL_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
-  echo "Input files: $INPUT_FILES"
+  echo "Input files: $INPUT_FILES_PATTERN"
 
-  ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  MODIFIED=$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  RENAMED=$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  TYPE_CHANGED=$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED_AND_MODIFIED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "${INPUT_FILES}" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ADDED=$(git diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  COPIED=$(git diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  MODIFIED=$(git diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  RENAMED=$(git diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  TYPE_CHANGED=$(git diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNMERGED=$(git diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNKNOWN=$(git diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED_AND_MODIFIED=$(git diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -x "$INPUT_FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   ALL_OTHER_CHANGED=$(git diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
