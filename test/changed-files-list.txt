@@ -2,5 +2,5 @@
 action.yml
 action.yml
 action.yml
-**/test new.txt
-!test/test/test new.txt
+**/test.txt
+!test/test/test.txt
