@@ -2,5 +2,5 @@
 action.yml
 action.yml
 action.yml
-test/changed-files-list.txt
-!**/*.txt
+**/test new.txt
+!test/test/test new.txt
