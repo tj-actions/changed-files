@@ -275,7 +275,7 @@ Support this project with a :star:
 |  Runner                  |   Supported version   |
 |--------------------------|-----------------------|
 | [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)    |     `v14.1`           |
-| [Github Enterprise server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) | `v14.1` |
+| [GitHub Enterprise server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) | `v14.1` |
 | [Self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners)      |  `v12.2` & `v2.0.1`  |
 
 ## Credits
