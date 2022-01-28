@@ -270,6 +270,14 @@ Support this project with a :star:
 > *   However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
 
+## Compatibility
+
+|  Runner                  |   Supported version   |
+|--------------------------|-----------------------|
+| [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)    |     `v14.1`           |
+| [Github Enterprise server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) | `v14.1` |
+| [Self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners)      |  `v12.2` & `v2.0.1`  |
+
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
