@@ -222,7 +222,7 @@ jobs:
           files: |
             .github/workflows/test.yml
             action.yml
-            **/test.txt
+            **.txt
             !test/test/test.txt
       - name: Show output
         run: |
