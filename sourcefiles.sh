@@ -19,12 +19,10 @@ IFS=" " read -r -a CLEAN_FILES <<< "$(echo "${RAW_FILES[*]}" | tr "\r\n" "\n" | 
 
 IFS=" " read -r -a CLEAN_INPUT_FILES <<< "$(echo "${INPUT_FILES}" | tr "\r\n" "\n" | tr " " "\n" | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')"
 
-FILES=("${CLEAN_FILES[@]}" "${CLEAN_INPUT_FILES[@]}")
+ALL_FILES=("${CLEAN_FILES[@]}" "${CLEAN_INPUT_FILES[@]}")
 
-IFS=" " read -r -a ALL_UNIQUE_FILES <<< "$(echo "${FILES[@]}" | tr "\r\n" "\n" | tr " " "\n" | awk '!a[$0]++' | awk -v d=" " '{s=(NR==1?s:s d)$0}END{print s}')"
+echo "Input files: ${ALL_FILES[*]}"
 
-echo "Input files: ${ALL_UNIQUE_FILES[*]}"
-
-echo "::set-output name=files::${ALL_UNIQUE_FILES[*]}"
+echo "::set-output name=files::${ALL_FILES[*]}"
 
 echo "::endgroup::"
