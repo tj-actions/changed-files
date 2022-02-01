@@ -116,9 +116,9 @@ runs:
       uses: tj-actions/glob@v5
       id: glob
       with:
-        files: ${{ inputs.files_from_source_file }}
+        files: ${{ inputs.files }}
         files-separator: " "
-        files-from-source-file: ${{ inputs.files }}
+        files-from-source-file: ${{ inputs.files_from_source_file }}
         separator: "|"
     - run: |
         bash $GITHUB_ACTION_PATH/entrypoint.sh
