@@ -1,5 +1,20 @@
 # Changelog
 
+## [v4.0.3](https://github.com/tj-actions/changed-files/tree/v4.0.3) (2022-02-02)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.2...v4.0.3)
+
+**Fixed bugs:**
+
+- \[BUG\] Action flips forward slash into backslash resulting in match failure.  [\#340](https://github.com/tj-actions/changed-files/issues/340)
+- \[BUG\] Getting Error: `uses:` keyword is not currently supported when using above 12.2 version [\#333](https://github.com/tj-actions/changed-files/issues/333)
+- \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
+
+**Merged pull requests:**
+
+- fix: resolve bug with pattern matching on windows [\#341](https://github.com/tj-actions/changed-files/pull/341) ([jackton1](https://github.com/jackton1))
+- Upgraded to v14.2 [\#339](https://github.com/tj-actions/changed-files/pull/339) ([jackton1](https://github.com/jackton1))
+
 ## [v14.2](https://github.com/tj-actions/changed-files/tree/v14.2) (2022-02-01)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.2...v14.2)
@@ -116,7 +131,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-01-05)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -134,13 +149,13 @@
 - Upgraded to v2.0.1 [\#298](https://github.com/tj-actions/changed-files/pull/298) ([jackton1](https://github.com/jackton1))
 - Upgraded to v12.2 [\#297](https://github.com/tj-actions/changed-files/pull/297) ([jackton1](https://github.com/jackton1))
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
