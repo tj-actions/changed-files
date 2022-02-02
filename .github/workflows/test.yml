@@ -615,7 +615,7 @@ jobs:
         if: steps.changed-files-specific-only-changed.outputs.other_deleted_files != ''
         run: |
           if [[ "${{ steps.changed-files-specific-only-changed.outputs.only_deleted }}" != "false" ]]; then
-            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-only-changed.outputs.only_deleted }})"
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-only-changed.outputs.only_deleted }})."
             exit 1
           fi
         shell:
