@@ -21,8 +21,9 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Easy to debug.
 *   Boolean output indicating that certain files have been changed.
 *   Multiple repositories support.
-*   Runs on self hosted runners.
-*   GitHub Enterprise Server support.
+*   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)
+*   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
+*   Run on [self-hosted](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) runners.
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   List all files that have changed.
@@ -269,14 +270,6 @@ Support this project with a :star:
 > *   Spaces in file names can introduce bugs when using bash loops. See: [Issue #216](https://github.com/tj-actions/changed-files/issues/216)
 > *   However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
-
-## Compatibility
-
-|  Runner                  |   Supported version   |
-|--------------------------|-----------------------|
-| [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)    |     `v14.3`           |
-| [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) | `v14.3` |
-| [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners)      |  `v12.2` & `v2.0.1`  |
 
 ## Credits
 
