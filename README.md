@@ -21,9 +21,9 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Easy to debug.
 *   Boolean output indicating that certain files have been changed.
 *   Multiple repositories support.
-*   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)
+*   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
 *   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
-*   Run on [self-hosted](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) runners.
+*   [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) support.
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   List all files that have changed.
