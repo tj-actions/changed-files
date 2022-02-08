@@ -127,7 +127,7 @@ Support this project with a :star:
 | token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB\_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
 | separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
 | files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these <br> list of file(s) <br> (Defaults to the <br> entire repo) |
-| files-separator                  | string | false    | `"\n"`                  | Separator used to split the<br>files input                 |
+| files-separator                  | string | false    | `'\n'`                  | Separator used to split the<br>files input                 |
 | base\_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
 | files\_from\_source\_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
