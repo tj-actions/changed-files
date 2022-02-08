@@ -1,5 +1,18 @@
 # Changelog
 
+## [v4.0.4](https://github.com/tj-actions/changed-files/tree/v4.0.4) (2022-02-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.3...v4.0.4)
+
+**Fixed bugs:**
+
+- \[BUG\] Files detected as changed that are not part of PR [\#345](https://github.com/tj-actions/changed-files/issues/345)
+
+**Merged pull requests:**
+
+- chore: expose internal files-separator input [\#346](https://github.com/tj-actions/changed-files/pull/346) ([jackton1](https://github.com/jackton1))
+- Upgraded to v14.3 [\#343](https://github.com/tj-actions/changed-files/pull/343) ([jackton1](https://github.com/jackton1))
+
 ## [v14.3](https://github.com/tj-actions/changed-files/tree/v14.3) (2022-02-02)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.3...v14.3)
@@ -313,7 +326,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -327,13 +340,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
