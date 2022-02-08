@@ -1,5 +1,13 @@
 # Changelog
 
+## [v14.4](https://github.com/tj-actions/changed-files/tree/v14.4) (2022-02-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.4...v14.4)
+
+**Merged pull requests:**
+
+- Upgraded to v4.0.4 [\#347](https://github.com/tj-actions/changed-files/pull/347) ([jackton1](https://github.com/jackton1))
+
 ## [v4.0.4](https://github.com/tj-actions/changed-files/tree/v4.0.4) (2022-02-08)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.3...v4.0.4)
