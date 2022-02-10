@@ -20,7 +20,7 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Fast execution (0-2 seconds on average).
 *   Easy to debug.
 *   Boolean output indicating that certain files have been changed.
-*   Git submodules
+*   Git submodules (TODO)
 *   Multiple repositories support.
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
 *   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
