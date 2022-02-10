@@ -34,10 +34,6 @@ inputs:
     description: 'Use the last commit on the remote branch as the base_sha for push event.'
     required: false
     default: 'false'
-  submodules:
-    description: 'Detect changes for submodules'
-    required: false
-    default: 'false'
   path:
     description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
     required: false
