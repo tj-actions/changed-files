@@ -2,5 +2,5 @@
 action.yml
 action.yml
 action.yml
-test/**
+**/test.txt
 !test/test/test.txt
