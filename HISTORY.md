@@ -1,5 +1,22 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.5...HEAD)
+
+**Implemented enhancements:**
+
+- \[Feature\] Add support for detecting changes in submodules [\#349](https://github.com/tj-actions/changed-files/issues/349)
+
+## [v4.0.5](https://github.com/tj-actions/changed-files/tree/v4.0.5) (2022-02-10)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.4...v4.0.5)
+
+**Merged pull requests:**
+
+- feat: Add support for detecting submodules changes [\#350](https://github.com/tj-actions/changed-files/pull/350) ([jackton1](https://github.com/jackton1))
+- Upgraded to v14.4 [\#348](https://github.com/tj-actions/changed-files/pull/348) ([jackton1](https://github.com/jackton1))
+
 ## [v14.4](https://github.com/tj-actions/changed-files/tree/v14.4) (2022-02-08)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.4...v14.4)
@@ -160,7 +177,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-01-05)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -178,13 +195,13 @@
 - Upgraded to v2.0.1 [\#298](https://github.com/tj-actions/changed-files/pull/298) ([jackton1](https://github.com/jackton1))
 - Upgraded to v12.2 [\#297](https://github.com/tj-actions/changed-files/pull/297) ([jackton1](https://github.com/jackton1))
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
