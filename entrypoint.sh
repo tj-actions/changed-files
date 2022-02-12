@@ -33,7 +33,7 @@ fi
 echo "Getting HEAD info..."
 
 if [[ -z $INPUT_SHA ]]; then
-  CURRENT_SHA=$(git rev-parse HEAD 2>&1) && exit_status=$? || exit_status=$?
+  CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
 else
   CURRENT_SHA=$INPUT_SHA && exit_status=$? || exit_status=$?
 fi
@@ -52,7 +52,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    PREVIOUS_SHA=$(git rev-parse HEAD^1 2>&1) && exit_status=$? || exit_status=$?
+    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 HEAD^1 2>&1) && exit_status=$? || exit_status=$?
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
@@ -72,7 +72,7 @@ else
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     git fetch --no-tags -u --progress --depth=1 temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-    PREVIOUS_SHA=$(git rev-parse "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
+    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
   else
     git fetch --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA
