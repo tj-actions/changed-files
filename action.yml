@@ -117,7 +117,7 @@ runs:
       id: base-sha
       shell: bash
     - name: Glob match
-      uses: tj-actions/glob@v6
+      uses: tj-actions/glob@v7
       id: glob
       with:
         files: ${{ inputs.files }}
