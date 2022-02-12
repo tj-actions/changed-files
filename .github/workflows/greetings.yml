@@ -10,4 +10,4 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: "Thanks for reporting this issue, don't forget to star this project to help us reach a wider audience."
-        pr-message: "Thanks for implementing a fix. Could you ensure that the test covers your changes."
+        pr-message: "Thanks for implementing a fix, could you ensure that the test covers your changes."
