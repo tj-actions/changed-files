@@ -120,6 +120,7 @@ runs:
       uses: tj-actions/glob@v7
       id: glob
       with:
+        token: ${{ inputs.token }}
         files: ${{ inputs.files }}
         files-separator: ${{ inputs.files-separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
