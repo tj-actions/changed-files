@@ -131,7 +131,7 @@ runs:
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_PATH: ${{ inputs.path }}
     - name: Glob match
-      uses: tj-actions/glob@v7
+      uses: tj-actions/glob@v7.1
       id: glob
       with:
         token: ${{ inputs.token }}
@@ -139,8 +139,8 @@ runs:
         files-separator: ${{ inputs.files-separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
         path: ${{ inputs.path }}
-        previous-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
-        current-sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
+        base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
+        sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         include-deleted-files: "true"
         separator: "|"
     - run: |
