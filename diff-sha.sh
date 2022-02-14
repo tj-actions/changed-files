@@ -89,7 +89,6 @@ else
   fi
 fi
 
-
 echo "::set-output name=target_branch::$TARGET_BRANCH"
 echo "::set-output name=current_branch::$CURRENT_BRANCH"
 echo "::set-output name=previous_sha::$PREVIOUS_SHA"
