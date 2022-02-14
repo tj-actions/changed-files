@@ -15,113 +15,39 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-SERVER_URL=$(echo "$GITHUB_SERVER_URL" | awk -F/ '{print $3}')
-
-echo "Setting up 'temp_changed_files' remote..."
-
-git ls-remote --exit-code temp_changed_files 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-if [[ $exit_status -ne 0 ]]; then
-  echo "No 'temp_changed_files' remote found"
-  echo "Creating 'temp_changed_files' remote..."
-  git remote remove temp_changed_files 2>/dev/null || true
-  git remote add temp_changed_files "https://${INPUT_TOKEN}@${SERVER_URL}/${GITHUB_REPOSITORY}"
-else
-  echo "Found 'temp_changed_files' remote"
-fi
-
-echo "Getting HEAD info..."
-
-if [[ -z $INPUT_SHA ]]; then
-  CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
-else
-  CURRENT_SHA=$INPUT_SHA && exit_status=$? || exit_status=$?
-fi
-
-git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-if [[ $exit_status -ne 0 ]]; then
-  echo "::warning::Unable to locate the current sha: $CURRENT_SHA"
-  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
-  git remote remove temp_changed_files
-  exit 1
-fi
-
-if [[ -z $GITHUB_BASE_REF ]]; then
-  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
-  CURRENT_BRANCH=$TARGET_BRANCH
-
-  if [[ -z $INPUT_BASE_SHA ]]; then
-    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 HEAD^1 2>&1) && exit_status=$? || exit_status=$?
-  else
-    PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
-    TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
-  fi
-  
-  git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-  if [[ $exit_status -ne 0 ]]; then
-    echo "::warning::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
-    git remote remove temp_changed_files
-    exit 1
-  fi
-else
-  TARGET_BRANCH=$GITHUB_BASE_REF
-  CURRENT_BRANCH=$GITHUB_HEAD_REF
-
-  if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --depth=1 temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
-  else
-    git fetch --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
-    PREVIOUS_SHA=$INPUT_BASE_SHA
-    TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
-  fi
-
-  git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-  if [[ $exit_status -ne 0 ]]; then
-    echo "::warning::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
-    git remote remove temp_changed_files
-    exit 1
-  fi
-fi
-
-echo "Retrieving changes between $PREVIOUS_SHA ($TARGET_BRANCH) → $CURRENT_SHA ($CURRENT_BRANCH)"
+echo "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
 
 echo "Getting diff..."
 
 if [[ -z "$INPUT_FILES_PATTERN" ]]; then
-  ADDED=$(git diff --submodule=diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  COPIED=$(git diff --submodule=diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  DELETED=$(git diff --submodule=diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  MODIFIED=$(git diff --submodule=diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  RENAMED=$(git diff --submodule=diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  TYPE_CHANGED=$(git diff --submodule=diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNMERGED=$(git diff --submodule=diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNKNOWN=$(git diff --submodule=diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED_AND_MODIFIED=$(git diff --submodule=diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED=$(git diff --submodule=diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(git diff --submodule=diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ADDED=$(git diff --submodule=diff --diff-filter=A --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  COPIED=$(git diff --submodule=diff --diff-filter=C --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  DELETED=$(git diff --submodule=diff --diff-filter=D --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  MODIFIED=$(git diff --submodule=diff --diff-filter=M --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  RENAMED=$(git diff --submodule=diff --diff-filter=R --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  TYPE_CHANGED=$(git diff --submodule=diff --diff-filter=T --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNMERGED=$(git diff --submodule=diff --diff-filter=U --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNKNOWN=$(git diff --submodule=diff --diff-filter=X --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED_AND_MODIFIED=$(git diff --submodule=diff --diff-filter="*ACDMRTUX" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(git diff --submodule=diff --diff-filter="ACMR" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_MODIFIED=$(git diff --submodule=diff --diff-filter="ACMRD" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
   echo "Input files pattern: $INPUT_FILES_PATTERN"
   FILES_PATTERN="^($INPUT_FILES_PATTERN)$"
 
-  ADDED=$(git diff --submodule=diff --diff-filter=A --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  COPIED=$(git diff --submodule=diff --diff-filter=C --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  DELETED=$(git diff --submodule=diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  MODIFIED=$(git diff --submodule=diff --diff-filter=M --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  RENAMED=$(git diff --submodule=diff --diff-filter=R --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  TYPE_CHANGED=$(git diff --submodule=diff --diff-filter=T --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNMERGED=$(git diff --submodule=diff --diff-filter=U --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNKNOWN=$(git diff --submodule=diff --diff-filter=X --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED_AND_MODIFIED=$(git diff --submodule=diff --diff-filter="*ACDMRTUX" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED=$(git diff --submodule=diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(git diff --submodule=diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ADDED=$(git diff --submodule=diff --diff-filter=A --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  COPIED=$(git diff --submodule=diff --diff-filter=C --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  DELETED=$(git diff --submodule=diff --diff-filter=D --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  MODIFIED=$(git diff --submodule=diff --diff-filter=M --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  RENAMED=$(git diff --submodule=diff --diff-filter=R --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  TYPE_CHANGED=$(git diff --submodule=diff --diff-filter=T --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNMERGED=$(git diff --submodule=diff --diff-filter=U --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNKNOWN=$(git diff --submodule=diff --diff-filter=X --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED_AND_MODIFIED=$(git diff --submodule=diff --diff-filter="*ACDMRTUX" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(git diff --submodule=diff --diff-filter="ACMR" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_MODIFIED=$(git diff --submodule=diff --diff-filter="ACMRD" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  ALL_OTHER_CHANGED=$(git diff --submodule=diff --diff-filter="ACMR" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OTHER_CHANGED=$(git diff --submodule=diff --diff-filter="ACMR" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
@@ -151,7 +77,7 @@ else
     echo "::set-output name=only_changed::true"
   fi
 
-  ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
@@ -181,7 +107,7 @@ else
     echo "::set-output name=only_modified::true"
   fi
 
-  ALL_OTHER_DELETED=$(git diff --diff-filter=D --name-only "$PREVIOUS_SHA" "$CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OTHER_DELETED=$(git diff --diff-filter=D --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
