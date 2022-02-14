@@ -23,6 +23,14 @@ inputs:
     description: 'Separator used to split the files input'
     default: "\n"
     required: false
+  files-ignore:
+    description: 'Ignore changes to this list of files'
+    required: false
+    default: ""
+  files-ignore-separator:
+    description: 'Separator used to split the files-ignore input'
+    default: "\n"
+    required: false
   sha:
     description: 'Specify a current commit SHA used for comparing changes'
     required: true
@@ -137,6 +145,8 @@ runs:
       with:
         files: ${{ inputs.files }}
         files-separator: ${{ inputs.files-separator }}
+        excluded-files: ${{ inputs.files-ignore }}
+        excluded-files-separator: ${{ inputs.files-ignore-separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
         working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
