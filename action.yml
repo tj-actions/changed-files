@@ -131,7 +131,7 @@ runs:
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_PATH: ${{ inputs.path }}
     - name: Glob match
-      uses: tj-actions/glob@v7.1
+      uses: tj-actions/glob@v7.2
       id: glob
       with:
         token: ${{ inputs.token }}
