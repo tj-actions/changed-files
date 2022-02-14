@@ -135,11 +135,10 @@ runs:
       uses: tj-actions/glob@v7
       id: glob
       with:
-        token: ${{ inputs.token }}
         files: ${{ inputs.files }}
         files-separator: ${{ inputs.files-separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
-        path: ${{ inputs.path }}
+        working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         include-deleted-files: "true"
