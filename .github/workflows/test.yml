@@ -223,7 +223,7 @@ jobs:
             .github/workflows/test.yml
             action.yml
             **/test.txt
-          files-ignore: |
+          files_ignore: |
             test/test/test.txt
       - name: Show output
         run: |
