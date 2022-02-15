@@ -130,7 +130,7 @@ Support this project with a :star:
 | files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these <br> list of file(s) <br> (Defaults to the <br> entire repo) |
 | files_separator                  | string | false    | `'\n'`                  | Separator used to split the<br>`files` input                 |
 | files\_from\_source\_file |  `string`      |    `false`     |                    | Source file(s) <br> used to populate <br> the `files` input |
-| files_ignore                     | string | false    |                         | Ignore changes to this list of files                 |
+| files_ignore                     | string | false    |                         | Ignore changes to these file(s)                 |
 | files_ignore_separator           | string | false    | `'\n'`                  | Separator used to split the <br>`files-ignore` input                 |
 | files_ignore\_from\_source\_file |  `string`      |    `false`     |                    | Source file(s) <br> used to populate <br> the `files_ignore` input |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
