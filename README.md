@@ -128,10 +128,13 @@ Support this project with a :star:
 | token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB\_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
 | separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
 | files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these <br> list of file(s) <br> (Defaults to the <br> entire repo) |
-| files-separator                  | string | false    | `'\n'`                  | Separator used to split the<br>files input                 |
-| base\_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
+| files_separator                  | string | false    | `'\n'`                  | Separator used to split the<br>`files` input                 |
+| files\_from\_source\_file |  `string`      |    `false`     |                    | Source file(s) <br> used to populate <br> the `files` input |
+| files_ignore                     | string | false    |                         | Ignore changes to these file(s)                 |
+| files_ignore_separator           | string | false    | `'\n'`                  | Separator used to split the <br>`files-ignore` input                 |
+| files_ignore\_from\_source\_file |  `string`      |    `false`     |                    | Source file(s) <br> used to populate <br> the `files_ignore` input |
 | sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
-| files\_from\_source\_file |  `string`      |    `false`     |                    | Source file <br> used to populate <br> the files input |
+| base\_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
 | path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
 | since\_last\_remote\_commit | `string` | `false` | `false` | Use the last commit on the remote <br> branch as the `base_sha` <br> (Defaults to the previous commit). <br /> NOTE: This requires <br /> `fetch-depth: 0` <br /> with `actions/checkout@v2` |
 

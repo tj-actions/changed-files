@@ -12,17 +12,29 @@ inputs:
     required: true
     default: " "
   files_from_source_file:
-    description: 'Source file to populate the files input'
+    description: 'Source file(s) to populate the files input'
     required: false
     default: ""
   files:
     description: 'Check for changes using only this list of files (Defaults to the entire repo)'
     required: false
     default: ""
-  files-separator:
+  files_separator:
     description: 'Separator used to split the files input'
     default: "\n"
     required: false
+  files_ignore:
+    description: 'Ignore changes to this list of files'
+    required: false
+    default: ""
+  files_ignore_separator:
+    description: 'Separator used to split the files-ignore input'
+    default: "\n"
+    required: false
+  files_ignore_from_source_file:
+    description: 'Source file(s) to populate the files-ignore input'
+    required: false
+    default: ""
   sha:
     description: 'Specify a current commit SHA used for comparing changes'
     required: true
@@ -136,8 +148,11 @@ runs:
       id: glob
       with:
         files: ${{ inputs.files }}
-        files-separator: ${{ inputs.files-separator }}
+        files-separator: ${{ inputs.files_separator }}
+        excluded-files: ${{ inputs.files_ignore }}
+        excluded-files-separator: ${{ inputs.files_ignore_separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
+        excluded-files-from-source-file: ${{ inputs.files_ignore_from_source_file}}
         working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
