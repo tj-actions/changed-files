@@ -223,7 +223,8 @@ jobs:
             .github/workflows/test.yml
             action.yml
             **/test.txt
-            !test/test/test.txt
+          files-ignore: |
+            test/test/test.txt
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
