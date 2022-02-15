@@ -12,7 +12,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Sync release version.
-        uses: tj-actions/sync-release-version@v9
+        uses: tj-actions/sync-release-version@v11
         id: sync-release-version
         with:
           pattern: '${{ github.repository }}@'
