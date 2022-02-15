@@ -35,6 +35,12 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
+      - name: Show github context
+        run: |
+          echo '${{ toJSON(github) }}'
+        shell:
+          bash
+
       - name: Get changed files
         id: changed-files
         uses: ./
