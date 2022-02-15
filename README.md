@@ -66,7 +66,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
 
       - name: List all changed files
         run: |
@@ -147,11 +147,11 @@ Support this project with a :star:
 
       - name: Get changed files using defaults
         id: changed-files
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
 
       - name: Get changed files using a comma separator
         id: changed-files-comma
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           separator: ","
 
@@ -173,7 +173,7 @@ Support this project with a :star:
 
       - name: Get specific changed files
         id: changed-files-specific
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           files: |
             my-file.txt
@@ -212,14 +212,14 @@ Support this project with a :star:
 
       - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           files_from_source_file: |
             test/changed-files-list.txt
 
       - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
         id: changed-files-specific-source-file-and-specify-files
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           files_from_source_file: |
             test/changed-files-list.txt
@@ -228,13 +228,13 @@ Support this project with a :star:
 
       - name: Use a different commit SHA
         id: changed-files-custom-sha
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           sha: ${{ github.event.pull_request.head.sha }}
 
       - name: Use a different base SHA
         id: changed-files-custom-base-sha
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           base_sha: "2096ed0"
           
@@ -246,7 +246,7 @@ Support this project with a :star:
 
       - name: Run changed-files with defaults on the dir1
         id: changed-files-for-dir1
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           path: dir1
 
@@ -258,7 +258,7 @@ Support this project with a :star:
 
       - name: Run changed-files using the last commit on the remote branch
         id: changed-files-since-last-remote-commit
-        uses: tj-actions/changed-files@v14.7
+        uses: tj-actions/changed-files@v5.0.0
         with:
           since_last_remote_commit: "true"
 
