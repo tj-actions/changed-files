@@ -41,6 +41,12 @@ jobs:
         with:
            base_sha: ${{ github.head_ref }}
 
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
   test-multiple-repositories:
     name: Test with multiple repositories
     runs-on: ${{ matrix.platform }}
