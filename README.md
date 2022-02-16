@@ -185,6 +185,8 @@ Support this project with a :star:
             !*.md
             *.jpeg
             **/migrate-*.sql
+          files-ignore: |
+            *.yml
 
       - name: Run step if any of the listed files above change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
