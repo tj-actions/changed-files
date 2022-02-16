@@ -19,6 +19,38 @@ jobs:
         uses: actions/checkout@v2
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.14
+  
+  test-pull-requests-diff:
+    name: Test changed-files diff on pull_requests
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022, windows-2016]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Show github context
+        run: |
+          echo '${{ toJSON(github) }}'
+        shell:
+          bash
+
+      - name: Get changed files
+        id: changed-files
+        uses: ./
+        with:
+           base_sha: ${{ github.event.pull_request.base.sha }}
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
 
   test-multiple-repositories:
     name: Test with multiple repositories
