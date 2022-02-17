@@ -78,7 +78,7 @@ else
       echo "$PREVIOUS_SHA"
     else
       git fetch --no-tags -u --progress --depth=1 temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 temp_changed_files "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
     fi
   else
     git fetch --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
