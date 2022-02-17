@@ -4,6 +4,8 @@ set -e
 
 echo "::group::changed-files"
 
+echo "::warning::Legacy version detected, please switch to the recommended v10.x. See https://github.com/tj-actions/changed-files#versioning for more information"
+
 echo "Resolving repository path..."
 
 if [[ -n $INPUT_PATH ]]; then
