@@ -20,8 +20,8 @@ jobs:
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.14
   
-  test-pull-requests-diff:
-    name: Test changed-files diff on pull_requests
+  test-pull-requests-from-forks:
+    name: Test changed-files diff on pull_requests from forks
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -49,6 +49,18 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
+      - name: Get changed files use_fork_point
+        id: changed-files-fork-point
+        uses: ./
+        with:
+          use_fork_point: "true"
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-fork-point.outputs) }}'
         shell:
           bash
 
