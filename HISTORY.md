@@ -1,216 +1,65 @@
 # Changelog
 
-## [v15](https://github.com/tj-actions/changed-files/tree/v15) (2022-02-15)
+## [v15](https://github.com/tj-actions/changed-files/tree/v15) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.0.0...v15)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v15.1...v15)
 
-**Fixed bugs:**
+## [v15.1](https://github.com/tj-actions/changed-files/tree/v15.1) (2022-02-17)
 
-- \[BUG\] not patterns is not working in files [\#372](https://github.com/tj-actions/changed-files/issues/372)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
-
-**Merged pull requests:**
-
-- Upgraded to v5.0.0 [\#375](https://github.com/tj-actions/changed-files/pull/375) ([jackton1](https://github.com/jackton1))
-
-## [v5.0.0](https://github.com/tj-actions/changed-files/tree/v5.0.0) (2022-02-15)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.7...v5.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.1...v15.1)
 
 **Implemented enhancements:**
 
-- \[Feature\] files-ignore [\#366](https://github.com/tj-actions/changed-files/issues/366)
+- \[Feature\] Support using the fork point to detect file changes. [\#355](https://github.com/tj-actions/changed-files/issues/355)
 
 **Merged pull requests:**
 
+- Updated README.md [\#385](https://github.com/tj-actions/changed-files/pull/385) ([jackton1](https://github.com/jackton1))
+- feat: Added support for using fork point to detect file changes. [\#384](https://github.com/tj-actions/changed-files/pull/384) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#383](https://github.com/tj-actions/changed-files/pull/383) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#381](https://github.com/tj-actions/changed-files/pull/381) ([jackton1](https://github.com/jackton1))
+- Update README.md [\#380](https://github.com/tj-actions/changed-files/pull/380) ([jackton1](https://github.com/jackton1))
+- Update diff-sha.sh [\#379](https://github.com/tj-actions/changed-files/pull/379) ([jackton1](https://github.com/jackton1))
+- Test pull request diff [\#378](https://github.com/tj-actions/changed-files/pull/378) ([jackton1](https://github.com/jackton1))
+- Upgraded to v15 [\#377](https://github.com/tj-actions/changed-files/pull/377) ([jackton1](https://github.com/jackton1))
+- Upgraded to v5.0.0 [\#375](https://github.com/tj-actions/changed-files/pull/375) ([jackton1](https://github.com/jackton1))
 - Update tj-actions/sync-release-version action to v11 [\#374](https://github.com/tj-actions/changed-files/pull/374) ([renovate[bot]](https://github.com/apps/renovate))
 - Updated README.md [\#373](https://github.com/tj-actions/changed-files/pull/373) ([jackton1](https://github.com/jackton1))
 - Upgraded to v14.7 [\#371](https://github.com/tj-actions/changed-files/pull/371) ([jackton1](https://github.com/jackton1))
 - chore: Cleanup duplicate action runs [\#370](https://github.com/tj-actions/changed-files/pull/370) ([jackton1](https://github.com/jackton1))
 - feat: Add support for excluding files via files-ignore input [\#369](https://github.com/tj-actions/changed-files/pull/369) ([jackton1](https://github.com/jackton1))
-
-## [v14.7](https://github.com/tj-actions/changed-files/tree/v14.7) (2022-02-14)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.7...v14.7)
-
-**Fixed bugs:**
-
-- \[BUG\] "delete" does not work [\#353](https://github.com/tj-actions/changed-files/issues/353)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.7 [\#368](https://github.com/tj-actions/changed-files/pull/368) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.7](https://github.com/tj-actions/changed-files/tree/v4.0.7) (2022-02-14)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.6...v4.0.7)
-
-**Merged pull requests:**
-
 - fix: Bug detecting deleted files. [\#364](https://github.com/tj-actions/changed-files/pull/364) ([jackton1](https://github.com/jackton1))
 - chore: Update glob action inputs [\#363](https://github.com/tj-actions/changed-files/pull/363) ([jackton1](https://github.com/jackton1))
 - Upgraded to v14.6 [\#362](https://github.com/tj-actions/changed-files/pull/362) ([jackton1](https://github.com/jackton1))
-
-## [v14.6](https://github.com/tj-actions/changed-files/tree/v14.6) (2022-02-12)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.6...v14.6)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.6 [\#361](https://github.com/tj-actions/changed-files/pull/361) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.6](https://github.com/tj-actions/changed-files/tree/v4.0.6) (2022-02-12)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.5...v4.0.6)
-
-**Merged pull requests:**
-
 - Update README.md [\#360](https://github.com/tj-actions/changed-files/pull/360) ([jackton1](https://github.com/jackton1))
 - Update README.md [\#359](https://github.com/tj-actions/changed-files/pull/359) ([jackton1](https://github.com/jackton1))
 - fix: Error with multiple changed files from merge commits [\#358](https://github.com/tj-actions/changed-files/pull/358) ([jackton1](https://github.com/jackton1))
 - Update tj-actions/glob action to v7 [\#357](https://github.com/tj-actions/changed-files/pull/357) ([renovate[bot]](https://github.com/apps/renovate))
 - Update reviewdog/action-shellcheck action to v1.14 [\#356](https://github.com/tj-actions/changed-files/pull/356) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v14.5 [\#352](https://github.com/tj-actions/changed-files/pull/352) ([jackton1](https://github.com/jackton1))
-
-## [v14.5](https://github.com/tj-actions/changed-files/tree/v14.5) (2022-02-10)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.5...v14.5)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.5 [\#351](https://github.com/tj-actions/changed-files/pull/351) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.5](https://github.com/tj-actions/changed-files/tree/v4.0.5) (2022-02-10)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.4...v4.0.5)
-
-**Merged pull requests:**
-
 - feat: Add support for detecting submodules changes [\#350](https://github.com/tj-actions/changed-files/pull/350) ([jackton1](https://github.com/jackton1))
 - Upgraded to v14.4 [\#348](https://github.com/tj-actions/changed-files/pull/348) ([jackton1](https://github.com/jackton1))
-
-## [v14.4](https://github.com/tj-actions/changed-files/tree/v14.4) (2022-02-08)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.4...v14.4)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.4 [\#347](https://github.com/tj-actions/changed-files/pull/347) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.4](https://github.com/tj-actions/changed-files/tree/v4.0.4) (2022-02-08)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.3...v4.0.4)
-
-**Fixed bugs:**
-
-- \[BUG\] Files detected as changed that are not part of PR [\#345](https://github.com/tj-actions/changed-files/issues/345)
-
-**Merged pull requests:**
-
 - chore: expose internal files-separator input [\#346](https://github.com/tj-actions/changed-files/pull/346) ([jackton1](https://github.com/jackton1))
 - Upgraded to v14.3 [\#343](https://github.com/tj-actions/changed-files/pull/343) ([jackton1](https://github.com/jackton1))
-
-## [v14.3](https://github.com/tj-actions/changed-files/tree/v14.3) (2022-02-02)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.3...v14.3)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.3 [\#342](https://github.com/tj-actions/changed-files/pull/342) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.3](https://github.com/tj-actions/changed-files/tree/v4.0.3) (2022-02-02)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.2...v4.0.3)
-
-**Fixed bugs:**
-
-- \[BUG\] Action flips forward slash into backslash resulting in match failure.  [\#340](https://github.com/tj-actions/changed-files/issues/340)
-- \[BUG\] Getting Error: `uses:` keyword is not currently supported when using above 12.2 version [\#333](https://github.com/tj-actions/changed-files/issues/333)
-- \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
-
-**Merged pull requests:**
-
 - fix: resolve bug with pattern matching on windows [\#341](https://github.com/tj-actions/changed-files/pull/341) ([jackton1](https://github.com/jackton1))
 - Upgraded to v14.2 [\#339](https://github.com/tj-actions/changed-files/pull/339) ([jackton1](https://github.com/jackton1))
-
-## [v14.2](https://github.com/tj-actions/changed-files/tree/v14.2) (2022-02-01)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.2...v14.2)
-
-**Fixed bugs:**
-
-- \[BUG\] Negating filter doesn't work [\#335](https://github.com/tj-actions/changed-files/issues/335)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.2 [\#338](https://github.com/tj-actions/changed-files/pull/338) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.2](https://github.com/tj-actions/changed-files/tree/v4.0.2) (2022-02-01)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.1...v4.0.2)
-
-**Merged pull requests:**
-
 - bug: resolve issue with excluding files via glob pattern [\#337](https://github.com/tj-actions/changed-files/pull/337) ([jackton1](https://github.com/jackton1))
 - Bump peter-evans/create-pull-request from 3.12.0 to 3.12.1 [\#334](https://github.com/tj-actions/changed-files/pull/334) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Upgraded to v14.1 [\#332](https://github.com/tj-actions/changed-files/pull/332) ([jackton1](https://github.com/jackton1))
-
-## [v14.1](https://github.com/tj-actions/changed-files/tree/v14.1) (2022-01-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.1...v14.1)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.1 [\#331](https://github.com/tj-actions/changed-files/pull/331) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.1](https://github.com/tj-actions/changed-files/tree/v4.0.1) (2022-01-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14...v4.0.1)
-
-**Merged pull requests:**
-
 - bug: Fix command to narrow down target files [\#330](https://github.com/tj-actions/changed-files/pull/330) ([massongit](https://github.com/massongit))
 - Upgraded to v14 [\#329](https://github.com/tj-actions/changed-files/pull/329) ([jackton1](https://github.com/jackton1))
-
-## [v14](https://github.com/tj-actions/changed-files/tree/v14) (2022-01-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.0...v14)
-
-**Merged pull requests:**
-
 - Upgraded to v4.0.0 [\#328](https://github.com/tj-actions/changed-files/pull/328) ([jackton1](https://github.com/jackton1))
-
-## [v4.0.0](https://github.com/tj-actions/changed-files/tree/v4.0.0) (2022-01-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v13.2...v4.0.0)
-
-**Merged pull requests:**
-
 - Clean up variable name to reflect usage. [\#327](https://github.com/tj-actions/changed-files/pull/327) ([jackton1](https://github.com/jackton1))
 - Narrow down target files by exact match of INPUT\_FILES [\#326](https://github.com/tj-actions/changed-files/pull/326) ([massongit](https://github.com/massongit))
 - Upgraded to v13.2 [\#325](https://github.com/tj-actions/changed-files/pull/325) ([jackton1](https://github.com/jackton1))
-
-## [v13.2](https://github.com/tj-actions/changed-files/tree/v13.2) (2022-01-25)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.2...v13.2)
-
-**Merged pull requests:**
-
 - Upgraded to v3.0.2 [\#324](https://github.com/tj-actions/changed-files/pull/324) ([jackton1](https://github.com/jackton1))
-
-## [v3.0.2](https://github.com/tj-actions/changed-files/tree/v3.0.2) (2022-01-25)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.1...v3.0.2)
-
-**Fixed bugs:**
-
-- \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
-
-**Merged pull requests:**
-
 - Updated README.md [\#323](https://github.com/tj-actions/changed-files/pull/323) ([jackton1](https://github.com/jackton1))
 - docs: add massongit as a contributor for code [\#322](https://github.com/tj-actions/changed-files/pull/322) ([allcontributors[bot]](https://github.com/apps/allcontributors))
 - Deduplicate from files parameter without sorting [\#321](https://github.com/tj-actions/changed-files/pull/321) ([massongit](https://github.com/massongit))
@@ -220,43 +69,13 @@
 - Updated README.md [\#317](https://github.com/tj-actions/changed-files/pull/317) ([jackton1](https://github.com/jackton1))
 - Upgraded to v13.1 [\#316](https://github.com/tj-actions/changed-files/pull/316) ([jackton1](https://github.com/jackton1))
 - Upgraded to v3.0.1 [\#315](https://github.com/tj-actions/changed-files/pull/315) ([jackton1](https://github.com/jackton1))
-
-## [v3.0.1](https://github.com/tj-actions/changed-files/tree/v3.0.1) (2022-01-09)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v13.1...v3.0.1)
-
-## [v13.1](https://github.com/tj-actions/changed-files/tree/v13.1) (2022-01-09)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.0...v13.1)
-
-**Merged pull requests:**
-
 - Update tj-actions/glob action to v3.3 [\#313](https://github.com/tj-actions/changed-files/pull/313) ([renovate[bot]](https://github.com/apps/renovate))
 - Updated README.md [\#312](https://github.com/tj-actions/changed-files/pull/312) ([jackton1](https://github.com/jackton1))
 - Clean up unused code [\#311](https://github.com/tj-actions/changed-files/pull/311) ([jackton1](https://github.com/jackton1))
 - doc: add Zamiell as a contributor for doc [\#310](https://github.com/tj-actions/changed-files/pull/310) ([allcontributors[bot]](https://github.com/apps/allcontributors))
 - spelling/grammar [\#309](https://github.com/tj-actions/changed-files/pull/309) ([Zamiell](https://github.com/Zamiell))
 - Upgraded to v3.0.0 [\#308](https://github.com/tj-actions/changed-files/pull/308) ([jackton1](https://github.com/jackton1))
-
-## [v3.0.0](https://github.com/tj-actions/changed-files/tree/v3.0.0) (2022-01-05)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v13...v3.0.0)
-
-**Merged pull requests:**
-
 - Upgraded to v13 [\#307](https://github.com/tj-actions/changed-files/pull/307) ([jackton1](https://github.com/jackton1))
-
-## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-01-05)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
-
-**Implemented enhancements:**
-
-- \[Feature\] Make it easier to exclude files [\#265](https://github.com/tj-actions/changed-files/issues/265)
-- \[Feature\] Support the same filter syntax as GitHub Workflows [\#264](https://github.com/tj-actions/changed-files/issues/264)
-
-**Merged pull requests:**
-
 - Upgraded tj-actions/glob to v3.2 [\#306](https://github.com/tj-actions/changed-files/pull/306) ([jackton1](https://github.com/jackton1))
 - Update tj-actions/remark action to v2.3 [\#305](https://github.com/tj-actions/changed-files/pull/305) ([renovate[bot]](https://github.com/apps/renovate))
 - Add support for using github's glob pattern syntax [\#304](https://github.com/tj-actions/changed-files/pull/304) ([jackton1](https://github.com/jackton1))
@@ -265,6 +84,132 @@
 - Update tj-actions/github-changelog-generator action to v1.10 [\#299](https://github.com/tj-actions/changed-files/pull/299) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v2.0.1 [\#298](https://github.com/tj-actions/changed-files/pull/298) ([jackton1](https://github.com/jackton1))
 - Upgraded to v12.2 [\#297](https://github.com/tj-actions/changed-files/pull/297) ([jackton1](https://github.com/jackton1))
+
+## [v1.0.1](https://github.com/tj-actions/changed-files/tree/v1.0.1) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.0...v1.0.1)
+
+## [v1.0.0](https://github.com/tj-actions/changed-files/tree/v1.0.0) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v5.0.0...v1.0.0)
+
+**Fixed bugs:**
+
+- \[BUG\] Project versions are mutated without warning [\#382](https://github.com/tj-actions/changed-files/issues/382)
+
+## [v5.0.0](https://github.com/tj-actions/changed-files/tree/v5.0.0) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.7...v5.0.0)
+
+## [v14.7](https://github.com/tj-actions/changed-files/tree/v14.7) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.6...v14.7)
+
+## [v14.6](https://github.com/tj-actions/changed-files/tree/v14.6) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.5...v14.6)
+
+## [v14.5](https://github.com/tj-actions/changed-files/tree/v14.5) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.4...v14.5)
+
+## [v14.4](https://github.com/tj-actions/changed-files/tree/v14.4) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.3...v14.4)
+
+## [v14.3](https://github.com/tj-actions/changed-files/tree/v14.3) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.2...v14.3)
+
+## [v14.2](https://github.com/tj-actions/changed-files/tree/v14.2) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14.1...v14.2)
+
+## [v14.1](https://github.com/tj-actions/changed-files/tree/v14.1) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v14...v14.1)
+
+## [v14](https://github.com/tj-actions/changed-files/tree/v14) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.7...v14)
+
+## [v4.0.7](https://github.com/tj-actions/changed-files/tree/v4.0.7) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.6...v4.0.7)
+
+## [v4.0.6](https://github.com/tj-actions/changed-files/tree/v4.0.6) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.5...v4.0.6)
+
+## [v4.0.5](https://github.com/tj-actions/changed-files/tree/v4.0.5) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.4...v4.0.5)
+
+## [v4.0.4](https://github.com/tj-actions/changed-files/tree/v4.0.4) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.3...v4.0.4)
+
+## [v4.0.3](https://github.com/tj-actions/changed-files/tree/v4.0.3) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.2...v4.0.3)
+
+## [v4.0.2](https://github.com/tj-actions/changed-files/tree/v4.0.2) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.1...v4.0.2)
+
+## [v4.0.1](https://github.com/tj-actions/changed-files/tree/v4.0.1) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v4.0.0...v4.0.1)
+
+## [v4.0.0](https://github.com/tj-actions/changed-files/tree/v4.0.0) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.2...v4.0.0)
+
+## [v3.0.2](https://github.com/tj-actions/changed-files/tree/v3.0.2) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.1...v3.0.2)
+
+## [v3.0.1](https://github.com/tj-actions/changed-files/tree/v3.0.1) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v3.0.0...v3.0.1)
+
+## [v3.0.0](https://github.com/tj-actions/changed-files/tree/v3.0.0) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v13.2...v3.0.0)
+
+## [v13.2](https://github.com/tj-actions/changed-files/tree/v13.2) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v13.1...v13.2)
+
+## [v13.1](https://github.com/tj-actions/changed-files/tree/v13.1) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v13...v13.1)
+
+## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+
+**Implemented enhancements:**
+
+- \[Feature\] files-ignore [\#366](https://github.com/tj-actions/changed-files/issues/366)
+- \[Feature\] Make it easier to exclude files [\#265](https://github.com/tj-actions/changed-files/issues/265)
+- \[Feature\] Support the same filter syntax as GitHub Workflows [\#264](https://github.com/tj-actions/changed-files/issues/264)
+
+**Fixed bugs:**
+
+- \[BUG\] not patterns is not working in files [\#372](https://github.com/tj-actions/changed-files/issues/372)
+- \[BUG\] Argument list too long with files input [\#367](https://github.com/tj-actions/changed-files/issues/367)
+- \[BUG\] "delete" does not work [\#353](https://github.com/tj-actions/changed-files/issues/353)
+- \[BUG\] Files detected as changed that are not part of PR [\#345](https://github.com/tj-actions/changed-files/issues/345)
+- \[BUG\] Action flips forward slash into backslash resulting in match failure.  [\#340](https://github.com/tj-actions/changed-files/issues/340)
+- \[BUG\] Negating filter doesn't work [\#335](https://github.com/tj-actions/changed-files/issues/335)
+- \[BUG\] Getting Error: `uses:` keyword is not currently supported when using above 12.2 version [\#333](https://github.com/tj-actions/changed-files/issues/333)
+- \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
+- \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
@@ -623,20 +568,7 @@
 
 ## [v1.0.2](https://github.com/tj-actions/changed-files/tree/v1.0.2) (2021-08-28)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.1...v1.0.2)
-
-**Fixed bugs:**
-
-- \[BUG\] Error: xargs: unmatched single quote [\#169](https://github.com/tj-actions/changed-files/issues/169)
-
-**Merged pull requests:**
-
-- Fixed bug with parsing filenames that contain quotes [\#174](https://github.com/tj-actions/changed-files/pull/174) ([jackton1](https://github.com/jackton1))
-- Upgraded to v1.0.1 [\#173](https://github.com/tj-actions/changed-files/pull/173) ([jackton1](https://github.com/jackton1))
-
-## [v1.0.1](https://github.com/tj-actions/changed-files/tree/v1.0.1) (2021-08-28)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.0...v1.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.3...v1.0.2)
 
 **Implemented enhancements:**
 
@@ -644,11 +576,15 @@
 
 **Fixed bugs:**
 
+- \[BUG\] Error: xargs: unmatched single quote [\#169](https://github.com/tj-actions/changed-files/issues/169)
 - \[BUG\] Deleted files not detected [\#165](https://github.com/tj-actions/changed-files/issues/165)
 - \[BUG\] changed-files unable to initialize git repository on custom container image [\#164](https://github.com/tj-actions/changed-files/issues/164)
+- Setting remote URL breaks other steps that are using it [\#158](https://github.com/tj-actions/changed-files/issues/158)
 
 **Merged pull requests:**
 
+- Fixed bug with parsing filenames that contain quotes [\#174](https://github.com/tj-actions/changed-files/pull/174) ([jackton1](https://github.com/jackton1))
+- Upgraded to v1.0.1 [\#173](https://github.com/tj-actions/changed-files/pull/173) ([jackton1](https://github.com/jackton1))
 - Updated README.md [\#172](https://github.com/tj-actions/changed-files/pull/172) ([jackton1](https://github.com/jackton1))
 - Updated README.md [\#171](https://github.com/tj-actions/changed-files/pull/171) ([jackton1](https://github.com/jackton1))
 - docs: add IvanPizhenko as a contributor for code, doc [\#170](https://github.com/tj-actions/changed-files/pull/170) ([allcontributors[bot]](https://github.com/apps/allcontributors))
@@ -657,17 +593,6 @@
 - Update tj-actions/branch-names action to v4.9 [\#162](https://github.com/tj-actions/changed-files/pull/162) ([renovate[bot]](https://github.com/apps/renovate))
 - Update tj-actions/remark action to v1.7 [\#161](https://github.com/tj-actions/changed-files/pull/161) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v1.0.0 [\#160](https://github.com/tj-actions/changed-files/pull/160) ([jackton1](https://github.com/jackton1))
-
-## [v1.0.0](https://github.com/tj-actions/changed-files/tree/v1.0.0) (2021-08-18)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v9.3...v1.0.0)
-
-**Fixed bugs:**
-
-- Setting remote URL breaks other steps that are using it [\#158](https://github.com/tj-actions/changed-files/issues/158)
-
-**Merged pull requests:**
-
 - Fix persisting origin URL [\#159](https://github.com/tj-actions/changed-files/pull/159) ([jackton1](https://github.com/jackton1))
 - Upgraded to v9.3 [\#157](https://github.com/tj-actions/changed-files/pull/157) ([jackton1](https://github.com/jackton1))
 
