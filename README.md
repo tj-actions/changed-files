@@ -87,56 +87,57 @@ Support this project with a :star:
 
 ## Outputs
 
-| Acronym   |  Meaning     |
+|  Acronym  |   Meaning    |
 |:---------:|:------------:|
-| A         | Added        |
-| C         | Copied       |
-| M         | Modified     |
-| D         | Deleted      |
-| R         | Renamed      |
-| T         | Type changed |
-| U         | Unmerged     |
-| X         | Unknown      |
+|     A     |    Added     |
+|     C     |    Copied    |
+|     M     |   Modified   |
+|     D     |   Deleted    |
+|     R     |   Renamed    |
+|     T     | Type changed |
+|     U     |   Unmerged   |
+|     X     |   Unknown    |
 
-|   Output             |    type      |  example                           |         description                      |
-|:--------------------:|:------------:|:----------------------------------:|:----------------------------------------:|
-| any\_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has changed. <br /> i.e. *using a combination of all added, <br />copied, modified and renamed files (ACMR)* |
-| only\_changed          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input has changed. (ACMR) |
-| other\_changed\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACMR)*  |
-| any\_modified          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been modified. <br /> i.e. *using a combination of all added, <br />copied, modified, renamed, and deleted files (ACMRD)* |
-| only\_modified          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input has been modified. (ACMRD) |
-| other\_modified\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other modified files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied, modified, and deleted files (ACMRD)*  |
-| any\_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been deleted. (D) |
-| only\_deleted          |  `string`    |  `true` OR `false`                 | Returns `true` when only <br /> files provided using <br /> the `files` input has been deleted. (D) |
-| other\_deleted\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  | Select all other deleted files <br/> not listed in the files input <br /> i.e. *a  combination of all deleted files (D)*  |
-| all\_changed\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed files <br /> i.e. *a combination of all added, <br />copied, modified and renamed files (ACMR)*  |
-| all\_modified\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed files <br /> i.e. *a combination of all added, <br />copied, modified, renamed and deleted files (ACMRD)*  |
-| all\_changed\_and\_modified\_files    |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select all changed <br /> and modified files <br /> i.e. *a combination of (ACMRDTUX)*  |
-| added\_files          |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Added (A)    |
-| copied\_files         |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Copied (C)   |
-| deleted\_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Deleted (D)  |
-| modified\_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Modified (M) |
-| renamed\_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Renamed (R)  |
-| type\_changed\_files   |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that have their file type changed (T) |
-| unmerged\_files       |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unmerged (U) |
-| unknown\_files        |  `string`    |  `'new.txt path/to/file.png ...'`  |  Select only files that are Unknown (X)  |
+|               Output               |   type   |             example              |                                                                                                      description                                                                                                      |
+|:----------------------------------:|:--------:|:--------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|            any\_changed            | `string` |        `true` OR `false`         |         Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has changed. <br /> i.e. *using a combination of all added, <br />copied, modified and renamed files (ACMR)*          |
+|           only\_changed            | `string` |        `true` OR `false`         |                                                           Returns `true` when only <br /> files provided using <br /> the `files` input has changed. (ACMR)                                                           |
+|       other\_changed\_files        | `string` | `'new.txt path/to/file.png ...'` |                                 Select all other changed files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied and modified files (ACMR)*                                 |
+|           any\_modified            | `string` |        `true` OR `false`         | Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been modified. <br /> i.e. *using a combination of all added, <br />copied, modified, renamed, and deleted files (ACMRD)* |
+|           only\_modified           | `string` |        `true` OR `false`         |                                                       Returns `true` when only <br /> files provided using <br /> the `files` input has been modified. (ACMRD)                                                        |
+|       other\_modified\_files       | `string` | `'new.txt path/to/file.png ...'` |                           Select all other modified files <br/> not listed in the files input <br /> i.e. *a  combination of all added, <br /> copied, modified, and deleted files (ACMRD)*                           |
+|            any\_deleted            | `string` |        `true` OR `false`         |                                                     Returns `true` when any <br /> of the filenames provided using <br /> the `files` input has been deleted. (D)                                                     |
+|           only\_deleted            | `string` |        `true` OR `false`         |                                                          Returns `true` when only <br /> files provided using <br /> the `files` input has been deleted. (D)                                                          |
+|       other\_deleted\_files        | `string` | `'new.txt path/to/file.png ...'` |                                               Select all other deleted files <br/> not listed in the files input <br /> i.e. *a  combination of all deleted files (D)*                                                |
+|        all\_changed\_files         | `string` | `'new.txt path/to/file.png ...'` |                                                  Select all changed files <br /> i.e. *a combination of all added, <br />copied, modified and renamed files (ACMR)*                                                   |
+|        all\_modified\_files        | `string` | `'new.txt path/to/file.png ...'` |                                             Select all changed files <br /> i.e. *a combination of all added, <br />copied, modified, renamed and deleted files (ACMRD)*                                              |
+| all\_changed\_and\_modified\_files | `string` | `'new.txt path/to/file.png ...'` |                                                                Select all changed <br /> and modified files <br /> i.e. *a combination of (ACMRDTUX)*                                                                 |
+|            added\_files            | `string` | `'new.txt path/to/file.png ...'` |                                                                                         Select only files that are Added (A)                                                                                          |
+|           copied\_files            | `string` | `'new.txt path/to/file.png ...'` |                                                                                         Select only files that are Copied (C)                                                                                         |
+|           deleted\_files           | `string` | `'new.txt path/to/file.png ...'` |                                                                                        Select only files that are Deleted (D)                                                                                         |
+|          modified\_files           | `string` | `'new.txt path/to/file.png ...'` |                                                                                        Select only files that are Modified (M)                                                                                        |
+|           renamed\_files           | `string` | `'new.txt path/to/file.png ...'` |                                                                                        Select only files that are Renamed (R)                                                                                         |
+|        type\_changed\_files        | `string` | `'new.txt path/to/file.png ...'` |                                                                                Select only files that have their file type changed (T)                                                                                |
+|          unmerged\_files           | `string` | `'new.txt path/to/file.png ...'` |                                                                                        Select only files that are Unmerged (U)                                                                                        |
+|           unknown\_files           | `string` | `'new.txt path/to/file.png ...'` |                                                                                        Select only files that are Unknown (X)                                                                                         |
 
 ## Inputs
 
-|   Input       |    type    |  required      |  default                      |  description  |
-|:-------------:|:-----------:|:-------------:|:-----------------------------:|:-------------:|
-| token         |  `string`   |    `false`    | `${{ github.token }}`         | [GITHUB\_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)              |
-| separator     |  `string`   |    `true`     | `' '`                         |  Output string separator   |
-| files         |  `string` OR `string[]` |   `false`  |                      | Check for changes  <br> using only these <br> list of file(s) <br> (Defaults to the <br> entire repo) |
-| files\_separator                  | string | false    | `'\n'`                  | Separator used to split the<br>`files` input                 |
-| files\_from\_source\_file |  `string`      |    `false`     |                    | Source file(s) <br> used to populate <br> the `files` input |
-| files\_ignore                     | string | false    |                         | Ignore changes to these file(s)                 |
-| files\_ignore\_separator           | string | false    | `'\n'`                  | Separator used to split the <br>`files-ignore` input                 |
-| files\_ignore\_from\_source\_file |  `string`      |    `false`     |                    | Source file(s) <br> used to populate <br> the `files_ignore` input |
-| sha           |  `string`      |    `true`     | `${{ github.sha }}`           | Specify a different <br> commit SHA <br> used for <br> comparing changes  |
-| base\_sha           |  `string`      |    `false`     |                     | Specify a different <br> base commit SHA <br> used for <br> comparing changes  |
-| path | `string` | `false` |  | Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository |
-| since\_last\_remote\_commit | `string` | `false` | `false` | Use the last commit on the remote <br> branch as the `base_sha` <br> (Defaults to the previous commit). <br /> NOTE: This requires <br /> `fetch-depth: 0` <br /> with `actions/checkout@v2` |
+|               Input               |          type          | required |        default        |                                                                                                                                                          description                                                                                                                                                          |
+|:---------------------------------:|:----------------------:|:--------:|:---------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|               token               |        `string`        | `false`  | `${{ github.token }}` | [GITHUB\_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) |
+|             separator             |        `string`        |  `true`  |         `' '`         |                                                                                                                                                    Output string separator                                                                                                                                                    |
+|               files               | `string` OR `string[]` | `false`  |                       |                                                                                                             Check for changes  <br> using only these <br> list of file(s) <br> (Defaults to the <br> entire repo)                                                                                                             |
+|         files\_separator          |         string         |  false   |        `'\n'`         |                                                                                                                                         Separator used to split the<br>`files` input                                                                                                                                          |
+|     files\_from\_source\_file     |        `string`        | `false`  |                       |                                                                                                                                  Source file(s) <br> used to populate <br> the `files` input                                                                                                                                  |
+|           files\_ignore           |         string         |  false   |                       |                                                                                                                                                Ignore changes to these file(s)                                                                                                                                                |
+|     files\_ignore\_separator      |         string         |  false   |        `'\n'`         |                                                                                                                                     Separator used to split the <br>`files-ignore` input                                                                                                                                      |
+| files\_ignore\_from\_source\_file |        `string`        | `false`  |                       |                                                                                                                              Source file(s) <br> used to populate <br> the `files_ignore` input                                                                                                                               |
+|                sha                |        `string`        |  `true`  |  `${{ github.sha }}`  |                                                                                                                           Specify a different <br> commit SHA <br> used for <br> comparing changes                                                                                                                            |
+|             base\_sha             |        `string`        | `false`  |                       |                                                                                                                         Specify a different <br> base commit SHA <br> used for <br> comparing changes                                                                                                                         |
+|               path                |        `string`        | `false`  |                       |                                                                                                                              Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository                                                                                                                               |
+|    since\_last\_remote\_commit    |        `string`        | `false`  |        `false`        |                                                                 Use the last commit on the remote <br> branch as the `base_sha` <br> (Defaults to the previous commit). <br /> NOTE: This requires <br /> `fetch-depth: 0` <br /> with `actions/checkout@v2`                                                                  |
+|          use_fork_point           |        `string`        | `false`  |        `false`        |                                             Finds best common ancestor <br /> between two commits <br /> to use in a three-way merge <br /> as the `base_sha` <br /> See: [git merge-base](https://git-scm.com/docs/git-merge-base#Documentation/git-merge-base.txt---fork-point)                                             |
 
 ## Example
 
