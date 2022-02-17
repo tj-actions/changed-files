@@ -72,11 +72,12 @@ else
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_USE_FORK_POINT" == "true" ]]; then
+      echo "Getting fork point..."
       git fetch --no-tags -u --progress temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
       PREVIOUS_SHA=$(git merge-base --fork-point "${TARGET_BRANCH}" "${CURRENT_BRANCH}") && exit_status=$? || exit_status=$?
     else
       git fetch --no-tags -u --progress --depth=1 temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 temp_changed_files "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
     fi
   else
     git fetch --no-tags -u --progress --depth=1 temp_changed_files "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
@@ -84,6 +85,7 @@ else
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
   fi
 
+  echo "Verifying commit SHA..."
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
