@@ -150,6 +150,8 @@ else
   ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 fi
 
+git remote remove temp_changed_files
+
 echo "Added files: $ADDED"
 echo "Copied files: $COPIED"
 echo "Deleted files: $DELETED"
@@ -161,8 +163,6 @@ echo "Unknown files: $UNKNOWN"
 echo "All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
 echo "All changed files: $ALL_CHANGED"
 echo "All modified files: $ALL_MODIFIED"
-
-git remote remove temp_changed_files
 
 echo "::set-output name=added_files::$ADDED"
 echo "::set-output name=copied_files::$COPIED"
