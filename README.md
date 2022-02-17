@@ -28,7 +28,8 @@ Retrieve all changed files relative to the default branch (`pull_request*` based
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   List all files that have changed.
-    *   Between the current pull request branch and the default branch.
+    *   Between the current pull request branch and the last commit on the default branch.
+    *   Between the current pull request branch and the fork point on the default branch.
     *   Between the last commit and the current pushed change.
     *   Between the last remote branch commit and the current HEAD.
 *   Restrict change detection to a subset of files.
