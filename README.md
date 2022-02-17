@@ -278,6 +278,15 @@ Support this project with a :star:
 > *   However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
 
+## Versioning
+
+This project follows a `v(major).(patch)` versioning scheme with the exception of pointing the git ref of the latest patch release to the major version tag.
+
+> NOTE: :warning:
+> *   Users referencing the legacy `v1.x.x` -> `v5.0.0` semantic versions, are required to switch over to `v10.x` -> `v15.x` respectively as new releases would no longer be deployed using the old versioning scheme.
+> *   A breaking change was introduced in `v1.1.4` and `v13.x` which has been fixed.
+
+
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
