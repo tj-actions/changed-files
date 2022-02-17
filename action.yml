@@ -127,6 +127,7 @@ runs:
       with:
         files: ${{ steps.source-input-files.outputs.files }}
         files-separator: " "
+        separator: "|"
     - run: |
         bash $GITHUB_ACTION_PATH/entrypoint.sh
       id: changed-files
