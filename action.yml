@@ -133,6 +133,7 @@ runs:
       id: base-sha
       shell: bash
     - run: |
+        # "Calculating the previous and current SHA..."
         bash $GITHUB_ACTION_PATH/diff-sha.sh
       id: changed-files-diff-sha
       shell: bash

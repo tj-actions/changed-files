@@ -30,7 +30,7 @@ else
   echo "Found 'temp_changed_files' remote"
 fi
 
-echo "Getting HEAD info..."
+echo "Getting HEAD SHA..."
 
 if [[ -z $INPUT_SHA ]]; then
   CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
