@@ -114,6 +114,7 @@ runs:
       with:
         files: ${{ steps.source-input-files.outputs.files }}
         files-separator: " "
+        separator: "|"
     - run: |
         # "Set base sha..."
         if [[ -n "${{ inputs.base_sha }}" ]]; then
