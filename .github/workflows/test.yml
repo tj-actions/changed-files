@@ -249,7 +249,7 @@ jobs:
           bash
       - name: Run changed-files with specific files
         id: changed-files-specific
-        uses: tj-actions/changed-files@v13.1
+        uses: ./
         with:
           files: |
             .github/workflows/test.yml
