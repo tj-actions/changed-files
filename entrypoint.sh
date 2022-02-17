@@ -2,6 +2,8 @@
 
 set -e
 
+echo "::warning::Legacy version detected, please switch to the recommended v10.x. See https://github.com/tj-actions/changed-files#versioning for more information"
+
 echo "::group::changed-files"
 
 git remote add temp_changed_files "https://${INPUT_TOKEN}@github.com/${GITHUB_REPOSITORY}"
