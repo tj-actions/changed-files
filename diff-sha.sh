@@ -75,7 +75,6 @@ else
       echo "Getting fork point..."
       git fetch --no-tags -u --progress temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
       PREVIOUS_SHA=$(git merge-base --fork-point "${TARGET_BRANCH}") && exit_status=$? || exit_status=$?
-      echo "$PREVIOUS_SHA"
     else
       git fetch --no-tags -u --progress --depth=1 temp_changed_files "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
