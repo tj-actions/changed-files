@@ -49,6 +49,10 @@ inputs:
   path:
     description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
     required: false
+  use_fork_point:
+    description: 'Finds best common ancestor between two commits to use in a three-way merge as the base_sha'
+    default: 'false'
+    required: false
 
 outputs:
   added_files:
@@ -136,6 +140,7 @@ runs:
         GITHUB_SERVER_URL: ${{ github.server_url }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
+        GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
@@ -143,6 +148,7 @@ runs:
         INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_PATH: ${{ inputs.path }}
+        INPUT_USE_FORK_POINT: ${{ inputs.use_fork_point }}
     - name: Glob match
       uses: tj-actions/glob@v7
       id: glob
@@ -163,15 +169,9 @@ runs:
       id: changed-files
       shell: bash
       env:
-        GITHUB_SERVER_URL: ${{ github.server_url }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
-        GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
-        INPUT_SHA: ${{ inputs.sha }}
-        INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
-        INPUT_TOKEN: ${{ inputs.token }}
         INPUT_FILES_PATTERN: ${{ steps.glob.outputs.paths }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
         INPUT_PATH: ${{ inputs.path }}

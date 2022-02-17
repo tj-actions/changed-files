@@ -20,8 +20,8 @@ jobs:
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.14
   
-  test-pull-requests-diff:
-    name: Test changed-files diff on pull_requests
+  test-pull-requests-from-forks:
+    name: Test changed-files diff on pull_requests from forks
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -37,6 +37,18 @@ jobs:
       - name: Show github context
         run: |
           echo '${{ toJSON(github) }}'
+        shell:
+          bash
+
+      - name: Get changed files use_fork_point
+        id: changed-files-fork-point
+        uses: ./
+        with:
+          use_fork_point: "true"
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-fork-point.outputs) }}'
         shell:
           bash
 
@@ -446,28 +458,28 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific-forward-slash.outputs) }}'
         shell:
           bash
-      - name: Verify any_changed files comma separator
+      - name: Verify any_changed files forward slash separator
         if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, '.github/workflows/test.yml')"
         run: |
-          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
+          if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_changed }})"
             exit 1
           fi
         shell:
           bash
-      - name: Verify any_modified files comma separator
+      - name: Verify any_modified files forward slash separator
         if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, '.github/workflows/test.yml')"
         run: |
-          if [[ "${{ steps.changed-files-specific.outputs.any_modified }}" != "false" ]]; then
+          if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_modified }})"
             exit 1
           fi
         shell:
           bash
-      - name: Verify any_deleted files comma separator
+      - name: Verify any_deleted files forward slash separator
         if: "!contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, '.github/workflows/test.yml')"
         run: |
-          if [[ "${{ steps.changed-files-specific.outputs.any_deleted }}" != "false" ]]; then
+          if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_deleted }})"
             exit 1
           fi
