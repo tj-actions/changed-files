@@ -187,7 +187,7 @@ Support this project with a :star:
             !*.md
             *.jpeg
             **/migrate-*.sql
-          files-ignore: |
+          files_ignore: |
             *.yml
 
       - name: Run step if any of the listed files above change
