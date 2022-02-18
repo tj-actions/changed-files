@@ -87,6 +87,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "fagai",
+      "name": "fagai",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1772112?v=4",
+      "profile": "https://fagai.net",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
