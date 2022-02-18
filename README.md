@@ -265,6 +265,12 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v16
         with:
           since_last_remote_commit: "true"
+      
+      - name: Run changed-files using the fork point of a pull request
+        id: changed-files-fork-point
+        uses: tj-actions/changed-files@v16
+        with:
+          use_fork_point: "true"
 
 ```
 
