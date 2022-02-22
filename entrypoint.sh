@@ -15,7 +15,7 @@ function get_diff() {
   filter="$3"
 
   log "Retrieving diff between $base → $sha using '$filter' diff filter..."
-  log: "Submodules: $(git submodule | awk '{print $2}')"
+  log "Submodules: $(git submodule | awk '{print $2}')"
 
   for submodule in $(git submodule | awk '{print $2}'); do
     log "Retrieving '$submodule' submodule commits between $base → $sha..."
