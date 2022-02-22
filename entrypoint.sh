@@ -32,10 +32,10 @@ function get_diff() {
         (cd "$submodule"; get_diff "$previous" "$current" "$filter" "$submodule" | awk -v r="$submodule" '{ print "" r "/" $0}')
       fi
     done
-  else
-    log "Running: git diff --diff-filter=""$filter"" --name-only --ignore-submodules=all ""$base"" ""$sha"""
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
   fi
+
+  log "Running: git diff --diff-filter=$filter --name-only --ignore-submodules=all $base $sha"
+  git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
 
   return 0;
 }
