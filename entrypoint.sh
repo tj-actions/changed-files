@@ -29,7 +29,7 @@ function get_diff() {
       previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
       current=$(git ls-tree "$sha" "$submodule" | awk '{print $3}')
 
-      if [[ -n "$previous" && -n "$current" && "$previous" != "$current" ]]; then
+      if [[ -n "$previous" && -n "$current" && "$previous" != *"$current"* ]]; then
         log "Retrieving diff for '$submodule' submodule between $previous → $current..."
         (cd "$submodule"; get_diff "$previous" "$current" "$filter" "$submodule" | awk -v r="$submodule" '{ print "" r "/" $0}')
       fi
