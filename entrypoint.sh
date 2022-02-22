@@ -33,8 +33,8 @@ function get_diff() {
     done
   fi
 
-  log "Running: git diff --diff-filter=$filter --name-only --ignore-submodules=all $base $sha"
-  git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
+  log "Running: git diff --diff-filter=$filter --name-only $base $sha"
+  git diff --diff-filter="$filter" --name-only "$base" "$sha"
 }
 
 echo "::group::changed-files"
