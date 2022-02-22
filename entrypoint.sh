@@ -1,23 +1,31 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
+
+# Open a new file descriptor that redirects to stdout:
+exec 3>&1
+
+function log() {
+  echo "Log message: $1" 1>&3
+}
 
 function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
 
-  echo "Retrieving diff between $base → $sha using '$filter' diff filter..."
+  log "Retrieving diff between $base → $sha using '$filter' diff filter..."
 
   IFS=$'\n' read -r -d '' -a SUBMODULES <<< "$(git submodule | awk '{print $2}')"
 
   for submodule in "${SUBMODULES[@]}"; do
-    echo "Retrieving '$submodule' submodule commits between $base → $sha..."
+    log "Retrieving '$submodule' submodule commits between $base → $sha..."
     previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
     current=$(git ls-tree "$sha" "$submodule" | awk '{print $3}')
 
     if [[ -n "$previous" && -n "$current" ]]; then
-      echo "Retrieving diff for '$submodule' submodule between $previous → $current..."
+      log "Retrieving diff for '$submodule' submodule between $previous →
+      $current..."
       (cd "$submodule"; get_diff "$previous" "$current" "$filter" | awk -v r="$submodule" '{ print "" r "/" $0}')
     fi
   done
@@ -27,7 +35,7 @@ function get_diff() {
 
 echo "::group::changed-files"
 
-echo "Resolving repository path..."
+log "Resolving repository path..."
 
 if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
@@ -38,9 +46,10 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-echo "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
+log "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) →
+$INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
 
-echo "Getting diff..."
+log "Getting diff..."
 
 if [[ -z "$INPUT_FILES_PATTERN" ]]; then
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -74,7 +83,7 @@ else
   UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
-    echo "Matching changed files: ${UNIQUE_ALL_CHANGED}"
+    log "Matching changed files: ${UNIQUE_ALL_CHANGED}"
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
@@ -93,7 +102,7 @@ else
   OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${OTHER_CHANGED}" ]]; then
-    echo "Non Matching changed files: ${OTHER_CHANGED}"
+    log "Non Matching changed files: ${OTHER_CHANGED}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED"
   elif [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
@@ -104,7 +113,7 @@ else
   UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
-    echo "Matching modified files: ${UNIQUE_ALL_MODIFIED}"
+    log "Matching modified files: ${UNIQUE_ALL_MODIFIED}"
     echo "::set-output name=any_modified::true"
   else
     echo "::set-output name=any_modified::false"
@@ -123,7 +132,7 @@ else
   OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${OTHER_MODIFIED}" ]]; then
-    echo "Non Matching modified files: ${OTHER_MODIFIED}"
+    log "Non Matching modified files: ${OTHER_MODIFIED}"
     echo "::set-output name=only_modified::false"
     echo "::set-output name=other_modified_files::$OTHER_MODIFIED"
   elif [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
@@ -134,7 +143,7 @@ else
   UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
-    echo "Matching deleted files: ${UNIQUE_ALL_DELETED}"
+    log "Matching deleted files: ${UNIQUE_ALL_DELETED}"
     echo "::set-output name=any_deleted::true"
   else
     echo "::set-output name=any_deleted::false"
@@ -153,7 +162,7 @@ else
   OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${OTHER_DELETED}" ]]; then
-    echo "Non Matching deleted files: ${OTHER_DELETED}"
+    log "Non Matching deleted files: ${OTHER_DELETED}"
     echo "::set-output name=only_deleted::false"
     echo "::set-output name=other_deleted_files::$OTHER_DELETED"
   elif [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
@@ -175,17 +184,17 @@ fi
 
 git remote remove temp_changed_files
 
-echo "Added files: $ADDED"
-echo "Copied files: $COPIED"
-echo "Deleted files: $DELETED"
-echo "Modified files: $MODIFIED"
-echo "Renamed files: $RENAMED"
-echo "Type Changed files: $TYPE_CHANGED"
-echo "Unmerged files: $UNMERGED"
-echo "Unknown files: $UNKNOWN"
-echo "All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
-echo "All changed files: $ALL_CHANGED"
-echo "All modified files: $ALL_MODIFIED"
+log "Added files: $ADDED"
+log "Copied files: $COPIED"
+log "Deleted files: $DELETED"
+log "Modified files: $MODIFIED"
+log "Renamed files: $RENAMED"
+log "Type Changed files: $TYPE_CHANGED"
+log "Unmerged files: $UNMERGED"
+log "Unknown files: $UNKNOWN"
+log "All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
+log "All changed files: $ALL_CHANGED"
+log "All modified files: $ALL_MODIFIED"
 
 echo "::set-output name=added_files::$ADDED"
 echo "::set-output name=copied_files::$COPIED"
