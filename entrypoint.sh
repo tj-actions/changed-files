@@ -6,25 +6,18 @@ function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
-  mapfile -t submodules < <(git submodule | awk '{print $2}')
-  for sub in "${submodules[@]}"; do
-    mapfile -t sub_commits < <(
-      git diff "$base" "$sha" -- "$sub" \
-        | grep '^[-+]Subproject commit' \
-        | sed 's/[-+]Subproject commit //'
-      )
-    # this arcane stuff here because of bash<4.4.x idiosyncrasy
-    if [ -n "${sub_commits[0]+"${sub_commits[0]}"}" ]; then
+  while IFS='' read -r sub; do
+    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | sed 's/[-]Subproject commit //')"
+    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | sed 's/[+]Subproject commit //')"
+    if [ -n "$sub_commit_cur" ]; then
     (
       cd "$sub" && (
-        diff="$(get_diff "${sub_commits[0]}" "${sub_commits[1]}" "$filter")"
-        if [ -n "$diff" ]; then
-          echo "$sub/$diff"
-        fi
+        # the strange magic number is a hardcoded "empty tree" commit sha
+        get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | sed "s#^#$sub/#"
       )
     )
     fi
-  done
+  done < <(git submodule | awk '{print $2}')
   git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
 }
 
