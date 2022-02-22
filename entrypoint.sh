@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eu
 
 # Open a new file descriptor that redirects to stdout:
 exec 3>&1
