@@ -64,7 +64,7 @@ if [[ -z "$INPUT_FILES_PATTERN" ]]; then
   ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
-  echo "Input files pattern: $INPUT_FILES_PATTERN"
+  log "Input files pattern: $INPUT_FILES_PATTERN"
   FILES_PATTERN="^($INPUT_FILES_PATTERN)$"
 
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | grep -E "$FILES_PATTERN" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
