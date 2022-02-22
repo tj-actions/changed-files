@@ -12,7 +12,7 @@ function get_diff() {
     previous=$(git ls-tree "$1" "$submodule" | awk '{print $3}')
     current=$(git ls-tree "$2" "$submodule" | awk '{print $3}')
 
-    if [ -n "$previous" && -n "$current" ]; then
+    if [[ -n "$previous" && -n "$current" ]]; then
       (cd "$submodule"; get_diff "$previous" "$current" "$filter" | awk -v r="$submodule" '{ print "" r "/" $0}')
     fi
   done
