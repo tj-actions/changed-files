@@ -50,8 +50,7 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-log "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) →
-$INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
+log "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
 
 log "Getting diff..."
 
