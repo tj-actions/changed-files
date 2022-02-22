@@ -1,3 +1,6 @@
 [submodule "test/changed-files"]
 	path = test/changed-files
 	url = https://github.com/tj-actions/changed-files
+[submodule "test/changed-files-2"]
+	path = test/changed-files-2
+	url = https://github.com/tj-actions/changed-files/
