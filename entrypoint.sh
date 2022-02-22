@@ -15,9 +15,12 @@ function get_diff() {
   filter="$3"
 
   log "Retrieving diff between $base → $sha using '$filter' diff filter..."
-  log "Submodules: $(git submodule | awk '{print $2}')"
 
-  for submodule in $(git submodule | awk '{print $2}'); do
+  IFS=$'\n' read -r -d '' -a SUBMODULES <<< "$(git submodule | awk '{print $2}')"
+
+  log "Submodules: ${SUBMODULES[*]}"
+
+  for submodule in "${SUBMODULES[@]}"; do
     log "Retrieving '$submodule' submodule commits between $base → $sha..."
     previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
     current=$(git ls-tree "$sha" "$submodule" | awk '{print $3}')
