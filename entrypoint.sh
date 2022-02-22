@@ -13,7 +13,8 @@ function get_diff() {
         | grep '^[-+]Subproject commit' \
         | sed 's/[-+]Subproject commit //'
       )
-    if [ -n "${sub_commits[0]}" ]; then
+    # this arcane stuff here because of bash<4.4.x idiosyncrasy
+    if [ -n "${sub_commits[0]+"${sub_commits[0]}"}" ]; then
     (
       cd "$sub" && (
         diff="$(get_diff "${sub_commits[0]}" "${sub_commits[1]}" "$filter")"
