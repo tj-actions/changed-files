@@ -22,8 +22,6 @@ function get_diff() {
 
     log "Submodules: ${SUBMODULES[*]}"
 
-    set -x
-
     for submodule in "${SUBMODULES[@]}"; do
       log "Retrieving '$submodule' submodule commits between $base → $sha..."
       previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
@@ -34,11 +32,11 @@ function get_diff() {
         (cd "$submodule"; get_diff "$previous" "$current" "$filter" "$submodule" | awk -v r="$submodule" '{ print "" r "/" $0}')
       fi
     done
-
-    set +x
   else
     git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
   fi
+
+  return 0;
 }
 
 echo "::group::changed-files"
