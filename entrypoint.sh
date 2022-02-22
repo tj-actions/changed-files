@@ -13,7 +13,7 @@ function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
-  submodule="$4"
+  submodule="${4:-}"
 
   log "Retrieving diff between $base → $sha using '$filter' diff filter..."
 
