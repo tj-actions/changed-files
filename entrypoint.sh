@@ -13,11 +13,10 @@ function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
-  submodule="${4:-}"
 
   log "Retrieving diff between $base → $sha using '$filter' diff filter..."
 
-  if [[ -z "$submodule" ]]; then
+  if [[ -z "${4:-}" ]]; then
     IFS=$'\n' read -r -d '' -a SUBMODULES <<< "$(git submodule | awk '{print $2}')"
 
     log "Submodules: ${SUBMODULES[*]}"
