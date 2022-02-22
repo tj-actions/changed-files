@@ -6,13 +6,18 @@ function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
+
+  echo "Retrieving diff between $base → $sha using '$filter' diff filter..."
+
   IFS=$'\n' read -r -d '' -a SUBMODULES <<< "$(git submodule | awk '{print $2}')"
 
   for submodule in "${SUBMODULES[@]}"; do
-    previous=$(git ls-tree "$1" "$submodule" | awk '{print $3}')
-    current=$(git ls-tree "$2" "$submodule" | awk '{print $3}')
+    echo "Retrieving '$submodule' submodule commits between $base → $sha..."
+    previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
+    current=$(git ls-tree "$sha" "$submodule" | awk '{print $3}')
 
     if [[ -n "$previous" && -n "$current" ]]; then
+      echo "Retrieving diff for '$submodule' submodule between $previous → $current..."
       (cd "$submodule"; get_diff "$previous" "$current" "$filter" | awk -v r="$submodule" '{ print "" r "/" $0}')
     fi
   done
