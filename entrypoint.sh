@@ -27,7 +27,9 @@ function get_diff() {
 
     if [[ -n "$previous" && -n "$current" && "$previous" != *"$current"* ]]; then
       log "Retrieving diff for '$submodule' submodule between $previous → $current..."
-      (cd "$submodule"; git diff --diff-filter="$filter" --name-only "$previous" "$current" | awk -v r="$submodule" '{ print "" r "/" $0}')
+      cd "$submodule"
+      git diff --diff-filter="$filter" --name-only "$previous" "$current" | awk -v r="$submodule" '{ print "" r "/" $0}'
+      cd ..
     fi
   done
 
