@@ -16,22 +16,20 @@ function get_diff() {
 
   log "Retrieving diff between $base → $sha using '$filter' diff filter..."
 
-  if [[ -z "${4:-}" ]]; then
-    IFS=$'\n' read -r -d '' -a SUBMODULES <<< "$(git submodule | awk '{print $2}')"
+  IFS=$'\n' read -r -d '' -a SUBMODULES <<< "$(git submodule | awk '{print $2}')"
 
-    log "Submodules: ${SUBMODULES[*]}"
+  log "Submodules: ${SUBMODULES[*]}"
 
-    for submodule in "${SUBMODULES[@]}"; do
-      log "Retrieving '$submodule' submodule commits between $base → $sha..."
-      previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
-      current=$(git ls-tree "$sha" "$submodule" | awk '{print $3}')
+  for submodule in "${SUBMODULES[@]}"; do
+    log "Retrieving '$submodule' submodule commits between $base → $sha..."
+    previous=$(git ls-tree "$base" "$submodule" | awk '{print $3}')
+    current=$(git ls-tree "$sha" "$submodule" | awk '{print $3}')
 
-      if [[ -n "$previous" && -n "$current" && "$previous" != *"$current"* ]]; then
-        log "Retrieving diff for '$submodule' submodule between $previous → $current..."
-        (cd "$submodule"; get_diff "$previous" "$current" "$filter" "$submodule" | awk -v r="$submodule" '{ print "" r "/" $0}')
-      fi
-    done
-  fi
+    if [[ -n "$previous" && -n "$current" && "$previous" != *"$current"* ]]; then
+      log "Retrieving diff for '$submodule' submodule between $previous → $current..."
+      (cd "$submodule"; git diff --diff-filter="$filter" --name-only "$previous" "$current" | awk -v r="$submodule" '{ print "" r "/" $0}')
+    fi
+  done
 
   log "Running: git diff --diff-filter=$filter --name-only $base $sha"
   git diff --diff-filter="$filter" --name-only "$base" "$sha"
