@@ -1,3 +1,6 @@
 [submodule "test/demo"]
 	path = test/demo
 	url = git@github.com:tj-actions/demo.git
+[submodule "test/demo2"]
+	path = test/demo2
+	url = git@github.com:tj-actions/demo.git
