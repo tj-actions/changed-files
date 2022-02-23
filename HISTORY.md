@@ -1,5 +1,27 @@
 # Changelog
 
+## [v17](https://github.com/tj-actions/changed-files/tree/v17) (2022-02-23)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v16...v17)
+
+**Implemented enhancements:**
+
+- \[Feature\] Add support for detecting changes in submodules [\#349](https://github.com/tj-actions/changed-files/issues/349)
+
+**Fixed bugs:**
+
+- \[BUG\] It looks like no value such as any\_changed has been written. [\#393](https://github.com/tj-actions/changed-files/issues/393)
+
+**Merged pull requests:**
+
+- Updated README.md [\#398](https://github.com/tj-actions/changed-files/pull/398) ([jackton1](https://github.com/jackton1))
+- docs: add pkit as a contributor for code [\#397](https://github.com/tj-actions/changed-files/pull/397) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- feat: Add support for detecting submodules changes [\#394](https://github.com/tj-actions/changed-files/pull/394) ([pkit](https://github.com/pkit))
+- Updated README.md [\#392](https://github.com/tj-actions/changed-files/pull/392) ([jackton1](https://github.com/jackton1))
+- docs: add fagai as a contributor for doc [\#391](https://github.com/tj-actions/changed-files/pull/391) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- fix README [\#390](https://github.com/tj-actions/changed-files/pull/390) ([fagai](https://github.com/fagai))
+- Upgraded to v16 [\#389](https://github.com/tj-actions/changed-files/pull/389) ([jackton1](https://github.com/jackton1))
+
 ## [v16](https://github.com/tj-actions/changed-files/tree/v16) (2022-02-18)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v15...v16)
@@ -200,7 +222,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -224,13 +246,13 @@
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
@@ -793,7 +815,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -809,13 +831,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
