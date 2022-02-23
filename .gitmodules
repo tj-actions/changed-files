@@ -1,0 +1,3 @@
+[submodule "test/demo"]
+	path = test/demo
+	url = git@github.com:tj-actions/demo.git

@@ -32,6 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          submodules: true
           fetch-depth: 0
 
       - name: Show github context
@@ -75,6 +76,7 @@ jobs:
       - name: Checkout into dir1
         uses: actions/checkout@v2
         with:
+          submodules: true
           fetch-depth: 0
           path: dir1
       - name: Run changed-files with defaults on the dir1
@@ -97,6 +99,7 @@ jobs:
       - name: Checkout into dir2
         uses: actions/checkout@v2
         with:
+          submodules: true
           fetch-depth: 0
           path: dir2
       - name: Run changed-files with defaults on the dir2
@@ -207,6 +210,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          submodules: true
           fetch-depth: 0
       - name: Run changed-files with defaults
         id: changed-files
