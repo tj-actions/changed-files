@@ -96,6 +96,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "pkit",
+      "name": "Constantine Peresypkin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/805654?v=4",
+      "profile": "https://github.com/pkit",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
