@@ -146,6 +146,9 @@ Support this project with a :star:
 ...
     steps:
       - uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+#          submodules: true # OR "recursive" -> To include all changed submodule files.
 
       - name: Get changed files using defaults
         id: changed-files
