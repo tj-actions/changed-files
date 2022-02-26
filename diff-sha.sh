@@ -52,7 +52,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    if [[ $(git rev-list --count HEAD) -gt 1 ]];
+    if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 HEAD^1 2>&1) && exit_status=$? || exit_status=$?
     else
       PREVIOUS_SHA=$CURRENT_SHA
