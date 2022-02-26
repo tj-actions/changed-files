@@ -13,7 +13,7 @@ function get_diff() {
     (
       cd "$sub" && (
         # the strange magic number is a hardcoded "empty tree" commit sha
-        get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | awk -v r="$submodule" '{ print "" r "/" $0}'
+        get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | awk -v r="$sub" '{ print "" r "/" $0}'
       )
     )
     fi
