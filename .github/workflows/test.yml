@@ -35,12 +35,6 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - name: Show github context
-        run: |
-          echo '${{ toJSON(github) }}'
-        shell:
-          bash
-
       - name: Get changed files use_fork_point
         id: changed-files-fork-point
         uses: ./
