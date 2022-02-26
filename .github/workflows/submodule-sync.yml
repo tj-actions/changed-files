@@ -21,7 +21,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.12.1
         with:
-          base: ${{ github.ref }}
           title: "Updated submodule"
           branch: "chore/update-submodule"
           commit-message: "Updated submodule"
