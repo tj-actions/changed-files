@@ -1,5 +1,30 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.1...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Gracefully handle errors for repositories without any previous commits [\#365](https://github.com/tj-actions/changed-files/issues/365)
+
+## [v17.1](https://github.com/tj-actions/changed-files/tree/v17.1) (2022-02-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v17...v17.1)
+
+**Closed issues:**
+
+- How can I set the action to review all commits since the last workflow run? [\#400](https://github.com/tj-actions/changed-files/issues/400)
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: handle errors for repositories without any previous commit history [\#404](https://github.com/tj-actions/changed-files/pull/404) ([jackton1](https://github.com/jackton1))
+- Updated submodule [\#403](https://github.com/tj-actions/changed-files/pull/403) ([jackton1](https://github.com/jackton1))
+- Update tj-actions/github-changelog-generator action to v1.12 [\#402](https://github.com/tj-actions/changed-files/pull/402) ([renovate[bot]](https://github.com/apps/renovate))
+- chore: switch sed for awk [\#401](https://github.com/tj-actions/changed-files/pull/401) ([jackton1](https://github.com/jackton1))
+- Upgraded to v17 [\#399](https://github.com/tj-actions/changed-files/pull/399) ([jackton1](https://github.com/jackton1))
+
 ## [v17](https://github.com/tj-actions/changed-files/tree/v17) (2022-02-23)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v16...v17)
@@ -222,7 +247,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -242,17 +267,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-**Closed issues:**
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
 
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
@@ -815,7 +836,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -831,13 +852,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
