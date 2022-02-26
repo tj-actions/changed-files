@@ -7,13 +7,13 @@ function get_diff() {
   sha="$2"
   filter="$3"
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | sed 's/[-]Subproject commit //')"
-    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | sed 's/[+]Subproject commit //')"
+    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
+    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
     if [ -n "$sub_commit_cur" ]; then
     (
       cd "$sub" && (
         # the strange magic number is a hardcoded "empty tree" commit sha
-        get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | sed "s#^#$sub/#"
+        get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | awk -v r="$sub" '{ print "" r "/" $0}
       )
     )
     fi
