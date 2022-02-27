@@ -96,7 +96,7 @@ else
     echo "::set-output name=only_changed::true"
   fi
 
-  ALL_OTHER_MODIFIED=$(git diff --diff-filter="ACMRD" --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OTHER_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
@@ -126,7 +126,7 @@ else
     echo "::set-output name=only_modified::true"
   fi
 
-  ALL_OTHER_DELETED=$(git diff --diff-filter=D --name-only "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OTHER_DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
