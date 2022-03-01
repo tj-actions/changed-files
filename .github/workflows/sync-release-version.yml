@@ -8,7 +8,7 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3.0.0
         with:
           fetch-depth: 0
       - name: Sync release version.

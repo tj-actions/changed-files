@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout to branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.14
   
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
@@ -68,7 +68,7 @@ jobs:
         platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022, windows-2016]
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
@@ -91,7 +91,7 @@ jobs:
         shell:
           bash
       - name: Checkout into dir2
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
@@ -124,7 +124,7 @@ jobs:
 
     steps:
       - name: Checkout to branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Run changed-files with non existent base sha
         id: changed-files
@@ -163,7 +163,7 @@ jobs:
 
     steps:
       - name: Checkout to branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Run changed-files with non existent sha
         id: changed-files
@@ -202,7 +202,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
