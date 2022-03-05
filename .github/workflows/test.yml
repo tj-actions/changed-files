@@ -237,6 +237,16 @@ jobs:
           echo '${{ toJSON(steps.changed-files-forward-slash.outputs) }}'
         shell:
           bash
+      - name: Run changed-files with newline separator
+        id: changed-files-newline
+        uses: ./
+        with:
+          separator: "\n"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-newline.outputs) }}'
+        shell:
+          bash
       - name: Run changed-files with pipe separator
         id: changed-files-pipe
         uses: ./
@@ -255,6 +265,18 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files with specific files from a source file using a newline separator
+        id: changed-files-specific-newline-source-file
+        uses: ./
+        with:
+          files_from_source_file: |
+            test/changed-files-list.txt
+          separator: "\n"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-specific-newline-source-file.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files
