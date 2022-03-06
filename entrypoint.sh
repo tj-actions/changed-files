@@ -2,9 +2,9 @@
 
 set -eu
 
-INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
-INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
-INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
+INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'\%'}"
+INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'\\n'}"
+INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'\\r'}"
 
 function get_diff() {
   base="$1"
