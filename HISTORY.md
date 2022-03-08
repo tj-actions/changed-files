@@ -1,5 +1,39 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.3...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Separator `\n` only outputs first changed file [\#417](https://github.com/tj-actions/changed-files/issues/417)
+
+## [v17.3](https://github.com/tj-actions/changed-files/tree/v17.3) (2022-03-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.2...v17.3)
+
+**Fixed bugs:**
+
+- \[BUG\] Argument too long [\#419](https://github.com/tj-actions/changed-files/issues/419)
+- failed to  Get list of files on pull request merge [\#414](https://github.com/tj-actions/changed-files/issues/414)
+- \[BUG\] Get all modified/deleted/added files from a Pull Request [\#410](https://github.com/tj-actions/changed-files/issues/410)
+
+**Closed issues:**
+
+- \[BUG\] Unexpected result [\#412](https://github.com/tj-actions/changed-files/issues/412)
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: bug using newline separator [\#418](https://github.com/tj-actions/changed-files/pull/418) ([jackton1](https://github.com/jackton1))
+- Revert "chore: test pull\_requests events" [\#416](https://github.com/tj-actions/changed-files/pull/416) ([jackton1](https://github.com/jackton1))
+- chore: test pull\_requests events [\#415](https://github.com/tj-actions/changed-files/pull/415) ([jackton1](https://github.com/jackton1))
+- Update codacy/codacy-analysis-cli-action action to v4.0.1 [\#413](https://github.com/tj-actions/changed-files/pull/413) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action [\#411](https://github.com/tj-actions/changed-files/pull/411) ([renovate[bot]](https://github.com/apps/renovate))
+- Update peter-evans/create-pull-request action to v3.14.0 [\#409](https://github.com/tj-actions/changed-files/pull/409) ([renovate[bot]](https://github.com/apps/renovate))
+- Update peter-evans/create-pull-request action to v3.13.0 [\#408](https://github.com/tj-actions/changed-files/pull/408) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v17.2 [\#407](https://github.com/tj-actions/changed-files/pull/407) ([jackton1](https://github.com/jackton1))
+
 ## [v17.2](https://github.com/tj-actions/changed-files/tree/v17.2) (2022-02-27)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.1...v17.2)
@@ -20,7 +54,6 @@
 **Closed issues:**
 
 - How can I set the action to review all commits since the last workflow run? [\#400](https://github.com/tj-actions/changed-files/issues/400)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -252,7 +285,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -263,7 +296,6 @@
 **Fixed bugs:**
 
 - \[BUG\] not patterns is not working in files [\#372](https://github.com/tj-actions/changed-files/issues/372)
-- \[BUG\] Argument list too long with files input [\#367](https://github.com/tj-actions/changed-files/issues/367)
 - \[BUG\] "delete" does not work [\#353](https://github.com/tj-actions/changed-files/issues/353)
 - \[BUG\] Files detected as changed that are not part of PR [\#345](https://github.com/tj-actions/changed-files/issues/345)
 - \[BUG\] Action flips forward slash into backslash resulting in match failure.  [\#340](https://github.com/tj-actions/changed-files/issues/340)
@@ -272,13 +304,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
