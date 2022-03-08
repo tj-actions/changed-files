@@ -2,6 +2,10 @@
 
 set -eu
 
+INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
+INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
+INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
+
 function get_diff() {
   base="$1"
   sha="$2"

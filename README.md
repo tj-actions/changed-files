@@ -285,6 +285,7 @@ Support this project with a :star:
 
 > NOTE: :warning:
 >
+> *   Using characters like `\n`, `%` and `\r` as separators would be [URL encoded](https://www.w3schools.com/tags/ref_urlencode.asp)
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 > *   However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
