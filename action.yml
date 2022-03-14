@@ -169,7 +169,7 @@ runs:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
-        INPUT_FILES_PATTERN: ${{ steps.glob.outputs.paths }}
+        INPUT_FILES_PATTERN_FILE: ${{ steps.glob-all-files.outputs.paths-output-file }}
         INPUT_SEPARATOR: ${{ inputs.separator }}
         INPUT_PATH: ${{ inputs.path }}
         INPUT_PREVIOUS_SHA: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
