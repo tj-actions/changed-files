@@ -1,5 +1,29 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.1...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Providing files\_ignore without using files input doesn't exclude ignored files [\#429](https://github.com/tj-actions/changed-files/issues/429)
+
+## [v18.1](https://github.com/tj-actions/changed-files/tree/v18.1) (2022-03-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18...v18.1)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: bug providing files\_ignore without files input [\#431](https://github.com/tj-actions/changed-files/pull/431) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/glob action to v7.7 [\#430](https://github.com/tj-actions/changed-files/pull/430) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update tj-actions/glob action to v7.6 [\#428](https://github.com/tj-actions/changed-files/pull/428) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update tj-actions/github-changelog-generator action to v1.13 [\#427](https://github.com/tj-actions/changed-files/pull/427) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v18 [\#426](https://github.com/tj-actions/changed-files/pull/426) ([jackton1](https://github.com/jackton1))
+
 ## [v18](https://github.com/tj-actions/changed-files/tree/v18) (2022-03-14)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.3...v18)
@@ -9,13 +33,9 @@
 - \[BUG\] Separator `\n` only outputs first changed file [\#417](https://github.com/tj-actions/changed-files/issues/417)
 - \[BUG\] Argument list too long with files input [\#367](https://github.com/tj-actions/changed-files/issues/367)
 
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
-
 **Merged pull requests:**
 
-- feat: Add support for using files pattern on disk [\#425](https://github.com/tj-actions/changed-files/pull/425) ([jackton1](https://github.com/jackton1))
+- feat: Add support for using file patterns on disk [\#425](https://github.com/tj-actions/changed-files/pull/425) ([jackton1](https://github.com/jackton1))
 - chore\(deps\): update tj-actions/glob action to v7.5 [\#424](https://github.com/tj-actions/changed-files/pull/424) ([renovate[bot]](https://github.com/apps/renovate))
 - Update tj-actions/verify-changed-files action to v9 [\#423](https://github.com/tj-actions/changed-files/pull/423) ([renovate[bot]](https://github.com/apps/renovate))
 - chore: Upgrade tj-actions/glob to v7.4 [\#422](https://github.com/tj-actions/changed-files/pull/422) ([jackton1](https://github.com/jackton1))
@@ -473,7 +493,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -487,13 +507,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
@@ -886,7 +906,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -902,13 +922,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
