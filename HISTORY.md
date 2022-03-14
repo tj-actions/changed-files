@@ -1,12 +1,26 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v18](https://github.com/tj-actions/changed-files/tree/v18) (2022-03-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.3...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v17.3...v18)
 
 **Fixed bugs:**
 
 - \[BUG\] Separator `\n` only outputs first changed file [\#417](https://github.com/tj-actions/changed-files/issues/417)
+- \[BUG\] Argument list too long with files input [\#367](https://github.com/tj-actions/changed-files/issues/367)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- feat: Add support for using files pattern on disk [\#425](https://github.com/tj-actions/changed-files/pull/425) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/glob action to v7.5 [\#424](https://github.com/tj-actions/changed-files/pull/424) ([renovate[bot]](https://github.com/apps/renovate))
+- Update tj-actions/verify-changed-files action to v9 [\#423](https://github.com/tj-actions/changed-files/pull/423) ([renovate[bot]](https://github.com/apps/renovate))
+- chore: Upgrade tj-actions/glob to v7.4 [\#422](https://github.com/tj-actions/changed-files/pull/422) ([jackton1](https://github.com/jackton1))
+- Update codacy/codacy-analysis-cli-action action to v4.0.2 [\#421](https://github.com/tj-actions/changed-files/pull/421) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v17.3 [\#420](https://github.com/tj-actions/changed-files/pull/420) ([jackton1](https://github.com/jackton1))
 
 ## [v17.3](https://github.com/tj-actions/changed-files/tree/v17.3) (2022-03-08)
 
@@ -21,7 +35,6 @@
 **Closed issues:**
 
 - \[BUG\] Unexpected result [\#412](https://github.com/tj-actions/changed-files/issues/412)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -285,7 +298,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -304,13 +317,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
@@ -460,7 +473,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -474,13 +487,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
