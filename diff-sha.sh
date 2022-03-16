@@ -52,10 +52,13 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH
 
   if [[ -z $INPUT_BASE_SHA ]]; then
+    git fetch --no-tags -u --progress --depth=2 temp_changed_files "${CURRENT_BRANCH}":"${CURRENT_BRANCH}" && exit_status=$? || exit_status=$?
+
     if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 HEAD^1 2>&1) && exit_status=$? || exit_status=$?
     else
       PREVIOUS_SHA=$CURRENT_SHA
+      echo "Initial commit detected"
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
