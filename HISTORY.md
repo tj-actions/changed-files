@@ -1,12 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v18.2](https://github.com/tj-actions/changed-files/tree/v18.2) (2022-03-16)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.1...v18.2)
 
 **Fixed bugs:**
 
+- \[BUG\] Glob Pattern Incorrect? [\#433](https://github.com/tj-actions/changed-files/issues/433)
 - \[BUG\] Providing files\_ignore without using files input doesn't exclude ignored files [\#429](https://github.com/tj-actions/changed-files/issues/429)
+
+**Merged pull requests:**
+
+- fix: bug omitting the fetch-depth for push based events [\#434](https://github.com/tj-actions/changed-files/pull/434) ([jackton1](https://github.com/jackton1))
+- Upgraded to v18.1 [\#432](https://github.com/tj-actions/changed-files/pull/432) ([jackton1](https://github.com/jackton1))
 
 ## [v18.1](https://github.com/tj-actions/changed-files/tree/v18.1) (2022-03-14)
 
@@ -493,7 +499,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -507,13 +513,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
