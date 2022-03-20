@@ -20,7 +20,7 @@ Retrieve all changed files relative to the target branch (`pull_request*` based 
 *   Fast execution (0-2 seconds on average).
 *   Easy to debug.
 *   Boolean output indicating that certain files have been changed.
-*   Large repository support.
+*   Scales to large repositories.
 *   Git submodules support.
 *   Multiple repositories support.
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
