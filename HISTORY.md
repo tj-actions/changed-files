@@ -1,12 +1,19 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v18.4](https://github.com/tj-actions/changed-files/tree/v18.4) (2022-03-21)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.3...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.3...v18.4)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Bump tj-actions/remark from 2.3 to 3 [\#442](https://github.com/tj-actions/changed-files/pull/442) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): update tj-actions/glob action to v7.10 [\#440](https://github.com/tj-actions/changed-files/pull/440) ([renovate[bot]](https://github.com/apps/renovate))
+- Update README.md [\#439](https://github.com/tj-actions/changed-files/pull/439) ([jackton1](https://github.com/jackton1))
+- Upgraded to v18.3 [\#438](https://github.com/tj-actions/changed-files/pull/438) ([jackton1](https://github.com/jackton1))
 
 ## [v18.3](https://github.com/tj-actions/changed-files/tree/v18.3) (2022-03-16)
 
@@ -512,7 +519,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -526,13 +533,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
