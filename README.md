@@ -301,9 +301,11 @@ This project follows a `v(major).(patch)` versioning scheme with the exception o
 > *   A breaking change was introduced in `v1.1.4` and `v13.x` which has been fixed.
 
 ## Migration guide
+
 With the switch from using grep's Extended regex to match files to the natively supported workflow glob pattern matching snytax introduced in [v13](https://github.com/tj-actions/changed-files/releases/tag/v13) you'll need to modify patterns used to match `files`.
 
 **BEFORE**
+
 ```yml
 ...
 
@@ -318,6 +320,7 @@ With the switch from using grep's Extended regex to match files to the natively 
 ```
 
 **AFTER**
+
 ```yml
 ...
 
@@ -332,7 +335,6 @@ With the switch from using grep's Extended regex to match files to the natively 
             mynewfile
             custom/**
 ```
-
 
 ## Credits
 
