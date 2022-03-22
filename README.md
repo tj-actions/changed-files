@@ -300,6 +300,40 @@ This project follows a `v(major).(patch)` versioning scheme with the exception o
 > *   Users referencing the legacy `v1.x.x` -> `v5.0.0` semantic versions, are required to switch over to `v10.x` -> `v15.x` respectively as new releases would no longer be deployed using the old versioning scheme.
 > *   A breaking change was introduced in `v1.1.4` and `v13.x` which has been fixed.
 
+## Migration guide
+With the switch from using grep's Extended regex to match files to the natively supported workflow glob pattern matching snytax introduced in [v13](https://github.com/tj-actions/changed-files/releases/tag/v13) you'll need to modify patterns used to match `files`.
+
+**BEFORE**
+```yml
+...
+
+      - name: Get specific changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v12.2
+        with:
+          files: |
+            \.sh$
+            .(sql|py)$
+            ^(mynewfile|custom)
+```
+
+**AFTER**
+```yml
+...
+
+      - name: Get specific changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v18.4
+        with:
+          files: |
+            *.sh
+            *.sql
+            *.py
+            mynewfile
+            custom/**
+```
+
+
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
