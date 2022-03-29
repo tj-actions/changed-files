@@ -517,7 +517,7 @@ jobs:
             test/changed-files-list.txt
             test/changed-files-list.txt
           files: |
-            **/workflows/rebase.yml
+            **/workflows/greetings.yml
       - name: Check if a excluded file is not included in any_changed
         if: contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test/test.txt')
         run: |
