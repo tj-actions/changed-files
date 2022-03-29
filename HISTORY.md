@@ -1,12 +1,36 @@
 # Changelog
 
-## [v18.4](https://github.com/tj-actions/changed-files/tree/v18.4) (2022-03-21)
+## [v18.5](https://github.com/tj-actions/changed-files/tree/v18.5) (2022-03-29)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.3...v18.4)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.4...v18.5)
+
+**Implemented enhancements:**
+
+- \[Feature\] Get changes from all commits from a single push [\#447](https://github.com/tj-actions/changed-files/issues/447)
+
+**Fixed bugs:**
+
+- \[BUG\] Modified files treated as `Non Matching modified files` [\#450](https://github.com/tj-actions/changed-files/issues/450)
+- \[BUG\] Not able to compare current commit with the specific commit of a branch\(in the Pull request event\) [\#441](https://github.com/tj-actions/changed-files/issues/441)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: bug passing invalid patterns to grep [\#453](https://github.com/tj-actions/changed-files/pull/453) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/glob action to v7.12 [\#451](https://github.com/tj-actions/changed-files/pull/451) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update pascalgn/automerge-action action to v0.15.2 [\#449](https://github.com/tj-actions/changed-files/pull/449) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update pascalgn/automerge-action action to v0.14.4 [\#448](https://github.com/tj-actions/changed-files/pull/448) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update peter-evans/create-pull-request action to v4 [\#446](https://github.com/tj-actions/changed-files/pull/446) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update tj-actions/glob action to v7.11 [\#445](https://github.com/tj-actions/changed-files/pull/445) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#444](https://github.com/tj-actions/changed-files/pull/444) ([jackton1](https://github.com/jackton1))
+- Upgraded to v18.4 [\#443](https://github.com/tj-actions/changed-files/pull/443) ([jackton1](https://github.com/jackton1))
+
+## [v18.4](https://github.com/tj-actions/changed-files/tree/v18.4) (2022-03-21)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.3...v18.4)
 
 **Merged pull requests:**
 
