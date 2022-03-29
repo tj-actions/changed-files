@@ -530,7 +530,6 @@ jobs:
           (
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/test.yml') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/rebase.yml') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test.txt')
           )
         run: |
@@ -552,7 +551,6 @@ jobs:
           (
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/test.yml') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/rebase.yml') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test.txt')
           )
         run: |
