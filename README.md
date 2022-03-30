@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
@@ -146,7 +146,7 @@ Support this project with a :star:
 ```yaml
 ...
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 #        with:
 #          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 #          submodules: true # OR "recursive" -> To include all changed submodule files.
