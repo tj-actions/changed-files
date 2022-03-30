@@ -1,5 +1,29 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.6...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Modified files treated as `Non Matching modified files` [\#450](https://github.com/tj-actions/changed-files/issues/450)
+
+## [v18.6](https://github.com/tj-actions/changed-files/tree/v18.6) (2022-03-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.5...v18.6)
+
+**Fixed bugs:**
+
+- \[BUG\] Intermittent "Unable to locate the current sha" [\#458](https://github.com/tj-actions/changed-files/issues/458)
+
+**Merged pull requests:**
+
+- fix: resolved error with escaping unicode unsafe characters [\#459](https://github.com/tj-actions/changed-files/pull/459) ([jackton1](https://github.com/jackton1))
+- chore: remove unused code [\#457](https://github.com/tj-actions/changed-files/pull/457) ([jackton1](https://github.com/jackton1))
+- chore: test changes to .github workflows files [\#456](https://github.com/tj-actions/changed-files/pull/456) ([jackton1](https://github.com/jackton1))
+- chore: test filenames that should be escaped [\#455](https://github.com/tj-actions/changed-files/pull/455) ([jackton1](https://github.com/jackton1))
+- Upgraded to v18.5 [\#454](https://github.com/tj-actions/changed-files/pull/454) ([jackton1](https://github.com/jackton1))
+
 ## [v18.5](https://github.com/tj-actions/changed-files/tree/v18.5) (2022-03-29)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.4...v18.5)
@@ -10,7 +34,6 @@
 
 **Fixed bugs:**
 
-- \[BUG\] Modified files treated as `Non Matching modified files` [\#450](https://github.com/tj-actions/changed-files/issues/450)
 - \[BUG\] Not able to compare current commit with the specific commit of a branch\(in the Pull request event\) [\#441](https://github.com/tj-actions/changed-files/issues/441)
 
 **Closed issues:**
@@ -543,7 +566,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -557,13 +580,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
