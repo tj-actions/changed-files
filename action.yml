@@ -1,5 +1,5 @@
-name: Changed files
-description: Get all changed files for push and pull request events.
+name: All Changed Files
+description: Get all Added, Copied, Modified, Deleted, Renamed, Type changed, Unmerged, Unknown files.
 author: tj-actions
 
 inputs:
