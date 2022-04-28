@@ -53,7 +53,7 @@ inputs:
     description: 'Finds best common ancestor between two commits to use in a three-way merge as the base_sha'
     default: 'false'
     required: false
-  qoutepath:
+  quotepath:
     description: 'Output filenames completely verbatim by setting this to false'
     default: 'true'
     required: false
@@ -181,7 +181,7 @@ runs:
         INPUT_CURRENT_SHA: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
         INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
-        INPUT_QUOTEPATH: ${{ inputs.qoutepath }}
+        INPUT_QUOTEPATH: ${{ inputs.quotepath }}
 
 branding:
   icon: file-text
