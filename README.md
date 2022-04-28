@@ -276,6 +276,12 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v19
         with:
           use_fork_point: "true"
+          
+      - name: Run changed-files with quotepath disabled
+        id: changed-files-quotepath
+        uses: tj-actions/changed-files@v19
+        with:
+          quotepath: "false"
 
 ```
 
