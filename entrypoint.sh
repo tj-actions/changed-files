@@ -9,7 +9,7 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 EXTRA_ARGS=""
 
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
-  EXTRA_ARGS="-z"
+  git config --global core.quotepath "$INPUT_QUOTEPATH"
 fi
 
 function get_diff() {
@@ -17,8 +17,8 @@ function get_diff() {
   sha="$2"
   filter="$3"
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff $EXTRA_ARGS "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
-    sub_commit_cur="$(git diff $EXTRA_ARGS "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
+    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
+    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
     if [ -n "$sub_commit_cur" ]; then
     (
       cd "$sub" && (
@@ -28,7 +28,7 @@ function get_diff() {
     )
     fi
   done < <(git submodule | awk '{print $2}')
-  git diff $EXTRA_ARGS --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
+  git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
 }
 
 echo "::group::changed-files"
