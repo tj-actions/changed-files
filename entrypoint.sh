@@ -8,6 +8,8 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
   git config --global core.quotepath off
+else
+  git config --global core.quotepath on
 fi
 
 function get_diff() {
