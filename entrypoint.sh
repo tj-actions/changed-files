@@ -6,6 +6,12 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 
+if [[ $INPUT_QUOTEPATH == "false" ]]; then
+  git config --global core.quotepath off
+else
+  git config --global core.quotepath on
+fi
+
 function get_diff() {
   base="$1"
   sha="$2"
