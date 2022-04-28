@@ -1,5 +1,37 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v19...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] File names with non ascii characters results in octal escape sequence output [\#437](https://github.com/tj-actions/changed-files/issues/437)
+
+## [v19](https://github.com/tj-actions/changed-files/tree/v19) (2022-04-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.7...v19)
+
+**Implemented enhancements:**
+
+- \[Feature\] List previous paths of renamed files as deleted files [\#468](https://github.com/tj-actions/changed-files/issues/468)
+
+**Closed issues:**
+
+- Not listing renamed file with previous path in deleted\_files list [\#466](https://github.com/tj-actions/changed-files/issues/466)
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- feat: Add support for non ascii filenames [\#473](https://github.com/tj-actions/changed-files/pull/473) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update github/codeql-action action to v2 [\#472](https://github.com/tj-actions/changed-files/pull/472) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update reviewdog/action-shellcheck action to v1.15 [\#471](https://github.com/tj-actions/changed-files/pull/471) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update actions/checkout action to v3.0.2 [\#470](https://github.com/tj-actions/changed-files/pull/470) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update actions/checkout action to v3.0.1 [\#465](https://github.com/tj-actions/changed-files/pull/465) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update tj-actions/glob action to v7.16 [\#464](https://github.com/tj-actions/changed-files/pull/464) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.0.2 [\#463](https://github.com/tj-actions/changed-files/pull/463) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v18.7 [\#462](https://github.com/tj-actions/changed-files/pull/462) ([jackton1](https://github.com/jackton1))
+
 ## [v18.7](https://github.com/tj-actions/changed-files/tree/v18.7) (2022-04-08)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v18.6...v18.7)
@@ -7,10 +39,6 @@
 **Fixed bugs:**
 
 - \[BUG\] Modified files treated as `Non Matching modified files` [\#450](https://github.com/tj-actions/changed-files/issues/450)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -217,10 +245,6 @@
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.0.1...v15.1)
 
-**Implemented enhancements:**
-
-- \[Feature\] Support using the fork point to detect file changes. [\#355](https://github.com/tj-actions/changed-files/issues/355)
-
 **Merged pull requests:**
 
 - Updated README.md [\#385](https://github.com/tj-actions/changed-files/pull/385) ([jackton1](https://github.com/jackton1))
@@ -396,7 +420,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -415,13 +439,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
@@ -895,7 +919,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] Get specific changed files reading a file [\#130](https://github.com/tj-actions/changed-files/issues/130)
-- \[Feature\] Rename `files` -\> `paths` [\#125](https://github.com/tj-actions/changed-files/issues/125)
 
 **Merged pull requests:**
 
