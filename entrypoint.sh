@@ -82,7 +82,7 @@ else
   else
     echo "::set-output name=any_changed::false"
   fi
-  
+
   OTHER_CHANGED=""
 
   if [[ -n $ALL_OTHER_CHANGED ]]; then
@@ -112,7 +112,7 @@ else
   else
     echo "::set-output name=any_modified::false"
   fi
-  
+
   OTHER_MODIFIED=""
 
   if [[ -n $ALL_OTHER_MODIFIED ]]; then
@@ -142,7 +142,7 @@ else
   else
     echo "::set-output name=any_deleted::false"
   fi
-  
+
   OTHER_DELETED=""
 
   if [[ -n $ALL_OTHER_DELETED ]]; then
