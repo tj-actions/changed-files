@@ -5,19 +5,11 @@ author: tj-actions
 inputs:
   token:
     description: 'Github token'
-    required: false
+    required: true
     default: ${{ github.token }}
   separator:
-    description: 'Split character for output strings'
-    required: false
-    default: " "
-  old_new_separator:
-    description: 'Split character for old and new filename pairs'
-    required: false
-    default: ","
-  old_new_files_separator:
-    description: 'Split character for multiple old and new filename pairs'
-    required: false
+    description: 'Split character for array output'
+    required: true
     default: " "
   files_from_source_file:
     description: 'Source file(s) to populate the files input'
@@ -82,9 +74,6 @@ outputs:
   renamed_files:
     description: List of renamed files.
     value: ${{ steps.changed-files.outputs.renamed_files }}
-  all_old_new_renamed_files:
-    description: List of all old and new names of renamed files.
-    value: ${{ steps.changed-files.outputs.all_old_new_renamed_files }}
   type_changed_files:
     description: List of files that had type changes.
     value: ${{ steps.changed-files.outputs.type_changed_files }}
@@ -193,8 +182,6 @@ runs:
         INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
         INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
         INPUT_QUOTEPATH: ${{ inputs.quotepath }}
-        INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}
-        INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
 
 branding:
   icon: file-text
