@@ -8,7 +8,7 @@ inputs:
     required: false
     default: ${{ github.token }}
   separator:
-    description: 'Split character for array output'
+    description: 'Split character for output strings'
     required: false
     default: " "
   old_new_files_separator:
