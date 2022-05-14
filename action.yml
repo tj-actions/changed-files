@@ -11,10 +11,14 @@ inputs:
     description: 'Split character for output strings'
     required: false
     default: " "
-  old_new_files_separator:
+  old_new_separator:
     description: 'Split character for old and new filename pairs'
     required: false
     default: ","
+  old_new_files_separator:
+    description: 'Split character for multiple old and new filename pairs'
+    required: false
+    default: " "
   files_from_source_file:
     description: 'Source file(s) to populate the files input'
     required: false
@@ -189,6 +193,7 @@ runs:
         INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
         INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
         INPUT_QUOTEPATH: ${{ inputs.quotepath }}
+        INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}
         INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
 
 branding:
