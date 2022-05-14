@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "**"
   pull_request:
     branches:
       - main
@@ -18,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.15
-  
+
   test-pull-requests-from-forks:
     name: Test changed-files diff on pull_requests from forks
     runs-on: ${{ matrix.platform }}
@@ -140,7 +141,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
-          
+
       - name: Run changed-files-specific with non existent base sha
         id: changed-files-specific
         uses: ./
@@ -180,7 +181,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
-          
+
       - name: Run changed-files-specific with non existent sha
         id: changed-files-specific
         uses: ./
