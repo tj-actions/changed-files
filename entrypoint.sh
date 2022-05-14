@@ -46,24 +46,6 @@ function get_renames() {
     )
     fi
   done < <(git submodule | awk '{print $2}')
-  git log --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
-}
-
-function get_renames() {
-  base="$1"
-  sha="$2"
-  while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
-    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
-    if [ -n "$sub_commit_cur" ]; then
-    (
-      cd "$sub" && (
-        # the strange magic number is a hardcoded "empty tree" commit sha
-        get_renames "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}'
-      )
-    )
-    fi
-  done < <(git submodule | awk '{print $2}')
   git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
 }
 
