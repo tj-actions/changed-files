@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "**"
   pull_request:
     branches:
       - main
@@ -18,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.15
-  
+
   test-pull-requests-from-forks:
     name: Test changed-files diff on pull_requests from forks
     runs-on: ${{ matrix.platform }}
@@ -140,7 +141,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
-          
+
       - name: Run changed-files-specific with non existent base sha
         id: changed-files-specific
         uses: ./
@@ -180,7 +181,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
-          
+
       - name: Run changed-files-specific with non existent sha
         id: changed-files-specific
         uses: ./
@@ -291,6 +292,42 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-specific-newline-source-file.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files for old new filenames test rename 1
+        id: changed-files-all-old-new-renamed-files-1
+        uses: ./
+        with:
+          base_sha: d1c0ee4
+          sha: 4d04215
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-1.outputs) }}'
+        shell:
+          bash
+      - name: Check all_old_new_renamed_files output
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files, 'test/test rename 1.txt,test/test rename-1.txt')"
+        run: |
+          echo "Invalid output: Expected to include (test/test rename 1.txt,test/test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Run changed-files for old new filenames test rename 2
+        id: changed-files-all-old-new-renamed-files-2
+        uses: ./
+        with:
+          base_sha: 4d04215
+          sha: fe238e6
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-2.outputs) }}'
+        shell:
+          bash
+      - name: Check all_old_new_renamed_files output
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt')"
+        run: |
+          echo "Invalid output: Expected to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files }})"
+          exit 1
         shell:
           bash
       - name: Run changed-files with specific files
