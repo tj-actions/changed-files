@@ -57,7 +57,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 HEAD^1 2>&1) && exit_status=$? || exit_status=$?
     else
-      PREVIOUS_SHA=$CURRENT_SHA
+      PREVIOUS_SHA=$CURRENT_SHA && exit_status=$? || exit_status=$?
       echo "Initial commit detected"
     fi
   else
