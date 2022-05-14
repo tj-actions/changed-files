@@ -82,9 +82,9 @@ outputs:
   renamed_files:
     description: List of renamed files.
     value: ${{ steps.changed-files.outputs.renamed_files }}
-  old_new_files:
-    description: List of old and new names of renamed files.
-    value: ${{ steps.changed-files.outputs.old_new_files }}
+  all_old_new_renamed_files:
+    description: List of all old and new names of renamed files.
+    value: ${{ steps.changed-files.outputs.all_old_new_renamed_files }}
   type_changed_files:
     description: List of files that had type changes.
     value: ${{ steps.changed-files.outputs.type_changed_files }}

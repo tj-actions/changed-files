@@ -78,7 +78,7 @@ if [[ -z "$INPUT_FILES_PATTERN_FILE" ]]; then
   ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  OLD_NEW=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OLD_NEW_RENAMED_FILES=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -91,7 +91,7 @@ else
   ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  OLD_NEW=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_OLD_NEW_RENAMED_FILES=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   ALL_OTHER_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -203,25 +203,25 @@ echo "Copied files: $COPIED"
 echo "Deleted files: $DELETED"
 echo "Modified files: $MODIFIED"
 echo "Renamed files: $RENAMED"
-echo "Old new files: $OLD_NEW"
 echo "Type Changed files: $TYPE_CHANGED"
 echo "Unmerged files: $UNMERGED"
 echo "Unknown files: $UNKNOWN"
 echo "All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
 echo "All changed files: $ALL_CHANGED"
 echo "All modified files: $ALL_MODIFIED"
+echo "All old & new renamed files: $ALL_OLD_NEW_RENAMED_FILES"
 
 echo "::set-output name=added_files::$ADDED"
 echo "::set-output name=copied_files::$COPIED"
 echo "::set-output name=deleted_files::$DELETED"
 echo "::set-output name=modified_files::$MODIFIED"
 echo "::set-output name=renamed_files::$RENAMED"
-echo "::set-output name=old_new_files::$OLD_NEW"
 echo "::set-output name=type_changed_files::$TYPE_CHANGED"
 echo "::set-output name=unmerged_files::$UNMERGED"
 echo "::set-output name=unknown_files::$UNKNOWN"
 echo "::set-output name=all_changed_and_modified_files::$ALL_CHANGED_AND_MODIFIED"
 echo "::set-output name=all_changed_files::$ALL_CHANGED"
 echo "::set-output name=all_modified_files::$ALL_MODIFIED"
+echo "::set-output name=all_old_new_renamed_files::$ALL_OLD_NEW_RENAMED_FILES"
 
 echo "::endgroup::"
