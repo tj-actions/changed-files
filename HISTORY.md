@@ -2,11 +2,30 @@
 
 ## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v19...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v19.1...HEAD)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+## [v19.1](https://github.com/tj-actions/changed-files/tree/v19.1) (2022-05-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v19...v19.1)
 
 **Fixed bugs:**
 
+- \[BUG\] Glob pattern for markdown files doesn't work properly [\#479](https://github.com/tj-actions/changed-files/issues/479)
+- \[BUG\] Fails in Self-Hosted Runner [\#477](https://github.com/tj-actions/changed-files/issues/477)
 - \[BUG\] File names with non ascii characters results in octal escape sequence output [\#437](https://github.com/tj-actions/changed-files/issues/437)
+
+**Merged pull requests:**
+
+- chore\(deps\): update tj-actions/glob action to v7.20 [\#481](https://github.com/tj-actions/changed-files/pull/481) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update tj-actions/glob action to v7.18 [\#480](https://github.com/tj-actions/changed-files/pull/480) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update pascalgn/automerge-action action to v0.15.3 [\#478](https://github.com/tj-actions/changed-files/pull/478) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.0.3 [\#476](https://github.com/tj-actions/changed-files/pull/476) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update tj-actions/glob action to v7.17 [\#475](https://github.com/tj-actions/changed-files/pull/475) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v19 [\#474](https://github.com/tj-actions/changed-files/pull/474) ([jackton1](https://github.com/jackton1))
 
 ## [v19](https://github.com/tj-actions/changed-files/tree/v19) (2022-04-28)
 
@@ -19,7 +38,6 @@
 **Closed issues:**
 
 - Not listing renamed file with previous path in deleted\_files list [\#466](https://github.com/tj-actions/changed-files/issues/466)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
