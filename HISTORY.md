@@ -1,12 +1,24 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v19.2](https://github.com/tj-actions/changed-files/tree/v19.2) (2022-05-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v19.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v19.1...v19.2)
+
+**Implemented enhancements:**
+
+- \[Feature\] Provide Original Filename in a Rename [\#467](https://github.com/tj-actions/changed-files/issues/467)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- feat/add support for retrieving old and new names of renamed files [\#486](https://github.com/tj-actions/changed-files/pull/486) ([jackton1](https://github.com/jackton1))
+- Revert "feat: Added support for returning old and new names of renamed files" [\#485](https://github.com/tj-actions/changed-files/pull/485) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#484](https://github.com/tj-actions/changed-files/pull/484) ([jackton1](https://github.com/jackton1))
+- feat: Added support for returning old and new names of renamed files [\#483](https://github.com/tj-actions/changed-files/pull/483) ([jackton1](https://github.com/jackton1))
+- Upgraded to v19.1 [\#482](https://github.com/tj-actions/changed-files/pull/482) ([jackton1](https://github.com/jackton1))
 
 ## [v19.1](https://github.com/tj-actions/changed-files/tree/v19.1) (2022-05-14)
 
@@ -438,7 +450,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -457,13 +469,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
