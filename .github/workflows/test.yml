@@ -294,6 +294,42 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific-newline-source-file.outputs) }}'
         shell:
           bash
+      - name: Run changed-files for old new filenames test rename 1
+        id: changed-files-old-new-1
+        uses: ./
+        with:
+          base_sha: d1c0ee4
+          sha: 4d04215
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-old-new-1.outputs) }}'
+        shell:
+          bash
+      - name: Check old_new_files output
+        if: "!contains(steps.changed-files-old-new-1.outputs.old_new_files, 'test/test rename 1.txt,test/test rename-1.txt')"
+        run: |
+          echo "Invalid output: Expected not to include (test/test rename 1.txt,test/test rename-1.txt) got (${{ steps.changed-files-old-new-1.outputs.old_new_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Run changed-files for old new filenames test rename 2
+        id: changed-files-old-new-2
+        uses: ./
+        with:
+          base_sha: 4d04215
+          sha: fe238e6
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-old-new-2.outputs) }}'
+        shell:
+          bash
+      - name: Check old_new_files output
+        if: "!contains(steps.changed-files-old-new-2.outputs.old_new_files, 'test/test rename 2.txt test/test rename-2.txt')"
+        run: |
+          echo "Invalid output: Expected not to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-old-new-2.outputs.old_new_files }})"
+          exit 1
+        shell:
+          bash
       - name: Run changed-files with specific files
         id: changed-files-specific
         uses: ./

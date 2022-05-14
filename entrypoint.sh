@@ -16,7 +16,6 @@ function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
-  type="${4:-name-only}"
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
@@ -29,7 +28,25 @@ function get_diff() {
     )
     fi
   done < <(git submodule | awk '{print $2}')
-  git diff --diff-filter="$filter" --"$type" --ignore-submodules=all "$base" "$sha"
+  git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
+}
+
+function get_renames() {
+  base="$1"
+  sha="$2"
+  while IFS='' read -r sub; do
+    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
+    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
+    if [ -n "$sub_commit_cur" ]; then
+    (
+      cd "$sub" && (
+        # the strange magic number is a hardcoded "empty tree" commit sha
+        get_renames "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}'
+      )
+    )
+    fi
+  done < <(git submodule | awk '{print $2}')
+  git log --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
 }
 
 echo "::group::changed-files"
@@ -61,7 +78,7 @@ if [[ -z "$INPUT_FILES_PATTERN_FILE" ]]; then
   ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-  OLD_NEW=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R "name-status" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  OLD_NEW=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 else
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -74,7 +91,7 @@ else
   ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  OLD_NEW=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R "name-status" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+  OLD_NEW=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | grep -x -E -f "$INPUT_FILES_PATTERN_FILE" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   ALL_OTHER_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
