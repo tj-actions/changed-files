@@ -306,9 +306,9 @@ jobs:
         shell:
           bash
       - name: Check all_old_new_renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.old_new_files, 'test/test rename 1.txt,test/test rename-1.txt')"
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files, 'test/test rename 1.txt,test/test rename-1.txt')"
         run: |
-          echo "Invalid output: Expected to include (test/test rename 1.txt,test/test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.old_new_files }})"
+          echo "Invalid output: Expected to include (test/test rename 1.txt,test/test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files }})"
           exit 1
         shell:
           bash
@@ -324,9 +324,9 @@ jobs:
         shell:
           bash
       - name: Check all_old_new_renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.old_new_files, 'test/test rename 2.txt,test/test rename-2.txt')"
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt')"
         run: |
-          echo "Invalid output: Expected to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.old_new_files }})"
+          echo "Invalid output: Expected to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files }})"
           exit 1
         shell:
           bash
