@@ -65,7 +65,7 @@ else
     if [[ "$INPUT_USE_FORK_POINT" == "true" ]]; then
       echo "Getting fork point..."
       git fetch --no-tags -u --progress origin "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-      PREVIOUS_SHA=$(git merge-base --fork-point "${TARGET_BRANCH}" "$CURRENT_BRANCH") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git merge-base --fork-point "${TARGET_BRANCH}" "$(git name-rev --name-only "$CURRENT_SHA")") && exit_status=$? || exit_status=$?
     else
       git fetch --no-tags -u --progress origin --depth=1 "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
