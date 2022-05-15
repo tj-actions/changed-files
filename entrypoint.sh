@@ -196,8 +196,6 @@ else
   ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 fi
 
-git remote remove temp_changed_files
-
 echo "Added files: $ADDED"
 echo "Copied files: $COPIED"
 echo "Deleted files: $DELETED"
