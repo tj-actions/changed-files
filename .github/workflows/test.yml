@@ -236,7 +236,9 @@ jobs:
         id: changed-files-md
         uses: ./
         with:
-          files: "*.md"
+          files: |
+            *.md
+            **/*.md
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-md.outputs) }}'
