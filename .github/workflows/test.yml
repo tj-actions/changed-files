@@ -232,6 +232,16 @@ jobs:
           echo "Your README.md has been modified ${{ steps.changed-files.outputs.modified_files }}."
         shell:
           bash
+      - name: Run changed-files for *.md files
+        id: changed-files-md
+        uses: ./
+        with:
+          files: "*.md"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-md.outputs) }}'
+        shell:
+          bash
       - name: Run changed-files with quotepath disabled
         id: changed-files-quotepath
         uses: ./
