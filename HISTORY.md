@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v20...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v20.1...HEAD)
+
+**Implemented enhancements:**
+
+- \[Feature\] Provide Original Filename in a Rename [\#467](https://github.com/tj-actions/changed-files/issues/467)
+
+## [v20.1](https://github.com/tj-actions/changed-files/tree/v20.1) (2022-05-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v20...v20.1)
 
 **Implemented enhancements:**
 
@@ -10,7 +18,14 @@
 
 **Fixed bugs:**
 
+- \[BUG\] Glob pattern doesn't work for markdown files  [\#492](https://github.com/tj-actions/changed-files/issues/492)
 - \[BUG\] Using the fork point to detect file changes. [\#355](https://github.com/tj-actions/changed-files/issues/355)
+
+**Merged pull requests:**
+
+- chore: test rename [\#495](https://github.com/tj-actions/changed-files/pull/495) ([jackton1](https://github.com/jackton1))
+- chore: Update README.md [\#494](https://github.com/tj-actions/changed-files/pull/494) ([jackton1](https://github.com/jackton1))
+- Upgraded to v20 [\#491](https://github.com/tj-actions/changed-files/pull/491) ([jackton1](https://github.com/jackton1))
 
 ## [v20](https://github.com/tj-actions/changed-files/tree/v20) (2022-05-15)
 
@@ -33,10 +48,6 @@
 ## [v19.2](https://github.com/tj-actions/changed-files/tree/v19.2) (2022-05-14)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v19.1...v19.2)
-
-**Implemented enhancements:**
-
-- \[Feature\] Provide Original Filename in a Rename [\#467](https://github.com/tj-actions/changed-files/issues/467)
 
 **Closed issues:**
 
@@ -655,7 +666,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -669,13 +680,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
