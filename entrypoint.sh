@@ -46,7 +46,12 @@ function get_renames() {
     )
     fi
   done < <(git submodule | awk '{print $2}')
-  git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
+  
+  if [ -n "$(git log --name-status --ignore-submodules=all "$base".."$sha")" ]; then
+    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
+  else
+    git diff --diff-filter=R --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
+  fi
 }
 
 echo "::group::changed-files"
