@@ -1,0 +1,29 @@
+name: Manual Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test changed-files
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Run changed-files with defaults
+        id: changed-files
+        uses: ./
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
