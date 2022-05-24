@@ -1,12 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v20.2](https://github.com/tj-actions/changed-files/tree/v20.2) (2022-05-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v20.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v20.1...v20.2)
 
-**Implemented enhancements:**
+**Fixed bugs:**
 
-- \[Feature\] Provide Original Filename in a Rename [\#467](https://github.com/tj-actions/changed-files/issues/467)
+- \[BUG\] old\_new\_renamed\_files is empty when providing a glob pattern. [\#467](https://github.com/tj-actions/changed-files/issues/467)
+
+**Merged pull requests:**
+
+- fix: matching renamed files with glob patterns [\#498](https://github.com/tj-actions/changed-files/pull/498) ([jackton1](https://github.com/jackton1))
+- chore: Improve test coverage [\#497](https://github.com/tj-actions/changed-files/pull/497) ([jackton1](https://github.com/jackton1))
+- Upgraded to v20.1 [\#496](https://github.com/tj-actions/changed-files/pull/496) ([jackton1](https://github.com/jackton1))
 
 ## [v20.1](https://github.com/tj-actions/changed-files/tree/v20.1) (2022-05-22)
 
@@ -1078,7 +1084,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -1094,13 +1100,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
