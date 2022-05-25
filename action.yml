@@ -11,8 +11,8 @@ inputs:
     description: 'Split character for output strings'
     required: false
     default: " "
-  include_old_new_files:
-    description: 'Include all_old_new_renamed_files output'
+  include_all_old_new_renamed_files:
+    description: 'Include all_old_new_renamed_files output. Note this can generate a large debug output See: #501.'
     required: false
     default: false
   old_new_separator:
@@ -197,6 +197,7 @@ runs:
         INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
         INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
         INPUT_QUOTEPATH: ${{ inputs.quotepath }}
+        INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES: ${{ inputs.include_all_old_new_renamed_files }}
         INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}
         INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
 
