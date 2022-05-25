@@ -300,6 +300,7 @@ jobs:
         with:
           base_sha: d1c0ee4
           sha: 4d04215
+          include_all_old_new_renamed_files: true
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-1.outputs) }}'
@@ -318,6 +319,7 @@ jobs:
         with:
           base_sha: 4d04215
           sha: fe238e6
+          include_all_old_new_renamed_files: true
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-2.outputs) }}'
