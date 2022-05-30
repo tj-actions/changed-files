@@ -4,12 +4,12 @@ set -eu
 
 echo "::group::changed-files-diff-sha"
 
-echo "Resolving repository path..."
-
 if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
+
+  echo "Resolving repository path: $REPO_DIR"
   if [[ ! -d "$REPO_DIR" ]]; then
-    echo "::warning::Invalid repository path"
+    echo "::warning::Invalid repository path: $REPO_DIR"
     exit 1
   fi
   cd "$REPO_DIR"
