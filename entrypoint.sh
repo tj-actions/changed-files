@@ -57,7 +57,7 @@ if [[ -n $INPUT_PATH ]]; then
 
   echo "Resolving repository path: $REPO_DIR"
   if [[ ! -d "$REPO_DIR" ]]; then
-    echo "::warning::Invalid repository path $REPO_DIR"
+    echo "::warning::Invalid repository path: $REPO_DIR"
     exit 1
   fi
   cd "$REPO_DIR"
