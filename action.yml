@@ -60,14 +60,15 @@ inputs:
     default: 'false'
   path:
     description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
-    required: false
+    required: true
+    default: ${{ github.workspace }}
   use_fork_point:
     description: 'Finds best common ancestor between two commits to use in a three-way merge as the base_sha'
-    default: 'false'
+    default: false
     required: false
   quotepath:
     description: 'Output filenames completely verbatim by setting this to false'
-    default: 'true'
+    default: true
     required: false
 
 outputs:
