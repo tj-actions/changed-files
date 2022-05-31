@@ -1,5 +1,25 @@
 # Changelog
 
+## [v22](https://github.com/tj-actions/changed-files/tree/v22) (2022-05-31)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v21...v22)
+
+**Implemented enhancements:**
+
+- \[Feature\] since\_last\_passing\_remote\_commit  [\#507](https://github.com/tj-actions/changed-files/issues/507)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Updated README.md [\#511](https://github.com/tj-actions/changed-files/pull/511) ([jackton1](https://github.com/jackton1))
+- chore: Update README.md [\#510](https://github.com/tj-actions/changed-files/pull/510) ([jackton1](https://github.com/jackton1))
+- Bump tj-actions/glob from 7.20 to 9 [\#509](https://github.com/tj-actions/changed-files/pull/509) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore: explicitly set the GITHUB\_WORKSPACE environment variable [\#505](https://github.com/tj-actions/changed-files/pull/505) ([jackton1](https://github.com/jackton1))
+- Upgraded to v21 [\#503](https://github.com/tj-actions/changed-files/pull/503) ([jackton1](https://github.com/jackton1))
+
 ## [v21](https://github.com/tj-actions/changed-files/tree/v21) (2022-05-25)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v20.2...v21)
@@ -71,10 +91,6 @@
 ## [v19.2](https://github.com/tj-actions/changed-files/tree/v19.2) (2022-05-14)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v19.1...v19.2)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -514,7 +530,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -533,13 +549,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
@@ -1101,7 +1117,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -1117,13 +1133,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
