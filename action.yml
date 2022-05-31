@@ -168,7 +168,7 @@ runs:
         INPUT_PATH: ${{ inputs.path }}
         INPUT_USE_FORK_POINT: ${{ inputs.use_fork_point }}
     - name: Glob match
-      uses: tj-actions/glob@v9.1
+      uses: tj-actions/glob@v9.2
       id: glob
       with:
         files: ${{ inputs.files }}
