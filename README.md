@@ -145,7 +145,7 @@ Support this project with a :star:
 |         use\_fork\_point          |        `boolean`        | `false`  |        `false`        |           Finds best common ancestor <br /> between two commits <br /> to use in a three-way merge <br /> as the `base_sha` <br /> See: [git merge-base](https://git-scm.com/docs/git-merge-base#Documentation/git-merge-base.txt---fork-point). <br> NOTE: This pulls the entire commit history of the base branch           |
 |             quotepath             |        `boolean`        | `false`  |        `true`         |                                                                                                                                Output filenames completely verbatim by setting this to `false`                                                                                                                                |
 
-## Example
+## Examples
 
 ```yaml
 ...
