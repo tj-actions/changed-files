@@ -61,6 +61,7 @@ inputs:
   path:
     description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
     required: false
+    default: '.'
   use_fork_point:
     description: 'Finds best common ancestor between two commits to use in a three-way merge as the base_sha'
     default: 'false'
@@ -167,7 +168,7 @@ runs:
         INPUT_PATH: ${{ inputs.path }}
         INPUT_USE_FORK_POINT: ${{ inputs.use_fork_point }}
     - name: Glob match
-      uses: tj-actions/glob@v7.20
+      uses: tj-actions/glob@v9
       id: glob
       with:
         files: ${{ inputs.files }}
