@@ -61,6 +61,7 @@ inputs:
   path:
     description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
     required: false
+    default: '.'
   use_fork_point:
     description: 'Finds best common ancestor between two commits to use in a three-way merge as the base_sha'
     default: 'false'
