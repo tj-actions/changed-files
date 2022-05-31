@@ -287,7 +287,7 @@ Support this project with a :star:
           quotepath: "false"
       
       # Run changed-files action using the last successful commit as the base_sha
-      # NOTE: This setting overrides the commit set by setting since_last_remote_commit to "true".
+      # NOTE: This setting overrides the commit sha used by setting since_last_remote_commit to true.
       # It is recommended to use either solutions that works for your use case.
       
       # Push event based workflows
