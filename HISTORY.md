@@ -1,5 +1,14 @@
 # Changelog
 
+## [v22.1](https://github.com/tj-actions/changed-files/tree/v22.1) (2022-05-31)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v22...v22.1)
+
+**Merged pull requests:**
+
+- chore: upgrade tj-actions/glob from v9 to v9.2 [\#513](https://github.com/tj-actions/changed-files/pull/513) ([jackton1](https://github.com/jackton1))
+- Upgraded to v22 [\#512](https://github.com/tj-actions/changed-files/pull/512) ([jackton1](https://github.com/jackton1))
+
 ## [v22](https://github.com/tj-actions/changed-files/tree/v22) (2022-05-31)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v21...v22)
@@ -705,7 +714,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -719,13 +728,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
