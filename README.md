@@ -285,8 +285,52 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v21
         with:
           quotepath: "false"
+      
+      # Run changed-files action using the last successful commit as the base_sha
+      # NOTE: This setting overrides the commit set by setting since_last_remote_commit to "true".
+      # It is recommended to use either solutions that works for your use case.
+      
+      # Push event based workflows
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+
+      - uses: nrwl/last-successful-commit-action@v1
+        id: last_successful_commit_push
+        with:
+          branch: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch. 
+          workflow_id: 'test.yml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run changed-files with the commit of the last successful test workflow run
+        id: changed-files-base-sha-push
+        uses: tj-actions/changed-files@v21
+        with:
+          base_sha: ${{ steps.last_successful_commit_push.outputs.commit_hash }}
+
+      # Pull request based workflows.
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+        if: github.event_name == 'pull_request'
+
+      - uses: nrwl/last-successful-commit-action@v1
+        id: last_successful_commit_pull_request
+        if: github.event_name == 'pull_request'
+        with:
+          branch: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
+          workflow_id: 'test.yml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run changed-files with the commit of the last successful test workflow run on main
+        if: github.event_name == 'pull_request'
+        id: changed-files-base-sha-pull-request
+        uses: tj-actions/changed-files@v21
+        with:
+          base_sha: ${{ steps.last_successful_commit_pull_request.outputs.commit_hash }}
 
 ```
+
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
