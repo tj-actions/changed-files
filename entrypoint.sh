@@ -13,7 +13,7 @@ else
 fi
 
 if [[ -n $INPUT_DIFF_RELATIVE ]]; then
-  git config --global diff.relative $INPUT_DIFF_RELATIVE
+  git config --global diff.relative "$INPUT_DIFF_RELATIVE"
 fi
 
 function get_diff() {
