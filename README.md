@@ -395,6 +395,7 @@ With the switch from using grep's Extended regex to match files to the natively 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
 
 *   [tj-actions/glob](https://github.com/tj-actions/glob)
+*   [tj-actions/demo](https://github.com/tj-actions/demo)
 
 ## Report Bugs
 
