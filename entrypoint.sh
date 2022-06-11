@@ -59,7 +59,7 @@ echo "::group::changed-files"
 if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
 
-  echo "Resolving repository path: $REPO_DIR"
+  echo "::debug::Resolving repository path: $REPO_DIR"
   if [[ ! -d "$REPO_DIR" ]]; then
     echo "::warning::Invalid repository path: $REPO_DIR"
     exit 1
@@ -67,9 +67,9 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-echo "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
+echo "::debug::Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
 
-echo "Getting diff..."
+echo "::debug::Getting diff..."
 
 if [[ -z "$INPUT_FILES_PATTERN_FILE" ]]; then
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -106,7 +106,7 @@ else
   UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
-    echo "Matching changed files: ${UNIQUE_ALL_CHANGED}"
+    echo "::debug::Matching changed files: ${UNIQUE_ALL_CHANGED}"
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
@@ -125,7 +125,7 @@ else
   OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${OTHER_CHANGED}" ]]; then
-    echo "Non Matching changed files: ${OTHER_CHANGED}"
+    echo "::debug::Non Matching changed files: ${OTHER_CHANGED}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED"
   elif [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
@@ -136,7 +136,7 @@ else
   UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
-    echo "Matching modified files: ${UNIQUE_ALL_MODIFIED}"
+    echo "::debug::Matching modified files: ${UNIQUE_ALL_MODIFIED}"
     echo "::set-output name=any_modified::true"
   else
     echo "::set-output name=any_modified::false"
@@ -155,7 +155,7 @@ else
   OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${OTHER_MODIFIED}" ]]; then
-    echo "Non Matching modified files: ${OTHER_MODIFIED}"
+    echo "::debug::Non Matching modified files: ${OTHER_MODIFIED}"
     echo "::set-output name=only_modified::false"
     echo "::set-output name=other_modified_files::$OTHER_MODIFIED"
   elif [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
@@ -166,7 +166,7 @@ else
   UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
-    echo "Matching deleted files: ${UNIQUE_ALL_DELETED}"
+    echo "::debug::Matching deleted files: ${UNIQUE_ALL_DELETED}"
     echo "::set-output name=any_deleted::true"
   else
     echo "::set-output name=any_deleted::false"
@@ -185,7 +185,7 @@ else
   OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${OTHER_DELETED}" ]]; then
-    echo "Non Matching deleted files: ${OTHER_DELETED}"
+    echo "::debug::Non Matching deleted files: ${OTHER_DELETED}"
     echo "::set-output name=only_deleted::false"
     echo "::set-output name=other_deleted_files::$OTHER_DELETED"
   elif [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
@@ -205,19 +205,19 @@ else
   ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
 fi
 
-echo "Added files: $ADDED"
-echo "Copied files: $COPIED"
-echo "Deleted files: $DELETED"
-echo "Modified files: $MODIFIED"
-echo "Renamed files: $RENAMED"
-echo "Type Changed files: $TYPE_CHANGED"
-echo "Unmerged files: $UNMERGED"
-echo "Unknown files: $UNKNOWN"
-echo "All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
-echo "All changed files: $ALL_CHANGED"
-echo "All modified files: $ALL_MODIFIED"
+echo "::debug::Added files: $ADDED"
+echo "::debug::Copied files: $COPIED"
+echo "::debug::Deleted files: $DELETED"
+echo "::debug::Modified files: $MODIFIED"
+echo "::debug::Renamed files: $RENAMED"
+echo "::debug::Type Changed files: $TYPE_CHANGED"
+echo "::debug::Unmerged files: $UNMERGED"
+echo "::debug::Unknown files: $UNKNOWN"
+echo "::debug::All changed and modified files: $ALL_CHANGED_AND_MODIFIED"
+echo "::debug::All changed files: $ALL_CHANGED"
+echo "::debug::All modified files: $ALL_MODIFIED"
 if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-  echo "All old & new renamed files: $ALL_OLD_NEW_RENAMED"
+  echo "::debug::All old & new renamed files: $ALL_OLD_NEW_RENAMED"
 fi
 
 echo "::set-output name=added_files::$ADDED"
