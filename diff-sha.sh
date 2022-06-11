@@ -7,7 +7,7 @@ echo "::group::changed-files-diff-sha"
 if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
 
-  echo "Resolving repository path: $REPO_DIR"
+  echo "::debug::Resolving repository path: $REPO_DIR"
   if [[ ! -d "$REPO_DIR" ]]; then
     echo "::warning::Invalid repository path: $REPO_DIR"
     exit 1
@@ -15,7 +15,7 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-echo "Getting HEAD SHA..."
+echo "::debug::Getting HEAD SHA..."
 
 if [[ -z $INPUT_SHA ]]; then
   CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
@@ -43,7 +43,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 HEAD^1 2>&1) && exit_status=$? || exit_status=$?
     else
       PREVIOUS_SHA=$CURRENT_SHA && exit_status=$? || exit_status=$?
-      echo "Initial commit detected"
+      echo "::debug::Initial commit detected"
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
@@ -63,7 +63,7 @@ else
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_USE_FORK_POINT" == "true" ]]; then
-      echo "Getting fork point..."
+      echo "::debug::Getting fork point..."
       git fetch --no-tags -u --progress origin "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
       PREVIOUS_SHA=$(git merge-base --fork-point "${TARGET_BRANCH}" "$(git name-rev --name-only "$CURRENT_SHA")") && exit_status=$? || exit_status=$?
     else
@@ -76,7 +76,7 @@ else
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
   fi
 
-  echo "Verifying commit SHA..."
+  echo "::debug::Verifying commit SHA..."
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
