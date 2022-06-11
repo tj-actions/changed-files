@@ -22,6 +22,7 @@ Retrieve all changed files relative to the target branch (`pull_request*` based 
 *   Boolean output indicating that certain files have been changed.
 *   Scales to large repositories.
 *   Git submodules support.
+*   No extra API calls.
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
