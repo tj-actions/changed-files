@@ -34,7 +34,7 @@ function get_diff() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha" | xargs -I {} dirname {}
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha" | xargs -I {} dirname {} | uniq
   else
     git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
   fi
@@ -57,7 +57,7 @@ function get_renames() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {}
+    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq
   else
     git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
   fi
