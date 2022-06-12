@@ -242,7 +242,7 @@ jobs:
           echo '${{ toJSON(steps.changed-files-quotepath.outputs) }}'
         shell:
           bash
-      - name: Run changed-files with only_dir_names
+      - name: Run changed-files with dir_names
         id: changed-files-only-dir-names
         uses: ./
         with:
