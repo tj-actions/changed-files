@@ -243,13 +243,13 @@ jobs:
         shell:
           bash
       - name: Run changed-files with dir_names
-        id: changed-files-only-dir-names
+        id: changed-files-dir-names
         uses: ./
         with:
           dir_names: "true"
       - name: Show output
         run: |
-          echo '${{ toJSON(steps.changed-files-only-dir-names.outputs) }}'
+          echo '${{ toJSON(steps.changed-files-dir-names.outputs) }}'
         shell:
           bash
       - name: Run changed-files with forward slash separator
