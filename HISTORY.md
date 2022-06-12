@@ -1,5 +1,30 @@
 # Changelog
 
+## [v23](https://github.com/tj-actions/changed-files/tree/v23) (2022-06-12)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v22.2...v23)
+
+**Implemented enhancements:**
+
+- \[Feature\] Get distinct changed folders [\#504](https://github.com/tj-actions/changed-files/issues/504)
+- \[Feature\] Rename `files` -\> `paths` [\#125](https://github.com/tj-actions/changed-files/issues/125)
+
+**Fixed bugs:**
+
+- \[BUG\] Action does not work when running with `act` anymore [\#518](https://github.com/tj-actions/changed-files/issues/518)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- feat: add support for returning directory names [\#522](https://github.com/tj-actions/changed-files/pull/522) ([jackton1](https://github.com/jackton1))
+- feat: use debug messages for log outputs [\#521](https://github.com/tj-actions/changed-files/pull/521) ([jackton1](https://github.com/jackton1))
+- chore: clean up internal variables. [\#520](https://github.com/tj-actions/changed-files/pull/520) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.0.4 [\#519](https://github.com/tj-actions/changed-files/pull/519) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v22.2 [\#517](https://github.com/tj-actions/changed-files/pull/517) ([jackton1](https://github.com/jackton1))
+
 ## [v22.2](https://github.com/tj-actions/changed-files/tree/v22.2) (2022-06-02)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v22.1...v22.2)
@@ -30,10 +55,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] since\_last\_passing\_remote\_commit  [\#507](https://github.com/tj-actions/changed-files/issues/507)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -77,10 +98,6 @@
 ## [v20.1](https://github.com/tj-actions/changed-files/tree/v20.1) (2022-05-22)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v20...v20.1)
-
-**Implemented enhancements:**
-
-- \[Feature\] Rename `files` -\> `paths` [\#125](https://github.com/tj-actions/changed-files/issues/125)
 
 **Fixed bugs:**
 
@@ -553,7 +570,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -572,13 +589,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
