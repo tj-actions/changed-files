@@ -3,6 +3,7 @@
 set -eu
 
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
+INPUT_SEPARATOR="${INPUT_SEPARATOR//'.'/'%2E'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 
@@ -32,7 +33,12 @@ function get_diff() {
     )
     fi
   done < <(git submodule | awk '{print $2}')
-  git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
+
+  if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha" | xargs -I {} dirname {} | uniq
+  else
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
+  fi
 }
 
 function get_renames() {
@@ -51,7 +57,11 @@ function get_renames() {
     fi
   done < <(git submodule | awk '{print $2}')
 
-  git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
+  if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq
+  else
+    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
+  fi
 }
 
 echo "::group::changed-files"
@@ -103,10 +113,9 @@ else
   fi
 
   ALL_OTHER_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  if [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
-    echo "::debug::Matching changed files: ${UNIQUE_ALL_CHANGED}"
+  if [[ -n "${ALL_CHANGED}" ]]; then
+    echo "::debug::Matching changed files: ${ALL_CHANGED}"
     echo "::set-output name=any_changed::true"
   else
     echo "::set-output name=any_changed::false"
@@ -115,8 +124,8 @@ else
   OTHER_CHANGED=""
 
   if [[ -n $ALL_OTHER_CHANGED ]]; then
-    if [[ -n "$UNIQUE_ALL_CHANGED" ]]; then
-      OTHER_CHANGED=$(echo "${ALL_OTHER_CHANGED}|${UNIQUE_ALL_CHANGED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ -n "$ALL_CHANGED" ]]; then
+      OTHER_CHANGED=$(echo "${ALL_OTHER_CHANGED}|${ALL_CHANGED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_CHANGED=$ALL_OTHER_CHANGED
     fi
@@ -128,15 +137,14 @@ else
     echo "::debug::Non Matching changed files: ${OTHER_CHANGED}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED"
-  elif [[ -n "${UNIQUE_ALL_CHANGED}" ]]; then
+  elif [[ -n "${ALL_CHANGED}" ]]; then
     echo "::set-output name=only_changed::true"
   fi
 
   ALL_OTHER_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  if [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
-    echo "::debug::Matching modified files: ${UNIQUE_ALL_MODIFIED}"
+  if [[ -n "${ALL_MODIFIED}" ]]; then
+    echo "::debug::Matching modified files: ${ALL_MODIFIED}"
     echo "::set-output name=any_modified::true"
   else
     echo "::set-output name=any_modified::false"
@@ -145,8 +153,8 @@ else
   OTHER_MODIFIED=""
 
   if [[ -n $ALL_OTHER_MODIFIED ]]; then
-    if [[ -n "$UNIQUE_ALL_MODIFIED" ]]; then
-      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${UNIQUE_ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ -n "$ALL_MODIFIED" ]]; then
+      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_MODIFIED=$ALL_OTHER_MODIFIED
     fi
@@ -158,15 +166,14 @@ else
     echo "::debug::Non Matching modified files: ${OTHER_MODIFIED}"
     echo "::set-output name=only_modified::false"
     echo "::set-output name=other_modified_files::$OTHER_MODIFIED"
-  elif [[ -n "${UNIQUE_ALL_MODIFIED}" ]]; then
+  elif [[ -n "${ALL_MODIFIED}" ]]; then
     echo "::set-output name=only_modified::true"
   fi
 
   ALL_OTHER_DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNIQUE_ALL_DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk '!a[$0]++' | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  if [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
-    echo "::debug::Matching deleted files: ${UNIQUE_ALL_DELETED}"
+  if [[ -n "${DELETED}" ]]; then
+    echo "::debug::Matching deleted files: ${DELETED}"
     echo "::set-output name=any_deleted::true"
   else
     echo "::set-output name=any_deleted::false"
@@ -175,8 +182,8 @@ else
   OTHER_DELETED=""
 
   if [[ -n $ALL_OTHER_DELETED ]]; then
-    if [[ -n "$UNIQUE_ALL_DELETED" ]]; then
-      OTHER_DELETED=$(echo "${ALL_OTHER_DELETED}|${UNIQUE_ALL_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ -n "$DELETED" ]]; then
+      OTHER_DELETED=$(echo "${ALL_OTHER_DELETED}|${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_DELETED=$ALL_OTHER_DELETED
     fi
@@ -188,7 +195,7 @@ else
     echo "::debug::Non Matching deleted files: ${OTHER_DELETED}"
     echo "::set-output name=only_deleted::false"
     echo "::set-output name=other_deleted_files::$OTHER_DELETED"
-  elif [[ -n "${UNIQUE_ALL_DELETED}" ]]; then
+  elif [[ -n "${DELETED}" ]]; then
     echo "::set-output name=only_deleted::true"
   fi
 

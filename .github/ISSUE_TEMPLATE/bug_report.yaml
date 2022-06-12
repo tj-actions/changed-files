@@ -69,8 +69,8 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
+      description: Please copy and paste any relevant log outputs after enabling debug logging using ACTIONS_STEP_DEBUG=true See https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging. This will be automatically formatted into code, so no need for backticks.
+      render: bash
   - type: textarea
     attributes:
       label: Anything else?
