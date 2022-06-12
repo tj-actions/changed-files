@@ -4,74 +4,78 @@ author: tj-actions
 
 inputs:
   token:
-    description: 'Github token'
+    description: "Github token"
     required: false
     default: ${{ github.token }}
   separator:
-    description: 'Split character for output strings'
+    description: "Split character for output strings"
     required: false
     default: " "
   include_all_old_new_renamed_files:
-    description: 'Include all_old_new_renamed_files output. Note this can generate a large debug output See: #501.'
+    description: "Include all_old_new_renamed_files output. Note this can generate a large debug output See: #501."
     required: false
-    default: false
+    default: "false"
   old_new_separator:
-    description: 'Split character for old and new filename pairs'
+    description: "Split character for old and new filename pairs"
     required: false
     default: ","
   old_new_files_separator:
-    description: 'Split character for multiple old and new filename pairs'
+    description: "Split character for multiple old and new filename pairs"
     required: false
     default: " "
   files_from_source_file:
-    description: 'Source file(s) to populate the files input'
+    description: "Source file(s) to populate the files input"
     required: false
     default: ""
   files:
-    description: 'Check for changes using only this list of files (Defaults to the entire repo)'
+    description: "Check for changes using only this list of files (Defaults to the entire repo)"
     required: false
     default: ""
   files_separator:
-    description: 'Separator used to split the files input'
+    description: "Separator used to split the files input"
     default: "\n"
     required: false
   files_ignore:
-    description: 'Ignore changes to this list of files'
+    description: "Ignore changes to this list of files"
     required: false
     default: ""
   files_ignore_separator:
-    description: 'Separator used to split the files-ignore input'
+    description: "Separator used to split the files-ignore input"
     default: "\n"
     required: false
   files_ignore_from_source_file:
-    description: 'Source file(s) to populate the files-ignore input'
+    description: "Source file(s) to populate the files-ignore input"
     required: false
     default: ""
   sha:
-    description: 'Specify a current commit SHA used for comparing changes'
+    description: "Specify a current commit SHA used for comparing changes"
     required: true
     default: ${{ github.sha }}
   base_sha:
-    description: 'Specify a base commit SHA on used for comparing changes'
+    description: "Specify a base commit SHA on used for comparing changes"
     required: false
   since_last_remote_commit:
-    description: 'Use the last commit on the remote branch as the base_sha for push event.'
+    description: "Use the last commit on the remote branch as the base_sha for push event."
     required: false
-    default: 'false'
+    default: "false"
   path:
-    description: 'Specify a relative path under $GITHUB_WORKSPACE to locate the repository'
+    description: "Specify a relative path under $GITHUB_WORKSPACE to locate the repository"
     required: false
-    default: '.'
+    default: "."
   use_fork_point:
-    description: 'Finds best common ancestor between two commits to use in a three-way merge as the base_sha'
-    default: 'false'
+    description: "Finds best common ancestor between two commits to use in a three-way merge as the base_sha"
+    default: "false"
     required: false
   quotepath:
-    description: 'Output filenames completely verbatim by setting this to false'
-    default: 'true'
+    description: "Output filenames completely verbatim by setting this to false"
+    default: "true"
     required: false
   diff_relative:
-    description: 'Exclude changes outside the current directory and show pathnames relative to it'
+    description: "Exclude changes outside the current directory and show pathnames relative to it"
+    required: false
+  dir_names:
+    default: "false"
+    description: "Output the absolute path to the changed directories instead of the filenames"
     required: false
 
 outputs:
@@ -140,7 +144,7 @@ outputs:
     value: ${{ steps.changed-files.outputs.other_deleted_files }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - run: |
         # "Set base sha..."
@@ -207,6 +211,7 @@ runs:
         INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}
         INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
         INPUT_DIFF_RELATIVE: ${{ inputs.diff_relative }}
+        INPUT_DIR_NAMES: ${{ inputs.dir_names }}
 
 branding:
   icon: file-text
