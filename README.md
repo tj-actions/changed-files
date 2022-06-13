@@ -11,7 +11,7 @@
 
 ## changed-files
 
-Retrieve all changed files and directories relative to the target branch (`pull_request*` based events) or the last remote commit (`push` based event) returning the **absolute path** to all changed files and direcoties from the project root.
+Retrieve all changed files and directories relative to the target branch (`pull_request*` based events) or the last remote commit (`push` based event) returning the **absolute path** to all changed files and directories from the project root.
 
 ## Features
 
@@ -289,7 +289,7 @@ Support this project with a :star:
       
       # Run changed-files action using the last successful commit as the base_sha
       # NOTE: This setting overrides the commit sha used by setting since_last_remote_commit to true.
-      # It is recommended to use either solutions that works for your use case.
+      # It is recommended to use either solution that works for your use case.
       
       # Push event based workflows
       - name: Get branch name
@@ -361,7 +361,7 @@ This project follows a `v(major).(patch)` versioning scheme with the exception o
 
 ## Migration guide
 
-With the switch from using grep's Extended regex to match files to the natively supported workflow glob pattern matching snytax introduced in [v13](https://github.com/tj-actions/changed-files/releases/tag/v13) you'll need to modify patterns used to match `files`.
+With the switch from using grep's Extended regex to match files to the natively supported workflow glob pattern matching syntax introduced in [v13](https://github.com/tj-actions/changed-files/releases/tag/v13) you'll need to modify patterns used to match `files`.
 
 **BEFORE**
 
