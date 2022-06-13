@@ -27,6 +27,7 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
+
       - name: Run changed-files with glob filtering
         id: changed-files-glob
         uses: ./
