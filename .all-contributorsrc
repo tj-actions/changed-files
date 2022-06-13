@@ -105,6 +105,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "deronnax",
+      "name": "Mathieu Dupuy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439279?v=4",
+      "profile": "https://github.com/deronnax",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
