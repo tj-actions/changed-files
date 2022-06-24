@@ -1,5 +1,33 @@
 # Changelog
 
+## [v23.1](https://github.com/tj-actions/changed-files/tree/v23.1) (2022-06-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v23...v23.1)
+
+**Implemented enhancements:**
+
+- \[Feature\]  implement an outputs for matrix compatible jobs [\#530](https://github.com/tj-actions/changed-files/issues/530)
+
+**Fixed bugs:**
+
+- \[BUG\] Misleading error if git command is missing [\#532](https://github.com/tj-actions/changed-files/issues/532)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- chore: removed unused code [\#534](https://github.com/tj-actions/changed-files/pull/534) ([jackton1](https://github.com/jackton1))
+- chore: improve error handling [\#533](https://github.com/tj-actions/changed-files/pull/533) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/verify-changed-files action to v10 [\#531](https://github.com/tj-actions/changed-files/pull/531) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#528](https://github.com/tj-actions/changed-files/pull/528) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.1.0 [\#527](https://github.com/tj-actions/changed-files/pull/527) ([renovate[bot]](https://github.com/apps/renovate))
+- docs: add deronnax as a contributor for doc [\#526](https://github.com/tj-actions/changed-files/pull/526) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- fix mispellings [\#525](https://github.com/tj-actions/changed-files/pull/525) ([deronnax](https://github.com/deronnax))
+- chore: reformat manual-test.yml [\#524](https://github.com/tj-actions/changed-files/pull/524) ([jackton1](https://github.com/jackton1))
+- Upgraded to v23 [\#523](https://github.com/tj-actions/changed-files/pull/523) ([jackton1](https://github.com/jackton1))
+
 ## [v23](https://github.com/tj-actions/changed-files/tree/v23) (2022-06-12)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v22.2...v23)
@@ -7,15 +35,10 @@
 **Implemented enhancements:**
 
 - \[Feature\] Get distinct changed folders [\#504](https://github.com/tj-actions/changed-files/issues/504)
-- \[Feature\] Rename `files` -\> `paths` [\#125](https://github.com/tj-actions/changed-files/issues/125)
 
 **Fixed bugs:**
 
 - \[BUG\] Action does not work when running with `act` anymore [\#518](https://github.com/tj-actions/changed-files/issues/518)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -570,7 +593,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -589,13 +612,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
@@ -1157,7 +1180,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -1173,13 +1196,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
