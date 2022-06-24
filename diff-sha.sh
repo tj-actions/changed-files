@@ -19,7 +19,6 @@ git --version 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::git not installed"
-  echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
 fi
 
