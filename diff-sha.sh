@@ -9,10 +9,17 @@ if [[ -n $INPUT_PATH ]]; then
 
   echo "::debug::Resolving repository path: $REPO_DIR"
   if [[ ! -d "$REPO_DIR" ]]; then
-    echo "::warning::Invalid repository path: $REPO_DIR"
+    echo "::error::Invalid repository path: $REPO_DIR"
     exit 1
   fi
   cd "$REPO_DIR"
+fi
+
+git --version 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+if [[ $exit_status -ne 0 ]]; then
+  echo "::error::git not installed"
+  exit 1
 fi
 
 echo "::debug::Getting HEAD SHA..."
@@ -26,8 +33,9 @@ fi
 git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then
-  echo "::warning::Unable to locate the current sha: $CURRENT_SHA"
-  echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+  echo "::error::Unable to locate the current sha: $CURRENT_SHA"
+  git --version
+  echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
 fi
 
@@ -53,8 +61,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
-    echo "::warning::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+    echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
+    echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
     exit 1
   fi
 else
@@ -80,8 +88,8 @@ else
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
-    echo "::warning::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::warning::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+    echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
+    echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
     exit 1
   fi
 fi
