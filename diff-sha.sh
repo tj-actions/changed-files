@@ -15,12 +15,7 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-if git --version >/dev/null 2>&1; then
-  echo "::debug::git is installed."
-else
-  echo "::warning::git is not installed."
-  exit 1
-fi
+git --version
 
 echo "::debug::Getting HEAD SHA..."
 
