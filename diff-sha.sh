@@ -15,7 +15,7 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-if ! [[ -x "$(command -v git)" ]]; then
+if ! [[ git --version >/dev/null 2>&1 ]]; then
   echo "::warning::git is not installed."
   exit 1
 fi
