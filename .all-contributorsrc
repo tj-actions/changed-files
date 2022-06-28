@@ -114,6 +114,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "JoeOvo",
+      "name": "Joe Moggridge",
+      "avatar_url": "https://avatars.githubusercontent.com/u/100686542?v=4",
+      "profile": "https://github.com/JoeOvo",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
