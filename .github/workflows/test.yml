@@ -165,7 +165,7 @@ jobs:
       - name: Exit with 1 if no error is raised
         if: steps.changed-files.outcome != "failure"
         run: |
-          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          echo "Expected: (failure) got ${{ steps.changed-files-specific.outcome }}"
           exit 1
 
   test-non-existent-sha:
@@ -217,7 +217,7 @@ jobs:
       - name: Exit with 1 if no error is raised
         if: steps.changed-files.outcome != "failure"
         run: |
-          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          echo "Expected: (failure) got ${{ steps.changed-files-specific.outcome }}"
           exit 1
 
   test:
