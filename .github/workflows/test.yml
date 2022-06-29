@@ -141,6 +141,12 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
+      
+      - name: Exit with 1 if no error is raised
+        if: steps.changed-files.outcome != "failure"
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
 
       - name: Run changed-files-specific with non existent base sha
         id: changed-files-specific
@@ -155,6 +161,12 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
+      
+      - name: Exit with 1 if no error is raised
+        if: steps.changed-files.outcome != "failure"
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
 
   test-non-existent-sha:
     name: Test changed-files non existent sha
@@ -181,6 +193,12 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
+      
+      - name: Exit with 1 if no error is raised
+        if: steps.changed-files.outcome != "failure"
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
 
       - name: Run changed-files-specific with non existent sha
         id: changed-files-specific
@@ -195,6 +213,12 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
+      
+      - name: Exit with 1 if no error is raised
+        if: steps.changed-files.outcome != "failure"
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
 
   test:
     name: Test changed-files
