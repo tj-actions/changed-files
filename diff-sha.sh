@@ -25,7 +25,7 @@ fi
 echo "::debug::Getting HEAD SHA..."
 
 if [[ -z $INPUT_SHA ]]; then
-  CURRENT_SHA=$(git rev-list --no-merges -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
 else
   CURRENT_SHA=$INPUT_SHA && exit_status=$? || exit_status=$?
 fi
@@ -52,7 +52,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     exit_status=$? || exit_status=$?
 
     if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
-      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "HEAD^1" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^1" 2>&1) && exit_status=$? || exit_status=$?
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     else
       PREVIOUS_SHA=$CURRENT_SHA && exit_status=$? || exit_status=$?
@@ -87,7 +87,7 @@ else
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     else
       git fetch --no-tags -u --progress origin --depth=1 "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     fi
   else
