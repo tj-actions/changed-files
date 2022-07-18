@@ -48,8 +48,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::GITHUB_BASE_REF unset using $TARGET_BRANCH..."
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --depth=2 origin "${CURRENT_BRANCH}":"${CURRENT_BRANCH}" &&
-    exit_status=$? || exit_status=$?
+    git fetch --no-tags -u --progress --depth=2 origin "${CURRENT_BRANCH}":"${CURRENT_BRANCH}" && exit_status=$? || exit_status=$?
 
     if [[ $(git rev-list --count "HEAD") -gt 1 ]]; then
       PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^1" 2>&1) && exit_status=$? || exit_status=$?
