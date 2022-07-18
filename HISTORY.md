@@ -1,5 +1,37 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v23.2...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] PREVIOUS\_SHA & CURRENT\_SHA is the same when re-running a workflow, causing changed-files to be empty [\#547](https://github.com/tj-actions/changed-files/issues/547)
+
+## [v23.2](https://github.com/tj-actions/changed-files/tree/v23.2) (2022-07-18)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v23.1...v23.2)
+
+**Fixed bugs:**
+
+- \[BUG\] Repo name changed, workflows are broken [\#542](https://github.com/tj-actions/changed-files/issues/542)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- feat: fix bug with similar commit hashes. [\#549](https://github.com/tj-actions/changed-files/pull/549) ([jackton1](https://github.com/jackton1))
+- chore: update readme [\#544](https://github.com/tj-actions/changed-files/pull/544) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/github-changelog-generator action to v1.14 [\#541](https://github.com/tj-actions/changed-files/pull/541) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#540](https://github.com/tj-actions/changed-files/pull/540) ([jackton1](https://github.com/jackton1))
+- chore: update test [\#539](https://github.com/tj-actions/changed-files/pull/539) ([jackton1](https://github.com/jackton1))
+- chore: update README.md [\#538](https://github.com/tj-actions/changed-files/pull/538) ([jackton1](https://github.com/jackton1))
+- docs: add JoeOvo as a contributor for doc [\#537](https://github.com/tj-actions/changed-files/pull/537) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Update README.md [\#536](https://github.com/tj-actions/changed-files/pull/536) ([JoeOvo](https://github.com/JoeOvo))
+- Upgraded to v23.1 [\#535](https://github.com/tj-actions/changed-files/pull/535) ([jackton1](https://github.com/jackton1))
+
 ## [v23.1](https://github.com/tj-actions/changed-files/tree/v23.1) (2022-06-24)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v23...v23.1)
@@ -11,10 +43,6 @@
 **Fixed bugs:**
 
 - \[BUG\] Misleading error if git command is missing [\#532](https://github.com/tj-actions/changed-files/issues/532)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -593,7 +621,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -612,13 +640,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
