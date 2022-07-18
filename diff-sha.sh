@@ -51,7 +51,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     git fetch --no-tags -u --progress --depth=2 origin "${CURRENT_BRANCH}":"${CURRENT_BRANCH}" &&
     exit_status=$? || exit_status=$?
 
-    if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
+    if [[ $(git rev-list --count "HEAD") -gt 1 ]]; then
       PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^1" 2>&1) && exit_status=$? || exit_status=$?
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     else
