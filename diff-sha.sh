@@ -2,6 +2,8 @@
 
 set -eu
 
+INITIAL_COMMIT="false"
+
 echo "::group::changed-files-diff-sha"
 
 if [[ -n $INPUT_PATH ]]; then
@@ -48,13 +50,12 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::GITHUB_BASE_REF unset using $TARGET_BRANCH..."
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --depth=2 origin "${CURRENT_BRANCH}":"${CURRENT_BRANCH}" && exit_status=$? || exit_status=$?
-
     if [[ $(git rev-list --count "HEAD") -gt 1 ]]; then
-      PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^1" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-parse "@~" 2>&1) && exit_status=$? || exit_status=$?
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     else
       PREVIOUS_SHA=$CURRENT_SHA && exit_status=$? || exit_status=$?
+      INITIAL_COMMIT="true"
       echo "::debug::Initial commit detected"
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     fi
@@ -107,7 +108,7 @@ else
   fi
 fi
 
-if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
   echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA"
   echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
