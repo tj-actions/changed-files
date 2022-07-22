@@ -1,12 +1,20 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v24](https://github.com/tj-actions/changed-files/tree/v24) (2022-07-22)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v23.2...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v23.2...v24)
 
 **Fixed bugs:**
 
 - \[BUG\] PREVIOUS\_SHA & CURRENT\_SHA is the same when re-running a workflow, causing changed-files to be empty [\#547](https://github.com/tj-actions/changed-files/issues/547)
+- \[BUG\] Keep the same commit SHA between workflows [\#543](https://github.com/tj-actions/changed-files/issues/543)
+
+**Merged pull requests:**
+
+- fix: error raised for the first repo commit [\#554](https://github.com/tj-actions/changed-files/pull/554) ([jackton1](https://github.com/jackton1))
+- chore: Update README.md [\#553](https://github.com/tj-actions/changed-files/pull/553) ([jackton1](https://github.com/jackton1))
+- chore: update README.md [\#552](https://github.com/tj-actions/changed-files/pull/552) ([jackton1](https://github.com/jackton1))
+- Upgraded to v23.2 [\#551](https://github.com/tj-actions/changed-files/pull/551) ([jackton1](https://github.com/jackton1))
 
 ## [v23.2](https://github.com/tj-actions/changed-files/tree/v23.2) (2022-07-18)
 
