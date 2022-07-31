@@ -339,7 +339,7 @@ jobs:
           json: true
       - name: Show output
         run: |
-          echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
+          echo '${{ toJSON(steps.changed-files-json.outputs) }}'
         shell:
           bash
       - name: Run changed-files with comma separator
