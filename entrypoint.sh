@@ -154,7 +154,7 @@ else
     OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | jq -R 'split("|")')
   fi
 
-  if [[ -n "${OTHER_CHANGED}" ]]; then
+  if [[ -n "${OTHER_CHANGED}" && "${OTHER_CHANGED}" != "[]" ]]; then
     echo "::debug::Non Matching changed files: ${OTHER_CHANGED}"
     echo "::set-output name=only_changed::false"
     echo "::set-output name=other_changed_files::$OTHER_CHANGED"
