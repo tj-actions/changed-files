@@ -69,7 +69,7 @@ echo "::group::changed-files"
 if [[ -n $INPUT_PATH ]]; then
   REPO_DIR="$GITHUB_WORKSPACE/$INPUT_PATH"
 
-  echo "::debug::Resolving repository path: $REPO_DIR"
+  echo "::info::Resolving repository path: $REPO_DIR"
   if [[ ! -d "$REPO_DIR" ]]; then
     echo "::error::Invalid repository path: $REPO_DIR"
     exit 1
@@ -77,9 +77,9 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-echo "::debug::Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
+echo "::info::Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
 
-echo "::debug::Getting diff..."
+echo "::info::Getting diff..."
 
 if [[ -z "$INPUT_FILES_PATTERN_FILE" ]]; then
   if [[ "$INPUT_JSON" == "false" ]]; then
