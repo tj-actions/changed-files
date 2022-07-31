@@ -77,6 +77,10 @@ inputs:
     default: "false"
     description: "Output the absolute path to the changed directories instead of the filenames"
     required: false
+  json:
+    description: "Output the changed files in JSON format"
+    required: false
+    default: "false"
 
 outputs:
   added_files:
@@ -212,6 +216,7 @@ runs:
         INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
         INPUT_DIFF_RELATIVE: ${{ inputs.diff_relative }}
         INPUT_DIR_NAMES: ${{ inputs.dir_names }}
+        INPUT_JSON: ${{ inputs.json }}
 
 branding:
   icon: file-text
