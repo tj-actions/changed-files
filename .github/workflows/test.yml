@@ -332,6 +332,16 @@ jobs:
           echo '${{ toJSON(steps.changed-files-pipe.outputs) }}'
         shell:
           bash
+      - name: Run changed-files with json output
+        id: changed-files-json
+        uses: ./
+        with:
+          json: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
+        shell:
+          bash
       - name: Run changed-files with comma separator
         id: changed-files-comma
         uses: ./
