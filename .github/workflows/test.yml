@@ -340,7 +340,7 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-json.outputs) }}'
-          echo '${{ fromJSON(steps.changed-files-json.outputs.all_changed_files) }}'
+          echo '${{ toJSON(steps.changed-files-json.outputs.all_changed_files) }}'
         shell:
           bash
       - name: Run changed-files with comma separator
