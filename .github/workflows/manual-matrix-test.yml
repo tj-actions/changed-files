@@ -21,14 +21,14 @@ jobs:
           json: true
       - name: List all changed files
         run: |
-          echo '${{ toJson(steps.changed-files.outputs.all_changed_files) }}'
+          echo '${{ toJSON(steps.changed-files.outputs.all_changed_files) }}'
 
   matrix-job:
     name: Run Matrix Job
     runs-on: ubuntu-latest
     needs: [changed-files]
     strategy:
-      matrix: ${{ fromJson(needs.changed-files.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     steps:
