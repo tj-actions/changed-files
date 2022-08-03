@@ -1,0 +1,39 @@
+name: Manual Matrix Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  changed-files:
+    name: Get changes
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: "{\"container\": ${{ toJson(steps.changed-files.outputs.all_changed_files) }} }"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # needed for tj-actions/changed-files
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v23
+        with:
+          json: true
+      - name: List all changed files
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs.all_changed_files) }}'
+
+  matrix-job:
+    name: Run Matrix Job
+    runs-on: ubuntu-latest
+    needs: [changed-files]
+    strategy:
+      matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Test
+        run: |
+          echo ${{ matrix.container }}
