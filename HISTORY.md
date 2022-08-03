@@ -1,5 +1,26 @@
 # Changelog
 
+## [v24.1](https://github.com/tj-actions/changed-files/tree/v24.1) (2022-08-03)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v24...v24.1)
+
+**Implemented enhancements:**
+
+- \[Feature\] Execute against master [\#556](https://github.com/tj-actions/changed-files/issues/556)
+- \[Feature\]  implement an outputs for matrix compatible jobs [\#530](https://github.com/tj-actions/changed-files/issues/530)
+
+**Fixed bugs:**
+
+- \[BUG\] Separator removing double-quotes [\#545](https://github.com/tj-actions/changed-files/issues/545)
+
+**Merged pull requests:**
+
+- fix: bug with matrix job [\#560](https://github.com/tj-actions/changed-files/pull/560) ([jackton1](https://github.com/jackton1))
+- fix: bug with matrix job [\#559](https://github.com/tj-actions/changed-files/pull/559) ([jackton1](https://github.com/jackton1))
+- chore: update action name [\#558](https://github.com/tj-actions/changed-files/pull/558) ([jackton1](https://github.com/jackton1))
+- feat: add support for json formatted output. [\#557](https://github.com/tj-actions/changed-files/pull/557) ([jackton1](https://github.com/jackton1))
+- Upgraded to v24 [\#555](https://github.com/tj-actions/changed-files/pull/555) ([jackton1](https://github.com/jackton1))
+
 ## [v24](https://github.com/tj-actions/changed-files/tree/v24) (2022-07-22)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v23.2...v24)
@@ -43,10 +64,6 @@
 ## [v23.1](https://github.com/tj-actions/changed-files/tree/v23.1) (2022-06-24)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v23...v23.1)
-
-**Implemented enhancements:**
-
-- \[Feature\]  implement an outputs for matrix compatible jobs [\#530](https://github.com/tj-actions/changed-files/issues/530)
 
 **Fixed bugs:**
 
@@ -804,7 +821,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -818,13 +835,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
