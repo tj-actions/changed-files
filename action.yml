@@ -78,7 +78,7 @@ inputs:
     description: "Output the absolute path to the changed directories instead of the filenames"
     required: false
   json:
-    description: "Output changed files in JSON format"
+    description: "Output changed files in JSON format which can be used for matrix jobs"
     required: false
     default: "false"
 
