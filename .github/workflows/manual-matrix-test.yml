@@ -8,7 +8,7 @@ jobs:
     name: Get changes
     runs-on: ubuntu-latest
     outputs:
-      matrix: "{\"container\": ${{ toJson(steps.changed-files.outputs.all_changed_files) }} }"
+      matrix: "{\"container\": ${{ steps.changed-files.outputs.all_changed_files }} }"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
