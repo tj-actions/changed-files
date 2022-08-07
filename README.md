@@ -23,7 +23,7 @@ Retrieve all changed files and directories relative to the target branch (`pull_
 *   Scales to large repositories.
 *   Git submodules support.
 *   No extra API calls.
-*   Escaped JSON Output with support for running matrix jobs based on changed files.
+*   Escaped JSON Output which can be used for running matrix jobs based on changed files.
 *   List only changed directories.
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
