@@ -8,7 +8,7 @@ jobs:
     name: Get changes
     runs-on: ubuntu-latest
     outputs:
-      matrix: "{\"container\":${{ steps.changed-files.outputs.all_changed_files }}}"
+      matrix: "{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,4 +36,4 @@ jobs:
         uses: actions/checkout@v3
       - name: Test
         run: |
-          echo ${{ matrix.container }}
+          echo ${{ matrix.include }}
