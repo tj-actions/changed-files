@@ -1,5 +1,26 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v25...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Will output all changed files if not file matches the `**/*.sql` pattern [\#565](https://github.com/tj-actions/changed-files/issues/565)
+
+## [v25](https://github.com/tj-actions/changed-files/tree/v25) (2022-08-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v24.1...v25)
+
+**Fixed bugs:**
+
+- \[BUG\] missing opening '\(' then stop with windows-latest [\#562](https://github.com/tj-actions/changed-files/issues/562)
+
+**Merged pull requests:**
+
+- chore\(deps\): upgrade tj-actions/glob v9.2 to v10 [\#566](https://github.com/tj-actions/changed-files/pull/566) ([jackton1](https://github.com/jackton1))
+- Upgraded to v24.1 [\#561](https://github.com/tj-actions/changed-files/pull/561) ([jackton1](https://github.com/jackton1))
+
 ## [v24.1](https://github.com/tj-actions/changed-files/tree/v24.1) (2022-08-03)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v24...v24.1)
