@@ -368,7 +368,7 @@ This project follows a `v(major).(patch)` versioning scheme with the exception o
 
 > NOTE: :warning:
 >
-> *   Users referencing the legacy `v1.x.x` -> `v5.0.0` semantic versions, are required to switch over to `v10.x` -> `v15.x` respectively as new releases would no longer be deployed using the old versioning scheme.
+> *   Users referencing the legacy `v1.x.x` → `v5.0.0` semantic versions, are required to switch over to `v10.x` → `v15.x` respectively as new releases would no longer be deployed using the old versioning scheme.
 > *   A breaking change was introduced in `v1.1.4` and `v13.x` which has been fixed.
 
 ## Migration guide
