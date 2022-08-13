@@ -17,11 +17,25 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-git --version 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+echo "Verifying git version..."
+
+function __version() { 
+  echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; 
+}
+
+GIT_VERSION=$(git --version | awk '{print $3}'); exit_status=$?   
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::git not installed"
   exit 1
+fi
+
+if [[ $(__version "$GIT_VERSION") -lt $(__version "2.18.0") ]]; then
+  echo "::error::Invalid git version. Please upgrade git ($GIT_VERSION) to >= (2.18.0)"
+  exit 1
+else
+  echo "Valid git version found: ($GIT_VERSION)"
 fi
 
 echo "::debug::Getting HEAD SHA..."
