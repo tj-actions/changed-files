@@ -31,7 +31,7 @@ if [[ $exit_status -ne 0 ]]; then
   exit 1
 fi
 
-if [[ $(__version $GIT_VERSION) -lt $(__version "2.18.0") ]]; then
+if [[ $(__version "$GIT_VERSION") -lt $(__version "2.18.0") ]]; then
   echo "::error::Invalid git version. Please upgrade git ($GIT_VERSION) to >= (2.18.0)"
 else
   echo "Valid git version found: ($GIT_VERSION)"
