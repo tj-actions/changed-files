@@ -24,7 +24,7 @@ function __version() {
   echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; 
 }
 
-GIT_VERSION=$(git --version 1>/dev/null 2>&1 | awk '{print $3}'); exit_status=$?   
+GIT_VERSION=$(git --version | awk '{print $3}'); exit_status=$?   
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::git not installed"
@@ -33,6 +33,7 @@ fi
 
 if [[ $(__version "$GIT_VERSION") -lt $(__version "2.18.0") ]]; then
   echo "::error::Invalid git version. Please upgrade git ($GIT_VERSION) to >= (2.18.0)"
+  exit 1
 else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
