@@ -17,11 +17,24 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-git --version 1>/dev/null 2>&1 ; exit_status=$?
+echo "Verifying git version..."
+
+function __version() { 
+  echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; 
+}
+
+GIT_VERSION=$(git --version | awk '{print $3}'); exit_status=$?   
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::git not installed"
   exit 1
+fi
+
+if [[ $(__version "$GIT_VERSION") -lt $(__version "2.18.0") ]]; then
+  echo "::error::Invalid git version. Please upgrade git ($GIT_VERSION) to >= (2.18.0)"
+  exit 1
+else
+  echo "Valid git version found: ($GIT_VERSION)"
 fi
 
 echo "::debug::Getting HEAD SHA..."
@@ -36,7 +49,6 @@ git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 ; exit_s
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::Unable to locate the current sha: $CURRENT_SHA"
-  git --version
   echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
 else
