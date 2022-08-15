@@ -123,6 +123,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "thyarles",
+      "name": "Charles Santos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1340046?v=4",
+      "profile": "https://www.credly.com/users/thyarles/badges",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
