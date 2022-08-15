@@ -103,7 +103,7 @@ else
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     fi
   else
-    git fetch --no-tags -u --progress origin --depth=1 "$INPUT_BASE_SHA"; exit_status=$?
+    git fetch --no-tags -u --progress origin --depth=1 "$(git rev-parse --verify "$INPUT_BASE_SHA")"; exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1); exit_status=$?
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
