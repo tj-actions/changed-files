@@ -1,5 +1,14 @@
 # Changelog
 
+## [v26.1](https://github.com/tj-actions/changed-files/tree/v26.1) (2022-08-15)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v26...v26.1)
+
+**Merged pull requests:**
+
+- fix: error retrieving base sha. [\#579](https://github.com/tj-actions/changed-files/pull/579) ([jackton1](https://github.com/jackton1))
+- Upgraded to v26 [\#577](https://github.com/tj-actions/changed-files/pull/577) ([jackton1](https://github.com/jackton1))
+
 ## [v26](https://github.com/tj-actions/changed-files/tree/v26) (2022-08-15)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v25...v26)
