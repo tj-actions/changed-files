@@ -388,7 +388,7 @@ jobs:
           bash
       - name: Run changed-files for old new filenames test rename 2
         id: changed-files-all-old-new-renamed-files-2
-        if: contains('dependabot[bot] dependabot renovate[bot] renovate', github.actor) && github.event.pull_request.head.repo.owner.login == github.repository_owner
+        if: contains('dependabot[bot] dependabot renovate[bot] renovate', github.actor) || github.event.pull_request.head.repo.owner.login == github.repository_owner
         uses: ./
         with:
           base_sha: 4d04215
