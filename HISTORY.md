@@ -1,5 +1,28 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v27...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] changes based on last remote commit fail after rebasing [\#546](https://github.com/tj-actions/changed-files/issues/546)
+
+## [v27](https://github.com/tj-actions/changed-files/tree/v27) (2022-08-17)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v26.1...v27)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: bug force pushing commits after a rebase [\#583](https://github.com/tj-actions/changed-files/pull/583) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#582](https://github.com/tj-actions/changed-files/pull/582) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.1.0 [\#581](https://github.com/tj-actions/changed-files/pull/581) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v26.1 [\#580](https://github.com/tj-actions/changed-files/pull/580) ([jackton1](https://github.com/jackton1))
+
 ## [v26.1](https://github.com/tj-actions/changed-files/tree/v26.1) (2022-08-15)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v26...v26.1)
@@ -89,10 +112,6 @@
 **Fixed bugs:**
 
 - \[BUG\] Repo name changed, workflows are broken [\#542](https://github.com/tj-actions/changed-files/issues/542)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
