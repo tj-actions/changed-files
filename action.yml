@@ -154,8 +154,13 @@ runs:
         # "Set base sha..."
         if [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
-            echo "::set-output name=base_sha::${{ github.event.before }}"
+        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event.forced }}" == "true" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+          LAST_REMOTE_COMMIT=$(git rev-parse $(git branch -r --sort=-committerdate | head -1))
+          if [[ "${{ inputs.sha }}" != "$LAST_REMOTE_COMMIT" ]]; then
+            echo "::set-output name=base_sha::$LAST_REMOTE_COMMIT"
+          fi
+        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event.forced }}" != "true" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+          echo "::set-output name=base_sha::${{ github.event.before }}"
         fi
       id: base-sha
       shell: bash
