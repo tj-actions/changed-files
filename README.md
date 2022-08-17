@@ -15,7 +15,6 @@
 
 Retrieve all changed files and directories relative to the target branch (`pull_request*` based events) or the last remote commit (`push` based event) returning the **absolute path** to all changed files and directories from root of the project.
 
-
 ## Features
 
 *   Fast execution (0-2 seconds on average).
