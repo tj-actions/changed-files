@@ -167,7 +167,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
-      
+
       - name: Exit with 1 if no error is raised
         if: steps.changed-files.outcome != 'failure'
         run: |
@@ -187,7 +187,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
-      
+
       - name: Exit with 1 if no error is raised
         if: steps.changed-files-specific.outcome != 'failure'
         run: |
@@ -219,7 +219,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
-      
+
       - name: Exit with 1 if no error is raised
         if: steps.changed-files.outcome != 'failure'
         run: |
@@ -239,7 +239,7 @@ jobs:
           echo "${{ toJSON(steps.changed-files-specific.outputs) }}"
         shell:
           bash
-      
+
       - name: Exit with 1 if no error is raised
         if: steps.changed-files-specific.outcome != 'failure'
         run: |
@@ -300,6 +300,26 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-dir-names.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files since 2022-08-19
+        id: changed-files-since
+        uses: ./
+        with:
+          since: "2022-08-19"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-since.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files until 2022-08-20
+        id: changed-files-until
+        uses: ./
+        with:
+          until: "2022-08-20"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-until.outputs) }}'
         shell:
           bash
       - name: Run changed-files with forward slash separator
@@ -372,7 +392,7 @@ jobs:
           base_sha: d1c0ee4
           sha: 4d04215
           include_all_old_new_renamed_files: true
-      - name: Show output 
+      - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-1.outputs) }}'
         shell:

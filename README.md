@@ -347,6 +347,18 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v27
         with:
           json: "true"
+
+      - name: Run changed-files since 2022-08-19
+        id: changed-files-since
+        uses: tj-actions/changed-files@v27
+        with:
+          since: "2022-08-19"
+
+      - name: Run changed-files until 2022-08-20
+        id: changed-files-until
+        uses: tj-actions/changed-files@v27
+        with:
+          until: "2022-08-20"
 ```
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
