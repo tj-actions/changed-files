@@ -179,7 +179,7 @@ runs:
           SHA=$(git log -1 --format="%H" --date=local --until="${{ inputs.until }}")
           echo "::set-output name=sha::$SHA"
         else
-          echo "::set-output name=sha::${{ input.sha }}"
+          echo "::set-output name=sha::${{ inputs.sha }}"
         fi
       id: sha
       shell: bash
