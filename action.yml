@@ -58,6 +58,12 @@ inputs:
     description: "Use the last commit on the remote branch as the base_sha for push event."
     required: false
     default: "false"
+  since:
+    description: "Get changed files for commits whose timestamp is older than the given time"
+    required: false
+  until:
+    description: "Get changed files for commits whose timestamp is earlier than the given time"
+    required: false
   path:
     description: "Specify a relative path under $GITHUB_WORKSPACE to locate the repository"
     required: false
@@ -152,7 +158,10 @@ runs:
   steps:
     - run: |
         # "Set base sha..."
-        if [[ -n "${{ inputs.base_sha }}" ]]; then
+        if [[ -n "${{ inputs.since }}" ]]; then
+          BASE_SHA=$(git log -1 --format="%H" --date=local --since="${{ inputs.since }}")
+          echo "::set-output name=base_sha::$BASE_SHA"
+        elif [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
         elif [[ "${{ inputs.since_last_remote_commit }}" == "true" && "${{ github.event.forced }}" == "true" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
           LAST_REMOTE_COMMIT=$(git rev-parse $(git branch -r --sort=-committerdate | head -1))
@@ -163,6 +172,16 @@ runs:
           echo "::set-output name=base_sha::${{ github.event.before }}"
         fi
       id: base-sha
+      shell: bash
+    - run: |
+        # "Set the sha..."
+        if [[ -n "${{ inputs.until }}" ]]; then
+          SHA=$(git log -1 --format="%H" --date=local --until="${{ inputs.until }}")
+          echo "::set-output name=sha::$SHA"
+        else
+          echo "::set-output name=sha::${{ input.sha }}"
+        fi
+      id: sha
       shell: bash
     - run: |
         # "Calculating the previous and current SHA..."
@@ -178,7 +197,7 @@ runs:
         GITHUB_WORKSPACE: ${{ github.workspace }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
-        INPUT_SHA: ${{ inputs.sha }}
+        INPUT_SHA: ${{ steps.sha.outputs.sha }}
         INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_PATH: ${{ inputs.path }}
