@@ -1,5 +1,14 @@
 # Changelog
 
+## [v28.0.0](https://github.com/tj-actions/changed-files/tree/v28.0.0) (2022-08-21)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v28...v28.0.0)
+
+**Merged pull requests:**
+
+- chore: update readme [\#591](https://github.com/tj-actions/changed-files/pull/591) ([jackton1](https://github.com/jackton1))
+- Upgraded to v28 [\#589](https://github.com/tj-actions/changed-files/pull/589) ([jackton1](https://github.com/jackton1))
+
 ## [v28](https://github.com/tj-actions/changed-files/tree/v28) (2022-08-21)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v27...v28)
