@@ -159,7 +159,7 @@ runs:
     - run: |
         # "Set base sha..."
         if [[ -n "${{ inputs.since }}" ]]; then
-          BASE_SHA=$(git log --format="%h" --date=local --since="${{ inputs.since }}" --reverse | head -1)
+          BASE_SHA=$(git log --format="%H" --date=local --since="${{ inputs.since }}" --reverse | head -1)
           echo "::set-output name=base_sha::$BASE_SHA"
         elif [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
@@ -176,7 +176,7 @@ runs:
     - run: |
         # "Set the sha..."
         if [[ -n "${{ inputs.until }}" ]]; then
-          SHA=$(git log -1 --format="%h" --date=local --until="${{ inputs.until }}")
+          SHA=$(git log -1 --format="%H" --date=local --until="${{ inputs.until }}")
           echo "::set-output name=sha::$SHA"
         else
           echo "::set-output name=sha::${{ inputs.sha }}"
