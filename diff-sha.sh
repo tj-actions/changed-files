@@ -19,11 +19,11 @@ fi
 
 echo "Verifying git version..."
 
-function __version() { 
-  echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; 
+function __version() {
+  echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }';
 }
 
-GIT_VERSION=$(git --version | awk '{print $3}'); exit_status=$?   
+GIT_VERSION=$(git --version | awk '{print $3}'); exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::git not installed"
@@ -122,7 +122,6 @@ fi
 
 if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
   echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA"
-  echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
 fi
 
