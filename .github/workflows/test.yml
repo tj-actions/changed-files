@@ -302,21 +302,21 @@ jobs:
           echo '${{ toJSON(steps.changed-files-dir-names.outputs) }}'
         shell:
           bash
-      - name: Run changed-files since 2022-08-19
+      - name: Run changed-files since 5 minute ago
         id: changed-files-since
         uses: ./
         with:
-          since: "2022-08-19"
+          since: "5 minute ago"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-since.outputs) }}'
         shell:
           bash
-      - name: Run changed-files until 2022-08-20
+      - name: Run changed-files until 1 minute ago
         id: changed-files-until
         uses: ./
         with:
-          until: "2022-08-21"
+          until: "1 minute ago"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-until.outputs) }}'
