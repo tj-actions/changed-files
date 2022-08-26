@@ -256,7 +256,7 @@ Support this project with a :star:
         id: changed-files-custom-base-sha
         uses: tj-actions/changed-files@v29.0.1
         with:
-          base_sha: "2096ed0"
+          base_sha: ${{ github.event.pull_request.base.sha }}
           
       - name: Checkout into dir1
         uses: actions/checkout@v3
