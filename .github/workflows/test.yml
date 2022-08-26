@@ -314,6 +314,7 @@ jobs:
       - name: Run changed-files since 2022-08-19
         id: changed-files-since
         uses: ./
+        continue-on-error: true
         with:
           since: "2022-08-19"
       - name: Show output
@@ -324,8 +325,9 @@ jobs:
       - name: Run changed-files until 2022-08-20
         id: changed-files-until
         uses: ./
+        continue-on-error: true
         with:
-          until: "2022-08-21"
+          until: "2022-08-20"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-until.outputs) }}'
