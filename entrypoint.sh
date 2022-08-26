@@ -21,7 +21,7 @@ function get_diff() {
   base="$1"
   sha="$2"
   filter="$3"
-  pattern_file="$4"
+  pattern_file="${4:-}"
 
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
@@ -50,7 +50,7 @@ function get_diff() {
 function get_renames() {
   base="$1"
   sha="$2"
-  pattern_file="$3"
+  pattern_file="${3:-}"
 
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
