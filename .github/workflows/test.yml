@@ -795,7 +795,7 @@ jobs:
           bash
       - name: Get branch name
         id: branch-name
-        uses: tj-actions/branch-names@v5
+        uses: tj-actions/branch-names@v6
         if: github.event_name == 'pull_request'
       - uses: nrwl/last-successful-commit-action@v1
         id: last_successful_commit
