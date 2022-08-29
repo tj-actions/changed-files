@@ -69,7 +69,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
 
       - name: List all changed files
         run: |
@@ -163,11 +163,11 @@ Support this project with a :star:
 
       - name: Get changed files using defaults
         id: changed-files
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
 
       - name: Get changed files using a comma separator
         id: changed-files-comma
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           separator: ","
 
@@ -189,7 +189,7 @@ Support this project with a :star:
 
       - name: Get specific changed files
         id: changed-files-specific
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           files: |
             my-file.txt
@@ -230,14 +230,14 @@ Support this project with a :star:
 
       - name: Use a source file or list of file(s) to populate to files input.
         id: changed-files-specific-source-file
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           files_from_source_file: |
             test/changed-files-list.txt
 
       - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
         id: changed-files-specific-source-file-and-specify-files
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           files_from_source_file: |
             test/changed-files-list.txt
@@ -246,13 +246,13 @@ Support this project with a :star:
 
       - name: Use a different commit SHA
         id: changed-files-custom-sha
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           sha: ${{ github.event.pull_request.head.sha }}
 
       - name: Use a different base SHA
         id: changed-files-custom-base-sha
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           base_sha: ${{ github.event.pull_request.base.sha }}
           
@@ -264,7 +264,7 @@ Support this project with a :star:
 
       - name: Run changed-files with defaults on the dir1
         id: changed-files-for-dir1
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           path: dir1
 
@@ -276,19 +276,19 @@ Support this project with a :star:
 
       - name: Run changed-files using the last commit on the remote branch
         id: changed-files-since-last-remote-commit
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           since_last_remote_commit: "true"
       
       - name: Run changed-files using the fork point of a pull request
         id: changed-files-fork-point
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           use_fork_point: "true"
           
       - name: Run changed-files with quotepath disabled
         id: changed-files-quotepath
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           quotepath: "false"
       
@@ -310,7 +310,7 @@ Support this project with a :star:
 
       - name: Run changed-files with the commit of the last successful test workflow run
         id: changed-files-base-sha-push
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           base_sha: ${{ steps.last_successful_commit_push.outputs.commit_hash }}
 
@@ -331,32 +331,32 @@ Support this project with a :star:
       - name: Run changed-files with the commit of the last successful test workflow run on main
         if: github.event_name == 'pull_request'
         id: changed-files-base-sha-pull-request
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           base_sha: ${{ steps.last_successful_commit_pull_request.outputs.commit_hash }}
 
       - name: Run changed-files with dir_names
         id: changed-files-dir-names
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           dir_names: "true"
       
       # All outputs are JSON formatted arrays and can be used in other actions and matrix compatible jobs.
       - name: Run changed-files with json output
         id: changed-files-json
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           json: "true"
 
       - name: Run changed-files since 2022-08-19
         id: changed-files-since
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           since: "2022-08-19"
 
       - name: Run changed-files until 2022-08-20
         id: changed-files-until
-        uses: tj-actions/changed-files@v29.0.1
+        uses: tj-actions/changed-files@v29.0.2
         with:
           until: "2022-08-20"
 ```
