@@ -1,12 +1,26 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v29.0.2](https://github.com/tj-actions/changed-files/tree/v29.0.2) (2022-08-29)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.1...v29.0.2)
+
+**Implemented enhancements:**
+
+- \[Feature\] Get all changes on current branch against a base\_sha [\#599](https://github.com/tj-actions/changed-files/issues/599)
 
 **Fixed bugs:**
 
 - \[BUG\] dir\_names = true not returning directories with changed files [\#598](https://github.com/tj-actions/changed-files/issues/598)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- chore: remove unused input [\#603](https://github.com/tj-actions/changed-files/pull/603) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/branch-names action to v6 [\#602](https://github.com/tj-actions/changed-files/pull/602) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v29.0.1 [\#601](https://github.com/tj-actions/changed-files/pull/601) ([jackton1](https://github.com/jackton1))
 
 ## [v29.0.1](https://github.com/tj-actions/changed-files/tree/v29.0.1) (2022-08-26)
 
@@ -20,10 +34,6 @@
 ## [v29.0.0](https://github.com/tj-actions/changed-files/tree/v29.0.0) (2022-08-23)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v28.0.0...v29.0.0)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -1347,7 +1357,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -1363,13 +1373,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
