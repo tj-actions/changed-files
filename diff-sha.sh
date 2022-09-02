@@ -45,6 +45,7 @@ else
   CURRENT_SHA=$INPUT_SHA; exit_status=$?
 fi
 
+echo "Verifying the commit SHA: $CURRENT_SHA"
 git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1; exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then
@@ -80,6 +81,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     echo "::debug::Target branch: $TARGET_BRANCH"
   fi
 
+  echo "Verifying the commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
