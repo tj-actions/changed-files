@@ -62,8 +62,10 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::GITHUB_BASE_REF unset using $TARGET_BRANCH..."
 
   if [[ -z $INPUT_BASE_SHA ]]; then
+    git fetch --no-tags -u --progress origin --depth=2 "${TARGET_BRANCH}":"${TARGET_BRANCH}"; exit_status=$?
+
     if [[ $(git rev-list --count "HEAD") -gt 1 ]]; then
-      PREVIOUS_SHA=$(git rev-parse "@~" 2>&1); exit_status=$?
+      PREVIOUS_SHA=$(git rev-parse "@~1" 2>&1); exit_status=$?
       echo "::debug::Previous SHA: $PREVIOUS_SHA"
     else
       PREVIOUS_SHA=$CURRENT_SHA; exit_status=$?
@@ -122,6 +124,7 @@ fi
 
 if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
   echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA"
+  echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
   exit 1
 fi
 
