@@ -46,7 +46,7 @@ else
 fi
 
 echo "Verifying the commit SHA: $CURRENT_SHA"
-git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1; exit_status=$?
+git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::Unable to locate the current sha: $CURRENT_SHA"
