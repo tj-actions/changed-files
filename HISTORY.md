@@ -1,5 +1,14 @@
 # Changelog
 
+## [v29.0.3](https://github.com/tj-actions/changed-files/tree/v29.0.3) (2022-09-03)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.2...v29.0.3)
+
+**Merged pull requests:**
+
+- fix: bug using invalid fetch-depth [\#606](https://github.com/tj-actions/changed-files/pull/606) ([jackton1](https://github.com/jackton1))
+- Upgraded to v29.0.2 [\#604](https://github.com/tj-actions/changed-files/pull/604) ([jackton1](https://github.com/jackton1))
+
 ## [v29.0.2](https://github.com/tj-actions/changed-files/tree/v29.0.2) (2022-08-29)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.1...v29.0.2)
@@ -770,7 +779,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -789,13 +798,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
