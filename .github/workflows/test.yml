@@ -136,10 +136,17 @@ jobs:
 
       - name: Run changed-files with a single commit history
         id: changed-files
+        continue-on-error: true
         uses: ./
         with:
           base_sha: d1c0ee4
           sha: d1c0ee4
+
+      - name: Exit with 1 if no error is raised
+        if: steps.changed-files.outcome != 'failure'
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
 
       - name: Show output
         run: |
