@@ -134,7 +134,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run changed-files with a single commit history
+      - name: Run changed-files with similar base and commit sha
         id: changed-files
         continue-on-error: true
         uses: ./
