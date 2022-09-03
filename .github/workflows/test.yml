@@ -30,7 +30,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
 
     steps:
       - name: Checkout
@@ -70,7 +70,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v3
@@ -126,11 +126,48 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
 
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run changed-files with similar base and commit sha
+        id: changed-files
+        continue-on-error: true
+        uses: ./
+        with:
+          base_sha: d1c0ee4
+          sha: d1c0ee4
+
+      - name: Exit with 1 if no error is raised
+        if: steps.changed-files.outcome != 'failure'
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
+  test-single-commit-history:
+    name: Test changed-files single commit history
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: Run changed-files with a single commit history
         id: changed-files
@@ -149,7 +186,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
 
     steps:
       - name: Checkout to branch
@@ -201,7 +238,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
 
     steps:
       - name: Checkout to branch
@@ -253,7 +290,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
 
     steps:
       - name: Checkout
