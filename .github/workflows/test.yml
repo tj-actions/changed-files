@@ -416,6 +416,15 @@ jobs:
         uses: ./
         with:
           separator: ","
+      - name: List all modified files
+        run: |
+          IFS=$','
+          for file in ${{ steps.changed-files-comma.outputs.modified_files }}; do
+            echo $file
+          done
+          unset IFS
+        shell:
+          bash
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-comma.outputs) }}'
