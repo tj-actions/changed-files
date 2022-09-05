@@ -418,7 +418,8 @@ jobs:
           separator: ","
       - name: List all modified files
         run: |
-          IFS=$','; for file in ${{ steps.changed-files-comma.outputs.modified_files }}; do
+          IFS=$',' read -a MODIFIED_FILES_ARRAY <<< "${{ steps.changed-files-comma.outputs.modified_files }}"
+          for file in "${MODIFIED_FILES_ARRAY[@]}"; do
             echo $file
           done
           unset IFS
