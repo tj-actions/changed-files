@@ -57,9 +57,11 @@ inputs:
   since:
     description: "Get changed files for commits whose timestamp is older than the given time"
     required: false
+    default: ""
   until:
     description: "Get changed files for commits whose timestamp is earlier than the given time"
     required: false
+    default: ""
   path:
     description: "Specify a relative path under $GITHUB_WORKSPACE to locate the repository"
     required: false
