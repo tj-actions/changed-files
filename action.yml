@@ -158,6 +158,9 @@ runs:
         # "Set base sha..."
         if [[ -n "${{ inputs.since }}" ]]; then
           BASE_SHA=$(git log --format="%H" --date=local --since="${{ inputs.since }}" --reverse | head -n 1)
+          if [[ -z "$BASE_SHA" ]]; then
+            echo "::warning::The BASE_SHA for date '${{ inputs.since }}' couldn't be determined."
+          fi
           echo "::set-output name=base_sha::$BASE_SHA"
         elif [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
@@ -174,6 +177,9 @@ runs:
         # "Set the sha..."
         if [[ -n "${{ inputs.until }}" ]]; then
           SHA=$(git log -1 --format="%H" --date=local --until="${{ inputs.until }}")
+          if [[ -z "$SHA" ]]; then
+            echo "::warning::The SHA for date '${{ inputs.until }}' couldn't be determined, falling back to the current sha."
+          fi
           echo "::set-output name=sha::$SHA"
         else
           echo "::set-output name=sha::${{ inputs.sha }}"
