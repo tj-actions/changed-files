@@ -1,5 +1,35 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.4...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Unable to fetch file changes on merge event [\#615](https://github.com/tj-actions/changed-files/issues/615)
+
+## [v29.0.4](https://github.com/tj-actions/changed-files/tree/v29.0.4) (2022-09-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.3...v29.0.4)
+
+**Fixed bugs:**
+
+- \[BUG\] Changed files are always missed on macOS [\#614](https://github.com/tj-actions/changed-files/issues/614)
+
+**Closed issues:**
+
+- Looping over files with spaces. [\#609](https://github.com/tj-actions/changed-files/issues/609)
+- stale github.community reference [\#608](https://github.com/tj-actions/changed-files/issues/608)
+
+**Merged pull requests:**
+
+- fix: bug with similar commits when github.event.before is empty [\#617](https://github.com/tj-actions/changed-files/pull/617) ([jackton1](https://github.com/jackton1))
+- chore: set defaults for until and since inputs [\#616](https://github.com/tj-actions/changed-files/pull/616) ([jackton1](https://github.com/jackton1))
+- chore: update readme [\#613](https://github.com/tj-actions/changed-files/pull/613) ([jackton1](https://github.com/jackton1))
+- chore: test using for loop with output [\#611](https://github.com/tj-actions/changed-files/pull/611) ([jackton1](https://github.com/jackton1))
+- docs: update reference to setting input env variables [\#610](https://github.com/tj-actions/changed-files/pull/610) ([jackton1](https://github.com/jackton1))
+- Upgraded to v29.0.3 [\#607](https://github.com/tj-actions/changed-files/pull/607) ([jackton1](https://github.com/jackton1))
+
 ## [v29.0.3](https://github.com/tj-actions/changed-files/tree/v29.0.3) (2022-09-03)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.2...v29.0.3)
