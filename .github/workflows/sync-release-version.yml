@@ -19,7 +19,7 @@ jobs:
           paths: |
             README.md
       - name: Generate CHANGELOG
-        uses: tj-actions/github-changelog-generator@v1.14
+        uses: tj-actions/github-changelog-generator@v1.15
         with:
           output: 'HISTORY.md'
       - name: Create Pull Request
