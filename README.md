@@ -66,7 +66,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
+      
+      # Example 1
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v29.0.4
@@ -76,7 +77,8 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-          
+      
+      # Example 2
       - name: Get changed files in the docs folder
         id: changed-files-specific
         uses: tj-actions/changed-files@v29.0.4
