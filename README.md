@@ -90,7 +90,7 @@ jobs:
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"
+          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 ```
 
 If you feel generous and want to show some extra appreciation:
