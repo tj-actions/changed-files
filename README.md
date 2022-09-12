@@ -77,7 +77,7 @@ jobs:
             echo "$file was changed"
           done
           
-      - name: Get changed files in a specific directory
+      - name: Get changed files in the docs folder
         id: changed-files-specific
         uses: tj-actions/changed-files@v29.0.4
         with:
