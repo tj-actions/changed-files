@@ -2,11 +2,32 @@
 
 ## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.4...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.5...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] since\_last\_remote\_commit does not work in v29.0.4 [\#623](https://github.com/tj-actions/changed-files/issues/623)
+
+## [v29.0.5](https://github.com/tj-actions/changed-files/tree/v29.0.5) (2022-09-13)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.4...v29.0.5)
 
 **Fixed bugs:**
 
 - \[BUG\] Unable to fetch file changes on merge event [\#615](https://github.com/tj-actions/changed-files/issues/615)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: bug with last remote commit sha [\#624](https://github.com/tj-actions/changed-files/pull/624) ([jackton1](https://github.com/jackton1))
+- chore: update README.md [\#622](https://github.com/tj-actions/changed-files/pull/622) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/github-changelog-generator action to v1.15 [\#621](https://github.com/tj-actions/changed-files/pull/621) ([renovate[bot]](https://github.com/apps/renovate))
+- feat: warn when since/until inputs are set but not corresponding sha is found [\#620](https://github.com/tj-actions/changed-files/pull/620) ([jackton1](https://github.com/jackton1))
+- chore: update readme [\#619](https://github.com/tj-actions/changed-files/pull/619) ([jackton1](https://github.com/jackton1))
+- Upgraded to v29.0.4 [\#618](https://github.com/tj-actions/changed-files/pull/618) ([jackton1](https://github.com/jackton1))
 
 ## [v29.0.4](https://github.com/tj-actions/changed-files/tree/v29.0.4) (2022-09-08)
 
@@ -50,10 +71,6 @@
 **Fixed bugs:**
 
 - \[BUG\] dir\_names = true not returning directories with changed files [\#598](https://github.com/tj-actions/changed-files/issues/598)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
