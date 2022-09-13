@@ -166,7 +166,7 @@ runs:
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
         elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
           LAST_REMOTE_COMMIT="${{ github.event.before }}"
-          if [[ -z "$LAST_REMOTE_COMMIT" && "$LAST_REMOTE_COMMIT" != "0000000000000000000000000000000000000000" ]]; then
+          if [[ -z "$LAST_REMOTE_COMMIT" || "$LAST_REMOTE_COMMIT" == "0000000000000000000000000000000000000000" ]]; then
             LAST_REMOTE_COMMIT=$(git rev-parse $(git branch -r --sort=-committerdate | head -1))
           fi
           if [[ "${{ inputs.sha }}" == "$LAST_REMOTE_COMMIT" ]]; then
