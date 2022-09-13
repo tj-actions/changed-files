@@ -1,12 +1,16 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v29.0.6](https://github.com/tj-actions/changed-files/tree/v29.0.6) (2022-09-13)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.5...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.5...v29.0.6)
 
 **Fixed bugs:**
 
 - \[BUG\] since\_last\_remote\_commit does not work in v29.0.4 [\#623](https://github.com/tj-actions/changed-files/issues/623)
+
+**Merged pull requests:**
+
+- Upgraded to v29.0.5 [\#625](https://github.com/tj-actions/changed-files/pull/625) ([jackton1](https://github.com/jackton1))
 
 ## [v29.0.5](https://github.com/tj-actions/changed-files/tree/v29.0.5) (2022-09-13)
 
@@ -826,7 +830,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -845,13 +849,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
