@@ -1,5 +1,14 @@
 # Changelog
 
+## [v29.0.7](https://github.com/tj-actions/changed-files/tree/v29.0.7) (2022-09-13)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.6...v29.0.7)
+
+**Merged pull requests:**
+
+- fix: bug with setting the LAST\_REMOTE\_COMMIT [\#627](https://github.com/tj-actions/changed-files/pull/627) ([jackton1](https://github.com/jackton1))
+- Upgraded to v29.0.6 [\#626](https://github.com/tj-actions/changed-files/pull/626) ([jackton1](https://github.com/jackton1))
+
 ## [v29.0.6](https://github.com/tj-actions/changed-files/tree/v29.0.6) (2022-09-13)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.5...v29.0.6)
