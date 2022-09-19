@@ -45,7 +45,6 @@ Retrieve all changed files and directories relative to the target branch (`pull_
 >
 > *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch-depth` for `pull_request` events.
-> *   All multi line string patterns should be specified without quotes. See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
 > *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [#314](https://github.com/tj-actions/changed-files/issues/314).
 
 ```yaml
