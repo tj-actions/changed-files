@@ -1,5 +1,27 @@
 # Changelog
 
+## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
+
+## [v29.0.8](https://github.com/tj-actions/changed-files/tree/v29.0.8) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.7...v29.0.8)
+
+**Implemented enhancements:**
+
+- \[Feature\] Improve docs related to "files" [\#629](https://github.com/tj-actions/changed-files/issues/629)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- chore\(deps\): update tj-actions/sync-release-version action to v13 [\#631](https://github.com/tj-actions/changed-files/pull/631) ([renovate[bot]](https://github.com/apps/renovate))
+- chore: update docs to include notice about using quotes in multiline patterns [\#630](https://github.com/tj-actions/changed-files/pull/630) ([jackton1](https://github.com/jackton1))
+- Upgraded to v29.0.7 [\#628](https://github.com/tj-actions/changed-files/pull/628) ([jackton1](https://github.com/jackton1))
+
 ## [v29.0.7](https://github.com/tj-actions/changed-files/tree/v29.0.7) (2022-09-13)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.6...v29.0.7)
@@ -28,10 +50,6 @@
 **Fixed bugs:**
 
 - \[BUG\] Unable to fetch file changes on merge event [\#615](https://github.com/tj-actions/changed-files/issues/615)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -1014,7 +1032,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -1028,13 +1046,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
