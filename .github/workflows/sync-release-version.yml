@@ -18,6 +18,7 @@ jobs:
         id: sync-release-version
         with:
           pattern: '${{ github.repository }}@'
+          only_major: true
           paths: |
             README.md
       - name: Generate CHANGELOG
