@@ -19,6 +19,11 @@ on:
 
 jobs:
   codacy-security-scan:
+    # Cancel other workflows that are running for the same branch
+    # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     name: Codacy Security Scan
     runs-on: ubuntu-latest
     steps:
