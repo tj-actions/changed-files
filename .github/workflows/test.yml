@@ -6,6 +6,11 @@ on:
       - main
       - "**"
   pull_request:
+    types:
+      - closed
+      - opened
+      - synchronize
+      - reopened
     branches:
       - main
   pull_request_review:
