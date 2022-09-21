@@ -31,7 +31,7 @@ jobs:
 
       - name: Create Pull Request
         if: failure()
-        uses: peter-evans/create-pull-request@v4.1.1
+        uses: peter-evans/create-pull-request@v4.1.2
         with:
           base: "main"
           title: "Updated README.md"
