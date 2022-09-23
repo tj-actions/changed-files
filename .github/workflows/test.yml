@@ -303,6 +303,8 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Show github context
+        run: echo '${{ toJSON(github) }}'
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
