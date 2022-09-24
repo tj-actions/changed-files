@@ -19,7 +19,6 @@ Retrieve all changed files and directories relative to the target branch (`pull_
 
 *   Fast execution (0-2 seconds on average).
 *   Easy to debug.
-*   Boolean output indicating that certain files have been changed.
 *   Scales to large repositories.
 *   Git submodules support.
 *   No extra API calls.
@@ -35,7 +34,7 @@ Retrieve all changed files and directories relative to the target branch (`pull_
     *   Between the last commit and the current pushed change.
     *   Between the last remote branch commit and the current HEAD.
 *   Restrict change detection to a subset of files and directories:
-    *   Report on files that have at least one change.
+    *   Boolean output indicating that certain files have been changed.
     *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
 
 ## Usage
