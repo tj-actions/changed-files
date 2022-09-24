@@ -1,5 +1,31 @@
 # Changelog
 
+## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v30.0.0)
+
+## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30)
+
+**Fixed bugs:**
+
+- \[BUG\] Can't get all changed files after pushing new commit [\#639](https://github.com/tj-actions/changed-files/issues/639)
+- \[BUG\] Add support for pull request close event with merge set to true [\#635](https://github.com/tj-actions/changed-files/issues/635)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- feat: add support for closed pull requests with merge true [\#640](https://github.com/tj-actions/changed-files/pull/640) ([jackton1](https://github.com/jackton1))
+- chore: log the github context in the test [\#638](https://github.com/tj-actions/changed-files/pull/638) ([jackton1](https://github.com/jackton1))
+- feat: add support for running action on pull request close event [\#637](https://github.com/tj-actions/changed-files/pull/637) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.1.2 [\#636](https://github.com/tj-actions/changed-files/pull/636) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
+
 ## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
@@ -23,10 +49,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] Improve docs related to "files" [\#629](https://github.com/tj-actions/changed-files/issues/629)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
