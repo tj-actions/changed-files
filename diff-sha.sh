@@ -96,18 +96,9 @@ else
   echo "::debug::GITHUB_BASE_REF: $TARGET_BRANCH..."
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    if [[ "$INPUT_USE_FORK_POINT" == "true" ]]; then
-      echo "::debug::Getting fork point..."
-      git fetch --no-tags -u --progress origin "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-      PREVIOUS_SHA=$(git merge-base --fork-point "${TARGET_BRANCH}" "$(git name-rev --name-only "$CURRENT_SHA")") && exit_status=$? || exit_status=$?
-      echo "::debug::Previous SHA: $PREVIOUS_SHA"
-    else
-      git fetch --no-tags -u --progress origin --depth=1 "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-      PREVIOUS_SHA=$(git rev-list -n 1 "${TARGET_BRANCH}" 2>&1) && exit_status=$? || exit_status=$?
-      echo "::debug::Previous SHA: $PREVIOUS_SHA"
-    fi
+    PREVIOUS_SHA=$GITHUB_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+    echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    git fetch --no-tags -u --progress origin --depth=1 "$(git rev-parse --verify "$INPUT_BASE_SHA")" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
