@@ -180,7 +180,7 @@ jobs:
         uses: ./
       
       - name: Exit with 1 if no error is raised
-        if: steps.changed-files.outcome != 'failure'
+        if: github.event_name == 'pull_request' && steps.changed-files.outcome != 'failure'
         run: |
           echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
           exit 1
