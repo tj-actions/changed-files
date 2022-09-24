@@ -319,7 +319,7 @@ Support this project with a :star:
 
       - name: Run changed-files with the commit of the last successful test workflow run
         id: changed-files-base-sha-push
-        uses: tj-actions/changed-files@v29.0.7
+        uses: tj-actions/changed-files@v30
         with:
           base_sha: ${{ steps.last_successful_commit_push.outputs.commit_hash }}
 
