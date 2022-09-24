@@ -159,7 +159,6 @@ Support this project with a :star:
 |               base\_sha                |        `string`        | `false`  |                       |                                                                                                                         Specify a different <br> base commit SHA <br> used for <br> comparing changes                                                                                                                         |
 |                  path                  |        `string`        | `false`  |         `'.'`         |                                                                                                                              Relative path under <br> `GITHUB_WORKSPACE` <br> to the repository                                                                                                                               |
 |      since\_last\_remote\_commit       |       `boolean`        | `false`  |        `false`        |       Use the last commit on the remote <br> branch as the `base_sha` <br> (Defaults to the last commit <br> on the target branch for Pull requests <br> or the previous commit <br> on the current branch <br> for push events). <br /> **NOTE:** This requires <br /> `fetch-depth: 0` <br /> with `actions/checkout@v3`        |
-|            use\_fork\_point            |       `boolean`        | `false`  |        `false`        |           Finds best common ancestor <br /> between two commits <br /> to use in a three-way merge <br /> as the `base_sha` <br /> See: [git merge-base](https://git-scm.com/docs/git-merge-base#Documentation/git-merge-base.txt---fork-point). <br> **NOTE:** This pulls the entire commit history of the base branch           |
 |               quotepath                |       `boolean`        | `false`  |        `true`         |                                                                                                                                Output filenames completely verbatim by setting this to `false`                                                                                                                                |
 |             diff\_relative             |       `boolean`        | `false`  |                       |                                                                                                                       Exclude changes outside the current directory and show pathnames relative to it.                                                                                                                        |
 |               dir\_names               |       `boolean`        | `false`  |        `false`        |                                                                                        Output unique changed directories instead of filenames. <br> **NOTE:** This returns `.` for <br> changed files located in the root of the project.                                                                                         |
@@ -295,13 +294,7 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v29
         with:
           since_last_remote_commit: "true"
-      
-      - name: Run changed-files using the fork point of a pull request
-        id: changed-files-fork-point
-        uses: tj-actions/changed-files@v29
-        with:
-          use_fork_point: "true"
-          
+
       - name: Run changed-files with quotepath disabled
         id: changed-files-quotepath
         uses: tj-actions/changed-files@v29.
