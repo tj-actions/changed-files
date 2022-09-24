@@ -32,7 +32,6 @@ Retrieve all changed files and directories relative to the target branch (`pull_
 *   [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) support.
 *   List all files and directories that have changed:
     *   Between the current pull request branch and the last commit on the target branch.
-    *   Between the current pull request branch and the fork point on the target branch.
     *   Between the last commit and the current pushed change.
     *   Between the last remote branch commit and the current HEAD.
 *   Restrict change detection to a subset of files and directories:
