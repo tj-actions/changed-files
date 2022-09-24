@@ -50,10 +50,6 @@ inputs:
   base_sha:
     description: "Specify a base commit SHA on used for comparing changes"
     required: false
-  since_last_remote_commit:
-    description: "Use the last commit on the remote branch as the base_sha for push event."
-    required: false
-    default: "false"
   since:
     description: "Get changed files for commits whose timestamp is older than the given time"
     required: false
@@ -160,7 +156,7 @@ runs:
           echo "::set-output name=base_sha::$BASE_SHA"
         elif [[ -n "${{ inputs.base_sha }}" ]]; then
           echo "::set-output name=base_sha::${{ inputs.base_sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
+        else
           LAST_REMOTE_COMMIT="${{ github.event.before }}"
           if [[ -z "$LAST_REMOTE_COMMIT" || "$LAST_REMOTE_COMMIT" == "0000000000000000000000000000000000000000" ]]; then
             LAST_REMOTE_COMMIT=$(git rev-parse $(git branch -r --sort=-committerdate | head -1))
