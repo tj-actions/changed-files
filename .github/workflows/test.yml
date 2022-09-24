@@ -28,46 +28,6 @@ jobs:
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.15
 
-  test-pull-requests-from-forks:
-    name: Test changed-files diff on pull_requests from forks
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-          fetch-depth: 0
-
-      - name: Get changed files use_fork_point
-        id: changed-files-fork-point
-        uses: ./
-        with:
-          use_fork_point: "true"
-
-      - name: Show output
-        run: |
-          echo '${{ toJSON(steps.changed-files-fork-point.outputs) }}'
-        shell:
-          bash
-
-      - name: Get changed files
-        id: changed-files
-        uses: ./
-        with:
-           base_sha: ${{ github.event.pull_request.base.sha }}
-
-      - name: Show output
-        run: |
-          echo '${{ toJSON(steps.changed-files.outputs) }}'
-        shell:
-          bash
-
   test-multiple-repositories:
     name: Test with multiple repositories
     runs-on: ${{ matrix.platform }}
