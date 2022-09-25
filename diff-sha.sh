@@ -57,6 +57,7 @@ else
 fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
+  echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
@@ -64,6 +65,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
+      echo "::debug::First commit detected"
       PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1)")
     fi
 
@@ -89,6 +91,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     exit 1
   fi
 else
+  echo "Running on a pull request event..."
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
