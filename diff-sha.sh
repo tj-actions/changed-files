@@ -62,6 +62,14 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+
+    if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
+      PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1)")
+    fi
+    if [[ "$INPUT_SHA" == "$PREVIOUS_SHA" ]]; then
+      PREVIOUS_SHA=$(git rev-parse "$INPUT_SHA^1")
+    fi
+
     if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
       INITIAL_COMMIT="true"
       echo "::debug::Initial commit detected"
