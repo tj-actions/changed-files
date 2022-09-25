@@ -195,11 +195,11 @@ runs:
       with:
         files: ${{ inputs.files }}
         files-separator: ${{ inputs.files_separator }}
-        escape-paths: true
         excluded-files: ${{ inputs.files_ignore }}
         excluded-files-separator: ${{ inputs.files_ignore_separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
         excluded-files-from-source-file: ${{ inputs.files_ignore_from_source_file}}
+        escape-paths: true
         working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
