@@ -57,29 +57,23 @@ else
 fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
-  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//}
-  CURRENT_BRANCH=$TARGET_BRANCH
-
-  echo "::debug::GITHUB_BASE_REF unset using $TARGET_BRANCH..."
+  TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
+  CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress origin --depth=2 "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-
-    if [[ $(git rev-list --count "HEAD") -gt 1 ]]; then
-      PREVIOUS_SHA=$(git rev-parse "@~1" 2>&1) && exit_status=$? || exit_status=$?
-      echo "::debug::Previous SHA: $PREVIOUS_SHA"
-    else
-      PREVIOUS_SHA=$CURRENT_SHA; exit_status=$?
+    PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+    if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
       INITIAL_COMMIT="true"
       echo "::debug::Initial commit detected"
-      echo "::debug::Previous SHA: $PREVIOUS_SHA"
     fi
   else
-    PREVIOUS_SHA=$INPUT_BASE_SHA; exit_status=$?
+    PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
-    echo "::debug::Previous SHA: $PREVIOUS_SHA"
-    echo "::debug::Target branch: $TARGET_BRANCH"
+    CURRENT_BRANCH=$TARGET_BRANCH
   fi
+
+  echo "::debug::Target branch $TARGET_BRANCH..."
+  echo "::debug::Current branch $CURRENT_BRANCH..."
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?

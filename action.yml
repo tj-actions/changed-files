@@ -189,6 +189,7 @@ runs:
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
         GITHUB_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
         INPUT_SHA: ${{ steps.sha.outputs.sha }}
