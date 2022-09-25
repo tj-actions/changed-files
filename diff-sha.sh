@@ -64,7 +64,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=""
 
-    if [[ "$GITHUB_EVENT_FORCED" != "true" ]]; then
+    if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
     fi
 
