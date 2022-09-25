@@ -25,7 +25,8 @@ elif [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
   LAST_REMOTE_COMMIT="$GITHUB_EVENT_BEFORE"
 
   if [[ -z "$LAST_REMOTE_COMMIT" || "$LAST_REMOTE_COMMIT" == "0000000000000000000000000000000000000000" ]]; then
-    LAST_REMOTE_COMMIT=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1)")
+    echo "::debug::First commit detected"
+    LAST_REMOTE_COMMIT=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
   fi
   if [[ "$INPUT_SHA" == "$LAST_REMOTE_COMMIT" ]]; then
     LAST_REMOTE_COMMIT=$(git rev-parse "$INPUT_SHA^1")
