@@ -1,5 +1,24 @@
 # Changelog
 
+## [v31.0.0](https://github.com/tj-actions/changed-files/tree/v31.0.0) (2022-09-25)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.0)
+
+## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-09-25)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v31)
+
+**Merged pull requests:**
+
+- chore: updated test [\#649](https://github.com/tj-actions/changed-files/pull/649) ([jackton1](https://github.com/jackton1))
+- chore: update docs [\#648](https://github.com/tj-actions/changed-files/pull/648) ([jackton1](https://github.com/jackton1))
+- chore: remove logging the github context [\#647](https://github.com/tj-actions/changed-files/pull/647) ([jackton1](https://github.com/jackton1))
+- chore: improve debug message. [\#646](https://github.com/tj-actions/changed-files/pull/646) ([jackton1](https://github.com/jackton1))
+- feat: use the last remote commit sha by default for push events [\#644](https://github.com/tj-actions/changed-files/pull/644) ([jackton1](https://github.com/jackton1))
+- chore: update test [\#643](https://github.com/tj-actions/changed-files/pull/643) ([jackton1](https://github.com/jackton1))
+- chore: update broken link [\#642](https://github.com/tj-actions/changed-files/pull/642) ([jackton1](https://github.com/jackton1))
+- Upgraded to v30.0.0 [\#641](https://github.com/tj-actions/changed-files/pull/641) ([jackton1](https://github.com/jackton1))
+
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v30.0.0)
@@ -21,7 +40,7 @@
 
 - feat: add support for closed pull requests with merge true [\#640](https://github.com/tj-actions/changed-files/pull/640) ([jackton1](https://github.com/jackton1))
 - chore: log the github context in the test [\#638](https://github.com/tj-actions/changed-files/pull/638) ([jackton1](https://github.com/jackton1))
-- feat: add support for running action on pull request close event [\#637](https://github.com/tj-actions/changed-files/pull/637) ([jackton1](https://github.com/jackton1))
+- chore: update test to run workflow on pull request close event [\#637](https://github.com/tj-actions/changed-files/pull/637) ([jackton1](https://github.com/jackton1))
 - chore\(deps\): update peter-evans/create-pull-request action to v4.1.2 [\#636](https://github.com/tj-actions/changed-files/pull/636) ([renovate[bot]](https://github.com/apps/renovate))
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
@@ -891,7 +910,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -910,13 +929,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
@@ -1066,7 +1085,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -1080,13 +1099,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
-
 ## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
+
+## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
 
 **Merged pull requests:**
 
