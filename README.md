@@ -306,7 +306,7 @@ Support this project with a :star:
       # Push event based workflows
       - name: Get branch name
         id: branch-name
-        uses: tj-actions/branch-names@v5
+        uses: tj-actions/branch-names@v6
 
       - uses: nrwl/last-successful-commit-action@v1
         id: last_successful_commit_push
