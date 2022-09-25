@@ -206,7 +206,7 @@ runs:
         include-deleted-files: true
         separator: "|"
     - run: |
-        bash $GITHUB_ACTION_PATH/entrypoint.sh
+        bash $GITHUB_ACTION_PATH/get-changed-paths.sh
       id: changed-files
       shell: bash
       env:
