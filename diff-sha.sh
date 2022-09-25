@@ -66,7 +66,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
       echo "::debug::First commit detected"
-      PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1)")
+      PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
     fi
 
     if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
