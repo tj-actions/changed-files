@@ -158,6 +158,7 @@ runs:
       env:
         GITHUB_WORKSPACE: ${{ github.workspace }}
         GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        GITHUB_EVENT_FORCED : ${{ github.event.forced }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
         INPUT_SINCE: ${{ inputs.since }}
