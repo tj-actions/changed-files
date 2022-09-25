@@ -21,7 +21,7 @@ if [[ -n "$INPUT_SINCE" ]]; then
   echo "::set-output name=base_sha::$BASE_SHA"
 elif [[ -n "$INPUT_BASE_SHA" ]]; then
   echo "::set-output name=base_sha::$INPUT_BASE_SHA"
-else
+elif [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
   LAST_REMOTE_COMMIT="$GITHUB_EVENT_BEFORE"
 
   if [[ -z "$LAST_REMOTE_COMMIT" || "$LAST_REMOTE_COMMIT" == "0000000000000000000000000000000000000000" ]]; then
