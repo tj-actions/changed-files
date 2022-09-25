@@ -22,10 +22,13 @@ if [[ -n "$INPUT_SINCE" ]]; then
 elif [[ -n "$INPUT_BASE_SHA" ]]; then
   echo "::set-output name=base_sha::$INPUT_BASE_SHA"
 elif [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
-  LAST_REMOTE_COMMIT="$GITHUB_EVENT_BEFORE"
+  LAST_REMOTE_COMMIT=""
+
+  if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
+    LAST_REMOTE_COMMIT=$GITHUB_EVENT_BEFORE
+  fi
 
   if [[ -z "$LAST_REMOTE_COMMIT" || "$LAST_REMOTE_COMMIT" == "0000000000000000000000000000000000000000" ]]; then
-    echo "::debug::First commit detected"
     LAST_REMOTE_COMMIT=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
   fi
   if [[ "$INPUT_SHA" == "$LAST_REMOTE_COMMIT" ]]; then
