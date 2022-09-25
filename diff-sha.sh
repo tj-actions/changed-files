@@ -62,10 +62,13 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+    PREVIOUS_SHA=""
+
+    if [[ "$GITHUB_EVENT_FORCED" != "true" ]]; then
+      PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+    fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
-      echo "::debug::First commit detected"
       PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
     fi
 
