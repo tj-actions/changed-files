@@ -151,40 +151,32 @@ runs:
   using: "composite"
   steps:
     - run: |
-        # "Set base sha..."
-        if [[ -n "${{ inputs.since }}" ]]; then
-          BASE_SHA=$(git log --format="%H" --date=local --since="${{ inputs.since }}" --reverse | head -n 1)
-          if [[ -z "$BASE_SHA" ]]; then
-            echo "::warning::The BASE_SHA for date '${{ inputs.since }}' couldn't be determined."
-          fi
-          echo "::set-output name=base_sha::$BASE_SHA"
-        elif [[ -n "${{ inputs.base_sha }}" ]]; then
-          echo "::set-output name=base_sha::${{ inputs.base_sha }}"
-        elif [[ "${{ inputs.since_last_remote_commit }}" == "true" ]]; then
-          LAST_REMOTE_COMMIT="${{ github.event.before }}"
-          if [[ -z "$LAST_REMOTE_COMMIT" || "$LAST_REMOTE_COMMIT" == "0000000000000000000000000000000000000000" ]]; then
-            LAST_REMOTE_COMMIT=$(git rev-parse $(git branch -r --sort=-committerdate | head -1))
-          fi
-          if [[ "${{ inputs.sha }}" == "$LAST_REMOTE_COMMIT" ]]; then
-            LAST_REMOTE_COMMIT=$(git rev-parse "${{ inputs.sha }}^1")
-          fi
-          echo "::set-output name=base_sha::$LAST_REMOTE_COMMIT"
-        fi
+        # "Calculate the base sha..."
+        bash $GITHUB_ACTION_PATH/get-base-sha.sh
       id: base-sha
       shell: bash
+      env:
+        GITHUB_WORKSPACE: ${{ github.workspace }}
+        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
+        INPUT_SINCE: ${{ inputs.since }}
+        INPUT_BASE_SHA: ${{ inputs.base_sha }}
+        INPUT_SHA: ${{ inputs.sha }}
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_SINCE_LAST_REMOTE_COMMIT: ${{ inputs.since_last_remote_commit }}
     - run: |
-        # "Set the sha..."
-        if [[ -n "${{ inputs.until }}" ]]; then
-          SHA=$(git log -1 --format="%H" --date=local --until="${{ inputs.until }}")
-          if [[ -z "$SHA" ]]; then
-            echo "::warning::The SHA for date '${{ inputs.until }}' couldn't be determined, falling back to the current sha."
-          fi
-          echo "::set-output name=sha::$SHA"
-        else
-          echo "::set-output name=sha::${{ inputs.sha }}"
-        fi
+        # "Calculate the sha..."
+        bash $GITHUB_ACTION_PATH/get-sha.sh
       id: sha
       shell: bash
+      env:
+        GITHUB_WORKSPACE: ${{ github.workspace }}
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
+        INPUT_UNTIL: ${{ inputs.until }}
+        INPUT_SHA: ${{ inputs.sha }}
+        INPUT_PATH: ${{ inputs.path }}
     - run: |
         # "Calculating the previous and current SHA..."
         bash $GITHUB_ACTION_PATH/diff-sha.sh
@@ -195,9 +187,9 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
         GITHUB_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
         INPUT_SHA: ${{ steps.sha.outputs.sha }}
@@ -209,22 +201,21 @@ runs:
       with:
         files: ${{ inputs.files }}
         files-separator: ${{ inputs.files_separator }}
-        escape-paths: true
         excluded-files: ${{ inputs.files_ignore }}
         excluded-files-separator: ${{ inputs.files_ignore_separator }}
         files-from-source-file: ${{ inputs.files_from_source_file }}
         excluded-files-from-source-file: ${{ inputs.files_ignore_from_source_file}}
+        escape-paths: true
         working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         include-deleted-files: true
         separator: "|"
     - run: |
-        bash $GITHUB_ACTION_PATH/entrypoint.sh
+        bash $GITHUB_ACTION_PATH/get-changed-paths.sh
       id: changed-files
       shell: bash
       env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
@@ -242,6 +233,7 @@ runs:
         INPUT_DIFF_RELATIVE: ${{ inputs.diff_relative }}
         INPUT_DIR_NAMES: ${{ inputs.dir_names }}
         INPUT_JSON: ${{ inputs.json }}
+        INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
 
 branding:
   icon: file-text

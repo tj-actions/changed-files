@@ -522,10 +522,10 @@ jobs:
         uses: ./
         with:
           files: |
-            entrypoint.sh
+            get-changed-paths.sh
             *.sh
       - name: Verify all_changed_files files has no duplicates
-        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_changed_files, 'entrypoint.sh')
+        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_changed_files, 'get-changed-paths.sh')
         run: |
           ALL_CHANGED_FILES=(${{ steps.changed-files-specific-duplicate-output.outputs.all_changed_files }})
           UNIQUE_ALL_CHANGED_FILES=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | sort -u | xargs)
@@ -537,7 +537,7 @@ jobs:
         shell:
           bash
       - name: Verify all_changed_and_modified_files files has no duplicates
-        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_changed_and_modified_files, 'entrypoint.sh')
+        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_changed_and_modified_files, 'get-changed-paths.sh')
         run: |
           ALL_CHANGED_AND_MODIFIED_FILES=(${{ steps.changed-files-specific-duplicate-output.outputs.all_changed_and_modified_files }})
           UNIQUE_ALL_CHANGED_AND_MODIFIED_FILES=$(echo "$ALL_CHANGED_AND_MODIFIED_FILES" | tr ' ' '\n' | sort -u | xargs)
@@ -549,7 +549,7 @@ jobs:
         shell:
           bash
       - name: Verify all_modified_files files has no duplicates
-        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_modified_files, 'entrypoint.sh')
+        if: contains(steps.changed-files-specific-duplicate-output.outputs.all_modified_files, 'get-changed-paths.sh')
         run: |
           ALL_MODIFIED_FILES=(${{ steps.changed-files-specific-duplicate-output.outputs.all_modified_files }})
           UNIQUE_ALL_MODIFIED_FILES=$(echo "$ALL_MODIFIED_FILES" | tr ' ' '\n' | sort -u | xargs)

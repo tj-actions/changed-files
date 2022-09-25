@@ -81,7 +81,7 @@ echo "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → 
 
 echo "Getting diff..."
 
-if [[ -z "$INPUT_FILES_PATTERN_FILE" ]]; then
+if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
   if [[ "$INPUT_JSON" == "false" ]]; then
     ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
