@@ -227,6 +227,7 @@ runs:
         INPUT_DIFF_RELATIVE: ${{ inputs.diff_relative }}
         INPUT_DIR_NAMES: ${{ inputs.dir_names }}
         INPUT_JSON: ${{ inputs.json }}
+        INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
 
 branding:
   icon: file-text
