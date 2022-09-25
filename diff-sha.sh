@@ -70,8 +70,12 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     fi
 
     if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-      INITIAL_COMMIT="true"
-      echo "::debug::Initial commit detected"
+      PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1")
+
+      if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+        INITIAL_COMMIT="true"
+        echo "::debug::Initial commit detected"
+      fi
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA
