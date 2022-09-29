@@ -284,6 +284,17 @@ jobs:
           echo "Your README.md has been modified ${{ steps.changed-files.outputs.modified_files }}."
         shell:
           bash
+      - name: Run changed-files with quotepath disabled for single path
+        id: changed-files-quotepath-specific
+        uses: ./
+        with:
+          files: test/test-è.txt
+          quotepath: "false"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-quotepath-specific.outputs) }}'
+        shell:
+          bash
       - name: Run changed-files with quotepath disabled
         id: changed-files-quotepath
         uses: ./
