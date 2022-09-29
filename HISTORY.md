@@ -1,12 +1,26 @@
 # Changelog
 
+## [v31.0.2](https://github.com/tj-actions/changed-files/tree/v31.0.2) (2022-09-29)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.2)
+
+## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-09-29)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.1...v31)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- chore: add back ability to fetch target branch history [\#654](https://github.com/tj-actions/changed-files/pull/654) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.1.3 [\#653](https://github.com/tj-actions/changed-files/pull/653) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v31.0.1 [\#652](https://github.com/tj-actions/changed-files/pull/652) ([jackton1](https://github.com/jackton1))
+
 ## [v31.0.1](https://github.com/tj-actions/changed-files/tree/v31.0.1) (2022-09-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.1)
-
-## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-09-25)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.0...v31)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.0...v31.0.1)
 
 **Merged pull requests:**
 
@@ -34,16 +48,12 @@
 
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30.0.0)
 
 **Fixed bugs:**
 
 - \[BUG\] Can't get all changed files after pushing new commit [\#639](https://github.com/tj-actions/changed-files/issues/639)
 - \[BUG\] Add support for pull request close event with merge set to true [\#635](https://github.com/tj-actions/changed-files/issues/635)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -54,13 +64,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
-
 ## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
+
+## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
 
 **Implemented enhancements:**
 
