@@ -32,7 +32,7 @@ elif [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
     LAST_REMOTE_COMMIT=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
   fi
   if [[ "$INPUT_SHA" == "$LAST_REMOTE_COMMIT" ]]; then
-    LAST_REMOTE_COMMIT=$(git rev-parse $INPUT_SHA^1)
+    LAST_REMOTE_COMMIT=$(git rev-parse "$INPUT_SHA"^1)
   fi
   echo "::set-output name=base_sha::$LAST_REMOTE_COMMIT"
 fi
