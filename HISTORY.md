@@ -1,12 +1,33 @@
 # Changelog
 
+## [v31.0.3](https://github.com/tj-actions/changed-files/tree/v31.0.3) (2022-10-02)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.3)
+
+## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-10-02)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.2...v31)
+
+**Fixed bugs:**
+
+- \[BUG\] I'd like to use file name consisting of Korean, not English [\#658](https://github.com/tj-actions/changed-files/issues/658)
+- Relative path from a working directory [\#657](https://github.com/tj-actions/changed-files/issues/657)
+- Similar commit hash detected. You seem to be missing fetch-depth:0 [\#656](https://github.com/tj-actions/changed-files/issues/656)
+
+**Merged pull requests:**
+
+- chore: remove redundant since last remote commit input [\#666](https://github.com/tj-actions/changed-files/pull/666) ([jackton1](https://github.com/jackton1))
+- chore: fixed test [\#665](https://github.com/tj-actions/changed-files/pull/665) ([jackton1](https://github.com/jackton1))
+- chore: update docs [\#664](https://github.com/tj-actions/changed-files/pull/664) ([jackton1](https://github.com/jackton1))
+- chore: fix bug with base sha [\#663](https://github.com/tj-actions/changed-files/pull/663) ([jackton1](https://github.com/jackton1))
+- chore: dump github context [\#662](https://github.com/tj-actions/changed-files/pull/662) ([jackton1](https://github.com/jackton1))
+- fix: error retrieving the base sha [\#661](https://github.com/tj-actions/changed-files/pull/661) ([jackton1](https://github.com/jackton1))
+- chore: test using non ascii characters in files input [\#659](https://github.com/tj-actions/changed-files/pull/659) ([jackton1](https://github.com/jackton1))
+- Upgraded to v31.0.2 [\#655](https://github.com/tj-actions/changed-files/pull/655) ([jackton1](https://github.com/jackton1))
+
 ## [v31.0.2](https://github.com/tj-actions/changed-files/tree/v31.0.2) (2022-09-29)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.2)
-
-## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-09-29)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.1...v31)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.1...v31.0.2)
 
 **Closed issues:**
 
@@ -48,7 +69,7 @@
 
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
 
 **Fixed bugs:**
 
@@ -64,13 +85,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
-
 ## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
+
+## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
 
 **Implemented enhancements:**
 
@@ -995,7 +1016,7 @@
 
 ## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v12)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v12)
 
 **Implemented enhancements:**
 
@@ -1012,6 +1033,10 @@
 - Update peter-evans/create-pull-request action to v3.12.0 [\#284](https://github.com/tj-actions/changed-files/pull/284) ([renovate[bot]](https://github.com/apps/renovate))
 - \[PR 1\]: Renamed all\_modified\_files to all\_changed\_files [\#283](https://github.com/tj-actions/changed-files/pull/283) ([jackton1](https://github.com/jackton1))
 - Upgraded to v11.9 [\#280](https://github.com/tj-actions/changed-files/pull/280) ([jackton1](https://github.com/jackton1))
+
+## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-12-04)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v11)
 
 ## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
 
@@ -1104,7 +1129,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -1118,13 +1143,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
@@ -1176,7 +1201,12 @@
 
 ## [v11.1](https://github.com/tj-actions/changed-files/tree/v11.1) (2021-10-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v11.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10.1...v11.1)
+
+**Fixed bugs:**
+
+- \[BUG\] Spaces in file names are not handled correctly [\#216](https://github.com/tj-actions/changed-files/issues/216)
+- \[BUG\] Usage of quotes around array items  [\#208](https://github.com/tj-actions/changed-files/issues/208)
 
 **Closed issues:**
 
@@ -1187,18 +1217,6 @@
 - Disable automatic tag following [\#225](https://github.com/tj-actions/changed-files/pull/225) ([jackton1](https://github.com/jackton1))
 - Updated README.md [\#223](https://github.com/tj-actions/changed-files/pull/223) ([jackton1](https://github.com/jackton1))
 - Upgraded to v11 [\#222](https://github.com/tj-actions/changed-files/pull/222) ([jackton1](https://github.com/jackton1))
-
-## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-10-23)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v10.1...v11)
-
-**Fixed bugs:**
-
-- \[BUG\] Spaces in file names are not handled correctly [\#216](https://github.com/tj-actions/changed-files/issues/216)
-- \[BUG\] Usage of quotes around array items  [\#208](https://github.com/tj-actions/changed-files/issues/208)
-
-**Merged pull requests:**
-
 - Updated README.md [\#221](https://github.com/tj-actions/changed-files/pull/221) ([jackton1](https://github.com/jackton1))
 - Miscellaneous code cleanup [\#219](https://github.com/tj-actions/changed-files/pull/219) ([jackton1](https://github.com/jackton1))
 - Fixed bug with separator for filenames that contain spaces [\#218](https://github.com/tj-actions/changed-files/pull/218) ([jackton1](https://github.com/jackton1))
