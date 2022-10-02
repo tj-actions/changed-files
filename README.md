@@ -387,6 +387,7 @@ This package was created with [Cookiecutter](https://github.com/cookiecutter/coo
 
 *   [tj-actions/glob](https://github.com/tj-actions/glob)
 *   [tj-actions/demo](https://github.com/tj-actions/demo)
+*   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
 
 ## Report Bugs
 
