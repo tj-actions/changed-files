@@ -50,10 +50,6 @@ inputs:
   base_sha:
     description: "Specify a base commit SHA on used for comparing changes"
     required: false
-  since_last_remote_commit:
-    description: "Use the last commit on the remote branch as the base_sha for push event."
-    required: false
-    default: "false"
   since:
     description: "Get changed files for commits whose timestamp is older than the given time"
     required: false
@@ -165,7 +161,6 @@ runs:
         INPUT_BASE_SHA: ${{ inputs.base_sha }}
         INPUT_SHA: ${{ inputs.sha }}
         INPUT_PATH: ${{ inputs.path }}
-        INPUT_SINCE_LAST_REMOTE_COMMIT: ${{ inputs.since_last_remote_commit }}
     - run: |
         # "Calculate the sha..."
         bash $GITHUB_ACTION_PATH/get-sha.sh
