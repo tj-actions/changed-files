@@ -809,11 +809,6 @@ jobs:
           echo '${{ toJSON(steps.changed-files-custom-sha.outputs) }}'
         shell:
           bash
-      - name: Run changed-files with since_last_remote_commit set to true
-        id: changed-files-since-last-remote-commit
-        uses: ./
-        with:
-          since_last_remote_commit: 'true'
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
