@@ -193,7 +193,7 @@ runs:
         INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
         INPUT_PATH: ${{ inputs.path }}
     - name: Glob match
-      uses: tj-actions/glob@v13
+      uses: tj-actions/glob@v14
       id: glob
       with:
         files: ${{ inputs.files }}
