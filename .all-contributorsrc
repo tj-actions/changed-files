@@ -132,6 +132,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "kostiantyn-korniienko-aurea",
+      "name": "Kostiantyn Korniienko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/37180625?v=4",
+      "profile": "https://github.com/kostiantyn-korniienko-aurea",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
