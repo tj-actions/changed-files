@@ -291,7 +291,7 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v31
         with:
           quotepath: "false"
-      
+
       # Run changed-files action using the last successful commit as the base_sha
       # NOTE: This setting overrides the commit sha used by setting since_last_remote_commit to true.
       # It is recommended to use either solution that works for your use case.
