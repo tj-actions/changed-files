@@ -345,7 +345,7 @@ Support this project with a :star:
       - name: Run changed-files with json output
         id: changed-files-json
         uses: tj-actions/changed-files@v31
-        wi
+        with:
           json: "true"
 
       - name: Run changed-files since 2022-08-19
