@@ -103,8 +103,6 @@ else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
-  echo "::debug::GITHUB_BASE_REF: $TARGET_BRANCH..."
-
   git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" &&
   exit_status=$? || exit_status=$?
 
@@ -112,11 +110,11 @@ else
     PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    PREVIOUS_SHA=$INPUT_BASE_SHA
-    TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
-    echo "::debug::Previous SHA: $PREVIOUS_SHA"
-    echo "::debug::Target branch: $TARGET_BRANCH"
+    PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
+
+  echo "::debug::Target branch: $TARGET_BRANCH"
+  echo "::debug::Current branch: $CURRENT_BRANCH"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
