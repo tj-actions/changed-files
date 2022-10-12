@@ -62,7 +62,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress origin --depth=2 "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
+    git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=""
 
     if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
@@ -105,12 +105,13 @@ else
 
   echo "::debug::GITHUB_BASE_REF: $TARGET_BRANCH..."
 
+  git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" &&
+  exit_status=$? || exit_status=$?
+
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress origin --depth=1 "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-    PREVIOUS_SHA=$GITHUB_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+    PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    git fetch --no-tags -u --progress origin --depth=1 "$(git rev-parse --verify "$INPUT_BASE_SHA")" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     echo "::debug::Previous SHA: $PREVIOUS_SHA"

@@ -77,6 +77,10 @@ inputs:
     description: "Output changed files in JSON format which can be used for matrix jobs"
     required: false
     default: "false"
+  target_branch_fetch_depth:
+    description: "Fetch depth for target branch. NOTE: This can be adjusted to resolve errors with insufficient history. See: #668."
+    required: false
+    default: "20"
 
 outputs:
   added_files:
@@ -184,14 +188,15 @@ runs:
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-        GITHUB_EVENT_FORCED : ${{ github.event.forced }}
+        GITHUB_EVENT_FORCED: ${{ github.event.forced }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
         INPUT_SHA: ${{ steps.sha.outputs.sha }}
         INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
         INPUT_PATH: ${{ inputs.path }}
+        INPUT_TARGET_BRANCH_FETCH_DEPTH: ${{ inputs.target_branch_fetch_depth }}
     - name: Glob match
       uses: tj-actions/glob@v14
       id: glob
