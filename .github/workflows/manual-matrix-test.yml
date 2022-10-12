@@ -24,7 +24,7 @@ jobs:
           echo '${{ steps.changed-files.outputs.all_changed_files }}'
 
       - id: set-matrix
-        run: echo "::set-output name=matrix::{\"container\":${{ steps.changed-files.outputs.all_changed_files }}}"
+        run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   matrix-job:
     name: Run Matrix Job
