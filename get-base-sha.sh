@@ -18,7 +18,7 @@ if [[ -n "$INPUT_SINCE" ]]; then
   if [[ -z "$BASE_SHA" ]]; then
     echo "::warning::The BASE_SHA for date '$INPUT_SINCE' couldn't be determined."
   fi
-  echo "base_sha=$BASE_SHA" >>$GITHUB_OUTPUT
+  echo "base_sha=$BASE_SHA" >>"$GITHUB_OUTPUT"
 elif [[ -n "$INPUT_BASE_SHA" ]]; then
-  echo "base_sha=$INPUT_BASE_SHA" >>$GITHUB_OUTPUT
+  echo "base_sha=$INPUT_BASE_SHA" >>"$GITHUB_OUTPUT"
 fi
