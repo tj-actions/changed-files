@@ -291,11 +291,11 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v32
         with:
           quotepath: "false"
-      
+
       # Run changed-files action using the last successful commit as the base_sha
       # NOTE: This setting overrides the commit sha used by setting since_last_remote_commit to true.
       # It is recommended to use either solution that works for your use case.
-      
+
       # Push event based workflows
       - name: Get branch name
         id: branch-name
