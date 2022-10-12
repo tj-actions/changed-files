@@ -267,7 +267,7 @@ if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   echo "::debug::All old & new renamed files: $ALL_OLD_NEW_RENAMED"
 fi
 
-echo <<EOF >> "$GITHUB_OUTPUT"
+cat <<EOF >> "$GITHUB_OUTPUT"
 added_files=$ADDED
 copied_files=$COPIED
 deleted_files=$DELETED
