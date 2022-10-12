@@ -133,7 +133,7 @@ if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SH
   exit 1
 fi
 
-echo <<EOF >>"$GITHUB_OUTPUT"
+echo <<EOF >> "$GITHUB_OUTPUT"
 target_branch=$TARGET_BRANCH
 current_branch=$CURRENT_BRANCH
 previous_sha=$PREVIOUS_SHA

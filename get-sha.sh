@@ -18,7 +18,7 @@ if [[ -n "$INPUT_UNTIL" ]]; then
   if [[ -z "$SHA" ]]; then
     echo "::warning::The SHA for date '$INPUT_UNTIL' couldn't be determined, falling back to the current sha."
   fi
-  echo "sha=$SHA" >>"$GITHUB_OUTPUT"
+  echo "sha=$SHA" >> "$GITHUB_OUTPUT"
 else
-  echo "sha=$INPUT_SHA" >>"$GITHUB_OUTPUT"
+  echo "sha=$INPUT_SHA" >> "$GITHUB_OUTPUT"
 fi
