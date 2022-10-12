@@ -267,17 +267,19 @@ if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   echo "::debug::All old & new renamed files: $ALL_OLD_NEW_RENAMED"
 fi
 
-echo "added_files=$ADDED" >>"$GITHUB_OUTPUT"
-echo "copied_files=$COPIED" >>"$GITHUB_OUTPUT"
-echo "deleted_files=$DELETED" >>"$GITHUB_OUTPUT"
-echo "modified_files=$MODIFIED" >>"$GITHUB_OUTPUT"
-echo "renamed_files=$RENAMED" >>"$GITHUB_OUTPUT"
-echo "type_changed_files=$TYPE_CHANGED" >>"$GITHUB_OUTPUT"
-echo "unmerged_files=$UNMERGED" >>"$GITHUB_OUTPUT"
-echo "unknown_files=$UNKNOWN" >>"$GITHUB_OUTPUT"
-echo "all_changed_and_modified_files=$ALL_CHANGED_AND_MODIFIED" >>"$GITHUB_OUTPUT"
-echo "all_changed_files=$ALL_CHANGED" >>"$GITHUB_OUTPUT"
-echo "all_modified_files=$ALL_MODIFIED" >>"$GITHUB_OUTPUT"
+echo <<EOF >>"$GITHUB_OUTPUT"
+added_files=$ADDED
+copied_files=$COPIED
+deleted_files=$DELETED
+modified_files=$MODIFIED
+renamed_files=$RENAMED
+type_changed_files=$TYPE_CHANGED
+unmerged_files=$UNMERGED
+unknown_files=$UNKNOWN
+all_changed_and_modified_files=$ALL_CHANGED_AND_MODIFIED
+all_changed_files=$ALL_CHANGED
+all_modified_files=$ALL_MODIFIED
+EOF
 if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   echo "all_old_new_renamed_files=$ALL_OLD_NEW_RENAMED" >>"$GITHUB_OUTPUT"
 fi

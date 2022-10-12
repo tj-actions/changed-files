@@ -133,9 +133,11 @@ if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SH
   exit 1
 fi
 
-echo "target_branch=$TARGET_BRANCH" >>"$GITHUB_OUTPUT"
-echo "current_branch=$CURRENT_BRANCH" >>"$GITHUB_OUTPUT"
-echo "previous_sha=$PREVIOUS_SHA" >>"$GITHUB_OUTPUT"
-echo "current_sha=$CURRENT_SHA" >>"$GITHUB_OUTPUT"
+echo <<EOF >>"$GITHUB_OUTPUT"
+target_branch=$TARGET_BRANCH
+current_branch=$CURRENT_BRANCH
+previous_sha=$PREVIOUS_SHA
+current_sha=$CURRENT_SHA
+EOF
 
 echo "::endgroup::"
