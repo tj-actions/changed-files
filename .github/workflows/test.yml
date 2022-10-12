@@ -139,12 +139,6 @@ jobs:
         continue-on-error: true
         uses: ./
 
-      - name: Exit with 1 if no error is raised and the PR is closed
-        if: steps.changed-files.outcome != 'failure' && github.event.action == 'closed'
-        run: |
-          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
-          exit 1
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
