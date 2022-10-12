@@ -198,7 +198,7 @@ runs:
         INPUT_PATH: ${{ inputs.path }}
         INPUT_TARGET_BRANCH_FETCH_DEPTH: ${{ inputs.target_branch_fetch_depth }}
     - name: Glob match
-      uses: tj-actions/glob@v14
+      uses: tj-actions/glob@v15
       id: glob
       with:
         files: ${{ inputs.files }}
