@@ -1,20 +1,35 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v32.1.0](https://github.com/tj-actions/changed-files/tree/v32.1.0) (2022-10-12)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.0.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32...v32.1.0)
+
+## [v32](https://github.com/tj-actions/changed-files/tree/v32) (2022-10-12)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.0.1...v32)
+
+**Fixed bugs:**
+
+- \[BUG\] runner is reporting old Node.js version. [\#678](https://github.com/tj-actions/changed-files/issues/678)
+- \[BUG\] New commits pushed to the base branch results in errors when shallow history is used. [\#668](https://github.com/tj-actions/changed-files/issues/668)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
+**Merged pull requests:**
+
+- docs: add lpulley as a contributor for code [\#685](https://github.com/tj-actions/changed-files/pull/685) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Updated README.md [\#684](https://github.com/tj-actions/changed-files/pull/684) ([jackton1](https://github.com/jackton1))
+- chore: update test [\#683](https://github.com/tj-actions/changed-files/pull/683) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#682](https://github.com/tj-actions/changed-files/pull/682) ([jackton1](https://github.com/jackton1))
+- fix: bug with new commits pushed to the base branch that result in errors when shallow history is used [\#681](https://github.com/tj-actions/changed-files/pull/681) ([jackton1](https://github.com/jackton1))
+- Upgraded to v32.0.1 [\#680](https://github.com/tj-actions/changed-files/pull/680) ([jackton1](https://github.com/jackton1))
+- Use `>>$GITHUB_OUTPUT` instead of `::set-output` [\#679](https://github.com/tj-actions/changed-files/pull/679) ([lpulley](https://github.com/lpulley))
+
 ## [v32.0.1](https://github.com/tj-actions/changed-files/tree/v32.0.1) (2022-10-11)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32...v32.0.1)
-
-## [v32](https://github.com/tj-actions/changed-files/tree/v32) (2022-10-11)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.0.0...v32)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.0.0...v32.0.1)
 
 **Fixed bugs:**
 
@@ -103,7 +118,7 @@
 
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
 
 **Fixed bugs:**
 
@@ -119,13 +134,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
-
 ## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
+
+## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
 
 **Implemented enhancements:**
 
