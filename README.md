@@ -341,7 +341,7 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v32
         with:
           dir_names: "true"
-      
+
       # All outputs are JSON formatted arrays and can be used in other actions and matrix compatible jobs.
       - name: Run changed-files with json output
         id: changed-files-json
