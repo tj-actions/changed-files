@@ -1,12 +1,30 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.1...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] Random GITHUB\_OUTPUT: unbound variable in get-sha.sh [\#690](https://github.com/tj-actions/changed-files/issues/690)
+
+## [v32.1.1](https://github.com/tj-actions/changed-files/tree/v32.1.1) (2022-10-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32...v32.1.1)
+
+## [v32](https://github.com/tj-actions/changed-files/tree/v32) (2022-10-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.0...v32)
+
+**Merged pull requests:**
+
+- feat: remove duplicate files add back support for deprecated set-output [\#691](https://github.com/tj-actions/changed-files/pull/691) ([jackton1](https://github.com/jackton1))
+- Upgraded to v32.1.0 [\#687](https://github.com/tj-actions/changed-files/pull/687) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#686](https://github.com/tj-actions/changed-files/pull/686) ([jackton1](https://github.com/jackton1))
+
 ## [v32.1.0](https://github.com/tj-actions/changed-files/tree/v32.1.0) (2022-10-12)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32...v32.1.0)
-
-## [v32](https://github.com/tj-actions/changed-files/tree/v32) (2022-10-12)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.0.1...v32)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.0.1...v32.1.0)
 
 **Fixed bugs:**
 
