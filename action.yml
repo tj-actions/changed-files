@@ -151,33 +151,6 @@ runs:
   using: "composite"
   steps:
     - run: |
-        # "Calculate the base sha..."
-        bash $GITHUB_ACTION_PATH/get-base-sha.sh
-      id: base-sha
-      shell: bash
-      env:
-        GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-        GITHUB_EVENT_FORCED : ${{ github.event.forced }}
-        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
-        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
-        INPUT_SINCE: ${{ inputs.since }}
-        INPUT_BASE_SHA: ${{ inputs.base_sha }}
-        INPUT_SHA: ${{ inputs.sha }}
-        INPUT_PATH: ${{ inputs.path }}
-    - run: |
-        # "Calculate the sha..."
-        bash $GITHUB_ACTION_PATH/get-sha.sh
-      id: sha
-      shell: bash
-      env:
-        GITHUB_WORKSPACE: ${{ github.workspace }}
-        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
-        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
-        INPUT_UNTIL: ${{ inputs.until }}
-        INPUT_SHA: ${{ inputs.sha }}
-        INPUT_PATH: ${{ inputs.path }}
-    - run: |
         # "Calculating the previous and current SHA..."
         bash $GITHUB_ACTION_PATH/diff-sha.sh
       id: changed-files-diff-sha
@@ -193,8 +166,10 @@ runs:
         GITHUB_EVENT_FORCED: ${{ github.event.forced }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
-        INPUT_SHA: ${{ steps.sha.outputs.sha }}
-        INPUT_BASE_SHA: ${{ steps.base-sha.outputs.base_sha }}
+        INPUT_SHA: ${{ inputs.sha }}
+        INPUT_BASE_SHA: ${{ inputs.base_sha }}
+        INPUT_SINCE: ${{ inputs.since }}
+        INPUT_UNTIL: ${{ inputs.until }}
         INPUT_PATH: ${{ inputs.path }}
         INPUT_TARGET_BRANCH_FETCH_DEPTH: ${{ inputs.target_branch_fetch_depth }}
     - name: Glob match
