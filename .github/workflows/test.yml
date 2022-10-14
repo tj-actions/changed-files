@@ -119,6 +119,34 @@ jobs:
         shell:
           bash
 
+  test-unset-github-output-env:
+    name: Test unset GITHUB_OUTPUT env
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run changed-files with unset GITHUB_OUTPUT env
+        id: changed-files
+        continue-on-error: true
+        uses: ./
+        env:
+          GITHUB_OUTPUT: ""
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
   test-single-commit-history:
     name: Test changed-files single commit history
     runs-on: ${{ matrix.platform }}
@@ -335,6 +363,7 @@ jobs:
         continue-on-error: true
         with:
           since: "2022-08-19"
+          target_branch_fetch_depth: "20000"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-since.outputs) }}'
@@ -346,6 +375,7 @@ jobs:
         continue-on-error: true
         with:
           until: "2022-08-20"
+          target_branch_fetch_depth: "20000"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-until.outputs) }}'

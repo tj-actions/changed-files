@@ -7,6 +7,8 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//'.'/'%2E'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 
+GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
+
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
   git config --global core.quotepath off
 else
@@ -131,9 +133,17 @@ else
 
   if [[ -n "${ALL_CHANGED}" ]]; then
     echo "::debug::Matching changed files: ${ALL_CHANGED}"
-    echo "any_changed=true" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=any_changed::true"
+    else
+      echo "any_changed=true" >> "$GITHUB_OUTPUT"
+    fi
   else
-    echo "any_changed=false" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=any_changed::false"
+    else
+      echo "any_changed=false" >> "$GITHUB_OUTPUT"
+    fi
   fi
 
   OTHER_CHANGED=""
@@ -154,19 +164,38 @@ else
 
   if [[ -n "${OTHER_CHANGED}" && "${OTHER_CHANGED}" != "[]" ]]; then
     echo "::debug::Non Matching changed files: ${OTHER_CHANGED}"
-    echo "only_changed=false" >> "$GITHUB_OUTPUT"
-    echo "other_changed_files=$OTHER_CHANGED" >> "$GITHUB_OUTPUT"
+
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=only_changed::false"
+      echo "::set-output name=other_changed_files::$OTHER_CHANGED"
+    else
+      echo "only_changed=false" >> "$GITHUB_OUTPUT"
+      echo "other_changed_files=$OTHER_CHANGED" >> "$GITHUB_OUTPUT"
+    fi
+
   elif [[ -n "${ALL_CHANGED}" ]]; then
-    echo "only_changed=true" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=only_changed::true"
+    else
+      echo "only_changed=true" >> "$GITHUB_OUTPUT"
+    fi
   fi
 
   ALL_OTHER_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${ALL_MODIFIED}" ]]; then
     echo "::debug::Matching modified files: ${ALL_MODIFIED}"
-    echo "any_modified=true" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=any_modified::true"
+    else
+      echo "any_modified=true" >> "$GITHUB_OUTPUT"
+    fi
   else
-    echo "any_modified=false" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=any_modified::false"
+    else
+      echo "any_modified=false" >> "$GITHUB_OUTPUT"
+    fi
   fi
 
   OTHER_MODIFIED=""
@@ -187,19 +216,37 @@ else
 
   if [[ -n "${OTHER_MODIFIED}" && "$OTHER_MODIFIED" != "[]" ]]; then
     echo "::debug::Non Matching modified files: ${OTHER_MODIFIED}"
-    echo "only_modified=false" >> "$GITHUB_OUTPUT"
-    echo "other_modified_files=$OTHER_MODIFIED" >> "$GITHUB_OUTPUT"
+
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=only_modified::false"
+      echo "::set-output name=other_modified_files::$OTHER_MODIFIED"
+    else
+      echo "only_modified=false" >> "$GITHUB_OUTPUT"
+      echo "other_modified_files=$OTHER_MODIFIED" >> "$GITHUB_OUTPUT"
+    fi
   elif [[ -n "${ALL_MODIFIED}" ]]; then
-    echo "only_modified=true" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=only_modified::true"
+    else
+      echo "only_modified=true" >> "$GITHUB_OUTPUT"
+    fi
   fi
 
   ALL_OTHER_DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
   if [[ -n "${DELETED}" ]]; then
     echo "::debug::Matching deleted files: ${DELETED}"
-    echo "any_deleted=true" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=any_deleted::true"
+    else
+      echo "any_deleted=true" >> "$GITHUB_OUTPUT"
+    fi
   else
-    echo "any_deleted=false" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=any_deleted::false"
+    else
+      echo "any_deleted=false" >> "$GITHUB_OUTPUT"
+    fi
   fi
 
   OTHER_DELETED=""
@@ -220,10 +267,19 @@ else
 
   if [[ -n "${OTHER_DELETED}" && "${OTHER_DELETED}" != "[]" ]]; then
     echo "::debug::Non Matching deleted files: ${OTHER_DELETED}"
-    echo "only_deleted=false" >> "$GITHUB_OUTPUT"
-    echo "other_deleted_files=$OTHER_DELETED" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=only_deleted::false"
+      echo "::set-output name=other_deleted_files::$OTHER_DELETED"
+    else
+      echo "only_deleted=false" >> "$GITHUB_OUTPUT"
+      echo "other_deleted_files=$OTHER_DELETED" >> "$GITHUB_OUTPUT"
+    fi
   elif [[ -n "${DELETED}" ]]; then
-    echo "only_deleted=true" >> "$GITHUB_OUTPUT"
+    if [[ -z "$GITHUB_OUTPUT" ]]; then
+      echo "::set-output name=only_deleted::true"
+    else
+      echo "only_deleted=true" >> "$GITHUB_OUTPUT"
+    fi
   fi
   if [[ "$INPUT_JSON" == "false" ]]; then
     ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -267,7 +323,20 @@ if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   echo "::debug::All old & new renamed files: $ALL_OLD_NEW_RENAMED"
 fi
 
-cat <<EOF >> "$GITHUB_OUTPUT"
+if [[ -z "$GITHUB_OUTPUT" ]]; then
+  echo "::set-output name=added_files::$ADDED"
+  echo "::set-output name=copied_files::$COPIED"
+  echo "::set-output name=deleted_files::$DELETED"
+  echo "::set-output name=modified_files::$MODIFIED"
+  echo "::set-output name=renamed_files::$RENAMED"
+  echo "::set-output name=type_changed_files::$TYPE_CHANGED"
+  echo "::set-output name=unmerged_files::$UNMERGED"
+  echo "::set-output name=unknown_files::$UNKNOWN"
+  echo "::set-output name=all_changed_and_modified_files::$ALL_CHANGED_AND_MODIFIED"
+  echo "::set-output name=all_changed_files::$ALL_CHANGED"
+  echo "::set-output name=all_modified_files::$ALL_MODIFIED"
+else
+  cat <<EOF >> "$GITHUB_OUTPUT"
 added_files=$ADDED
 copied_files=$COPIED
 deleted_files=$DELETED
@@ -280,8 +349,14 @@ all_changed_and_modified_files=$ALL_CHANGED_AND_MODIFIED
 all_changed_files=$ALL_CHANGED
 all_modified_files=$ALL_MODIFIED
 EOF
+fi
+
 if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-  echo "all_old_new_renamed_files=$ALL_OLD_NEW_RENAMED" >> "$GITHUB_OUTPUT"
+  if [[ -z "$GITHUB_OUTPUT" ]]; then
+    echo "::set-output name=all_old_new_renamed_files::$ALL_OLD_NEW_RENAMED"
+  else
+    echo "all_old_new_renamed_files=$ALL_OLD_NEW_RENAMED" >> "$GITHUB_OUTPUT"
+  fi
 fi
 
 echo "::endgroup::"

@@ -3,6 +3,7 @@
 set -eu
 
 INITIAL_COMMIT="false"
+GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 
 echo "::group::changed-files-diff-sha"
 
@@ -40,7 +41,16 @@ fi
 echo "::debug::Getting HEAD SHA..."
 
 if [[ -z $INPUT_SHA ]]; then
-  CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  if [[ -n "$INPUT_UNTIL" ]]; then
+    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+
+    if [[ $exit_status -ne 0 ]]; then
+      echo "::error::Invalid until date: $INPUT_UNTIL"
+      exit 1
+    fi
+  else
+    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  fi
 else
   CURRENT_SHA=$INPUT_SHA; exit_status=$?
 fi
@@ -63,22 +73,37 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-    PREVIOUS_SHA=""
 
-    if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
-      PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
-    fi
+    if [[ -n "$INPUT_SINCE" ]]; then
+      PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | head -n 1)
 
-    if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
-      PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
-    fi
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        echo "::error::Unable to locate a previous commit for the specified date: $INPUT_SINCE"
+        exit 1
+      fi
+    else
+      PREVIOUS_SHA=""
 
-    if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-      PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1")
+      if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
+        PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+      fi
+
+      if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
+        PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)")
+      fi
 
       if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-        INITIAL_COMMIT="true"
-        echo "::debug::Initial commit detected"
+        PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1")
+
+        if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+          INITIAL_COMMIT="true"
+          echo "::debug::Initial commit detected"
+        fi
+      fi
+
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        echo "::error::Unable to locate a previous commit"
+        exit 1
       fi
     fi
   else
@@ -132,11 +157,18 @@ if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SH
   exit 1
 fi
 
-cat <<EOF >> "$GITHUB_OUTPUT"
+if [[ -z "$GITHUB_OUTPUT" ]]; then
+  echo "::set-output name=target_branch::$TARGET_BRANCH"
+  echo "::set-output name=current_branch::$CURRENT_BRANCH"
+  echo "::set-output name=previous_sha::$PREVIOUS_SHA"
+  echo "::set-output name=current_sha::$CURRENT_SHA"
+else
+  cat <<EOF >> "$GITHUB_OUTPUT"
 target_branch=$TARGET_BRANCH
 current_branch=$CURRENT_BRANCH
 previous_sha=$PREVIOUS_SHA
 current_sha=$CURRENT_SHA
 EOF
+fi
 
 echo "::endgroup::"
