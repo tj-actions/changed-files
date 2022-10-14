@@ -3,6 +3,7 @@
 set -eu
 
 INITIAL_COMMIT="false"
+GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 
 echo "::group::changed-files-diff-sha"
 
