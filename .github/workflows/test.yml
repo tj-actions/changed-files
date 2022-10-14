@@ -363,6 +363,7 @@ jobs:
         continue-on-error: true
         with:
           since: "2022-08-19"
+          target_branch_fetch_depth: "20000"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-since.outputs) }}'
@@ -374,6 +375,7 @@ jobs:
         continue-on-error: true
         with:
           until: "2022-08-20"
+          target_branch_fetch_depth: "20000"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-until.outputs) }}'
