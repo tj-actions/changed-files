@@ -87,6 +87,7 @@ jobs:
   test-using-since-and-until:
     name: Test changed-files using since and until
     runs-on: ${{ matrix.platform }}
+    if: github.event_name == "push"
     strategy:
       fail-fast: false
       max-parallel: 4
