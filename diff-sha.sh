@@ -42,6 +42,7 @@ echo "::debug::Getting HEAD SHA..."
 
 if [[ -z $INPUT_SHA ]]; then
   if [[ -n "$INPUT_UNTIL" ]]; then
+    echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
     CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
@@ -75,6 +76,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
 
     if [[ -n "$INPUT_SINCE" ]]; then
+      echo "::debug::Getting base SHA for '$INPUT_SINCE'..."
       PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | head -n 1)
 
       if [[ -z "$PREVIOUS_SHA" ]]; then
