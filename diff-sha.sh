@@ -79,6 +79,10 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       echo "::debug::Getting base SHA for '$INPUT_SINCE'..."
       PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | head -n 1)
 
+      git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | grep -n "$PREVIOUS_SHA"
+
+      git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse
+
       if [[ -z "$PREVIOUS_SHA" ]]; then
         echo "::error::Unable to locate a previous commit for the specified date: $INPUT_SINCE"
         exit 1
