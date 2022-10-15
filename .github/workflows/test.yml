@@ -99,11 +99,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
-      - run: |
-          git log --format="%H" --date=local --since="2022-08-19" --reverse | grep -n 0190fb3dbc083a8b907c0a6ed0c7032bb3aa0495
-          git log --format="%H" --date=local --since="2022-08-19" --reverse | grep -n 7179d77efe0c1b965e29154f67bd4c1a57acefce
-    
+
       - name: Run changed-files since 2022-08-19
         id: changed-files-since
         uses: ./
