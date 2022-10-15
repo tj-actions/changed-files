@@ -73,21 +73,17 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-
     if [[ -n "$INPUT_SINCE" ]]; then
       echo "::debug::Getting base SHA for '$INPUT_SINCE'..."
-      PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | head -n 1)
-
-      git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | grep -n "$PREVIOUS_SHA"
-
-      git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse
+      PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" | tail -1) && exit_status=$? || exit_status=$?
 
       if [[ -z "$PREVIOUS_SHA" ]]; then
         echo "::error::Unable to locate a previous commit for the specified date: $INPUT_SINCE"
         exit 1
       fi
     else
+      git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
+
       PREVIOUS_SHA=""
 
       if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
