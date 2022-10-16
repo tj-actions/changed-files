@@ -40,19 +40,20 @@ fi
 
 echo "::debug::Getting HEAD SHA..."
 
-if [[ -z $INPUT_SHA ]]; then
-  if [[ -n "$INPUT_UNTIL" ]]; then
-    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+if [[ -n "$INPUT_UNTIL" ]]; then
+  echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
+  CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
 
-    if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Invalid until date: $INPUT_UNTIL"
-      exit 1
-    fi
-  else
-    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Invalid until date: $INPUT_UNTIL"
+    exit 1
   fi
 else
-  CURRENT_SHA=$INPUT_SHA; exit_status=$?
+  if [[ -z $INPUT_SHA ]]; then
+    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  else
+    CURRENT_SHA=$INPUT_SHA; exit_status=$?
+  fi
 fi
 
 echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
@@ -72,16 +73,17 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-
     if [[ -n "$INPUT_SINCE" ]]; then
-      PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" --reverse | head -n 1)
+      echo "::debug::Getting base SHA for '$INPUT_SINCE'..."
+      PREVIOUS_SHA=$(git log --format="%H" --date=local --since="$INPUT_SINCE" | tail -1) && exit_status=$? || exit_status=$?
 
       if [[ -z "$PREVIOUS_SHA" ]]; then
         echo "::error::Unable to locate a previous commit for the specified date: $INPUT_SINCE"
         exit 1
       fi
     else
+      git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
+
       PREVIOUS_SHA=""
 
       if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then

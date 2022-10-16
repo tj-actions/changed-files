@@ -84,6 +84,51 @@ jobs:
         shell:
           bash
 
+  test-using-since-and-until:
+    name: Test changed-files using since and until
+    runs-on: ${{ matrix.platform }}
+    if: github.event_name == 'push'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - run: |
+          git log -1 --format="%H" --date=local --until="2022-08-20" | grep -n 8d5c4478e28f7b7189cd93c195aa9d4f0992da90
+    
+      - name: Run changed-files since 2022-08-19
+        id: changed-files-since
+        uses: ./
+        continue-on-error: true
+        with:
+          since: "2022-08-19"
+      
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-since.outputs) }}'
+        shell:
+          bash
+      
+      - name: Run changed-files until 2022-08-20
+        id: changed-files-until
+        uses: ./
+        continue-on-error: true
+        with:
+          until: "2022-08-20"
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-until.outputs) }}'
+        shell:
+          bash
+
   test-similar-base-and-commit-sha:
     name: Test changed-files similar base and commit sha
     runs-on: ${{ matrix.platform }}
@@ -355,30 +400,6 @@ jobs:
         run: |
           echo "Invalid output: Expected to include (test) got (${{ steps.changed-files-dir-names.outputs.all_changed_files }})"
           exit 1
-        shell:
-          bash
-      - name: Run changed-files since 2022-08-19
-        id: changed-files-since
-        uses: ./
-        continue-on-error: true
-        with:
-          since: "2022-08-19"
-          target_branch_fetch_depth: "20000"
-      - name: Show output
-        run: |
-          echo '${{ toJSON(steps.changed-files-since.outputs) }}'
-        shell:
-          bash
-      - name: Run changed-files until 2022-08-20
-        id: changed-files-until
-        uses: ./
-        continue-on-error: true
-        with:
-          until: "2022-08-20"
-          target_branch_fetch_depth: "20000"
-      - name: Show output
-        run: |
-          echo '${{ toJSON(steps.changed-files-until.outputs) }}'
         shell:
           bash
       - name: Run changed-files with forward slash separator
