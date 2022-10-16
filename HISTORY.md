@@ -1,20 +1,26 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v32.1.2](https://github.com/tj-actions/changed-files/tree/v32.1.2) (2022-10-16)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.1...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32...v32.1.2)
+
+## [v32](https://github.com/tj-actions/changed-files/tree/v32) (2022-10-16)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.1...v32)
 
 **Fixed bugs:**
 
 - \[BUG\] Random GITHUB\_OUTPUT: unbound variable in get-sha.sh [\#690](https://github.com/tj-actions/changed-files/issues/690)
 
+**Merged pull requests:**
+
+- chore: clean up test [\#694](https://github.com/tj-actions/changed-files/pull/694) ([jackton1](https://github.com/jackton1))
+- fix: bug setting until and since inputs. [\#693](https://github.com/tj-actions/changed-files/pull/693) ([jackton1](https://github.com/jackton1))
+- Upgraded to v32.1.1 [\#692](https://github.com/tj-actions/changed-files/pull/692) ([jackton1](https://github.com/jackton1))
+
 ## [v32.1.1](https://github.com/tj-actions/changed-files/tree/v32.1.1) (2022-10-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32...v32.1.1)
-
-## [v32](https://github.com/tj-actions/changed-files/tree/v32) (2022-10-14)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.0...v32)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.0...v32.1.1)
 
 **Merged pull requests:**
 
@@ -117,7 +123,7 @@
 
 ## [v31.0.0](https://github.com/tj-actions/changed-files/tree/v31.0.0) (2022-09-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v31.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v31.0.0)
 
 **Merged pull requests:**
 
@@ -130,13 +136,13 @@
 - chore: update broken link [\#642](https://github.com/tj-actions/changed-files/pull/642) ([jackton1](https://github.com/jackton1))
 - Upgraded to v30.0.0 [\#641](https://github.com/tj-actions/changed-files/pull/641) ([jackton1](https://github.com/jackton1))
 
-## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v30)
-
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v30.0.0)
+
+## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30)
 
 **Fixed bugs:**
 
@@ -152,13 +158,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
-
 ## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
+
+## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
 
 **Implemented enhancements:**
 
@@ -1196,7 +1202,7 @@
 
 ## [v1.2.1](https://github.com/tj-actions/changed-files/tree/v1.2.1) (2021-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
@@ -1210,13 +1216,13 @@
 - Update actions/checkout action to v2.4.0 [\#243](https://github.com/tj-actions/changed-files/pull/243) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v11.5 [\#241](https://github.com/tj-actions/changed-files/pull/241) ([jackton1](https://github.com/jackton1))
 
-## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.2.0...v11.5)
-
 ## [v1.2.0](https://github.com/tj-actions/changed-files/tree/v1.2.0) (2021-10-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v1.2.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.5...v1.2.0)
+
+## [v11.5](https://github.com/tj-actions/changed-files/tree/v11.5) (2021-10-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.4...v11.5)
 
 **Merged pull requests:**
 
