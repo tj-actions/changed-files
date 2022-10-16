@@ -40,20 +40,20 @@ fi
 
 echo "::debug::Getting HEAD SHA..."
 
-if [[ -z $INPUT_SHA ]]; then
-  if [[ -n "$INPUT_UNTIL" ]]; then
-    echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
-    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+if [[ -n "$INPUT_UNTIL" ]]; then
+  echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
+  CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
 
-    if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Invalid until date: $INPUT_UNTIL"
-      exit 1
-    fi
-  else
-    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Invalid until date: $INPUT_UNTIL"
+    exit 1
   fi
 else
-  CURRENT_SHA=$INPUT_SHA; exit_status=$?
+  if [[ -z $INPUT_SHA ]]; then
+    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+  else
+    CURRENT_SHA=$INPUT_SHA; exit_status=$?
+  fi
 fi
 
 echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
