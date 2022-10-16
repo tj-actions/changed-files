@@ -101,7 +101,6 @@ jobs:
           fetch-depth: 0
       
       - run: |
-          git log -1 --format="%H" --date=local --until="2022-08-20" | grep -n d8ae75228d4d40e5ab140fbef3faff1ca55140c6
           git log -1 --format="%H" --date=local --until="2022-08-20" | grep -n 8d5c4478e28f7b7189cd93c195aa9d4f0992da90
     
       - name: Run changed-files since 2022-08-19
