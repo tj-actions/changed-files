@@ -179,7 +179,7 @@ Support this project with a :star:
 </details>
 
 <details>
-<summary>Get all changed files and use a comma separator in the output</summary>
+<summary>Get all changed files and using a comma separator</summary>
 
 ```yaml
 ...
