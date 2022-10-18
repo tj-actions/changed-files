@@ -166,9 +166,6 @@ Support this project with a :star:
 
 ## Examples
 
-<ul>
-
-<li>
 <details>
 <summary>Get all changed files in the current branch</summary>
 
@@ -180,9 +177,7 @@ Support this project with a :star:
 ...
 ```
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files and use a comma separator in the output</summary>
 
@@ -198,9 +193,7 @@ Support this project with a :star:
 
 See [inputs](#inputs) for more information.
 </details>
-</li>
 
-<li>
 <details>
 <summary> Get all changed files and list all added files</summary>
 
@@ -220,9 +213,7 @@ See [inputs](#inputs) for more information.
 
 See [outputs](#outputs) for a list of all available outputs.
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files and optionally run a step if a file was modified</summary>
 
@@ -241,12 +232,8 @@ See [outputs](#outputs) for a list of all available outputs.
 
 See [outputs](#outputs) for a list of all available outputs.
 </details>
-</li>
 
-<li>
 <details>
-
-
 <summary>Get all changed files using a list of files</summary>
 
 ```yaml
@@ -264,13 +251,10 @@ See [outputs](#outputs) for a list of all available outputs.
           **/*.sql
 ...
 ```
-
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files using a list of files and take action base on the changes</summary>
 
@@ -316,9 +300,7 @@ See [inputs](#inputs) for more information.
 See [outputs](#outputs) for a list of all available outputs.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files using a source file or list of file(s) to populate to files input</summary>
 
@@ -336,9 +318,7 @@ See [outputs](#outputs) for a list of all available outputs.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get changed files using a source file or list of file(s) to populate to files input and optionally specify more files</summary>
 
@@ -358,9 +338,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 
 <summary>Get all changed files using a different SHA</summary>
@@ -378,9 +356,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files using a different base SHA</summary>
 
@@ -397,9 +373,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files for a repository located in a different path</summary>
 
@@ -428,9 +402,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files with non äšćįí characters i.e (Filename in other languages)</summary>
 
@@ -454,9 +426,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files using the last successful commit of the base branch</summary>
 
@@ -523,9 +493,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files but only return the directory names</summary>
 
@@ -542,9 +510,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files and return JSON formatted outputs</summary>
 
@@ -561,9 +527,7 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
 
-<li>
 <details>
 <summary>Get all changed files by commits pushed in the past</summary>
 
@@ -586,9 +550,6 @@ See [inputs](#inputs) for more information.
 See [inputs](#inputs) for more information.
 
 </details>
-</li>
-
-</ul>
 
 ### Real world example
 
