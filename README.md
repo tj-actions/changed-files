@@ -349,13 +349,13 @@ Support this project with a :star:
         with:
           json: "true"
 
-      - name: Run changed-files since 2022-08-19
+      - name: Get changed-files since 2022-08-19
         id: changed-files-since
         uses: tj-actions/changed-files@v32
         with:
           since: "2022-08-19"
 
-      - name: Run changed-files until 2022-08-20
+      - name: Get changed-files until 2022-08-20
         id: changed-files-until
         uses: tj-actions/changed-files@v32
         with:
