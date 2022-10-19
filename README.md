@@ -176,6 +176,7 @@ Support this project with a :star:
       uses: tj-actions/changed-files@v32
 ...
 ```
+
 </details>
 
 <details>
@@ -192,6 +193,7 @@ Support this project with a :star:
 ```
 
 See [inputs](#inputs) for more information.
+
 </details>
 
 <details>
@@ -212,6 +214,7 @@ See [inputs](#inputs) for more information.
 ```
 
 See [outputs](#outputs) for a list of all available outputs.
+
 </details>
 
 <details>
@@ -231,6 +234,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ```
 
 See [outputs](#outputs) for a list of all available outputs.
+
 </details>
 
 <details>
@@ -251,6 +255,7 @@ See [outputs](#outputs) for a list of all available outputs.
           **/*.sql
 ...
 ```
+
 See [inputs](#inputs) for more information.
 
 </details>
@@ -297,6 +302,7 @@ See [inputs](#inputs) for more information.
         done
 ...
 ```
+
 See [outputs](#outputs) for a list of all available outputs.
 
 </details>
@@ -455,6 +461,7 @@ See [inputs](#inputs) for more information.
           base_sha: ${{ steps.last_successful_commit_push.outputs.commit_hash }}
 ...
 ```
+
 </details>
 </li>
 
