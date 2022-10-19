@@ -162,142 +162,281 @@ Support this project with a :star:
 |                  json                  |       `boolean`        | `false`  |       `false`       |                                        Output changed files in JSON format which can be used for [matrix jobs](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/manual-matrix-test.yml).                                         |
 |                 since                  |        `string`        | `false`  |                     |                                                                                       Get changed files for commits whose timestamp is older than the given time.                                                                                       |
 |                 until                  |        `string`        | `false`  |                     |                                                                                      Get changed files for commits whose timestamp is earlier than the given time.                                                                                      |
-|       target\_branch\_fetch\_depth        |        `string`        | `false`  |        `20`         |                  Limit fetching commits from the target branch to a specified number. **NOTE**: This can be adjusted to resolve errors with insufficient history. See: [#668](https://github.com/tj-actions/changed-files/issues/668).                  |
+|      target\_branch\_fetch\_depth      |        `string`        | `false`  |        `20`         |                  Limit fetching commits from the target branch to a specified number. **NOTE**: This can be adjusted to resolve errors with insufficient history. See: [#668](https://github.com/tj-actions/changed-files/issues/668).                  |
 
 ## Examples
 
+<details>
+<summary>Get all changed files in the current branch</summary>
+
 ```yaml
 ...
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-#          submodules: true # OR "recursive" -> To include all changed submodule files.
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+...
+```
+</details>
 
-      - name: Get changed files using defaults
-        id: changed-files
-        uses: tj-actions/changed-files@v32
+<details>
+<summary>Get all changed files and using a comma separator</summary>
 
-      - name: Get changed files using a comma separator
-        id: changed-files-comma
-        uses: tj-actions/changed-files@v32
-        with:
-          separator: ","
+```yaml
+...
+    - name: Get all changed files and use a comma separator in the output
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      with:
+        separator: ","
+...
+```
 
-      - name: List all added files
-        run: |
-          for file in ${{ steps.changed-files.outputs.added_files }}; do
-            echo "$file was added"
-          done
+See [inputs](#inputs) for more information.
+</details>
 
-      - name: Run step when a file changes
-        if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
-        run: |
-          echo "Your my-file.txt file has been modified."
+<details>
+<summary> Get all changed files and list all added files</summary>
 
-      - name: Run step when a file has been deleted
-        if: contains(steps.changed-files.outputs.deleted_files, 'test.txt')
-        run: |
-          echo "Your test.txt file has been deleted."
+```yaml
+...
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      
+    - name: List all added files
+      run: |
+        for file in ${{ steps.changed-files.outputs.added_files }}; do
+          echo "$file was added"
+        done
+...
+```
 
-      - name: Get specific changed files
-        id: changed-files-specific
-        uses: tj-actions/changed-files@v32
-        with:
-          files: |
-            my-file.txt
-            test.txt
-            new.txt
-            test_directory
-            *.sh
-            *.png
-            !*.md
-            *.jpeg
-            **/migrate-*.sql
-          files_ignore: |
-            *.yml
+See [outputs](#outputs) for a list of all available outputs.
+</details>
 
-      - name: Run step if any of the listed files above change
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
-        run: |
-          echo "One or more files listed above has changed."
+<details>
+<summary>Get all changed files and optionally run a step if a file was modified</summary>
 
-      - name: Run step if only the files listed above change
-        if: steps.changed-files-specific.outputs.only_changed == 'true'
-        run: |
-          echo "Only files listed above have changed."
+```yaml
+...
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      
+    - name: Run a step if my-file.txt was modified
+      if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
+      run: |
+        echo "my-file.txt file has been modified."
+...
+```
 
-      - name: Run step if any of the listed files above is deleted
-        if: steps.changed-files.outputs.any_deleted == 'true'
-        run: |
-          for file in ${{ steps.changed-files.outputs.deleted_files }}; do
-            echo "$file was deleted"
-          done
+See [outputs](#outputs) for a list of all available outputs.
+</details>
 
-      - name: Run step if all listed files above have been deleted
-        if: steps.changed-files.outputs.only_deleted == 'true'
-        run: |
-          for file in ${{ steps.changed-files.outputs.deleted_files }}; do
-            echo "$file was deleted"
-          done
+<details>
+<summary>Get all changed files using a list of files</summary>
 
-      - name: Use a source file or list of file(s) to populate to files input.
-        id: changed-files-specific-source-file
-        uses: tj-actions/changed-files@v32
-        with:
-          files_from_source_file: |
-            test/changed-files-list.txt
+```yaml
+...
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      with:
+        files: |
+          my-file.txt
+          *.sh
+          *.png
+          !*.md
+          test_directory
+          **/*.sql
+...
+```
+See [inputs](#inputs) for more information.
 
-      - name: Use a source file or list of file(s) to populate to files input and optionally specify more files.
-        id: changed-files-specific-source-file-and-specify-files
-        uses: tj-actions/changed-files@v32
-        with:
-          files_from_source_file: |
-            test/changed-files-list.txt
-          files: |
-            test.txt
+</details>
 
-      - name: Use a different commit SHA
-        id: changed-files-custom-sha
-        uses: tj-actions/changed-files@v32
-        with:
-          sha: ${{ github.event.pull_request.head.sha }}
+<details>
+<summary>Get all changed files using a list of files and take action base on the changes</summary>
 
-      - name: Use a different base SHA
-        id: changed-files-custom-base-sha
-        uses: tj-actions/changed-files@v32
-        with:
-          base_sha: ${{ github.event.pull_request.base.sha }}
-          
-      - name: Checkout into dir1
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          path: dir1
+```yaml
+...
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      with:
+        files: |
+          my-file.txt
+          *.sh
+          *.png
+          !*.md
+          test_directory
+          **/*.sql
 
-      - name: Run changed-files with defaults on the dir1
-        id: changed-files-for-dir1
-        uses: tj-actions/changed-files@v32
-        with:
-          path: dir1
+    - name: Run step if any of the listed files above change
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      run: |
+        echo "One or more files listed above has changed."
 
-      - name: List all added files in dir1
-        run: |
-          for file in ${{ steps.changed-files-for-dir1.outputs.added_files }}; do
-            echo "$file was added"
-          done
+    - name: Run step if only the files listed above change
+      if: steps.changed-files-specific.outputs.only_changed == 'true'
+      run: |
+        echo "Only files listed above have changed."
 
-      - name: Run changed-files with quotepath disabled
-        id: changed-files-quotepath
-        uses: tj-actions/changed-files@v32
-        with:
-          quotepath: "false"
+    - name: Run step if any of the listed files above is deleted
+      if: steps.changed-files.outputs.any_deleted == 'true'
+      run: |
+        for file in ${{ steps.changed-files.outputs.deleted_files }}; do
+          echo "$file was deleted"
+        done
 
-      # Run changed-files action using the last successful commit as the base_sha
-      # NOTE: This setting overrides the commit sha used by setting since_last_remote_commit to true.
-      # It is recommended to use either solution that works for your use case.
+    - name: Run step if all listed files above have been deleted
+      if: steps.changed-files.outputs.only_deleted == 'true'
+      run: |
+        for file in ${{ steps.changed-files.outputs.deleted_files }}; do
+          echo "$file was deleted"
+        done
+...
+```
+See [outputs](#outputs) for a list of all available outputs.
 
-      # Push event based workflows
+</details>
+
+<details>
+<summary>Get all changed files using a source file or list of file(s) to populate to files input</summary>
+
+```yaml
+...
+    - name: Get changed files using a source file or list of file(s) to populate to files input.
+      id: changed-files-specific-source-file
+      uses: tj-actions/changed-files@v32
+      with:
+        files_from_source_file: |
+          test/changed-files-list.txt
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get changed files using a source file or list of file(s) to populate to files input and optionally specify more files</summary>
+
+```yaml
+...
+    - name: Get changed files using a source file or list of file(s) to populate to files input and optionally specify more files.
+      id: changed-files-specific-source-file-and-specify-files
+      uses: tj-actions/changed-files@v32
+      with:
+        files_from_source_file: |
+          test/changed-files-list.txt
+        files: |
+          test.txt
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+
+<summary>Get all changed files using a different SHA</summary>
+
+```yaml
+...
+    - name: Get changed files using a different SHA
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      with:
+        sha: ${{ github.event.pull_request.head.sha }}
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files using a different base SHA</summary>
+
+```yaml
+...
+    - name: Get changed files using a different base SHA
+      id: changed-files
+      uses: tj-actions/changed-files@v32
+      with:
+        base_sha: ${{ github.event.pull_request.base.sha }}
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files for a repository located in a different path</summary>
+
+```yaml
+...
+    - name: Checkout into dir1
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        path: dir1
+
+    - name: Run changed-files with defaults in dir1
+      id: changed-files-for-dir1
+      uses: tj-actions/changed-files@v32
+      with:
+        path: dir1
+
+    - name: List all added files in dir1
+      run: |
+        for file in ${{ steps.changed-files-for-dir1.outputs.added_files }}; do
+          echo "$file was added"
+        done
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files with non äšćįí characters i.e (Filename in other languages)</summary>
+
+```yaml
+...
+    - name: Run changed-files with quotepath disabled
+      id: changed-files-quotepath
+      uses: tj-actions/changed-files@v32
+      with:
+        quotepath: "false"
+
+    - name: Run changed-files with quotepath disabled for a specified list of file(s)
+      id: changed-files-quotepath-specific
+      uses: ./
+      with:
+        files: test/test-è.txt
+        quotepath: "false"
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files using the last successful commit of the base branch</summary>
+
+<ul>
+    <li>
+        <details>
+        <summary>Push event</summary>
+
+```yaml
+...
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v6
@@ -314,53 +453,105 @@ Support this project with a :star:
         uses: tj-actions/changed-files@v32
         with:
           base_sha: ${{ steps.last_successful_commit_push.outputs.commit_hash }}
+...
+```
+</details>
+</li>
 
-      # Pull request based workflows.
+<li>
+<details>
+<summary>Pull request events </summary>
+
+```yaml
+...
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5
-        if: github.event_name == 'pull_request'
 
       - uses: nrwl/last-successful-commit-action@v1
         id: last_successful_commit_pull_request
-        if: github.event_name == 'pull_request'
         with:
           branch: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
           workflow_id: 'test.yml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run changed-files with the commit of the last successful test workflow run on main
-        if: github.event_name == 'pull_request'
         id: changed-files-base-sha-pull-request
         uses: tj-actions/changed-files@v32
         with:
           base_sha: ${{ steps.last_successful_commit_pull_request.outputs.commit_hash }}
-
-      - name: Run changed-files with dir_names
-        id: changed-files-dir-names
-        uses: tj-actions/changed-files@v32
-        with:
-          dir_names: "true"
-
-      # All outputs are JSON formatted arrays and can be used in other actions and matrix compatible jobs.
-      - name: Run changed-files with json output
-        id: changed-files-json
-        uses: tj-actions/changed-files@v32
-        with:
-          json: "true"
-
-      - name: Get changed-files since 2022-08-19
-        id: changed-files-since
-        uses: tj-actions/changed-files@v32
-        with:
-          since: "2022-08-19"
-
-      - name: Get changed-files until 2022-08-20
-        id: changed-files-until
-        uses: tj-actions/changed-files@v32
-        with:
-          until: "2022-08-20"
+...
 ```
+
+</details>
+</li>
+</ul>
+
+> NOTE: This setting overrides the commit sha used by setting `since_last_remote_commit` to true.
+> It is recommended to use either solution that works for your use case.
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files but only return the directory names</summary>
+
+```yaml
+...
+    - name: Run changed-files with dir_names
+      id: changed-files-dir-names
+      uses: tj-actions/changed-files@v32
+      with:
+        dir_names: "true"
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files and return JSON formatted outputs</summary>
+
+```yaml
+...
+    - name: Run changed-files with json output
+      id: changed-files-json
+      uses: tj-actions/changed-files@v32
+      with:
+        json: "true"
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
+<summary>Get all changed files by commits pushed in the past</summary>
+
+```yaml
+...
+    - name: Get changed-files since 2022-08-19
+      id: changed-files-since
+      uses: tj-actions/changed-files@v32
+      with:
+        since: "2022-08-19"
+    
+    - name: Get changed-files until 2022-08-20
+      id: changed-files-until
+      uses: tj-actions/changed-files@v32
+      with:
+        until: "2022-08-20"
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+### Real world example
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
