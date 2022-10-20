@@ -24,8 +24,8 @@ function get_diff() {
   sha="$2"
   filter="$3"
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
-    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
+    sub_commit_pre="$(git diff "$base"..."$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
+    sub_commit_cur="$(git diff "$base"..."$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
     if [ -n "$sub_commit_cur" ]; then
     (
       cd "$sub" && (
@@ -37,9 +37,9 @@ function get_diff() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha" | xargs -I {} dirname {} | uniq
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base"..."$sha" | xargs -I {} dirname {} | uniq
   else
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base" "$sha"
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base"..."$sha"
   fi
 }
 
@@ -47,8 +47,8 @@ function get_renames() {
   base="$1"
   sha="$2"
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
-    sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
+    sub_commit_pre="$(git diff "$base"..."$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')"
+    sub_commit_cur="$(git diff "$base"..."$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"
     if [ -n "$sub_commit_cur" ]; then
     (
       cd "$sub" && (
@@ -60,9 +60,9 @@ function get_renames() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq
+    git log --name-status --ignore-submodules=all "$base"..."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq
   else
-    git log --name-status --ignore-submodules=all "$base".."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
+    git log --name-status --ignore-submodules=all "$base"..."$sha" | grep -E "^R" | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}'
   fi
 }
 
