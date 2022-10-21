@@ -11,7 +11,7 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 DIFF="..."
 
 if [[ -z $GITHUB_BASE_REF ]]; then
-  DIFF=".."
+  DIFF=" "
 fi
 
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
