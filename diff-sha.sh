@@ -67,6 +67,26 @@ else
   echo "::debug::Current SHA: $CURRENT_SHA"
 fi
 
+function deepenShallowCloneToFindCommit() {
+  local ref="$1"
+  local target_branch="$2"
+  local depth=20
+  local max_depth=$INPUT_MAX_FETCH_DEPTH
+
+  while ! git rev-parse --quiet --verify "$ref^{commit}" 1>/dev/null 2>&1; do # !0 = true = not found
+    echo "::debug::Unable to find commit '$ref' in shallow clone. Increasing depth to $((depth * 2))..."
+
+    depth=$((depth * 2))
+
+    if [[ $depth -gt $max_depth ]]; then
+      echo "::error::Unable to find commit '$ref' in shallow clone. Maximum depth of $max_depth reached."
+      exit 1
+    fi
+
+    git fetch --no-tags -u --progress --deepen="$depth" origin "$target_branch":"$target_branch"
+  done
+}
+
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
@@ -82,8 +102,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" && exit_status=$? || exit_status=$?
-
       PREVIOUS_SHA=""
 
       if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
@@ -117,6 +135,9 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::Target branch $TARGET_BRANCH..."
   echo "::debug::Current branch $CURRENT_BRANCH..."
 
+  echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
+  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "$TARGET_BRANCH"
+
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
@@ -130,9 +151,6 @@ else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
-  git fetch --no-tags -u --progress origin --depth="$INPUT_TARGET_BRANCH_FETCH_DEPTH" "${TARGET_BRANCH}":"${TARGET_BRANCH}" &&
-  exit_status=$? || exit_status=$?
-
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
@@ -142,6 +160,9 @@ else
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
+
+  echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
+  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "$TARGET_BRANCH"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
