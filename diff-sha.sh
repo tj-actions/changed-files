@@ -73,7 +73,7 @@ function deepenShallowCloneToFindCommit() {
   local depth=20
   local max_depth=$INPUT_MAX_FETCH_DEPTH
 
-  while ! git rev-parse --quiet --verify "$ref^{commit}" 1>/dev/null 2>&1; do # !0 = true = not found
+  while ! git rev-parse --quiet --verify "$ref^{commit}" &>/dev/null; do # !0 = true = not found
     echo "::debug::Unable to find commit '$ref' in shallow clone. Increasing depth to $((depth * 2))..."
 
     depth=$((depth * 2))
