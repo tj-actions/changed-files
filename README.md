@@ -162,7 +162,7 @@ Support this project with a :star:
 |                  json                  |       `boolean`        | `false`  |       `false`       |                                        Output changed files in JSON format which can be used for [matrix jobs](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/manual-matrix-test.yml).                                         |
 |                 since                  |        `string`        | `false`  |                     |                                                                                       Get changed files for commits whose timestamp is older than the given time.                                                                                       |
 |                 until                  |        `string`        | `false`  |                     |                                                                                      Get changed files for commits whose timestamp is earlier than the given time.                                                                                      |
-|      target\_branch\_fetch\_depth      |        `string`        | `false`  |        `20`         |                  Limit fetching commits from the target branch to a specified number. **NOTE**: This can be adjusted to resolve errors with insufficient history. See: [#668](https://github.com/tj-actions/changed-files/issues/668).                  |
+|      max\_fetch\_depth      |        `string`        | `false`  |        `120`         |                  Max limit for fetching branch history. **NOTE**: This can be adjusted to resolve errors with insufficient history.                  |
 
 ## Examples
 
