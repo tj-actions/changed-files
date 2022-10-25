@@ -204,7 +204,7 @@ jobs:
           bash
 
   test-limited-commit-history:
-    name: Test changed-files with fetch-depth set to 2
+    name: Test changed-files with limited commit history
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
