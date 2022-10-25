@@ -203,8 +203,8 @@ jobs:
         shell:
           bash
 
-  test-single-commit-history:
-    name: Test changed-files single commit history
+  test-limited-commit-history:
+    name: Test changed-files with fetch-depth set to 2
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
