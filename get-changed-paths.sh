@@ -25,9 +25,10 @@ if [[ -n $INPUT_DIFF_RELATIVE ]]; then
 fi
 
 function get_diff() {
-  base="$1"
-  sha="$2"
-  filter="$3"
+  local base="$1"
+  local sha="$2"
+  local filter="$3"
+
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
@@ -69,8 +70,9 @@ function get_diff() {
 }
 
 function get_renames() {
-  base="$1"
-  sha="$2"
+  local base="$1"
+  local sha="$2"
+
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
