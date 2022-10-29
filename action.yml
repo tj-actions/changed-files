@@ -8,73 +8,73 @@ inputs:
     required: false
     default: " "
   include_all_old_new_renamed_files:
-    description: "Include all_old_new_renamed_files output. Note this can generate a large debug output See: #501."
+    description: "Include `all_old_new_renamed_files` output. Note this can generate a large output See: [#501](https://github.com/tj-actions/changed-files/issues/501)."
     required: false
     default: "false"
   old_new_separator:
-    description: "Split character for old and new filename pairs"
+    description: "Split character for old and new filename pairs."
     required: false
     default: ","
   old_new_files_separator:
-    description: "Split character for multiple old and new filename pairs"
+    description: "Split character for multiple old and new filename pairs."
     required: false
     default: " "
   files_from_source_file:
-    description: "Source file(s) to populate the files input"
+    description: "Source file(s) used to populate the `files` input."
     required: false
     default: ""
   files:
-    description: "Check for changes using only this list of files (Defaults to the entire repo)"
+    description: "File and directory patterns to detect changes using only these list of file(s) (Defaults to the entire repo) **NOTE:** Multiline file/directory patterns should not include qoutes."
     required: false
     default: ""
   files_separator:
-    description: "Separator used to split the files input"
+    description: "Separator used to split the `files` input"
     default: "\n"
     required: false
   files_ignore:
-    description: "Ignore changes to this list of files"
+    description: "Ignore changes to these file(s) **NOTE:** Multiline file/directory patterns should not include qoutes."
     required: false
     default: ""
   files_ignore_separator:
-    description: "Separator used to split the files-ignore input"
+    description: "Separator used to split the `files-ignore` input"
     default: "\n"
     required: false
   files_ignore_from_source_file:
-    description: "Source file(s) to populate the files-ignore input"
+    description: "Source file(s) used to populate the `files_ignore` input"
     required: false
     default: ""
   sha:
-    description: "Specify a current commit SHA used for comparing changes"
+    description: "Specify a different commit SHA used for comparing changes"
     required: true
     default: ${{ github.sha }}
   base_sha:
-    description: "Specify a base commit SHA on used for comparing changes"
+    description: "Specify a different base commit SHA used for comparing changes"
     required: false
   since:
-    description: "Get changed files for commits whose timestamp is older than the given time"
+    description: "Get changed files for commits whose timestamp is older than the given time."
     required: false
     default: ""
   until:
-    description: "Get changed files for commits whose timestamp is earlier than the given time"
+    description: "Get changed files for commits whose timestamp is earlier than the given time."
     required: false
     default: ""
   path:
-    description: "Specify a relative path under $GITHUB_WORKSPACE to locate the repository"
+    description: "Specify a relative path under `$GITHUB_WORKSPACE` to locate the repository."
     required: false
     default: "."
   quotepath:
-    description: "Output filenames completely verbatim by setting this to false"
+    description: "Use non ascii characters to match files and output the filenames completely verbatim by setting this to `false`"
     default: "true"
     required: false
   diff_relative:
-    description: "Exclude changes outside the current directory and show pathnames relative to it"
+    description: "Exclude changes outside the current directory and show pathnames relative to it. **NOTE:** This requires you to specify the top level directory via the `path` input."
     required: false
   dir_names:
     default: "false"
-    description: "Output the absolute path to the changed directories instead of the filenames"
+    description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the root of the project."
     required: false
   json:
-    description: "Output changed files in JSON format which can be used for matrix jobs"
+    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
     default: "false"
   max_fetch_depth:
@@ -84,67 +84,67 @@ inputs:
 
 outputs:
   added_files:
-    description: List of added files.
+    description: "Returns only files that are Added (A)."
     value: ${{ steps.changed-files.outputs.added_files }}
   copied_files:
-    description: List of copied files.
+    description: "Returns only files that are Copied (C)."
     value: ${{ steps.changed-files.outputs.copied_files }}
   deleted_files:
-    description: List of deleted files.
+    description: "Returns only files that are Deleted (D)."
     value: ${{ steps.changed-files.outputs.deleted_files }}
   modified_files:
-    description: List of modified files.
+    description: "Returns only files that are Modified (M)."
     value: ${{ steps.changed-files.outputs.modified_files }}
   renamed_files:
-    description: List of renamed files.
+    description: "Returns only files that are Renamed (R)."
     value: ${{ steps.changed-files.outputs.renamed_files }}
   all_old_new_renamed_files:
-    description: List of all old and new names of renamed files.
+    description:   "Returns only files that are Renamed and list their old and new names. **NOTE:** This requires setting `include_all_old_new_renamed_files` to `true` (R)"
     value: ${{ steps.changed-files.outputs.all_old_new_renamed_files }}
   type_changed_files:
-    description: List of files that had type changes.
+    description: "Returns only files that have their file type changed (T)."
     value: ${{ steps.changed-files.outputs.type_changed_files }}
   unmerged_files:
-    description: List of unmerged files.
+    description: "Returns only files that are Unmerged (U)."
     value: ${{ steps.changed-files.outputs.unmerged_files }}
   unknown_files:
-    description: List of unknown files.
+    description: "Returns only files that are Unknown (X)."
     value: ${{ steps.changed-files.outputs.unknown_files }}
   all_changed_and_modified_files:
-    description: List of all changed files.
+    description: "Returns all changed and modified files i.e. *a combination of (ACMRDTUX)*"
     value: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
   all_changed_files:
-    description: List of all copied, modified, and added files.
+    description: "Returns all changed files i.e. *a combination of all added, copied, modified and renamed files (ACMR)*"
     value: ${{ steps.changed-files.outputs.all_changed_files }}
   any_changed:
-    description: Return true only when any files provided using the files input have changed.
+    description: "Returns `true` when any of the filenames provided using the `files` input has changed. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
     value: ${{ steps.changed-files.outputs.any_changed }}
   only_changed:
-    description: Return true when all files provided using the files input have changed.
+    description: "Returns `true` when only files provided using the `files` input has changed. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
     value: ${{ steps.changed-files.outputs.only_changed }}
   other_changed_files:
-    description: Return list of changed files not listed in the files input.
+    description: "Returns all other changed files not listed in the files input i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
     value: ${{ steps.changed-files.outputs.other_changed_files }}
   all_modified_files:
-    description: List of all copied, modified, added and deleted files.
+    description: "Returns all changed files i.e. *a combination of all added, copied, modified, renamed and deleted files (ACMRD)*."
     value: ${{ steps.changed-files.outputs.all_modified_files }}
   any_modified:
-    description: Return true only when any files provided using the files input have been modified.
+    description: "Returns `true` when any of the filenames provided using the `files` input has been modified. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified, renamed, and deleted files (ACMRD)*."
     value: ${{ steps.changed-files.outputs.any_modified }}
   only_modified:
-    description: Return true when all files provided using the files input have been modified.
+    description: "Returns `true` when only files provided using the `files` input has been modified. If no `files` have been specified,an empty string `''` is returned.(ACMRD)."
     value: ${{ steps.changed-files.outputs.only_modified }}
   other_modified_files:
-    description: Return list of modified files not listed in the files input.
+    description: "Returns all other modified files not listed in the files input i.e. *a  combination of all added, copied, modified, and deleted files (ACMRD)*"
     value: ${{ steps.changed-files.outputs.other_modified_files }}
   any_deleted:
-    description: Return true only when any files provided using the files input have been deleted.
+    description: "Returns `true` when any of the filenames provided using the `files` input has been deleted. If no `files` have been specified,an empty string `''` is returned. (D)"
     value: ${{ steps.changed-files.outputs.any_deleted }}
   only_deleted:
-    description: Return true when all files provided using the files input have been deleted.
+    description: "Returns `true` when only files provided using the `files` input has been deleted. If no `files` have been specified,an empty string `''` is returned. (D)"
     value: ${{ steps.changed-files.outputs.only_deleted }}
   other_deleted_files:
-    description: Return list of deleted files not listed in the files input.
+    description: "Returns all other deleted files not listed in the files input i.e. *a  combination of all deleted files (D)*"
     value: ${{ steps.changed-files.outputs.other_deleted_files }}
 
 runs:
