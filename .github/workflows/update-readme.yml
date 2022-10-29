@@ -13,6 +13,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Run auto-doc
+        uses: tj-actions/auto-doc@v1.4.1
+        with:
+          col_max_words: 12
+
       - name: Run test
         uses: tj-actions/remark@v3
 
