@@ -71,14 +71,10 @@ body:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       placeholder: |
-        ### This can be done by:
-        - #### Re-running the workflow with debug logging enabled.
-        ![Screen Shot 2022-10-26 at 2 30 41 PM](https://user-images.githubusercontent.com/17484350/198131404-2ff30c05-bf5f-4670-94f7-ab28bbfad4f5.png)
-
-        ### AND
-
-        - #### Downloading the log archive
-        ![Screen Shot 2022-10-26 at 2 33 04 PM](https://user-images.githubusercontent.com/17484350/198131757-85715722-6a8d-4125-85af-76954420f28b.png)
+        This can be achieved by:
+        1. Re-running the workflow with debug logging enabled.
+        2. Copy or download the log archive.
+        3. Paste the contents here or upload the file in a subsequent comment.
       render: shell
   - type: textarea
     attributes:
