@@ -93,7 +93,7 @@ function deepenShallowCloneToFindCommitPullRequest() {
   local depth=20
   local max_depth=$INPUT_MAX_FETCH_DEPTH
 
-  while ! git merge-base "$target_branch" "$current_branch" &>/dev/null; do
+  while [ -z $(git merge-base "$target_branch" "$current_branch") ]; do
     echo "::debug::Unable to find merge-base in shallow clone. Increasing depth to $((depth * 2))..."
 
     depth=$((depth * 2))
