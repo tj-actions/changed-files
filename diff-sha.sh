@@ -68,8 +68,8 @@ else
 fi
 
 function deepenShallowCloneToFindCommit() {
-  local ref="$1"
-  local target_branch="$2"
+  local target_branch="$1"
+  local ref="$2"
   local depth=20
   local max_depth=$INPUT_MAX_FETCH_DEPTH
 
@@ -84,6 +84,26 @@ function deepenShallowCloneToFindCommit() {
     fi
 
     git fetch --no-tags -u --progress --deepen="$depth" origin "$target_branch":"$target_branch"
+  done
+}
+
+function deepenShallowCloneToFindCommitPullRequest() {
+  local target_branch="$1"
+  local current_branch="$2"
+  local depth=20
+  local max_depth=$INPUT_MAX_FETCH_DEPTH
+
+  while ! git merge-base "$target_branch" "$current_branch" &>/dev/null; do
+    echo "::debug::Unable to find merge-base in shallow clone. Increasing depth to $((depth * 2))..."
+
+    depth=$((depth * 2))
+
+    if [[ $depth -gt $max_depth ]]; then
+      echo "::error::Unable to find merge-base in shallow clone. Please increase 'max_fetch_depth' to at least $depth."
+      exit 1
+    fi
+
+    git fetch --no-tags -u --progress --deepen="$depth" origin "$target_branch" "$current_branch"
   done
 }
 
@@ -136,7 +156,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::Current branch $CURRENT_BRANCH..."
 
   echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "$TARGET_BRANCH"
+  deepenShallowCloneToFindCommit "$TARGET_BRANCH" "$PREVIOUS_SHA"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
@@ -162,7 +182,7 @@ else
   echo "::debug::Current branch: $CURRENT_BRANCH"
 
   echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "$TARGET_BRANCH"
+  deepenShallowCloneToFindCommitPullRequest "$TARGET_BRANCH" "$CURRENT_BRANCH"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
