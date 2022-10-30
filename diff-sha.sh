@@ -88,12 +88,12 @@ function deepenShallowCloneToFindCommit() {
 }
 
 function deepenShallowCloneToFindCommitPullRequest() {
-  local target_branch="$1"
-  local current_branch="$2"
+  local base_ref="$1"
+  local ref="$2"
   local depth=20
   local max_depth=$INPUT_MAX_FETCH_DEPTH
 
-  while ! git diff "$target_branch"..."$current_branch"; do
+  while ! git diff "$base_ref"..."$ref"; do
     echo "::debug::Unable to find merge-base in shallow clone. Increasing depth to $((depth * 2))..."
 
     depth=$((depth * 2))
@@ -182,7 +182,7 @@ else
   echo "::debug::Current branch: $CURRENT_BRANCH"
 
   echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommitPullRequest "$TARGET_BRANCH" "$CURRENT_BRANCH"
+  deepenShallowCloneToFindCommitPullRequest "$PREVIOUS_SHA" "$CURRENT_SHA"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
