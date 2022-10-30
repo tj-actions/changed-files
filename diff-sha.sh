@@ -69,8 +69,8 @@ fi
 
 function deepenShallowCloneToFindCommit() {
   local base_ref="$1"
-  local ref="$2"
-  local diff="$3"
+  local diff="$2"
+  local ref="$3"
   local target_branch="$4"
   local depth=20
   local max_depth=$INPUT_MAX_FETCH_DEPTH
@@ -138,7 +138,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::Current branch $CURRENT_BRANCH..."
 
   echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "$CURRENT_SHA" ".." "$TARGET_BRANCH"
+  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" ".." "$CURRENT_SHA" "$TARGET_BRANCH"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
@@ -164,7 +164,7 @@ else
   echo "::debug::Current branch: $CURRENT_BRANCH"
 
   echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "$CURRENT_SHA" "..." "$TARGET_BRANCH"
+  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "..." "$CURRENT_SHA"  "$TARGET_BRANCH"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
