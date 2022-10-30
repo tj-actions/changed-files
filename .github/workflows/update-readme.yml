@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run auto-doc
-        uses: tj-actions/auto-doc@v1.4.1
+        uses: tj-actions/auto-doc@v1.4.2
         with:
           col_max_words: 12
 
