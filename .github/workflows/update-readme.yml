@@ -15,8 +15,6 @@ jobs:
 
       - name: Run auto-doc
         uses: tj-actions/auto-doc@v1.4.2
-        with:
-          col_max_words: 12
 
       - name: Run test
         uses: tj-actions/remark@v3
