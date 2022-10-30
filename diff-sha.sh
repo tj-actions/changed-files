@@ -106,7 +106,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     else
       PREVIOUS_SHA=""
 
-      if [[ "$GITHUB_EVENT_FORCED" == "false" ]]; then
+      if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
         PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
       fi
 
@@ -115,17 +115,18 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
 
       if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-        PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1")
+        PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1" 2>/dev/null || true)
 
-        if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+        if [[ -z "$PREVIOUS_SHA" ]]; then
           INITIAL_COMMIT="true"
-          echo "::debug::Initial commit detected"
+          PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA")
+          echo "::warning::Initial commit detected no previous commit found."
         fi
-      fi
-
-      if [[ -z "$PREVIOUS_SHA" ]]; then
-        echo "::error::Unable to locate a previous commit"
-        exit 1
+      else
+        if [[ -z "$PREVIOUS_SHA" ]]; then
+          echo "::error::Unable to locate a previous commit"
+          exit 1
+        fi
       fi
     fi
   else
