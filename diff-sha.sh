@@ -115,9 +115,9 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
 
       if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-        PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1" 2>/dev/null || true)
+        PARENT_COUNT=$(git show -s --format="%P" "$CURRENT_SHA" | wc -w | xargs)
 
-        if [[ -z "$PREVIOUS_SHA" ]]; then
+        if [[ "$PARENT_COUNT" == "0" ]]; then
           INITIAL_COMMIT="true"
           PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA")
           echo "::warning::Initial commit detected no previous commit found."
