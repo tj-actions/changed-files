@@ -1,12 +1,40 @@
 # Changelog
 
+## [v34.0.1](https://github.com/tj-actions/changed-files/tree/v34.0.1) (2022-10-31)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.0.1)
+
+## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-10-31)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.0.0...v34)
+
+**Fixed bugs:**
+
+- \[BUG\] Action fails on initial commit [\#715](https://github.com/tj-actions/changed-files/issues/715)
+- \[BUG\] Auto-Merge not working properly on Change-Detection for PRs [\#713](https://github.com/tj-actions/changed-files/issues/713)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- Updated README.md [\#725](https://github.com/tj-actions/changed-files/pull/725) ([jackton1](https://github.com/jackton1))
+- chore: increase the default max\_fetch\_depth [\#724](https://github.com/tj-actions/changed-files/pull/724) ([jackton1](https://github.com/jackton1))
+- fix: bug detecting changes in initial commit. [\#723](https://github.com/tj-actions/changed-files/pull/723) ([jackton1](https://github.com/jackton1))
+- fix: bug with finding merge-base [\#722](https://github.com/tj-actions/changed-files/pull/722) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/auto-doc action to v1.4.3 [\#721](https://github.com/tj-actions/changed-files/pull/721) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#720](https://github.com/tj-actions/changed-files/pull/720) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#719](https://github.com/tj-actions/changed-files/pull/719) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/auto-doc action to v1.4.2 [\#718](https://github.com/tj-actions/changed-files/pull/718) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#717](https://github.com/tj-actions/changed-files/pull/717) ([jackton1](https://github.com/jackton1))
+- chore: update docs [\#716](https://github.com/tj-actions/changed-files/pull/716) ([jackton1](https://github.com/jackton1))
+- chore: remove comment [\#712](https://github.com/tj-actions/changed-files/pull/712) ([jackton1](https://github.com/jackton1))
+- Upgraded to v34.0.0 [\#711](https://github.com/tj-actions/changed-files/pull/711) ([jackton1](https://github.com/jackton1))
+
 ## [v34.0.0](https://github.com/tj-actions/changed-files/tree/v34.0.0) (2022-10-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.0.0)
-
-## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-10-25)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v33.0.0...v34)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v33...v34.0.0)
 
 **Fixed bugs:**
 
@@ -19,18 +47,17 @@
 - feat: add support for fetching more history [\#709](https://github.com/tj-actions/changed-files/pull/709) ([jackton1](https://github.com/jackton1))
 - Upgraded to v33.0.0 [\#707](https://github.com/tj-actions/changed-files/pull/707) ([jackton1](https://github.com/jackton1))
 
-## [v33.0.0](https://github.com/tj-actions/changed-files/tree/v33.0.0) (2022-10-21)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v33...v33.0.0)
-
 ## [v33](https://github.com/tj-actions/changed-files/tree/v33) (2022-10-21)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.2...v33)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v33.0.0...v33)
+
+## [v33.0.0](https://github.com/tj-actions/changed-files/tree/v33.0.0) (2022-10-21)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v32.1.2...v33.0.0)
 
 **Closed issues:**
 
 - Ability to do a three dots diff [\#702](https://github.com/tj-actions/changed-files/issues/702)
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -164,7 +191,7 @@
 
 ## [v31.0.0](https://github.com/tj-actions/changed-files/tree/v31.0.0) (2022-09-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v31.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v31.0.0)
 
 **Merged pull requests:**
 
@@ -177,13 +204,13 @@
 - chore: update broken link [\#642](https://github.com/tj-actions/changed-files/pull/642) ([jackton1](https://github.com/jackton1))
 - Upgraded to v30.0.0 [\#641](https://github.com/tj-actions/changed-files/pull/641) ([jackton1](https://github.com/jackton1))
 
-## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v30.0.0)
-
 ## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v30)
+
+## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
 
 **Fixed bugs:**
 
@@ -199,13 +226,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
-
 ## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
+
+## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
 
 **Implemented enhancements:**
 
