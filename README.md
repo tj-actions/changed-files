@@ -594,7 +594,7 @@ This package was created with [Cookiecutter](https://github.com/cookiecutter/coo
 *   [tj-actions/demo2](https://github.com/tj-actions/demo2)
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
 *   [tj-actions/auto-doc](https://github.com/tj-actions/auto-doc)
-*   [tj-actions/verify-changed-files](https://github.com/tj-actions/verify-changed-files
+*   \[tj-actions/verify-changed-files]\(https://github.com/tj-actions/verify-changed-files
 
 ## Report Bugs
 
