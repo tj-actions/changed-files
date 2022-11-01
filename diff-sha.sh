@@ -50,7 +50,7 @@ if [[ -n "$INPUT_UNTIL" ]]; then
   fi
 else
   if [[ -z $INPUT_SHA ]]; then
-    CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD) && exit_status=$? || exit_status=$?
+    CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
   else
     CURRENT_SHA=$INPUT_SHA; exit_status=$?
   fi
