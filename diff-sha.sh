@@ -50,7 +50,7 @@ if [[ -n "$INPUT_UNTIL" ]]; then
   fi
 else
   if [[ -z $INPUT_SHA ]]; then
-    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+    CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD) && exit_status=$? || exit_status=$?
   else
     CURRENT_SHA=$INPUT_SHA; exit_status=$?
   fi
@@ -104,10 +104,12 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      PREVIOUS_SHA=""
-
-      if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
-        PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1)
+      
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
+          PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+        fi
       fi
 
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
@@ -155,7 +157,12 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1)
+
+    if [[ -z "$PREVIOUS_SHA" ]]; then
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+    fi
+
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
