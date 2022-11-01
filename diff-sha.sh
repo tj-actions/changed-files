@@ -104,7 +104,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1)
+      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       
       if [[ -z "$PREVIOUS_SHA" ]]; then
         if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
@@ -157,7 +157,7 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1)
+    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
 
     if [[ -z "$PREVIOUS_SHA" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
