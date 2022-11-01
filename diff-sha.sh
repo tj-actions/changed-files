@@ -18,11 +18,11 @@ if [[ -n $INPUT_PATH ]]; then
   cd "$REPO_DIR"
 fi
 
-echo "Verifying git version..."
-
 function __version() {
   echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }';
 }
+
+echo "Verifying git version..."
 
 GIT_VERSION=$(git --version | awk '{print $3}') && exit_status=$? || exit_status=$?
 
@@ -32,7 +32,7 @@ if [[ $exit_status -ne 0 ]]; then
 fi
 
 if [[ $(__version "$GIT_VERSION") -lt $(__version "2.18.0") ]]; then
-  echo "::error::Invalid git version. Please upgrade git ($GIT_VERSION) to >= (2.18.0)"
+  echo "::error::Invalid git version. Please upgrade ($GIT_VERSION) to >= (2.18.0)"
   exit 1
 else
   echo "Valid git version found: ($GIT_VERSION)"
@@ -119,6 +119,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
           INITIAL_COMMIT="true"
           PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA")
           echo "::warning::Initial commit detected no previous commit found."
+        else
+          PREVIOUS_SHA=$(git rev-parse "$PREVIOUS_SHA^1")
         fi
       else
         if [[ -z "$PREVIOUS_SHA" ]]; then

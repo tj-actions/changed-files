@@ -237,7 +237,7 @@ See [outputs](#outputs) for a list of all available outputs.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v34
-      
+
     - name: Run a step if my-file.txt was modified
       if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
       run: |
@@ -557,7 +557,7 @@ See [inputs](#inputs) for more information.
       uses: tj-actions/changed-files@v34
       with:
         since: "2022-08-19"
-    
+
     - name: Get changed-files until 2022-08-20
       id: changed-files-until
       uses: tj-actions/changed-files@v34
@@ -593,6 +593,8 @@ This package was created with [Cookiecutter](https://github.com/cookiecutter/coo
 *   [tj-actions/demo](https://github.com/tj-actions/demo)
 *   [tj-actions/demo2](https://github.com/tj-actions/demo2)
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
+*   [tj-actions/auto-doc](https://github.com/tj-actions/auto-doc)
+*   \[tj-actions/verify-changed-files]\(https://github.com/tj-actions/verify-changed-files
 
 ## Report Bugs
 
