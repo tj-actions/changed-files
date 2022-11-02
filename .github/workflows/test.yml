@@ -338,13 +338,14 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        fetch-depth: [0, 1]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: true
-          fetch-depth: 0
+          fetch-depth: ${{ matrix.fetch-depth }}
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
