@@ -157,16 +157,15 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --deepen=30 origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+    git fetch --no-tags -u --progress --depth=10 origin "$TARGET_BRANCH":"$TARGET_BRANCH"
 
     PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
     if [[ -z "$PREVIOUS_SHA" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
-
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    git fetch --no-tags -u --progress --deepen=30 origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
+    git fetch --no-tags -u --progress --depth=10 origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
 
