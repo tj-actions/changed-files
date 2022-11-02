@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 7
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
 
@@ -38,7 +38,7 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-glob.outputs) }}'
-      
+
       - name: Run changed-files with glob filtering and all_old_new_renamed_files
         id: changed-files-glob-all-old-new-renamed-files
         uses: ./
