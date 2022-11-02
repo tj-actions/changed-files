@@ -85,7 +85,7 @@ function deepenShallowCloneToFindCommit() {
       exit 1
     fi
 
-    git fetch --no-tags -u --progress --deepen="$depth" origin "$target_branch":"$target_branch"
+    git fetch --no-tags -u --progress --depth="$depth" origin "$target_branch":"$target_branch"
   done
 }
 
