@@ -211,13 +211,12 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
-        fetch-depth: [1, 2]
 
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v3
         with:
-          fetch-depth: ${{ matrix.fetch-depth }}
+          fetch-depth: 2
 
       - name: Run changed-files
         id: changed-files
