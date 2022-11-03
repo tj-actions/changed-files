@@ -97,14 +97,14 @@ function get_renames() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git log --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" || true | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
+    git log --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" || true | awk '{print $2}' | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get renamed directories between: $base → $sha"
       exit 1
     fi
   else
-    git log --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" || true | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
+    git log --name-status --ignore-submodules=all "$base" "$sha" | grep -E "^R" || true | awk '{print $2}' | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get renamed files between: $base → $sha"
