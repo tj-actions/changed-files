@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -exuo pipefail
 
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'.'/'%2E'}"
