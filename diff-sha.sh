@@ -38,39 +38,39 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
-echo "::debug::Getting HEAD SHA..."
-
-if [[ -n "$INPUT_UNTIL" ]]; then
-  echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
-  CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
-
-  if [[ $exit_status -ne 0 ]]; then
-    echo "::error::Invalid until date: $INPUT_UNTIL"
-    exit 1
-  fi
-else
-  if [[ -z $INPUT_SHA ]]; then
-    CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
-  else
-    CURRENT_SHA=$INPUT_SHA; exit_status=$?
-  fi
-fi
-
-echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
-git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-if [[ $exit_status -ne 0 ]]; then
-  echo "::error::Unable to locate the current sha: $CURRENT_SHA"
-  echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
-  exit 1
-else
-  echo "::debug::Current SHA: $CURRENT_SHA"
-fi
-
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
+
+  echo "::debug::Getting HEAD SHA..."
+  if [[ -n "$INPUT_UNTIL" ]]; then
+    echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
+    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+
+    if [[ $exit_status -ne 0 ]]; then
+      echo "::error::Invalid until date: $INPUT_UNTIL"
+      exit 1
+    fi
+  else
+    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+    if [[ -z $INPUT_SHA ]]; then
+      CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
+    else
+      CURRENT_SHA=$INPUT_SHA; exit_status=$?
+    fi
+  fi
+
+  echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
+  git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Unable to locate the current sha: $CURRENT_SHA"
+    echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
+    exit 1
+  else
+    echo "::debug::Current SHA: $CURRENT_SHA"
+  fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ -n "$INPUT_SINCE" ]]; then
@@ -133,8 +133,37 @@ else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
+  echo "Fetching remote refs..."
   git fetch --no-tags -u --progress --deepen=40000
   git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+
+  echo "::debug::Getting HEAD SHA..."
+  if [[ -n "$INPUT_UNTIL" ]]; then
+    echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
+    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+
+    if [[ $exit_status -ne 0 ]]; then
+      echo "::error::Invalid until date: $INPUT_UNTIL"
+      exit 1
+    fi
+  else
+    if [[ -z $INPUT_SHA ]]; then
+      CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
+    else
+      CURRENT_SHA=$INPUT_SHA; exit_status=$?
+    fi
+  fi
+
+  echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
+  git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Unable to locate the current sha: $CURRENT_SHA"
+    echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
+    exit 1
+  else
+    echo "::debug::Current SHA: $CURRENT_SHA"
+  fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
