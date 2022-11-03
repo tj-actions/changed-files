@@ -53,10 +53,10 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       exit 1
     fi
   else
-    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
     else
+      git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
     fi
   fi
