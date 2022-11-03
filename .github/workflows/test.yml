@@ -211,12 +211,15 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        fetch-depth: [1, 2]
 
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ matrix.fetch-depth }}
 
-      - name: Run changed-files with a single commit history
+      - name: Run changed-files
         id: changed-files
         uses: ./
 
@@ -355,6 +358,16 @@ jobs:
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files with include_all_old_new_renamed_files
+        id: changed-files-all-old-new-renamed-files
+        uses: ./
+        with:
+          include_all_old_new_renamed_files: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files.outputs) }}'
         shell:
           bash
       - name: List all modified files

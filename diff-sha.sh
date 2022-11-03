@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -50,7 +50,7 @@ if [[ -n "$INPUT_UNTIL" ]]; then
   fi
 else
   if [[ -z $INPUT_SHA ]]; then
-    CURRENT_SHA=$(git rev-list -n 1 "HEAD" 2>&1) && exit_status=$? || exit_status=$?
+    CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
   else
     CURRENT_SHA=$INPUT_SHA; exit_status=$?
   fi
@@ -67,28 +67,6 @@ else
   echo "::debug::Current SHA: $CURRENT_SHA"
 fi
 
-function deepenShallowCloneToFindCommit() {
-  local base_ref="$1"
-  local diff="$2"
-  local ref="$3"
-  local target_branch="$4"
-  local depth=20
-  local max_depth=$INPUT_MAX_FETCH_DEPTH
-
-  while ! git diff "$base_ref$diff$ref" &>/dev/null; do
-    echo "::debug::Unable to find merge-base in shallow clone. Increasing depth to $((depth * 2))..."
-
-    depth=$((depth * 2))
-
-    if [[ $depth -gt $max_depth ]]; then
-      echo "::error::Unable to find merge-base in shallow clone. Please increase 'max_fetch_depth' to at least $((depth + 20))."
-      exit 1
-    fi
-
-    git fetch --no-tags -u --progress --deepen="$depth" origin "$target_branch":"$target_branch"
-  done
-}
-
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
@@ -104,10 +82,14 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      PREVIOUS_SHA=""
+      git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
 
-      if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
-        PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+      
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
+          PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+        fi
       fi
 
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
@@ -138,15 +120,12 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::Target branch $TARGET_BRANCH..."
   echo "::debug::Current branch $CURRENT_BRANCH..."
 
-  echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" ".." "$CURRENT_SHA" "$TARGET_BRANCH"
-
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+    echo "::error::Please verify that both commit are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
     exit 1
   fi
 else
@@ -155,33 +134,36 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --depth=10 origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-    PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+    git fetch --no-tags -u --progress --deepen=40000
+
+    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+    if [[ -z "$PREVIOUS_SHA" ]]; then
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+    fi
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    git fetch --no-tags -u --progress --depth=10 origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
+    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
+    git fetch --no-tags -u --progress --deepen=40000
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
 
-  echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "..." "$CURRENT_SHA"  "$TARGET_BRANCH"
-
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+    echo "::error::Please verify that both commit are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
     exit 1
   fi
 fi
 
-if [[ -n "$PREVIOUS_SHA" && -n "$CURRENT_SHA" && "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
-  echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA"
-  echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
+if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
+  echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA."
+  echo "::error::Please verify that both commit are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
   exit 1
 fi
 
