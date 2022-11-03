@@ -360,13 +360,13 @@ jobs:
         shell:
           bash
       - name: Run changed-files with include_all_old_new_renamed_files
-        id: changed-files
+        id: changed-files-all-old-new-renamed-files
         uses: ./
         with:
           include_all_old_new_renamed_files: true
       - name: Show output
         run: |
-          echo '${{ toJSON(steps.changed-files.outputs) }}'
+          echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files.outputs) }}'
         shell:
           bash
       - name: List all modified files
