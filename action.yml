@@ -77,10 +77,10 @@ inputs:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
     default: "false"
-  max_fetch_depth:
-    description: "Max limit for fetching branch history. **NOTE**: This can be adjusted to resolve errors with insufficient history."
+  fetch_depth:
+    description: "Limit depth of target branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
-    default: "300"
+    default: "30"
 
 outputs:
   added_files:
@@ -171,7 +171,7 @@ runs:
         INPUT_SINCE: ${{ inputs.since }}
         INPUT_UNTIL: ${{ inputs.until }}
         INPUT_PATH: ${{ inputs.path }}
-        INPUT_MAX_FETCH_DEPTH: ${{ inputs.max_fetch_depth }}
+        INPUT_FETCH_DEPTH: ${{ inputs.fetch_depth }}
     - name: Glob match
       uses: tj-actions/glob@v15
       id: glob
