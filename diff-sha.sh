@@ -135,7 +135,7 @@ else
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-    git fetch --no-tags -u --progress origin "$CURRENT_BRANCH":"$GITHUB_HEAD_REF"
+    git fetch --no-tags -u --progress --deepen=40000 origin "$CURRENT_BRANCH":"$GITHUB_HEAD_REF"
 
     PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
     if [[ -z "$PREVIOUS_SHA" ]]; then
@@ -144,7 +144,7 @@ else
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
     git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
-    git fetch --no-tags -u --progress origin "$CURRENT_BRANCH":"$GITHUB_HEAD_REF"
+    git fetch --no-tags -u --progress --deepen=40000 origin "$CURRENT_BRANCH":"$GITHUB_HEAD_REF"
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
 
