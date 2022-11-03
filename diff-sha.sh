@@ -67,28 +67,6 @@ else
   echo "::debug::Current SHA: $CURRENT_SHA"
 fi
 
-function deepenShallowCloneToFindCommit() {
-  local base_ref="$1"
-  local diff="$2"
-  local ref="$3"
-  local target_branch="$4"
-  local depth=20
-  local max_depth=$INPUT_MAX_FETCH_DEPTH
-
-  while ! git diff "$base_ref$diff$ref" &>/dev/null; do
-    echo "::debug::Unable to find merge-base in shallow clone. Increasing depth to $((depth * 2))..."
-
-    depth=$((depth * 2))
-
-    if [[ $depth -gt $max_depth ]]; then
-      echo "::error::Unable to find merge-base in shallow clone. Please increase 'max_fetch_depth' to at least $((depth + 20))."
-      exit 1
-    fi
-
-    git fetch --no-tags -u --progress --depth="$depth" origin "$target_branch":"$target_branch"
-  done
-}
-
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
@@ -140,9 +118,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "::debug::Target branch $TARGET_BRANCH..."
   echo "::debug::Current branch $CURRENT_BRANCH..."
 
-  echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" ".." "$CURRENT_SHA" "$TARGET_BRANCH"
-
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
 
@@ -171,9 +146,6 @@ else
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
-
-  echo "::debug::Fetching previous commit SHA: $PREVIOUS_SHA"
-  deepenShallowCloneToFindCommit "$PREVIOUS_SHA" "..." "$CURRENT_SHA"  "$TARGET_BRANCH"
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
