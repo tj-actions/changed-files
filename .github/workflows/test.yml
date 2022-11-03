@@ -411,6 +411,7 @@ jobs:
         with:
           base_sha: d1c0ee4
           sha: 4d04215
+          fetch_depth: 60000
           dir_names: "true"
       - name: Show output
         run: |
@@ -502,6 +503,7 @@ jobs:
         with:
           base_sha: d1c0ee4
           sha: 4d04215
+          fetch_depth: 60000
           include_all_old_new_renamed_files: true
       - name: Show output
         run: |
@@ -521,6 +523,7 @@ jobs:
         with:
           base_sha: 4d04215
           sha: fe238e6
+          fetch_depth: 60000
           include_all_old_new_renamed_files: true
       - name: Show output
         run: |
