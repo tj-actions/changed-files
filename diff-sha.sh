@@ -61,7 +61,7 @@ git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_
 
 if [[ $exit_status -ne 0 ]]; then
   echo "::error::Unable to locate the current sha: $CURRENT_SHA"
-  echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+  echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
   exit 1
 else
   echo "::debug::Current SHA: $CURRENT_SHA"
@@ -125,7 +125,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::error::Please verify that the previous sha commit is valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+    echo "::error::Please verify that the previous sha commit is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
     exit 1
   fi
 else
@@ -156,14 +156,14 @@ else
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::error::Please verify that the previous sha is valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+    echo "::error::Please verify that the previous sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
     exit 1
   fi
 fi
 
 if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
   echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA."
-  echo "::error::Please verify that both commits are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+  echo "::error::Please verify that both commits are valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
   exit 1
 fi
 
