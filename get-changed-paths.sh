@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -exuo pipefail
+set -euo pipefail
 
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'.'/'%2E'}"
@@ -55,14 +55,14 @@ function get_diff() {
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
     git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
 
-    if [[ $exit_status -ne 0 ]]; then
+    if [[ $exit_status -gt 1 ]]; then
       echo "::error::Failed to get changed directories between: $base$DIFF$sha"
       exit 1
     fi
   else
     git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" && exit_status=$? || exit_status=$?
 
-    if [[ $exit_status -ne 0 ]]; then
+    if [[ $exit_status -gt 1 ]]; then
       echo "::error::Failed to get changed files between: $base$DIFF$sha"
       exit 1
     fi
@@ -75,13 +75,13 @@ function get_renames() {
 
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')" && exit_status=$? || exit_status=$?
-    if [[ $exit_status -ne 0 ]]; then
+    if [[ $exit_status -gt 1 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
 
     sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"  && exit_status=$? || exit_status=$?
-    if [[ $exit_status -ne 0 ]]; then
+    if [[ $exit_status -gt 1 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
