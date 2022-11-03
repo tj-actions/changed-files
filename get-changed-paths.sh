@@ -30,13 +30,13 @@ function get_diff() {
   local filter="$3"
 
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' || true | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
 
-    sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[+]Subproject commit' || true | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
@@ -74,13 +74,13 @@ function get_renames() {
   local sha="$2"
 
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_pre="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[-]Subproject commit' || true | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
 
-    sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[+]Subproject commit' | awk '{print $3}')"  && exit_status=$? || exit_status=$?
+    sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | grep '^[+]Subproject commit' || true | awk '{print $3}')"  && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
