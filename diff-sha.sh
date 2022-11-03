@@ -72,6 +72,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
+  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ -n "$INPUT_SINCE" ]]; then
       echo "::debug::Getting base SHA for '$INPUT_SINCE'..."
@@ -82,8 +84,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       
       if [[ -z "$PREVIOUS_SHA" ]]; then
@@ -112,8 +112,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
     fi
   else
-    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     CURRENT_BRANCH=$TARGET_BRANCH
@@ -135,18 +133,16 @@ else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
-  if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-    git fetch --no-tags -u --progress --deepen=40000
+  git fetch --no-tags -u --progress --deepen=40000
+  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
 
+  if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
     if [[ -z "$PREVIOUS_SHA" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
-    git fetch --no-tags -u --progress --deepen=40000
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
 
