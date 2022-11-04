@@ -137,8 +137,16 @@ else
   git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
   git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" || true
   
+  depth=$INPUT_FETCH_DEPTH
+
   while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do     
-    git fetch --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" HEAD;
+    git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+    depth=$((depth * 10))
+    max_depth=3000
+    
+    if [[ $depth -gt $max_depth ]]; then
+       echo "::error::Unable to find merge-base of $TARGET_BRANCH and HEAD."
+    fi
   done
 
   echo "::debug::Getting HEAD SHA..."
