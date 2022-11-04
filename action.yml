@@ -158,6 +158,7 @@ runs:
       env:
         GITHUB_SERVER_URL: ${{ github.server_url }}
         GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
