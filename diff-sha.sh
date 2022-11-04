@@ -57,6 +57,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
     else
+      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
     fi
   fi
@@ -110,6 +111,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
     fi
   else
+    git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     CURRENT_BRANCH=$TARGET_BRANCH
@@ -172,12 +174,18 @@ else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
   
-  depth=50
+  depth=$INPUT_FETCH_DEPTH
 
-  while ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" > /dev/null; do
+  while ! git merge-base $TARGET_BRANCH $CURRENT_BRANCH > /dev/null; do
     depth=$((depth+1024))
-    git fetch --depth=$depth origin "$CURRENT_BRANCH"
-    git fetch --depth=$depth origin "$TARGET_BRANCH"
+
+    git fetch -q --deepen=$depth origin "$TARGET_BRANCH" "$CURRENT_BRANCH"
+    
+    if [[ $depth -gt 5000 ]];
+      echo "::error::Unable to locate the merge-base for: $TARGET_BRANCH $CURRENT_BRANCH"
+      echo "::error::Please verify that both commits are valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
+      exit 1
+    then
   done
 
   echo "::debug::Target branch: $TARGET_BRANCH"
