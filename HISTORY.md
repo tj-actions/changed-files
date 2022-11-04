@@ -1,13 +1,5 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.1.0...HEAD)
-
-**Fixed bugs:**
-
-- \[BUG\] Wrong changed-files returned for forked PRs [\#714](https://github.com/tj-actions/changed-files/issues/714)
-
 ## [v34.1.0](https://github.com/tj-actions/changed-files/tree/v34.1.0) (2022-11-04)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.1.0)
@@ -20,17 +12,11 @@
 
 - \[BUG\] diff-sha.sh results in "fatal: ambiguous argument '': unknown revision or path not in the working tree." [\#750](https://github.com/tj-actions/changed-files/issues/750)
 - \[BUG\] Action failing on PR with "Unable to find merge-base in shallow clone" [\#737](https://github.com/tj-actions/changed-files/issues/737)
+- \[BUG\] Wrong changed-files returned for forked PRs [\#714](https://github.com/tj-actions/changed-files/issues/714)
 
 **Closed issues:**
 
 - Logical Issue in deepenShallowCloneToFindCommit  [\#747](https://github.com/tj-actions/changed-files/issues/747)
-
-**Merged pull requests:**
-
-- Updated README.md [\#751](https://github.com/tj-actions/changed-files/pull/751) ([jackton1](https://github.com/jackton1))
-- Upgraded to v34.0.5 [\#749](https://github.com/tj-actions/changed-files/pull/749) ([jackton1](https://github.com/jackton1))
-- chore: update test [\#746](https://github.com/tj-actions/changed-files/pull/746) ([jackton1](https://github.com/jackton1))
-- fix: including changed files from merge commits, no merge-base found [\#736](https://github.com/tj-actions/changed-files/pull/736) ([jackton1](https://github.com/jackton1))
 
 ## [v34.0.5](https://github.com/tj-actions/changed-files/tree/v34.0.5) (2022-11-02)
 
