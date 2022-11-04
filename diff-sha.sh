@@ -134,7 +134,7 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   echo "Fetching remote refs..."
-  git fetch --no-tags -u --progress --deepen=40000
+  git fetch --no-tags -u --progress --deepen=40000 origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
   git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
 
   echo "::debug::Getting HEAD SHA..."
