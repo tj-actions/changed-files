@@ -177,8 +177,12 @@ else
 
   while ! git merge-base "$TARGET_BRANCH" "$CURRENT_BRANCH" > /dev/null; do
     depth=$((depth+1024))
-
-    git fetch -q --deepen=$depth origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
+    
+    if [[ -d .git/shallow ]]; then
+      git fetch -q --deepth=$depth --unshallow origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
+    else
+      git fetch -q --deepth=$depth origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
+    fi
     
     if [[ $depth -gt 5000 ]]; then
       echo "::error::Unable to locate the merge-base for: $TARGET_BRANCH $CURRENT_BRANCH"
