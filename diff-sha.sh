@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -82,7 +82,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
       PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       
       if [[ -z "$PREVIOUS_SHA" ]]; then
@@ -134,8 +133,21 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   echo "Fetching remote refs..."
-  git fetch --no-tags -u --progress --deepen=40000 origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
-  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+  
+  git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" || true
+  
+  depth=$INPUT_FETCH_DEPTH
+
+  while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do     
+    git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+    depth=$((depth * 10))
+    max_depth=5000
+    
+    if [[ $depth -gt $max_depth ]]; then
+       echo "::error::Unable to find merge-base of $TARGET_BRANCH and HEAD."
+    fi
+  done
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
