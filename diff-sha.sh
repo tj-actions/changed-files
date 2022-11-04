@@ -41,7 +41,6 @@ fi
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
-  TARGET_BRANCH=${TARGET_BRANCH/refs\/tags\//} && exit_status=$? || exit_status=$?
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   echo "::debug::Getting HEAD SHA..."
