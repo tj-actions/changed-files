@@ -142,7 +142,7 @@ else
   while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do     
     git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
     depth=$((depth * 10))
-    max_depth=3000
+    max_depth=5000
     
     if [[ $depth -gt $max_depth ]]; then
        echo "::error::Unable to find merge-base of $TARGET_BRANCH and HEAD."
