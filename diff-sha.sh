@@ -133,7 +133,13 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   echo "Fetching remote refs..."
-  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH"
+  
+  git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH"
+  
+  while [ -z $( git merge-base "$TARGET_BRANCH" HEAD ) ]; do     
+    git fetch --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" HEAD;
+  done
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -172,24 +178,6 @@ else
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
-  
-  depth=$INPUT_FETCH_DEPTH
-
-  while ! git merge-base "$TARGET_BRANCH" "$CURRENT_BRANCH" > /dev/null; do
-    depth=$((depth+1024))
-    
-    if [[ -f .git/shallow ]]; then
-      git fetch -q --deepen=$depth origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
-    else
-      git fetch -q --depth=$depth origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
-    fi
-    
-    if [[ $depth -gt 5000 ]]; then
-      echo "::error::Unable to locate the merge-base for: $TARGET_BRANCH $CURRENT_BRANCH"
-      echo "::error::Please verify that both commits are valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
-      exit 1
-    fi
-  done
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
