@@ -57,7 +57,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
     else
-      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
     fi
   fi
@@ -83,7 +82,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
       PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       
       if [[ -z "$PREVIOUS_SHA" ]]; then
@@ -115,7 +113,6 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     CURRENT_BRANCH=$TARGET_BRANCH
-    git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
   fi
 
   echo "::debug::Target branch $TARGET_BRANCH..."
@@ -135,8 +132,7 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   echo "Fetching remote refs..."
-  git fetch --no-tags -u --progress --depth=40000 origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
-  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
+  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH"
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -175,6 +171,14 @@ else
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
+  
+  depth=50
+
+  while ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" > /dev/null; do
+    depth=$((depth+1024))
+    git fetch --depth=$depth origin "$CURRENT_BRANCH"
+    git fetch --depth=$depth origin "$TARGET_BRANCH"
+  done
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
