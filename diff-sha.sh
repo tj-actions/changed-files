@@ -179,13 +179,13 @@ else
   while ! git merge-base $TARGET_BRANCH $CURRENT_BRANCH > /dev/null; do
     depth=$((depth+1024))
 
-    git fetch -q --deepen=$depth origin "$TARGET_BRANCH" "$CURRENT_BRANCH"
+    git fetch -q --deepen=$depth origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
     
-    if [[ $depth -gt 5000 ]];
+    if [[ $depth -gt 5000 ]]; then
       echo "::error::Unable to locate the merge-base for: $TARGET_BRANCH $CURRENT_BRANCH"
       echo "::error::Please verify that both commits are valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
       exit 1
-    then
+    fi
   done
 
   echo "::debug::Target branch: $TARGET_BRANCH"
