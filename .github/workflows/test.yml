@@ -425,6 +425,27 @@ jobs:
           exit 1
         shell:
           bash
+      - name: Run changed-files with dir_names
+        id: changed-files-dir-names-specific
+        uses: ./
+        with:
+          base_sha: d1c0ee4
+          sha: 4d04215
+          fetch_depth: 60000
+          dir_names: "true"
+          files: test/**
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-specific.outputs) }}'
+        shell:
+          bash
+      - name: Check dir_names output
+        if: "!contains(steps.changed-files-dir-names-specific.outputs.all_changed_files, 'test')"
+        run: |
+          echo "Invalid output: Expected to include (test) got (${{ steps.changed-files-dir-names-specific.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
       - name: Run changed-files with forward slash separator
         id: changed-files-forward-slash
         uses: ./
