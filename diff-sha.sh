@@ -135,9 +135,9 @@ else
   echo "Fetching remote refs..."
   
   git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
-  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH"
+  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" || true
   
-  while [ -z $( git merge-base "$TARGET_BRANCH" HEAD ) ]; do     
+  while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do     
     git fetch --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" HEAD;
   done
 
