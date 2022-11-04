@@ -425,7 +425,7 @@ jobs:
           exit 1
         shell:
           bash
-      - name: Run changed-files with dir_names
+      - name: Run changed-files with dir_names specific
         id: changed-files-dir-names-specific
         uses: ./
         with:
