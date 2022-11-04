@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -exuo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -38,39 +38,39 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
-echo "::debug::Getting HEAD SHA..."
-
-if [[ -n "$INPUT_UNTIL" ]]; then
-  echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
-  CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
-
-  if [[ $exit_status -ne 0 ]]; then
-    echo "::error::Invalid until date: $INPUT_UNTIL"
-    exit 1
-  fi
-else
-  if [[ -z $INPUT_SHA ]]; then
-    CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
-  else
-    CURRENT_SHA=$INPUT_SHA; exit_status=$?
-  fi
-fi
-
-echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
-git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
-
-if [[ $exit_status -ne 0 ]]; then
-  echo "::error::Unable to locate the current sha: $CURRENT_SHA"
-  echo "::error::You seem to be missing 'fetch-depth: 0' or 'fetch-depth: 2'. See https://github.com/tj-actions/changed-files#usage"
-  exit 1
-else
-  echo "::debug::Current SHA: $CURRENT_SHA"
-fi
-
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=${GITHUB_REF/refs\/heads\//} && exit_status=$? || exit_status=$?
   CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
+
+  echo "::debug::Getting HEAD SHA..."
+  if [[ -n "$INPUT_UNTIL" ]]; then
+    echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
+    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+
+    if [[ $exit_status -ne 0 ]]; then
+      echo "::error::Invalid until date: $INPUT_UNTIL"
+      exit 1
+    fi
+  else
+    if [[ -z $INPUT_SHA ]]; then
+      CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
+    else
+      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
+      CURRENT_SHA=$INPUT_SHA; exit_status=$?
+    fi
+  fi
+
+  echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
+  git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Unable to locate the current sha: $CURRENT_SHA"
+    echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
+    exit 1
+  else
+    echo "::debug::Current SHA: $CURRENT_SHA"
+  fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ -n "$INPUT_SINCE" ]]; then
@@ -82,8 +82,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-
+      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
       PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       
       if [[ -z "$PREVIOUS_SHA" ]]; then
@@ -112,6 +111,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
     fi
   else
+    git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     CURRENT_BRANCH=$TARGET_BRANCH
@@ -125,7 +125,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::error::Please verify that both commit are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+    echo "::error::Please verify that the previous sha commit is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
     exit 1
   fi
 else
@@ -133,18 +133,45 @@ else
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
-  if [[ -z $INPUT_BASE_SHA ]]; then
-    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
-    git fetch --no-tags -u --progress --deepen=40000
+  echo "Fetching remote refs..."
+  git fetch --no-tags -u --progress --deepen=40000
+  git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH":"$TARGET_BRANCH"
 
+  echo "::debug::Getting HEAD SHA..."
+  if [[ -n "$INPUT_UNTIL" ]]; then
+    echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
+    CURRENT_SHA=$(git log -1 --format="%H" --date=local --until="$INPUT_UNTIL") && exit_status=$? || exit_status=$?
+
+    if [[ $exit_status -ne 0 ]]; then
+      echo "::error::Invalid until date: $INPUT_UNTIL"
+      exit 1
+    fi
+  else
+    if [[ -z $INPUT_SHA ]]; then
+      CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
+    else
+      CURRENT_SHA=$INPUT_SHA; exit_status=$?
+    fi
+  fi
+
+  echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
+  git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Unable to locate the current sha: $CURRENT_SHA"
+    echo "::error::Please verify that current sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
+    exit 1
+  else
+    echo "::debug::Current SHA: $CURRENT_SHA"
+  fi
+
+  if [[ -z $INPUT_BASE_SHA ]]; then
     PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
     if [[ -z "$PREVIOUS_SHA" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
-    git fetch --no-tags -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$INPUT_BASE_SHA" && exit_status=$? || exit_status=$?
-    git fetch --no-tags -u --progress --deepen=40000
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
   fi
 
@@ -156,14 +183,14 @@ else
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Unable to locate the previous sha: $PREVIOUS_SHA"
-    echo "::error::Please verify that both commit are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+    echo "::error::Please verify that the previous sha is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
     exit 1
   fi
 fi
 
 if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" && "$INITIAL_COMMIT" == "false" ]]; then
   echo "::error::Similar commit hashes detected: previous sha: $PREVIOUS_SHA is equivalent to the current sha: $CURRENT_SHA."
-  echo "::error::Please verify that both commit are valid, and increase the fetch_depth to a number higher than $INPUT_INPUT_FETCH_DEPTH."
+  echo "::error::Please verify that both commits are valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
   exit 1
 fi
 
