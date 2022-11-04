@@ -78,7 +78,7 @@ inputs:
     required: false
     default: "false"
   fetch_depth:
-    description: "Limit depth of target branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
+    description: "Limit depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
     default: "30"
 
