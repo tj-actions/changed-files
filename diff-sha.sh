@@ -176,7 +176,7 @@ else
   
   depth=$INPUT_FETCH_DEPTH
 
-  while ! git merge-base $TARGET_BRANCH $CURRENT_BRANCH > /dev/null; do
+  while ! git merge-base "$TARGET_BRANCH" "$CURRENT_BRANCH" > /dev/null; do
     depth=$((depth+1024))
 
     git fetch -q --deepen=$depth origin "$CURRENT_BRANCH":"$CURRENT_BRANCH"
