@@ -94,6 +94,8 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 ```
 
+I want to thank everyone supporting and using this project, your are awesome. Special thanks to every contributor.
+
 If you feel generous and want to show some extra appreciation:
 
 Support this project with a :star:
