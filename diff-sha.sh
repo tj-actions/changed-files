@@ -135,7 +135,7 @@ else
   echo "Fetching remote refs..."
   
   git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
-  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" || true
+  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
   
   depth=$INPUT_FETCH_DEPTH
 

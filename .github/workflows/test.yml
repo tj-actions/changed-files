@@ -899,10 +899,12 @@ jobs:
           bash
       - name: Run changed-files with custom sha
         id: changed-files-custom-sha
+        if: github.event.action != 'closed'
         uses: ./
         with:
           sha: ${{ github.event.pull_request.head.sha }}
       - name: Show output
+        if: github.event.action != 'closed'
         run: |
           echo '${{ toJSON(steps.changed-files-custom-sha.outputs) }}'
         shell:
