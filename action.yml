@@ -80,7 +80,7 @@ inputs:
   fetch_depth:
     description: "Limit depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
-    default: "30"
+    default: "40"
 
 outputs:
   added_files:
