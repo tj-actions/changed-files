@@ -45,7 +45,7 @@ inputs:
     default: ""
   sha:
     description: "Specify a different commit SHA used for comparing changes"
-    required: true
+    required: false
     default: ${{ github.sha }}
   base_sha:
     description: "Specify a different base commit SHA used for comparing changes"
