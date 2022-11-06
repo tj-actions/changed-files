@@ -8,7 +8,9 @@
 [![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows\&logoColor=white)](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## changed-files
@@ -170,7 +172,7 @@ Support this project with a :star:
 |               path                | string |  false   |         `"."`         |                                                         Specify a relative path under<br>`$GITHUB_WORKSPACE` to locate the repository.<br>                                                         |
 |             quotepath             | string |  false   |       `"true"`        |                                      Use non ascii characters to<br>match files and output the<br>filenames completely verbatim by setting<br>this to `false`                                      |
 |             separator             | string |  false   |         `" "`         |                                                                               Split character for output strings<br>                                                                               |
-|                sha                | string |   true   | `"${{ github.sha }}"` |                                                                    Specify a different commit SHA<br>used for comparing changes                                                                    |
+|                sha                | string |  false   | `"${{ github.sha }}"` |                                                                    Specify a different commit SHA<br>used for comparing changes                                                                    |
 |               since               | string |  false   |                       |                                                         Get changed files for commits<br>whose timestamp is older than<br>the given time.                                                          |
 |               until               | string |  false   |                       |                                                        Get changed files for commits<br>whose timestamp is earlier than<br>the given time.                                                         |
 
@@ -611,8 +613,11 @@ If you are reporting a bug, please include:
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+
 <!-- prettier-ignore-start -->
+
 <!-- markdownlint-disable -->
+
 <table>
   <tbody>
     <tr>
@@ -642,6 +647,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 </table>
 
 <!-- markdownlint-restore -->
+
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
