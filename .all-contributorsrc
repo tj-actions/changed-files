@@ -150,6 +150,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "kenji-miyake",
+      "name": "Kenji Miyake",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31987104?v=4",
+      "profile": "https://www.linkedin.com/in/kenji-miyake/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
