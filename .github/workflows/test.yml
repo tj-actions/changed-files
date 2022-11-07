@@ -361,6 +361,16 @@ jobs:
           echo '${{ toJSON(steps.changed-files.outputs) }}'
         shell:
           bash
+      - name: Run changed-files with since_last_remote_commit
+        id: changed-files-since-last-remote-commit
+        uses: ./
+        with:
+          since_last_remote_commit: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
+        shell:
+          bash
       - name: Run changed-files with include_all_old_new_renamed_files
         id: changed-files-all-old-new-renamed-files
         uses: ./

@@ -82,11 +82,19 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         exit 1
       fi
     else
-      PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
-      
-      if [[ -z "$PREVIOUS_SHA" ]]; then
+      if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
+        PREVIOUS_SHA=""
+
         if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
           PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+        fi
+      else
+        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+
+        if [[ -z "$PREVIOUS_SHA" ]]; then
+          if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
+            PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+          fi
         fi
       fi
 
@@ -133,21 +141,23 @@ else
   CURRENT_BRANCH=$GITHUB_HEAD_REF
 
   echo "Fetching remote refs..."
-  
-  git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
-  git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
-  
-  depth=$INPUT_FETCH_DEPTH
 
-  while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do     
-    git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
-    depth=$((depth * 10))
-    max_depth=5000
-    
-    if [[ $depth -gt $max_depth ]]; then
-       echo "::error::Unable to find merge-base between $TARGET_BRANCH and HEAD."
-    fi
-  done
+  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
+    git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+    git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
+
+    depth=$INPUT_FETCH_DEPTH
+
+    while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do
+      git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+      depth=$((depth * 10))
+      max_depth=5000
+
+      if [[ $depth -gt $max_depth ]]; then
+         echo "::error::Unable to find merge-base between $TARGET_BRANCH and HEAD."
+      fi
+    done
+  fi
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -178,7 +188,20 @@ else
   fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
-    PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+    if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
+      PREVIOUS_SHA=""
+
+      if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
+        PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+      fi
+
+      if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
+        PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+      fi
+    else
+      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+    fi
+
     if [[ -z "$PREVIOUS_SHA" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
