@@ -1,12 +1,30 @@
 # Changelog
 
-## [v34.3.0](https://github.com/tj-actions/changed-files/tree/v34.3.0) (2022-11-07)
+## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.3.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.2)
+
+## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.3.1)
 
 ## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-11-07)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.2.2...v34)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34)
+
+**Fixed bugs:**
+
+- \[BUG\] Similar commit hashes detected: previous sha: abc123 is equivalent to the current sha: abc123 on PR merge [\#778](https://github.com/tj-actions/changed-files/issues/778)
+
+**Merged pull requests:**
+
+- fix: similar commit hashes [\#780](https://github.com/tj-actions/changed-files/pull/780) ([jackton1](https://github.com/jackton1))
+- chore: update readme [\#779](https://github.com/tj-actions/changed-files/pull/779) ([jackton1](https://github.com/jackton1))
+- Upgraded to v34.3.0 [\#777](https://github.com/tj-actions/changed-files/pull/777) ([jackton1](https://github.com/jackton1))
+
+## [v34.3.0](https://github.com/tj-actions/changed-files/tree/v34.3.0) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.2.2...v34.3.0)
 
 **Closed issues:**
 
@@ -350,7 +368,7 @@
 
 ## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30)
 
 **Fixed bugs:**
 
@@ -366,13 +384,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
-
 ## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
+
+## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
 
 **Implemented enhancements:**
 
