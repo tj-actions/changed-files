@@ -52,9 +52,13 @@ Retrieve all changed files and directories relative to the target branch or the 
 name: CI
 
 on:
+  # Compare the preceeding commit of main -> to the current commit of the main branch.
+  # (Note: To compare changes between the last pushed commit to the remote main branch set `since_last_remote_commit: true`)
   push:
     branches:
       - main
+  # Compare the last commit of main -> to the current commit of a PR branch. 
+  # (Note: To compare changes between the last pushed commit to the remote PR branch set `since_last_remote_commit: true`)
   pull_request:
     branches:
       - main
