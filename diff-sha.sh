@@ -155,6 +155,7 @@ else
 
       if [[ $depth -gt $max_depth ]]; then
          echo "::error::Unable to find merge-base between $TARGET_BRANCH and HEAD."
+         exit 1
       fi
     done
   fi
