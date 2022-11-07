@@ -4,6 +4,11 @@ set -euo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
+EXTRA_ARGS="--no-tags"
+
+if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
+  EXTRA_ARGS=""
+fi
 
 echo "::group::changed-files-diff-sha"
 
@@ -56,7 +61,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
     else
-      git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH"
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
     fi
   fi
@@ -118,7 +124,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
     fi
   else
-    git fetch --no-tags -u --progress --deepen="$INPUT_FETCH_DEPTH"
+    # shellcheck disable=SC2086
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH"
     PREVIOUS_SHA=$INPUT_BASE_SHA
     TARGET_BRANCH=$(git name-rev --name-only "$PREVIOUS_SHA" 2>&1) && exit_status=$? || exit_status=$?
     CURRENT_BRANCH=$TARGET_BRANCH
@@ -143,18 +150,21 @@ else
   echo "Fetching remote refs..."
 
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+    # shellcheck disable=SC2086
+    git fetch $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
     git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
 
     depth=$INPUT_FETCH_DEPTH
 
     while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do
-      git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
       depth=$((depth * 10))
       max_depth=5000
 
       if [[ $depth -gt $max_depth ]]; then
          echo "::error::Unable to find merge-base between $TARGET_BRANCH and HEAD."
+         exit 1
       fi
     done
   fi
@@ -196,10 +206,10 @@ else
       fi
 
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
-        PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
-      PREVIOUS_SHA=$(git rev-list --no-merges -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
     fi
 
     if [[ -z "$PREVIOUS_SHA" ]]; then
