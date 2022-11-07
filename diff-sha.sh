@@ -143,13 +143,13 @@ else
   echo "Fetching remote refs..."
 
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    git fetch --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+    git fetch --no-tags --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
     git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
 
     depth=$INPUT_FETCH_DEPTH
 
     while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do
-      git fetch --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+      git fetch --no-tags --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
       depth=$((depth * 10))
       max_depth=5000
 
