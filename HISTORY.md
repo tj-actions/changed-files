@@ -1,12 +1,28 @@
 # Changelog
 
+## [v34.3.0](https://github.com/tj-actions/changed-files/tree/v34.3.0) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.3.0)
+
+## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.2.2...v34)
+
+**Closed issues:**
+
+- How can I let the workflow to detect the changes only in the certain micro service? [\#766](https://github.com/tj-actions/changed-files/issues/766)
+
+**Merged pull requests:**
+
+- chore: exclude fetching tags [\#776](https://github.com/tj-actions/changed-files/pull/776) ([jackton1](https://github.com/jackton1))
+- chore: update test [\#775](https://github.com/tj-actions/changed-files/pull/775) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#774](https://github.com/tj-actions/changed-files/pull/774) ([jackton1](https://github.com/jackton1))
+- feat: add support for using the last remote commit [\#773](https://github.com/tj-actions/changed-files/pull/773) ([jackton1](https://github.com/jackton1))
+- Upgraded to v34.2.2 [\#772](https://github.com/tj-actions/changed-files/pull/772) ([jackton1](https://github.com/jackton1))
+
 ## [v34.2.2](https://github.com/tj-actions/changed-files/tree/v34.2.2) (2022-11-06)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.2.2)
-
-## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-11-06)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.2.1...v34)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.2.1...v34.2.2)
 
 **Merged pull requests:**
 
