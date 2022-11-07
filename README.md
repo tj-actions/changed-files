@@ -595,6 +595,7 @@ This package was created with [Cookiecutter](https://github.com/cookiecutter/coo
 *   [tj-actions/glob](https://github.com/tj-actions/glob)
 *   [tj-actions/demo](https://github.com/tj-actions/demo)
 *   [tj-actions/demo2](https://github.com/tj-actions/demo2)
+*   [tj-actions/demo3](https://github.com/tj-actions/demo3)
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
 *   [tj-actions/auto-doc](https://github.com/tj-actions/auto-doc)
 *   [tj-actions/verify-changed-files](https://github.com/tj-actions/verify-changed-files)
