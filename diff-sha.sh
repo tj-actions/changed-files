@@ -159,7 +159,7 @@ else
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
       depth=$((depth * 10))
-      max_depth=5000
+      max_depth=$INPUT_MAX_FETCH_DEPTH
 
       if [[ $depth -gt $max_depth ]]; then
          echo "::error::Unable to find merge-base between $TARGET_BRANCH and HEAD."
