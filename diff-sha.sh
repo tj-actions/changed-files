@@ -198,10 +198,10 @@ else
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
-      PREVIOUS_SHA=""
+      PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
 
-      if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
-        PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+      if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
+        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       fi
 
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
