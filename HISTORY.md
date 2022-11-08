@@ -1,12 +1,22 @@
 # Changelog
 
-## [v34.3.3](https://github.com/tj-actions/changed-files/tree/v34.3.3) (2022-11-08)
+## [v34.3.4](https://github.com/tj-actions/changed-files/tree/v34.3.4) (2022-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.3.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.3.4)
 
 ## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.3...v34)
+
+**Merged pull requests:**
+
+- Updated README.md [\#792](https://github.com/tj-actions/changed-files/pull/792) ([jackton1](https://github.com/jackton1))
+- fix: re-add ability to change the max fetch depth [\#791](https://github.com/tj-actions/changed-files/pull/791) ([jackton1](https://github.com/jackton1))
+- Upgraded to v34.3.3 [\#788](https://github.com/tj-actions/changed-files/pull/788) ([jackton1](https://github.com/jackton1))
+
+## [v34.3.3](https://github.com/tj-actions/changed-files/tree/v34.3.3) (2022-11-08)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.3)
 
 **Fixed bugs:**
 
@@ -25,13 +35,13 @@
 - chore: update readme [\#784](https://github.com/tj-actions/changed-files/pull/784) ([jackton1](https://github.com/jackton1))
 - Upgraded to v34.3.2 [\#781](https://github.com/tj-actions/changed-files/pull/781) ([jackton1](https://github.com/jackton1))
 
-## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.1)
-
 ## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.2)
+
+## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.1)
 
 **Fixed bugs:**
 
