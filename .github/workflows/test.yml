@@ -299,7 +299,7 @@ jobs:
         uses: ./
         continue-on-error: true
         with:
-          base_sha: "4554456"
+          sha: "4554456"
 
       - name: Show output
         run: |
@@ -319,7 +319,7 @@ jobs:
         continue-on-error: true
         with:
           files: action.yml
-          base_sha: "4554456"
+          sha: "4554456"
 
       - name: Show output
         run: |
