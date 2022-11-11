@@ -185,18 +185,17 @@ else
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     if [[ -f .git/shallow ]]; then
       depth=$INPUT_FETCH_DEPTH
+      max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do
+      while [ -z "$( git merge-base --fork-point "$TARGET_BRANCH" HEAD )" ] || [ -z "$(git merge-base "$TARGET_BRANCH" HEAD)" ]; do
+        depth=$((depth + 300))
+
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
-        depth=$((depth * 10))
-        max_depth=$INPUT_MAX_FETCH_DEPTH
 
         if [[ $depth -gt $max_depth ]]; then
-          if [ -z "$(git merge-base --fork-point "$TARGET_BRANCH" HEAD)"  ]; then
-            echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and HEAD"
-            exit 1
-          fi
+          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and HEAD"
+          exit 1
         fi
       done
     else
