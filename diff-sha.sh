@@ -150,7 +150,7 @@ else
 
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     # shellcheck disable=SC2086
-    git fetch -u $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+    git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
     git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
   fi
 
