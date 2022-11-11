@@ -152,20 +152,6 @@ else
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
     git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
-
-    depth=$INPUT_FETCH_DEPTH
-
-    while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do
-      # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
-      depth=$((depth * 10))
-      max_depth=$INPUT_MAX_FETCH_DEPTH
-
-      if [[ $depth -gt $max_depth ]]; then
-         echo "::error::Unable to find merge-base between $TARGET_BRANCH and HEAD."
-         exit 1
-      fi
-    done
   fi
 
   echo "::debug::Getting HEAD SHA..."
@@ -194,6 +180,28 @@ else
     exit 1
   else
     echo "::debug::Current SHA: $CURRENT_SHA"
+  fi
+
+  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
+    if [[ -f .git/shallow ]]; then
+      depth=$INPUT_FETCH_DEPTH
+
+      while [ -z "$( git merge-base "$TARGET_BRANCH" HEAD )" ]; do
+        # shellcheck disable=SC2086
+        git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+        depth=$((depth * 10))
+        max_depth=$INPUT_MAX_FETCH_DEPTH
+
+        if [[ $depth -gt $max_depth ]]; then
+          if [ -z "$(git merge-base --fork-point "$TARGET_BRANCH" HEAD)"  ]; then
+            echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and HEAD"
+            exit 1
+          fi
+        fi
+      done
+    else
+      echo "::debug::Not a shallow clone, skipping merge-base check."
+    fi
   fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
