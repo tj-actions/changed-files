@@ -182,27 +182,6 @@ else
     echo "::debug::Current SHA: $CURRENT_SHA"
   fi
 
-  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    if [[ -f .git/shallow ]]; then
-      depth=$INPUT_FETCH_DEPTH
-      max_depth=$INPUT_MAX_FETCH_DEPTH
-
-      while [ -z "$( git merge-base --fork-point "$TARGET_BRANCH" HEAD )" ] || [ -z "$(git merge-base "$TARGET_BRANCH" HEAD)" ]; do
-        depth=$((depth + 300))
-
-        # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
-
-        if [[ $depth -gt $max_depth ]]; then
-          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and HEAD"
-          exit 1
-        fi
-      done
-    else
-      echo "::debug::Not a shallow clone, skipping merge-base check."
-    fi
-  fi
-
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
@@ -229,6 +208,27 @@ else
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
+
+  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
+    if [[ -f .git/shallow ]]; then
+      depth=$INPUT_FETCH_DEPTH
+      max_depth=$INPUT_MAX_FETCH_DEPTH
+
+      while [ -z "$( git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA" )" ] || [ -z "$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA")" ] || [ -z "$(git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" | head -1)" ]; do
+        depth=$((depth + 300))
+
+        # shellcheck disable=SC2086
+        git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+
+        if [[ $depth -gt $max_depth ]]; then
+          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and HEAD"
+          exit 1
+        fi
+      done
+    else
+      echo "::debug::Not a shallow clone, skipping merge-base check."
+    fi
+  fi
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
