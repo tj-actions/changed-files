@@ -187,7 +187,8 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
 
       if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1)" 2>&1) && exit_status=$? || exit_status=$?
+        # shellcheck disable=SC2046
+        PREVIOUS_SHA=$(git rev-parse $(git branch -r --sort=-committerdate | head -1) 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
       PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
