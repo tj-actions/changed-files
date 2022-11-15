@@ -27,6 +27,8 @@ jobs:
         uses: actions/checkout@v3
       - name: shellcheck
         uses: reviewdog/action-shellcheck@v1.15
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
 
   test-multiple-repositories:
     name: Test with multiple repositories
@@ -929,7 +931,7 @@ jobs:
         with:
           branch: ${{ steps.branch-name.outputs.base_ref_branch }}
           workflow_id: 'test.yml'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
       - name: Run changed-files with a custom base sha
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
         id: changed-files-custom-base-sha

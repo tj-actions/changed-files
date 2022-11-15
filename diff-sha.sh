@@ -187,11 +187,8 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
 
       if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
-      fi
-
-      if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
-        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+        # shellcheck disable=SC2046
+        PREVIOUS_SHA=$(git rev-parse $(git branch -r --sort=-committerdate | head -1) 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
       PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
@@ -214,16 +211,18 @@ else
       depth=$INPUT_FETCH_DEPTH
       max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      while [ -z "$( git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA" )" ] || [ -z "$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA")" ] || [ -z "$(git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" | head -1)" ]; do
-        depth=$((depth + 300))
+      while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null; do
+        echo "Fetching $depth commits..."
 
         # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" HEAD;
+        git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" "$CURRENT_SHA";
 
         if [[ $depth -gt $max_depth ]]; then
-          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and HEAD"
+          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
           exit 1
         fi
+        
+        depth=$((depth + 300))
       done
     else
       echo "::debug::Not a shallow clone, skipping merge-base check."

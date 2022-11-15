@@ -1,8 +1,5 @@
 name: Update release version.
 on:
-  push:
-    tags:
-      - '**'
   release:
     types: [published]
 
