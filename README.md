@@ -39,6 +39,7 @@ Retrieve all changed files and directories relative to the target branch or the 
     *   Boolean output indicating that certain files have been changed.
     *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
 
+
 ## Usage
 
 > NOTE: :warning:
