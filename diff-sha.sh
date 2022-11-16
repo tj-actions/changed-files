@@ -215,7 +215,7 @@ else
         echo "Fetching $depth commits..."
 
         # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS --deepen="$depth" origin "$TARGET_BRANCH" "$CURRENT_SHA";
+        git fetch -u --progress $EXTRA_ARGS --deepen="$depth" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH"
 
         if [[ $depth -gt $max_depth ]]; then
           echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
