@@ -193,7 +193,7 @@ else
         PREVIOUS_SHA=$(git rev-parse $(git branch -r --sort=-committerdate | head -1) 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
-      PREVIOUS_SHA=$(git merge-base --fork-point "$CURRENT_BRANCH" "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
@@ -217,9 +217,7 @@ else
         echo "Fetching $depth commits..."
 
         # shellcheck disable=SC2086
-        git fetch -u --progress $EXTRA_ARGS --deepen="$depth" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH"
-        # set up branch tracking
-        git branch --track "$GITHUB_REF" origin/"$CURRENT_BRANCH" 2>/dev/null || true
+        git fetch $EXTRA_ARGS -u --progress --deepen="$depth"
 
         if [[ $depth -gt $max_depth ]]; then
           echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
