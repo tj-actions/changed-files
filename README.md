@@ -336,8 +336,7 @@ See [outputs](#outputs) for a list of all available outputs.
       id: changed-files-specific-source-file
       uses: tj-actions/changed-files@v34
       with:
-        files_from_source_file: |
-          test/changed-files-list.txt
+        files_from_source_file: test/changed-files-list.txt
 ...
 ```
 
