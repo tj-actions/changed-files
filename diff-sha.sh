@@ -147,6 +147,10 @@ else
   echo "Running on a pull request event..."
   TARGET_BRANCH=$GITHUB_BASE_REF
   CURRENT_BRANCH=$GITHUB_HEAD_REF
+  
+  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
+    TARGET_BRANCH=$CURRENT_BRANCH
+  fi
 
   echo "Fetching remote refs..."
 
