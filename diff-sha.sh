@@ -5,6 +5,8 @@ set -euo pipefail
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 EXTRA_ARGS="--no-tags"
+PREVIOUS_SHA=""
+CURRENT_SHA=""
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS=""
@@ -191,7 +193,7 @@ else
         PREVIOUS_SHA=$(git rev-parse $(git branch -r --sort=-committerdate | head -1) 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
-      PREVIOUS_SHA=$(git merge-base --fork-point "$CURRENT_BRANCH" "$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
