@@ -3,11 +3,12 @@ name: Auto approve
 on:
   pull_request_target
 
+
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
     steps:
-      - uses: hmarr/auto-approve-action@v2
+      - uses: hmarr/auto-approve-action@v3
         if: |
           (
             github.event.pull_request.user.login == 'dependabot[bot]' ||
