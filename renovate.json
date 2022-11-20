@@ -7,7 +7,8 @@
   "prConcurrentLimit": 5,
   "rebaseWhen": "behind-base-branch",
   "addLabels": [
-    "dependencies"
+    "dependencies",
+    "merge when passing"
   ],
   "assignees": [
     "jackton1"
