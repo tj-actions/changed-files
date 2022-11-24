@@ -121,7 +121,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
         fi
       else
         if [[ -z "$PREVIOUS_SHA" ]]; then
-          echo "::error::Unable to locate a previous commit"
+          echo "::error::Unable to locate a previous commit."
           exit 1
         fi
       fi
