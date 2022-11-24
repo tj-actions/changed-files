@@ -38,9 +38,9 @@ function get_dirname_max_depth() {
     fi
 
     local output=${dirs[1]}
-    local depth=2
+    local depth="2"
 
-    while [ $depth -le "$max_depth" ]; do
+    while [ "$depth" -le "$max_depth" ]; do
       output="$output/${dirs[$depth]}"
       depth=$((depth + 1))
     done
