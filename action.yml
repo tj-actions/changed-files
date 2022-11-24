@@ -74,7 +74,7 @@ inputs:
     description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the root of the project."
     required: false
   dir_names_max_depth:
-    description: "Maximum depth of directories to output."
+    description: "Maximum depth of directories to output. e.g test/test1/test2 with max depth of 2 returns test/test1"
     required: false
   json:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
