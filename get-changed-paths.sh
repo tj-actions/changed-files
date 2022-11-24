@@ -24,6 +24,31 @@ if [[ -n $INPUT_DIFF_RELATIVE ]]; then
   git config --global diff.relative "$INPUT_DIFF_RELATIVE"
 fi
 
+function dirname_max_depth() {
+   local dir="$1"
+
+   local dirs=($(echo "$dir" | tr "/" " "))
+   local max_depth="${#dirs[@]}"
+
+   if [[ -n "$INPUT_DIR_NAMES_MAX_DEPTH" && "$INPUT_DIR_NAMES_MAX_DEPTH" -lt "$max_depth" ]]; then
+     max_depth="$INPUT_DIR_NAMES_MAX_DEPTH"
+   fi
+
+   local output=${dirs[1]}
+   local depth=2
+
+   while [ $depth -le $max_depth ]; do
+     if [[ -n "${dirs[$depth]}" ]]; then
+       output="$output/${dirs[$depth]}"
+     else
+       break
+     fi
+     depth=$((depth+1))
+   done
+
+  echo "$output"
+}
+
 function get_diff() {
   local base="$1"
   local sha="$2"
@@ -53,7 +78,7 @@ function get_diff() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed directories between: $base$DIFF$sha"
@@ -97,7 +122,7 @@ function get_renames() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
+    git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get renamed directories between: $base → $sha"
