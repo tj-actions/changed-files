@@ -28,7 +28,8 @@ function dirname_max_depth() {
    local dir="$1"
 
    local dirs=($(echo "$dir" | tr "/" " "))
-   local max_depth="${#dirs[@]}"
+   local max_depth=${#dirs[@]}
+   INPUT_DIR_NAMES_MAX_DEPTH="${INPUT_DIR_NAMES_MAX_DEPTH:-$max_depth}"
 
    if [[ -n "$INPUT_DIR_NAMES_MAX_DEPTH" && "$INPUT_DIR_NAMES_MAX_DEPTH" -lt "$max_depth" ]]; then
      max_depth="$INPUT_DIR_NAMES_MAX_DEPTH"
