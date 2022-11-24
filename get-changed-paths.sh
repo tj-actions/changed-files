@@ -24,6 +24,31 @@ if [[ -n $INPUT_DIFF_RELATIVE ]]; then
   git config --global diff.relative "$INPUT_DIFF_RELATIVE"
 fi
 
+function get_dirname_max_depth() {
+  while IFS='' read -r line; do
+    local dir="$line"
+    local dirs=()
+    IFS='/' read -ra dirs <<<"$dir"
+
+    local max_depth=${#dirs[@]}
+    local input_dir_names_max_depth="${INPUT_DIR_NAMES_MAX_DEPTH:-$max_depth}"
+
+    if [[ -n "$input_dir_names_max_depth" && "$input_dir_names_max_depth" -lt "$max_depth" ]]; then
+      max_depth="$input_dir_names_max_depth"
+    fi
+
+    local output="${dirs[0]}"
+    local depth="1"
+
+    while [ "$depth" -lt "$max_depth" ]; do
+      output="$output/${dirs[${depth}]}"
+      depth=$((depth + 1))
+    done
+
+    echo "$output"
+  done < <(uniq)
+}
+
 function get_diff() {
   local base="$1"
   local sha="$2"
@@ -43,17 +68,17 @@ function get_diff() {
     fi
 
     if [ -n "$sub_commit_cur" ]; then
-    (
-      cd "$sub" && (
-        # the strange magic number is a hardcoded "empty tree" commit sha
-        get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | awk -v r="$sub" '{ print "" r "/" $0}'
+      (
+        cd "$sub" && (
+          # the strange magic number is a hardcoded "empty tree" commit sha
+          get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | awk -v r="$sub" '{ print "" r "/" $0}'
+        )
       )
-    )
     fi
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed directories between: $base$DIFF$sha"
@@ -80,24 +105,24 @@ function get_renames() {
       exit 1
     fi
 
-    sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')"  && exit_status=$? || exit_status=$?
+    sub_commit_cur="$(git diff "$base$DIFF$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
 
     if [ -n "$sub_commit_cur" ]; then
-    (
-      cd "$sub" && (
-        # the strange magic number is a hardcoded "empty tree" commit sha
-        get_renames "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}'
+      (
+        cd "$sub" && (
+          # the strange magic number is a hardcoded "empty tree" commit sha
+          get_renames "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}'
+        )
       )
-    )
     fi
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq && exit_status=$? || exit_status=$?
+    git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get renamed directories between: $base → $sha"
@@ -145,19 +170,19 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
       ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     fi
   else
-    ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
     if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}'| jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
     fi
   fi
 else
@@ -183,13 +208,13 @@ else
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=any_changed::true"
     else
-      echo "any_changed=true" >> "$GITHUB_OUTPUT"
+      echo "any_changed=true" >>"$GITHUB_OUTPUT"
     fi
   else
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=any_changed::false"
     else
-      echo "any_changed=false" >> "$GITHUB_OUTPUT"
+      echo "any_changed=false" >>"$GITHUB_OUTPUT"
     fi
   fi
 
@@ -197,7 +222,7 @@ else
 
   if [[ -n $ALL_OTHER_CHANGED ]]; then
     if [[ -n "$ALL_CHANGED" ]]; then
-      OTHER_CHANGED=$(echo "${ALL_OTHER_CHANGED}|${ALL_CHANGED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+      OTHER_CHANGED=$(echo "${ALL_OTHER_CHANGED}|${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_CHANGED=$ALL_OTHER_CHANGED
     fi
@@ -216,15 +241,15 @@ else
       echo "::set-output name=only_changed::false"
       echo "::set-output name=other_changed_files::$OTHER_CHANGED"
     else
-      echo "only_changed=false" >> "$GITHUB_OUTPUT"
-      echo "other_changed_files=$OTHER_CHANGED" >> "$GITHUB_OUTPUT"
+      echo "only_changed=false" >>"$GITHUB_OUTPUT"
+      echo "other_changed_files=$OTHER_CHANGED" >>"$GITHUB_OUTPUT"
     fi
 
   elif [[ -n "${ALL_CHANGED}" ]]; then
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=only_changed::true"
     else
-      echo "only_changed=true" >> "$GITHUB_OUTPUT"
+      echo "only_changed=true" >>"$GITHUB_OUTPUT"
     fi
   fi
 
@@ -235,13 +260,13 @@ else
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=any_modified::true"
     else
-      echo "any_modified=true" >> "$GITHUB_OUTPUT"
+      echo "any_modified=true" >>"$GITHUB_OUTPUT"
     fi
   else
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=any_modified::false"
     else
-      echo "any_modified=false" >> "$GITHUB_OUTPUT"
+      echo "any_modified=false" >>"$GITHUB_OUTPUT"
     fi
   fi
 
@@ -249,7 +274,7 @@ else
 
   if [[ -n $ALL_OTHER_MODIFIED ]]; then
     if [[ -n "$ALL_MODIFIED" ]]; then
-      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${ALL_MODIFIED}"  | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+      OTHER_MODIFIED=$(echo "${ALL_OTHER_MODIFIED}|${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | sort | uniq -u | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
     else
       OTHER_MODIFIED=$ALL_OTHER_MODIFIED
     fi
@@ -268,14 +293,14 @@ else
       echo "::set-output name=only_modified::false"
       echo "::set-output name=other_modified_files::$OTHER_MODIFIED"
     else
-      echo "only_modified=false" >> "$GITHUB_OUTPUT"
-      echo "other_modified_files=$OTHER_MODIFIED" >> "$GITHUB_OUTPUT"
+      echo "only_modified=false" >>"$GITHUB_OUTPUT"
+      echo "other_modified_files=$OTHER_MODIFIED" >>"$GITHUB_OUTPUT"
     fi
   elif [[ -n "${ALL_MODIFIED}" ]]; then
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=only_modified::true"
     else
-      echo "only_modified=true" >> "$GITHUB_OUTPUT"
+      echo "only_modified=true" >>"$GITHUB_OUTPUT"
     fi
   fi
 
@@ -286,13 +311,13 @@ else
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=any_deleted::true"
     else
-      echo "any_deleted=true" >> "$GITHUB_OUTPUT"
+      echo "any_deleted=true" >>"$GITHUB_OUTPUT"
     fi
   else
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=any_deleted::false"
     else
-      echo "any_deleted=false" >> "$GITHUB_OUTPUT"
+      echo "any_deleted=false" >>"$GITHUB_OUTPUT"
     fi
   fi
 
@@ -318,14 +343,14 @@ else
       echo "::set-output name=only_deleted::false"
       echo "::set-output name=other_deleted_files::$OTHER_DELETED"
     else
-      echo "only_deleted=false" >> "$GITHUB_OUTPUT"
-      echo "other_deleted_files=$OTHER_DELETED" >> "$GITHUB_OUTPUT"
+      echo "only_deleted=false" >>"$GITHUB_OUTPUT"
+      echo "other_deleted_files=$OTHER_DELETED" >>"$GITHUB_OUTPUT"
     fi
   elif [[ -n "${DELETED}" ]]; then
     if [[ -z "$GITHUB_OUTPUT" ]]; then
       echo "::set-output name=only_deleted::true"
     else
-      echo "only_deleted=true" >> "$GITHUB_OUTPUT"
+      echo "only_deleted=true" >>"$GITHUB_OUTPUT"
     fi
   fi
   if [[ "$INPUT_JSON" == "false" ]]; then
@@ -383,7 +408,7 @@ if [[ -z "$GITHUB_OUTPUT" ]]; then
   echo "::set-output name=all_changed_files::$ALL_CHANGED"
   echo "::set-output name=all_modified_files::$ALL_MODIFIED"
 else
-  cat <<EOF >> "$GITHUB_OUTPUT"
+  cat <<EOF >>"$GITHUB_OUTPUT"
 added_files=$ADDED
 copied_files=$COPIED
 deleted_files=$DELETED
@@ -402,7 +427,7 @@ if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   if [[ -z "$GITHUB_OUTPUT" ]]; then
     echo "::set-output name=all_old_new_renamed_files::$ALL_OLD_NEW_RENAMED"
   else
-    echo "all_old_new_renamed_files=$ALL_OLD_NEW_RENAMED" >> "$GITHUB_OUTPUT"
+    echo "all_old_new_renamed_files=$ALL_OLD_NEW_RENAMED" >>"$GITHUB_OUTPUT"
   fi
 fi
 

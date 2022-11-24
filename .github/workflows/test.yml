@@ -417,6 +417,27 @@ jobs:
           echo '${{ toJSON(steps.changed-files-quotepath.outputs) }}'
         shell:
           bash
+      - name: Run changed-files with dir_names and dir_names_max_depth
+        id: changed-files-dir-names-max-depth
+        uses: ./
+        with:
+          base_sha: ba788ed
+          sha: 0a5b7c6
+          fetch_depth: 60000
+          dir_names: "true"
+          dir_names_max_depth: 3
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-max-depth.outputs) }}'
+        shell:
+          bash
+      - name: Check dir_names output
+        if: "!contains(steps.changed-files-dir-names-max-depth.outputs.all_changed_files, 'test/test2/test3')"
+        run: |
+          echo "Invalid output: Expected to include (test/test2/test3) got (${{ steps.changed-files-dir-names-max-depth.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
       - name: Run changed-files with dir_names
         id: changed-files-dir-names
         uses: ./

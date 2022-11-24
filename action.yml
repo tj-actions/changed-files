@@ -73,6 +73,9 @@ inputs:
     default: "false"
     description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the root of the project."
     required: false
+  dir_names_max_depth:
+    description: "Maximum depth of directories to output. e.g test/test1/test2 with max depth of 2 returns test/test1"
+    required: false
   json:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
@@ -221,6 +224,7 @@ runs:
         INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
         INPUT_DIFF_RELATIVE: ${{ inputs.diff_relative }}
         INPUT_DIR_NAMES: ${{ inputs.dir_names }}
+        INPUT_DIR_NAMES_MAX_DEPTH: ${{ inputs.dir_names_max_depth }}
         INPUT_JSON: ${{ inputs.json }}
         INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
 
