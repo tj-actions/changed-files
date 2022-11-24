@@ -25,7 +25,7 @@ if [[ -n $INPUT_DIFF_RELATIVE ]]; then
 fi
 
 function get_dirname_max_depth() {
-   local dir="$1"
+   local dir="$@"
 
    local dirs=()
    IFS='/' read -ra dirs <<< "$dir"
