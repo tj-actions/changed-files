@@ -27,7 +27,8 @@ fi
 function dirname_max_depth() {
    local dir="$1"
 
-   local dirs=($(echo "$dir" | tr "/" " "))
+   local dirs=()
+   IFS="/" read -r -a dirs <<< "$dir"
    local max_depth=${#dirs[@]}
    INPUT_DIR_NAMES_MAX_DEPTH="${INPUT_DIR_NAMES_MAX_DEPTH:-$max_depth}"
 
