@@ -25,7 +25,6 @@ if [[ -n $INPUT_DIFF_RELATIVE ]]; then
 fi
 
 function get_dirname_max_depth() {
-
   while IFS='' read -r line; do
     local dir="$line"
     local dirs=()
