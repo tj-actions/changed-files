@@ -24,11 +24,12 @@ if [[ -n $INPUT_DIFF_RELATIVE ]]; then
   git config --global diff.relative "$INPUT_DIFF_RELATIVE"
 fi
 
-function dirname_max_depth() {
+function get_dirname_max_depth() {
    local dir="$1"
 
    local dirs=()
-   IFS="/" read -r -a dirs <<< "$dir"
+   IFS='/' read -ra dirs <<< "$dir"
+
    local max_depth=${#dirs[@]}
    INPUT_DIR_NAMES_MAX_DEPTH="${INPUT_DIR_NAMES_MAX_DEPTH:-$max_depth}"
 
@@ -48,7 +49,7 @@ function dirname_max_depth() {
      depth=$((depth+1))
    done
 
-  echo "$output"
+   echo "$output"
 }
 
 function get_diff() {
@@ -80,7 +81,7 @@ function get_diff() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | xargs -I {} dirname_max_depth {} | xargs -I {} uniq {} && exit_status=$? || exit_status=$?
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | uniq | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed directories between: $base$DIFF$sha"
@@ -124,7 +125,7 @@ function get_renames() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | xargs -I {} dirname_max_depth {} | xargs -I {} uniq {} && exit_status=$? || exit_status=$?
+    git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | uniq | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get renamed directories between: $base → $sha"
