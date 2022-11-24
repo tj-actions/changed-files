@@ -466,18 +466,17 @@ See [inputs](#inputs) for more information.
         id: branch-name
         uses: tj-actions/branch-names@v6
 
-      - uses: nrwl/last-successful-commit-action@v1
+      - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_push
         with:
-          branch: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch. 
-          workflow_id: 'test.yml'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          main-branch-name: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch. 
+          workflow-id: 'test.yml'
 
       - name: Run changed-files with the commit of the last successful test workflow run
         id: changed-files-base-sha-push
         uses: tj-actions/changed-files@v34
         with:
-          base_sha: ${{ steps.last_successful_commit_push.outputs.commit_hash }}
+          base_sha: ${{ steps.last_successful_commit_push.outputs.base }}
 ...
 ```
 
@@ -494,18 +493,17 @@ See [inputs](#inputs) for more information.
         id: branch-name
         uses: tj-actions/branch-names@v5
 
-      - uses: nrwl/last-successful-commit-action@v1
+      - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_pull_request
         with:
-          branch: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
+          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
           workflow_id: 'test.yml'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run changed-files with the commit of the last successful test workflow run on main
         id: changed-files-base-sha-pull-request
         uses: tj-actions/changed-files@v34
         with:
-          base_sha: ${{ steps.last_successful_commit_pull_request.outputs.commit_hash }}
+          base_sha: ${{ steps.last_successful_commit_pull_request.outputs.base }}
 ...
 ```
 
