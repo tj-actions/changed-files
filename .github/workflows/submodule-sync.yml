@@ -22,6 +22,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4.2.3
         with:
           title: "Updated submodule"
+          labels: "merge when passing"
           branch: "chore/update-submodule"
           commit-message: "Updated submodule"
           body: "Updated submodule"
