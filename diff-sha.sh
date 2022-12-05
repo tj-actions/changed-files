@@ -70,7 +70,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     else
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
     fi
   fi
 
@@ -133,7 +133,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
   fi
 
   echo "::debug::Target branch $TARGET_BRANCH..."
