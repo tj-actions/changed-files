@@ -200,8 +200,12 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
-      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
-      
+      PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
+
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+      fi
+
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null 2>&1; then
         PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       fi
@@ -211,6 +215,31 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
 
+    if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
+      if [[ -f .git/shallow ]]; then
+        depth=$INPUT_FETCH_DEPTH
+        max_depth=$INPUT_MAX_FETCH_DEPTH
+
+        while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA"; do
+          echo "Fetching $depth commits..."
+
+          # shellcheck disable=SC2086
+          git fetch $EXTRA_ARGS -u --progress --deepen="$depth" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
+
+          PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
+
+          if [[ $depth -gt $max_depth ]]; then
+            echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
+            exit 1
+          fi
+
+          depth=$((depth + 300))
+        done
+      else
+        echo "::debug::Not a shallow clone, skipping merge-base check."
+      fi
+    fi
+
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
@@ -218,29 +247,6 @@ else
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"
-
-  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    if [[ -f .git/shallow ]]; then
-      depth=$INPUT_FETCH_DEPTH
-      max_depth=$INPUT_MAX_FETCH_DEPTH
-
-      while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null; do
-        echo "Fetching $depth commits..."
-
-        # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS -u --progress --deepen="$depth" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
-
-        if [[ $depth -gt $max_depth ]]; then
-          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
-          exit 1
-        fi
-        
-        depth=$((depth + 300))
-      done
-    else
-      echo "::debug::Not a shallow clone, skipping merge-base check."
-    fi
-  fi
 
   echo "::debug::Verifying the previous commit SHA: $PREVIOUS_SHA"
   git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
