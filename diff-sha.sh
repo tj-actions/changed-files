@@ -220,7 +220,7 @@ else
         depth=$INPUT_FETCH_DEPTH
         max_depth=$INPUT_MAX_FETCH_DEPTH
 
-        while ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null; do
+        while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA"; do
           echo "Fetching $depth commits..."
 
           # shellcheck disable=SC2086
