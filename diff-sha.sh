@@ -53,7 +53,7 @@ fi
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=$GITHUB_REFNAME
-  CURRENT_BRANCH=TARGET_BRANCH
+  CURRENT_BRANCH=$TARGET_BRANCH
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
