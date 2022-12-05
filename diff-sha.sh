@@ -203,7 +203,7 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
       
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" HEAD 2>&1) && exit_status=$? || exit_status=$?
       fi
     fi
 
