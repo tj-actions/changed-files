@@ -16,7 +16,7 @@ inputs:
     required: false
     default: ","
   old_new_files_separator:
-    description: "Split character for multiple old and new filename pairs."
+    description: "Split character for old and new renamed filename pairs."
     required: false
     default: " "
   files_from_source_file:
