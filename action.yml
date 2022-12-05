@@ -24,7 +24,7 @@ inputs:
     required: false
     default: ""
   files:
-    description: "File and directory patterns to detect changes using only these list of file(s) (Defaults to the entire repo) **NOTE:** Multiline file/directory patterns should not include qoutes."
+    description: "File and directory patterns to detect changes using only these list of file(s) (Defaults to the entire repo) **NOTE:** Multiline file/directory patterns should not include quotes."
     required: false
     default: ""
   files_separator:
@@ -32,7 +32,7 @@ inputs:
     default: "\n"
     required: false
   files_ignore:
-    description: "Ignore changes to these file(s) **NOTE:** Multiline file/directory patterns should not include qoutes."
+    description: "Ignore changes to these file(s) **NOTE:** Multiline file/directory patterns should not include quotes."
     required: false
     default: ""
   files_ignore_separator:
@@ -67,7 +67,7 @@ inputs:
     default: "true"
     required: false
   diff_relative:
-    description: "Exclude changes outside the current directory and show pathnames relative to it. **NOTE:** This requires you to specify the top level directory via the `path` input."
+    description: "Exclude changes outside the current directory and show path names relative to it. **NOTE:** This requires you to specify the top level directory via the `path` input."
     required: false
   dir_names:
     default: "false"

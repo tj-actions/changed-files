@@ -37,6 +37,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4.2.3
         with:
           base: "main"
+          labels: "merge when passing"
           title: "Updated README.md"
           branch: "chore/update-readme"
           commit-message: "Updated README.md"
