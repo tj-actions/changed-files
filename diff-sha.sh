@@ -225,13 +225,13 @@ else
         depth=$INPUT_FETCH_DEPTH
         max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      while ! git merge-base $MERGE_BASE_EXRTRA_ARGS "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null; do
-        echo "Fetching $depth commits..."
+        while ! git merge-base $MERGE_BASE_EXRTRA_ARGS "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null; do
+          echo "Fetching $depth commits..."
 
           # shellcheck disable=SC2086
           git fetch $EXTRA_ARGS -u --progress --deepen="$depth" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
 
-        PREVIOUS_SHA=$(git merge-base $MERGE_BASE_EXRTRA_ARGS "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1)
+          PREVIOUS_SHA=$(git merge-base $MERGE_BASE_EXRTRA_ARGS "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
 
           if [[ $depth -gt $max_depth ]]; then
             echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
