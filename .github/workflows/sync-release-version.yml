@@ -29,6 +29,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4.2.3
         with:
           base: "main"
+          labels: "merge when passing"
           title: "Upgraded to ${{ steps.sync-release-version.outputs.new_version }}"
           branch: "upgrade-to-${{ steps.sync-release-version.outputs.new_version }}"
           commit-message: "Upgraded from ${{ steps.sync-release-version.outputs.old_version }} -> ${{ steps.sync-release-version.outputs.new_version }}"
