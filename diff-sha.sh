@@ -52,6 +52,8 @@ fi
 
 if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Running on a push event..."
+  TARGET_BRANCH=$GITHUB_REFNAME
+  CURRENT_BRANCH=TARGET_BRANCH
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -68,12 +70,9 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     else
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" 2>&1 && exit_status=$? || exit_status=$?
+      git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
     fi
   fi
-
-  TARGET_BRANCH=$(git name-rev --name-only "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
-  CURRENT_BRANCH=$TARGET_BRANCH && exit_status=$? || exit_status=$?
 
   echo "::debug::Verifying the current commit SHA: $CURRENT_SHA"
   git rev-parse --quiet --verify "$CURRENT_SHA^{commit}" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
@@ -134,7 +133,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" 2>&1 && exit_status=$? || exit_status=$?
+    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
   fi
 
   echo "::debug::Target branch $TARGET_BRANCH..."
