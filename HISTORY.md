@@ -1,20 +1,43 @@
 # Changelog
 
-## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+## [v34.5.1](https://github.com/tj-actions/changed-files/tree/v34.5.1) (2022-12-05)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.5.0...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.5.1)
+
+## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-12-05)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.5.0...v34)
+
+**Implemented enhancements:**
+
+- \[Feature\] Deprecate usage of `set-output` command and upgrade to environment variable [\#833](https://github.com/tj-actions/changed-files/issues/833)
+
+**Fixed bugs:**
+
+- \[BUG\] set-output call is deprecated [\#831](https://github.com/tj-actions/changed-files/issues/831)
+- Unable to find merge-base between master and HEAD\[BUG\] \<title\> [\#830](https://github.com/tj-actions/changed-files/issues/830)
+- \[BUG\] Glob not matching changed files [\#829](https://github.com/tj-actions/changed-files/issues/829)
+- \[BUG\] Wrong changed-files returned for forked PRs [\#714](https://github.com/tj-actions/changed-files/issues/714)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
+**Merged pull requests:**
+
+- Updated README.md [\#838](https://github.com/tj-actions/changed-files/pull/838) ([jackton1](https://github.com/jackton1))
+- fix: wrong changed files for forked prs [\#837](https://github.com/tj-actions/changed-files/pull/837) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#836](https://github.com/tj-actions/changed-files/pull/836) ([jackton1](https://github.com/jackton1))
+- fix: determining the merge base [\#835](https://github.com/tj-actions/changed-files/pull/835) ([jackton1](https://github.com/jackton1))
+- chore: fix typos [\#834](https://github.com/tj-actions/changed-files/pull/834) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update tj-actions/auto-doc action to v1.5.0 [\#832](https://github.com/tj-actions/changed-files/pull/832) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update peter-evans/create-pull-request action to v4.2.3 [\#828](https://github.com/tj-actions/changed-files/pull/828) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v34.5.0 [\#827](https://github.com/tj-actions/changed-files/pull/827) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#826](https://github.com/tj-actions/changed-files/pull/826) ([jackton1](https://github.com/jackton1))
+
 ## [v34.5.0](https://github.com/tj-actions/changed-files/tree/v34.5.0) (2022-11-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.5.0)
-
-## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-11-24)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.4.4...v34)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.4.4...v34.5.0)
 
 **Implemented enhancements:**
 
@@ -234,7 +257,6 @@
 **Fixed bugs:**
 
 - \[BUG\] Action failing on PR with "Unable to find merge-base in shallow clone" [\#737](https://github.com/tj-actions/changed-files/issues/737)
-- \[BUG\] Wrong changed-files returned for forked PRs [\#714](https://github.com/tj-actions/changed-files/issues/714)
 
 **Closed issues:**
 
@@ -495,7 +517,7 @@
 
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30.0.0)
 
 **Fixed bugs:**
 
@@ -511,13 +533,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
-
 ## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
+
+## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
 
 **Implemented enhancements:**
 
@@ -1960,7 +1982,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -1976,13 +1998,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
