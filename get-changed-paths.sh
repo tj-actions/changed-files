@@ -10,7 +10,7 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 DIFF="..."
 
-if [[ -z $GITHUB_BASE_REF ]]; then
+if [[ -z $GITHUB_BASE_REF || "$GITHUB_HEAD_REPO_FORK" == "true" ]]; then
   DIFF=".."
 fi
 
