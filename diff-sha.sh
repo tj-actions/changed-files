@@ -164,7 +164,8 @@ else
   git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH"
   
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    git fetch "$EXTRA_ARGS" -u --progress origin "$CURRENT_BRANCH" $(git merge-base origin/"$CURRENT_BRANCH" origin/"$TARGET_BRANCH")
+    # shellcheck disable=SC2086
+    git fetch $EXTRA_ARGS -u --progress origin "$CURRENT_BRANCH" $(git merge-base origin/"$CURRENT_BRANCH" origin/"$TARGET_BRANCH")
   fi
 
   echo "::debug::Getting HEAD SHA..."
