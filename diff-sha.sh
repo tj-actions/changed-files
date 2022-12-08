@@ -13,7 +13,7 @@ if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS=""
 fi
 
-if [[ "$GITHUB_HEAD_REPO_FORK" == "true" ]]; then
+if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
   MERGE_BASE_EXRTRA_ARGS="--fork-point"
 fi
 
