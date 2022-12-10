@@ -7,14 +7,14 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 EXTRA_ARGS="--no-tags"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
-MERGE_BASE_EXRTRA_ARGS=""
+DIFF="..."
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS=""
 fi
 
 if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
-  MERGE_BASE_EXRTRA_ARGS="--fork-point"
+  DIFF=".."
 fi
 
 echo "::group::changed-files-diff-sha"
@@ -68,9 +68,9 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
     else
-      CURRENT_SHA=$INPUT_SHA; exit_status=$?
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH"
+      CURRENT_SHA=$INPUT_SHA; exit_status=$?
     fi
   fi
 
@@ -131,9 +131,9 @@ if [[ -z $GITHUB_BASE_REF ]]; then
       fi
     fi
   else
-    PREVIOUS_SHA=$INPUT_BASE_SHA
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 2>&1 && exit_status=$? || exit_status=$?
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH"
+    PREVIOUS_SHA=$INPUT_BASE_SHA
   fi
 
   echo "::debug::Target branch $TARGET_BRANCH..."
@@ -204,14 +204,10 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
-      PREVIOUS_SHA=$(git merge-base $MERGE_BASE_EXRTRA_ARGS "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
 
-      if [[ -z "$PREVIOUS_SHA" ]]; then
-        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
-      fi
-
-      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+        PREVIOUS_SHA=$(git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
       fi
     fi
 
@@ -224,21 +220,23 @@ else
         depth=$INPUT_FETCH_DEPTH
         max_depth=$INPUT_MAX_FETCH_DEPTH
 
-        while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null 2>&1; do
+        for ((i=0; i<max_depth; i+=depth)); do
           echo "Fetching $depth commits..."
 
           # shellcheck disable=SC2086
           git fetch $EXTRA_ARGS -u --progress --deepen="$depth" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
 
-          PREVIOUS_SHA=$(git merge-base $MERGE_BASE_EXRTRA_ARGS "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
+          PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
 
-          if [[ $depth -gt $max_depth ]]; then
-            echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
-            exit 1
+          if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+            break
           fi
-
-          depth=$((depth + 300))
         done
+
+        if ((i >= max_depth)); then
+          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
+          exit 1
+        fi
       else
         echo "::debug::Not a shallow clone, skipping merge-base check."
       fi
