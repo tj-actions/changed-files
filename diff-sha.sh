@@ -193,7 +193,6 @@ else
     exit 1
   else
     echo "::debug::Current SHA: $CURRENT_SHA"
-  fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
@@ -204,14 +203,10 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
       fi
     else
-      PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
-
-      if [[ -z "$PREVIOUS_SHA" ]]; then
-        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
-      fi
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
       fi
     fi
 
@@ -224,7 +219,7 @@ else
         depth=$INPUT_FETCH_DEPTH
         max_depth=$INPUT_MAX_FETCH_DEPTH
 
-        while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA"..."$CURRENT_SHA" 1>/dev/null 2>&1; do
+        while ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; do
           echo "Fetching $depth commits..."
 
           # shellcheck disable=SC2086
