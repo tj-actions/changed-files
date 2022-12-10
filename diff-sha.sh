@@ -193,6 +193,7 @@ else
     exit 1
   else
     echo "::debug::Current SHA: $CURRENT_SHA"
+  fi
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
