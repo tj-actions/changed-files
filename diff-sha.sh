@@ -220,7 +220,7 @@ else
           echo "Fetching $depth commits..."
 
           # shellcheck disable=SC2086
-          git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH"
+          git fetch $EXTRA_ARGS -u --progress --deepen="$depth" origin "$CURRENT_BRANCH"
 
           if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
             break
