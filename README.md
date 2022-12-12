@@ -25,7 +25,8 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Git submodules support.
 *   No extra API calls.
 *   Escaped JSON Output which can be used for running matrix jobs based on changed files.
-*   List only changed directories.
+*   Optionally list only changed directories.
+*   Restrict the max depth of changed directories.
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
