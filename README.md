@@ -628,7 +628,6 @@ With the switch from using grep's Extended regex to match files to the natively 
             custom/**
 ```
 
-
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
