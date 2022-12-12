@@ -205,10 +205,6 @@ else
       fi
     else
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
-
-      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
-      fi
     fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
@@ -224,16 +220,15 @@ else
           echo "Fetching $depth commits..."
 
           # shellcheck disable=SC2086
-          git fetch $EXTRA_ARGS -u --progress --deepen="$depth" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
+          git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH"
 
           if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-            PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
             break
           fi
         done
 
         if ((i >= max_depth)); then
-          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_SHA"
+          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
           exit 1
         fi
       else
