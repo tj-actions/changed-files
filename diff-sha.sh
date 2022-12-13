@@ -160,7 +160,7 @@ else
 
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     # shellcheck disable=SC2086
-    git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH"
+    git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
     git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 2>/dev/null || true
   else
     # shellcheck disable=SC2086
@@ -224,7 +224,7 @@ else
           echo "Fetching $i commits..."
 
           # shellcheck disable=SC2086
-          git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
+          git fetch $EXTRA_ARGS -u --progress --depth="$i" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
 
           if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
             break
