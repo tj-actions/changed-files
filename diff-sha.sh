@@ -203,6 +203,10 @@ else
       CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
     else
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
+
+      if [[ "$CURRENT_SHA" == "$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA" ]]; then
+        CURRENT_SHA=$(git rev-list --no-merges -n 1 HEAD 2>&1) && exit_status=$? || exit_status=$?
+      fi
     fi
   fi
 
