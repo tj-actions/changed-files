@@ -220,7 +220,7 @@ else
         depth=$INPUT_FETCH_DEPTH
         max_depth=$INPUT_MAX_FETCH_DEPTH
 
-        for ((i=0; i<max_depth; i+=depth)); do
+        for ((i=depth; i<max_depth; i+=depth)); do
           echo "Fetching $i commits..."
 
           # shellcheck disable=SC2086
