@@ -253,10 +253,10 @@ else
         echo "Fetching $i commits..."
 
         # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH"
+        git fetch $EXTRA_ARGS -u --progress --depth="$i" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
       done
 
-      if ((i >= max_depth)); then
+      if ((i > max_depth)); then
         echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
         exit 1
       fi
