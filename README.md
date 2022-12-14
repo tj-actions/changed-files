@@ -23,7 +23,6 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Easy to debug.
 *   Scales to large repositories.
 *   Git submodules support.
-*   No extra API calls.
 *   Escaped JSON Output which can be used for running matrix jobs based on changed files.
 *   Optionally list only changed directories.
 *   Restrict the max depth of changed directories.
