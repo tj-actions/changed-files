@@ -1,12 +1,36 @@
 # Changelog
 
+## [v34.6.0](https://github.com/tj-actions/changed-files/tree/v34.6.0) (2022-12-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.6.0)
+
+## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-12-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.5.4...v34)
+
+**Fixed bugs:**
+
+- \[BUG\] changed-files-diff-sha prints thousands of lines and takes two minutes to run [\#855](https://github.com/tj-actions/changed-files/issues/855)
+- \[BUG\] \(v34.5.4\) Input does not meet YAML 1.2 "Core Schema" specification: head-repo-fork [\#853](https://github.com/tj-actions/changed-files/issues/853)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: error with retrieving changed files for closed prs [\#860](https://github.com/tj-actions/changed-files/pull/860) ([jackton1](https://github.com/jackton1))
+- fix: error detecting changed files for closed PR's [\#859](https://github.com/tj-actions/changed-files/pull/859) ([jackton1](https://github.com/jackton1))
+- fix: bug-changed-files-diff-sha-prints-thousands-of-lines-and-takes-two-minutes-to-run [\#857](https://github.com/tj-actions/changed-files/pull/857) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update reviewdog/action-shellcheck action to v1.16 [\#856](https://github.com/tj-actions/changed-files/pull/856) ([renovate[bot]](https://github.com/apps/renovate))
+- Updated README.md [\#854](https://github.com/tj-actions/changed-files/pull/854) ([jackton1](https://github.com/jackton1))
+- Updated README.md [\#852](https://github.com/tj-actions/changed-files/pull/852) ([jackton1](https://github.com/jackton1))
+- Upgraded to v34.5.4 [\#851](https://github.com/tj-actions/changed-files/pull/851) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update actions/checkout action to v3.2.0 [\#850](https://github.com/tj-actions/changed-files/pull/850) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v34.5.4](https://github.com/tj-actions/changed-files/tree/v34.5.4) (2022-12-12)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.5.4)
-
-## [v34](https://github.com/tj-actions/changed-files/tree/v34) (2022-12-12)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.5.3...v34)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.5.3...v34.5.4)
 
 **Merged pull requests:**
 
@@ -51,10 +75,6 @@
 - Unable to find merge-base between master and HEAD\[BUG\] \<title\> [\#830](https://github.com/tj-actions/changed-files/issues/830)
 - \[BUG\] Glob not matching changed files [\#829](https://github.com/tj-actions/changed-files/issues/829)
 - \[BUG\] Wrong changed-files returned for forked PRs [\#714](https://github.com/tj-actions/changed-files/issues/714)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -1497,7 +1517,7 @@
 
 ## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v12)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v12)
 
 **Implemented enhancements:**
 
@@ -1515,13 +1535,13 @@
 - \[PR 1\]: Renamed all\_modified\_files to all\_changed\_files [\#283](https://github.com/tj-actions/changed-files/pull/283) ([jackton1](https://github.com/jackton1))
 - Upgraded to v11.9 [\#280](https://github.com/tj-actions/changed-files/pull/280) ([jackton1](https://github.com/jackton1))
 
-## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-12-04)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v11)
-
 ## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11.9)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v11.9)
+
+## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-12-04)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11)
 
 **Implemented enhancements:**
 
