@@ -224,11 +224,6 @@ else
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
-
-      if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
-        # shellcheck disable=SC2046
-        PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
-      fi
     else
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       
