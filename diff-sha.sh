@@ -165,24 +165,23 @@ else
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 )) origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
 
-    COMMON_ANCESTOR=$(git rev-list --first-parent --max-parents=0 --max-count=1 origin/"$CURRENT_BRANCH" 2>&1) && exit_status=$? || exit_status=$?
+    COMMON_ANCESTOR=$(git rev-list --first-parent --max-parents=0 --max-count=1 origin/"$CURRENT_BRANCH") && exit_status=$? || exit_status=$?
 
     if [[ -z "$COMMON_ANCESTOR" ]]; then
-      echo "::error::Unable to locate a common ancestor for the current branch: $CURRENT_BRANCH"
-      exit 1
+      echo "::debug::Unable to locate a common ancestor for the current branch: $CURRENT_BRANCH"
     else
       echo "::debug::Common ancestor: $COMMON_ANCESTOR"
-    fi
 
-    DATE=$(git log --date=iso8601 --format=%cd "${COMMON_ANCESTOR}")
+      DATE=$(git log --date=iso8601 --format=%cd "${COMMON_ANCESTOR}")
 
-    if [[ -z "$DATE" ]]; then
-      echo "::error::Unable to locate a date for the common ancestor: $COMMON_ANCESTOR"
-      exit 1
-    else
-      # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS --shallow-since="${DATE}" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-      echo "::debug::Date: $DATE"
+      if [[ -z "$DATE" ]]; then
+        echo "::error::Unable to locate a date for the common ancestor: $COMMON_ANCESTOR"
+        exit 1
+      else
+        # shellcheck disable=SC2086
+        git fetch $EXTRA_ARGS --shallow-since="${DATE}" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
+        echo "::debug::Date: $DATE"
+      fi
     fi
   else
     # shellcheck disable=SC2086
