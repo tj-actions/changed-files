@@ -36,7 +36,7 @@ inputs:
     required: false
     default: ""
   files_ignore_separator:
-    description: "Separator used to split the `files-ignore` input"
+    description: "Separator used to split the `files_ignore` input"
     default: "\n"
     required: false
   files_ignore_from_source_file:
