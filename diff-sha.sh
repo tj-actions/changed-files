@@ -249,7 +249,11 @@ else
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
         else
-          PREVIOUS_SHA=$(git merge-base --fork-point "$PREVIOUS_SHA" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
+          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$PREVIOUS_SHA" "$CURRENT_SHA" 2>&1) && exit_status=$? || exit_status=$?
+          
+          if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
+            PREVIOUS_SHA=$NEW_PREVIOUS_SHA
+          fi
         fi
 
         echo "Fetching $i commits..."
