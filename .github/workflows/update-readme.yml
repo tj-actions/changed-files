@@ -20,7 +20,7 @@ jobs:
         uses: tj-actions/remark@v3
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v12
+        uses: tj-actions/verify-changed-files@v13
         id: verify_changed_files
         with:
           files: |
