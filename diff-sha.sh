@@ -249,8 +249,6 @@ else
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
         fi
-
-        echo "Fetching $i commits..."
         
         if [[ -z "$INPUT_BASE_SHA" ]]; then
           NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA")
@@ -259,6 +257,8 @@ else
             PREVIOUS_SHA=$NEW_PREVIOUS_SHA
           fi
         fi
+
+        echo "Fetching $i commits..."
 
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1 || true
