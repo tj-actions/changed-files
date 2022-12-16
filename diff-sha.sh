@@ -251,6 +251,14 @@ else
         fi
 
         echo "Fetching $i commits..."
+        
+        if [[ -z "$INPUT_BASE_SHA" ]]; then
+          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA")
+          
+          if [[ -n $NEW_PREVIOUS_SHA ]]; then
+            PREVIOUS_SHA=$NEW_PREVIOUS_SHA
+          fi
+        fi
 
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1
