@@ -165,7 +165,7 @@ else
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 )) origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
 
-    COMMON_ANCESTOR=$(git rev-list --ancestry-path "$CURRENT_BRANCH".."$TARGET_BRANCH") && exit_status=$? || exit_status=$?
+    COMMON_ANCESTOR=$(git rev-list --ancestry-path "$GITHUB_REF".."$TARGET_BRANCH") && exit_status=$? || exit_status=$?
 
     if [[ -z "$COMMON_ANCESTOR" ]]; then
       echo "::debug::Unable to locate a common ancestor for the current branch: $CURRENT_BRANCH"
@@ -227,12 +227,12 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$GITHUB_REF") && exit_status=$? || exit_status=$?
       fi
     fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-      PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$GITHUB_REF") && exit_status=$? || exit_status=$?
     fi
 
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
