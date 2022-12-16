@@ -172,7 +172,7 @@ else
     else
       echo "::debug::Common ancestor: $COMMON_ANCESTOR"
 
-      DATE=$(git show --date=iso8601 --format=%cd "$COMMON_ANCESTOR")
+      DATE=$(git show --quiet --date=iso8601 --format=%cd "$COMMON_ANCESTOR")
 
       if [[ -z "$DATE" ]]; then
         echo "::error::Unable to locate a date for the common ancestor: $COMMON_ANCESTOR"
