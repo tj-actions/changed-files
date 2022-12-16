@@ -256,6 +256,7 @@ else
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
         else
+          # shellcheck disable=SC2086
           git fetch -u --progress $EXTRA_ARGS --depth="$i" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
         fi
         
