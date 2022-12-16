@@ -39,7 +39,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
   
     steps:
@@ -100,7 +100,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
@@ -158,7 +158,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
@@ -196,7 +196,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
@@ -228,7 +228,7 @@ jobs:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
         fetch-depth: [1, 2]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
@@ -256,7 +256,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
@@ -311,7 +311,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
@@ -367,7 +367,7 @@ jobs:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
         fetch-depth: [0, 1]
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
       cancel-in-progress: true
 
     steps:
