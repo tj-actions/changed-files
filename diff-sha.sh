@@ -259,20 +259,24 @@ else
           # shellcheck disable=SC2086
           git fetch -u --progress $EXTRA_ARGS --depth="$i" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
         fi
-        
-        if [[ -z "$INPUT_BASE_SHA" ]]; then
-          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
-          
-          if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
-            PREVIOUS_SHA=$NEW_PREVIOUS_SHA
-          fi
-        fi
 
         if [[ -z "$INPUT_SHA" ]]; then
           NEW_CURRENT_SHA=$(git rev-parse HEAD) && exit_status=$? || exit_status=$?
 
           if [[ -n "$NEW_CURRENT_SHA" ]]; then
             CURRENT_SHA=$NEW_CURRENT_SHA
+          fi
+        fi
+
+        if [[ -z "$INPUT_BASE_SHA" ]]; then
+          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+
+          if [[ -z "$NEW_PREVIOUS_SHA" ]]; then
+            NEW_PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+          fi
+
+          if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
+            PREVIOUS_SHA=$NEW_PREVIOUS_SHA
           fi
         fi
 
