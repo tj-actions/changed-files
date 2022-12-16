@@ -265,7 +265,7 @@ else
         echo "Fetching $i commits..."
 
         # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1 || true
+        git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1
       done
 
       if ((i >= max_depth)); then
