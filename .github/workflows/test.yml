@@ -37,11 +37,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
-  
+        platform: [ubuntu-latest]
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v3
@@ -98,10 +94,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -156,10 +149,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -194,10 +184,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -225,11 +212,8 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
         fetch-depth: [1, 2]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
 
     steps:
       - name: Checkout to branch
@@ -254,10 +238,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -309,10 +290,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -366,9 +344,6 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
         fetch-depth: [0, 1]
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.action }}
-      cancel-in-progress: true
 
     steps:
       - name: Checkout
