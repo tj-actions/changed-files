@@ -227,7 +227,7 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
       fi
     fi
 
