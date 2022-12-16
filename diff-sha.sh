@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -165,14 +165,14 @@ else
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 )) origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
 
-    COMMON_ANCESTOR=$(git rev-list --first-parent --max-parents=0 --max-count=1 origin/"$CURRENT_BRANCH") && exit_status=$? || exit_status=$?
+    COMMON_ANCESTOR=$(git merge-base --fork-point "$TARGET_BRANCH" HEAD) && exit_status=$? || exit_status=$?
 
     if [[ -z "$COMMON_ANCESTOR" ]]; then
       echo "::debug::Unable to locate a common ancestor for the current branch: $CURRENT_BRANCH"
     else
       echo "::debug::Common ancestor: $COMMON_ANCESTOR"
 
-      DATE=$(git log --date=iso8601 --format=%cd "${COMMON_ANCESTOR}")
+      DATE=$(git show --quiet --date=iso8601 --format=%cd "$COMMON_ANCESTOR")
 
       if [[ -z "$DATE" ]]; then
         echo "::error::Unable to locate a date for the common ancestor: $COMMON_ANCESTOR"
@@ -224,10 +224,14 @@ else
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
     else
-      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+      PREVIOUS_SHA=${COMMON_ANCESTOR:-}
       
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+      fi
+
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       fi
     fi
 
@@ -245,11 +249,13 @@ else
       depth=$INPUT_FETCH_DEPTH
       max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      for ((i=0; i<max_depth; i+=depth * 2)); do
+      for ((i=20; i<max_depth; i+=depth)); do
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
-        else
-          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$PREVIOUS_SHA" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+        fi
+        
+        if [[ -z "$INPUT_BASE_SHA" ]]; then
+          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
           
           if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
             PREVIOUS_SHA=$NEW_PREVIOUS_SHA
@@ -260,17 +266,16 @@ else
 
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1
-      done
 
-      if ((i >= max_depth)); then
-        echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
-        exit 1
-      fi
+        if ((i > max_depth)); then
+          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
+          exit 1
+        fi
+      done
     else
       echo "::debug::Not a shallow clone, skipping merge-base check."
     fi
   fi
-  
 
   echo "::debug::Target branch: $TARGET_BRANCH"
   echo "::debug::Current branch: $CURRENT_BRANCH"

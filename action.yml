@@ -87,7 +87,7 @@ inputs:
   max_fetch_depth:
     description: "Maximum depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
-    default: "6000"
+    default: "9000"
   since_last_remote_commit:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: true
