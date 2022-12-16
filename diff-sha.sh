@@ -250,12 +250,13 @@ else
   
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     if [[ -f .git/shallow ]]; then
-      depth=$INPUT_FETCH_DEPTH
       max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      for ((i=20; i<max_depth; i+=depth)); do
+      for ((i=100; i<max_depth; i+=1000)); do
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
+        else
+          git fetch -u --progress $EXTRA_ARGS --depth="$i" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
         fi
         
         if [[ -z "$INPUT_BASE_SHA" ]]; then
