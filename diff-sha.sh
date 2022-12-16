@@ -249,7 +249,7 @@ else
       depth=$INPUT_FETCH_DEPTH
       max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      for ((i=depth; i>max_depth; i+=depth)); do
+      for ((i=20; i<max_depth; i+=depth)); do
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
         fi
@@ -267,8 +267,8 @@ else
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1
       done
-
-      if ((i >= max_depth)); then
+      
+      if ((i > max_depth)); then
         echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
         exit 1
       fi
