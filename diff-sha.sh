@@ -255,7 +255,7 @@ else
         if [[ -z "$INPUT_BASE_SHA" ]]; then
           NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA")
           
-          if [[ -n $NEW_PREVIOUS_SHA ]]; then
+          if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
             PREVIOUS_SHA=$NEW_PREVIOUS_SHA
           fi
         fi
