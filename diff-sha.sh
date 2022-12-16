@@ -245,7 +245,7 @@ else
       depth=$INPUT_FETCH_DEPTH
       max_depth=$INPUT_MAX_FETCH_DEPTH
 
-      for ((i=0; i<max_depth; i+=depth * 2)); do
+      for ((i=0; i<max_depth; i+=depth)); do
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
         fi
