@@ -234,7 +234,7 @@ else
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
       fi
 
-      if ! git diff-tree--name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+      if ! git diff-tree --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       fi
     fi
@@ -254,7 +254,7 @@ else
       max_depth=$INPUT_MAX_FETCH_DEPTH
 
       for ((i=20; i<max_depth; i+=depth)); do
-        if git diff-tree--name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+        if git diff-tree --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
         fi
         

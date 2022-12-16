@@ -55,13 +55,13 @@ function get_diff() {
   local filter="$3"
 
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff-tree"$base$DIFF$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_pre="$(git diff-tree "$base$DIFF$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
 
-    sub_commit_cur="$(git diff-tree"$base$DIFF$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_cur="$(git diff-tree "$base$DIFF$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
@@ -78,14 +78,14 @@ function get_diff() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff-tree--diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
+    git diff-tree --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed directories between: $base$DIFF$sha"
       exit 1
     fi
   else
-    git diff-tree--diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" && exit_status=$? || exit_status=$?
+    git diff-tree --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed files between: $base$DIFF$sha"
@@ -99,13 +99,13 @@ function get_renames() {
   local sha="$2"
 
   while IFS='' read -r sub; do
-    sub_commit_pre="$(git diff-tree"$base$DIFF$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_pre="$(git diff-tree "$base$DIFF$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
     fi
 
-    sub_commit_cur="$(git diff-tree"$base$DIFF$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
+    sub_commit_cur="$(git diff-tree "$base$DIFF$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
       exit 1
