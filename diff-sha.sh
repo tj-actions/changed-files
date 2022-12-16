@@ -223,6 +223,10 @@ else
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
+      
+      if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
+        PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
+      fi
     else
       PREVIOUS_SHA=${COMMON_ANCESTOR:-}
       
