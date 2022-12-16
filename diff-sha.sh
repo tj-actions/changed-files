@@ -204,7 +204,7 @@ else
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
 
       if [[ "$CURRENT_SHA" == "$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA" ]]; then
-        CURRENT_SHA=$(git rev-list -n 1 HEAD) && exit_status=$? || exit_status=$?
+        CURRENT_SHA=$(git rev-parse HEAD) && exit_status=$? || exit_status=$?
       fi
     fi
   fi
@@ -265,6 +265,14 @@ else
           
           if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
             PREVIOUS_SHA=$NEW_PREVIOUS_SHA
+          fi
+        fi
+
+        if [[ -z "$INPUT_SHA" ]]; then
+          NEW_CURRENT_SHA=$(git rev-parse HEAD) && exit_status=$? || exit_status=$?
+
+          if [[ -n "$NEW_CURRENT_SHA" ]]; then
+            CURRENT_SHA=$NEW_CURRENT_SHA
           fi
         fi
 
