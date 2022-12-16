@@ -232,7 +232,7 @@ else
     fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
     fi
 
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
@@ -248,12 +248,6 @@ else
       for ((i=0; i<max_depth; i+=depth * 2)); do
         if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           break
-        else
-          NEW_PREVIOUS_SHA=$(git merge-base --fork-point "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
-          
-          if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
-            PREVIOUS_SHA=$NEW_PREVIOUS_SHA
-          fi
         fi
 
         echo "Fetching $i commits..."
