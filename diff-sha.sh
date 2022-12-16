@@ -270,12 +270,12 @@ else
 
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1
-
-        if ((i > max_depth)); then
-          echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
-          exit 1
-        fi
       done
+
+      if ((i > max_depth)); then
+        echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
+        exit 1
+      fi
     else
       echo "::debug::Not a shallow clone, skipping merge-base check."
     fi
