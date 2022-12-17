@@ -206,7 +206,7 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
       fi
     else
-      PREVIOUS_SHA=$(git rev-list --max-parents origin/"$CURRENT_BRANCH") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list --max-parents=0 origin/"$CURRENT_BRANCH") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
