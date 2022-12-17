@@ -259,9 +259,6 @@ else
         echo "::debug::Merge-base commit: $merge_base_commit is not valid"
       done
 
-      # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS --progress --depth="$INPUT_FETCH_DEPTH" origin +"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-
       # If the merge-base commit is not found merge the current branch with the target branch and return with exit code 1 if there are merge conflicts
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
         # If in a detached head state, checkout the current branch
