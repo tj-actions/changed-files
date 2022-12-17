@@ -270,14 +270,34 @@ else
           git checkout "$CURRENT_BRANCH"
         fi
 
-        echo "::debug::Unable to find a valid merge-base commit, merging current branch with target branch"
-        git merge --no-edit origin/"$TARGET_BRANCH" && exit_status=$? || exit_status=$?
+        echo "::debug::Unable to find a valid merge-base commit, rebasing the current branch with target branch"
+        git rebase "$TARGET_BRANCH" && exit_status=$? || exit_status=$?
 
         if [[ $exit_status -ne 0 ]]; then
-          echo "::error::Unable to merge current branch with target branch"
+          echo "::error::Unable to rebase the current branch with target branch"
           exit 1
         fi
+
+        # Verify that the merge-base commit is found via git diff and increase the fetch depth if not found
+        for ((i=20; i<INPUT_MAX_FETCH_DEPTH; i+=1000)); do
+          echo "::debug::Increasing fetch depth to $i"
+          # shellcheck disable=SC2086
+          git fetch $EXTRA_ARGS --progress --depth="$i" origin +"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
+
+          if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+            echo "::debug::Found valid merge-base commit: $PREVIOUS_SHA"
+            break
+          else
+            echo "::debug::Merge-base commit: $PREVIOUS_SHA is not valid"
+            NEW_PREVIOUS_SHA=$(git merge-base --all "$TARGET_BRANCH" HEAD | head -n 1) && exit_status=$? || exit_status=$?
+
+            if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
+              PREVIOUS_SHA=$NEW_PREVIOUS_SHA
+            fi
+          fi
+        done
       fi
+
     else
       echo "::debug::Not a shallow clone, skipping merge-base check."
     fi
