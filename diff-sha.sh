@@ -206,8 +206,7 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
       fi
     else
-      # Get the earliest commit in the PR branch
-      PREVIOUS_SHA=$(git rev-list -n 1 --max-parents=0 "$GITHUB_REF") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-list -n 1 "$GITHUB_REF") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
