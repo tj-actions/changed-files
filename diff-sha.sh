@@ -258,6 +258,9 @@ else
           break
         fi
         
+        # shellcheck disable=SC2086
+        git fetch -u --progress $EXTRA_ARGS --depth="$i" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
+        
         if [[ -z "$INPUT_BASE_SHA" ]]; then
           NEW_PREVIOUS_SHA=$(git merge-base --all "$TARGET_BRANCH" "$CURRENT_SHA" | head -n 1) && exit_status=$? || exit_status=$?
           
