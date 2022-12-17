@@ -431,4 +431,9 @@ if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   fi
 fi
 
+
+if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/"; then
+  git checkout "$INPUT_CURRENT_SHA"
+fi
+
 echo "::endgroup::"
