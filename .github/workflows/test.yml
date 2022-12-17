@@ -946,6 +946,12 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v6
         if: github.event_name == 'pull_request'
+      - name: Fetch commits from the base branch
+        if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth != 0
+        run: |
+          git fetch origin --depth=1 ${{ steps.branch-name.outputs.base_ref_branch }}:refs/remotes/origin/${{ steps.branch-name.outputs.base_ref_branch }}
+        shell:
+          bash
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
