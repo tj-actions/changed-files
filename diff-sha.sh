@@ -246,35 +246,34 @@ else
   
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     if [[ -f .git/shallow ]]; then
-      depth=$INPUT_FETCH_DEPTH
-      max_depth=$INPUT_MAX_FETCH_DEPTH
+      # Loop over all merge-base commits until we find a valid one i.e the diff of the current sha and previous sha is valid
+      for merge_base_commit in $(git merge-base --all "$TARGET_BRANCH" HEAD); do
+        echo "::debug::Checking merge-base commit: $merge_base_commit"
 
-      for ((i=20; i<max_depth; i+=depth)); do
-        if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+        if git diff --name-only --ignore-submodules=all "$merge_base_commit$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+          echo "::debug::Found valid merge-base commit: $merge_base_commit"
+          PREVIOUS_SHA=$merge_base_commit
           break
         fi
-        
-        # shellcheck disable=SC2086
-        git fetch -u --progress $EXTRA_ARGS --depth="$i" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-        
-        if [[ -z "$INPUT_BASE_SHA" ]]; then
-          NEW_PREVIOUS_SHA=$(git merge-base --all "$TARGET_BRANCH" "$CURRENT_SHA" | head -n 1) && exit_status=$? || exit_status=$?
-          
-          if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
-            PREVIOUS_SHA=$NEW_PREVIOUS_SHA
-          fi
-        fi
-
-        echo "Fetching $i commits..."
-
-        # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS -u --progress --deepen="$i" origin $TARGET_BRANCH $CURRENT_SHA 1>/dev/null 2>&1
+        echo "::debug::Merge-base commit: $merge_base_commit is not valid"
       done
 
-      if ((i > max_depth)); then
-        echo "::error::Unable to locate a common ancestor between $TARGET_BRANCH and $CURRENT_BRANCH with: $PREVIOUS_SHA$DIFF$CURRENT_SHA"
-        exit 1
+      # If the merge-base commit is not found merge the current branch with the target branch and return with exit code 1 if there are merge conflicts
+      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+        # If in a detached head state, checkout the current branch
+        if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/" ; then
+          git checkout "$CURRENT_BRANCH"
+        fi
+
+        echo "::debug::Unable to find a valid merge-base commit, merging current branch with target branch"
+        git merge --no-edit origin/"$TARGET_BRANCH" && exit_status=$? || exit_status=$?
+
+        if [[ $exit_status -ne 0 ]]; then
+          echo "::error::Unable to merge current branch with target branch"
+          exit 1
+        fi
       fi
+
     else
       echo "::debug::Not a shallow clone, skipping merge-base check."
     fi
