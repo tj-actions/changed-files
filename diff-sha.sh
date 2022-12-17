@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -207,7 +207,7 @@ else
       fi
     else
       # Set the previous sha to the GITHUB_EVENT_PULL_REQUEST_COMMITS - 1
-      PREVIOUS_SHA=$(git rev-parse HEAD~"$GITHUB_EVENT_PULL_REQUEST_COMMITS") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-parse "HEAD~$GITHUB_EVENT_PULL_REQUEST_COMMITS") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
