@@ -206,8 +206,7 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
       fi
     else
-      git log --oneline
-      PREVIOUS_SHA=$(git log "-$(( GITHUB_EVENT_PULL_REQUEST_COMMITS - 1 ))}}" --format="%H") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git log "-$(( GITHUB_EVENT_PULL_REQUEST_COMMITS - 1 ))" --format="%H") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
