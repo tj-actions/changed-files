@@ -155,17 +155,10 @@ else
 
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     # shellcheck disable=SC2086
-    git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-    git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
-    # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 + INPUT_FETCH_DEPTH )) origin "$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
-
-    if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/"; then
-      git checkout -q "$CURRENT_BRANCH"
-    fi
+    git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 + INPUT_FETCH_DEPTH )) origin +HEAD:refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
   else
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
+    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +HEAD:refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
   fi
 
   if [[ $exit_status -ne 0 ]]; then
@@ -214,7 +207,7 @@ else
       fi
     else
       git log --oneline
-      PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git log "-$(( GITHUB_EVENT_PULL_REQUEST_COMMITS - 1 ))}}" --format="%H") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
