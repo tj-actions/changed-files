@@ -161,7 +161,7 @@ else
     git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 + INPUT_FETCH_DEPTH )) origin "$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
 
     if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/"; then
-      git checkout -q "$GIT_BRANCH"
+      git checkout -q "$GITHUB_REF"
     fi
   else
     # shellcheck disable=SC2086
