@@ -213,7 +213,7 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
       fi
     else
-      PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH") && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git merge-base --fork-point origin/"$TARGET_BRANCH" origin/"$GITHUB_REF") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
