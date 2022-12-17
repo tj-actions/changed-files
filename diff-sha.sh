@@ -8,6 +8,7 @@ EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
 DIFF="..."
+DETACHED_HEAD="false"
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
@@ -262,6 +263,7 @@ else
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
         # If in a detached head state, checkout the current branch
         if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/" ; then
+          DETACHED_HEAD=true
           git checkout "$CURRENT_BRANCH"
         fi
 
@@ -303,12 +305,14 @@ if [[ -z "$GITHUB_OUTPUT" ]]; then
   echo "::set-output name=current_branch::$CURRENT_BRANCH"
   echo "::set-output name=previous_sha::$PREVIOUS_SHA"
   echo "::set-output name=current_sha::$CURRENT_SHA"
+  echo "::set-output detached_head::$DETACHED_HEAD"
 else
   cat <<EOF >> "$GITHUB_OUTPUT"
 target_branch=$TARGET_BRANCH
 current_branch=$CURRENT_BRANCH
 previous_sha=$PREVIOUS_SHA
 current_sha=$CURRENT_SHA
+detached_head=$DETACHED_HEAD
 EOF
 fi
 

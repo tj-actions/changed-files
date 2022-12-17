@@ -214,6 +214,7 @@ runs:
         GITHUB_WORKSPACE: ${{ github.workspace }}
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
         INPUT_FILES_PATTERN_FILE: ${{ steps.glob.outputs.paths-output-file }}
@@ -223,6 +224,7 @@ runs:
         INPUT_CURRENT_SHA: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
         INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
+        INPUT_DETACHED_HEAD: ${{ steps.changed-files-diff-sha.outputs.detached_head }}
         INPUT_QUOTEPATH: ${{ inputs.quotepath }}
         INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES: ${{ inputs.include_all_old_new_renamed_files }}
         INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}
