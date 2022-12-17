@@ -245,7 +245,7 @@ else
   fi
   
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    if [[ -f .git/shallow ]]; then
+    if [[ -f .git/shallow && -z "$INPUT_BASE_SHA" ]]; then
       # Loop over all merge-base commits until we find a valid one i.e the diff of the current sha and previous sha is valid
       for merge_base_commit in $(git merge-base --all "$TARGET_BRANCH" HEAD); do
         echo "::debug::Checking merge-base commit: $merge_base_commit"
