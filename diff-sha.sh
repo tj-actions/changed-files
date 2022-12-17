@@ -206,8 +206,8 @@ else
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
       fi
     else
-      # Set the previous sha to the GITHUB_EVENT_PULL_REQUEST_COMMITS - 1
-      PREVIOUS_SHA=$(git rev-parse "$GITHUB_REF~$GITHUB_EVENT_PULL_REQUEST_COMMITS" 2>/dev/null) && exit_status=$? || exit_status=$?
+      # Get the earliest commit in the PR branch
+      PREVIOUS_SHA=$(git rev-list -n 1 --max-parents=0 "$GITHUB_REF") && exit_status=$? || exit_status=$?
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
