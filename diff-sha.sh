@@ -153,15 +153,13 @@ else
 
   echo "Fetching remote refs..."
 
-  if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/" ; then
+  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     git switch -c "$CURRENT_BRANCH" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Unable to switch to branch: $GITHUB_REF"
       exit 1
     fi
-  fi
-
-  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 + INPUT_FETCH_DEPTH )) origin "$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
   else
