@@ -161,7 +161,7 @@ else
     git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 + INPUT_FETCH_DEPTH )) origin "$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
   else
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
+    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" && exit_status=$? || exit_status=$?
   fi
 
   if [[ $exit_status -ne 0 ]]; then
