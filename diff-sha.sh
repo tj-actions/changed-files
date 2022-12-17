@@ -7,14 +7,9 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
-DIFF="..."
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
-fi
-
-if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
-  DIFF=".."
 fi
 
 echo "::group::changed-files-diff-sha"
@@ -160,7 +155,7 @@ else
 
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 )) origin "$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
+    git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 + INPUT_FETCH_DEPTH )) origin "$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
   else
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin "$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1 && exit_status=$? || exit_status=$?
