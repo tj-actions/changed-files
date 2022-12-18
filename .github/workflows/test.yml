@@ -784,6 +784,7 @@ jobs:
           files: |
             .github/workflows/test.yml
             action.yml
+            test/__init__.py
           separator: "/"
       - name: Show output
         run: |
