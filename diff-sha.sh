@@ -223,7 +223,7 @@ else
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
         # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS --depth=1 origin +$PREVIOUS_SHA:+refs/remotes/pull/"$GITHUB_EVENT_NUMBER"/merge 1>/dev/null 2>&1
+        git fetch $EXTRA_ARGS --depth=1 origin +$PREVIOUS_SHA:refs/remotes/pull/"$GITHUB_EVENT_NUMBER"/merge 1>/dev/null 2>&1
       fi
     fi
 
