@@ -431,9 +431,4 @@ if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
   fi
 fi
 
-
-if [[ "$INPUT_DETACHED_HEAD" == "true" ]]; then
-  git checkout "$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA"
-fi
-
 echo "::endgroup::"

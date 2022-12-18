@@ -159,36 +159,6 @@ else
 
   echo "Fetching remote refs..."
 
-  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    # shellcheck disable=SC2086
-    git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-    git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
-    # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth=$(( GITHUB_EVENT_PULL_REQUEST_COMMITS + 1 )) origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
-
-    COMMON_ANCESTOR=$(git merge-base --all "$TARGET_BRANCH" HEAD | head -n 1) && exit_status=$? || exit_status=$?
-
-    if [[ -z "$COMMON_ANCESTOR" ]]; then
-      echo "::debug::Unable to locate a common ancestor for the current branch: $CURRENT_BRANCH"
-    else
-      echo "::debug::Common ancestor: $COMMON_ANCESTOR"
-
-      DATE=$(git show --quiet --date=iso8601 --format=%cd "$COMMON_ANCESTOR")
-
-      if [[ -z "$DATE" ]]; then
-        echo "::error::Unable to locate a date for the common ancestor: $COMMON_ANCESTOR"
-        exit 1
-      else
-        # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS --shallow-since="${DATE}" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-        echo "::debug::Date: $DATE"
-      fi
-    fi
-  else
-    # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --depth="$INPUT_FETCH_DEPTH" origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
-  fi
-
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
     echo "::debug::Getting HEAD SHA for '$INPUT_UNTIL'..."
@@ -223,16 +193,31 @@ else
 
   if [[ -z $INPUT_BASE_SHA ]]; then
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
+      echo "::debug::Fetching remote current branch..."
+
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null 2>&1
+
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
       
       if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
         PREVIOUS_SHA=$(git rev-parse origin/"$CURRENT_BRANCH")
       fi
     else
-      PREVIOUS_SHA=${COMMON_ANCESTOR:-$GITHUB_EVENT_PULL_REQUEST_BASE_SHA}
+      echo "::debug::Fetching remote target branch..."
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" 1>/dev/null 2>&1
 
-      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git merge-base --all "$TARGET_BRANCH" HEAD | head -n 1) && exit_status=$? || exit_status=$?
+      PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH")
+
+      # Find the merge-base between the target branch and the current branch
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+      fi
+
+      # Verify that the merge-base is valid
+      if [[ $exit_status -ne 0 ]]; then
+        echo "::error::Unable to locate the merge-base between $TARGET_BRANCH and $CURRENT_BRANCH."
+        echo "::error::Please verify that the target branch is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
+        exit 1
       fi
     fi
 
@@ -243,61 +228,6 @@ else
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
-  fi
-  
-  if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "false" ]]; then
-    if [[ -f .git/shallow && -z "$INPUT_BASE_SHA" ]]; then
-      # Loop over all merge-base commits until we find a valid one i.e the diff of the current sha and previous sha is valid
-      for merge_base_commit in $(git merge-base --all "$TARGET_BRANCH" HEAD); do
-        echo "::debug::Checking merge-base commit: $merge_base_commit"
-
-        if git diff --name-only --ignore-submodules=all "$merge_base_commit$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-          echo "::debug::Found valid merge-base commit: $merge_base_commit"
-          PREVIOUS_SHA=$merge_base_commit
-          break
-        fi
-        echo "::debug::Merge-base commit: $merge_base_commit is not valid"
-      done
-
-      # If the merge-base commit is not found merge the current branch with the target branch and return with exit code 1 if there are merge conflicts
-      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        # If in a detached head state, checkout the current branch
-        if ! git rev-parse --symbolic-full-name --verify -q HEAD | grep -q "^refs/heads/" ; then
-          DETACHED_HEAD=true
-          git checkout "$CURRENT_BRANCH"
-        fi
-
-        echo "::debug::Unable to find a valid merge-base commit, rebasing the current branch with target branch"
-        git rebase "$TARGET_BRANCH" && exit_status=$? || exit_status=$?
-
-        if [[ $exit_status -ne 0 ]]; then
-          echo "::error::Unable to rebase the current branch with target branch"
-          exit 1
-        fi
-
-        # Verify that the merge-base commit is found via git diff and increase the fetch depth if not found
-        for ((i=20; i<INPUT_MAX_FETCH_DEPTH; i+=1000)); do
-          if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-            echo "::debug::Found valid merge-base commit: $PREVIOUS_SHA"
-            break
-          else
-            echo "::debug::Increasing fetch depth to $i"
-            # shellcheck disable=SC2086
-            git fetch $EXTRA_ARGS --progress --depth="$i" origin +"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
-
-            echo "::debug::Merge-base commit: $PREVIOUS_SHA is not valid"
-            NEW_PREVIOUS_SHA=$(git merge-base --all "$TARGET_BRANCH" HEAD | head -n 1) && exit_status=$? || exit_status=$?
-
-            if [[ -n "$NEW_PREVIOUS_SHA" ]]; then
-              PREVIOUS_SHA=$NEW_PREVIOUS_SHA
-            fi
-          fi
-        done
-      fi
-
-    else
-      echo "::debug::Not a shallow clone, skipping merge-base check."
-    fi
   fi
 
   echo "::debug::Target branch: $TARGET_BRANCH"
@@ -324,14 +254,12 @@ if [[ -z "$GITHUB_OUTPUT" ]]; then
   echo "::set-output name=current_branch::$CURRENT_BRANCH"
   echo "::set-output name=previous_sha::$PREVIOUS_SHA"
   echo "::set-output name=current_sha::$CURRENT_SHA"
-  echo "::set-output detached_head::$DETACHED_HEAD"
 else
   cat <<EOF >> "$GITHUB_OUTPUT"
 target_branch=$TARGET_BRANCH
 current_branch=$CURRENT_BRANCH
 previous_sha=$PREVIOUS_SHA
 current_sha=$CURRENT_SHA
-detached_head=$DETACHED_HEAD
 EOF
 fi
 
