@@ -7,9 +7,14 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
+DIFF="..."
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
+fi
+
+if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
+  DIFF=".."
 fi
 
 echo "::group::changed-files-diff-sha"
@@ -209,12 +214,17 @@ else
 
       # Find the merge-base between the target branch and the current branch
       if [[ -z "$PREVIOUS_SHA" ]]; then
-        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH")
+        PREVIOUS_SHA=$(git merge-base --fork-point origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
       fi
-    fi
 
-    if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+      if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+      fi
+
+      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+        # Use the first commit of the branch
+        PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^$(( GITHUB_EVENT_PULL_REQUEST_COMMITS - 1 ))")
+      fi
     fi
 
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
