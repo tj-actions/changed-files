@@ -204,19 +204,12 @@ else
       echo "::debug::Fetching remote target branch..."
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" 1>/dev/null 2>&1
-
-      PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH")
+      
+      PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
 
       # Find the merge-base between the target branch and the current branch
       if [[ -z "$PREVIOUS_SHA" ]]; then
-        PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
-      fi
-
-      # Verify that the merge-base is valid
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Unable to locate the merge-base between $TARGET_BRANCH and $CURRENT_BRANCH."
-        echo "::error::Please verify that the target branch is valid, and increase the fetch_depth to a number higher than $INPUT_FETCH_DEPTH."
-        exit 1
+        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH")
       fi
     fi
 
