@@ -7,15 +7,15 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
-DIFF="..."
+#DIFF="..."
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
 fi
 
-if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
-  DIFF=".."
-fi
+#if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
+#  DIFF=".."
+#fi
 
 echo "::group::changed-files-diff-sha"
 
