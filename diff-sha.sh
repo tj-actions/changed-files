@@ -227,7 +227,7 @@ else
 #        PREVIOUS_SHA=$(git rev-parse "pull/$GITHUB_EVENT_NUMBER/merge") && exit_status=$? || exit_status=$?
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
 
-#        git checkout --progress --force "refs/remotes/pull/$GITHUB_EVENT_NUMBER/merge" 1>/dev/null 2>&1
+        git checkout --progress --force "refs/remotes/pull/$GITHUB_EVENT_NUMBER/merge" 1>/dev/null 2>&1
       fi
     fi
 
