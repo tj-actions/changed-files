@@ -10,6 +10,12 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 DIFF="..."
 
+if [[ $(git cat-file -t "$INPUT_PREVIOUS_SHA") == "commit" ]]; then
+  if [[ $(git cat-file -p "$INPUT_PREVIOUS_SHA" | grep -c "^parent ") -gt 1 ]]; then
+    DIFF=".."
+  fi
+fi
+
 if [[ -z $GITHUB_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
   DIFF=".."
 fi
