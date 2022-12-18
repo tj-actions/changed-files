@@ -168,6 +168,9 @@ else
       exit 1
     fi
   else
+    # shellcheck disable=SC2086
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null 2>&1
+
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list -n 1 HEAD) && exit_status=$? || exit_status=$?
     else
