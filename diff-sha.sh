@@ -195,7 +195,7 @@ else
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
       echo "::debug::Fetching remote current branch..."
 
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null 2>&1
+      git fetch "$EXTRA_ARGS" -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null 2>&1
 
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
       
@@ -204,7 +204,7 @@ else
       fi
     else
       echo "::debug::Fetching remote target branch..."
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" 1>/dev/null 2>&1
+      git fetch "$EXTRA_ARGS" -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" 1>/dev/null 2>&1
 
       PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH")
 
