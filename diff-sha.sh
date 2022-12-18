@@ -224,8 +224,7 @@ else
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
         # shellcheck disable=SC2086
         git fetch $EXTRA_ARGS -u --progress --depth=1 origin "+$GITHUB_EVENT_PULL_REQUEST_BASE_SHA:refs/remotes/pull/$GITHUB_EVENT_NUMBER/merge" 1>/dev/null 2>&1
-#        PREVIOUS_SHA=$(git rev-parse "pull/$GITHUB_EVENT_NUMBER/merge") && exit_status=$? || exit_status=$?
-        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-parse "pull/$GITHUB_EVENT_NUMBER/merge") && exit_status=$? || exit_status=$?
 
         git checkout --progress --force "refs/remotes/pull/$GITHUB_EVENT_NUMBER/merge" 1>/dev/null 2>&1
       fi
