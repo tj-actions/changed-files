@@ -223,7 +223,7 @@ else
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
         # Use the first commit of the branch
-        PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA~$(( GITHUB_EVENT_PULL_REQUEST_COMMITS - 1 ))")
+        PREVIOUS_SHA=$(git rev-list "$CURRENT_SHA~$(( GITHUB_EVENT_PULL_REQUEST_COMMITS - 1 ))" | tail -n 1) && exit_status=$? || exit_status=$?
       fi
     fi
 
