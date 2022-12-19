@@ -88,8 +88,8 @@ inputs:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: true
     default: "false"
-  generate_output:
-    description: "Generate files for all outputs in the `.github/outputs` folder by default."
+  write_output_files:
+    description: "Write outputs to files in the `.github/outputs` folder by default."
     required: false
     default: "false"
   output_dir:
@@ -240,7 +240,7 @@ runs:
         INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
     - name: Generate output files
       uses: tj-actions/json2file@v1
-      if: ${{ inputs.generate_output }} == 'true'
+      if: ${{ inputs.write_output_files }} == 'true'
       with:
         outputs: ${{ toJSON(steps.changed-files.outputs) }}
         directory: ${{ inputs.output_dir }}
