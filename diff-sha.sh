@@ -197,7 +197,7 @@ else
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
 
       if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse "$CURRENT_BRANCH^1")
+        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       fi
     else
       echo "::debug::Fetching remote target branch..."
