@@ -240,7 +240,7 @@ runs:
         INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
     - name: Generate output files
       uses: tj-actions/json2file@v1
-      if: ${{ inputs.write_output_files }} == 'true'
+      if: inputs.write_output_files == 'true'
       with:
         outputs: ${{ toJSON(steps.changed-files.outputs) }}
         directory: ${{ inputs.output_dir }}
