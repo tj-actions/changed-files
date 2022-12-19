@@ -10,6 +10,12 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 DIFF=$INPUT_DIFF
 
+OUTPUTS_EXTENSION="txt"
+
+if [[ "$INPUT_JSON" == "true" ]]; then
+  OUTPUTS_EXTENSION="json"
+fi
+
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
   git config --global core.quotepath off
 else
@@ -403,6 +409,7 @@ if [[ -z "$GITHUB_OUTPUT" ]]; then
   echo "::set-output name=all_changed_and_modified_files::$ALL_CHANGED_AND_MODIFIED"
   echo "::set-output name=all_changed_files::$ALL_CHANGED"
   echo "::set-output name=all_modified_files::$ALL_MODIFIED"
+  echo "::set-output name=outputs_extension::$OUTPUTS_EXTENSION"
 else
   cat <<EOF >>"$GITHUB_OUTPUT"
 added_files=$ADDED
@@ -416,6 +423,7 @@ unknown_files=$UNKNOWN
 all_changed_and_modified_files=$ALL_CHANGED_AND_MODIFIED
 all_changed_files=$ALL_CHANGED
 all_modified_files=$ALL_MODIFIED
+outputs_extension=$OUTPUTS_EXTENSION
 EOF
 fi
 

@@ -372,6 +372,18 @@ jobs:
           echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
         shell:
           bash
+      - name: Run changed-files with write_output_files
+        id: changed-files-write-output-files
+        uses: ./
+        with:
+          json: true
+          write_output_files: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-write-output-files.outputs.all_changed_files) }}'
+          cat .github/outputs/all_changed_files.json
+        shell:
+          bash
       - name: Run changed-files with include_all_old_new_renamed_files
         id: changed-files-all-old-new-renamed-files
         uses: ./
