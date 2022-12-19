@@ -210,8 +210,9 @@ else
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH" 1>/dev/null 2>&1
 
+      echo "::debug::Fetching remote current branch..."
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress origin +"$GITHUB_REF":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null 2>&1
+      git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null 2>&1
 
       PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
 
