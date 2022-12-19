@@ -212,22 +212,12 @@ else
       
       PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
 
-      # Find the merge-base between the target branch and the current branch
-      if [[ -z "$PREVIOUS_SHA" ]]; then
-        PREVIOUS_SHA=$(git merge-base --fork-point origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
-      fi
-
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
       fi
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        # shellcheck disable=SC2086
-        git fetch $EXTRA_ARGS -u --progress --depth=1 origin "+$GITHUB_EVENT_PULL_REQUEST_BASE_SHA:refs/remotes/pull/$GITHUB_EVENT_NUMBER/merge" 1>/dev/null 2>&1
-
-        git checkout --progress --force "refs/remotes/pull/$GITHUB_EVENT_NUMBER/merge" 1>/dev/null 2>&1
-
-        PREVIOUS_SHA=$(git rev-parse "pull/$GITHUB_EVENT_NUMBER/merge") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(gh pr view "$GITHUB_EVENT_NUMBER" --json commits --jq '.commits[0].oid') && exit_status=$? || exit_status=$?
       fi
     fi
 
