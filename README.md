@@ -63,7 +63,6 @@ on:
     branches:
       - main
 
-
 jobs:
   build:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
