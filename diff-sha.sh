@@ -157,6 +157,8 @@ else
   fi
 
   echo "Fetching remote refs..."
+  # shellcheck disable=SC2086
+  git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null 2>&1
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -168,9 +170,6 @@ else
       exit 1
     fi
   else
-    # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null 2>&1
-
     if [[ -z $INPUT_SHA ]]; then
       CURRENT_SHA=$(git rev-list -n 1 HEAD) && exit_status=$? || exit_status=$?
     else
@@ -197,9 +196,6 @@ else
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
       echo "::debug::Fetching remote current branch..."
 
-      # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null 2>&1
-
       PREVIOUS_SHA=$GITHUB_EVENT_BEFORE
       
       if ! git rev-parse --quiet --verify "$PREVIOUS_SHA^{commit}" 1>/dev/null 2>&1; then
@@ -211,10 +207,6 @@ else
       git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
 
       git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
-
-      echo "::debug::Fetching remote current branch..."
-      # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null 2>&1
 
       PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
     fi
