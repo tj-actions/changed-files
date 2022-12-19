@@ -81,13 +81,9 @@ inputs:
     required: false
     default: "false"
   fetch_depth:
-    description: "Initial depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
+    description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
     default: "50"
-  max_fetch_depth:
-    description: "Maximum depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
-    required: false
-    default: "9000"
   since_last_remote_commit:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: true
@@ -189,7 +185,6 @@ runs:
         INPUT_UNTIL: ${{ inputs.until }}
         INPUT_PATH: ${{ inputs.path }}
         INPUT_FETCH_DEPTH: ${{ inputs.fetch_depth }}
-        INPUT_MAX_FETCH_DEPTH: ${{ inputs.max_fetch_depth }}
         INPUT_SINCE_LAST_REMOTE_COMMIT: ${{ inputs.since_last_remote_commit }}
     - name: Glob match
       uses: tj-actions/glob@v16
