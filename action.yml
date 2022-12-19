@@ -244,6 +244,7 @@ runs:
       with:
         outputs: ${{ toJSON(steps.changed-files.outputs) }}
         directory: ${{ inputs.output_dir }}
+        skip_missing_keys: true
         keys: |
           added_files
           copied_files
