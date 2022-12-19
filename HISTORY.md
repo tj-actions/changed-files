@@ -1,5 +1,29 @@
 # Changelog
 
+## [v35.0.0](https://github.com/tj-actions/changed-files/tree/v35.0.0) (2022-12-19)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.0.0)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2022-12-19)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.6.2...v35)
+
+**Fixed bugs:**
+
+- \[BUG\] Process completed with exit code 1 [\#884](https://github.com/tj-actions/changed-files/issues/884)
+- \[BUG\] `changed-files` error during run [\#875](https://github.com/tj-actions/changed-files/issues/875)
+
+**Closed issues:**
+
+- How to see the changed files after the PR is merged ? [\#874](https://github.com/tj-actions/changed-files/issues/874)
+
+**Merged pull requests:**
+
+- Updated README.md [\#885](https://github.com/tj-actions/changed-files/pull/885) ([jackton1](https://github.com/jackton1))
+- fix: error retrieving changed files [\#882](https://github.com/tj-actions/changed-files/pull/882) ([jackton1](https://github.com/jackton1))
+- fix: fail when the merge base is not found [\#879](https://github.com/tj-actions/changed-files/pull/879) ([jackton1](https://github.com/jackton1))
+- Upgraded to v34.6.2 [\#878](https://github.com/tj-actions/changed-files/pull/878) ([jackton1](https://github.com/jackton1))
+
 ## [v34.6.2](https://github.com/tj-actions/changed-files/tree/v34.6.2) (2022-12-16)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v34...v34.6.2)
@@ -232,7 +256,7 @@
 
 ## [v34.3.3](https://github.com/tj-actions/changed-files/tree/v34.3.3) (2022-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.3)
 
 **Fixed bugs:**
 
@@ -247,13 +271,13 @@
 - chore: update readme [\#784](https://github.com/tj-actions/changed-files/pull/784) ([jackton1](https://github.com/jackton1))
 - Upgraded to v34.3.2 [\#781](https://github.com/tj-actions/changed-files/pull/781) ([jackton1](https://github.com/jackton1))
 
-## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.2)
-
 ## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.1)
+
+## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.2)
 
 **Fixed bugs:**
 
@@ -586,7 +610,7 @@
 
 ## [v31.0.0](https://github.com/tj-actions/changed-files/tree/v31.0.0) (2022-09-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v31.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v31.0.0)
 
 **Merged pull requests:**
 
@@ -599,13 +623,13 @@
 - chore: update broken link [\#642](https://github.com/tj-actions/changed-files/pull/642) ([jackton1](https://github.com/jackton1))
 - Upgraded to v30.0.0 [\#641](https://github.com/tj-actions/changed-files/pull/641) ([jackton1](https://github.com/jackton1))
 
-## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v30)
-
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v30.0.0)
+
+## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30)
 
 **Fixed bugs:**
 
