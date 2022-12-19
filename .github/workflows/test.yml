@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v3
@@ -94,7 +94,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-11, macos-latest, windows-2022]
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -149,7 +149,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -184,7 +184,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -212,7 +212,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
         fetch-depth: [1, 2]
 
     steps:
@@ -238,7 +238,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -290,7 +290,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -945,21 +945,21 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v6
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && matrix.fetch-depth == 0
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit
-        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth == 0
         with:
           main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }}
           workflow-id: 'test.yml'
       - name: Run changed-files with a custom base sha
-        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth == 0
         id: changed-files-custom-base-sha
         uses: ./
         with:
           base_sha: ${{ steps.last_successful_commit.outputs.base }}
       - name: Show output
-        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth == 0
         run: |
           echo '${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}'
         shell:

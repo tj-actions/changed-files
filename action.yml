@@ -81,13 +81,9 @@ inputs:
     required: false
     default: "false"
   fetch_depth:
-    description: "Initial depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
+    description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
     default: "50"
-  max_fetch_depth:
-    description: "Maximum depth of the branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
-    required: false
-    default: "9000"
   since_last_remote_commit:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: true
@@ -173,6 +169,7 @@ runs:
         GITHUB_BASE_REF: ${{ github.base_ref }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
+        GITHUB_EVENT_NUMBER: ${{ github.event.number }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
         GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -188,7 +185,6 @@ runs:
         INPUT_UNTIL: ${{ inputs.until }}
         INPUT_PATH: ${{ inputs.path }}
         INPUT_FETCH_DEPTH: ${{ inputs.fetch_depth }}
-        INPUT_MAX_FETCH_DEPTH: ${{ inputs.max_fetch_depth }}
         INPUT_SINCE_LAST_REMOTE_COMMIT: ${{ inputs.since_last_remote_commit }}
     - name: Glob match
       uses: tj-actions/glob@v16
@@ -204,6 +200,7 @@ runs:
         working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
+        diff: ${{ steps.changed-files-diff-sha.outputs.diff }}
         include-deleted-files: true
         separator: "|"
     - run: |
@@ -223,6 +220,7 @@ runs:
         INPUT_CURRENT_SHA: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
         INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
+        INPUT_DIFF: ${{ steps.changed-files-diff-sha.outputs.diff }}
         INPUT_QUOTEPATH: ${{ inputs.quotepath }}
         INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES: ${{ inputs.include_all_old_new_renamed_files }}
         INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}

@@ -8,11 +8,7 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
-DIFF="..."
-
-if [[ -z $GITHUB_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
-  DIFF=".."
-fi
+DIFF=$INPUT_DIFF
 
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
   git config --global core.quotepath off
@@ -78,14 +74,14 @@ function get_diff() {
   done < <(git submodule | awk '{print $2}')
 
   if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed directories between: $base$DIFF$sha"
       exit 1
     fi
   else
-    git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" && exit_status=$? || exit_status=$?
+    git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" && exit_status=$? || exit_status=$?
 
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get changed files between: $base$DIFF$sha"
