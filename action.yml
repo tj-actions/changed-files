@@ -205,6 +205,7 @@ runs:
         working-directory: ${{ inputs.path }}
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
+        diff: ${{ steps.changed-files-diff-sha.outputs.diff }}
         include-deleted-files: true
         separator: "|"
     - run: |
