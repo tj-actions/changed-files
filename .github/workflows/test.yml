@@ -372,15 +372,15 @@ jobs:
           echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
         shell:
           bash
-      - name: Run changed-files with generate_output
-        id: changed-files-generated-output
+      - name: Run changed-files with write_output_files
+        id: changed-files-write-output-files
         uses: ./
         with:
           json: true
-          generate_output: true
+          write_output_files: true
       - name: Show output
         run: |
-          echo '${{ toJSON(steps.changed-files-generated-output.outputs.all_changed_files) }}'
+          echo '${{ toJSON(steps.changed-files-write-output-files.outputs.all_changed_files) }}'
           cat .github/outputs/all_changed_files.json
         shell:
           bash
