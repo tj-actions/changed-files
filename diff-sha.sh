@@ -216,9 +216,13 @@ else
 
       PREVIOUS_SHA=$(git merge-base origin/"$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
 
-      if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-        PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH")
       fi
+    fi
+
+    if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+      PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
 
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
