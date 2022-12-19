@@ -219,20 +219,20 @@ else
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
       fi
-
-      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        DIFF=".."
-
-        if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-          echo "::error::Unable find a diff between $PREVIOUS_SHA and $CURRENT_SHA"
-          exit 1
-        fi
-      fi
     fi
 
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
+  fi
+
+  if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+    DIFF=".."
+
+    if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+      echo "::error::Unable find a diff between $PREVIOUS_SHA and $CURRENT_SHA"
+      exit 1
+    fi
   fi
 
   echo "::debug::Target branch: $TARGET_BRANCH"
