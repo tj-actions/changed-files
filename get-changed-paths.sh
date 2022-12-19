@@ -12,7 +12,7 @@ DIFF=$INPUT_DIFF
 
 OUTPUTS_EXTENSION="txt"
 
-if [[ "$INPUT_OUTPUTS" == "json" ]]; then
+if [[ "$INPUT_JSON" == "json" ]]; then
   OUTPUTS_EXTENSION="json"
 fi
 
