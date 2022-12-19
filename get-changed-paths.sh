@@ -8,11 +8,7 @@ INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\n'/'%0A'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//$'\r'/'%0D'}"
 
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
-DIFF="..."
-
-if [[ -z $GITHUB_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
-  DIFF=".."
-fi
+DIFF=$INPUT_DIFF
 
 if [[ $INPUT_QUOTEPATH == "false" ]]; then
   git config --global core.quotepath off

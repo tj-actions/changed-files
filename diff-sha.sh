@@ -13,7 +13,7 @@ if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
 fi
 
-if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
+if [[ -z $GITHUB_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
   DIFF=".."
 fi
 
@@ -220,7 +220,12 @@ else
       fi
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(gh pr view "$GITHUB_EVENT_NUMBER" --json commits --jq '.commits[0].oid') && exit_status=$? || exit_status=$?
+        DIFF=".."
+
+        if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+          echo "::error::Unable find a diff between $PREVIOUS_SHA and $CURRENT_SHA"
+          exit 1
+        fi
       fi
     fi
 
@@ -253,12 +258,14 @@ if [[ -z "$GITHUB_OUTPUT" ]]; then
   echo "::set-output name=current_branch::$CURRENT_BRANCH"
   echo "::set-output name=previous_sha::$PREVIOUS_SHA"
   echo "::set-output name=current_sha::$CURRENT_SHA"
+  echo "::set-output name=diff::$DIFF"
 else
   cat <<EOF >> "$GITHUB_OUTPUT"
 target_branch=$TARGET_BRANCH
 current_branch=$CURRENT_BRANCH
 previous_sha=$PREVIOUS_SHA
 current_sha=$CURRENT_SHA
+diff=$DIFF
 EOF
 fi
 
