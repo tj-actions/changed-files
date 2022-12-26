@@ -171,7 +171,7 @@ else
     fi
   else
     if [[ -z $INPUT_SHA ]]; then
-      CURRENT_SHA=$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA && exit_status=$? || exit_status=$?
+      CURRENT_SHA=$(git rev-list -n 1 HEAD) && exit_status=$? || exit_status=$?
     else
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
     fi
