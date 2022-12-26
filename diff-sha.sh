@@ -174,10 +174,6 @@ else
       CURRENT_SHA=$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA && exit_status=$? || exit_status=$?
     else
       CURRENT_SHA=$INPUT_SHA; exit_status=$?
-
-      if [[ "$CURRENT_SHA" == "$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA" ]]; then
-        CURRENT_SHA=$(git rev-list -n 1 HEAD) && exit_status=$? || exit_status=$?
-      fi
     fi
   fi
 
