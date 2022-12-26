@@ -1,12 +1,30 @@
 # Changelog
 
+## [v35.1.1](https://github.com/tj-actions/changed-files/tree/v35.1.1) (2022-12-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.1.1)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2022-12-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.1.0...v35)
+
+**Implemented enhancements:**
+
+- \[Feature\] Output which file changed from files input [\#895](https://github.com/tj-actions/changed-files/issues/895)
+
+**Fixed bugs:**
+
+- pipeline failed in tj-action [\#894](https://github.com/tj-actions/changed-files/issues/894)
+
+**Merged pull requests:**
+
+- Updated README.md [\#897](https://github.com/tj-actions/changed-files/pull/897) ([jackton1](https://github.com/jackton1))
+- chore: update the default sha [\#896](https://github.com/tj-actions/changed-files/pull/896) ([jackton1](https://github.com/jackton1))
+- Upgraded to v35.1.0 [\#892](https://github.com/tj-actions/changed-files/pull/892) ([jackton1](https://github.com/jackton1))
+
 ## [v35.1.0](https://github.com/tj-actions/changed-files/tree/v35.1.0) (2022-12-19)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.1.0)
-
-## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2022-12-19)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.0.1...v35)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.0.1...v35.1.0)
 
 **Implemented enhancements:**
 
