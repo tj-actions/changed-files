@@ -66,7 +66,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
     fi
   else
     if [[ -z $INPUT_SHA ]]; then
-      CURRENT_SHA=$GITHUB_SHA && exit_status=$? || exit_status=$?
+      CURRENT_SHA=$(git rev-list -n 1 HEAD) && exit_status=$? || exit_status=$?
     else
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null 2>&1
