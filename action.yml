@@ -95,6 +95,10 @@ inputs:
     description: "Directory to store output files."
     required: false
     default: ".github/outputs"
+  match_directories:
+    description: "Indicates whether to include match directories"
+    default: "true"
+    required: true
 
 outputs:
   added_files:
@@ -209,6 +213,7 @@ runs:
         base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
         sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
         diff: ${{ steps.changed-files-diff-sha.outputs.diff }}
+        match-directories: ${{ inputs.match_directories }}
         include-deleted-files: true
         separator: "|"
     - run: |
