@@ -98,7 +98,7 @@ inputs:
   match_directories:
     description: "Indicates whether to include match directories"
     default: "true"
-    required: true
+    required: false
 
 outputs:
   added_files:
