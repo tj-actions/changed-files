@@ -58,7 +58,7 @@ on:
   push:
     branches:
       - main
-  # Compare the last commit of main -> to the current commit of a PR branch. 
+  # Compare the last commit of main -> to the current commit of a PR branch.
   # (Note: To compare changes between the last pushed commit to the remote PR branch set `since_last_remote_commit: true`)
   pull_request:
     branches:
@@ -183,6 +183,7 @@ Support this project with a :star:
 |     since\_last\_remote\_commit      | string |   true   |      `"false"`      | Use the last commit on the remote<br>branch as the `base_sha`. Defaults to the<br>last non merge commit on the target<br>branch for pull request events and the<br>previous remote commit of the current branch<br>for push events. |
 |               until               | string |  false   |                     |                                                                          Get changed files for commits whose timestamp<br>is earlier than the given time.                                                                           |
 |        write\_output\_files         | string |  false   |      `"false"`      |                                                                                Write outputs to files in the `.github/outputs`<br>folder by default.                                                                                |
+|               jq_raw_input                | string |  false   |      `"false"`      |                                                                  When json is true, if jq_raw_input is true as well, output will be formated directly as a validated json. However if it is false, output will be formated to use, f.e. with fromJSON               |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -226,7 +227,7 @@ See [inputs](#inputs) for more information.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v35
-      
+
     - name: List all added files
       run: |
         for file in ${{ steps.changed-files.outputs.added_files }}; do
@@ -471,7 +472,7 @@ See [inputs](#inputs) for more information.
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_push
         with:
-          main-branch-name: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch. 
+          main-branch-name: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch.
           workflow-id: 'test.yml'
 
       - name: Run changed-files with the commit of the last successful test workflow run
@@ -498,7 +499,7 @@ See [inputs](#inputs) for more information.
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_pull_request
         with:
-          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
+          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch
           workflow_id: 'test.yml'
 
       - name: Run changed-files with the commit of the last successful test workflow run on main

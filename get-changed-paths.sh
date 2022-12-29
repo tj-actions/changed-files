@@ -11,6 +11,11 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
 DIFF=$INPUT_DIFF
 
 OUTPUTS_EXTENSION="txt"
+OPTIONS_JQ="-R"
+
+if [[ "$JQ_RAW_INPUT" == "true" ]]; then
+  OPTIONS_JQ="-r -R"
+fi
 
 if [[ "$INPUT_JSON" == "true" ]]; then
   OUTPUTS_EXTENSION="json"
@@ -172,19 +177,19 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
       ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     fi
   else
-    ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
     if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
     fi
   fi
 else
@@ -233,7 +238,7 @@ else
   if [[ "$INPUT_JSON" == "false" ]]; then
     OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   else
-    OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
   fi
 
   if [[ -n "${OTHER_CHANGED}" && "${OTHER_CHANGED}" != "[]" ]]; then
@@ -285,7 +290,7 @@ else
   if [[ "$INPUT_JSON" == "false" ]]; then
     OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   else
-    OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
   fi
 
   if [[ -n "${OTHER_MODIFIED}" && "$OTHER_MODIFIED" != "[]" ]]; then
@@ -336,7 +341,7 @@ else
   if [[ "$INPUT_JSON" == "false" ]]; then
     OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   else
-    OTHER_DELETED=$(echo "${OTHER_DELETED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    OTHER_DELETED=$(echo "${OTHER_DELETED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
   fi
 
   if [[ -n "${OTHER_DELETED}" && "${OTHER_DELETED}" != "[]" ]]; then
@@ -368,17 +373,17 @@ else
     ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   else
-    ADDED=$(echo "${ADDED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    COPIED=$(echo "${COPIED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    DELETED=$(echo "${DELETED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    MODIFIED=$(echo "${MODIFIED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    RENAMED=$(echo "${RENAMED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    UNMERGED=$(echo "${UNMERGED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    UNKNOWN=$(echo "${UNKNOWN}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_CHANGED=$(echo "${ALL_CHANGED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
-    ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | jq -r -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ADDED=$(echo "${ADDED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    COPIED=$(echo "${COPIED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    DELETED=$(echo "${DELETED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    MODIFIED=$(echo "${MODIFIED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    RENAMED=$(echo "${RENAMED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    UNMERGED=$(echo "${UNMERGED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    UNKNOWN=$(echo "${UNKNOWN}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_CHANGED=$(echo "${ALL_CHANGED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
+    ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | jq $OPTIONS_JQ 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /)
   fi
 fi
 
