@@ -52,11 +52,13 @@ function get_dirname_max_depth() {
 }
 
 function json_output() {
+  JQ_ARGS="-R"
   if [[ "$INPUT_JSON_RAW_FORMAT" == "true" ]]; then
-    jq -rR 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /
-  else
-    jq -R 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /
+    JQ_ARGS="$JQ_ARGS -r"
   fi
+
+  # shellcheck disable=SC2086
+  jq $JQ_ARGS 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /
 }
 
 function get_diff() {
