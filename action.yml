@@ -79,6 +79,10 @@ inputs:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
     default: "false"
+  json_raw_format:
+    description: "Output list of changed files in a raw format which means that the output will not be surrounded by quotes and special characters will not be escaped."
+    required: false
+    default: "false"
   fetch_depth:
     description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
@@ -243,6 +247,7 @@ runs:
         INPUT_DIR_NAMES_MAX_DEPTH: ${{ inputs.dir_names_max_depth }}
         INPUT_JSON: ${{ inputs.json }}
         INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
+        INPUT_JSON_RAW_FORMAT: ${{ inputs.json_raw_format }}
     - name: Generate output files
       uses: tj-actions/json2file@v1
       if: inputs.write_output_files == 'true'

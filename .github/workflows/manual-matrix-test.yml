@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix-raw-format: ${{ steps.set-matrix-json-raw-format.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,10 +24,18 @@ jobs:
         with:
           json: true
       - name: List all changed files
-        run: |
-          echo '${{ steps.changed-files.outputs.all_changed_files }}'
-
+        run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
       - id: set-matrix
+        run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
+      - name: Get changed files json raw format
+        id: changed-files-json-raw-format
+        uses: ./
+        with:
+          json: true
+          json_raw_format: true
+      - name: List all changed files json raw format
+        run: echo '${{ steps.changed-files-json-raw-format.outputs.all_changed_files }}'
+      - id: set-matrix-json-raw-format
         run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   matrix-job:
@@ -35,6 +44,21 @@ jobs:
     needs: [changed-files]
     strategy:
       matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Test
+        run: |
+          echo ${{ matrix.container }}
+
+  matrix-job-json-raw-format:
+    name: Run Matrix Job json raw format
+    runs-on: ubuntu-latest
+    needs: [changed-files]
+    strategy:
+      matrix: ${{ fromJSON(needs.changed-files.outputs.matrix-raw-format) }}
       max-parallel: 4
       fail-fast: false
     steps:

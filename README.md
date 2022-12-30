@@ -56,7 +56,7 @@ on:
   push:
     branches:
       - main
-  # Compare the last commit of main -> to the current commit of a PR branch. 
+  # Compare the last commit of main -> to the current commit of a PR branch.
   # (Note: To compare changes between the last pushed commit to the remote PR branch set `since_last_remote_commit: true`)
   pull_request:
     branches:
@@ -225,7 +225,7 @@ See [inputs](#inputs) for more information.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v35
-      
+
     - name: List all added files
       run: |
         for file in ${{ steps.changed-files.outputs.added_files }}; do
@@ -470,7 +470,7 @@ See [inputs](#inputs) for more information.
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_push
         with:
-          main-branch-name: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch. 
+          main-branch-name: ${{ steps.branch-name.outputs.current_branch }} # Get the last successful commit for the current branch.
           workflow-id: 'test.yml'
 
       - name: Run changed-files with the commit of the last successful test workflow run
@@ -497,7 +497,7 @@ See [inputs](#inputs) for more information.
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_pull_request
         with:
-          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
+          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch
           workflow_id: 'test.yml'
 
       - name: Run changed-files with the commit of the last successful test workflow run on main
