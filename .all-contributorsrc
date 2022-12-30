@@ -159,6 +159,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "adonisgarciac",
+      "name": "adonisgarciac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71078987?v=4",
+      "profile": "https://github.com/adonisgarciac",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
