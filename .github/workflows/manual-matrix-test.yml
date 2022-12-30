@@ -36,7 +36,7 @@ jobs:
       - name: List all changed files json raw format
         run: echo '${{ steps.changed-files-json-raw-format.outputs.all_changed_files }}'
       - id: set-matrix-json-raw-format
-        run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
+        run: echo "matrix={\"container\":${{ steps.changed-files-json-raw-format.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   matrix-job:
     name: Run Matrix Job
