@@ -8,7 +8,9 @@
 [![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows\&logoColor=white)](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## changed-files
@@ -170,6 +172,7 @@ Support this project with a :star:
 |          files\_separator          | string |  false   |       `"\n"`        |                                                                                            Separator used to split the `files` input<br>                                                                                            |
 | include\_all\_old\_new\_renamed\_files | string |  false   |      `"false"`      |                                      Include `all_old_new_renamed_files` output. Note this can generate<br>a large output See: [#501](https://github.com/tj-actions/changed-files/issues/501).                                      |
 |               json                | string |  false   |      `"false"`      |                                                                  Output list of changed files in a<br>JSON formatted string which can be used<br>for matrix jobs.                                                                   |
+|          json\_raw\_format          | string |  false   |      `"false"`      |                                   Output list of changed files in a<br>raw format which means that the output<br>will not be surrounded by quotes and<br>special characters will not be escaped.                                    |
 |         match\_directories         | string |  false   |      `"true"`       |                                                                                           Indicates whether to include match directories                                                                                            |
 |      old\_new\_files\_separator      | string |  false   |        `" "`        |                                                                                     Split character for old and new renamed<br>filename pairs.                                                                                      |
 |         old\_new\_separator         | string |  false   |        `","`        |                                                                                         Split character for old and new filename<br>pairs.                                                                                          |
@@ -654,8 +657,11 @@ If you are reporting a bug, please include:
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+
 <!-- prettier-ignore-start -->
+
 <!-- markdownlint-disable -->
+
 <table>
   <tbody>
     <tr>
@@ -686,6 +692,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 </table>
 
 <!-- markdownlint-restore -->
+
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
