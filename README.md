@@ -183,7 +183,6 @@ Support this project with a :star:
 |     since\_last\_remote\_commit      | string |   true   |      `"false"`      | Use the last commit on the remote<br>branch as the `base_sha`. Defaults to the<br>last non merge commit on the target<br>branch for pull request events and the<br>previous remote commit of the current branch<br>for push events. |
 |               until               | string |  false   |                     |                                                                          Get changed files for commits whose timestamp<br>is earlier than the given time.                                                                           |
 |        write\_output\_files         | string |  false   |      `"false"`      |                                                                                Write outputs to files in the `.github/outputs`<br>folder by default.                                                                                |
-|               jq_raw_input                | string |  false   |      `"false"`      |                                                                  When json is true, if jq_raw_input is true as well, output will be formated directly as a validated json. However if it is false, output will be formated to use, f.e. with fromJSON               |
 
 <!-- AUTO-DOC-INPUT:END -->
 
