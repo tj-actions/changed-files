@@ -1,4 +1,4 @@
-name: Manual Matrix Test
+name: Matrix Test
 
 on:
   workflow_dispatch:
