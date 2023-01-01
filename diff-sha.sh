@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -exuo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -50,6 +50,7 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
+env
 echo "Base Ref: $GITHUB_BASE_REF"
 
 if [[ -z $GITHUB_BASE_REF ]]; then
