@@ -12,9 +12,9 @@ on:
       - reopened
     branches:
       - main
-#  pull_request_review
-#  branches:
-#    - main
+  pull_request_review:
+    branches:
+      - main
 
 jobs:
   shellcheck:
