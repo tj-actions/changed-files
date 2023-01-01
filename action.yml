@@ -182,8 +182,8 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_REF: ${{ github.ref }}
         GITHUB_SHA: ${{ github.sha }}
-        GITHUB_BASE_REF: ${{ github.base_ref }}
-        GITHUB_HEAD_REF: ${{ github.head_ref }}
+        GITHUB_BASE_REF: ${{ github.event.base.ref }}
+        GITHUB_HEAD_REF: ${{ github.event.head.ref }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
         GITHUB_EVENT_NUMBER: ${{ github.event.number }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
@@ -226,7 +226,7 @@ runs:
       shell: bash
       env:
         GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_BASE_REF: ${{ github.base_ref }}
+        GITHUB_BASE_REF: ${{ github.event.base.ref }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
