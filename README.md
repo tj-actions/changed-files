@@ -188,7 +188,6 @@ Support this project with a :star:
 
 <!-- AUTO-DOC-INPUT:END -->
 
-
 ## Examples
 
 <details>
