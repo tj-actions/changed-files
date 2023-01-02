@@ -80,7 +80,7 @@ inputs:
     required: false
     default: "false"
   json_raw_format:
-    description: "Output list of changed files in a raw format which means that the output will not be surrounded by quotes and special characters will not be escaped."
+    description: "Output list of changed files jq raw output format which means that the output will not be surrounded by quotes and special characters will not be escaped."
     required: false
     default: "false"
   fetch_depth:
