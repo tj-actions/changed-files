@@ -182,11 +182,11 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_REF: ${{ github.ref }}
         GITHUB_SHA: ${{ github.sha }}
-        GITHUB_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        GITHUB_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
         GITHUB_EVENT_NUMBER: ${{ github.event.number }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         GITHUB_EVENT_PULL_REQUEST_COMMITS: ${{ github.event.pull_request.commits }}
@@ -226,8 +226,8 @@ runs:
       shell: bash
       env:
         GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
         INPUT_FILES_PATTERN_FILE: ${{ steps.glob.outputs.paths-output-file }}
