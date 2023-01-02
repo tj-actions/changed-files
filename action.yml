@@ -183,8 +183,8 @@ runs:
         GITHUB_REF: ${{ github.ref }}
         GITHUB_SHA: ${{ github.sha }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_EVENT_NUMBER: ${{ github.event.number }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
         GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}
         GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}

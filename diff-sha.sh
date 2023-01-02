@@ -161,7 +161,7 @@ else
 
   echo "Fetching remote refs..."
   # shellcheck disable=SC2086
-  git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+  git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
