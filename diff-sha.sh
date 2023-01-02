@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -exuo pipefail
+set -euo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
@@ -13,7 +13,7 @@ if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
 fi
 
-if [[ -z $GITHUB_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
+if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
   DIFF=".."
 fi
 
@@ -50,10 +50,9 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
-env
-echo "Base Ref: $GITHUB_BASE_REF"
+echo "Base Ref: $GITHUB_EVENT_PULL_REQUEST_BASE_REF"
 
-if [[ -z $GITHUB_BASE_REF ]]; then
+if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=$GITHUB_REFNAME
   CURRENT_BRANCH=$TARGET_BRANCH
@@ -153,8 +152,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   fi
 else
   echo "Running on a pull request event..."
-  TARGET_BRANCH=$GITHUB_BASE_REF
-  CURRENT_BRANCH=$GITHUB_HEAD_REF
+  TARGET_BRANCH=$GITHUB_EVENT_PULL_REQUEST_BASE_REF
+  CURRENT_BRANCH=$GITHUB_EVENT_PULL_REQUEST_HEAD_REF
   
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
     TARGET_BRANCH=$CURRENT_BRANCH
