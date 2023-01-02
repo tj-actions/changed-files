@@ -19,7 +19,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 
 ## Features
 
-*   Fast execution (0-2 seconds on average).
+*   Fast execution (0-10 seconds on average).
 *   Easy to debug.
 *   Scales to large repositories.
 *   Git submodules support.
