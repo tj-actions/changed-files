@@ -50,8 +50,6 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
-echo "Base Ref: $GITHUB_EVENT_PULL_REQUEST_BASE_REF"
-
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=$GITHUB_REFNAME
