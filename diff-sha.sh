@@ -13,7 +13,7 @@ if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
 fi
 
-if [[ -z $GITHUB_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
+if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
   DIFF=".."
 fi
 
@@ -50,9 +50,7 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
-echo "Base Ref: $GITHUB_BASE_REF"
-
-if [[ -z $GITHUB_BASE_REF ]]; then
+if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=$GITHUB_REFNAME
   CURRENT_BRANCH=$TARGET_BRANCH
@@ -60,7 +58,7 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   echo "Fetching remote refs..."
   
   # shellcheck disable=SC2086
-  git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null 2>&1
+  git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -152,8 +150,8 @@ if [[ -z $GITHUB_BASE_REF ]]; then
   fi
 else
   echo "Running on a pull request event..."
-  TARGET_BRANCH=$GITHUB_BASE_REF
-  CURRENT_BRANCH=$GITHUB_HEAD_REF
+  TARGET_BRANCH=$GITHUB_EVENT_PULL_REQUEST_BASE_REF
+  CURRENT_BRANCH=$GITHUB_EVENT_PULL_REQUEST_HEAD_REF
   
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
     TARGET_BRANCH=$CURRENT_BRANCH
@@ -161,7 +159,7 @@ else
 
   echo "Fetching remote refs..."
   # shellcheck disable=SC2086
-  git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null 2>&1
+  git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -201,7 +199,7 @@ else
     else
       echo "::debug::Fetching remote target branch..."
       # shellcheck disable=SC2086
-      git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null 2>&1
+      git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
 
       git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
 
