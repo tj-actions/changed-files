@@ -234,6 +234,7 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
     fi
   fi
 else
+  cat "$INPUT_FILES_PATTERN_FILE"
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
