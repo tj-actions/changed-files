@@ -106,6 +106,7 @@ function get_diff() {
       fi
     fi
   else
+    cat "$INPUT_FILES_PATTERN_FILE"
     if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
       git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
@@ -168,6 +169,7 @@ function get_renames() {
       fi
     fi
   else
+    cat "$INPUT_FILES_PATTERN_FILE"
     if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
       git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | { grep -w -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
 
