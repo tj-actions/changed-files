@@ -28,7 +28,6 @@ fi
 
 function get_dirname_max_depth() {
   while IFS='' read -r line; do
-    echo "::debug::Getting dirname for $line"
     local dir="$line"
     local dirs=()
     IFS='/' read -ra dirs <<<"$dir"
