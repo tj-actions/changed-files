@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -exuo pipefail
 
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'%'/'%25'}"
 INPUT_SEPARATOR="${INPUT_SEPARATOR//'.'/'%2E'}"
@@ -28,6 +28,7 @@ fi
 
 function get_dirname_max_depth() {
   while IFS='' read -r line; do
+    echo "::debug::Getting dirname for $line"
     local dir="$line"
     local dirs=()
     IFS='/' read -ra dirs <<<"$dir"
