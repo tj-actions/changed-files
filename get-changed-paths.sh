@@ -183,35 +183,35 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
     fi
   else
     if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-      ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+      ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
     else
-      ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
-      ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+      ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | json_output)
+      COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | json_output)
+      DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | json_output)
+      MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | json_output)
+      RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | json_output)
+      TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | json_output)
+      UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | json_output)
+      UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | json_output)
+      ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | json_output)
+      ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | json_output)
+      ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | json_output)
     fi
     if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
       if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-        ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+        ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
       else
-        ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+        ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | json_output)
       fi
     fi
   fi
