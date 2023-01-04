@@ -205,10 +205,6 @@ else
 
   ALL_OTHER_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
 
-  echo "All changed files: $ALL_CHANGED"
-  cat "$INPUT_FILES_PATTERN_FILE"
-  echo "............................................"
-
   if [[ -n "${ALL_CHANGED}" ]]; then
     echo "::debug::Matching changed files: ${ALL_CHANGED}"
     if [[ -z "$GITHUB_OUTPUT" ]]; then
