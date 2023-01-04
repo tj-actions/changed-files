@@ -58,7 +58,7 @@ function json_output() {
   fi
 
   # shellcheck disable=SC2086
-  jq $JQ_ARGS 'split("|") | @json' | sed -r 's/^"|"$//g' | tr -s /
+  jq $JQ_ARGS '@json' | tr "\n" " " | sed "s| $||g"
 }
 
 function get_diff() {
@@ -89,38 +89,11 @@ function get_diff() {
     fi
   done < <(git submodule | awk '{print $2}')
 
-  if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
-    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-      git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
+  git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" && exit_status=$? || exit_status=$?
 
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get changed directories between: $base$DIFF$sha"
-        exit 1
-      fi
-    else
-      git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" && exit_status=$? || exit_status=$?
-
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get changed files between: $base$DIFF$sha"
-        exit 1
-      fi
-    fi
-  else
-    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-      git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
-
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get changed directories between: $base$DIFF$sha"
-        exit 1
-      fi
-    else
-      git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; }  && exit_status=$? || exit_status=$?
-
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get changed files between: $base$DIFF$sha"
-        exit 1
-      fi
-    fi
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Failed to get changed files between: $base$DIFF$sha"
+    exit 1
   fi
 }
 
@@ -151,38 +124,11 @@ function get_renames() {
     fi
   done < <(git submodule | awk '{print $2}')
 
-  if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
-    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-      git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
+  git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
 
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get renamed directories between: $base → $sha"
-        exit 1
-      fi
-    else
-      git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
-
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get renamed files between: $base → $sha"
-        exit 1
-      fi
-    fi
-  else
-    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
-      git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | { grep -w -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | xargs -I {} dirname {} | get_dirname_max_depth | uniq && exit_status=$? || exit_status=$?
-
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get renamed directories between: $base → $sha"
-        exit 1
-      fi
-    else
-      git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | { grep -w -E -f "$INPUT_FILES_PATTERN_FILE" || true; } && exit_status=$? || exit_status=$?
-
-      if [[ $exit_status -ne 0 ]]; then
-        echo "::error::Failed to get renamed files between: $base → $sha"
-        exit 1
-      fi
-    fi
+  if [[ $exit_status -ne 0 ]]; then
+    echo "::error::Failed to get renamed files between: $base → $sha"
+    exit 1
   fi
 }
 
@@ -215,7 +161,7 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
     ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
     fi
   else
     ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
@@ -230,24 +176,27 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
     ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
     ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
     if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-      ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+      if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+        ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+      else
+        ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}' | json_output)
+      fi
     fi
   fi
 else
-  cat "$INPUT_FILES_PATTERN_FILE"
-  ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
-  ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  RENAMED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" R | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  TYPE_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" T | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNMERGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" U | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  UNKNOWN=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" X | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED_AND_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "*ACDMRTUX" | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+  ALL_MODIFIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMRD" | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   if [[ $INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES == "true" ]]; then
-    ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    ALL_OLD_NEW_RENAMED=$(get_renames "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" | { grep -w -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="$INPUT_OLD_NEW_FILES_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
   fi
 
   ALL_OTHER_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -278,9 +227,17 @@ else
   fi
 
   if [[ "$INPUT_JSON" == "false" ]]; then
-    OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    else
+      OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    fi
   else
-    OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | json_output)
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+    else
+      OTHER_CHANGED=$(echo "${OTHER_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+    fi
   fi
 
   if [[ -n "${OTHER_CHANGED}" && "${OTHER_CHANGED}" != "[]" ]]; then
@@ -330,9 +287,17 @@ else
   fi
 
   if [[ "$INPUT_JSON" == "false" ]]; then
-    OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    else
+      OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    fi
   else
-    OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | json_output)
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+    else
+      OTHER_MODIFIED=$(echo "${OTHER_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+    fi
   fi
 
   if [[ -n "${OTHER_MODIFIED}" && "$OTHER_MODIFIED" != "[]" ]]; then
@@ -381,9 +346,17 @@ else
   fi
 
   if [[ "$INPUT_JSON" == "false" ]]; then
-    OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    else
+      OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    fi
   else
-    OTHER_DELETED=$(echo "${OTHER_DELETED}" | json_output)
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+    else
+      OTHER_DELETED=$(echo "${OTHER_DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+    fi
   fi
 
   if [[ -n "${OTHER_DELETED}" && "${OTHER_DELETED}" != "[]" ]]; then
@@ -403,29 +376,57 @@ else
     fi
   fi
   if [[ "$INPUT_JSON" == "false" ]]; then
-    ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    COPIED=$(echo "${COPIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    MODIFIED=$(echo "${MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    RENAMED=$(echo "${RENAMED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
-    ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      COPIED=$(echo "${COPIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      MODIFIED=$(echo "${MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      RENAMED=$(echo "${RENAMED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    else
+      ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      COPIED=$(echo "${COPIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      MODIFIED=$(echo "${MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      RENAMED=$(echo "${RENAMED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+      ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
+    fi
   else
-    ADDED=$(echo "${ADDED}" | json_output)
-    COPIED=$(echo "${COPIED}" | json_output)
-    DELETED=$(echo "${DELETED}" | json_output)
-    MODIFIED=$(echo "${MODIFIED}" | json_output)
-    RENAMED=$(echo "${RENAMED}" | json_output)
-    TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | json_output)
-    UNMERGED=$(echo "${UNMERGED}" | json_output)
-    UNKNOWN=$(echo "${UNKNOWN}" | json_output)
-    ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | json_output)
-    ALL_CHANGED=$(echo "${ALL_CHANGED}" | json_output)
-    ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | json_output)
+    if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
+      ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      COPIED=$(echo "${COPIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      MODIFIED=$(echo "${MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      RENAMED=$(echo "${RENAMED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+      ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | xargs -I {} dirname {} | get_dirname_max_depth | uniq | json_output)
+    else
+      ADDED=$(echo "${ADDED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      COPIED=$(echo "${COPIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      DELETED=$(echo "${DELETED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      MODIFIED=$(echo "${MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      RENAMED=$(echo "${RENAMED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      TYPE_CHANGED=$(echo "${TYPE_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      UNMERGED=$(echo "${UNMERGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      UNKNOWN=$(echo "${UNKNOWN}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      ALL_CHANGED_AND_MODIFIED=$(echo "${ALL_CHANGED_AND_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      ALL_CHANGED=$(echo "${ALL_CHANGED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+      ALL_MODIFIED=$(echo "${ALL_MODIFIED}" | awk '{gsub(/\|/,"\n"); print $0;}' | json_output)
+    fi
   fi
 fi
 
