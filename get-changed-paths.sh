@@ -188,11 +188,6 @@ if [[ "$INPUT_HAS_CUSTOM_PATTERNS" != "true" ]]; then
     fi
   fi
 else
-
-  get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" M
-
-  get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR"
-
   ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   COPIED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" C | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
   DELETED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" D | { grep -x -E -f "$INPUT_FILES_PATTERN_FILE" || true; } | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
@@ -209,6 +204,8 @@ else
   fi
 
   ALL_OTHER_CHANGED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" "ACMR" | awk -v d="|" '{s=(NR==1?s:s d)$0}END{print s}')
+
+  echo "All changed files: $ALL_CHANGED"
 
   if [[ -n "${ALL_CHANGED}" ]]; then
     echo "::debug::Matching changed files: ${ALL_CHANGED}"
