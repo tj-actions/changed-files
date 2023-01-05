@@ -58,7 +58,7 @@ function json_output() {
   fi
 
   # shellcheck disable=SC2086
-  jq $JQ_ARGS '@json' | tr "\n" " " | sed "s| $||g"
+  jq $JQ_ARGS 'split("\n") | @json' | tr -s /
 }
 
 function get_diff() {
