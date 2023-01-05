@@ -169,6 +169,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "cfernhout",
+      "name": "Chiel Fernhout",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22294606?v=4",
+      "profile": "https://github.com/cfernhout",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
