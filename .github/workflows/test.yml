@@ -461,9 +461,9 @@ jobs:
         shell:
           bash
       - name: Check dir_names output
-        if: "!contains(steps.changed-files-dir-names.outputs.all_changed_files, 'test')"
+        if: steps.changed-files-dir-names.outputs.all_changed_files != 'test'
         run: |
-          echo "Invalid output: Expected to include (test) got (${{ steps.changed-files-dir-names.outputs.all_changed_files }})"
+          echo "Invalid output: Expected (test) got (${{ steps.changed-files-dir-names.outputs.all_changed_files }})"
           exit 1
         shell:
           bash
@@ -482,9 +482,9 @@ jobs:
         shell:
           bash
       - name: Check dir_names output
-        if: "!contains(steps.changed-files-dir-names-specific.outputs.all_changed_files, 'test')"
+        if: steps.changed-files-dir-names.outputs.all_changed_files != 'test'
         run: |
-          echo "Invalid output: Expected to include (test) got (${{ steps.changed-files-dir-names-specific.outputs.all_changed_files }})"
+          echo "Invalid output: Expected (test) got (${{ steps.changed-files-dir-names-specific.outputs.all_changed_files }})"
           exit 1
         shell:
           bash
