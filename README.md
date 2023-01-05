@@ -290,7 +290,7 @@ See [inputs](#inputs) for more information.
 ```yaml
 ...
     - name: Get changed files
-      id: changed-files
+      id: changed-files-specific
       uses: tj-actions/changed-files@v35
       with:
         files: |
@@ -312,16 +312,16 @@ See [inputs](#inputs) for more information.
         echo "Only files listed above have changed."
 
     - name: Run step if any of the listed files above is deleted
-      if: steps.changed-files.outputs.any_deleted == 'true'
+      if: steps.changed-files-specific.outputs.any_deleted == 'true'
       run: |
-        for file in ${{ steps.changed-files.outputs.deleted_files }}; do
+        for file in ${{ steps.changed-files-specific.outputs.deleted_files }}; do
           echo "$file was deleted"
         done
 
     - name: Run step if all listed files above have been deleted
-      if: steps.changed-files.outputs.only_deleted == 'true'
+      if: steps.changed-files-specific.outputs.only_deleted == 'true'
       run: |
-        for file in ${{ steps.changed-files.outputs.deleted_files }}; do
+        for file in ${{ steps.changed-files-specific.outputs.deleted_files }}; do
           echo "$file was deleted"
         done
 ...
