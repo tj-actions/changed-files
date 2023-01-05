@@ -54,11 +54,12 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=$GITHUB_REFNAME
   CURRENT_BRANCH=$TARGET_BRANCH
-  
-  echo "Fetching remote refs..."
-  
-  # shellcheck disable=SC2086
-  git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null
+
+  if [[ -f .git/shallow ]]; then
+    echo "Fetching remote refs..."
+    # shellcheck disable=SC2086
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null
+  fi
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -157,9 +158,11 @@ else
     TARGET_BRANCH=$CURRENT_BRANCH
   fi
 
-  echo "Fetching remote refs..."
-  # shellcheck disable=SC2086
-  git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+  if [[ -f .git/shallow ]]; then
+    echo "Fetching remote refs..."
+    # shellcheck disable=SC2086
+    git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+  fi
 
   echo "::debug::Getting HEAD SHA..."
   if [[ -n "$INPUT_UNTIL" ]]; then
@@ -197,9 +200,11 @@ else
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       fi
     else
-      echo "::debug::Fetching remote target branch..."
-      # shellcheck disable=SC2086
-      git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
+      if [[ -f .git/shallow ]]; then
+        echo "::debug::Fetching remote target branch..."
+        # shellcheck disable=SC2086
+        git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
+      fi
 
       git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
 
