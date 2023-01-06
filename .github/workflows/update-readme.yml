@@ -9,14 +9,14 @@ jobs:
   sync-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Run auto-doc
-        uses: tj-actions/auto-doc@v1.7.3
+        uses: tj-actions/auto-doc@v1
 
-      - name: Run test
+      - name: Run remark
         uses: tj-actions/remark@v3
 
       - name: Verify Changed files
@@ -34,7 +34,7 @@ jobs:
 
       - name: Create Pull Request
         if: failure()
-        uses: peter-evans/create-pull-request@v4.2.3
+        uses: peter-evans/create-pull-request@v4
         with:
           base: "main"
           labels: "merge when passing"
