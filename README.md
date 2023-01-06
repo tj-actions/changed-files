@@ -284,7 +284,7 @@ See [inputs](#inputs) for more information.
 </details>
 
 <details>
-<summary>Get all changed files using a list of files and take action base on the changes</summary>
+<summary>Get all changed files using a list of files and take action based on the changes</summary>
 
 ```yaml
 ...
