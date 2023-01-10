@@ -89,7 +89,7 @@ inputs:
     default: "50"
   since_last_remote_commit:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
-    required: true
+    required: false
     default: "false"
   write_output_files:
     description: "Write outputs to files in the `.github/outputs` folder by default."
