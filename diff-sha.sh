@@ -242,7 +242,7 @@ else
   fi
 
   if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-    echo "::error::Unable find a diff between $PREVIOUS_SHA and $CURRENT_SHA"
+    echo "::error::Unable to determine a difference between $PREVIOUS_SHA$DIFF$CURRENT_SHA"
     exit 1
   fi
 fi
