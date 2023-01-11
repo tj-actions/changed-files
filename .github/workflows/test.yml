@@ -950,18 +950,6 @@ jobs:
           fi
         shell:
           bash
-      - name: Run changed-files with custom sha
-        id: changed-files-custom-sha
-        if: github.event_name == 'pull_request' && github.event.action != 'closed'
-        uses: ./
-        with:
-          sha: ${{ github.event.pull_request.head.sha }}
-      - name: Show output
-        if: github.event.action != 'closed'
-        run: |
-          echo '${{ toJSON(steps.changed-files-custom-sha.outputs) }}'
-        shell:
-          bash
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v6
@@ -982,6 +970,31 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth == 0
         run: |
           echo '${{ toJSON(steps.changed-files-custom-base-sha.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files with custom sha
+        id: changed-files-custom-sha
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        uses: ./
+        with:
+          sha: ${{ github.event.pull_request.head.sha }}
+      - name: Show output
+        if: github.event.action != 'closed'
+        run: |
+          echo '${{ toJSON(steps.changed-files-custom-sha.outputs) }}'
+        shell:
+          bash
+      - name: Run changed-files with the pull request base sha and head sha
+        id: changed-files-pull-request-base-sha-head-sha
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        uses: ./
+        with:
+          base_sha: ${{ github.event.pull_request.base.sha }}
+          sha: ${{ github.event.pull_request.head.sha }}
+      - name: Show output
+        if: github.event.action != 'closed'
+        run: |
+          echo '${{ toJSON(steps.changed-files-pull-request-base-sha-head-sha.outputs) }}'
         shell:
           bash
       - name: Run changed-files with specific files (only-changed)
