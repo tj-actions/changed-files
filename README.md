@@ -38,6 +38,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Restrict change detection to a subset of files and directories:
     *   Boolean output indicating that certain files have been changed.
     *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
+        * Brace expansion
 
 ## Usage
 
@@ -89,8 +90,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v35
         with:
-          files: |
-            docs/**
+          files: docs/*.{js,html}  # Alternatively using: `docs/**` or `docs`
 
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
