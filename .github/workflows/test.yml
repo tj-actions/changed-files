@@ -858,8 +858,11 @@ jobs:
           (
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/test.yml') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test.txt')
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml')
           )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_changed }}" != "false" ]]; then
@@ -880,8 +883,11 @@ jobs:
           (
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/test.yml') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test.txt')
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml')
           )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_modified }}" != "false" ]]; then
@@ -898,7 +904,16 @@ jobs:
         shell:
           bash
       - name: Verify any_deleted from source files
-        if: "!contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test.txt')"
+        if: |
+          (
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/greetings.yml')
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_deleted }})"
@@ -924,7 +939,15 @@ jobs:
         shell:
           bash
       - name: Verify any_changed files comma separator
-        if: "!contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific-comma.outputs.all_changed_files, 'test/test.txt')"
+        if: |
+          (
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt')
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }})"
@@ -933,7 +956,15 @@ jobs:
         shell:
           bash
       - name: Verify any_modified files comma separator
-        if: "!contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'test/test.txt')"
+        if: |
+          (
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt')
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }})"
@@ -942,7 +973,15 @@ jobs:
         shell:
           bash
       - name: Verify any_deleted files with comma separator
-        if: "!contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific-comma.outputs.deleted_files, 'test/test.txt')"
+        if: |
+          (
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt')
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }})"
