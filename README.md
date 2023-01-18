@@ -56,12 +56,12 @@ name: CI
 
 on:
   # Compare the preceeding commit -> to the current commit of the main branch.
-  # (Note: To compare changes between the last pushed commit to the remote main branch set `since_last_remote_commit: true`)
+  # (Note: To compare changes between the current commit to the last pushed remote commit of the main branch set `since_last_remote_commit: true`)
   push:
     branches:
       - main
   # Compare the last commit of main -> to the current commit of a PR branch.
-  # (Note: To compare changes between the last pushed commit to the remote PR branch set `since_last_remote_commit: true`)
+  # (Note: To compare changes between the current commit to the last pushed remote commit of a PR branch set `since_last_remote_commit: true`)
   pull_request:
     branches:
       - main
