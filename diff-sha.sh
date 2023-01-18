@@ -108,11 +108,11 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
           PREVIOUS_SHA=$(git rev-list -n 1 "HEAD~1") && exit_status=$? || exit_status=$?
         fi
       else
-        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-list -n 1 "HEAD~1") && exit_status=$? || exit_status=$?
       fi
 
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
-        PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-list -n 1 "HEAD~1") && exit_status=$? || exit_status=$?
       fi
 
       if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
