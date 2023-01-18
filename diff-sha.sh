@@ -105,7 +105,7 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
         if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
           PREVIOUS_SHA=$GITHUB_EVENT_BEFORE && exit_status=$? || exit_status=$?
         else
-          PREVIOUS_SHA=$(git rev-parse "$(git branch -r --sort=-committerdate | head -1 | xargs)") && exit_status=$? || exit_status=$?
+          PREVIOUS_SHA=$(git rev-list -n 1 "HEAD~1") && exit_status=$? || exit_status=$?
         fi
       else
         PREVIOUS_SHA=$(git rev-list -n 1 "$TARGET_BRANCH") && exit_status=$? || exit_status=$?
