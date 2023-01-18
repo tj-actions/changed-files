@@ -207,7 +207,7 @@ else
       PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse "$TARGET_BRANCH") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH") && exit_status=$? || exit_status=$?
       fi
     fi
 
