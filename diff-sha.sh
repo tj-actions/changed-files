@@ -157,7 +157,7 @@ else
   if [[ -f .git/shallow ]]; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null
   fi
 
   echo "::debug::Getting HEAD SHA..."
@@ -205,24 +205,23 @@ else
       git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
 
       PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
+
+      if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+        PREVIOUS_SHA=$(git rev-parse "$TARGET_BRANCH") && exit_status=$? || exit_status=$?
+      fi
     fi
 
     if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
       PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA && exit_status=$? || exit_status=$?
     fi
 
-    if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        PREVIOUS_SHA=$(git rev-parse "$TARGET_BRANCH") && exit_status=$? || exit_status=$?
-        DIFF=".."
-    fi
-
     echo "::debug::Previous SHA: $PREVIOUS_SHA"
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA && exit_status=$? || exit_status=$?
+  fi
 
-    if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
-        DIFF=".."
-    fi
+  if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
+    DIFF=".."
   fi
 
   echo "::debug::Target branch: $TARGET_BRANCH"
