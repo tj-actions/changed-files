@@ -147,7 +147,7 @@ fi
 
 echo "Retrieving changes between $INPUT_PREVIOUS_SHA ($INPUT_TARGET_BRANCH) → $INPUT_CURRENT_SHA ($INPUT_CURRENT_BRANCH)"
 
-if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" ]]; then
+if [[ "$INPUT_HAS_CUSTOM_PATTERNS" == "false" || -z "$INPUT_FILES_PATTERN_FILE" ]]; then
   if [[ "$INPUT_JSON" == "false" ]]; then
     if [[ "$INPUT_DIR_NAMES" == "true" ]]; then
       ADDED=$(get_diff "$INPUT_PREVIOUS_SHA" "$INPUT_CURRENT_SHA" A | xargs -I {} dirname {} | get_dirname_max_depth | uniq | awk -v d="$INPUT_SEPARATOR" '{s=(NR==1?s:s d)$0}END{print s}')
