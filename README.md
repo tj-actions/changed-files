@@ -404,6 +404,56 @@ See [inputs](#inputs) for more information.
 </details>
 
 <details>
+<summary>Get all changed files between the previous tag and the current tag</summary>
+
+```yaml
+...
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get Base SHA
+        id: get-base-sha
+        run: |
+          echo "base_sha=$(git rev-parse "$(git tag --sort=-v:refname | head -n 2 | tail -n 1)")" >> $GITHUB_OUTPUT
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
+
+      - name: Get changed files in the .github folder
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v35
+        with:
+          base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
+          files: .github/**
+
+      - name: Run step if any file(s) in the .github folder change
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the .github folder has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+...
+```
+
+See [inputs](#inputs) for more information.
+
+</details>
+
+<details>
 <summary>Get all changed files for a repository located in a different path</summary>
 
 ```yaml

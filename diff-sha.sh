@@ -8,6 +8,11 @@ EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
 DIFF="..."
+IS_TAG="false"
+
+if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
+  IS_TAG="true"
+fi
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
@@ -132,6 +137,10 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
     fi
   else
     PREVIOUS_SHA=$INPUT_BASE_SHA
+
+    if [[ "$IS_TAG" == "true" ]]; then
+      TARGET_BRANCH=$(git describe --tags "$PREVIOUS_SHA")
+    fi
   fi
 
   echo "::debug::Target branch $TARGET_BRANCH..."
