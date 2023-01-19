@@ -158,6 +158,13 @@ else
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null
+    
+    if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
+      echo "::debug::Fetching remote target branch..."
+      # shellcheck disable=SC2086
+      git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
+      git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
+    fi
   fi
 
   echo "::debug::Getting HEAD SHA..."
@@ -196,14 +203,6 @@ else
         PREVIOUS_SHA=$GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       fi
     else
-      if [[ -f .git/shallow ]]; then
-        echo "::debug::Fetching remote target branch..."
-        # shellcheck disable=SC2086
-        git fetch -u --progress $EXTRA_ARGS --depth="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
-      fi
-
-      git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null 2>&1 || true
-
       PREVIOUS_SHA=$(git merge-base "$TARGET_BRANCH" "$CURRENT_SHA") && exit_status=$? || exit_status=$?
 
       if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
