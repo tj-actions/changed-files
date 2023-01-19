@@ -166,7 +166,7 @@ else
   if [[ -f .git/shallow ]]; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null
+    git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
     
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
       echo "::debug::Fetching remote target branch..."
