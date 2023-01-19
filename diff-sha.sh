@@ -12,9 +12,6 @@ IS_TAG="false"
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
-fi
-
-if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   EXTRA_ARGS="--prune --no-recurse-submodules"
 fi
 
