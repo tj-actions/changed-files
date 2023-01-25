@@ -98,6 +98,21 @@ jobs:
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+      
+      # Example 3
+      - name: Get changed js files excluding the docs folder
+        id: changed-files-excluded
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            **/*.js
+          files_ignore: docs/** # Alternatively using: `docs`
+
+      - name: Run step if any other js file(s) change
+        if: steps.changed-files-excluded.outputs.any_changed == 'true'
+        run: |
+          echo "One or more js files not in the doc folder has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 ```
 
 If you feel generous and want to show some extra appreciation:
