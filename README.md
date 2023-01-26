@@ -26,7 +26,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Escaped JSON Output which can be used for running matrix jobs based on changed files.
 *   Optionally list only changed directories.
 *   Restrict the max depth of changed directories.
-*   Optionally save outputs to files at a specified location for further processing.
+*   Write outputs to files at a specified location for further processing.
 *   Monorepos (Fetches only the last remote commit).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
