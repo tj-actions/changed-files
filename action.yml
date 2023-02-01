@@ -76,7 +76,7 @@ inputs:
     description: "Maximum depth of directories to output. e.g `test/test1/test2` with max depth of `2` returns `test/test1`."
     required: false
   dir_names_exclude_root:
-    description: "Exclude the root directory from the output. **NOTE:** This would exclude `.` from the output."
+    description: "Exclude the root directory represented by `.` from the output when `dir_names`is set to `true`."
     required: false
     default: "false"
   json:
