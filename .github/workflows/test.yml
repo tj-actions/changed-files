@@ -455,6 +455,7 @@ jobs:
           fetch_depth: 60000
           dir_names: "true"
           dir_names_exclude_root: "true"
+          dir_names_max_depth: "1"
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-dir-names-exclude-root.outputs) }}'
