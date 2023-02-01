@@ -47,6 +47,10 @@ function get_dirname_max_depth() {
       depth=$((depth + 1))
     done
 
+    if [[ "$INPUT_DIR_NAMES_EXCLUDE_ROOT" == "true" && "$output" == "." ]]; then
+      continue
+    fi
+
     echo "$output"
   done < <(uniq)
 }

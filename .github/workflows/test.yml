@@ -446,6 +446,28 @@ jobs:
           exit 1
         shell:
           bash
+      - name: Run changed-files with dir_names and dir_names_exclude_root
+        id: changed-files-dir-names-exclude-root
+        uses: ./
+        with:
+          base_sha: dddfbd69
+          sha: ce8c1983
+          fetch_depth: 60000
+          dir_names: "true"
+          dir_names_exclude_root: "true"
+          dir_names_max_depth: "1"
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-exclude-root.outputs) }}'
+        shell:
+          bash
+      - name: Check dir_names output
+        if: steps.changed-files-dir-names-exclude-root.outputs.all_changed_files != '.github'
+        run: |
+          echo "Invalid output: Expected (.github) got (${{ steps.changed-files-dir-names-exclude-root.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
       - name: Run changed-files with dir_names
         id: changed-files-dir-names
         uses: ./
