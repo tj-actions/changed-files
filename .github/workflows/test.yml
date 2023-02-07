@@ -222,7 +222,7 @@ jobs:
         id: changed-files
         uses: ./
         with:
-          fetch-depth: ${{ matrix.input-fetch-depth }}
+          fetch_depth: ${{ matrix.input-fetch-depth }}
 
       - name: Show output
         run: |
