@@ -210,7 +210,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest]
         fetch-depth: [1, 2]
-        input-fetch-depth: [1, 50]
+        input-fetch_depth: [1, 50]
 
     steps:
       - name: Checkout to branch
@@ -222,7 +222,7 @@ jobs:
         id: changed-files
         uses: ./
         with:
-          fetch_depth: ${{ matrix.input-fetch-depth }}
+          fetch_depth: ${{ matrix.input-fetch_depth }}
 
       - name: Show output
         run: |
