@@ -39,7 +39,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Restrict change detection to a subset of files and directories:
     *   Boolean output indicating that certain files have been changed.
     *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
-        *   Brace expansion
+        *   Brace expansion.
 
 ## Usage
 
@@ -177,6 +177,7 @@ Support this project with a :star:
 |             base\_sha              | string |  false   |                     |                                                                                      Specify a different base commit SHA<br>used for comparing changes                                                                                      |
 |           diff\_relative           | string |  false   |                     |                            Exclude changes outside the current directory<br> and show path names relative to<br> it. **NOTE:** This requires you to<br> specify the top level directory via<br>the `path` input.                            |
 |             dir\_names             | string |  false   |      `"false"`      |                                             Output unique changed directories instead of<br> filenames. **NOTE:** This returns `.` for<br> changed files located in the root<br>of the project.                                             |
+|      dir\_names\_exclude\_root       | string |  false   |      `"false"`      |                                                                   Exclude the root directory represented by<br> `.` from the output when `dir_names`is<br>set to `true`.                                                                    |
 |        dir\_names\_max\_depth        | string |  false   |                     |                                                              Maximum depth of directories to output.<br> e.g `test/test1/test2` with max depth of<br>`2` returns `test/test1`.                                                              |
 |            fetch\_depth            | string |  false   |       `"50"`        |                                                       Depth of additional branch history fetched.<br> **NOTE**: This can be adjusted to<br>resolve errors with insufficient history.                                                        |
 |               files               | string |  false   |                     |                     File and directory patterns to detect<br> changes using only these list of<br> file(s) (Defaults to the entire repo)<br> **NOTE:** Multiline file/directory patterns should not<br>include quotes.                      |
