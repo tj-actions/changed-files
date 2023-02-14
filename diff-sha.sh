@@ -168,7 +168,8 @@ else
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
       echo "::debug::Fetching remote target branch..."
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH:$TARGET_BRANCH" 1>/dev/null
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
+      git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null || true
     fi
   fi
 
