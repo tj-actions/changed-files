@@ -1,12 +1,33 @@
 # Changelog
 
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.3...HEAD)
+
+**Fixed bugs:**
+
+- \[BUG\] action fail with pull request from external branch called master [\#979](https://github.com/tj-actions/changed-files/issues/979)
+
+## [v35.5.3](https://github.com/tj-actions/changed-files/tree/v35.5.3) (2023-02-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.5.3)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-02-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.2...v35)
+
+**Fixed bugs:**
+
+- Action fails on empty repo or when the specific file pattern is not found [\#976](https://github.com/tj-actions/changed-files/issues/976)
+
+**Merged pull requests:**
+
+- fix: bug with pr from forks with similar branch names [\#981](https://github.com/tj-actions/changed-files/pull/981) ([jackton1](https://github.com/jackton1))
+- Upgraded to v35.5.2 [\#977](https://github.com/tj-actions/changed-files/pull/977) ([jackton1](https://github.com/jackton1))
+
 ## [v35.5.2](https://github.com/tj-actions/changed-files/tree/v35.5.2) (2023-02-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.5.2)
-
-## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-02-09)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.1...v35)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.1...v35.5.2)
 
 **Fixed bugs:**
 
@@ -515,7 +536,7 @@
 
 ## [v34.3.3](https://github.com/tj-actions/changed-files/tree/v34.3.3) (2022-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.3)
 
 **Fixed bugs:**
 
@@ -530,13 +551,13 @@
 - chore: update readme [\#784](https://github.com/tj-actions/changed-files/pull/784) ([jackton1](https://github.com/jackton1))
 - Upgraded to v34.3.2 [\#781](https://github.com/tj-actions/changed-files/pull/781) ([jackton1](https://github.com/jackton1))
 
-## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.2)
-
 ## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.1)
+
+## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.2)
 
 **Fixed bugs:**
 
@@ -1769,7 +1790,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -1788,13 +1809,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
