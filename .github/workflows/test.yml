@@ -334,6 +334,34 @@ jobs:
           echo "Expected: (failure) got ${{ steps.changed-files-specific.outcome }}"
           exit 1
 
+  test-submodules:
+    name: Test changed-files with submodule
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        platform: [ubuntu-latest]
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Run changed-files with submodule
+        id: changed-files
+        uses: ./
+        with:
+          base_sha: "85bd869"
+          sha: "adde7bb"
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
+
   test:
     name: Test changed-files
     runs-on: ${{ matrix.platform }}
