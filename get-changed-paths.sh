@@ -69,7 +69,7 @@ function get_diff() {
   local base="$1"
   local sha="$2"
   local filter="$3"
-  local diff="${DIFF:-4}"
+  local diff="${4:-$DIFF}"
 
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
