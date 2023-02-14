@@ -69,35 +69,36 @@ function get_diff() {
   local base="$1"
   local sha="$2"
   local filter="$3"
+  local diff="${DIFF:-4}"
 
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
-      exit 1
+      return 1
     fi
 
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
-      exit 1
+      echo "::error::Failed to get current commit for submodule ($sub) between: $base $sha"
+      return 1
     fi
 
     if [ -n "$sub_commit_cur" ]; then
       (
         cd "$sub" && (
           # the strange magic number is a hardcoded "empty tree" commit sha
-          get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" | awk -v r="$sub" '{ print "" r "/" $0}'
+          get_diff "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" "$filter" ".." | awk -v r="$sub" '{ print "" r "/" $0}'
         )
       )
     fi
   done < <(git submodule | awk '{print $2}')
 
-  git diff --diff-filter="$filter" --name-only --ignore-submodules=all --no-merges "$base$DIFF$sha" && exit_status=$? || exit_status=$?
+  git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$diff$sha" && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Failed to get changed files between: $base$DIFF$sha"
-    exit 1
+    return 1
   fi
 }
 
@@ -109,13 +110,13 @@ function get_renames() {
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
-      exit 1
+      return 1
     fi
 
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
-      exit 1
+      return 1
     fi
 
     if [ -n "$sub_commit_cur" ]; then
@@ -132,7 +133,7 @@ function get_renames() {
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Failed to get renamed files between: $base → $sha"
-    exit 1
+    return 1
   fi
 }
 
