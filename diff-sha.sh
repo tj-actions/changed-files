@@ -168,7 +168,8 @@ else
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
       echo "::debug::Fetching remote target branch..."
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH:$TARGET_BRANCH" 1>/dev/null
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
+      git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null || true
     fi
   fi
 
@@ -212,13 +213,13 @@ else
 
       if [[ -f .git/shallow ]]; then
         # check if the merge base is in the local history
-        if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA"; then
+        if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
           echo "::debug::Merge base is not in the local history, fetching remote target branch..."
           # Fetch more of the target branch history until the merge base is found
           for i in {1..10}; do
             # shellcheck disable=SC2086
             git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH:$TARGET_BRANCH" 1>/dev/null
-            if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA"; then
+            if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
             echo "::debug::Merge base is not in the local history, fetching remote target branch again..."
