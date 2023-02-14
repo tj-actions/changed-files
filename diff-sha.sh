@@ -213,13 +213,13 @@ else
 
       if [[ -f .git/shallow ]]; then
         # check if the merge base is in the local history
-        if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA"; then
+        if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
           echo "::debug::Merge base is not in the local history, fetching remote target branch..."
           # Fetch more of the target branch history until the merge base is found
           for i in {1..10}; do
             # shellcheck disable=SC2086
             git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH:$TARGET_BRANCH" 1>/dev/null
-            if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA"; then
+            if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
             echo "::debug::Merge base is not in the local history, fetching remote target branch again..."
