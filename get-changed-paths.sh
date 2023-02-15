@@ -56,13 +56,13 @@ function get_dirname_max_depth() {
 }
 
 function json_output() {
-  JQ_ARGS="-sR"
+  local jq_args="-sR"
   if [[ "$INPUT_JSON_RAW_FORMAT" == "true" ]]; then
-    JQ_ARGS="$JQ_ARGS -r"
+    jq_args="$jq_args -r"
   fi
 
   # shellcheck disable=SC2086
-  jq $JQ_ARGS 'split("\n") | map(select(. != "")) | @json' | sed -r 's/^"|"$//g' | tr -s /
+  jq $jq_args 'split("\n") | map(select(. != "")) | @json' | sed -r 's/^"|"$//g' | tr -s /
 }
 
 function get_diff() {
@@ -73,21 +73,21 @@ function get_diff() {
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Failed to get previous commit for submodule ($sub) between: $base $sha"
-      return 1
+      echo "::warning::Failed to get previous commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
+      return 0
     fi
 
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Failed to get current commit for submodule ($sub) between: $base $sha"
-      return 1
+      echo "::warning::Failed to get current commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
+      return 0
     fi
 
     if [ -n "$sub_commit_cur" ]; then
       (
         cd "$sub" && (
           # the strange magic number is a hardcoded "empty tree" commit sha
-          git diff --diff-filter="$filter" --name-only --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}'
+          git diff --diff-filter="$filter" --name-only --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}' 2>/dev/null
         )
       )
     fi
@@ -96,7 +96,7 @@ function get_diff() {
   git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
-    echo "::error::Failed to get changed files between: $base$DIFF$sha"
+    echo "::error::Failed to get changed files between: $base$DIFF$sha" >&2
     return 1
   fi
 }
@@ -108,21 +108,21 @@ function get_renames() {
   while IFS='' read -r sub; do
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Failed to get previous commit for submodule ($sub) between: $base$DIFF$sha"
-      return 1
+      echo "::error::Failed to get previous commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
+      return 0
     fi
 
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
-      echo "::error::Failed to get current commit for submodule ($sub) between: $base$DIFF$sha"
-      return 1
+      echo "::error::Failed to get current commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
+      return 0
     fi
 
     if [ -n "$sub_commit_cur" ]; then
       (
         cd "$sub" && (
           # the strange magic number is a hardcoded "empty tree" commit sha
-          get_renames "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}'
+          git log --name-status --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v r="$sub" '{ print "" r "/" $0}'
         )
       )
     fi
@@ -131,7 +131,7 @@ function get_renames() {
   git log --name-status --ignore-submodules=all "$base" "$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
-    echo "::error::Failed to get renamed files between: $base → $sha"
+    echo "::error::Failed to get renamed files between: $base → $sha" >&2
     return 1
   fi
 }
