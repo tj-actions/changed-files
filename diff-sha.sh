@@ -4,7 +4,7 @@ set -euo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
-EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
+EXTRA_ARGS="--no-tags --prune --recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
 DIFF="..."
@@ -60,7 +60,9 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   if [[ -f .git/shallow ]]; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null || true
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+    # shellcheck disable=SC2086
+    git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
   fi
 
   echo "::debug::Getting HEAD SHA..."
@@ -218,7 +220,7 @@ else
           # Fetch more of the target branch history until the merge base is found
           for i in {1..10}; do
             # shellcheck disable=SC2086
-            git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH:$TARGET_BRANCH" 1>/dev/null
+            git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
             if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
