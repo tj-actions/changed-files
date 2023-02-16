@@ -355,6 +355,7 @@ jobs:
         with:
           base_sha: "85bd869"
           sha: "adde7bb"
+          fetch_depth: 60000
 
       - name: Verify added files
         if: steps.changed-files.outputs.added_files != 'test/demo/test/test.txt'
