@@ -57,10 +57,10 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   TARGET_BRANCH=$GITHUB_REFNAME
   CURRENT_BRANCH=$TARGET_BRANCH
 
-  if [[ -f .git/shallow ]]; then
+  if git rev-parse --is-shallow-repository; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null || true
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
     # shellcheck disable=SC2086
     git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
   fi
@@ -162,7 +162,7 @@ else
     TARGET_BRANCH=$CURRENT_BRANCH
   fi
 
-  if [[ -f .git/shallow ]]; then
+  if git rev-parse --is-shallow-repository; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
