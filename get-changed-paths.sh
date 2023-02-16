@@ -74,13 +74,11 @@ function get_diff() {
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::warning::Failed to get previous commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
-      return 0
     fi
 
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::warning::Failed to get current commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
-      return 0
     fi
 
     if [ -n "$sub_commit_cur" ]; then
@@ -91,7 +89,6 @@ function get_diff() {
         )
       ) || {
         echo "::warning::Failed to get changed files for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
-        return 0
       }
     fi
   done < <(git submodule | awk '{print $2}')
@@ -112,13 +109,11 @@ function get_renames() {
     sub_commit_pre="$(git diff "$base" "$sha" -- "$sub" | { grep '^[-]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::warning::Failed to get previous commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
-      return 0
     fi
 
     sub_commit_cur="$(git diff "$base" "$sha" -- "$sub" | { grep '^[+]Subproject commit' || true; } | awk '{print $3}')" && exit_status=$? || exit_status=$?
     if [[ $exit_status -ne 0 ]]; then
       echo "::warning::Failed to get current commit for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
-      return 0
     fi
 
     if [ -n "$sub_commit_cur" ]; then
@@ -129,7 +124,6 @@ function get_renames() {
         )
       ) || {
         echo "::warning::Failed to get renamed files for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
-        return 0
       }
     fi
   done < <(git submodule | awk '{print $2}')
