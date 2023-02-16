@@ -356,6 +356,12 @@ jobs:
           base_sha: "85bd869"
           sha: "adde7bb"
 
+      - name: Verify added files
+        if: steps.changed-files.outputs.added_files != 'test/demo/test/test.txt'
+        run: |
+          echo "Expected: (test/demo/test/test.txt) got ${{ steps.changed-files.outputs.added_files }}"
+          exit 1
+
       - name: Show output
         run: |
           echo "${{ toJSON(steps.changed-files.outputs) }}"
