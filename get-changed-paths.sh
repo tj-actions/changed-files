@@ -83,7 +83,10 @@ function get_diff() {
 
     if [ -n "$sub_commit_cur" ]; then
       (
-        cd "$sub" && git diff --diff-filter="$filter" --name-only --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}' 2>/dev/null
+        cd "$sub" && (
+          # the strange magic number is a hardcoded "empty tree" commit sha
+          git diff --diff-filter="$filter" --name-only --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}' 2>/dev/null
+        )
       ) || {
         echo "::warning::Failed to get changed files for submodule ($sub) between: ${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904} ${sub_commit_cur}. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
       }
@@ -115,7 +118,10 @@ function get_renames() {
 
     if [ -n "$sub_commit_cur" ]; then
       (
-        cd "$sub" && git log --name-status --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v r="$sub" '{ print "" r "/" $0}'
+        cd "$sub" && (
+          # the strange magic number is a hardcoded "empty tree" commit sha
+          git log --name-status --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v r="$sub" '{ print "" r "/" $0}'
+        )
       ) || {
         echo "::warning::Failed to get renamed files for submodule ($sub) between: ${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904} ${sub_commit_cur}. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
       }
