@@ -12,7 +12,7 @@ IS_TAG="false"
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
-  EXTRA_ARGS="--prune --recurse-submodules"
+  EXTRA_ARGS="--prune --no-recurse-submodules"
 fi
 
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
