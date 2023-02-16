@@ -89,7 +89,10 @@ function get_diff() {
           # the strange magic number is a hardcoded "empty tree" commit sha
           git diff --diff-filter="$filter" --name-only --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | awk -v r="$sub" '{ print "" r "/" $0}' 2>/dev/null
         )
-      )
+      ) || {
+        echo "::error::Failed to get changed files for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
+        return 0
+      }
     fi
   done < <(git submodule | awk '{print $2}')
 
@@ -124,7 +127,10 @@ function get_renames() {
           # the strange magic number is a hardcoded "empty tree" commit sha
           git log --name-status --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}" "${sub_commit_cur}" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v r="$sub" '{ print "" r "/" $0}'
         )
-      )
+      ) || {
+        echo "::error::Failed to get renamed files for submodule ($sub) between: $base $sha. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
+        return 0
+      }
     fi
   done < <(git submodule | awk '{print $2}')
 
