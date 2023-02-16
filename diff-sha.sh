@@ -4,7 +4,7 @@ set -euxo pipefail
 
 INITIAL_COMMIT="false"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-""}
-EXTRA_ARGS="--no-tags --prune --no-recurse-submodules"
+EXTRA_ARGS="--no-tags --prune --recurse-submodules"
 PREVIOUS_SHA=""
 CURRENT_SHA=""
 DIFF="..."
@@ -12,7 +12,7 @@ IS_TAG="false"
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
-  EXTRA_ARGS="--prune --no-recurse-submodules"
+  EXTRA_ARGS="--prune --recurse-submodules"
 fi
 
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
@@ -218,7 +218,7 @@ else
           # Fetch more of the target branch history until the merge base is found
           for i in {1..10}; do
             # shellcheck disable=SC2086
-            git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$TARGET_BRANCH:$TARGET_BRANCH" 1>/dev/null
+            git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
             if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
