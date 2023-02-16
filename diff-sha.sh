@@ -213,7 +213,7 @@ else
     else
       PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH") && exit_status=$? || exit_status=$?
 
-      if [[ -f .git/shallow ]]; then
+      if git rev-parse --is-shallow-repository; then
         # check if the merge base is in the local history
         if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
           echo "::debug::Merge base is not in the local history, fetching remote target branch..."
