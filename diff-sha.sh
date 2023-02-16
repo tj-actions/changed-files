@@ -60,7 +60,8 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   if [[ -f .git/shallow ]]; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin "$CURRENT_BRANCH" 1>/dev/null || true
+    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+    git branch --track "$CURRENT_BRANCH" origin/"$CURRENT_BRANCH" 1>/dev/null || true
   fi
 
   echo "::debug::Getting HEAD SHA..."
