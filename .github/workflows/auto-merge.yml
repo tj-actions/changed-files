@@ -16,7 +16,7 @@ jobs:
       github.actor == 'renovate'
     steps:
       - name: automerge
-        uses: pascalgn/automerge-action@v0.15.5
+        uses: pascalgn/automerge-action@v0.15.6
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           MERGE_METHOD: "rebase"
