@@ -439,16 +439,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get Base SHA
-        id: get-base-sha
-        run: |
-          echo "base_sha=$(git rev-parse "$(git tag --sort=-v:refname | head -n 2 | tail -n 1)")" >> $GITHUB_OUTPUT
-
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
-        with:
-          base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
 
       - name: Get changed files in the .github folder
         id: changed-files-specific

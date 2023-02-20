@@ -109,6 +109,13 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
         echo "::error::Unable to locate a previous commit for the specified date: $INPUT_SINCE"
         exit 1
       fi
+    elif [[ "$IS_TAG" == "true" ]]; then
+      PREVIOUS_SHA=$(git rev-parse "$(git tag --sort=-v:refname | head -n 2 | tail -n 1)") && exit_status=$? || exit_status=$?
+
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        echo "::error::Unable to locate a previous commit for the specified tag: $GITHUB_REF"
+        exit 1
+      fi
     else
       if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
         PREVIOUS_SHA=""
