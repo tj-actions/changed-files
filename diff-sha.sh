@@ -9,10 +9,12 @@ PREVIOUS_SHA=""
 CURRENT_SHA=""
 DIFF="..."
 IS_TAG="false"
+SOURCE_BRANCH=""
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
   EXTRA_ARGS="--prune --no-recurse-submodules"
+  SOURCE_BRANCH=${GITHUB_EVENT_BASE_REF#refs/heads/}
 fi
 
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
@@ -62,9 +64,9 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
     if [[ "$IS_TAG" == "false" ]]; then
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
-    else
+    elif [[ "$SOURCE_BRANCH" != "" ]]; then
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/tags/"$CURRENT_BRANCH":refs/tags/"$CURRENT_BRANCH" 1>/dev/null
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$SOURCE_BRANCH":refs/remotes/origin/"$SOURCE_BRANCH" 1>/dev/null
     fi
     # shellcheck disable=SC2086
     git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
