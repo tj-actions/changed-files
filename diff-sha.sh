@@ -59,8 +59,13 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
 
   if [[ -f .git/shallow ]]; then
     echo "Fetching remote refs..."
-    # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+    if [[ "$IS_TAG" == "false" ]]; then
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+    else
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/tags/"$CURRENT_BRANCH":refs/tags/"$CURRENT_BRANCH" 1>/dev/null
+    fi
     # shellcheck disable=SC2086
     git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
   fi
