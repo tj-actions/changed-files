@@ -10,6 +10,7 @@ CURRENT_SHA=""
 DIFF="..."
 IS_TAG="false"
 SOURCE_BRANCH=""
+IS_SHALLOW=$(git rev-parse --is-shallow-repository)
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
@@ -59,7 +60,7 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   TARGET_BRANCH=$GITHUB_REFNAME
   CURRENT_BRANCH=$TARGET_BRANCH
 
-  if [[ -f .git/shallow ]]; then
+  if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
     if [[ "$IS_TAG" == "false" ]]; then
       # shellcheck disable=SC2086
@@ -176,7 +177,7 @@ else
     TARGET_BRANCH=$CURRENT_BRANCH
   fi
 
-  if [[ -f .git/shallow ]]; then
+  if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
@@ -227,7 +228,7 @@ else
     else
       PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH") && exit_status=$? || exit_status=$?
 
-      if [[ -f .git/shallow ]]; then
+      if [[ "$IS_SHALLOW" == "true" ]]; then
         # check if the merge base is in the local history
         if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
           echo "::debug::Merge base is not in the local history, fetching remote target branch..."
