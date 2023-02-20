@@ -10,7 +10,6 @@ CURRENT_SHA=""
 DIFF="..."
 IS_TAG="false"
 SOURCE_BRANCH=""
-IS_SHALLOW="false"
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
