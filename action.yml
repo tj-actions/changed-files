@@ -187,6 +187,7 @@ runs:
         GITHUB_REF: ${{ github.ref }}
         GITHUB_SHA: ${{ github.sha }}
         GITHUB_WORKSPACE: ${{ github.workspace }}
+        GITHUB_EVENT_BASE_REF: ${{ github.event.base_ref }}
         GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
         GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
         GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}

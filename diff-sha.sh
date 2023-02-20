@@ -9,10 +9,12 @@ PREVIOUS_SHA=""
 CURRENT_SHA=""
 DIFF="..."
 IS_TAG="false"
+SOURCE_BRANCH=""
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
   EXTRA_ARGS="--prune --no-recurse-submodules"
+  SOURCE_BRANCH=${GITHUB_EVENT_BASE_REF#refs/heads/}
 fi
 
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF || "$GITHUB_EVENT_HEAD_REPO_FORK" == "true" ]]; then
@@ -52,15 +54,27 @@ else
   echo "Valid git version found: ($GIT_VERSION)"
 fi
 
+IS_SHALLOW=$(git rev-parse --is-shallow-repository) && exit_status=$? || exit_status=$?
+
+if [[ $exit_status -ne 0 ]]; then
+  echo "::error::Unable to determine if the repository is shallow"
+  exit 1
+fi
+
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
   echo "Running on a push event..."
   TARGET_BRANCH=$GITHUB_REFNAME
   CURRENT_BRANCH=$TARGET_BRANCH
 
-  if $(git rev-parse --is-shallow-repository); then
+  if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
-    # shellcheck disable=SC2086
-    git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+    if [[ "$IS_TAG" == "false" ]]; then
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+    elif [[ "$SOURCE_BRANCH" != "" ]]; then
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$SOURCE_BRANCH":refs/remotes/origin/"$SOURCE_BRANCH" 1>/dev/null
+    fi
     # shellcheck disable=SC2086
     git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
   fi
@@ -100,6 +114,13 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
 
       if [[ -z "$PREVIOUS_SHA" ]]; then
         echo "::error::Unable to locate a previous commit for the specified date: $INPUT_SINCE"
+        exit 1
+      fi
+    elif [[ "$IS_TAG" == "true" ]]; then
+      PREVIOUS_SHA=$(git rev-parse "$(git tag --sort=-v:refname | head -n 2 | tail -n 1)") && exit_status=$? || exit_status=$?
+
+      if [[ -z "$PREVIOUS_SHA" ]]; then
+        echo "::error::Unable to locate a previous commit for the specified tag: $GITHUB_REF"
         exit 1
       fi
     else
@@ -162,7 +183,7 @@ else
     TARGET_BRANCH=$CURRENT_BRANCH
   fi
 
-  if $(git rev-parse --is-shallow-repository); then
+  if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
@@ -213,7 +234,7 @@ else
     else
       PREVIOUS_SHA=$(git rev-parse origin/"$TARGET_BRANCH") && exit_status=$? || exit_status=$?
 
-      if $(git rev-parse --is-shallow-repository); then
+      if [[ "$IS_SHALLOW" == "true" ]]; then
         # check if the merge base is in the local history
         if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
           echo "::debug::Merge base is not in the local history, fetching remote target branch..."
