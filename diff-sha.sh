@@ -10,7 +10,7 @@ CURRENT_SHA=""
 DIFF="..."
 IS_TAG="false"
 SOURCE_BRANCH=""
-IS_SHALLOW=$(git rev-parse --is-shallow-repository)
+IS_SHALLOW="false"
 
 if [[ "$GITHUB_REF" == "refs/tags/"* ]]; then
   IS_TAG="true"
@@ -53,6 +53,13 @@ if [[ $(__version "$GIT_VERSION") -lt $(__version "2.18.0") ]]; then
   exit 1
 else
   echo "Valid git version found: ($GIT_VERSION)"
+fi
+
+IS_SHALLOW=$(git rev-parse --is-shallow-repository) && exit_status=$? || exit_status=$?
+
+if [[ $exit_status -ne 0 ]]; then
+  echo "::error::Unable to determine if the repository is shallow"
+  exit 1
 fi
 
 if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
