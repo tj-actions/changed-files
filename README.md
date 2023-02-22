@@ -27,7 +27,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   List changed directories.
 *   Restrict the max depth of changed directories.
 *   Write outputs to files at a specified location for further processing.
-*   Monorepos (Fetches only the last remote commit).
+*   Monorepos (Fetches a fixed number of commits).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
 *   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
