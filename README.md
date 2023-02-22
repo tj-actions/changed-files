@@ -15,7 +15,7 @@
 
 ## changed-files
 
-Retrieve all changed files and directories relative to the target branch or the last remote commit returning the **relative path** from the project root.
+Retrieve all changed files and directories relative to the target branch or the last remote commit returning a **relative path** from the project root.
 
 ## Features
 
