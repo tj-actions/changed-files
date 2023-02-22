@@ -23,7 +23,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Easy to debug.
 *   Scales to large repositories.
 *   Supports Git submodules.
-*   Escaped JSON output which can be used for running matrix jobs based on changed files.
+*   Escaped JSON output which can be used to run matrix jobs based on changed files.
 *   List changed directories.
 *   Restrict the max depth of changed directories.
 *   Write outputs to files at a specified location for further processing.
