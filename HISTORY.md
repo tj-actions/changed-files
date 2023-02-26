@@ -2,19 +2,34 @@
 
 ## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.6...HEAD)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.6.0...HEAD)
+
+**Implemented enhancements:**
+
+- \[Feature\] Add support for listing deleted submodules [\#999](https://github.com/tj-actions/changed-files/issues/999)
+
+## [v35.6.0](https://github.com/tj-actions/changed-files/tree/v35.6.0) (2023-02-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.6.0)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-02-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.6...v35)
 
 **Fixed bugs:**
 
+- \[BUG\] Running on PR doesn't get the correct head sha [\#998](https://github.com/tj-actions/changed-files/issues/998)
 - \[BUG\] action fails when with a Git tag instead of branch [\#995](https://github.com/tj-actions/changed-files/issues/995)
+
+**Merged pull requests:**
+
+- feat: add support for listing deleted submodules. [\#1001](https://github.com/tj-actions/changed-files/pull/1001) ([jackton1](https://github.com/jackton1))
+- fix: readme typo [\#1000](https://github.com/tj-actions/changed-files/pull/1000) ([benhammondmusic](https://github.com/benhammondmusic))
+- Upgraded to v35.5.6 [\#997](https://github.com/tj-actions/changed-files/pull/997) ([jackton1](https://github.com/jackton1))
 
 ## [v35.5.6](https://github.com/tj-actions/changed-files/tree/v35.5.6) (2023-02-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.5.6)
-
-## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-02-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.5...v35)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.5.5...v35.5.6)
 
 **Implemented enhancements:**
 
@@ -1838,7 +1853,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
 
 **Implemented enhancements:**
 
@@ -1857,13 +1872,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
-
 ## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
+
+## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
 
 **Merged pull requests:**
 
