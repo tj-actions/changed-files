@@ -91,7 +91,14 @@ function get_diff() {
         echo "::warning::Failed to get changed files for submodule ($sub) between: ${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904} ${sub_commit_cur}. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
       }
     fi
-  done < <(git submodule | awk '{print $2}')
+  done < <(git submodule status --recursive | grep -v "^-" | awk '{print $2}')
+
+
+  if [[ "$filter" == "D" ]]; then
+    while read -r sub; do
+       echo "$sub"
+    done < <(git submodule status --recursive | grep -e "^-" | awk '{print $2}')
+  fi
 
   git diff --diff-filter="$filter" --name-only --ignore-submodules=all "$base$DIFF$sha" && exit_status=$? || exit_status=$?
 
