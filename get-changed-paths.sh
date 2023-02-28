@@ -93,7 +93,6 @@ function get_diff() {
     fi
   done < <(git submodule status --recursive | grep -v "^-" | awk '{print $2}')
 
-
   if [[ "$filter" == "D" ]]; then
     while read -r sub; do
        echo "$sub"

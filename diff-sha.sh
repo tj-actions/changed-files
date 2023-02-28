@@ -75,8 +75,11 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$SOURCE_BRANCH":refs/remotes/origin/"$SOURCE_BRANCH" 1>/dev/null
     fi
-    # shellcheck disable=SC2086
-    git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
+
+    if git submodule status &>/dev/null; then
+      # shellcheck disable=SC2086
+      git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
+    fi
   fi
 
   echo "::debug::Getting HEAD SHA..."
@@ -193,6 +196,11 @@ else
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
       git branch --track "$TARGET_BRANCH" origin/"$TARGET_BRANCH" 1>/dev/null || true
+    fi
+
+    if git submodule status &>/dev/null; then
+      # shellcheck disable=SC2086
+      git submodule foreach git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" || true
     fi
   fi
 
