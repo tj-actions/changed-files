@@ -342,12 +342,15 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest]
+        fetch-depth: [0, 1]
 
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v3
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
+          fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Run changed-files with submodule
         id: changed-files
