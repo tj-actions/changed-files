@@ -79,7 +79,7 @@ jobs:
         # Event `push`: Compare the preceeding commit -> to the current commit of the main branch.
         # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
         # -------------------------------------------------------------------------------------------------------------------------
-        # To compare changes between the current commit ant the last pushed remote commit set `since_last_remote_commit: true`. e.g
+        # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
         # with:
         #   since_last_remote_commit: true 
 
