@@ -55,13 +55,9 @@ Retrieve all changed files and directories relative to the target branch or the 
 name: CI
 
 on:
-  # Compare the preceeding commit -> to the current commit of the main branch.
-  # (Note: To compare changes between the current commit to the last pushed remote commit of the main branch set `since_last_remote_commit: true`)
   push:
     branches:
       - main
-  # Compare the last commit of main -> to the current commit of a PR branch.
-  # (Note: To compare changes between the current commit to the last pushed remote commit of a PR branch set `since_last_remote_commit: true`)
   pull_request:
     branches:
       - main
@@ -79,6 +75,13 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
+        # -------------------------------------------------------------------------------------------------------------------------
+        # Event `push`: Compare the preceeding commit -> to the current commit of the main branch.
+        # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
+        # -------------------------------------------------------------------------------------------------------------------------
+        # To compare changes between the current commit ant the last pushed remote commit set `since_last_remote_commit: true`. e.g
+        # with:
+        #   since_last_remote_commit: true 
 
       - name: List all changed files
         run: |
