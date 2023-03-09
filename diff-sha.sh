@@ -190,6 +190,14 @@ else
     echo "Fetching remote refs..."
     # shellcheck disable=SC2086
     git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+
+    if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" != "true" ]]; then
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+    else
+      # shellcheck disable=SC2086
+      git fetch $EXTRA_ARGS --deepen="$INPUT_FETCH_DEPTH" origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH" "+refs/heads/$CURRENT_BRANCH:refs/remotes/origin/$CURRENT_BRANCH*" 1>/dev/null
+    fi
     
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
       echo "::debug::Fetching remote target branch..."
