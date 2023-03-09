@@ -1,8 +1,26 @@
 # Changelog
 
-## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-02-28)
+## [v35.6.2](https://github.com/tj-actions/changed-files/tree/v35.6.2) (2023-03-09)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.6.2)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-03-09)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.6.1...v35)
+
+**Implemented enhancements:**
+
+- \[Feature\] Compare the Last Remote SHA and Head SHA of a Git Branch? [\#1006](https://github.com/tj-actions/changed-files/issues/1006)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+**Merged pull requests:**
+
+- fix: fetching history for pr made from a fork with checkout set to the target repository [\#1007](https://github.com/tj-actions/changed-files/pull/1007) ([jackton1](https://github.com/jackton1))
+- chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.3.0 [\#1005](https://github.com/tj-actions/changed-files/pull/1005) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v35.6.1 [\#1004](https://github.com/tj-actions/changed-files/pull/1004) ([jackton1](https://github.com/jackton1))
 
 ## [v35.6.1](https://github.com/tj-actions/changed-files/tree/v35.6.1) (2023-02-28)
 
@@ -39,10 +57,6 @@
 **Implemented enhancements:**
 
 - \[Feature\] Watch multiple paths [\#993](https://github.com/tj-actions/changed-files/issues/993)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
 
 **Merged pull requests:**
 
@@ -958,7 +972,7 @@
 
 ## [v31.0.0](https://github.com/tj-actions/changed-files/tree/v31.0.0) (2022-09-25)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v31.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v31.0.0)
 
 **Merged pull requests:**
 
@@ -971,13 +985,13 @@
 - chore: update broken link [\#642](https://github.com/tj-actions/changed-files/pull/642) ([jackton1](https://github.com/jackton1))
 - Upgraded to v30.0.0 [\#641](https://github.com/tj-actions/changed-files/pull/641) ([jackton1](https://github.com/jackton1))
 
-## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30.0.0...v30)
-
 ## [v30.0.0](https://github.com/tj-actions/changed-files/tree/v30.0.0) (2022-09-24)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v30.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v30...v30.0.0)
+
+## [v30](https://github.com/tj-actions/changed-files/tree/v30) (2022-09-24)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v30)
 
 **Fixed bugs:**
 
@@ -993,13 +1007,13 @@
 - chore\(deps\): update codacy/codacy-analysis-cli-action action to v4.2.0 [\#634](https://github.com/tj-actions/changed-files/pull/634) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v29.0.9 [\#633](https://github.com/tj-actions/changed-files/pull/633) ([jackton1](https://github.com/jackton1))
 
-## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29...v29.0.9)
-
 ## [v29](https://github.com/tj-actions/changed-files/tree/v29) (2022-09-20)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.9...v29)
+
+## [v29.0.9](https://github.com/tj-actions/changed-files/tree/v29.0.9) (2022-09-20)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v29.0.8...v29.0.9)
 
 **Implemented enhancements:**
 
