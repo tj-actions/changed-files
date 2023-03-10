@@ -188,8 +188,9 @@ else
 
   if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
-
-    if git fetch "$EXTRA_ARGS" -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null; then
+    
+    # shellcheck disable=SC2086
+    if git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null; then
       echo "First fetch succeeded"
     else
       echo "First fetch failed, falling back to second fetch"
