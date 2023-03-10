@@ -189,12 +189,12 @@ else
   if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
 
-    if [[ "$GITHUB_EVENT_HEAD_REPO_FORK" != "true" ]]; then
-      # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null
+    if git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null; then
+      echo "First fetch succeeded"
     else
+      echo "First fetch failed, falling back to second fetch"
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH"*:refs/remotes/origin/"$CURRENT_BRANCH"* 1>/dev/null
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH"*:refs/remotes/origin/"$CURRENT_BRANCH"* 1>/dev/null || true
     fi
     
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
