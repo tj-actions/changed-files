@@ -5,10 +5,6 @@ on:
     branches:
       - "**"
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
     branches:
       - main
   pull_request_review:
@@ -28,12 +24,7 @@ jobs:
 
   test-multiple-repositories:
     name: Test with multiple repositories
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        platform: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v3
@@ -84,13 +75,8 @@ jobs:
 
   test-using-since-and-until:
     name: Test changed-files using since and until
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        platform: [ubuntu-latest]
 
     steps:
       - name: Checkout to branch
@@ -140,12 +126,7 @@ jobs:
 
   test-similar-base-and-commit-sha:
     name: Test changed-files similar base and commit sha
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        platform: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout to branch
@@ -175,12 +156,7 @@ jobs:
 
   test-unset-github-output-env:
     name: Test unset GITHUB_OUTPUT env
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        platform: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout to branch
@@ -203,12 +179,11 @@ jobs:
 
   test-limited-commit-history:
     name: Test changed-files with limited commit history
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest]
         fetch-depth: [1, 2]
         input-fetch_depth: [1, 50]
 
@@ -232,12 +207,7 @@ jobs:
 
   test-non-existent-base-sha:
     name: Test changed-files non existent base sha
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        platform: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout to branch
@@ -284,12 +254,7 @@ jobs:
 
   test-non-existent-sha:
     name: Test changed-files non existent sha
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        platform: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout to branch
@@ -336,13 +301,12 @@ jobs:
 
   test-submodules:
     name: Test changed-files with submodule
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest]
-        fetch-depth: [0, 1]
+        fetch-depth: [0, 1, 2]
 
     steps:
       - name: Checkout to branch
@@ -380,7 +344,7 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
-        fetch-depth: [0, 1]
+        fetch-depth: [0, 1, 2]
 
     steps:
       - name: Checkout
