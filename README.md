@@ -300,7 +300,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
 ```
 
-See [outputs](#outputs) for a list of all available outputs.
+See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
@@ -322,7 +322,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
 ```
 
-See [outputs](#outputs) for a list of all available outputs.
+See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
