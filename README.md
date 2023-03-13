@@ -26,7 +26,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   Escaped JSON output which can be used to run matrix jobs based on changed files.
 *   List changed directories.
 *   Restrict the max depth of changed directories.
-*   Write outputs to files at a specified location for further processing.
+*   Write outputs to a `.txt` or `.json` file at a specified location for further processing.
 *   Monorepos (Fetches a fixed number of commits).
 *   Supports all platforms (Linux, MacOS, Windows).
 *   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
@@ -278,6 +278,51 @@ See [outputs](#outputs) for a list of all available outputs.
 ```
 
 See [outputs](#outputs) for a list of all available outputs.
+
+</details>
+
+<details>
+<summary>Get all changed files and write the outputs to a json file</summary>
+
+```yaml
+...
+
+   - name: Get changed files and write the outputs to a json file
+     id: changed-files-write-output-files-json
+     uses: ./
+     with:
+       json: true
+       write_output_files: true
+
+    - name: Verify the contents of the .github/added_files.json file
+      run: |
+        cat .github/added_files.json
+...
+```
+
+See [action.yml](action.yml#L264) for a list of all available keys.
+
+</details>
+
+<details>
+<summary>Get all changed files and write the outputs to a txt file</summary>
+
+```yaml
+...
+
+   - name: Get changed files and write the outputs to a txt file
+     id: changed-files-write-output-files-txt
+     uses: ./
+     with:
+       write_output_files: true
+
+    - name: Verify the contents of the .github/added_files.txt file
+      run: |
+        cat .github/added_files.txt
+...
+```
+
+See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
