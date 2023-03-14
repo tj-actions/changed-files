@@ -19,6 +19,19 @@ Retrieve all changed files and directories relative to the target branch or the 
 
 ## Table of contents
 
+*   [Features](#features)
+*   [Usage](#usage)
+*   [Useful Acronyms](#useful-acronyms)
+*   [Outputs](#outputs)
+*   [Inputs](#inputs)
+*   [Examples](#examples)
+    *   [Real world example](#real-world-example)
+*   [Known Limitation](#known-limitation)
+*   [Migration guide](#migration-guide)
+*   [Credits](#credits)
+*   [Report Bugs](#report-bugs)
+*   [Contributors ✨](#contributors-)
+
 ## Features
 
 *   Fast execution (0-10 seconds on average).
