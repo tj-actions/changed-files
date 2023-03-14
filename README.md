@@ -17,6 +17,8 @@
 
 Retrieve all changed files and directories relative to the target branch or the last remote commit returning a **relative path** from the project root.
 
+## Table of contents
+
 ## Features
 
 *   Fast execution (0-10 seconds on average).
