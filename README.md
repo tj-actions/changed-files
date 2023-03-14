@@ -24,6 +24,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 *   [Useful Acronyms](#useful-acronyms)
 *   [Outputs](#outputs)
 *   [Inputs](#inputs)
+*   [Versioning](#versioning)
 *   [Examples](#examples)
     *   [Real world example](#real-world-example)
 *   [Known Limitation](#known-limitation)
@@ -240,7 +241,6 @@ patch : is a patch release number that indicates bug fixes or other small change
 For example, `v1.2.3-sec` would indicate a security-hardened version of the action with major version 1, minor version 2, and patch version 3.
 
 Using this versioning convention helps ensure that users can easily identify and choose security-hardened versions of this action when integrating it into their workflows.
-
 
 ## Examples
 
@@ -776,11 +776,17 @@ With the switch from using grep's Extended regex to match files to the natively 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
 
 *   [tj-actions/glob](https://github.com/tj-actions/glob)
+
 *   [tj-actions/auto-doc](https://github.com/tj-actions/auto-doc)
+
 *   [tj-actions/verify-changed-files](https://github.com/tj-actions/verify-changed-files)
+
 *   [tj-actions/demo](https://github.com/tj-actions/demo)
+
 *   [tj-actions/demo2](https://github.com/tj-actions/demo2)
+
 *   [tj-actions/demo3](https://github.com/tj-actions/demo3)
+
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
 
 *   Free software: [MIT license](LICENSE)
