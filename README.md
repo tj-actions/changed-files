@@ -223,6 +223,25 @@ Support this project with a :star:
 
 <!-- AUTO-DOC-INPUT:END -->
 
+## Versioning
+
+This GitHub Action follows the principles of [Semantic Versioning](https://semver.org) for versioning releases.
+
+In addition to the standard versioning scheme, this action also uses the `v[major.minor.patch]-sec` convention for versions that implement hardening security strategies as described in the [GitHub Actions security hardening guide](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions).
+
+The format of the version string is as follows:
+
+major: is a major release number that indicates significant changes or new features that may not be backward compatible.
+minor: is a minor release number that indicates minor changes or new features that are backward compatible.
+patch : is a patch release number that indicates bug fixes or other small changes that are backward compatible.
+
+`-sec` is a suffix that indicates a security-hardened version that implements additional security measures.
+
+For example, `v1.2.3-sec` would indicate a security-hardened version of the action with major version 1, minor version 2, and patch version 3.
+
+Using this versioning convention helps ensure that users can easily identify and choose security-hardened versions of this action when integrating it into their workflows.
+
+
 ## Examples
 
 <details>
@@ -706,8 +725,6 @@ See [inputs](#inputs) for more information.
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
-*   Free software: [MIT license](LICENSE)
-
 ## Known Limitation
 
 > NOTE: :warning:
@@ -715,6 +732,7 @@ See [inputs](#inputs) for more information.
 > *   Using characters like `\n`, `%`, `.` and `\r` as separators would be [URL encoded](https://www.w3schools.com/tags/ref_urlencode.asp)
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
+>
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
 
 ## Migration guide
@@ -764,6 +782,8 @@ This package was created with [Cookiecutter](https://github.com/cookiecutter/coo
 *   [tj-actions/demo2](https://github.com/tj-actions/demo2)
 *   [tj-actions/demo3](https://github.com/tj-actions/demo3)
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
+
+*   Free software: [MIT license](LICENSE)
 
 ## Report Bugs
 
