@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  automerge and fix conflicts:
+  automerge-sec:
     runs-on: ubuntu-latest
     name: Auto merge and fix merge conflicts
 
