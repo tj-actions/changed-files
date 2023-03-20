@@ -255,7 +255,7 @@ runs:
         INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
         INPUT_JSON_RAW_FORMAT: ${{ inputs.json_raw_format }}
     - name: Generate output files
-      uses: tj-actions/json2file@v1.3.0
+      uses: tj-actions/json2file@v1.4.0
       if: inputs.write_output_files == 'true'
       with:
         outputs: ${{ toJSON(steps.changed-files.outputs) }}
