@@ -63,7 +63,7 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 >
 > *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch-depth` for `pull_request` events.
-> *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [#314](https://github.com/tj-actions/changed-files/issues/314).
+> *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [Pattern Gotcha](https://github.com/tj-actions/glob#pattern-gotcha).
 > *   All multiline inputs should not use double or single quotes since the value is already a string seperated by a newline character. See [Examples](#examples) for more information.
 > *   Ensure that `persist-credentials` is set to `true` when configuring `actions/checkout` if `fetch-depth` isn't set to `0`.
 
