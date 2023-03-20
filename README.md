@@ -15,7 +15,7 @@
 
 ## changed-files
 
-Retrieve all changed files and directories relative to the target branch or the last remote commit returning a **relative path** from the project root.
+Retrieve all changed files and directories relative to a target branch, preceeding commit or the last remote commit returning a **relative paths** from the project root.
 
 ## Table of contents
 
@@ -63,7 +63,7 @@ Retrieve all changed files and directories relative to the target branch or the 
 >
 > *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch-depth` for `pull_request` events.
-> *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [#314](https://github.com/tj-actions/changed-files/issues/314).
+> *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [Pattern Gotcha](https://github.com/tj-actions/glob#pattern-gotcha).
 > *   All multiline inputs should not use double or single quotes since the value is already a string seperated by a newline character. See [Examples](#examples) for more information.
 > *   Ensure that `persist-credentials` is set to `true` when configuring `actions/checkout` if `fetch-depth` isn't set to `0`.
 
@@ -120,18 +120,19 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
       
       # Example 3
-      - name: Get changed js files excluding the docs folder
+      - name: Get all changed *.js file(s) or any file in the static folder excluding the docs folder
         id: changed-files-excluded
         uses: tj-actions/changed-files@v35
         with:
           files: |
             **/*.js
-          files_ignore: docs/** # Alternatively using: `docs`
+            static
+          files_ignore: docs
 
-      - name: Run step if any other js file(s) change
+      - name: Run step if any *.js file(s) or any file in the static folder change
         if: steps.changed-files-excluded.outputs.any_changed == 'true'
         run: |
-          echo "One or more js files not in the doc folder has changed."
+          echo "One or more *.js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 ```
 

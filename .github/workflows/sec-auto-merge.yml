@@ -1,0 +1,32 @@
+name: Auto merge and fix conflicts
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  automerge-sec:
+    runs-on: ubuntu-latest
+    name: Auto merge and fix merge conflicts
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fix merge conflicts
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git checkout sec
+          
+          git merge --no-edit --no-ff --strategy-option=ours main
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        continue-on-error: true
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          branch: sec
