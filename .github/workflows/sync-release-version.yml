@@ -26,8 +26,9 @@ jobs:
       - name: Push tag
         uses: ad-m/github-push-action@master
         with:
-          args: --follow-tags
+          tags: true
           github_token: ${{ secrets.PAT_TOKEN }}
+          branch: sec
 
   update-version:
     runs-on: ubuntu-latest
