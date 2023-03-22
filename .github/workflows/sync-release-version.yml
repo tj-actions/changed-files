@@ -19,6 +19,8 @@ jobs:
       - name: Generate new tag
         id: generate-tag
         run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git tag -a ${{ steps.branch-name.outputs.tag }}-sec -m "Security release for ${{ steps.branch-name.outputs.tag }}"
 
       - name: Push tag
