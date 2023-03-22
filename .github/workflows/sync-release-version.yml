@@ -22,7 +22,7 @@ jobs:
           git tag -a ${{ steps.branch-name.outputs.tag }}-sec -m "Security release for ${{ steps.branch-name.outputs.tag }}"
 
       - name: Push tag
-        uses: adm/git-push@master
+        uses: ad-m/github-push-action@master
         with:
           args: --follow-tags
           github_token: ${{ secrets.PAT_TOKEN }}
