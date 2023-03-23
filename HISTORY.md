@@ -1,5 +1,29 @@
 # Changelog
 
+## [v35.7.6-sec](https://github.com/tj-actions/changed-files/tree/v35.7.6-sec) (2023-03-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.6...v35.7.6-sec)
+
+## [v35.7.6](https://github.com/tj-actions/changed-files/tree/v35.7.6) (2023-03-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.7.6)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-03-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.5...v35)
+
+## [v35.7.5](https://github.com/tj-actions/changed-files/tree/v35.7.5) (2023-03-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.4...v35.7.5)
+
+## [v35.7.4](https://github.com/tj-actions/changed-files/tree/v35.7.4) (2023-03-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.3...v35.7.4)
+
+## [v35.7.3](https://github.com/tj-actions/changed-files/tree/v35.7.3) (2023-03-22)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.2...v35.7.3)
+
 **Fixed bugs:**
 
 - \[BUG\] all\_old\_new\_renamed\_files Gets all files renamed files from history [\#1030](https://github.com/tj-actions/changed-files/issues/1030)
@@ -1013,7 +1037,7 @@
 
 ## [v32.0.0](https://github.com/tj-actions/changed-files/tree/v32.0.0) (2022-10-06)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.3...v32.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v32.0.0)
 
 **Merged pull requests:**
 
@@ -1024,13 +1048,13 @@
 - chore\(deps\): update actions/checkout action to v3.1.0 [\#669](https://github.com/tj-actions/changed-files/pull/669) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v31.0.3 [\#667](https://github.com/tj-actions/changed-files/pull/667) ([jackton1](https://github.com/jackton1))
 
-## [v31.0.3](https://github.com/tj-actions/changed-files/tree/v31.0.3) (2022-10-02)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.3)
-
 ## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-10-02)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.2...v31)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.3...v31)
+
+## [v31.0.3](https://github.com/tj-actions/changed-files/tree/v31.0.3) (2022-10-02)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.2...v31.0.3)
 
 **Fixed bugs:**
 
