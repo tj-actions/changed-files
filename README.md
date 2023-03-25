@@ -234,7 +234,9 @@ In addition to the standard versioning scheme, this action also uses the `v[majo
 The format of the version string is as follows:
 
 major: is a major release number that indicates significant changes or new features that may not be backward compatible.
+
 minor: is a minor release number that indicates minor changes or new features that are backward compatible.
+
 patch : is a patch release number that indicates bug fixes or other small changes that are backward compatible.
 
 `-sec` is a suffix that indicates a security-hardened version that implements additional security measures.
