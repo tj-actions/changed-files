@@ -319,6 +319,28 @@ See [outputs](#outputs) for a list of all available outputs.
 </details>
 
 <details>
+<summary>Get all changed files and write the outputs to a txt file</summary>
+
+```yaml
+...
+
+   - name: Get changed files and write the outputs to a txt file
+     id: changed-files-write-output-files-txt
+     uses: ./
+     with:
+       write_output_files: true
+
+    - name: Verify the contents of the .github/outputs/added_files.txt file
+      run: |
+        cat .github/outputs/added_files.txt
+...
+```
+
+See [action.yml](action.yml#L264) for a list of all available keys.
+
+</details>
+
+<details>
 <summary>Get all changed files and write the outputs to a json file</summary>
 
 ```yaml
@@ -331,31 +353,9 @@ See [outputs](#outputs) for a list of all available outputs.
        json: true
        write_output_files: true
 
-    - name: Verify the contents of the .github/added_files.json file
+    - name: Verify the contents of the .github/outputs/added_files.json file
       run: |
-        cat .github/added_files.json
-...
-```
-
-See [action.yml](action.yml#L264) for a list of all available keys.
-
-</details>
-
-<details>
-<summary>Get all changed files and write the outputs to a txt file</summary>
-
-```yaml
-...
-
-   - name: Get changed files and write the outputs to a txt file
-     id: changed-files-write-output-files-txt
-     uses: ./
-     with:
-       write_output_files: true
-
-    - name: Verify the contents of the .github/added_files.txt file
-      run: |
-        cat .github/added_files.txt
+        cat .github/outputs/added_files.json
 ...
 ```
 
