@@ -724,9 +724,19 @@ See [inputs](#inputs) for more information.
 
 </details>
 
-### Real world example
+## Real world usage
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
+
+### Examples:
+- [vite uses tj-action/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
+
+- [QGIS uses tj-action/changed-files to automate spell checking](https://github.com/qgis/QGIS/blob/a5333497e90ac9de4ca70463d8e0b64c3f294d63/.github/workflows/code_layout.yml#L147)
+
+- [code-server: uses tj-action/changed-files to automate detecting changes and run steps based on the outcome](https://github.com/coder/code-server/blob/c32a31d802f679846876b8ad9aacff6cf7b5361d/.github/workflows/build.yaml#L48)
+
+- [tldr uses tj-action/changed-files to automate detecting spelling errors](https://github.com/tldr-pages/tldr/blob/main/.github/workflows/codespell.yml#L14)
+
 
 ## Known Limitation
 
@@ -787,6 +797,7 @@ This package was created with [Cookiecutter](https://github.com/cookiecutter/coo
 *   [tj-actions/demo2](https://github.com/tj-actions/demo2)
 *   [tj-actions/demo3](https://github.com/tj-actions/demo3)
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
+
 
 ## Report Bugs
 
