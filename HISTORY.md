@@ -1,12 +1,29 @@
 # Changelog
 
-## [v35.7.7-sec](https://github.com/tj-actions/changed-files/tree/v35.7.7-sec) (2023-03-28)
+## [Unreleased](https://github.com/tj-actions/changed-files/tree/HEAD)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.7...v35.7.7-sec)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/V35.7.8-sec...HEAD)
 
 **Closed issues:**
 
 - Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+## [V35.7.8-sec](https://github.com/tj-actions/changed-files/tree/V35.7.8-sec) (2023-03-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/V35.7.8...V35.7.8-sec)
+
+## [V35.7.8](https://github.com/tj-actions/changed-files/tree/V35.7.8) (2023-03-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.7-sec...V35.7.8)
+
+**Merged pull requests:**
+
+- chore\(deps\): update tj-actions/glob action to v16.14 \(main\) [\#1051](https://github.com/tj-actions/changed-files/pull/1051) ([renovate[bot]](https://github.com/apps/renovate))
+- Upgraded to v35.7.7 [\#1050](https://github.com/tj-actions/changed-files/pull/1050) ([jackton1](https://github.com/jackton1))
+
+## [v35.7.7-sec](https://github.com/tj-actions/changed-files/tree/v35.7.7-sec) (2023-03-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.7...v35.7.7-sec)
 
 ## [v35.7.7](https://github.com/tj-actions/changed-files/tree/v35.7.7) (2023-03-28)
 
@@ -2080,7 +2097,7 @@
 
 ## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v12)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v12)
 
 **Implemented enhancements:**
 
@@ -2098,13 +2115,13 @@
 - \[PR 1\]: Renamed all\_modified\_files to all\_changed\_files [\#283](https://github.com/tj-actions/changed-files/pull/283) ([jackton1](https://github.com/jackton1))
 - Upgraded to v11.9 [\#280](https://github.com/tj-actions/changed-files/pull/280) ([jackton1](https://github.com/jackton1))
 
-## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-12-04)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v11)
-
 ## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11.9)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v11.9)
+
+## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-12-04)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11)
 
 **Implemented enhancements:**
 
@@ -2598,7 +2615,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
 
 **Closed issues:**
 
@@ -2614,13 +2631,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
-
 ## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
+
+## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
 
 **Merged pull requests:**
 
