@@ -1,16 +1,40 @@
 # Changelog
 
+## [v35.7.7-sec](https://github.com/tj-actions/changed-files/tree/v35.7.7-sec) (2023-03-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.7...v35.7.7-sec)
+
+**Closed issues:**
+
+- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
+
+## [v35.7.7](https://github.com/tj-actions/changed-files/tree/v35.7.7) (2023-03-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.7.7)
+
+## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-03-28)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.6-sec...v35)
+
+**Fixed bugs:**
+
+- \[BUG\] invalid format delimiter 'ghadelimiter\_1a075742-5378-49bd-baa8-36495976815c' not found before end of file [\#1046](https://github.com/tj-actions/changed-files/issues/1046)
+
+**Merged pull requests:**
+
+- chore\(deps\): update tj-actions/glob action to v16.13 \(main\) [\#1048](https://github.com/tj-actions/changed-files/pull/1048) ([renovate[bot]](https://github.com/apps/renovate))
+- chore: update README.md [\#1047](https://github.com/tj-actions/changed-files/pull/1047) ([jackton1](https://github.com/jackton1))
+- Upgraded to v35.7.6 [\#1045](https://github.com/tj-actions/changed-files/pull/1045) ([jackton1](https://github.com/jackton1))
+- Upgraded to v35.7.4 [\#1044](https://github.com/tj-actions/changed-files/pull/1044) ([jackton1](https://github.com/jackton1))
+- Upgraded to v35.7.3 [\#1043](https://github.com/tj-actions/changed-files/pull/1043) ([jackton1](https://github.com/jackton1))
+
 ## [v35.7.6-sec](https://github.com/tj-actions/changed-files/tree/v35.7.6-sec) (2023-03-22)
 
 [Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.6...v35.7.6-sec)
 
 ## [v35.7.6](https://github.com/tj-actions/changed-files/tree/v35.7.6) (2023-03-22)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35...v35.7.6)
-
-## [v35](https://github.com/tj-actions/changed-files/tree/v35) (2023-03-22)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.5...v35)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.5...v35.7.6)
 
 ## [v35.7.5](https://github.com/tj-actions/changed-files/tree/v35.7.5) (2023-03-22)
 
@@ -28,10 +52,6 @@
 
 - \[BUG\] all\_old\_new\_renamed\_files Gets all files renamed files from history [\#1030](https://github.com/tj-actions/changed-files/issues/1030)
 
-**Closed issues:**
-
-- Dependency Dashboard [\#27](https://github.com/tj-actions/changed-files/issues/27)
-
 **Merged pull requests:**
 
 - chore: add create sec tag job [\#1042](https://github.com/tj-actions/changed-files/pull/1042) ([jackton1](https://github.com/jackton1))
@@ -44,7 +64,7 @@
 
 ## [v35.7.2](https://github.com/tj-actions/changed-files/tree/v35.7.2) (2023-03-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.1-sec...v35.7.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35-sec...v35.7.2)
 
 **Merged pull requests:**
 
@@ -53,13 +73,13 @@
 - chore\(deps\): update peter-evans/create-pull-request action to v4.2.4 [\#1028](https://github.com/tj-actions/changed-files/pull/1028) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v35.7.1 [\#1027](https://github.com/tj-actions/changed-files/pull/1027) ([jackton1](https://github.com/jackton1))
 
-## [v35.7.1-sec](https://github.com/tj-actions/changed-files/tree/v35.7.1-sec) (2023-03-14)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35-sec...v35.7.1-sec)
-
 ## [v35-sec](https://github.com/tj-actions/changed-files/tree/v35-sec) (2023-03-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.1...v35-sec)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.1-sec...v35-sec)
+
+## [v35.7.1-sec](https://github.com/tj-actions/changed-files/tree/v35.7.1-sec) (2023-03-14)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v35.7.1...v35.7.1-sec)
 
 ## [v35.7.1](https://github.com/tj-actions/changed-files/tree/v35.7.1) (2023-03-14)
 
@@ -740,7 +760,7 @@
 
 ## [v34.3.3](https://github.com/tj-actions/changed-files/tree/v34.3.3) (2022-11-08)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.3)
 
 **Fixed bugs:**
 
@@ -755,13 +775,13 @@
 - chore: update readme [\#784](https://github.com/tj-actions/changed-files/pull/784) ([jackton1](https://github.com/jackton1))
 - Upgraded to v34.3.2 [\#781](https://github.com/tj-actions/changed-files/pull/781) ([jackton1](https://github.com/jackton1))
 
-## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.2...v34.3.1)
-
 ## [v34.3.2](https://github.com/tj-actions/changed-files/tree/v34.3.2) (2022-11-07)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.1...v34.3.2)
+
+## [v34.3.1](https://github.com/tj-actions/changed-files/tree/v34.3.1) (2022-11-07)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v34.3.0...v34.3.1)
 
 **Fixed bugs:**
 
@@ -1037,7 +1057,7 @@
 
 ## [v32.0.0](https://github.com/tj-actions/changed-files/tree/v32.0.0) (2022-10-06)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v32.0.0)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.3...v32.0.0)
 
 **Merged pull requests:**
 
@@ -1048,13 +1068,13 @@
 - chore\(deps\): update actions/checkout action to v3.1.0 [\#669](https://github.com/tj-actions/changed-files/pull/669) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v31.0.3 [\#667](https://github.com/tj-actions/changed-files/pull/667) ([jackton1](https://github.com/jackton1))
 
-## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-10-02)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.3...v31)
-
 ## [v31.0.3](https://github.com/tj-actions/changed-files/tree/v31.0.3) (2022-10-02)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.2...v31.0.3)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31...v31.0.3)
+
+## [v31](https://github.com/tj-actions/changed-files/tree/v31) (2022-10-02)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v31.0.2...v31)
 
 **Fixed bugs:**
 
@@ -1994,7 +2014,7 @@
 
 ## [v13](https://github.com/tj-actions/changed-files/tree/v13) (2022-02-17)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v13)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v13)
 
 **Implemented enhancements:**
 
@@ -2013,13 +2033,13 @@
 - \[BUG\] wrong result of any\_change output [\#314](https://github.com/tj-actions/changed-files/issues/314)
 - \[BUG\] Investigate possible bug using since\_last\_remote\_commit when force pushing changes. [\#303](https://github.com/tj-actions/changed-files/issues/303)
 
-## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.2...v2.0.1)
-
 ## [v12.2](https://github.com/tj-actions/changed-files/tree/v12.2) (2021-12-30)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v12.2)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v2.0.1...v12.2)
+
+## [v2.0.1](https://github.com/tj-actions/changed-files/tree/v2.0.1) (2021-12-30)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v12.1...v2.0.1)
 
 **Merged pull requests:**
 
@@ -2060,7 +2080,7 @@
 
 ## [v12](https://github.com/tj-actions/changed-files/tree/v12) (2021-12-14)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v12)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v12)
 
 **Implemented enhancements:**
 
@@ -2078,13 +2098,13 @@
 - \[PR 1\]: Renamed all\_modified\_files to all\_changed\_files [\#283](https://github.com/tj-actions/changed-files/pull/283) ([jackton1](https://github.com/jackton1))
 - Upgraded to v11.9 [\#280](https://github.com/tj-actions/changed-files/pull/280) ([jackton1](https://github.com/jackton1))
 
-## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11...v11.9)
-
 ## [v11](https://github.com/tj-actions/changed-files/tree/v11) (2021-12-04)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v11.9...v11)
+
+## [v11.9](https://github.com/tj-actions/changed-files/tree/v11.9) (2021-12-04)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v1.3.1...v11.9)
 
 **Implemented enhancements:**
 
@@ -2578,7 +2598,7 @@
 
 ## [v7](https://github.com/tj-actions/changed-files/tree/v7) (2021-06-09)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v7)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v7)
 
 **Closed issues:**
 
@@ -2594,13 +2614,13 @@
 - Update tj-actions/sync-release-version action to v8.7 [\#86](https://github.com/tj-actions/changed-files/pull/86) ([renovate[bot]](https://github.com/apps/renovate))
 - Upgraded to v6.3 [\#85](https://github.com/tj-actions/changed-files/pull/85) ([jackton1](https://github.com/jackton1))
 
-## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
-
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6...v6.3)
-
 ## [v6](https://github.com/tj-actions/changed-files/tree/v6) (2021-05-26)
 
-[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6)
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.3...v6)
+
+## [v6.3](https://github.com/tj-actions/changed-files/tree/v6.3) (2021-05-26)
+
+[Full Changelog](https://github.com/tj-actions/changed-files/compare/v6.2...v6.3)
 
 **Merged pull requests:**
 
