@@ -731,13 +731,13 @@ See [inputs](#inputs) for more information.
 
 ### Examples
 
-*   [vite uses tj-action/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
+*   [vite: uses tj-action/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
 
-*   [QGIS uses tj-action/changed-files to automate spell checking](https://github.com/qgis/QGIS/blob/a5333497e90ac9de4ca70463d8e0b64c3f294d63/.github/workflows/code_layout.yml#L147)
+*   [QGIS: uses tj-action/changed-files to automate spell checking](https://github.com/qgis/QGIS/blob/a5333497e90ac9de4ca70463d8e0b64c3f294d63/.github/workflows/code_layout.yml#L147)
 
 *   [code-server: uses tj-action/changed-files to automate detecting changes and run steps based on the outcome](https://github.com/coder/code-server/blob/c32a31d802f679846876b8ad9aacff6cf7b5361d/.github/workflows/build.yaml#L48)
 
-*   [tldr uses tj-action/changed-files to automate detecting spelling errors](https://github.com/tldr-pages/tldr/blob/main/.github/workflows/codespell.yml#L14)
+*   [tldr: uses tj-action/changed-files to automate detecting spelling errors](https://github.com/tldr-pages/tldr/blob/main/.github/workflows/codespell.yml#L14)
 
 ## Known Limitation
 
