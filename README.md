@@ -729,7 +729,7 @@ See [inputs](#inputs) for more information.
 
 <img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
 
-### Examples:
+### Examples
 
 *   [vite uses tj-action/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
 
