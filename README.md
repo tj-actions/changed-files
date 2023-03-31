@@ -14,8 +14,9 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <div align="center">
-  <img width="auto" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/229027428-f87efeda-1244-4d1f-803b-4c8e984e5c99.png">
+  <img width="auto" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/229027815-eee0bf22-f3e5-444d-9d90-6409c68a0dc9.png">
 </div>
+
 
 ## changed-files
 
