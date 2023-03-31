@@ -13,9 +13,14 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+<div align="center">
+  <img width="auto" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/229026266-c8abd83d-1e4f-403c-b3c1-46815aadb3bb.png">
+</div>
+
 ## changed-files
 
 Retrieve all changed files and directories relative to a target branch, preceeding commit or the last remote commit returning a **relative paths** from the project root.
+
 
 ## Table of contents
 
@@ -727,10 +732,6 @@ See [inputs](#inputs) for more information.
 </details>
 
 ## Real world usage
-
-<img width="1147" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/142696936-8b7ca955-7ef9-4d53-9bdf-3e0008e90c3f.png">
-
-### Examples
 
 *   [vitejs/vite: uses tj-actions/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
 
