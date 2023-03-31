@@ -17,7 +17,6 @@
   <img width="auto" alt="Screen Shot 2021-11-19 at 4 59 21 PM" src="https://user-images.githubusercontent.com/17484350/229027815-eee0bf22-f3e5-444d-9d90-6409c68a0dc9.png">
 </div>
 
-
 ## changed-files
 
 Retrieve all changed files and directories relative to a target branch, preceeding commit or the last remote commit returning a **relative paths** from the project root.
