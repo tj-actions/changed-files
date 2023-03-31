@@ -21,7 +21,6 @@
 
 Retrieve all changed files and directories relative to a target branch, preceeding commit or the last remote commit returning a **relative paths** from the project root.
 
-
 ## Table of contents
 
 *   [Features](#features)
@@ -32,7 +31,6 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 *   [Versioning](#versioning)
 *   [Examples](#examples)
 *   [Real world usage](#real-world-usage)
-    *   [Examples](#examples-1)
 *   [Known Limitation](#known-limitation)
 *   [Migration guide](#migration-guide)
 *   [Credits](#credits)
