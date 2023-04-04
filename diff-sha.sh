@@ -260,14 +260,8 @@ else
             if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
-
             echo "::debug::Merge base is not in the local history, fetching remote target branch again..."
             echo "::debug::Attempt $i/10"
-
-            if [[ $i -eq 10 ]]; then
-              echo "::error::Unable to find the merge base between $PREVIOUS_SHA and $CURRENT_SHA"
-              exit 1
-            fi
           done
         fi
       fi
