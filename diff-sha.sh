@@ -70,7 +70,7 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
     echo "Fetching remote refs..."
     if [[ "$IS_TAG" == "false" ]]; then
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH"*:refs/remotes/origin/"$CURRENT_BRANCH"* 1>/dev/null || true
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null || true
     elif [[ "$SOURCE_BRANCH" != "" ]]; then
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$SOURCE_BRANCH":refs/remotes/origin/"$SOURCE_BRANCH" 1>/dev/null || true
