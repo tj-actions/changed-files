@@ -1,5 +1,17 @@
 # Changelog
 
+# [35.7.11](https://github.com/tj-actions/changed-files/compare/v35.7.10...v35.7.11) - (2023-04-04)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update sync-release-version.yml ([#1071](https://github.com/tj-actions/changed-files/issues/1071)) ([79adacd](https://github.com/tj-actions/changed-files/commit/79adacd43ea069e57037edc891ea8d33013bc3da))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.7.10 ([#1070](https://github.com/tj-actions/changed-files/issues/1070))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([b3ee2eb](https://github.com/tj-actions/changed-files/commit/b3ee2eb875e894b8589df93053c97b8cb36fbdfa))  - (Tonye Jack)
+
 # [35.7.10](https://github.com/tj-actions/changed-files/compare/v35.7.9...v35.7.10) - (2023-04-04)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
