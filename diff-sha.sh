@@ -70,10 +70,10 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
     echo "Fetching remote refs..."
     if [[ "$IS_TAG" == "false" ]]; then
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH":refs/remotes/origin/"$CURRENT_BRANCH" 1>/dev/null
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH"*:refs/remotes/origin/"$CURRENT_BRANCH"* 1>/dev/null || true
     elif [[ "$SOURCE_BRANCH" != "" ]]; then
       # shellcheck disable=SC2086
-      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$SOURCE_BRANCH":refs/remotes/origin/"$SOURCE_BRANCH" 1>/dev/null
+      git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$SOURCE_BRANCH":refs/remotes/origin/"$SOURCE_BRANCH" 1>/dev/null || true
     fi
 
     if git submodule status &>/dev/null; then
@@ -260,8 +260,14 @@ else
             if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
+
             echo "::debug::Merge base is not in the local history, fetching remote target branch again..."
             echo "::debug::Attempt $i/10"
+
+            if [[ $i -eq 10 ]]; then
+              echo "::error::Unable to find the merge base between $PREVIOUS_SHA and $CURRENT_SHA"
+              exit 1
+            fi
           done
         fi
       fi
