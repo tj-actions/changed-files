@@ -263,6 +263,11 @@ else
             echo "::debug::Merge base is not in the local history, fetching remote target branch again..."
             echo "::debug::Attempt $i/10"
           done
+
+          if [[ $i -eq 10 ]]; then
+            echo "::error::Unable to find the merge base between $PREVIOUS_SHA and $CURRENT_SHA"
+            exit 1
+          fi
         fi
       fi
     fi
