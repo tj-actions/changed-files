@@ -756,36 +756,19 @@ And many more...
 
 With the switch from using grep's Extended regex to match files to the natively supported workflow glob pattern matching syntax introduced in [v13](https://github.com/tj-actions/changed-files/releases/tag/v13) you'll need to modify patterns used to match `files`.
 
-**BEFORE**
-
-```yml
+```diff
 ...
-
-      - name: Get specific changed files
-        id: changed-files-specific
-        uses: tj-actions/changed-files@v12.2
-        with:
-          files: |
-            \.sh$
-            .(sql|py)$
-            ^(mynewfile|custom)
-```
-
-**AFTER**
-
-```yml
-...
-
       - name: Get specific changed files
         id: changed-files-specific
         uses: tj-actions/changed-files@v24
         with:
           files: |
-            *.sh
-            *.sql
-            *.py
-            mynewfile
-            custom/**
+-            \.sh$
+-            .(sql|py)$
+-            ^(dir1|dir2)
++            *.{sh,sql,py}
++            dir1
++            dir2
 ```
 
 *   Free software: [MIT license](LICENSE)
