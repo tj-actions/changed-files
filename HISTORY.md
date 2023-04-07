@@ -1,5 +1,26 @@
 # Changelog
 
+# [35.7.12](https://github.com/tj-actions/changed-files/compare/v35.7.11...v35.7.12) - (2023-04-07)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error finding merge base ([#1077](https://github.com/tj-actions/changed-files/issues/1077)) ([b109d83](https://github.com/tj-actions/changed-files/commit/b109d83a62e94cf7c522bf6c15cb25c175850b16))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([b109d82](https://github.com/tj-actions/changed-files/commit/b109d82bbfde6cb823cdc004997909c7bea60617))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update peter-evans/create-pull-request action to v5 (main) ([#1075](https://github.com/tj-actions/changed-files/issues/1075)) ([5c78c9f](https://github.com/tj-actions/changed-files/commit/5c78c9fe10b5544a89fd01d2bb4e87469c6170e7))  - (renovate[bot])
+- **deps:** Update tj-actions/json2file action to v1.4.1 (main) ([#1073](https://github.com/tj-actions/changed-files/issues/1073)) ([2f5a1b0](https://github.com/tj-actions/changed-files/commit/2f5a1b0ae264af377f8d0a68406b5ee26292fcc9))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.7.11 ([#1072](https://github.com/tj-actions/changed-files/issues/1072))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([0302ff2](https://github.com/tj-actions/changed-files/commit/0302ff21cd4fb0ec0b9db26224ec891d438ecaf2))  - (Tonye Jack)
+
 # [35.7.11](https://github.com/tj-actions/changed-files/compare/v35.7.10...v35.7.11) - (2023-04-04)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
