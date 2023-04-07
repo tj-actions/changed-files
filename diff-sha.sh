@@ -251,23 +251,18 @@ else
 
       if [[ "$IS_SHALLOW" == "true" ]]; then
         # check if the merge base is in the local history
-        if ! git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
+        if ! git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
           echo "::debug::Merge base is not in the local history, fetching remote target branch..."
           # Fetch more of the target branch history until the merge base is found
           for i in {1..10}; do
             # shellcheck disable=SC2086
             git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$TARGET_BRANCH":refs/remotes/origin/"$TARGET_BRANCH" 1>/dev/null
-            if git merge-base "$PREVIOUS_SHA" "$CURRENT_SHA" 1>/dev/null 2>&1; then
+            if git diff --name-only --ignore-submodules=all "$PREVIOUS_SHA$DIFF$CURRENT_SHA" 1>/dev/null 2>&1; then
               break
             fi
             echo "::debug::Merge base is not in the local history, fetching remote target branch again..."
             echo "::debug::Attempt $i/10"
           done
-
-          if [[ $i -eq 10 ]]; then
-            echo "::error::Unable to find the merge base between $PREVIOUS_SHA and $CURRENT_SHA"
-            exit 1
-          fi
         fi
       fi
     fi
