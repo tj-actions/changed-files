@@ -350,7 +350,6 @@ See [action.yml](action.yml#L264) for a list of all available keys.
 
 ```yaml
 ...
-
    - name: Get changed files and write the outputs to a json file
      id: changed-files-write-output-files-json
      uses: ./
