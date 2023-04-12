@@ -3,8 +3,8 @@
     "config:base"
   ],
   "enabled": true,
-  "prHourlyLimit": 10,
-  "prConcurrentLimit": 5,
+  "prHourlyLimit": 30,
+  "prConcurrentLimit": 10,
   "rebaseWhen": "behind-base-branch",
   "addLabels": [
     "dependencies",
