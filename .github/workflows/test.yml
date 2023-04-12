@@ -7,9 +7,11 @@ on:
   pull_request:
     branches:
       - main
+      - sec
   pull_request_review:
     branches:
       - main
+      - sec
 
 jobs:
   shellcheck:
