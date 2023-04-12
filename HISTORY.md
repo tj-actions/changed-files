@@ -1,5 +1,22 @@
 # Changelog
 
+# [35.8.0](https://github.com/tj-actions/changed-files/compare/v35.7.12...v35.8.0) - (2023-04-12)
+
+## <!-- 26 -->🔄 Update
+
+- Update renovate.json ([8b07761](https://github.com/tj-actions/changed-files/commit/8b0776165628db27f15abfde8178b65485261e04))  - (Tonye Jack)
+- Update README.md ([e45cb98](https://github.com/tj-actions/changed-files/commit/e45cb985804abcdc570d9a0dd9a4ac44d9e7abb1))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Upgrade tj-actions/glob ([#1082](https://github.com/tj-actions/changed-files/issues/1082)) ([7ecfc67](https://github.com/tj-actions/changed-files/commit/7ecfc6730dff8072d1cc5215a24cc9478f55264d))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.7.12 ([#1078](https://github.com/tj-actions/changed-files/issues/1078))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([8738082](https://github.com/tj-actions/changed-files/commit/87380821bfc3e759d6b7408ec94267d48c11bc88))  - (Tonye Jack)
+
 # [35.7.12](https://github.com/tj-actions/changed-files/compare/v35.7.11...v35.7.12) - (2023-04-07)
 
 ## <!-- 1 -->🐛 Bug Fixes
