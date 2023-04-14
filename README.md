@@ -63,7 +63,7 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 
 ## Usage
 
-> NOTE: :warning:
+> **Warning**:
 >
 > *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch-depth` for `pull_request` events.
@@ -664,7 +664,7 @@ See [inputs](#inputs) for more information.
 </li>
 </ul>
 
-> NOTE: This setting overrides the commit sha used by setting `since_last_remote_commit` to true.
+> **Warning**: This setting overrides the commit sha used by setting `since_last_remote_commit` to true.
 > It is recommended to use either solution that works for your use case.
 
 See [inputs](#inputs) for more information.
@@ -744,7 +744,7 @@ And many more...
 
 ## Known Limitation
 
-> NOTE: :warning:
+> **Warning**:
 >
 > *   Using characters like `\n`, `%`, `.` and `\r` as separators would be [URL encoded](https://www.w3schools.com/tags/ref_urlencode.asp)
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
@@ -775,7 +775,7 @@ With the switch from using grep's Extended regex to match files to the natively 
 
 ## Credits
 
-This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
+This package was created with [cookiecutter-action](https://github.com/tj-actions/cookiecutter-action).
 
 *   [tj-actions/glob](https://github.com/tj-actions/glob)
 *   [tj-actions/auto-doc](https://github.com/tj-actions/auto-doc)
