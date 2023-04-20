@@ -49,7 +49,7 @@ jobs:
     needs: [changed-files]
     strategy:
       matrix: 
-        file: ${{ toJSON(needs.changed-files.outputs.files) }}
+        file: ${{ fromJSON(needs.changed-files.outputs.files) }}
       max-parallel: 4
       fail-fast: false
     steps:
