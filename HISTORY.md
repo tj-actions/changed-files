@@ -1,5 +1,19 @@
 # Changelog
 
+# [35.9.0](https://github.com/tj-actions/changed-files/compare/v35.8.0...v35.9.0) - (2023-04-21)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update tj-actions/glob action to v17.1.0 (main) ([#1096](https://github.com/tj-actions/changed-files/issues/1096)) ([ce810b2](https://github.com/tj-actions/changed-files/commit/ce810b29b28abf274afebdcd8fe47b8fba0f28bd))  - (renovate[bot])
+- **deps:** Update tj-actions/json2file action to v1.4.2 (main) ([#1089](https://github.com/tj-actions/changed-files/issues/1089)) ([4e5d0fa](https://github.com/tj-actions/changed-files/commit/4e5d0fad4dd387245f8e044220ed1db5692bd93c))  - (renovate[bot])
+- Update README.md ([#1087](https://github.com/tj-actions/changed-files/issues/1087)) ([fea1ca3](https://github.com/tj-actions/changed-files/commit/fea1ca3c21cc83e4a607bad1df57753e8ed8761a))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.8.0 ([#1084](https://github.com/tj-actions/changed-files/issues/1084))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([df0c101](https://github.com/tj-actions/changed-files/commit/df0c101b3f7842e80c26a3c63b67eeaa2879a464))  - (Tonye Jack)
+
 # [35.8.0](https://github.com/tj-actions/changed-files/compare/v35.7.12...v35.8.0) - (2023-04-12)
 
 ## <!-- 26 -->🔄 Update
