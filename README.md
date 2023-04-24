@@ -65,11 +65,11 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 
 > **Warning**:
 >
-> *   **IMPORTANT:** For `push` events you need to include `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
-> *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch-depth` for `pull_request` events.
+> *   **IMPORTANT:** For `push` events you need to include `fetch_depth: 0` **OR** `fetch_depth: 2` depending on your use case.
+> *   For monorepos where pulling all the branch history might not be desired, you can omit `fetch_depth` for `pull_request` events.
 > *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [Pattern Gotcha](https://github.com/tj-actions/glob#pattern-gotcha).
 > *   All multiline inputs should not use double or single quotes since the value is already a string seperated by a newline character. See [Examples](#examples) for more information.
-> *   Ensure that `persist-credentials` is set to `true` when configuring `actions/checkout` if `fetch-depth` isn't set to `0`.
+> *   Ensure that `persist-credentials` is set to `true` when configuring `actions/checkout` if `fetch_depth` isn't set to `0`.
 
 ```yaml
 name: CI
@@ -94,7 +94,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+          fetch_depth: 0  # OR "2" -> To retrieve the preceding commit.
 
       # Example 1
       - name: Get changed files
@@ -527,7 +527,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch_depth: 0
 
       - name: Get changed files
         id: changed-files
@@ -560,7 +560,7 @@ See [inputs](#inputs) for more information.
     - name: Checkout into dir1
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        fetch_depth: 0
         path: dir1
 
     - name: Run changed-files with defaults in dir1
