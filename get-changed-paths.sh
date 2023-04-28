@@ -126,7 +126,7 @@ function get_renames() {
       (
         cd "$sub" && (
           # the strange magic number is a hardcoded "empty tree" commit sha
-          git log --name-status --ignore-submodules=all "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}".."${sub_commit_cur}" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v r="$sub" '{ print "" r "/" $0}'
+          git diff --name-status --ignore-submodules=all --diff-filter=R "${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904}"..."${sub_commit_cur}" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' | awk -v r="$sub" '{ print "" r "/" $0}'
         )
       ) || {
         echo "::warning::Failed to get renamed files for submodule ($sub) between: ${sub_commit_pre:-4b825dc642cb6eb9a060e54bf8d69288fbee4904} ${sub_commit_cur}. Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage" >&2
@@ -134,7 +134,7 @@ function get_renames() {
     fi
   done < <(git submodule | awk '{print $2}')
 
-  git log --name-status --ignore-submodules=all "$base".."$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
+  git diff --name-status --ignore-submodules=all --diff-filter=R "$base"..."$sha" | { grep -E "^R" || true; } | awk -F '\t' -v d="$INPUT_OLD_NEW_SEPARATOR" '{print $2d$3}' && exit_status=$? || exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
     echo "::error::Failed to get renamed files between: $base → $sha" >&2
