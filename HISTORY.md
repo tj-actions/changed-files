@@ -1,5 +1,17 @@
 # Changelog
 
+# [35.9.1](https://github.com/tj-actions/changed-files/compare/v35.9.0...v35.9.1) - (2023-04-28)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Switch to use git diff for retrieving renamed files ([#1106](https://github.com/tj-actions/changed-files/issues/1106)) ([4a0aac0](https://github.com/tj-actions/changed-files/commit/4a0aac0d19aa2838c6741fdf95a5276390418dc2))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.9.0 ([#1098](https://github.com/tj-actions/changed-files/issues/1098))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([a611c48](https://github.com/tj-actions/changed-files/commit/a611c4893298c6cc704368e0dff0c8756387ce85))  - (Tonye Jack)
+
 # [35.9.0](https://github.com/tj-actions/changed-files/compare/v35.8.0...v35.9.0) - (2023-04-21)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
