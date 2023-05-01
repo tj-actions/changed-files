@@ -1,5 +1,18 @@
 # Changelog
 
+# [35.9.2](https://github.com/tj-actions/changed-files/compare/v35.9.1...v35.9.2) - (2023-04-28)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update tj-actions/glob action to v17.2.5 (main) ([#1110](https://github.com/tj-actions/changed-files/issues/1110)) ([b2d17f5](https://github.com/tj-actions/changed-files/commit/b2d17f51244a144849c6b37a3a6791b98a51d86f))  - (renovate[bot])
+- **deps:** Update tj-actions/glob action to v17.2.0 (main) ([#1108](https://github.com/tj-actions/changed-files/issues/1108)) ([fede439](https://github.com/tj-actions/changed-files/commit/fede43944fe005a69db8414be82ac3b310036f0c))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.9.1 ([#1107](https://github.com/tj-actions/changed-files/issues/1107))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([8f7c87f](https://github.com/tj-actions/changed-files/commit/8f7c87ffdaaf47da7bd2176ff7101ddec70ce211))  - (Tonye Jack)
+
 # [35.9.1](https://github.com/tj-actions/changed-files/compare/v35.9.0...v35.9.1) - (2023-04-28)
 
 ## <!-- 1 -->🐛 Bug Fixes
