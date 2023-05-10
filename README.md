@@ -65,11 +65,11 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 
 > **Warning**:
 >
-> *   **IMPORTANT:** For `push` events when configuring [`actions/checkout`](https://github.com/actions/checkout) the `fetch-depth` should be set to either `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
-> *   For monorepos where pulling all the branch history might not be desired, you can omit [`actions/checkout`](https://github.com/actions/checkout) - `fetch-depth` for `pull_request` events.
+> *   **IMPORTANT:** For `push` events when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) the `fetch-depth` should be set to either `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
+> *   For monorepos where pulling all the branch history might not be desired, you can omit [`actions/checkout`](https://github.com/actions/checkout#usage) - `fetch-depth` for `pull_request` events.
 > *   For files located in a sub-directory ensure that the pattern specified contains `**/` (globstar) to match any preceding directories or explicitly pass the full path relative to the project root. See: [Pattern Gotcha](https://github.com/tj-actions/glob#pattern-gotcha).
 > *   All multiline inputs should not use double or single quotes since the value is already a string seperated by a newline character. See [Examples](#examples) for more information.
-> *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout) if `fetch-depth` isn't set to `0`.
+> *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) if `fetch-depth` isn't set to `0`.
 
 ```yaml
 name: CI
