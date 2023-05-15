@@ -181,14 +181,14 @@ else
   echo "Running on a pull request event..."
   TARGET_BRANCH=$GITHUB_EVENT_PULL_REQUEST_BASE_REF
   CURRENT_BRANCH=$GITHUB_EVENT_PULL_REQUEST_HEAD_REF
-  
+
   if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" == "true" ]]; then
     TARGET_BRANCH=$CURRENT_BRANCH
   fi
 
   if [[ "$IS_SHALLOW" == "true" ]]; then
     echo "Fetching remote refs..."
-    
+
     # shellcheck disable=SC2086
     if git fetch $EXTRA_ARGS -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$CURRENT_BRANCH" 1>/dev/null; then
       echo "First fetch succeeded"
@@ -197,7 +197,7 @@ else
       # shellcheck disable=SC2086
       git fetch $EXTRA_ARGS -u --progress --deepen="$INPUT_FETCH_DEPTH" origin +refs/heads/"$CURRENT_BRANCH"*:refs/remotes/origin/"$CURRENT_BRANCH"* 1>/dev/null || true
     fi
-    
+
     if [[ "$INPUT_SINCE_LAST_REMOTE_COMMIT" != "true" ]]; then
       echo "::debug::Fetching remote target branch..."
       # shellcheck disable=SC2086
