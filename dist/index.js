@@ -587,24 +587,24 @@ exports.getInputs = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const getInputs = () => {
     const files = core.getInput('files', { required: false });
-    const filesSeparator = core.getInput('files-separator', {
+    const filesSeparator = core.getInput('files_separator', {
         required: false,
         trimWhitespace: false
     });
-    const filesIgnore = core.getInput('files-ignore', { required: false });
-    const filesIgnoreSeparator = core.getInput('files-ignore-separator', {
+    const filesIgnore = core.getInput('files_ignore', { required: false });
+    const filesIgnoreSeparator = core.getInput('files_ignore_separator', {
         required: false,
         trimWhitespace: false
     });
-    const filesFromSourceFile = core.getInput('files-from-source-file', {
+    const filesFromSourceFile = core.getInput('files_from_source_file', {
         required: false
     });
-    const filesFromSourceFileSeparator = core.getInput('files-from-source-file-separator', {
+    const filesFromSourceFileSeparator = core.getInput('files_from_source_file_separator', {
         required: false,
         trimWhitespace: false
     });
-    const filesIgnoreFromSourceFile = core.getInput('files-ignore-from-source-file', { required: false });
-    const filesIgnoreFromSourceFileSeparator = core.getInput('files-ignore-from-source-file-separator', {
+    const filesIgnoreFromSourceFile = core.getInput('files_ignore_from_source_file', { required: false });
+    const filesIgnoreFromSourceFileSeparator = core.getInput('files_ignore_from_source_file_separator', {
         required: false,
         trimWhitespace: false
     });
@@ -612,40 +612,40 @@ const getInputs = () => {
         required: true,
         trimWhitespace: false
     });
-    const includeAllOldNewRenamedFiles = core.getBooleanInput('include-all-old-new-renamed-files', { required: false });
-    const oldNewSeparator = core.getInput('old-new-separator', {
+    const includeAllOldNewRenamedFiles = core.getBooleanInput('include_all_old_new_renamed_files', { required: false });
+    const oldNewSeparator = core.getInput('old_new_separator', {
         required: true,
         trimWhitespace: false
     });
-    const oldNewFilesSeparator = core.getInput('old-new-files-separator', {
+    const oldNewFilesSeparator = core.getInput('old_new_files_separator', {
         required: true,
         trimWhitespace: false
     });
     const sha = core.getInput('sha', { required: false });
-    const baseSha = core.getInput('base-sha', { required: false });
+    const baseSha = core.getInput('base_sha', { required: false });
     const since = core.getInput('since', { required: false });
     const until = core.getInput('until', { required: false });
     const path = core.getInput('path', { required: false });
     const quotePath = core.getBooleanInput('quotepath', { required: false });
-    const diffRelative = core.getBooleanInput('diff-relative', { required: false });
-    const dirNames = core.getBooleanInput('dir-names', { required: false });
-    const dirNamesMaxDepth = core.getInput('dir-names-max-depth', {
+    const diffRelative = core.getBooleanInput('diff_relative', { required: false });
+    const dirNames = core.getBooleanInput('dir_names', { required: false });
+    const dirNamesMaxDepth = core.getInput('dir_names_max_depth', {
         required: false
     });
-    const dirNamesExcludeRoot = core.getBooleanInput('dir-names-exclude-root', {
+    const dirNamesExcludeRoot = core.getBooleanInput('dir_names_exclude_root', {
         required: false
     });
     const json = core.getBooleanInput('json', { required: false });
-    const jsonRawFormat = core.getBooleanInput('json-raw-format', {
+    const jsonRawFormat = core.getBooleanInput('json_raw_format', {
         required: false
     });
-    const fetchDepth = core.getInput('fetch-depth', { required: false });
-    const sinceLastRemoteCommit = core.getBooleanInput('since-last-remote-commit', { required: false });
-    const writeOutputFiles = core.getBooleanInput('write-output-files', {
+    const fetchDepth = core.getInput('fetch_depth', { required: false });
+    const sinceLastRemoteCommit = core.getBooleanInput('since_last_remote_commit', { required: false });
+    const writeOutputFiles = core.getBooleanInput('write_output_files', {
         required: false
     });
-    const outputDir = core.getInput('output-dir', { required: false });
-    const matchDirectories = core.getBooleanInput('match-directories', {
+    const outputDir = core.getInput('output_dir', { required: false });
+    const matchDirectories = core.getBooleanInput('match_directories', {
         required: false
     });
     const inputs = {
