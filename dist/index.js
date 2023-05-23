@@ -753,8 +753,9 @@ const utils_1 = __nccwpck_require__(918);
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
+        core.startGroup('changed-files');
         const env = yield (0, env_1.getEnv)();
-        core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
+        core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
         yield (0, utils_1.verifyMinimumGitVersion)();
@@ -1039,6 +1040,7 @@ function run() {
                 inputs
             });
         }
+        core.endGroup();
     });
 }
 exports.run = run;
@@ -1288,24 +1290,24 @@ const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.submoduleExists = submoduleExists;
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', ...args], {
+    const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
         silent: true
     });
     /* istanbul ignore if */
-    if (exitCode !== 0 || stderr) {
+    if (exitCode !== 0) {
         core.warning(stderr || "Couldn't fetch repository");
     }
     return exitCode;
 });
 exports.gitFetch = gitFetch;
 const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', ...args], {
+    const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
         silent: true
     });
     /* istanbul ignore if */
-    if (exitCode !== 0 || stderr) {
+    if (exitCode !== 0) {
         core.warning(stderr || "Couldn't fetch submodules");
     }
 });
@@ -1538,6 +1540,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         const inputFilesFromSourceFile = inputs.filesFromSourceFile
             .split(inputs.filesFromSourceFileSeparator)
             .filter(p => p !== '');
+        core.debug(`files from source file: ${inputFilesFromSourceFile}`);
         const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
         core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
         filesPatterns = filesPatterns.concat('\n', filesFromSourceFiles);
@@ -1560,6 +1563,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
             .split(inputs.filesIgnoreFromSourceFileSeparator)
             .filter(p => p !== '');
+        core.debug(`files ignore from source file: ${inputFilesIgnoreFromSourceFile}`);
         const filesIgnoreFromSourceFiles = (yield getFilesFromSourceFile({
             filePaths: inputFilesIgnoreFromSourceFile,
             excludedFiles: true
