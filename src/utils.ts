@@ -208,7 +208,7 @@ export const gitFetch = async ({
   )
 
   /* istanbul ignore if */
-  if (exitCode !== 0 || stderr) {
+  if (exitCode !== 0) {
     core.warning(stderr || "Couldn't fetch repository")
   }
 
@@ -232,7 +232,7 @@ export const gitFetchSubmodules = async ({
   )
 
   /* istanbul ignore if */
-  if (exitCode !== 0 || stderr) {
+  if (exitCode !== 0) {
     core.warning(stderr || "Couldn't fetch submodules")
   }
 }
