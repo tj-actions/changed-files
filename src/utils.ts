@@ -671,6 +671,8 @@ export const getFilePatterns = async ({
       .split(inputs.filesFromSourceFileSeparator)
       .filter(p => p !== '')
 
+    core.debug(`files from source file: ${inputFilesFromSourceFile}`)
+
     const filesFromSourceFiles = (
       await getFilesFromSourceFile({filePaths: inputFilesFromSourceFile})
     ).join('\n')
@@ -701,6 +703,10 @@ export const getFilePatterns = async ({
     const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
       .split(inputs.filesIgnoreFromSourceFileSeparator)
       .filter(p => p !== '')
+
+    core.debug(
+      `files ignore from source file: ${inputFilesIgnoreFromSourceFile}`
+    )
 
     const filesIgnoreFromSourceFiles = (
       await getFilesFromSourceFile({
