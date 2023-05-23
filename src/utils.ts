@@ -650,18 +650,8 @@ export const getDirnameMaxDepth = ({
   return output
 }
 
-export const jsonOutput = ({
-  value,
-  rawFormat
-}: {
-  value: string | string[]
-  rawFormat: boolean
-}): string => {
-  if (rawFormat) {
-    return JSON.stringify(value)
-  } else {
-    return JSON.stringify(value, null, 2)
-  }
+export const jsonOutput = ({value}: {value: string | string[]}): string => {
+  return JSON.stringify(value)
 }
 
 export const getFilePatterns = async ({

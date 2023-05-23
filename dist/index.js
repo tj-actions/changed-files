@@ -83,7 +83,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) 
         }));
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: renamedFiles, rawFormat: inputs.jsonRawFormat });
+        return (0, utils_1.jsonOutput)({ value: renamedFiles });
     }
     return renamedFiles.join(inputs.oldNewFilesSeparator);
 });
@@ -131,7 +131,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
         }));
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: files, rawFormat: inputs.jsonRawFormat });
+        return (0, utils_1.jsonOutput)({ value: files });
     }
     return files.join(inputs.separator);
 });
@@ -633,9 +633,6 @@ const getInputs = () => {
         required: false
     });
     const json = core.getBooleanInput('json', { required: false });
-    const jsonRawFormat = core.getBooleanInput('json_raw_format', {
-        required: false
-    });
     const fetchDepth = core.getInput('fetch_depth', { required: false });
     const sinceLastRemoteCommit = core.getBooleanInput('since_last_remote_commit', { required: false });
     const writeOutputFiles = core.getBooleanInput('write_output_files', {
@@ -668,7 +665,6 @@ const getInputs = () => {
         dirNames,
         dirNamesExcludeRoot,
         json,
-        jsonRawFormat,
         sinceLastRemoteCommit,
         writeOutputFiles,
         outputDir,
@@ -1513,13 +1509,8 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
     return output;
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
-const jsonOutput = ({ value, rawFormat }) => {
-    if (rawFormat) {
-        return JSON.stringify(value);
-    }
-    else {
-        return JSON.stringify(value, null, 2);
-    }
+const jsonOutput = ({ value }) => {
+    return JSON.stringify(value);
 };
 exports.jsonOutput = jsonOutput;
 const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {

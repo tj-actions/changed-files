@@ -73,7 +73,7 @@ export const getRenamedFiles = async ({
   }
 
   if (inputs.json) {
-    return jsonOutput({value: renamedFiles, rawFormat: inputs.jsonRawFormat})
+    return jsonOutput({value: renamedFiles})
   }
 
   return renamedFiles.join(inputs.oldNewFilesSeparator)
@@ -146,7 +146,7 @@ export const getDiffFiles = async ({
   }
 
   if (inputs.json) {
-    return jsonOutput({value: files, rawFormat: inputs.jsonRawFormat})
+    return jsonOutput({value: files})
   }
 
   return files.join(inputs.separator)
