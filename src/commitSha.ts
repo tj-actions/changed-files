@@ -42,7 +42,7 @@ const getCurrentSHA = async ({
       })
     } catch (error) {
       core.error(
-        'Invalid until date: ' + inputs.until + '. ' + (error as Error).message
+        `Invalid until date: ${  inputs.until  }. ${  (error as Error).message}`
       )
       throw error
     }
@@ -76,12 +76,12 @@ export const getSHAForPushEvent = async (
   isTag: boolean
 ): Promise<SHAResult> => {
   let targetBranch = env.GITHUB_REFNAME
-  let currentBranch = targetBranch
+  const currentBranch = targetBranch
   let initialCommit = false
 
   let currentSha = inputs.sha
   let previousSha = inputs.baseSha
-  let diff = '..'
+  const diff = '..'
 
   if (isShallow) {
     core.info('Repository is shallow, fetching more history...')
@@ -163,10 +163,10 @@ export const getSHAForPushEvent = async (
         })
       } catch (error) {
         core.error(
-          'Invalid since date: ' +
-            inputs.since +
-            '. ' +
-            (error as Error).message
+          `Invalid since date: ${ 
+            inputs.since 
+            }. ${ 
+            (error as Error).message}`
         )
         throw error
       }
@@ -247,7 +247,7 @@ export const getSHAForPullRequestEvent = async (
   gitExtraArgs: string[]
 ): Promise<SHAResult> => {
   let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF
-  let currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF
+  const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF
   let currentSha = inputs.sha
   let previousSha = inputs.baseSha
   let diff = '...'
