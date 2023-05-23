@@ -790,6 +790,7 @@ function run() {
             core.info('Running on a pull request event...');
             shaResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
         }
+        core.info(`Retrieving changes between ${shaResult.previousSha} (${shaResult.targetBranch}) → ${shaResult.currentSha} (${shaResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs
         });
@@ -1040,6 +1041,7 @@ function run() {
                 inputs
             });
         }
+        core.info('All Done!');
         core.endGroup();
     });
 }
