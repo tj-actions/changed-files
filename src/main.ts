@@ -18,8 +18,10 @@ import {
 } from './utils'
 
 export async function run(): Promise<void> {
+  core.startGroup('changed-files')
+
   const env = await getEnv()
-  core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`)
+  core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
@@ -371,6 +373,8 @@ export async function run(): Promise<void> {
       inputs
     })
   }
+
+  core.endGroup()
 }
 
 /* istanbul ignore if */

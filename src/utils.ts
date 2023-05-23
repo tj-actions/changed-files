@@ -200,7 +200,7 @@ export const gitFetch = async ({
 }): Promise<number> => {
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
-    ['fetch', ...args],
+    ['fetch', '-q', ...args],
     {
       cwd,
       silent: true
@@ -224,7 +224,7 @@ export const gitFetchSubmodules = async ({
 }): Promise<void> => {
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
-    ['submodule', 'foreach', 'git', 'fetch', ...args],
+    ['submodule', 'foreach', 'git', 'fetch', '-q', ...args],
     {
       cwd,
       silent: true
