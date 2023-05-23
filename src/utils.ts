@@ -648,17 +648,9 @@ export const jsonOutput = ({
   value: string | string[]
   escape: boolean
 }): string => {
-  return JSON.stringify(value, (key, value) => {
-    if (typeof value === 'string') {
-      // if escape is true, escape quotes and backslashes
-      return escape ? value.replace(/\\/g, '\\\\').replace(/"/g, '\\"') : value
-    } else if (Array.isArray(value)) {
-      return escape
-        ? value.map(v => v.replace(/\\/g, '\\\\').replace(/"/g, '\\"'))
-        : value
-    }
-    return value
-  })
+  let result = JSON.stringify(value)
+
+  return escape ? result.replace(/"/g, '\\"') : result
 }
 
 export const getFilePatterns = async ({
