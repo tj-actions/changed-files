@@ -1099,6 +1099,7 @@ exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDi
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const internal_match_kind_1 = __nccwpck_require__(1063);
+const internal_path_helper_1 = __nccwpck_require__(1849);
 const internal_pattern_1 = __nccwpck_require__(4536);
 const patternHelper = __importStar(__nccwpck_require__(9005));
 const path = __importStar(__nccwpck_require__(1017));
@@ -1494,7 +1495,7 @@ const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, 
 });
 exports.canDiffCommits = canDiffCommits;
 const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
-    const pathArr = pathStr.split(path.sep);
+    const pathArr = (0, internal_path_helper_1.dirname)(pathStr).split(path.sep);
     const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length);
     let output = pathArr[0];
     for (let i = 1; i < maxDepth; i++) {

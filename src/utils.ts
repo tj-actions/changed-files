@@ -2,7 +2,7 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import {MatchKind} from '@actions/glob/lib/internal-match-kind'
-import { dirname } from "@actions/glob/lib/internal-path-helper";
+import {dirname} from '@actions/glob/lib/internal-path-helper'
 
 import {Pattern} from '@actions/glob/lib/internal-pattern'
 import * as patternHelper from '@actions/glob/lib/internal-pattern-helper'
