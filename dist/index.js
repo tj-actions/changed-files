@@ -83,7 +83,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) 
         }));
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: renamedFiles });
+        return (0, utils_1.jsonOutput)({ value: renamedFiles, escape: inputs.escape_json });
     }
     return renamedFiles.join(inputs.oldNewFilesSeparator);
 });
@@ -131,7 +131,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
         }));
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: files });
+        return (0, utils_1.jsonOutput)({ value: files, escape: inputs.escape_json });
     }
     return files.join(inputs.separator);
 });
@@ -633,6 +633,7 @@ const getInputs = () => {
         required: false
     });
     const json = core.getBooleanInput('json', { required: false });
+    const escape_json = core.getBooleanInput('escape_json', { required: false });
     const fetchDepth = core.getInput('fetch_depth', { required: false });
     const sinceLastRemoteCommit = core.getBooleanInput('since_last_remote_commit', { required: false });
     const writeOutputFiles = core.getBooleanInput('write_output_files', {
@@ -665,6 +666,7 @@ const getInputs = () => {
         dirNames,
         dirNamesExcludeRoot,
         json,
+        escape_json,
         sinceLastRemoteCommit,
         writeOutputFiles,
         outputDir,
@@ -736,7 +738,9 @@ function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const env = (0, env_1.getEnv)();
+        core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
+        core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
         yield (0, utils_1.verifyMinimumGitVersion)();
         let quotePathValue = 'on';
         if (!inputs.quotePath) {
@@ -1502,8 +1506,14 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
     return output;
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
-const jsonOutput = ({ value }) => {
-    return JSON.stringify(value);
+const jsonOutput = ({ value, escape }) => {
+    return JSON.stringify(value, (key, value) => {
+        if (typeof value === 'string') {
+            // if escape is true, escape quotes and backslashes
+            return escape ? value.replace(/\\/g, '\\\\').replace(/"/g, '\\"') : value;
+        }
+        return value;
+    });
 };
 exports.jsonOutput = jsonOutput;
 const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {

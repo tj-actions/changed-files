@@ -641,8 +641,20 @@ export const getDirnameMaxDepth = ({
   return output
 }
 
-export const jsonOutput = ({value}: {value: string | string[]}): string => {
-  return JSON.stringify(value)
+export const jsonOutput = ({
+  value,
+  escape
+}: {
+  value: string | string[]
+  escape: boolean
+}): string => {
+  return JSON.stringify(value, (key, value) => {
+    if (typeof value === 'string') {
+      // if escape is true, escape quotes and backslashes
+      return escape ? value.replace(/\\/g, '\\\\').replace(/"/g, '\\"') : value
+    }
+    return value
+  })
 }
 
 export const getFilePatterns = async ({

@@ -24,6 +24,7 @@ export type Inputs = {
   dirNamesMaxDepth?: number
   dirNamesExcludeRoot: boolean
   json: boolean
+  escape_json: boolean
   fetchDepth?: number
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
@@ -94,6 +95,7 @@ export const getInputs = (): Inputs => {
     required: false
   })
   const json = core.getBooleanInput('json', {required: false})
+  const escape_json = core.getBooleanInput('escape_json', {required: false})
   const fetchDepth = core.getInput('fetch_depth', {required: false})
   const sinceLastRemoteCommit = core.getBooleanInput(
     'since_last_remote_commit',
@@ -130,6 +132,7 @@ export const getInputs = (): Inputs => {
     dirNames,
     dirNamesExcludeRoot,
     json,
+    escape_json,
     sinceLastRemoteCommit,
     writeOutputFiles,
     outputDir,

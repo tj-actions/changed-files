@@ -92,6 +92,10 @@ inputs:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
     default: "false"
+  escape_json:
+    description: "Escape JSON output."
+    required: false
+    default: "true"
   fetch_depth:
     description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
