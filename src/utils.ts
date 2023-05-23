@@ -649,7 +649,7 @@ export const jsonOutput = ({
   value: string | string[]
   escape: boolean
 }): string => {
-  let result = JSON.stringify(value)
+  const result = JSON.stringify(value)
 
   return escape ? result.replace(/"/g, '\\"') : result
 }
