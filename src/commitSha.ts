@@ -42,7 +42,7 @@ const getCurrentSHA = async ({
       })
     } catch (error) {
       core.error(
-        `Invalid until date: ${  inputs.until  }. ${  (error as Error).message}`
+        `Invalid until date: ${inputs.until}. ${(error as Error).message}`
       )
       throw error
     }
@@ -163,10 +163,7 @@ export const getSHAForPushEvent = async (
         })
       } catch (error) {
         core.error(
-          `Invalid since date: ${ 
-            inputs.since 
-            }. ${ 
-            (error as Error).message}`
+          `Invalid since date: ${inputs.since}. ${(error as Error).message}`
         )
         throw error
       }

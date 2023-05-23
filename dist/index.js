@@ -202,7 +202,7 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
             });
         }
         catch (error) {
-            core.error('Invalid until date: ' + inputs.until + '. ' + error.message);
+            core.error(`Invalid until date: ${inputs.until}. ${error.message}`);
             throw error;
         }
     }
@@ -217,11 +217,11 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
 });
 const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
     let targetBranch = env.GITHUB_REFNAME;
-    let currentBranch = targetBranch;
+    const currentBranch = targetBranch;
     let initialCommit = false;
     let currentSha = inputs.sha;
     let previousSha = inputs.baseSha;
-    let diff = '..';
+    const diff = '..';
     if (isShallow) {
         core.info('Repository is shallow, fetching more history...');
         if (isTag) {
@@ -297,10 +297,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
                 });
             }
             catch (error) {
-                core.error('Invalid since date: ' +
-                    inputs.since +
-                    '. ' +
-                    error.message);
+                core.error(`Invalid since date: ${inputs.since}. ${error.message}`);
                 throw error;
             }
         }
@@ -366,7 +363,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
 exports.getSHAForPushEvent = getSHAForPushEvent;
 const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
     let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF;
-    let currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF;
+    const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF;
     let currentSha = inputs.sha;
     let previousSha = inputs.baseSha;
     let diff = '...';
@@ -439,7 +436,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }
     currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
-        env.GITHUB_EVENT_HEAD_REPO_FORK == 'true') {
+        env.GITHUB_EVENT_HEAD_REPO_FORK === 'true') {
         diff = '..';
     }
     if (!previousSha) {
@@ -1098,6 +1095,7 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getBranchHeadSha = exports.getParentHeadSha = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.getFilesFromSourceFile = exports.getPatterns = exports.exists = exports.escapeString = exports.verifyMinimumGitVersion = void 0;
+/*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const internal_match_kind_1 = __nccwpck_require__(1063);

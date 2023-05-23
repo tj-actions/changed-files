@@ -11,6 +11,7 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts",
     "package": "ncc build lib/main.js --source-map --license licenses.txt",
     "test": "jest --coverage",
     "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
