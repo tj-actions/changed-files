@@ -1090,7 +1090,7 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
     function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getBranchHeadSha = exports.getParentHeadSha = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.getFilesFromSourceFile = exports.getPatterns = exports.exists = exports.escapeString = exports.verifyMinimumGitVersion = void 0;
+exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getBranchHeadSha = exports.getParentHeadSha = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.getFilesFromSourceFile = exports.getPatterns = exports.exists = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1116,10 +1116,6 @@ const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.verifyMinimumGitVersion = verifyMinimumGitVersion;
-function escapeString(value) {
-    return value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
-}
-exports.escapeString = escapeString;
 function exists(filePath) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -1357,7 +1353,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         .split('\n')
         .map(line => {
         const [, oldPath, newPath] = line.split('\t');
-        return `${escapeString(oldPath)}${oldNewSeparator}${escapeString(newPath)}`;
+        return `${oldPath}${oldNewSeparator}${newPath}`;
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
@@ -1384,16 +1380,13 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         }
         return [];
     }
-    return stdout
-        .split('\n')
-        .filter(filePath => {
+    return stdout.split('\n').filter(filePath => {
         if (filePatterns.length === 0) {
             return filePath !== '';
         }
         const match = patternHelper.match(filePatterns, filePath);
         return filePath !== '' && match === internal_match_kind_1.MatchKind.All;
-    })
-        .map(p => escapeString(p));
+    });
 });
 exports.gitDiff = gitDiff;
 const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {

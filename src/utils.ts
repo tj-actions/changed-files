@@ -38,10 +38,6 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   }
 }
 
-export function escapeString(value: string): string {
-  return value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-}
-
 export async function exists(filePath: string): Promise<boolean> {
   try {
     await fs.access(filePath)
@@ -365,9 +361,7 @@ export const gitRenamedFiles = async ({
     .split('\n')
     .map(line => {
       const [, oldPath, newPath] = line.split('\t')
-      return `${escapeString(oldPath)}${oldNewSeparator}${escapeString(
-        newPath
-      )}`
+      return `${oldPath}${oldNewSeparator}${newPath}`
     })
 }
 
@@ -422,17 +416,14 @@ export const gitDiff = async ({
     return []
   }
 
-  return stdout
-    .split('\n')
-    .filter(filePath => {
-      if (filePatterns.length === 0) {
-        return filePath !== ''
-      }
+  return stdout.split('\n').filter(filePath => {
+    if (filePatterns.length === 0) {
+      return filePath !== ''
+    }
 
-      const match = patternHelper.match(filePatterns, filePath)
-      return filePath !== '' && match === MatchKind.All
-    })
-    .map(p => escapeString(p))
+    const match = patternHelper.match(filePatterns, filePath)
+    return filePath !== '' && match === MatchKind.All
+  })
 }
 
 export const gitLog = async ({
