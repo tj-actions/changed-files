@@ -15,11 +15,11 @@ export type Env = {
 }
 
 export const getEnv = async (): Promise<Env> => {
-  const eventJsonPath = process.env.GITHUB_EVENT_PATH
+  const eventPath = process.env.GITHUB_EVENT_PATH
   let eventJson: any = {}
 
-  if (eventJsonPath) {
-    eventJson = JSON.parse(await fs.readFile(eventJsonPath, {encoding: 'utf8'}))
+  if (eventPath) {
+    eventJson = JSON.parse(await fs.readFile(eventPath, {encoding: 'utf8'}))
   }
 
   return {

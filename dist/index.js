@@ -543,10 +543,10 @@ exports.getEnv = void 0;
 const fs_1 = __nccwpck_require__(7147);
 const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h;
-    const eventJsonPath = process.env.GITHUB_EVENT_PATH;
+    const eventPath = process.env.GITHUB_EVENT_PATH;
     let eventJson = {};
-    if (eventJsonPath) {
-        eventJson = JSON.parse(yield fs_1.promises.readFile(eventJsonPath, { encoding: 'utf8' }));
+    if (eventPath) {
+        eventJson = JSON.parse(yield fs_1.promises.readFile(eventPath, { encoding: 'utf8' }));
     }
     return {
         GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ((_b = (_a = eventJson.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.ref) || '',
