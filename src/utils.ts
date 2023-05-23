@@ -2,6 +2,7 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import {MatchKind} from '@actions/glob/lib/internal-match-kind'
+import { dirname } from "@actions/glob/lib/internal-path-helper";
 
 import {Pattern} from '@actions/glob/lib/internal-pattern'
 import * as patternHelper from '@actions/glob/lib/internal-pattern-helper'
@@ -626,7 +627,7 @@ export const getDirnameMaxDepth = ({
   dirNamesMaxDepth?: number
   excludeRoot?: boolean
 }): string => {
-  const pathArr = pathStr.split(path.sep)
+  const pathArr = dirname(pathStr).split(path.sep)
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
   let output = pathArr[0]
 
