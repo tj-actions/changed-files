@@ -76,6 +76,7 @@ inputs:
   diff_relative:
     description: "Exclude changes outside the current directory and show path names relative to it. **NOTE:** This requires you to specify the top level directory via the `path` input."
     required: false
+    default: "true"
   dir_names:
     default: "false"
     description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the root of the project."

@@ -1,3 +1,4 @@
+/*global AsyncIterableIterator*/
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import {MatchKind} from '@actions/glob/lib/internal-match-kind'
@@ -602,7 +603,7 @@ export const jsonOutput = ({
   value,
   rawFormat
 }: {
-  value: any
+  value: string | string[]
   rawFormat: boolean
 }): string => {
   if (rawFormat) {

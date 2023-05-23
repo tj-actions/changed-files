@@ -331,7 +331,7 @@ export const getSHAForPullRequestEvent = async (
 
   if (
     !env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
-    env.GITHUB_EVENT_HEAD_REPO_FORK == 'true'
+    env.GITHUB_EVENT_HEAD_REPO_FORK === 'true'
   ) {
     diff = '..'
   }
