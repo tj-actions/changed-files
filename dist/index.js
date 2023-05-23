@@ -525,27 +525,43 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 /***/ }),
 
 /***/ 9763:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getEnv = void 0;
-const getEnv = () => {
+const fs_1 = __nccwpck_require__(7147);
+const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const eventJsonPath = process.env.GITHUB_EVENT_PATH;
+    let eventJson = {};
+    if (eventJsonPath) {
+        eventJson = JSON.parse(yield fs_1.promises.readFile(eventJsonPath, { encoding: 'utf8' }));
+    }
     return {
-        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: process.env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_REF: process.env.GITHUB_EVENT_PULL_REQUEST_BASE_REF || '',
-        GITHUB_EVENT_BEFORE: process.env.GITHUB_EVENT_BEFORE || '',
+        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ((_b = (_a = eventJson.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.ref) || '',
+        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ((_d = (_c = eventJson.pull_request) === null || _c === void 0 ? void 0 : _c.base) === null || _d === void 0 ? void 0 : _d.ref) || '',
+        GITHUB_EVENT_BEFORE: eventJson.before || '',
+        GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
+        GITHUB_EVENT_HEAD_REPO_FORK: ((_e = eventJson.head_repo) === null || _e === void 0 ? void 0 : _e.fork) || '',
+        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_f = eventJson.pull_request) === null || _f === void 0 ? void 0 : _f.number) || '',
+        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_h = (_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.base) === null || _h === void 0 ? void 0 : _h.sha) || '',
+        GITHUB_EVENT_FORCED: eventJson.forced || '',
         GITHUB_REFNAME: process.env.GITHUB_REFNAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
-        GITHUB_EVENT_BASE_REF: process.env.GITHUB_EVENT_BASE_REF || '',
-        GITHUB_EVENT_HEAD_REPO_FORK: process.env.GITHUB_EVENT_HEAD_REPO_FORK || '',
-        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
-        GITHUB_EVENT_FORCED: process.env.GITHUB_EVENT_FORCED || '',
-        GITHUB_EVENT_PULL_REQUEST_NUMBER: process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: process.env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA || ''
+        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
     };
-};
+});
 exports.getEnv = getEnv;
 
 
@@ -737,7 +753,7 @@ const utils_1 = __nccwpck_require__(918);
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const env = (0, env_1.getEnv)();
+        const env = yield (0, env_1.getEnv)();
         core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);

@@ -18,7 +18,7 @@ import {
 } from './utils'
 
 export async function run(): Promise<void> {
-  const env = getEnv()
+  const env = await getEnv()
   core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`)
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
