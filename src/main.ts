@@ -83,6 +83,10 @@ export async function run(): Promise<void> {
     )
   }
 
+  core.info(
+    `Retrieving changes between ${shaResult.previousSha} (${shaResult.targetBranch}) → ${shaResult.currentSha} (${shaResult.currentBranch})`
+  )
+
   const filePatterns = await getFilePatterns({
     inputs
   })
@@ -373,6 +377,8 @@ export async function run(): Promise<void> {
       inputs
     })
   }
+
+  core.info('All Done!')
 
   core.endGroup()
 }
