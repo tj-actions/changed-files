@@ -19,9 +19,11 @@ const versionToNumber = (version: string): number => {
 }
 
 export const verifyMinimumGitVersion = async (): Promise<void> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput('git', [
-    '--version'
-  ])
+  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+    'git',
+    ['--version'],
+    {silent: true}
+  )
 
   if (exitCode !== 0) {
     throw new Error(stderr || 'An unexpected error occurred')
@@ -143,7 +145,8 @@ export const updateGitGlobalConfig = async ({
     'git',
     ['config', '--global', name, value],
     {
-      ignoreReturnCode: true
+      ignoreReturnCode: true,
+      silent: true
     }
   )
 
@@ -157,7 +160,10 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['rev-parse', '--is-shallow-repository'],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -175,7 +181,10 @@ export const submoduleExists = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'status'],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -195,7 +204,10 @@ export const gitFetch = async ({
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
     ['fetch', ...args],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   /* istanbul ignore if */
@@ -216,7 +228,10 @@ export const gitFetchSubmodules = async ({
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'foreach', 'git', 'fetch', ...args],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   /* istanbul ignore if */
@@ -233,7 +248,10 @@ export const getSubmodulePath = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'status'],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -263,7 +281,10 @@ export const gitSubmoduleDiffSHA = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['diff', parentSha1, parentSha2, '--', submodulePath],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -284,7 +305,7 @@ export const gitSubmoduleDiffSHA = async ({
     return {previousSha, currentSha}
   }
 
-  core.warning(
+  core.debug(
     `No submodule commit found for ${submodulePath} between ${parentSha1}${diff}${parentSha2}`
   )
   return {}
@@ -314,7 +335,10 @@ export const gitRenamedFiles = async ({
       '--diff-filter=R',
       `${sha1}${diff}${sha2}`
     ],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -373,7 +397,10 @@ export const gitDiff = async ({
       `--diff-filter=${diffFilter}`,
       `${sha1}${diff}${sha2}`
     ],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -418,7 +445,10 @@ export const gitLog = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['log', ...args],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -432,7 +462,10 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['rev-parse', 'HEAD'],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -450,7 +483,10 @@ export const getParentHeadSha = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['rev-parse', 'HEAD^'],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -470,7 +506,10 @@ export const getBranchHeadSha = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['rev-parse', branch],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -492,7 +531,10 @@ export const verifyCommitSha = async ({
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
     ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -519,7 +561,10 @@ export const getPreviousGitTag = async ({
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['tag', '--sort=-version:refname'],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
@@ -539,7 +584,10 @@ export const getPreviousGitTag = async ({
     exitCode: exitCode2,
     stdout: stdout2,
     stderr: stderr2
-  } = await exec.getExecOutput('git', ['rev-parse', previousTag], {cwd})
+  } = await exec.getExecOutput('git', ['rev-parse', previousTag], {
+    cwd,
+    silent: true
+  })
 
   if (exitCode2 !== 0) {
     throw new Error(stderr2 || 'Unable to get previous tag')
@@ -564,7 +612,10 @@ export const canDiffCommits = async ({
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
     ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`],
-    {cwd}
+    {
+      cwd,
+      silent: true
+    }
   )
 
   if (exitCode !== 0) {
