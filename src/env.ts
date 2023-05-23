@@ -14,9 +14,28 @@ export type Env = {
   GITHUB_EVENT_PULL_REQUEST_BASE_SHA: string
 }
 
+type GithubEvent = {
+  forced?: string
+  pull_request?: {
+    head: {
+      ref: string
+    }
+    base: {
+      ref: string
+      sha: string
+    }
+    number: string
+  }
+  before?: string
+  base_ref?: string
+  head_repo?: {
+    fork: string
+  }
+}
+
 export const getEnv = async (): Promise<Env> => {
   const eventPath = process.env.GITHUB_EVENT_PATH
-  let eventJson: any = {}
+  let eventJson: GithubEvent = {}
 
   if (eventPath) {
     eventJson = JSON.parse(await fs.readFile(eventPath, {encoding: 'utf8'}))
