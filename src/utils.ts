@@ -23,7 +23,7 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['--version'],
-    {silent: true}
+    {silent: false}
   )
 
   if (exitCode !== 0) {
@@ -143,7 +143,7 @@ export const updateGitGlobalConfig = async ({
     ['config', '--global', name, value],
     {
       ignoreReturnCode: true,
-      silent: true
+      silent: false
     }
   )
 
@@ -159,7 +159,7 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
     ['rev-parse', '--is-shallow-repository'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -180,7 +180,7 @@ export const submoduleExists = async ({
     ['submodule', 'status'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -203,7 +203,7 @@ export const gitFetch = async ({
     ['fetch', '-q', ...args],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -227,7 +227,7 @@ export const gitFetchSubmodules = async ({
     ['submodule', 'foreach', 'git', 'fetch', '-q', ...args],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -247,7 +247,7 @@ export const getSubmodulePath = async ({
     ['submodule', 'status'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -280,7 +280,7 @@ export const gitSubmoduleDiffSHA = async ({
     ['diff', parentSha1, parentSha2, '--', submodulePath],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -334,7 +334,7 @@ export const gitRenamedFiles = async ({
     ],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -394,7 +394,7 @@ export const gitDiff = async ({
     ],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -439,7 +439,7 @@ export const gitLog = async ({
     ['log', ...args],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -456,7 +456,7 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
     ['rev-parse', 'HEAD'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -477,7 +477,7 @@ export const getParentHeadSha = async ({
     ['rev-parse', 'HEAD^'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -500,7 +500,7 @@ export const getBranchHeadSha = async ({
     ['rev-parse', branch],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -525,7 +525,7 @@ export const verifyCommitSha = async ({
     ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -555,7 +555,7 @@ export const getPreviousGitTag = async ({
     ['tag', '--sort=-version:refname'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -578,7 +578,7 @@ export const getPreviousGitTag = async ({
     stderr: stderr2
   } = await exec.getExecOutput('git', ['rev-parse', previousTag], {
     cwd,
-    silent: true
+    silent: false
   })
 
   if (exitCode2 !== 0) {
@@ -606,7 +606,7 @@ export const canDiffCommits = async ({
     ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 

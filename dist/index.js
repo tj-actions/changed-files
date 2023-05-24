@@ -1131,7 +1131,7 @@ const versionToNumber = (version) => {
     return major * 1000000 + minor * 1000 + patch;
 };
 const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: true });
+    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: false });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
     }
@@ -1261,7 +1261,7 @@ exports.getFilesFromSourceFile = getFilesFromSourceFile;
 const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['config', '--global', name, value], {
         ignoreReturnCode: true,
-        silent: true
+        silent: false
     });
     /* istanbul ignore if */
     if (exitCode !== 0 || stderr) {
@@ -1272,7 +1272,7 @@ exports.updateGitGlobalConfig = updateGitGlobalConfig;
 const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1283,7 +1283,7 @@ exports.isRepoShallow = isRepoShallow;
 const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1294,7 +1294,7 @@ exports.submoduleExists = submoduleExists;
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
-        silent: true
+        silent: false
     });
     /* istanbul ignore if */
     if (exitCode !== 0) {
@@ -1306,7 +1306,7 @@ exports.gitFetch = gitFetch;
 const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
-        silent: true
+        silent: false
     });
     /* istanbul ignore if */
     if (exitCode !== 0) {
@@ -1317,7 +1317,7 @@ exports.gitFetchSubmodules = gitFetchSubmodules;
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         core.warning(stderr || "Couldn't get submodule names");
@@ -1333,7 +1333,7 @@ const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff 
     var _a, _b, _c, _d;
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['diff', parentSha1, parentSha2, '--', submodulePath], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1359,7 +1359,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1391,7 +1391,7 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1417,7 +1417,7 @@ exports.gitDiff = gitDiff;
 const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['log', ...args], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1428,7 +1428,7 @@ exports.gitLog = gitLog;
 const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'Unable to get HEAD sha');
@@ -1439,7 +1439,7 @@ exports.getHeadSha = getHeadSha;
 const getParentHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'Unable to get HEAD^ sha');
@@ -1450,7 +1450,7 @@ exports.getParentHeadSha = getParentHeadSha;
 const getBranchHeadSha = ({ branch, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', branch], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || `Unable to get ${branch} head sha`);
@@ -1461,7 +1461,7 @@ exports.getBranchHeadSha = getBranchHeadSha;
 const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         if (showAsErrorMessage) {
@@ -1480,7 +1480,7 @@ exports.verifyCommitSha = verifyCommitSha;
 const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['tag', '--sort=-version:refname'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'Unable to get previous tag');
@@ -1493,7 +1493,7 @@ const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, functio
     const previousTag = tags[1];
     const { exitCode: exitCode2, stdout: stdout2, stderr: stderr2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode2 !== 0) {
         throw new Error(stderr2 || 'Unable to get previous tag');
@@ -1505,7 +1505,7 @@ exports.getPreviousGitTag = getPreviousGitTag;
 const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         core.warning(stderr || `Unable find merge base between ${sha1} and ${sha2}`);
