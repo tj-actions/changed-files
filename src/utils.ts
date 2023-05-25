@@ -237,6 +237,10 @@ export const gitFetchSubmodules = async ({
   }
 }
 
+const normalizePath = (path: string): string => {
+  return path.replace(/\\/g, '/')
+}
+
 export const getSubmodulePath = async ({
   cwd
 }: {
@@ -256,10 +260,10 @@ export const getSubmodulePath = async ({
     return []
   }
 
-  return stdout.split('\n').map(line => {
-    core.debug(`Submodule line: ${line}: ${line.split(' ')}`)
-    return line.split(' ')[1]
-  })
+  return stdout
+    .split('\n')
+    .filter(Boolean)
+    .map(line => normalizePath(line.split(' ').filter(Boolean)[1]))
 }
 
 export const gitSubmoduleDiffSHA = async ({
@@ -362,7 +366,9 @@ export const gitRenamedFiles = async ({
     .split('\n')
     .map(line => {
       const [, oldPath, newPath] = line.split('\t')
-      return `${oldPath}${oldNewSeparator}${newPath}`
+      return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(
+        newPath
+      )}`
     })
 }
 
@@ -417,15 +423,18 @@ export const gitDiff = async ({
     return []
   }
 
-  return stdout.split('\n').filter(filePath => {
-    if (filePatterns.length === 0) {
-      return filePath !== ''
-    }
+  return stdout
+    .split('\n')
+    .map(p => normalizePath(p))
+    .filter(filePath => {
+      if (filePatterns.length === 0) {
+        return filePath !== ''
+      }
 
-    const match = patternHelper.match(filePatterns, filePath)
-    core.debug(`File: ${filePath} Match: ${match}`)
-    return filePath !== '' && match === MatchKind.All
-  })
+      const match = patternHelper.match(filePatterns, filePath)
+      core.debug(`File: ${filePath} Match: ${match}`)
+      return filePath !== '' && match === MatchKind.All
+    })
 }
 
 export const gitLog = async ({
