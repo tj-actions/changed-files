@@ -23,7 +23,7 @@ export const getRenamedFiles = async ({
   hasSubmodule: boolean
   shaResult: SHAResult
 }): Promise<string> => {
-  let renamedFiles = await gitRenamedFiles({
+  const renamedFiles = await gitRenamedFiles({
     cwd: workingDirectory,
     sha1: shaResult.previousSha,
     sha2: shaResult.currentSha,
