@@ -790,7 +790,7 @@ export const getFilePatterns = async ({
 
   core.debug(`file patterns: ${filePatterns}`)
 
-  return filePatterns.split('\n')
+  return filePatterns.trim().split('\n').filter(Boolean)
 }
 
 export const setOutput = async ({
