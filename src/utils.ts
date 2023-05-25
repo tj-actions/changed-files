@@ -667,7 +667,7 @@ export const getDirnameMaxDepth = ({
     return ''
   }
 
-  return output
+  return normalizePath(output)
 }
 
 export const jsonOutput = ({
