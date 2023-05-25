@@ -99,7 +99,7 @@ jobs:
       # Example 1
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         
         # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
         # with:
@@ -114,7 +114,7 @@ jobs:
       # Example 2
       - name: Get changed files in the docs folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           files: docs/*.{js,html}  # Alternatively using: `docs/**` or `docs`
 
@@ -127,7 +127,7 @@ jobs:
       # Example 3
       - name: Get all changed *.js file(s) or any file in the static folder excluding the docs folder
         id: changed-files-excluded
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           files: |
             **/*.js
@@ -252,7 +252,7 @@ patch : is a patch release number that indicates bug fixes or other small change
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
 ...
 ```
 
@@ -265,7 +265,7 @@ patch : is a patch release number that indicates bug fixes or other small change
 ...
     - name: Get all changed files and use a comma separator in the output
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         separator: ","
 ...
@@ -282,7 +282,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
 
     - name: List all added files
       run: |
@@ -303,7 +303,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
 
     - name: Run a step if my-file.txt was modified
       if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
@@ -363,7 +363,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         files: |
           my-file.txt
@@ -386,7 +386,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files
       id: changed-files-specific
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         files: |
           my-file.txt
@@ -433,7 +433,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files using a source file or list of file(s) to populate to files input.
       id: changed-files-specific-source-file
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         files_from_source_file: test/changed-files-list.txt
 ...
@@ -450,7 +450,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a source file or list of file(s) to populate to files input and optionally specify more files.
       id: changed-files-specific-source-file-and-specify-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         files_from_source_file: |
           test/changed-files-list.txt
@@ -471,7 +471,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a different SHA
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         sha: ${{ github.event.pull_request.head.sha }}
 ...
@@ -488,7 +488,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a different base SHA
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         base_sha: ${{ github.event.pull_request.base.sha }}
 ...
@@ -520,11 +520,11 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
           files: .github/**
@@ -554,7 +554,7 @@ See [inputs](#inputs) for more information.
 
     - name: Run changed-files with defaults in dir1
       id: changed-files-for-dir1
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         path: dir1
 
@@ -577,7 +577,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with quotepath disabled
       id: changed-files-quotepath
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         quotepath: "false"
 
@@ -616,7 +616,7 @@ See [inputs](#inputs) for more information.
 
       - name: Run changed-files with the commit of the last successful test workflow run
         id: changed-files-base-sha-push
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           base_sha: ${{ steps.last_successful_commit_push.outputs.base }}
 ...
@@ -643,7 +643,7 @@ See [inputs](#inputs) for more information.
 
       - name: Run changed-files with the commit of the last successful test workflow run on main
         id: changed-files-base-sha-pull-request
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           base_sha: ${{ steps.last_successful_commit_pull_request.outputs.base }}
 ...
@@ -667,7 +667,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with dir_names
       id: changed-files-dir-names
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         dir_names: "true"
 ...
@@ -684,7 +684,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with json output
       id: changed-files-json
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         json: "true"
 ...
@@ -701,13 +701,13 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed-files since 2022-08-19
       id: changed-files-since
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         since: "2022-08-19"
 
     - name: Get changed-files until 2022-08-20
       id: changed-files-until
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v36
       with:
         until: "2022-08-20"
 ...
