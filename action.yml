@@ -23,6 +23,10 @@ inputs:
     description: "Source file(s) used to populate the `files` input."
     required: false
     default: ""
+  files_from_source_file_separator:
+    description: 'Separator used to split the `files-from-source-file` input'
+    default: "\n"
+    required: false
   files:
     description: "File and directory patterns to detect changes using only these list of file(s) (Defaults to the entire repo) **NOTE:** Multiline file/directory patterns should not include quotes."
     required: false
@@ -43,6 +47,10 @@ inputs:
     description: "Source file(s) used to populate the `files_ignore` input"
     required: false
     default: ""
+  files_ignore_from_source_file_separator:
+    description: 'Separator used to split the `files_ignore_from_source_file` input'
+    default: "\n"
+    required: false
   sha:
     description: "Specify a different commit SHA used for comparing changes"
     required: false
@@ -68,6 +76,7 @@ inputs:
   diff_relative:
     description: "Exclude changes outside the current directory and show path names relative to it. **NOTE:** This requires you to specify the top level directory via the `path` input."
     required: false
+    default: "true"
   dir_names:
     default: "false"
     description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the root of the project."
@@ -83,10 +92,10 @@ inputs:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
     default: "false"
-  json_raw_format:
-    description: "Output list of changed files in [jq](https://devdocs.io/jq/) raw output format which means that the output will not be surrounded by quotes and special characters will not be escaped."
+  escape_json:
+    description: "Escape JSON output."
     required: false
-    default: "false"
+    default: "true"
   fetch_depth:
     description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
@@ -103,187 +112,54 @@ inputs:
     description: "Directory to store output files."
     required: false
     default: ".github/outputs"
-  match_directories:
-    description: "Indicates whether to include match directories"
-    default: "true"
-    required: false
 
 outputs:
   added_files:
     description: "Returns only files that are Added (A)."
-    value: ${{ steps.changed-files.outputs.added_files }}
   copied_files:
     description: "Returns only files that are Copied (C)."
-    value: ${{ steps.changed-files.outputs.copied_files }}
   deleted_files:
     description: "Returns only files that are Deleted (D)."
-    value: ${{ steps.changed-files.outputs.deleted_files }}
   modified_files:
     description: "Returns only files that are Modified (M)."
-    value: ${{ steps.changed-files.outputs.modified_files }}
   renamed_files:
     description: "Returns only files that are Renamed (R)."
-    value: ${{ steps.changed-files.outputs.renamed_files }}
   all_old_new_renamed_files:
     description:   "Returns only files that are Renamed and list their old and new names. **NOTE:** This requires setting `include_all_old_new_renamed_files` to `true` (R)"
-    value: ${{ steps.changed-files.outputs.all_old_new_renamed_files }}
   type_changed_files:
     description: "Returns only files that have their file type changed (T)."
-    value: ${{ steps.changed-files.outputs.type_changed_files }}
   unmerged_files:
     description: "Returns only files that are Unmerged (U)."
-    value: ${{ steps.changed-files.outputs.unmerged_files }}
   unknown_files:
     description: "Returns only files that are Unknown (X)."
-    value: ${{ steps.changed-files.outputs.unknown_files }}
   all_changed_and_modified_files:
     description: "Returns all changed and modified files i.e. *a combination of (ACMRDTUX)*"
-    value: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
   all_changed_files:
     description: "Returns all changed files i.e. *a combination of all added, copied, modified and renamed files (ACMR)*"
-    value: ${{ steps.changed-files.outputs.all_changed_files }}
   any_changed:
-    description: "Returns `true` when any of the filenames provided using the `files` input has changed. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
-    value: ${{ steps.changed-files.outputs.any_changed }}
+    description: "Returns `true` when any of the filenames provided using the `files` input has changed. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
   only_changed:
-    description: "Returns `true` when only files provided using the `files` input has changed. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
-    value: ${{ steps.changed-files.outputs.only_changed }}
+    description: "Returns `true` when only files provided using the `files` input has changed. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
   other_changed_files:
     description: "Returns all other changed files not listed in the files input i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
-    value: ${{ steps.changed-files.outputs.other_changed_files }}
   all_modified_files:
     description: "Returns all changed files i.e. *a combination of all added, copied, modified, renamed and deleted files (ACMRD)*."
-    value: ${{ steps.changed-files.outputs.all_modified_files }}
   any_modified:
     description: "Returns `true` when any of the filenames provided using the `files` input has been modified. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified, renamed, and deleted files (ACMRD)*."
-    value: ${{ steps.changed-files.outputs.any_modified }}
   only_modified:
     description: "Returns `true` when only files provided using the `files` input has been modified. If no `files` have been specified,an empty string `''` is returned.(ACMRD)."
-    value: ${{ steps.changed-files.outputs.only_modified }}
   other_modified_files:
     description: "Returns all other modified files not listed in the files input i.e. *a  combination of all added, copied, modified, and deleted files (ACMRD)*"
-    value: ${{ steps.changed-files.outputs.other_modified_files }}
   any_deleted:
     description: "Returns `true` when any of the filenames provided using the `files` input has been deleted. If no `files` have been specified,an empty string `''` is returned. (D)"
-    value: ${{ steps.changed-files.outputs.any_deleted }}
   only_deleted:
     description: "Returns `true` when only files provided using the `files` input has been deleted. If no `files` have been specified,an empty string `''` is returned. (D)"
-    value: ${{ steps.changed-files.outputs.only_deleted }}
   other_deleted_files:
     description: "Returns all other deleted files not listed in the files input i.e. *a  combination of all deleted files (D)*"
-    value: ${{ steps.changed-files.outputs.other_deleted_files }}
 
 runs:
-  using: "composite"
-  steps:
-    - run: |
-        # "Calculating the previous and current SHA..."
-        bash $GITHUB_ACTION_PATH/diff-sha.sh
-      id: changed-files-diff-sha
-      shell: bash
-      env:
-        GITHUB_SERVER_URL: ${{ github.server_url }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
-        GITHUB_REF: ${{ github.ref }}
-        GITHUB_SHA: ${{ github.sha }}
-        GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_EVENT_BASE_REF: ${{ github.event.base_ref }}
-        GITHUB_EVENT_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
-        GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
-        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        GITHUB_EVENT_PULL_REQUEST_COMMITS: ${{ github.event.pull_request.commits }}
-        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-        GITHUB_EVENT_FORCED: ${{ github.event.forced }}
-        GITHUB_REFNAME: ${{ github.ref_name }}
-        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
-        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
-        INPUT_SHA: ${{ inputs.sha }}
-        INPUT_BASE_SHA: ${{ inputs.base_sha }}
-        INPUT_SINCE: ${{ inputs.since }}
-        INPUT_UNTIL: ${{ inputs.until }}
-        INPUT_PATH: ${{ inputs.path }}
-        INPUT_FETCH_DEPTH: ${{ inputs.fetch_depth }}
-        INPUT_SINCE_LAST_REMOTE_COMMIT: ${{ inputs.since_last_remote_commit }}
-    - name: Glob match
-      uses: tj-actions/glob@v17.2.6
-      id: glob
-      with:
-        files: ${{ inputs.files }}
-        files-separator: ${{ inputs.files_separator }}
-        excluded-files: ${{ inputs.files_ignore }}
-        excluded-files-separator: ${{ inputs.files_ignore_separator }}
-        files-from-source-file: ${{ inputs.files_from_source_file }}
-        excluded-files-from-source-file: ${{ inputs.files_ignore_from_source_file}}
-        escape-paths: true
-        working-directory: ${{ inputs.path }}
-        base-sha: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
-        sha: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
-        diff: ${{ steps.changed-files-diff-sha.outputs.diff }}
-        match-directories: ${{ inputs.match_directories }}
-        include-deleted-files: true
-        separator: "|"
-    - run: |
-        bash $GITHUB_ACTION_PATH/get-changed-paths.sh
-      id: changed-files
-      shell: bash
-      env:
-        GITHUB_WORKSPACE: ${{ github.workspace }}
-        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
-        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
-        # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
-        INPUT_FILES_PATTERN_FILE: ${{ steps.glob.outputs.paths-output-file }}
-        INPUT_SEPARATOR: ${{ inputs.separator }}
-        INPUT_PATH: ${{ inputs.path }}
-        INPUT_PREVIOUS_SHA: ${{ steps.changed-files-diff-sha.outputs.previous_sha }}
-        INPUT_CURRENT_SHA: ${{ steps.changed-files-diff-sha.outputs.current_sha }}
-        INPUT_TARGET_BRANCH: ${{ steps.changed-files-diff-sha.outputs.target_branch }}
-        INPUT_CURRENT_BRANCH: ${{ steps.changed-files-diff-sha.outputs.current_branch }}
-        INPUT_DIFF: ${{ steps.changed-files-diff-sha.outputs.diff }}
-        INPUT_QUOTEPATH: ${{ inputs.quotepath }}
-        INPUT_INCLUDE_ALL_OLD_NEW_RENAMED_FILES: ${{ inputs.include_all_old_new_renamed_files }}
-        INPUT_OLD_NEW_SEPARATOR: ${{ inputs.old_new_separator }}
-        INPUT_OLD_NEW_FILES_SEPARATOR: ${{ inputs.old_new_files_separator }}
-        INPUT_DIFF_RELATIVE: ${{ inputs.diff_relative }}
-        INPUT_DIR_NAMES: ${{ inputs.dir_names }}
-        INPUT_DIR_NAMES_MAX_DEPTH: ${{ inputs.dir_names_max_depth }}
-        INPUT_DIR_NAMES_EXCLUDE_ROOT: ${{ inputs.dir_names_exclude_root }}
-        INPUT_JSON: ${{ inputs.json }}
-        INPUT_HAS_CUSTOM_PATTERNS: ${{ steps.glob.outputs.has-custom-patterns }}
-        INPUT_JSON_RAW_FORMAT: ${{ inputs.json_raw_format }}
-    - name: Generate output files
-      uses: tj-actions/json2file@v1.7.2
-      if: inputs.write_output_files == 'true'
-      with:
-        outputs: ${{ toJSON(steps.changed-files.outputs) }}
-        directory: ${{ inputs.output_dir }}
-        skip_missing_keys: true
-        keys: |
-          added_files
-          copied_files
-          deleted_files
-          modified_files
-          renamed_files
-          all_old_new_renamed_files
-          type_changed_files
-          unmerged_files
-          unknown_files
-          all_changed_and_modified_files
-          all_changed_files
-          any_changed
-          only_changed
-          other_changed_files
-          all_modified_files
-          any_modified
-          only_modified
-          other_modified_files
-          any_deleted
-          only_deleted
-          other_deleted_files
-        extension: ${{ steps.changed-files.outputs.outputs_extension }}
+  using: 'node16'
+  main: 'dist/index.js'
 
 branding:
   icon: file-text
