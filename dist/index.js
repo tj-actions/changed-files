@@ -181,8 +181,7 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
             currentSha = yield (0, utils_1.gitLog)({
                 cwd: workingDirectory,
                 args: [
-                    '--format',
-                    '"%H"',
+                    '--format=%H',
                     '-n',
                     '1',
                     '--date',
@@ -275,19 +274,14 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
         if (inputs.since) {
             core.debug(`Getting base SHA for '${inputs.since}'...`);
             try {
-                previousSha = yield (0, utils_1.gitLog)({
+                const allCommitsFrom = yield (0, utils_1.gitLog)({
                     cwd: workingDirectory,
-                    args: [
-                        '--format',
-                        '"%H"',
-                        '-n',
-                        '1',
-                        '--date',
-                        'local',
-                        '--since',
-                        inputs.since
-                    ]
+                    args: ['--format=%H', '--date', 'local', '--since', inputs.since]
                 });
+                if (allCommitsFrom) {
+                    const allCommitsFromArray = allCommitsFrom.split('\n');
+                    previousSha = allCommitsFromArray[allCommitsFromArray.length - 1];
+                }
             }
             catch (error) {
                 core.error(`Invalid since date: ${inputs.since}. ${error.message}`);

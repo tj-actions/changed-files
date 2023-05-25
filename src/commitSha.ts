@@ -30,8 +30,7 @@ const getCurrentSHA = async ({
       currentSha = await gitLog({
         cwd: workingDirectory,
         args: [
-          '--format',
-          '"%H"',
+          '--format=%H',
           '-n',
           '1',
           '--date',
@@ -154,19 +153,15 @@ export const getSHAForPushEvent = async (
     if (inputs.since) {
       core.debug(`Getting base SHA for '${inputs.since}'...`)
       try {
-        previousSha = await gitLog({
+        const allCommitsFrom = await gitLog({
           cwd: workingDirectory,
-          args: [
-            '--format',
-            '"%H"',
-            '-n',
-            '1',
-            '--date',
-            'local',
-            '--since',
-            inputs.since
-          ]
+          args: ['--format=%H', '--date', 'local', '--since', inputs.since]
         })
+
+        if (allCommitsFrom) {
+          const allCommitsFromArray = allCommitsFrom.split('\n')
+          previousSha = allCommitsFromArray[allCommitsFromArray.length - 1]
+        }
       } catch (error) {
         core.error(
           `Invalid since date: ${inputs.since}. ${(error as Error).message}`
