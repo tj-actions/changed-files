@@ -237,8 +237,8 @@ export const gitFetchSubmodules = async ({
   }
 }
 
-const normalizePath = (path: string): string => {
-  return path.replace(/\\/g, '/')
+const normalizePath = (p: string): string => {
+  return p.replace(/\\/g, '/')
 }
 
 export const getSubmodulePath = async ({
@@ -262,8 +262,15 @@ export const getSubmodulePath = async ({
 
   return stdout
     .split('\n')
-    .filter(Boolean)
-    .map(line => normalizePath(line.split(' ').filter(Boolean)[1]))
+    .filter(p => p !== '')
+    .map(line =>
+      normalizePath(
+        line
+          .trim()
+          .split(' ')
+          .filter(p => !!p.trim())[1]
+      )
+    )
 }
 
 export const gitSubmoduleDiffSHA = async ({
