@@ -1359,7 +1359,7 @@ const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.submoduleExists = submoduleExists;
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
+    const { exitCode } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
         silent: false
@@ -1564,7 +1564,7 @@ const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, functio
         return { tag: '', sha: '' };
     }
     const previousTag = tags[1];
-    const { stdout: stdout2, stderr: stderr2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
+    const { stdout: stdout2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
         cwd,
         silent: false
     });

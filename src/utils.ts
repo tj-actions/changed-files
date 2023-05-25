@@ -220,15 +220,11 @@ export const gitFetch = async ({
   args: string[]
   cwd: string
 }): Promise<number> => {
-  const {exitCode, stderr} = await exec.getExecOutput(
-    'git',
-    ['fetch', '-q', ...args],
-    {
-      cwd,
-      ignoreReturnCode: true,
-      silent: false
-    }
-  )
+  const {exitCode} = await exec.getExecOutput('git', ['fetch', '-q', ...args], {
+    cwd,
+    ignoreReturnCode: true,
+    silent: false
+  })
 
   return exitCode
 }
@@ -593,7 +589,7 @@ export const getPreviousGitTag = async ({
 
   const previousTag = tags[1]
 
-  const {stdout: stdout2, stderr: stderr2} = await exec.getExecOutput(
+  const {stdout: stdout2} = await exec.getExecOutput(
     'git',
     ['rev-parse', previousTag],
     {
