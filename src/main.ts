@@ -4,7 +4,7 @@ import {getDiffFiles, getRenamedFiles} from './changedFiles'
 import {
   getSHAForPullRequestEvent,
   getSHAForPushEvent,
-  SHAResult
+  DiffResult
 } from './commitSha'
 import {getEnv} from './env'
 import {getInputs} from './inputs'
@@ -62,11 +62,11 @@ export async function run(): Promise<void> {
     gitExtraArgs = ['--prune', '--no-recurse-submodules']
   }
 
-  let shaResult: SHAResult
+  let diffResult: DiffResult
 
   if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
     core.info('Running on a push event...')
-    shaResult = await getSHAForPushEvent(
+    diffResult = await getSHAForPushEvent(
       inputs,
       env,
       workingDirectory,
@@ -77,7 +77,7 @@ export async function run(): Promise<void> {
     )
   } else {
     core.info('Running on a pull request event...')
-    shaResult = await getSHAForPullRequestEvent(
+    diffResult = await getSHAForPullRequestEvent(
       inputs,
       env,
       workingDirectory,
@@ -88,7 +88,7 @@ export async function run(): Promise<void> {
   }
 
   core.info(
-    `Retrieving changes between ${shaResult.previousSha} (${shaResult.targetBranch}) → ${shaResult.currentSha} (${shaResult.currentBranch})`
+    `Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`
   )
 
   const filePatterns = await getFilePatterns({
@@ -99,7 +99,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'A',
     filePatterns,
     submodulePaths
@@ -115,7 +115,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'C',
     filePatterns,
     submodulePaths
@@ -131,7 +131,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'M',
     filePatterns,
     submodulePaths
@@ -147,7 +147,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'R',
     filePatterns,
     submodulePaths
@@ -163,7 +163,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'T',
     filePatterns,
     submodulePaths
@@ -179,7 +179,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'U',
     filePatterns,
     submodulePaths
@@ -195,7 +195,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'X',
     filePatterns,
     submodulePaths
@@ -211,7 +211,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'ACDMRTUX',
     filePatterns,
     submodulePaths
@@ -227,7 +227,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'ACMR',
     filePatterns,
     submodulePaths
@@ -249,7 +249,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'ACMR',
     submodulePaths
   })
@@ -281,7 +281,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'ACMRD',
     filePatterns,
     submodulePaths
@@ -303,7 +303,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'ACMRD',
     submodulePaths
   })
@@ -334,7 +334,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'D',
     filePatterns,
     submodulePaths
@@ -356,7 +356,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory,
     hasSubmodule,
-    shaResult,
+    diffResult,
     diffFilter: 'D',
     submodulePaths
   })
@@ -386,7 +386,7 @@ export async function run(): Promise<void> {
       inputs,
       workingDirectory,
       hasSubmodule,
-      shaResult,
+      diffResult,
       submodulePaths
     })
     core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`)

@@ -58,7 +58,7 @@ const getCurrentSHA = async ({
   return currentSha
 }
 
-export interface SHAResult {
+export interface DiffResult {
   previousSha: string
   currentSha: string
   currentBranch: string
@@ -74,7 +74,7 @@ export const getSHAForPushEvent = async (
   hasSubmodule: boolean,
   gitExtraArgs: string[],
   isTag: boolean
-): Promise<SHAResult> => {
+): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_REFNAME
   const currentBranch = targetBranch
   let initialCommit = false
@@ -252,7 +252,7 @@ export const getSHAForPullRequestEvent = async (
   isShallow: boolean,
   hasSubmodule: boolean,
   gitExtraArgs: string[]
-): Promise<SHAResult> => {
+): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF
   const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF
   let currentSha = inputs.sha
