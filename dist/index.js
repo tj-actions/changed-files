@@ -43,7 +43,7 @@ exports.getDiffFiles = exports.getRenamedFiles = void 0;
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
 const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) => __awaiter(void 0, void 0, void 0, function* () {
-    let renamedFiles = yield (0, utils_1.gitRenamedFiles)({
+    const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
         sha1: shaResult.previousSha,
         sha2: shaResult.currentSha,
@@ -69,18 +69,12 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) 
                     sha2: submoduleShaResult.currentSha,
                     diff: shaResult.diff,
                     oldNewSeparator: inputs.oldNewSeparator,
-                    isSubmodule: true
+                    isSubmodule: true,
+                    parentDir: workingDirectory
                 });
                 renamedFiles.push(...submoduleRenamedFiles);
             }
         }
-    }
-    if (inputs.dirNames) {
-        renamedFiles = renamedFiles.map(renamedFile => (0, utils_1.getDirnameMaxDepth)({
-            pathStr: renamedFile,
-            dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-            excludeRoot: inputs.dirNamesExcludeRoot
-        }));
     }
     if (inputs.json) {
         return (0, utils_1.jsonOutput)({ value: renamedFiles, escape: inputs.escapeJson });
@@ -1359,7 +1353,7 @@ const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff 
     return {};
 });
 exports.gitSubmoduleDiffSHA = gitSubmoduleDiffSHA;
-const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr, stdout } = yield exec.getExecOutput('git', [
         'diff',
         '--name-status',
@@ -1388,11 +1382,14 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         .map(line => {
         core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
+        if (isSubmodule) {
+            return `${normalizePath(path.join(parentDir, oldPath))}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`;
+        }
         return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(newPath)}`;
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
-const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmodule = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
         '--name-only',
@@ -1417,7 +1414,6 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
     }
     return stdout
         .split('\n')
-        .map(p => normalizePath(p))
         .filter(filePath => {
         if (filePatterns.length === 0) {
             return filePath !== '';
@@ -1425,6 +1421,12 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         const match = patternHelper.match(filePatterns, filePath);
         core.debug(`File: ${filePath} Match: ${match}`);
         return filePath !== '' && match === internal_match_kind_1.MatchKind.All;
+    })
+        .map(p => {
+        if (isSubmodule) {
+            return normalizePath(path.join(parentDir, p));
+        }
+        return normalizePath(p);
     });
 });
 exports.gitDiff = gitDiff;
