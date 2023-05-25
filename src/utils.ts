@@ -530,7 +530,7 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
-export const gitRevParse = async ({
+export const gitLsRemote = async ({
   cwd,
   args
 }: {
@@ -539,7 +539,7 @@ export const gitRevParse = async ({
 }): Promise<string> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
-    ['rev-parse', ...args],
+    ['ls-remote', 'origin', ...args],
     {
       cwd,
       silent: false
@@ -547,10 +547,15 @@ export const gitRevParse = async ({
   )
 
   if (exitCode !== 0) {
-    throw new Error(stderr || `Unable to get rev-parse ${args.join(' ')}`)
+    throw new Error(stderr || 'An unexpected error occurred')
+  }
+  const output = stdout.trim().split('\t')
+
+  if (output.length === 0) {
+    throw new Error('No output returned from git ls-remote')
   }
 
-  return stdout.trim()
+  return output[0]
 }
 
 export const getParentHeadSha = async ({

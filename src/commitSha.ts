@@ -10,7 +10,7 @@ import {
   gitFetch,
   gitFetchSubmodules,
   gitLog,
-  gitRevParse,
+  gitLsRemote,
   verifyCommitSha
 } from './utils'
 
@@ -350,9 +350,9 @@ export const getSHAForPullRequestEvent = async (
       previousSha = env.GITHUB_EVENT_BEFORE
 
       if (!previousSha) {
-        previousSha = await gitRevParse({
+        previousSha = await gitLsRemote({
           cwd: workingDirectory,
-          args: [`origin/${currentBranch}`]
+          args: [currentBranch]
         })
       }
 
@@ -366,10 +366,14 @@ export const getSHAForPullRequestEvent = async (
         previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
     } else {
-      previousSha = await gitRevParse({
-        cwd: workingDirectory,
-        args: [`origin/${targetBranch}`]
-      })
+      previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+
+      if (!previousSha) {
+        previousSha = await gitLsRemote({
+          cwd: workingDirectory,
+          args: [targetBranch]
+        })
+      }
 
       if (isShallow) {
         if (
