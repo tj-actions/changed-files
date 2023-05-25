@@ -14,7 +14,7 @@
     "lint:fix": "eslint --fix src/**/*.ts",
     "package": "ncc build lib/main.js --source-map --license licenses.txt",
     "test": "jest --coverage",
-    "all": "yarn build && yarn format && yarn lint:fix && yarn lint && yarn package && yarn test"
+    "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
   },
   "repository": {
     "type": "git",

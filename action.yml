@@ -23,7 +23,7 @@ inputs:
     description: "Source file(s) used to populate the `files` input."
     required: false
     default: ""
-  files-from-source-file-separator:
+  files_from_source_file_separator:
     description: 'Separator used to split the `files-from-source-file` input'
     default: "\n"
     required: false
