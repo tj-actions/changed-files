@@ -1565,7 +1565,7 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
     if (excludeRoot && output === '.') {
         return '';
     }
-    return output;
+    return normalizePath(output);
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
 const jsonOutput = ({ value, escape }) => {
