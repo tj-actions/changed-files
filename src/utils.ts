@@ -320,7 +320,8 @@ export const gitRenamedFiles = async ({
   sha2,
   diff,
   oldNewSeparator,
-  isSubmodule = false
+  isSubmodule = false,
+  parentDir = ''
 }: {
   cwd: string
   sha1: string
@@ -328,6 +329,7 @@ export const gitRenamedFiles = async ({
   diff: string
   oldNewSeparator: string
   isSubmodule?: boolean
+  parentDir?: string
 }): Promise<string[]> => {
   const {exitCode, stderr, stdout} = await exec.getExecOutput(
     'git',
@@ -369,6 +371,11 @@ export const gitRenamedFiles = async ({
     .map(line => {
       core.debug(`Renamed file: ${line}`)
       const [, oldPath, newPath] = line.split('\t')
+      if (isSubmodule) {
+        return `${normalizePath(
+          path.join(parentDir, oldPath)
+        )}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`
+      }
       return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(
         newPath
       )}`
@@ -382,7 +389,8 @@ export const gitDiff = async ({
   diff,
   diffFilter,
   filePatterns = [],
-  isSubmodule = false
+  isSubmodule = false,
+  parentDir = ''
 }: {
   cwd: string
   sha1: string
@@ -391,6 +399,7 @@ export const gitDiff = async ({
   diff: string
   filePatterns?: Pattern[]
   isSubmodule?: boolean
+  parentDir?: string
 }): Promise<string[]> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
@@ -428,7 +437,6 @@ export const gitDiff = async ({
 
   return stdout
     .split('\n')
-    .map(p => normalizePath(p))
     .filter(filePath => {
       if (filePatterns.length === 0) {
         return filePath !== ''
@@ -437,6 +445,12 @@ export const gitDiff = async ({
       const match = patternHelper.match(filePatterns, filePath)
       core.debug(`File: ${filePath} Match: ${match}`)
       return filePath !== '' && match === MatchKind.All
+    })
+    .map(p => {
+      if (isSubmodule) {
+        return normalizePath(path.join(parentDir, p))
+      }
+      return normalizePath(p)
     })
 }
 
