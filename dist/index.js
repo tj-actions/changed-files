@@ -752,8 +752,9 @@ const utils_1 = __nccwpck_require__(918);
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const env = (0, env_1.getEnv)();
-        core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
+        core.startGroup('changed-files');
+        const env = yield (0, env_1.getEnv)();
+        core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
         yield (0, utils_1.verifyMinimumGitVersion)();
@@ -1543,7 +1544,7 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
 const jsonOutput = ({ value, escape }) => {
-    let result = JSON.stringify(value);
+    const result = JSON.stringify(value);
     return escape ? result.replace(/"/g, '\\"') : result;
 };
 exports.jsonOutput = jsonOutput;
