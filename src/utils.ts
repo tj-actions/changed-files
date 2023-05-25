@@ -590,7 +590,7 @@ export const verifyCommitSha = async ({
 }): Promise<number> => {
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
-    ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`],
+    ['rev-parse', '--verify', `${sha}^{commit}`],
     {
       cwd,
       silent: false

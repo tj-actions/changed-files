@@ -1554,7 +1554,7 @@ const getParentHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
 });
 exports.getParentHeadSha = getParentHeadSha;
 const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`], {
+    const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
         silent: false
     });
