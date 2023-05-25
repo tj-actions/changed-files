@@ -118,7 +118,8 @@ export const getDiffFiles = async ({
           diff: shaResult.diff,
           diffFilter,
           isSubmodule: true,
-          filePatterns
+          filePatterns,
+          parentDir: workingDirectory
         })
         files.push(...submoduleFiles)
       }
