@@ -107,7 +107,8 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
                     diff: shaResult.diff,
                     diffFilter,
                     isSubmodule: true,
-                    filePatterns
+                    filePatterns,
+                    parentDir: workingDirectory
                 });
                 files.push(...submoduleFiles);
             }
