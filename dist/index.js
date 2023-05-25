@@ -1622,25 +1622,9 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
     return normalizePath(output);
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
-/**
- * Escape quotes and backslashes in a string
- * @param value The string to escape
- * @returns The escaped string
- */
-const escape = (value) => {
-    return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-};
-/**
- * Unescape quotes and backslashes in a string
- * @param value The string to unescape
- * @returns The unescaped string
- */
-const unescape = (value) => {
-    return value.replace(/\\\\/g, '\\').replace(/\\"/g, '"');
-};
 const jsonOutput = ({ value, shouldEscape }) => {
     const result = JSON.stringify(value);
-    return shouldEscape ? escape(result) : result;
+    return shouldEscape ? result.replace(/"/g, '\\"') : result;
 };
 exports.jsonOutput = jsonOutput;
 const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1701,7 +1685,7 @@ const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, 
         if (!(yield exists(outputDir))) {
             yield fs_1.promises.mkdir(outputDir, { recursive: true });
         }
-        yield fs_1.promises.writeFile(outputFilePath, unescape(cleanedValue));
+        yield fs_1.promises.writeFile(outputFilePath, cleanedValue.replace(/\\"/g, '"'));
     }
 });
 exports.setOutput = setOutput;
