@@ -5,34 +5,8 @@ on:
 
 
 jobs:
-  create-sec-tag:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: sec
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v7
-
-      - name: Generate new tag
-        id: generate-tag
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git tag -a ${{ steps.branch-name.outputs.tag }}-sec -m "Security release for ${{ steps.branch-name.outputs.tag }}"
-
-      - name: Push tag
-        uses: ad-m/github-push-action@master
-        with:
-          tags: true
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: sec
-
   update-version:
     runs-on: ubuntu-latest
-    needs: create-sec-tag
     steps:
       - uses: actions/checkout@v3
         with:
