@@ -137,11 +137,9 @@ export const getSHAForPushEvent = async (
       throw new Error('Similar commit hashes detected.')
     }
 
-    await verifyCommitSha({sha: currentSha, cwd: workingDirectory})
     await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
-
     core.info(`Previous SHA: ${previousSha}`)
-    core.info(`Current SHA: ${currentSha}`)
+
     return {
       previousSha,
       currentSha,
@@ -329,10 +327,8 @@ export const getSHAForPullRequestEvent = async (
     }
 
     await verifyCommitSha({sha: currentSha, cwd: workingDirectory})
-    await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
-
     core.info(`Previous SHA: ${previousSha}`)
-    core.info(`Current SHA: ${currentSha}`)
+
     return {
       previousSha,
       currentSha,
