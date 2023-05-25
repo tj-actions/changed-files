@@ -1379,6 +1379,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
     return stdout
         .trim()
         .split('\n')
+        .filter(Boolean)
         .map(line => {
         core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
@@ -1416,11 +1417,11 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         .split('\n')
         .filter(filePath => {
         if (filePatterns.length === 0) {
-            return filePath !== '';
+            return !!filePath;
         }
         const match = patternHelper.match(filePatterns, filePath);
         core.debug(`File: ${filePath} Match: ${match}`);
-        return filePath !== '' && match === internal_match_kind_1.MatchKind.All;
+        return !!filePath && match === internal_match_kind_1.MatchKind.All;
     })
         .map(p => {
         if (isSubmodule) {
