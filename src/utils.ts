@@ -525,15 +525,15 @@ export const gitLsRemote = async ({
   return output[0]
 }
 
-export const getParentHeadSha = async ({
-  cwd
-}: {
-  cwd: string
-}): Promise<string> => {
-  const {stdout} = await exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
-    cwd,
-    silent: false
-  })
+export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
+  const {stdout} = await exec.getExecOutput(
+    'git',
+    ['rev-list', '-n', '1', 'HEAD^'],
+    {
+      cwd,
+      silent: false
+    }
+  )
 
   return stdout.trim()
 }

@@ -5,7 +5,7 @@ import {Inputs} from './inputs'
 import {
   canDiffCommits,
   getHeadSha,
-  getParentHeadSha,
+  getParentSha,
   getPreviousGitTag,
   gitFetch,
   gitFetchSubmodules,
@@ -174,33 +174,33 @@ export const getSHAForPushEvent = async (
       previousSha = sha
       targetBranch = tag
     } else {
-      if (inputs.sinceLastRemoteCommit) {
-        core.debug('Getting previous SHA for last remote commit...')
-
-        if (env.GITHUB_EVENT_FORCED === 'false' || !env.GITHUB_EVENT_FORCED) {
-          previousSha = env.GITHUB_EVENT_BEFORE
-        } else {
-          previousSha = await getParentHeadSha({cwd: workingDirectory})
-        }
+      core.debug('Getting previous SHA for last remote commit...')
+      if (env.GITHUB_EVENT_FORCED === 'false' || !env.GITHUB_EVENT_FORCED) {
+        previousSha = env.GITHUB_EVENT_BEFORE
       } else {
-        core.debug('Getting previous SHA for last commit...')
-        previousSha = await getParentHeadSha({cwd: workingDirectory})
+        previousSha = await getParentSha({
+          cwd: workingDirectory
+        })
       }
 
       if (
         !previousSha ||
         previousSha === '0000000000000000000000000000000000000000'
       ) {
-        previousSha = await getParentHeadSha({cwd: workingDirectory})
+        previousSha = await getParentSha({
+          cwd: workingDirectory
+        })
       }
 
       if (previousSha === currentSha) {
-        if (!(await getParentHeadSha({cwd: workingDirectory}))) {
+        if (!(await getParentSha({cwd: workingDirectory}))) {
           core.warning('Initial commit detected no previous commit found.')
           initialCommit = true
           previousSha = currentSha
         } else {
-          previousSha = await getParentHeadSha({cwd: workingDirectory})
+          previousSha = await getParentSha({
+            cwd: workingDirectory
+          })
         }
       } else {
         if (!previousSha) {
