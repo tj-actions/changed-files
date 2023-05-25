@@ -145,15 +145,15 @@ outputs:
   all_modified_files:
     description: "Returns all changed files i.e. *a combination of all added, copied, modified, renamed and deleted files (ACMRD)*."
   any_modified:
-    description: "Returns `true` when any of the filenames provided using the `files` input has been modified. If no `files` have been specified,an empty string `''` is returned. i.e. *using a combination of all added, copied, modified, renamed, and deleted files (ACMRD)*."
+    description: "Returns `true` when any of the filenames provided using the `files` input has been modified. i.e. *using a combination of all added, copied, modified, renamed, and deleted files (ACMRD)*."
   only_modified:
-    description: "Returns `true` when only files provided using the `files` input has been modified. If no `files` have been specified,an empty string `''` is returned.(ACMRD)."
+    description: "Returns `true` when only files provided using the `files` input has been modified. (ACMRD)."
   other_modified_files:
     description: "Returns all other modified files not listed in the files input i.e. *a  combination of all added, copied, modified, and deleted files (ACMRD)*"
   any_deleted:
-    description: "Returns `true` when any of the filenames provided using the `files` input has been deleted. If no `files` have been specified,an empty string `''` is returned. (D)"
+    description: "Returns `true` when any of the filenames provided using the `files` input has been deleted. (D)"
   only_deleted:
-    description: "Returns `true` when only files provided using the `files` input has been deleted. If no `files` have been specified,an empty string `''` is returned. (D)"
+    description: "Returns `true` when only files provided using the `files` input has been deleted. (D)"
   other_deleted_files:
     description: "Returns all other deleted files not listed in the files input i.e. *a  combination of all deleted files (D)*"
 
