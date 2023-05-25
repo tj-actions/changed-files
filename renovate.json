@@ -20,7 +20,6 @@
     "enabled": true,
     "automerge": true
   },
-  "baseBranches": ["main", "sec"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
