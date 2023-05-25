@@ -751,6 +751,7 @@ export const setOutput = async ({
   inputs: Inputs
 }): Promise<void> => {
   const cleanedValue = value.toString().trim()
+  core.setOutput(key, cleanedValue)
 
   if (inputs.writeOutputFiles) {
     const outputDir = inputs.outputDir || '.github/outputs'
@@ -761,7 +762,5 @@ export const setOutput = async ({
       await fs.mkdir(outputDir, {recursive: true})
     }
     await fs.writeFile(outputFilePath, cleanedValue)
-  } else {
-    core.setOutput(key, cleanedValue)
   }
 }
