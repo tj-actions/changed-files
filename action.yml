@@ -112,10 +112,6 @@ inputs:
     description: "Directory to store output files."
     required: false
     default: ".github/outputs"
-  match_directories:
-    description: "Indicates whether to include match directories"
-    default: "true"
-    required: false
 
 outputs:
   added_files:

@@ -687,12 +687,10 @@ export const getFilePatterns = async ({
 }: {
   inputs: Inputs
 }): Promise<Pattern[]> => {
-  let filesPatterns: string = inputs.files
+  let filePatterns: string = inputs.files
     .split(inputs.filesSeparator)
     .filter(p => p !== '')
     .join('\n')
-
-  core.debug(`files patterns: ${filesPatterns}`)
 
   if (inputs.filesFromSourceFile !== '') {
     const inputFilesFromSourceFile = inputs.filesFromSourceFile
@@ -707,7 +705,7 @@ export const getFilePatterns = async ({
 
     core.debug(`files from source files patterns: ${filesFromSourceFiles}`)
 
-    filesPatterns = filesPatterns.concat('\n', filesFromSourceFiles)
+    filePatterns = filePatterns.concat('\n', filesFromSourceFiles)
   }
 
   if (inputs.filesIgnore) {
@@ -724,7 +722,7 @@ export const getFilePatterns = async ({
 
     core.debug(`files ignore patterns: ${filesIgnorePatterns}`)
 
-    filesPatterns = filesPatterns.concat('\n', filesIgnorePatterns)
+    filePatterns = filePatterns.concat('\n', filesIgnorePatterns)
   }
 
   if (inputs.filesIgnoreFromSourceFile) {
@@ -747,10 +745,12 @@ export const getFilePatterns = async ({
       `files ignore from source files patterns: ${filesIgnoreFromSourceFiles}`
     )
 
-    filesPatterns = filesPatterns.concat('\n', filesIgnoreFromSourceFiles)
+    filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles)
   }
 
-  const patterns = await getPatterns(filesPatterns)
+  core.debug(`files patterns: ${filePatterns}`)
+
+  const patterns = await getPatterns(filePatterns)
 
   core.debug(`patterns: ${patterns}`)
 

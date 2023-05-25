@@ -29,7 +29,6 @@ export type Inputs = {
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
   outputDir: string
-  matchDirectories: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -105,9 +104,6 @@ export const getInputs = (): Inputs => {
     required: false
   })
   const outputDir = core.getInput('output_dir', {required: false})
-  const matchDirectories = core.getBooleanInput('match_directories', {
-    required: false
-  })
 
   const inputs: Inputs = {
     files,
@@ -135,8 +131,7 @@ export const getInputs = (): Inputs => {
     escapeJson,
     sinceLastRemoteCommit,
     writeOutputFiles,
-    outputDir,
-    matchDirectories
+    outputDir
   }
 
   if (fetchDepth) {
