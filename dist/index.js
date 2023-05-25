@@ -206,7 +206,7 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
     return currentSha;
 });
 const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
-    let targetBranch = env.GITHUB_REFNAME;
+    let targetBranch = env.GITHUB_REF_NAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
     if (isShallow) {
@@ -575,7 +575,6 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
     if (eventPath) {
         eventJson = JSON.parse(yield fs_1.promises.readFile(eventPath, { encoding: 'utf8' }));
     }
-    core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
     core.debug(`Event: ${JSON.stringify(eventJson, null, 2)}`);
     return {
         GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ((_b = (_a = eventJson.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.ref) || '',
@@ -586,7 +585,7 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_f = eventJson.pull_request) === null || _f === void 0 ? void 0 : _f.number) || '',
         GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_h = (_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.base) === null || _h === void 0 ? void 0 : _h.sha) || '',
         GITHUB_EVENT_FORCED: eventJson.forced || '',
-        GITHUB_REFNAME: process.env.GITHUB_REFNAME || '',
+        GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
         GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
     };
