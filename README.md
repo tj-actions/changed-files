@@ -335,13 +335,11 @@ See [outputs](#outputs) for a list of all available outputs.
      with:
        write_output_files: true
 
-    - name: Verify the contents of the .github/outputs/added_files.txt file
-      run: |
-        cat .github/outputs/added_files.txt
+   - name: Verify the contents of the .github/outputs/added_files.txt file
+     run: |
+       cat .github/outputs/added_files.txt
 ...
 ```
-
-See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
@@ -357,13 +355,11 @@ See [action.yml](action.yml#L264) for a list of all available keys.
        json: true
        write_output_files: true
 
-    - name: Verify the contents of the .github/outputs/added_files.json file
-      run: |
-        cat .github/outputs/added_files.json
+   - name: Verify the contents of the .github/outputs/added_files.json file
+     run: |
+       cat .github/outputs/added_files.json
 ...
 ```
-
-See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
