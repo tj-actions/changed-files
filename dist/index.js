@@ -1234,7 +1234,7 @@ const versionToNumber = (version) => {
     return major * 1000000 + minor * 1000 + patch;
 };
 const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: false });
+    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: true });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
     }
@@ -1329,7 +1329,7 @@ const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __await
 const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['config', '--global', name, value], {
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     /* istanbul ignore if */
     if (exitCode !== 0 || stderr) {
@@ -1340,7 +1340,7 @@ exports.updateGitGlobalConfig = updateGitGlobalConfig;
 const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
-        silent: false
+        silent: true
     });
     return stdout.trim() === 'true';
 });
@@ -1349,7 +1349,7 @@ const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function*
     const { stdout, exitCode } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     if (exitCode !== 0) {
         return false;
@@ -1361,7 +1361,7 @@ const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* 
     const { exitCode } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     return exitCode;
 });
@@ -1370,7 +1370,7 @@ const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, 
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     /* istanbul ignore if */
     if (exitCode !== 0) {
@@ -1385,7 +1385,7 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     if (exitCode !== 0) {
         core.warning(stderr || "Couldn't get submodule names");
@@ -1401,7 +1401,7 @@ const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff 
     var _h, _j, _k, _l;
     const { stdout } = yield exec.getExecOutput('git', ['diff', parentSha1, parentSha2, '--', submodulePath], {
         cwd,
-        silent: false
+        silent: true
     });
     const subprojectCommitPreRegex = /^(?<preCommit>-)Subproject commit (?<commitHash>.+)$/m;
     const subprojectCommitCurRegex = /^(?<curCommit>\+)Subproject commit (?<commitHash>.+)$/m;
@@ -1425,7 +1425,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
     ], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1463,7 +1463,7 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
     ], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1498,7 +1498,7 @@ exports.gitDiff = gitDiff;
 const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['log', ...args], {
         cwd,
-        silent: false
+        silent: true
     });
     return stdout.trim();
 });
@@ -1506,7 +1506,7 @@ exports.gitLog = gitLog;
 const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
         cwd,
-        silent: false
+        silent: true
     });
     return stdout.trim();
 });
@@ -1514,7 +1514,7 @@ exports.getHeadSha = getHeadSha;
 const gitLsRemote = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['ls-remote', 'origin', ...args], {
         cwd,
-        silent: false
+        silent: true
     });
     const output = stdout.trim().split('\t');
     if (output.length === 0) {
@@ -1526,7 +1526,7 @@ exports.gitLsRemote = gitLsRemote;
 const getParentSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
         cwd,
-        silent: false
+        silent: true
     });
     return stdout.trim();
 });
@@ -1535,7 +1535,7 @@ const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(v
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     if (exitCode !== 0) {
         if (showAsErrorMessage) {
@@ -1554,7 +1554,7 @@ exports.verifyCommitSha = verifyCommitSha;
 const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-version:refname'], {
         cwd,
-        silent: false
+        silent: true
     });
     const tags = stdout.trim().split('\n');
     if (tags.length < 2) {
@@ -1564,7 +1564,7 @@ const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, functio
     const previousTag = tags[1];
     const { stdout: stdout2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
         cwd,
-        silent: false
+        silent: true
     });
     const sha = stdout2.trim();
     return { tag: previousTag, sha };
@@ -1574,7 +1574,7 @@ const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, 
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`], {
         cwd,
         ignoreReturnCode: true,
-        silent: false
+        silent: true
     });
     if (exitCode !== 0) {
         core.warning(stderr || `Unable find merge base between ${sha1} and ${sha2}`);
