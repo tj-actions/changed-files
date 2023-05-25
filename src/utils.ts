@@ -246,6 +246,8 @@ export const getSubmodulePath = async ({
 }: {
   cwd: string
 }): Promise<string[]> => {
+  // git submodule status | awk '{print $2}'
+
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'status'],
@@ -261,16 +263,9 @@ export const getSubmodulePath = async ({
   }
 
   return stdout
+    .trim()
     .split('\n')
-    .filter(Boolean)
-    .map(line => {
-      const regex = /^-[0-9a-f]{40} (.*) \(.+\)$/
-      const match = regex.exec(line)
-      if (!match) {
-        throw new Error(`Unexpected submodule line: ${line}`)
-      }
-      return normalizePath(match[1])
-    })
+    .map(line => normalizePath(line.split(' ')[1]))
 }
 
 export const gitSubmoduleDiffSHA = async ({
