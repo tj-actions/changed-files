@@ -210,9 +210,6 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
     let targetBranch = env.GITHUB_REFNAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
-    let currentSha = inputs.sha;
-    let previousSha = inputs.baseSha;
-    const diff = '..';
     if (isShallow) {
         core.info('Repository is shallow, fetching more history...');
         if (isTag) {
@@ -254,6 +251,9 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             });
         }
     }
+    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    let previousSha = inputs.baseSha;
+    const diff = '..';
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
@@ -271,9 +271,6 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             targetBranch,
             diff
         };
-    }
-    if (!currentSha) {
-        currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     }
     if (!previousSha) {
         core.debug('Getting previous SHA...');
@@ -362,9 +359,6 @@ exports.getSHAForPushEvent = getSHAForPushEvent;
 const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
     let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF;
     const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF;
-    let currentSha = inputs.sha;
-    let previousSha = inputs.baseSha;
-    let diff = '...';
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
@@ -419,6 +413,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
     }
+    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    let previousSha = inputs.baseSha;
+    let diff = '...';
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
@@ -436,9 +433,6 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             targetBranch,
             diff
         };
-    }
-    if (!currentSha) {
-        currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     }
     if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
         env.GITHUB_EVENT_HEAD_REPO_FORK === 'true') {
