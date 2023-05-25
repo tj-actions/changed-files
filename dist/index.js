@@ -1593,6 +1593,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
 exports.getFilePatterns = getFilePatterns;
 const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
     const cleanedValue = value.toString().trim();
+    core.setOutput(key, cleanedValue);
     if (inputs.writeOutputFiles) {
         const outputDir = inputs.outputDir || '.github/outputs';
         const extension = inputs.json ? 'json' : 'txt';
@@ -1601,9 +1602,6 @@ const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, 
             yield fs_1.promises.mkdir(outputDir, { recursive: true });
         }
         yield fs_1.promises.writeFile(outputFilePath, cleanedValue);
-    }
-    else {
-        core.setOutput(key, cleanedValue);
     }
 });
 exports.setOutput = setOutput;
