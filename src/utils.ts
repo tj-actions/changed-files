@@ -427,10 +427,9 @@ export const gitDiff = async ({
         'Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage'
       )
     } else {
-      core.error(
+      core.warning(
         stderr || `Failed to get changed files between: ${sha1}${diff}${sha2}`
       )
-      throw new Error('Unable to get changed files')
     }
 
     return []
