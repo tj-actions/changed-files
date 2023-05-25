@@ -1628,7 +1628,7 @@ exports.getDirnameMaxDepth = getDirnameMaxDepth;
  * @returns The escaped string
  */
 const escape = (value) => {
-    return value.replace(/"/g, '\\"').replace(/\\/g, '\\\\');
+    return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 };
 /**
  * Unescape quotes and backslashes in a string
@@ -1636,7 +1636,7 @@ const escape = (value) => {
  * @returns The unescaped string
  */
 const unescape = (value) => {
-    return value.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+    return value.replace(/\\\\/g, '\\').replace(/\\"/g, '"');
 };
 const jsonOutput = ({ value, shouldEscape }) => {
     const result = JSON.stringify(value);

@@ -716,7 +716,7 @@ export const getDirnameMaxDepth = ({
  * @returns The escaped string
  */
 const escape = (value: string): string => {
-  return value.replace(/"/g, '\\"').replace(/\\/g, '\\\\')
+  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
 }
 
 /**
@@ -725,7 +725,7 @@ const escape = (value: string): string => {
  * @returns The unescaped string
  */
 const unescape = (value: string): string => {
-  return value.replace(/\\"/g, '"').replace(/\\\\/g, '\\')
+  return value.replace(/\\\\/g, '\\').replace(/\\"/g, '"')
 }
 
 export const jsonOutput = ({
