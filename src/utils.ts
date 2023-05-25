@@ -2,6 +2,7 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import {MatchKind} from '@actions/glob/lib/internal-match-kind'
+import {dirname} from '@actions/glob/lib/internal-path-helper'
 
 import {Pattern} from '@actions/glob/lib/internal-pattern'
 import * as patternHelper from '@actions/glob/lib/internal-pattern-helper'
@@ -22,7 +23,7 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['--version'],
-    {silent: true}
+    {silent: false}
   )
 
   if (exitCode !== 0) {
@@ -142,7 +143,7 @@ export const updateGitGlobalConfig = async ({
     ['config', '--global', name, value],
     {
       ignoreReturnCode: true,
-      silent: true
+      silent: false
     }
   )
 
@@ -158,7 +159,7 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
     ['rev-parse', '--is-shallow-repository'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -179,7 +180,7 @@ export const submoduleExists = async ({
     ['submodule', 'status'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -199,15 +200,15 @@ export const gitFetch = async ({
 }): Promise<number> => {
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
-    ['fetch', ...args],
+    ['fetch', '-q', ...args],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
   /* istanbul ignore if */
-  if (exitCode !== 0 || stderr) {
+  if (exitCode !== 0) {
     core.warning(stderr || "Couldn't fetch repository")
   }
 
@@ -223,17 +224,21 @@ export const gitFetchSubmodules = async ({
 }): Promise<void> => {
   const {exitCode, stderr} = await exec.getExecOutput(
     'git',
-    ['submodule', 'foreach', 'git', 'fetch', ...args],
+    ['submodule', 'foreach', 'git', 'fetch', '-q', ...args],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
   /* istanbul ignore if */
-  if (exitCode !== 0 || stderr) {
+  if (exitCode !== 0) {
     core.warning(stderr || "Couldn't fetch submodules")
   }
+}
+
+const normalizePath = (p: string): string => {
+  return p.replace(/\\/g, '/')
 }
 
 export const getSubmodulePath = async ({
@@ -241,12 +246,14 @@ export const getSubmodulePath = async ({
 }: {
   cwd: string
 }): Promise<string[]> => {
+  // git submodule status | awk '{print $2}'
+
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'status'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -256,9 +263,9 @@ export const getSubmodulePath = async ({
   }
 
   return stdout
+    .trim()
     .split('\n')
-    .filter(Boolean)
-    .map(line => line.split(' ')[1])
+    .map(line => normalizePath(line.split(' ')[1]))
 }
 
 export const gitSubmoduleDiffSHA = async ({
@@ -279,7 +286,7 @@ export const gitSubmoduleDiffSHA = async ({
     ['diff', parentSha1, parentSha2, '--', submodulePath],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -313,7 +320,8 @@ export const gitRenamedFiles = async ({
   sha2,
   diff,
   oldNewSeparator,
-  isSubmodule = false
+  isSubmodule = false,
+  parentDir = ''
 }: {
   cwd: string
   sha1: string
@@ -321,6 +329,7 @@ export const gitRenamedFiles = async ({
   diff: string
   oldNewSeparator: string
   isSubmodule?: boolean
+  parentDir?: string
 }): Promise<string[]> => {
   const {exitCode, stderr, stdout} = await exec.getExecOutput(
     'git',
@@ -333,7 +342,7 @@ export const gitRenamedFiles = async ({
     ],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -360,8 +369,16 @@ export const gitRenamedFiles = async ({
     .trim()
     .split('\n')
     .map(line => {
+      core.debug(`Renamed file: ${line}`)
       const [, oldPath, newPath] = line.split('\t')
-      return `${oldPath}${oldNewSeparator}${newPath}`
+      if (isSubmodule) {
+        return `${normalizePath(
+          path.join(parentDir, oldPath)
+        )}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`
+      }
+      return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(
+        newPath
+      )}`
     })
 }
 
@@ -372,7 +389,8 @@ export const gitDiff = async ({
   diff,
   diffFilter,
   filePatterns = [],
-  isSubmodule = false
+  isSubmodule = false,
+  parentDir = ''
 }: {
   cwd: string
   sha1: string
@@ -381,6 +399,7 @@ export const gitDiff = async ({
   diff: string
   filePatterns?: Pattern[]
   isSubmodule?: boolean
+  parentDir?: string
 }): Promise<string[]> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
@@ -393,7 +412,7 @@ export const gitDiff = async ({
     ],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -416,14 +435,23 @@ export const gitDiff = async ({
     return []
   }
 
-  return stdout.split('\n').filter(filePath => {
-    if (filePatterns.length === 0) {
-      return filePath !== ''
-    }
+  return stdout
+    .split('\n')
+    .filter(filePath => {
+      if (filePatterns.length === 0) {
+        return filePath !== ''
+      }
 
-    const match = patternHelper.match(filePatterns, filePath)
-    return filePath !== '' && match === MatchKind.All
-  })
+      const match = patternHelper.match(filePatterns, filePath)
+      core.debug(`File: ${filePath} Match: ${match}`)
+      return filePath !== '' && match === MatchKind.All
+    })
+    .map(p => {
+      if (isSubmodule) {
+        return normalizePath(path.join(parentDir, p))
+      }
+      return normalizePath(p)
+    })
 }
 
 export const gitLog = async ({
@@ -438,7 +466,7 @@ export const gitLog = async ({
     ['log', ...args],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -455,7 +483,7 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
     ['rev-parse', 'HEAD'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -476,7 +504,7 @@ export const getParentHeadSha = async ({
     ['rev-parse', 'HEAD^'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -499,7 +527,7 @@ export const getBranchHeadSha = async ({
     ['rev-parse', branch],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -524,7 +552,7 @@ export const verifyCommitSha = async ({
     ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -554,7 +582,7 @@ export const getPreviousGitTag = async ({
     ['tag', '--sort=-version:refname'],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -577,7 +605,7 @@ export const getPreviousGitTag = async ({
     stderr: stderr2
   } = await exec.getExecOutput('git', ['rev-parse', previousTag], {
     cwd,
-    silent: true
+    silent: false
   })
 
   if (exitCode2 !== 0) {
@@ -605,7 +633,7 @@ export const canDiffCommits = async ({
     ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`],
     {
       cwd,
-      silent: true
+      silent: false
     }
   )
 
@@ -626,7 +654,7 @@ export const getDirnameMaxDepth = ({
   dirNamesMaxDepth?: number
   excludeRoot?: boolean
 }): string => {
-  const pathArr = pathStr.split(path.sep)
+  const pathArr = dirname(pathStr).split(path.sep)
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
   let output = pathArr[0]
 
@@ -648,7 +676,7 @@ export const jsonOutput = ({
   value: string | string[]
   escape: boolean
 }): string => {
-  let result = JSON.stringify(value)
+  const result = JSON.stringify(value)
 
   return escape ? result.replace(/"/g, '\\"') : result
 }
@@ -669,6 +697,8 @@ export const getFilePatterns = async ({
     const inputFilesFromSourceFile = inputs.filesFromSourceFile
       .split(inputs.filesFromSourceFileSeparator)
       .filter(p => p !== '')
+
+    core.debug(`files from source file: ${inputFilesFromSourceFile}`)
 
     const filesFromSourceFiles = (
       await getFilesFromSourceFile({filePaths: inputFilesFromSourceFile})
@@ -701,6 +731,10 @@ export const getFilePatterns = async ({
       .split(inputs.filesIgnoreFromSourceFileSeparator)
       .filter(p => p !== '')
 
+    core.debug(
+      `files ignore from source file: ${inputFilesIgnoreFromSourceFile}`
+    )
+
     const filesIgnoreFromSourceFiles = (
       await getFilesFromSourceFile({
         filePaths: inputFilesIgnoreFromSourceFile,
@@ -732,6 +766,7 @@ export const setOutput = async ({
   inputs: Inputs
 }): Promise<void> => {
   const cleanedValue = value.toString().trim()
+  core.setOutput(key, cleanedValue)
 
   if (inputs.writeOutputFiles) {
     const outputDir = inputs.outputDir || '.github/outputs'
@@ -742,7 +777,5 @@ export const setOutput = async ({
       await fs.mkdir(outputDir, {recursive: true})
     }
     await fs.writeFile(outputFilePath, cleanedValue)
-  } else {
-    core.setOutput(key, cleanedValue)
   }
 }
