@@ -68,7 +68,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, su
                     diff: shaResult.diff,
                     oldNewSeparator: inputs.oldNewSeparator,
                     isSubmodule: true,
-                    parentDir: workingDirectory
+                    parentDir: submodulePath
                 });
                 renamedFiles.push(...submoduleRenamedFiles);
             }
@@ -108,7 +108,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
                     diffFilter,
                     isSubmodule: true,
                     filePatterns,
-                    parentDir: workingDirectory
+                    parentDir: submodulePath
                 });
                 files.push(...submoduleFiles);
             }
