@@ -75,7 +75,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
         }
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: renamedFiles, escape: inputs.escapeJson });
+        return (0, utils_1.jsonOutput)({ value: renamedFiles, shouldEscape: inputs.escapeJson });
     }
     return renamedFiles.join(inputs.oldNewFilesSeparator);
 });
@@ -122,7 +122,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diff
         }));
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: files, escape: inputs.escapeJson });
+        return (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson });
     }
     return files.join(inputs.separator);
 });
@@ -1623,24 +1623,24 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
 /**
- * Escape quotes in a string
+ * Escape quotes and backslashes in a string
  * @param value The string to escape
  * @returns The escaped string
  */
-const escapeQuotes = (value) => {
-    return value.replace(/"/g, '\\"');
+const escape = (value) => {
+    return value.replace(/"/g, '\\"').replace(/\\/g, '\\\\');
 };
 /**
- * Unescape quotes in a string
+ * Unescape quotes and backslashes in a string
  * @param value The string to unescape
  * @returns The unescaped string
  */
-const unescapeQuotes = (value) => {
-    return value.replace(/\\"/g, '"');
+const unescape = (value) => {
+    return value.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
 };
-const jsonOutput = ({ value, escape }) => {
+const jsonOutput = ({ value, shouldEscape }) => {
     const result = JSON.stringify(value);
-    return escape ? escapeQuotes(result) : result;
+    return shouldEscape ? escape(result) : result;
 };
 exports.jsonOutput = jsonOutput;
 const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1701,7 +1701,7 @@ const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, 
         if (!(yield exists(outputDir))) {
             yield fs_1.promises.mkdir(outputDir, { recursive: true });
         }
-        yield fs_1.promises.writeFile(outputFilePath, unescapeQuotes(cleanedValue));
+        yield fs_1.promises.writeFile(outputFilePath, unescape(cleanedValue));
     }
 });
 exports.setOutput = setOutput;

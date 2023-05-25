@@ -711,33 +711,33 @@ export const getDirnameMaxDepth = ({
 }
 
 /**
- * Escape quotes in a string
+ * Escape quotes and backslashes in a string
  * @param value The string to escape
  * @returns The escaped string
  */
-const escapeQuotes = (value: string): string => {
-  return value.replace(/"/g, '\\"')
+const escape = (value: string): string => {
+  return value.replace(/"/g, '\\"').replace(/\\/g, '\\\\')
 }
 
 /**
- * Unescape quotes in a string
+ * Unescape quotes and backslashes in a string
  * @param value The string to unescape
  * @returns The unescaped string
  */
-const unescapeQuotes = (value: string): string => {
-  return value.replace(/\\"/g, '"')
+const unescape = (value: string): string => {
+  return value.replace(/\\"/g, '"').replace(/\\\\/g, '\\')
 }
 
 export const jsonOutput = ({
   value,
-  escape
+  shouldEscape
 }: {
   value: string | string[]
-  escape: boolean
+  shouldEscape: boolean
 }): string => {
   const result = JSON.stringify(value)
 
-  return escape ? escapeQuotes(result) : result
+  return shouldEscape ? escape(result) : result
 }
 
 export const getFilePatterns = async ({
@@ -836,6 +836,6 @@ export const setOutput = async ({
     if (!(await exists(outputDir))) {
       await fs.mkdir(outputDir, {recursive: true})
     }
-    await fs.writeFile(outputFilePath, unescapeQuotes(cleanedValue))
+    await fs.writeFile(outputFilePath, unescape(cleanedValue))
   }
 }
