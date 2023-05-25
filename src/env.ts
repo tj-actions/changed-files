@@ -1,4 +1,5 @@
 import {promises as fs} from 'fs'
+import * as core from '@actions/core'
 
 export type Env = {
   GITHUB_EVENT_PULL_REQUEST_HEAD_REF: string
@@ -40,6 +41,8 @@ export const getEnv = async (): Promise<Env> => {
   if (eventPath) {
     eventJson = JSON.parse(await fs.readFile(eventPath, {encoding: 'utf8'}))
   }
+
+  core.debug(`Event: ${JSON.stringify(eventJson, null, 2)}`)
 
   return {
     GITHUB_EVENT_PULL_REQUEST_HEAD_REF: eventJson.pull_request?.head?.ref || '',
