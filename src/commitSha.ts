@@ -151,7 +151,9 @@ export const getSHAForPushEvent = async (
     }
   }
 
-  currentSha = await getCurrentSHA({inputs, workingDirectory})
+  if (!currentSha) {
+    currentSha = await getCurrentSHA({inputs, workingDirectory})
+  }
 
   if (!previousSha) {
     core.debug('Getting previous SHA...')
@@ -344,7 +346,9 @@ export const getSHAForPullRequestEvent = async (
     }
   }
 
-  currentSha = await getCurrentSHA({inputs, workingDirectory})
+  if (!currentSha) {
+    currentSha = await getCurrentSHA({inputs, workingDirectory})
+  }
 
   if (
     !env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
