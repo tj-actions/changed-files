@@ -205,10 +205,19 @@ export const submoduleExists = async ({
 }: {
   cwd: string
 }): Promise<boolean> => {
-  const {stdout} = await exec.getExecOutput('git', ['submodule', 'status'], {
-    cwd,
-    silent: false
-  })
+  const {stdout, exitCode} = await exec.getExecOutput(
+    'git',
+    ['submodule', 'status'],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: false
+    }
+  )
+
+  if (exitCode !== 0) {
+    return false
+  }
 
   return stdout.trim() !== ''
 }
@@ -261,8 +270,6 @@ export const getSubmodulePath = async ({
 }: {
   cwd: string
 }): Promise<string[]> => {
-  // git submodule status | awk '{print $2}'
-
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'status'],
