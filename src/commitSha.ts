@@ -74,7 +74,7 @@ export const getSHAForPushEvent = async (
   gitExtraArgs: string[],
   isTag: boolean
 ): Promise<DiffResult> => {
-  let targetBranch = env.GITHUB_REFNAME
+  let targetBranch = env.GITHUB_REF_NAME
   const currentBranch = targetBranch
   let initialCommit = false
 
