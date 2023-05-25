@@ -444,7 +444,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         if (inputs.sinceLastRemoteCommit) {
             previousSha = env.GITHUB_EVENT_BEFORE;
             if ((yield (0, utils_1.verifyCommitSha)({
-                sha: currentSha,
+                sha: previousSha,
                 cwd: workingDirectory,
                 showAsErrorMessage: false
             })) !== 0) {
