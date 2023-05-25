@@ -420,6 +420,7 @@ export const gitDiff = async ({
     }
 
     const match = patternHelper.match(filePatterns, filePath)
+    core.debug(`File: ${filePath} Match: ${match}`)
     return filePath !== '' && match === MatchKind.All
   })
 }
