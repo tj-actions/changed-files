@@ -359,7 +359,7 @@ export const getSHAForPullRequestEvent = async (
 
       if (
         (await verifyCommitSha({
-          sha: currentSha,
+          sha: previousSha,
           cwd: workingDirectory,
           showAsErrorMessage: false
         })) !== 0
