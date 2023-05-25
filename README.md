@@ -335,13 +335,11 @@ See [outputs](#outputs) for a list of all available outputs.
      with:
        write_output_files: true
 
-    - name: Verify the contents of the .github/outputs/added_files.txt file
-      run: |
-        cat .github/outputs/added_files.txt
+   - name: Verify the contents of the .github/outputs/added_files.txt file
+     run: |
+       cat .github/outputs/added_files.txt
 ...
 ```
-
-See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
@@ -357,13 +355,11 @@ See [action.yml](action.yml#L264) for a list of all available keys.
        json: true
        write_output_files: true
 
-    - name: Verify the contents of the .github/outputs/added_files.json file
-      run: |
-        cat .github/outputs/added_files.json
+   - name: Verify the contents of the .github/outputs/added_files.json file
+     run: |
+       cat .github/outputs/added_files.json
 ...
 ```
-
-See [action.yml](action.yml#L264) for a list of all available keys.
 
 </details>
 
@@ -745,8 +741,7 @@ And many more...
 ## Known Limitation
 
 > **Warning**:
->
-> *   Using characters like `\n`, `%`, `.` and `\r` as separators would be [URL encoded](https://www.w3schools.com/tags/ref_urlencode.asp)
+> 
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
 >

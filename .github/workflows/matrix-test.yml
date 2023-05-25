@@ -22,6 +22,7 @@ jobs:
         uses: ./
         with:
           json: true
+          quotepath: false
       - name: List all changed files
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
       - id: set-matrix
