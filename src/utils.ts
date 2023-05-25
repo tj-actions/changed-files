@@ -368,6 +368,7 @@ export const gitRenamedFiles = async ({
   return stdout
     .trim()
     .split('\n')
+    .filter(Boolean)
     .map(line => {
       core.debug(`Renamed file: ${line}`)
       const [, oldPath, newPath] = line.split('\t')
@@ -439,12 +440,12 @@ export const gitDiff = async ({
     .split('\n')
     .filter(filePath => {
       if (filePatterns.length === 0) {
-        return filePath !== ''
+        return !!filePath
       }
 
       const match = patternHelper.match(filePatterns, filePath)
       core.debug(`File: ${filePath} Match: ${match}`)
-      return filePath !== '' && match === MatchKind.All
+      return !!filePath && match === MatchKind.All
     })
     .map(p => {
       if (isSubmodule) {
