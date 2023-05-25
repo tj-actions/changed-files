@@ -43,7 +43,7 @@ exports.getDiffFiles = exports.getRenamedFiles = void 0;
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
 const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) => __awaiter(void 0, void 0, void 0, function* () {
-    let renamedFiles = yield (0, utils_1.gitRenamedFiles)({
+    const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
         sha1: shaResult.previousSha,
         sha2: shaResult.currentSha,
@@ -69,18 +69,12 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) 
                     sha2: submoduleShaResult.currentSha,
                     diff: shaResult.diff,
                     oldNewSeparator: inputs.oldNewSeparator,
-                    isSubmodule: true
+                    isSubmodule: true,
+                    parentDir: workingDirectory
                 });
                 renamedFiles.push(...submoduleRenamedFiles);
             }
         }
-    }
-    if (inputs.dirNames) {
-        renamedFiles = renamedFiles.map(renamedFile => (0, utils_1.getDirnameMaxDepth)({
-            pathStr: renamedFile,
-            dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-            excludeRoot: inputs.dirNamesExcludeRoot
-        }));
     }
     if (inputs.json) {
         return (0, utils_1.jsonOutput)({ value: renamedFiles, escape: inputs.escapeJson });
@@ -511,6 +505,11 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }))) {
         throw new Error(`Unable to determine a difference between ${previousSha}${diff}${currentSha}`);
     }
+    if (previousSha === currentSha) {
+        core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
+        core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+        throw new Error('Similar commit hashes detected.');
+    }
     return {
         previousSha,
         currentSha,
@@ -525,27 +524,43 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 /***/ }),
 
 /***/ 9763:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getEnv = void 0;
-const getEnv = () => {
+const fs_1 = __nccwpck_require__(7147);
+const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const eventPath = process.env.GITHUB_EVENT_PATH;
+    let eventJson = {};
+    if (eventPath) {
+        eventJson = JSON.parse(yield fs_1.promises.readFile(eventPath, { encoding: 'utf8' }));
+    }
     return {
-        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: process.env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_REF: process.env.GITHUB_EVENT_PULL_REQUEST_BASE_REF || '',
-        GITHUB_EVENT_BEFORE: process.env.GITHUB_EVENT_BEFORE || '',
+        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ((_b = (_a = eventJson.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.ref) || '',
+        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ((_d = (_c = eventJson.pull_request) === null || _c === void 0 ? void 0 : _c.base) === null || _d === void 0 ? void 0 : _d.ref) || '',
+        GITHUB_EVENT_BEFORE: eventJson.before || '',
+        GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
+        GITHUB_EVENT_HEAD_REPO_FORK: ((_e = eventJson.head_repo) === null || _e === void 0 ? void 0 : _e.fork) || '',
+        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_f = eventJson.pull_request) === null || _f === void 0 ? void 0 : _f.number) || '',
+        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_h = (_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.base) === null || _h === void 0 ? void 0 : _h.sha) || '',
+        GITHUB_EVENT_FORCED: eventJson.forced || '',
         GITHUB_REFNAME: process.env.GITHUB_REFNAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
-        GITHUB_EVENT_BASE_REF: process.env.GITHUB_EVENT_BASE_REF || '',
-        GITHUB_EVENT_HEAD_REPO_FORK: process.env.GITHUB_EVENT_HEAD_REPO_FORK || '',
-        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
-        GITHUB_EVENT_FORCED: process.env.GITHUB_EVENT_FORCED || '',
-        GITHUB_EVENT_PULL_REQUEST_NUMBER: process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: process.env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA || ''
+        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
     };
-};
+});
 exports.getEnv = getEnv;
 
 
@@ -773,6 +788,7 @@ function run() {
             core.info('Running on a pull request event...');
             shaResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
         }
+        core.info(`Retrieving changes between ${shaResult.previousSha} (${shaResult.targetBranch}) → ${shaResult.currentSha} (${shaResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs
         });
@@ -1023,6 +1039,8 @@ function run() {
                 inputs
             });
         }
+        core.info('All Done!');
+        core.endGroup();
     });
 }
 exports.run = run;
@@ -1099,6 +1117,7 @@ exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDi
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const internal_match_kind_1 = __nccwpck_require__(1063);
+const internal_path_helper_1 = __nccwpck_require__(1849);
 const internal_pattern_1 = __nccwpck_require__(4536);
 const patternHelper = __importStar(__nccwpck_require__(9005));
 const path = __importStar(__nccwpck_require__(1017));
@@ -1110,7 +1129,7 @@ const versionToNumber = (version) => {
     return major * 1000000 + minor * 1000 + patch;
 };
 const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: true });
+    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: false });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
     }
@@ -1240,7 +1259,7 @@ exports.getFilesFromSourceFile = getFilesFromSourceFile;
 const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['config', '--global', name, value], {
         ignoreReturnCode: true,
-        silent: true
+        silent: false
     });
     /* istanbul ignore if */
     if (exitCode !== 0 || stderr) {
@@ -1251,7 +1270,7 @@ exports.updateGitGlobalConfig = updateGitGlobalConfig;
 const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1262,7 +1281,7 @@ exports.isRepoShallow = isRepoShallow;
 const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1271,48 +1290,52 @@ const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.submoduleExists = submoduleExists;
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', ...args], {
+    const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
-        silent: true
+        silent: false
     });
     /* istanbul ignore if */
-    if (exitCode !== 0 || stderr) {
+    if (exitCode !== 0) {
         core.warning(stderr || "Couldn't fetch repository");
     }
     return exitCode;
 });
 exports.gitFetch = gitFetch;
 const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', ...args], {
+    const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
-        silent: true
+        silent: false
     });
     /* istanbul ignore if */
-    if (exitCode !== 0 || stderr) {
+    if (exitCode !== 0) {
         core.warning(stderr || "Couldn't fetch submodules");
     }
 });
 exports.gitFetchSubmodules = gitFetchSubmodules;
+const normalizePath = (p) => {
+    return p.replace(/\\/g, '/');
+};
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+    // git submodule status | awk '{print $2}'
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         core.warning(stderr || "Couldn't get submodule names");
         return [];
     }
     return stdout
+        .trim()
         .split('\n')
-        .filter(Boolean)
-        .map(line => line.split(' ')[1]);
+        .map(line => normalizePath(line.split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['diff', parentSha1, parentSha2, '--', submodulePath], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1329,7 +1352,7 @@ const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff 
     return {};
 });
 exports.gitSubmoduleDiffSHA = gitSubmoduleDiffSHA;
-const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr, stdout } = yield exec.getExecOutput('git', [
         'diff',
         '--name-status',
@@ -1338,7 +1361,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1356,12 +1379,16 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         .trim()
         .split('\n')
         .map(line => {
+        core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
-        return `${oldPath}${oldNewSeparator}${newPath}`;
+        if (isSubmodule) {
+            return `${normalizePath(path.join(parentDir, oldPath))}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`;
+        }
+        return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(newPath)}`;
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
-const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmodule = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
         '--name-only',
@@ -1370,7 +1397,7 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1384,19 +1411,28 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         }
         return [];
     }
-    return stdout.split('\n').filter(filePath => {
+    return stdout
+        .split('\n')
+        .filter(filePath => {
         if (filePatterns.length === 0) {
             return filePath !== '';
         }
         const match = patternHelper.match(filePatterns, filePath);
+        core.debug(`File: ${filePath} Match: ${match}`);
         return filePath !== '' && match === internal_match_kind_1.MatchKind.All;
+    })
+        .map(p => {
+        if (isSubmodule) {
+            return normalizePath(path.join(parentDir, p));
+        }
+        return normalizePath(p);
     });
 });
 exports.gitDiff = gitDiff;
 const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['log', ...args], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
@@ -1407,7 +1443,7 @@ exports.gitLog = gitLog;
 const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'Unable to get HEAD sha');
@@ -1418,7 +1454,7 @@ exports.getHeadSha = getHeadSha;
 const getParentHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'Unable to get HEAD^ sha');
@@ -1429,7 +1465,7 @@ exports.getParentHeadSha = getParentHeadSha;
 const getBranchHeadSha = ({ branch, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', branch], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || `Unable to get ${branch} head sha`);
@@ -1440,7 +1476,7 @@ exports.getBranchHeadSha = getBranchHeadSha;
 const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--quiet', '--verify', `${sha}^{commit}`], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         if (showAsErrorMessage) {
@@ -1459,7 +1495,7 @@ exports.verifyCommitSha = verifyCommitSha;
 const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['tag', '--sort=-version:refname'], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         throw new Error(stderr || 'Unable to get previous tag');
@@ -1472,7 +1508,7 @@ const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, functio
     const previousTag = tags[1];
     const { exitCode: exitCode2, stdout: stdout2, stderr: stderr2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode2 !== 0) {
         throw new Error(stderr2 || 'Unable to get previous tag');
@@ -1484,7 +1520,7 @@ exports.getPreviousGitTag = getPreviousGitTag;
 const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`], {
         cwd,
-        silent: true
+        silent: false
     });
     if (exitCode !== 0) {
         core.warning(stderr || `Unable find merge base between ${sha1} and ${sha2}`);
@@ -1494,7 +1530,7 @@ const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, 
 });
 exports.canDiffCommits = canDiffCommits;
 const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
-    const pathArr = pathStr.split(path.sep);
+    const pathArr = (0, internal_path_helper_1.dirname)(pathStr).split(path.sep);
     const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length);
     let output = pathArr[0];
     for (let i = 1; i < maxDepth; i++) {
@@ -1521,6 +1557,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         const inputFilesFromSourceFile = inputs.filesFromSourceFile
             .split(inputs.filesFromSourceFileSeparator)
             .filter(p => p !== '');
+        core.debug(`files from source file: ${inputFilesFromSourceFile}`);
         const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
         core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
         filesPatterns = filesPatterns.concat('\n', filesFromSourceFiles);
@@ -1543,6 +1580,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
             .split(inputs.filesIgnoreFromSourceFileSeparator)
             .filter(p => p !== '');
+        core.debug(`files ignore from source file: ${inputFilesIgnoreFromSourceFile}`);
         const filesIgnoreFromSourceFiles = (yield getFilesFromSourceFile({
             filePaths: inputFilesIgnoreFromSourceFile,
             excludedFiles: true
@@ -1557,6 +1595,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
 exports.getFilePatterns = getFilePatterns;
 const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
     const cleanedValue = value.toString().trim();
+    core.setOutput(key, cleanedValue);
     if (inputs.writeOutputFiles) {
         const outputDir = inputs.outputDir || '.github/outputs';
         const extension = inputs.json ? 'json' : 'txt';
@@ -1565,9 +1604,6 @@ const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, 
             yield fs_1.promises.mkdir(outputDir, { recursive: true });
         }
         yield fs_1.promises.writeFile(outputFilePath, cleanedValue);
-    }
-    else {
-        core.setOutput(key, cleanedValue);
     }
 });
 exports.setOutput = setOutput;

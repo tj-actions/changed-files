@@ -23,7 +23,7 @@ export const getRenamedFiles = async ({
   hasSubmodule: boolean
   shaResult: SHAResult
 }): Promise<string> => {
-  let renamedFiles = await gitRenamedFiles({
+  const renamedFiles = await gitRenamedFiles({
     cwd: workingDirectory,
     sha1: shaResult.previousSha,
     sha2: shaResult.currentSha,
@@ -55,21 +55,12 @@ export const getRenamedFiles = async ({
           sha2: submoduleShaResult.currentSha,
           diff: shaResult.diff,
           oldNewSeparator: inputs.oldNewSeparator,
-          isSubmodule: true
+          isSubmodule: true,
+          parentDir: workingDirectory
         })
         renamedFiles.push(...submoduleRenamedFiles)
       }
     }
-  }
-
-  if (inputs.dirNames) {
-    renamedFiles = renamedFiles.map(renamedFile =>
-      getDirnameMaxDepth({
-        pathStr: renamedFile,
-        dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-        excludeRoot: inputs.dirNamesExcludeRoot
-      })
-    )
   }
 
   if (inputs.json) {

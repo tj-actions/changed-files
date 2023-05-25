@@ -1,3 +1,5 @@
+import {promises as fs} from 'fs'
+
 export type Env = {
   GITHUB_EVENT_PULL_REQUEST_HEAD_REF: string
   GITHUB_EVENT_PULL_REQUEST_BASE_REF: string
@@ -12,22 +14,44 @@ export type Env = {
   GITHUB_EVENT_PULL_REQUEST_BASE_SHA: string
 }
 
-export const getEnv = (): Env => {
+type GithubEvent = {
+  forced?: string
+  pull_request?: {
+    head: {
+      ref: string
+    }
+    base: {
+      ref: string
+      sha: string
+    }
+    number: string
+  }
+  before?: string
+  base_ref?: string
+  head_repo?: {
+    fork: string
+  }
+}
+
+export const getEnv = async (): Promise<Env> => {
+  const eventPath = process.env.GITHUB_EVENT_PATH
+  let eventJson: GithubEvent = {}
+
+  if (eventPath) {
+    eventJson = JSON.parse(await fs.readFile(eventPath, {encoding: 'utf8'}))
+  }
+
   return {
-    GITHUB_EVENT_PULL_REQUEST_HEAD_REF:
-      process.env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF || '',
-    GITHUB_EVENT_PULL_REQUEST_BASE_REF:
-      process.env.GITHUB_EVENT_PULL_REQUEST_BASE_REF || '',
-    GITHUB_EVENT_BEFORE: process.env.GITHUB_EVENT_BEFORE || '',
+    GITHUB_EVENT_PULL_REQUEST_HEAD_REF: eventJson.pull_request?.head?.ref || '',
+    GITHUB_EVENT_PULL_REQUEST_BASE_REF: eventJson.pull_request?.base?.ref || '',
+    GITHUB_EVENT_BEFORE: eventJson.before || '',
+    GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
+    GITHUB_EVENT_HEAD_REPO_FORK: eventJson.head_repo?.fork || '',
+    GITHUB_EVENT_PULL_REQUEST_NUMBER: eventJson.pull_request?.number || '',
+    GITHUB_EVENT_PULL_REQUEST_BASE_SHA: eventJson.pull_request?.base?.sha || '',
+    GITHUB_EVENT_FORCED: eventJson.forced || '',
     GITHUB_REFNAME: process.env.GITHUB_REFNAME || '',
     GITHUB_REF: process.env.GITHUB_REF || '',
-    GITHUB_EVENT_BASE_REF: process.env.GITHUB_EVENT_BASE_REF || '',
-    GITHUB_EVENT_HEAD_REPO_FORK: process.env.GITHUB_EVENT_HEAD_REPO_FORK || '',
-    GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
-    GITHUB_EVENT_FORCED: process.env.GITHUB_EVENT_FORCED || '',
-    GITHUB_EVENT_PULL_REQUEST_NUMBER:
-      process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER || '',
-    GITHUB_EVENT_PULL_REQUEST_BASE_SHA:
-      process.env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA || ''
+    GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
   }
 }
