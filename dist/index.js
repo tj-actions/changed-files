@@ -1622,9 +1622,15 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
     return normalizePath(output);
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
+const escapeValue = (value) => {
+    return value.replace(/"/g, '\\"');
+};
+const unescapeValue = (value) => {
+    return value.replace(/\\"/g, '"');
+};
 const jsonOutput = ({ value, escape }) => {
     const result = JSON.stringify(value);
-    return escape ? result.replace(/"/g, '\\"') : result;
+    return escape ? escapeValue(result) : result;
 };
 exports.jsonOutput = jsonOutput;
 const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1685,7 +1691,7 @@ const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, 
         if (!(yield exists(outputDir))) {
             yield fs_1.promises.mkdir(outputDir, { recursive: true });
         }
-        yield fs_1.promises.writeFile(outputFilePath, cleanedValue);
+        yield fs_1.promises.writeFile(outputFilePath, unescapeValue(cleanedValue));
     }
 });
 exports.setOutput = setOutput;
