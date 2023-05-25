@@ -1,5 +1,55 @@
 # Changelog
 
+# [36.0.0](https://github.com/tj-actions/changed-files/compare/v35.9.2...v36.0.0) - (2023-05-25)
+
+## <!-- 0 -->🚀 Features
+
+- Update action to nodejs ([#1159](https://github.com/tj-actions/changed-files/issues/1159)) ([413fd78](https://github.com/tj-actions/changed-files/commit/413fd78918c15296b1518feffd64be07d16118b9))  - (tj-actions[bot])
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1166](https://github.com/tj-actions/changed-files/issues/1166))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([53c377a](https://github.com/tj-actions/changed-files/commit/53c377a374b445ec2a61e343068807bf41f2c9a6))  - (tj-actions[bot])
+- Update action.yml ([9d2dd83](https://github.com/tj-actions/changed-files/commit/9d2dd83a0150d52eca7815d48dd8a24d7da4a5d8))  - (Tonye Jack)
+- Update sync-release-version.yml ([fd208a9](https://github.com/tj-actions/changed-files/commit/fd208a9313303759fc804627ea0f81567c9f5a3c))  - (Tonye Jack)
+- Updated README.md ([#1160](https://github.com/tj-actions/changed-files/issues/1160))
+
+Co-authored-by: tj-actions-bot <tj-actions-bot@users.noreply.github.com> ([088aefc](https://github.com/tj-actions/changed-files/commit/088aefc16aa6eadd995f8ff7e2aacd7c38962e87))  - (tj-actions[bot])
+- Update README.md ([be61785](https://github.com/tj-actions/changed-files/commit/be6178560929da94757e6d179b1126bae707a767))  - (tj-actions[bot])
+- Updated README.md ([#1125](https://github.com/tj-actions/changed-files/issues/1125))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([32778a6](https://github.com/tj-actions/changed-files/commit/32778a6046aabb1594e8adf611fbd2280fb1ded1))  - (Tonye Jack)
+- Update README.md ([96d3f73](https://github.com/tj-actions/changed-files/commit/96d3f739bc23e640f2fa127fbd98b8d7ebfe3bc9))  - (Tonye Jack)
+- Update README.md ([8f25d07](https://github.com/tj-actions/changed-files/commit/8f25d07e2f2b0ed2d694aa0273b972e4c8dc4c30))  - (Tonye Jack)
+- Update README.md ([a16f162](https://github.com/tj-actions/changed-files/commit/a16f162810b666d2dd15924db0b63c70419e3bd3))  - (Tonye Jack)
+- Updated README.md ([#1113](https://github.com/tj-actions/changed-files/issues/1113))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([4ea8e08](https://github.com/tj-actions/changed-files/commit/4ea8e08f6930db51c667a695f94c99e1d9da9d63))  - (Tonye Jack)
+
+## <!-- 3 -->📚 Documentation
+
+- Clarify the intent of `fetch-depth` ([#1119](https://github.com/tj-actions/changed-files/issues/1119)) ([6d0aacb](https://github.com/tj-actions/changed-files/commit/6d0aacb11494bcdb6ce492f3c13e7a482b6b23d8))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v5.59.7 ([#1162](https://github.com/tj-actions/changed-files/issues/1162)) ([1cf8e0a](https://github.com/tj-actions/changed-files/commit/1cf8e0a6001c1ef22ac17ed4df03277ac8670071))  - (renovate[bot])
+- Delete sec-auto-merge.yml ([#1161](https://github.com/tj-actions/changed-files/issues/1161)) ([11b14ae](https://github.com/tj-actions/changed-files/commit/11b14aea27d9349a3159ffc66b691e44583994bc))  - (tj-actions[bot])
+- **deps:** Update tj-actions/glob action to v17.2.6 (main) ([#1137](https://github.com/tj-actions/changed-files/issues/1137)) ([7bbc71b](https://github.com/tj-actions/changed-files/commit/7bbc71bb94e17757e0061e7b0d8fbec2893afdd6))  - (renovate[bot])
+- **deps:** Update tj-actions/branch-names action to v7 (main) ([#1132](https://github.com/tj-actions/changed-files/issues/1132)) ([f569b77](https://github.com/tj-actions/changed-files/commit/f569b77fb1d9ad9f1a125757d7e9e07b1f320199))  - (renovate[bot])
+- Remove extra spaces ([#1131](https://github.com/tj-actions/changed-files/issues/1131)) ([c22c36b](https://github.com/tj-actions/changed-files/commit/c22c36bf000848fcd7e70bf3856005c782963715))  - (Tonye Jack)
+- **deps:** Update tj-actions/json2file action to v1.7.2 (main) ([#1128](https://github.com/tj-actions/changed-files/issues/1128)) ([3c03080](https://github.com/tj-actions/changed-files/commit/3c03080dbf8d021ad8453acb51048ff77c4e5923))  - (renovate[bot])
+- **deps:** Update tj-actions/json2file action to v1.7.1 (main) ([#1126](https://github.com/tj-actions/changed-files/issues/1126)) ([4897987](https://github.com/tj-actions/changed-files/commit/48979870c0e56e452728d7043ce7a1c1895ebffb))  - (renovate[bot])
+- **deps:** Update tj-actions/json2file action to v1.6.0 (main) ([#1123](https://github.com/tj-actions/changed-files/issues/1123)) ([8873eb7](https://github.com/tj-actions/changed-files/commit/8873eb78c35420478318bb2376654ad2364912e9))  - (renovate[bot])
+- **deps:** Update tj-actions/json2file action to v1.5.0 (main) ([#1120](https://github.com/tj-actions/changed-files/issues/1120)) ([82d64d3](https://github.com/tj-actions/changed-files/commit/82d64d32b471aca2662f3924ea8d434eac18e6d5))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v5.0.1 (main) ([#1114](https://github.com/tj-actions/changed-files/issues/1114)) ([5fce989](https://github.com/tj-actions/changed-files/commit/5fce9894a2e9217983b4649ec6e43f1bbee951fb))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v35.9.2 ([#1112](https://github.com/tj-actions/changed-files/issues/1112))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([3fb7110](https://github.com/tj-actions/changed-files/commit/3fb71100b17456daf24edac3ef41ef3cda647da9))  - (Tonye Jack)
+
 # [35.9.2](https://github.com/tj-actions/changed-files/compare/v35.9.1...v35.9.2) - (2023-04-28)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
