@@ -511,6 +511,11 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }))) {
         throw new Error(`Unable to determine a difference between ${previousSha}${diff}${currentSha}`);
     }
+    if (previousSha === currentSha) {
+        core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
+        core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+        throw new Error('Similar commit hashes detected.');
+    }
     return {
         previousSha,
         currentSha,
