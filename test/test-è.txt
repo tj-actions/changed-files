@@ -1,1 +1,1 @@
-This is a test file with non ascii character filename.
+This is a test file with non ascii character in the filename.
