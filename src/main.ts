@@ -228,7 +228,7 @@ export async function run(): Promise<void> {
 
   await setOutput({
     key: 'any_changed',
-    value: allChangedFiles && filePatterns.length > 0,
+    value: allChangedFiles.length > 0 && filePatterns.length > 0,
     inputs
   })
 
@@ -280,7 +280,7 @@ export async function run(): Promise<void> {
 
   await setOutput({
     key: 'any_modified',
-    value: allModifiedFiles && filePatterns.length > 0,
+    value: allModifiedFiles.length > 0 && filePatterns.length > 0,
     inputs
   })
 
@@ -331,7 +331,7 @@ export async function run(): Promise<void> {
 
   await setOutput({
     key: 'any_deleted',
-    value: deletedFiles && filePatterns.length > 0,
+    value: deletedFiles.length > 0 && filePatterns.length > 0,
     inputs
   })
 
