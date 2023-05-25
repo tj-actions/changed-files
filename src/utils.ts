@@ -256,7 +256,10 @@ export const getSubmodulePath = async ({
     return []
   }
 
-  return stdout.split('\n').map(line => line.split(' ')[1])
+  return stdout.split('\n').map(line => {
+    core.debug(`Submodule line: ${line}: ${line.split(' ')}`)
+    return line.split(' ')[1]
+  })
 }
 
 export const gitSubmoduleDiffSHA = async ({
