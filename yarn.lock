@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@actions/core@1.10.0", "@actions/core@^1.9.1":
+"@actions/core@1.10.0":
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.10.0.tgz#44551c3c71163949a2f06e94d9ca2157a0cfac4f"
   integrity sha512-2aZDDa3zrrZbP5ZYg159sNoLRb61nQ7awl5pSvIq5Qpj81vwDzdMRKzkWJGJuwVvWpvZKx7vspJALyvaaIQyug==
@@ -16,14 +16,6 @@
   integrity sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==
   dependencies:
     "@actions/io" "^1.0.1"
-
-"@actions/glob@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@actions/glob/-/glob-0.4.0.tgz#b169b1c1c72f41e5df7b3d9349539c88fa68403c"
-  integrity sha512-+eKIGFhsFa4EBwaf/GMyzCdWrXWymGXfFmZU3FHQvYS8mPcHtTtZONbkcqqUMzw9mJ/pImEBFET1JNifhqGsAQ==
-  dependencies:
-    "@actions/core" "^1.9.1"
-    minimatch "^3.0.4"
 
 "@actions/http-client@^2.0.1":
   version "2.1.0"
@@ -715,6 +707,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/braces@*":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/braces/-/braces-3.0.1.tgz#5a284d193cfc61abb2e5a50d36ebbc50d942a32b"
+  integrity sha512-+euflG6ygo4bn0JHtn4pYqcXwRtLvElQ7/nnjDu7iYG56H0+OhCd7d6Ug0IE3WcFpZozBKW2+80FUbv5QGk5AQ==
+
 "@types/graceful-fs@^4.1.3":
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.6.tgz#e14b2576a1c25026b7f02ede1de3b84c3a1efeae"
@@ -758,6 +755,13 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
+
+"@types/micromatch@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.2.tgz#ce29c8b166a73bf980a5727b1e4a4d099965151d"
+  integrity sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==
+  dependencies:
+    "@types/braces" "*"
 
 "@types/node@*":
   version "20.2.3"
@@ -2891,7 +2895,7 @@ merge2@^1.3.0, merge2@^1.4.1:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
-micromatch@^4.0.4:
+micromatch@^4.0.4, micromatch@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.5.tgz#bc8999a7cbbf77cdc89f132f6e467051b49090c6"
   integrity sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==

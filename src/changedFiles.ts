@@ -1,4 +1,3 @@
-import {Pattern} from '@actions/glob/lib/internal-pattern'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
@@ -83,7 +82,7 @@ export const getDiffFiles = async ({
   hasSubmodule: boolean
   diffResult: DiffResult
   diffFilter: string
-  filePatterns?: Pattern[]
+  filePatterns?: string[]
   submodulePaths: string[]
 }): Promise<string> => {
   let files = await gitDiff({

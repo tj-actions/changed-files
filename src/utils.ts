@@ -1,18 +1,88 @@
 /*global AsyncIterableIterator*/
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-import {MatchKind} from '@actions/glob/lib/internal-match-kind'
-import {dirname} from '@actions/glob/lib/internal-path-helper'
-
-import {Pattern} from '@actions/glob/lib/internal-pattern'
-import * as patternHelper from '@actions/glob/lib/internal-pattern-helper'
-import * as path from 'path'
 import {createReadStream, promises as fs} from 'fs'
+import mm from 'micromatch'
+import * as path from 'path'
 import {createInterface} from 'readline'
 
 import {Inputs} from './inputs'
 
+const IS_WINDOWS = process.platform === 'win32'
 const MINIMUM_GIT_VERSION = '2.18.0'
+
+/**
+ * Normalize file path separators to '/' on Windows and Linux/macOS
+ * @param p file path
+ * @returns file path with normalized separators
+ */
+const normalizeSeparators = (p: string): string => {
+  // Windows
+  if (IS_WINDOWS) {
+    // Convert slashes on Windows
+    p = p.replace(/\//g, '\\')
+
+    // Remove redundant slashes
+    const isUnc = /^\\\\+[^\\]/.test(p) // e.g. \\hello
+    return (isUnc ? '\\' : '') + p.replace(/\\\\+/g, '\\') // preserve leading \\ for UNC
+  }
+
+  // Remove redundant slashes
+  return p.replace(/\/\/+/g, '/')
+}
+
+/**
+ * Trims unnecessary trailing slash from file path
+ * @param p file path
+ * @returns file path without unnecessary trailing slash
+ */
+const safeTrimTrailingSeparator = (p: string): string => {
+  // Empty path
+  if (!p) {
+    return ''
+  }
+
+  // Normalize separators
+  p = normalizeSeparators(p)
+
+  // No trailing slash
+  if (!p.endsWith(path.sep)) {
+    return p
+  }
+
+  // Check '/' on Linux/macOS and '\' on Windows
+  if (p === path.sep) {
+    return p
+  }
+
+  // On Windows, avoid trimming the drive root, e.g. C:\ or \\hello
+  if (IS_WINDOWS && /^[A-Z]:\\$/i.test(p)) {
+    return p
+  }
+
+  // Trim trailing slash
+  return p.substring(0, p.length - 1)
+}
+
+const dirname = (p: string): string => {
+  // Normalize slashes and trim unnecessary trailing slash
+  p = safeTrimTrailingSeparator(p)
+
+  // Windows UNC root, e.g. \\hello or \\hello\world
+  if (IS_WINDOWS && /^\\\\[^\\]+(\\[^\\]+)?$/.test(p)) {
+    return p
+  }
+
+  // Get dirname
+  let result = path.dirname(p)
+
+  // Trim trailing slash for Windows UNC root, e.g. \\hello\world\
+  if (IS_WINDOWS && /^\\\\[^\\]+\\[^\\]+\\$/.test(result)) {
+    result = safeTrimTrailingSeparator(result)
+  }
+
+  return result
+}
 
 const versionToNumber = (version: string): number => {
   const [major, minor, patch] = version.split('.').map(Number)
@@ -39,49 +109,13 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   }
 }
 
-export async function exists(filePath: string): Promise<boolean> {
+const exists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath)
     return true
   } catch {
     return false
   }
-}
-
-export async function getPatterns(filePatterns: string): Promise<Pattern[]> {
-  const IS_WINDOWS: boolean = process.platform === 'win32'
-  const patterns = []
-
-  if (IS_WINDOWS) {
-    filePatterns = filePatterns.replace(/\r\n/g, '\n')
-    filePatterns = filePatterns.replace(/\r/g, '\n')
-  }
-
-  const lines = filePatterns.split('\n').map(filePattern => filePattern.trim())
-
-  for (let line of lines) {
-    // Empty or comment
-    if (!(!line || line.startsWith('#'))) {
-      line = IS_WINDOWS ? line.replace(/\\/g, '/') : line
-      const pattern = new Pattern(line)
-      // @ts-ignore
-      pattern.minimatch.options.nobrace = false
-      // @ts-ignore
-      pattern.minimatch.make()
-      patterns.push(pattern)
-
-      if (
-        pattern.trailingSeparator ||
-        pattern.segments[pattern.segments.length - 1] !== '**'
-      ) {
-        patterns.push(
-          new Pattern(pattern.negate, true, pattern.segments.concat('**'))
-        )
-      }
-    }
-  }
-
-  return patterns
 }
 
 async function* lineOfFileGenerator({
@@ -115,13 +149,13 @@ async function* lineOfFileGenerator({
   }
 }
 
-export async function getFilesFromSourceFile({
+const getFilesFromSourceFile = async ({
   filePaths,
   excludedFiles = false
 }: {
   filePaths: string[]
   excludedFiles?: boolean
-}): Promise<string[]> {
+}): Promise<string[]> => {
   const lines = []
   for (const filePath of filePaths) {
     for await (const line of lineOfFileGenerator({filePath, excludedFiles})) {
@@ -398,7 +432,7 @@ export const gitDiff = async ({
   sha2: string
   diffFilter: string
   diff: string
-  filePatterns?: Pattern[]
+  filePatterns?: string[]
   isSubmodule?: boolean
   parentDir?: string
 }): Promise<string[]> => {
@@ -435,23 +469,25 @@ export const gitDiff = async ({
     return []
   }
 
-  return stdout
+  const files = stdout
     .split('\n')
-    .filter(filePath => {
-      if (filePatterns.length === 0) {
-        return !!filePath
-      }
-
-      const match = patternHelper.match(filePatterns, filePath)
-      core.debug(`File: ${filePath} Match: ${match}`)
-      return !!filePath && match === MatchKind.All
-    })
+    .filter(Boolean)
     .map(p => {
       if (isSubmodule) {
         return normalizePath(path.join(parentDir, p))
       }
       return normalizePath(p)
     })
+
+  if (filePatterns.length === 0) {
+    return files
+  }
+
+  return mm(files, filePatterns, {
+    dot: true,
+    windows: IS_WINDOWS,
+    noext: true
+  })
 }
 
 export const gitLog = async ({
@@ -685,8 +721,8 @@ export const getFilePatterns = async ({
   inputs
 }: {
   inputs: Inputs
-}): Promise<Pattern[]> => {
-  let filePatterns: string = inputs.files
+}): Promise<string[]> => {
+  let filePatterns = inputs.files
     .split(inputs.filesSeparator)
     .filter(p => p !== '')
     .join('\n')
@@ -747,13 +783,14 @@ export const getFilePatterns = async ({
     filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles)
   }
 
-  core.debug(`files patterns: ${filePatterns}`)
+  if (IS_WINDOWS) {
+    filePatterns = filePatterns.replace(/\r\n/g, '\n')
+    filePatterns = filePatterns.replace(/\r/g, '\n')
+  }
 
-  const patterns = await getPatterns(filePatterns)
+  core.debug(`file patterns: ${filePatterns}`)
 
-  core.debug(`patterns: ${patterns}`)
-
-  return patterns
+  return filePatterns.split('\n')
 }
 
 export const setOutput = async ({
