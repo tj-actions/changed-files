@@ -1318,6 +1318,7 @@ const normalizePath = (p) => {
     return p.replace(/\\/g, '/');
 };
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+    // git submodule status | awk '{print $2}'
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         silent: false
@@ -1327,16 +1328,9 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
         return [];
     }
     return stdout
+        .trim()
         .split('\n')
-        .filter(Boolean)
-        .map(line => {
-        const regex = /^-[0-9a-f]{40} (.*) \(.+\)$/;
-        const match = regex.exec(line);
-        if (!match) {
-            throw new Error(`Unexpected submodule line: ${line}`);
-        }
-        return normalizePath(match[1]);
-    });
+        .map(line => normalizePath(line.split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
