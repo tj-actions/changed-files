@@ -1314,6 +1314,9 @@ const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.gitFetchSubmodules = gitFetchSubmodules;
+const normalizePath = (p) => {
+    return p.replace(/\\/g, '/');
+};
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
@@ -1323,10 +1326,13 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
         core.warning(stderr || "Couldn't get submodule names");
         return [];
     }
-    return stdout.split('\n').map(line => {
-        core.debug(`Submodule line: ${line}: ${line.split(' ')}`);
-        return line.split(' ')[1];
-    });
+    return stdout
+        .split('\n')
+        .filter(p => p !== '')
+        .map(line => normalizePath(line
+        .trim()
+        .split(' ')
+        .filter(p => !!p.trim())[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1378,7 +1384,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         .split('\n')
         .map(line => {
         const [, oldPath, newPath] = line.split('\t');
-        return `${oldPath}${oldNewSeparator}${newPath}`;
+        return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(newPath)}`;
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
@@ -1405,7 +1411,10 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         }
         return [];
     }
-    return stdout.split('\n').filter(filePath => {
+    return stdout
+        .split('\n')
+        .map(p => normalizePath(p))
+        .filter(filePath => {
         if (filePatterns.length === 0) {
             return filePath !== '';
         }
