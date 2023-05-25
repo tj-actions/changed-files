@@ -4,13 +4,13 @@ import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
-  getBranchHeadSha,
   getHeadSha,
   getParentHeadSha,
   getPreviousGitTag,
   gitFetch,
   gitFetchSubmodules,
   gitLog,
+  gitRevParse,
   verifyCommitSha
 } from './utils'
 
@@ -349,6 +349,13 @@ export const getSHAForPullRequestEvent = async (
     if (inputs.sinceLastRemoteCommit) {
       previousSha = env.GITHUB_EVENT_BEFORE
 
+      if (!previousSha) {
+        previousSha = await gitRevParse({
+          cwd: workingDirectory,
+          args: [`origin/${currentBranch}`]
+        })
+      }
+
       if (
         (await verifyCommitSha({
           sha: previousSha,
@@ -359,9 +366,9 @@ export const getSHAForPullRequestEvent = async (
         previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
     } else {
-      previousSha = await getBranchHeadSha({
+      previousSha = await gitRevParse({
         cwd: workingDirectory,
-        branch: `origin/${targetBranch}`
+        args: [`origin/${targetBranch}`]
       })
 
       if (isShallow) {

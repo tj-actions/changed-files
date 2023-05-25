@@ -530,6 +530,29 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
+export const gitRevParse = async ({
+  cwd,
+  args
+}: {
+  cwd: string
+  args: string[]
+}): Promise<string> => {
+  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', ...args],
+    {
+      cwd,
+      silent: false
+    }
+  )
+
+  if (exitCode !== 0) {
+    throw new Error(stderr || `Unable to get rev-parse ${args.join(' ')}`)
+  }
+
+  return stdout.trim()
+}
+
 export const getParentHeadSha = async ({
   cwd
 }: {
@@ -546,29 +569,6 @@ export const getParentHeadSha = async ({
 
   if (exitCode !== 0) {
     throw new Error(stderr || 'Unable to get HEAD^ sha')
-  }
-
-  return stdout.trim()
-}
-
-export const getBranchHeadSha = async ({
-  branch,
-  cwd
-}: {
-  branch: string
-  cwd: string
-}): Promise<string> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    ['rev-parse', branch],
-    {
-      cwd,
-      silent: false
-    }
-  )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || `Unable to get ${branch} head sha`)
   }
 
   return stdout.trim()
