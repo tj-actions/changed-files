@@ -24,7 +24,7 @@ inputs:
     required: false
     default: ""
   files_from_source_file_separator:
-    description: 'Separator used to split the `files-from-source-file` input'
+    description: 'Separator used to split the `files_from_source_file` input'
     default: "\n"
     required: false
   files:
