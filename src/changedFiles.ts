@@ -55,7 +55,7 @@ export const getRenamedFiles = async ({
           diff: shaResult.diff,
           oldNewSeparator: inputs.oldNewSeparator,
           isSubmodule: true,
-          parentDir: workingDirectory
+          parentDir: submodulePath
         })
         renamedFiles.push(...submoduleRenamedFiles)
       }
@@ -119,7 +119,7 @@ export const getDiffFiles = async ({
           diffFilter,
           isSubmodule: true,
           filePatterns,
-          parentDir: workingDirectory
+          parentDir: submodulePath
         })
         files.push(...submoduleFiles)
       }
