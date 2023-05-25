@@ -1,5 +1,21 @@
 # Changelog
 
+# [36.0.2](https://github.com/tj-actions/changed-files/compare/v36.0.1...v36.0.2) - (2023-05-25)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update test to include push event ([#1173](https://github.com/tj-actions/changed-files/issues/1173)) ([abef388](https://github.com/tj-actions/changed-files/commit/abef388dd913ce13a650bbf800eba73961657fb9))  - (Tonye Jack)
+- Fixed bug retrieving older commits
+ ([30e1bb0](https://github.com/tj-actions/changed-files/commit/30e1bb07d4539a5e9247155a4a8ae4753701512f))  - (Tonye Jack)
+- Bug with retrieving submodules ([#1172](https://github.com/tj-actions/changed-files/issues/1172)) ([9fdfe4c](https://github.com/tj-actions/changed-files/commit/9fdfe4cf169f232647fd5c249ce7830ff49b5884))  - (Tonye Jack)
+- Bug with retrieving submodules ([#1171](https://github.com/tj-actions/changed-files/issues/1171)) ([024242f](https://github.com/tj-actions/changed-files/commit/024242fc7704a7e7438d0b1ede57a327ac295651))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.1 ([#1170](https://github.com/tj-actions/changed-files/issues/1170))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([ecdfb9c](https://github.com/tj-actions/changed-files/commit/ecdfb9c92ec488ada79fc25bd827c8f557fe9773))  - (tj-actions[bot])
+
 # [36.0.1](https://github.com/tj-actions/changed-files/compare/v36.0.0...v36.0.1) - (2023-05-25)
 
 ## <!-- 1 -->🐛 Bug Fixes
