@@ -1,5 +1,17 @@
 # Changelog
 
+# [36.0.1](https://github.com/tj-actions/changed-files/compare/v36.0.0...v36.0.1) - (2023-05-25)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with retrieving submodules ([#1169](https://github.com/tj-actions/changed-files/issues/1169)) ([1c2673b](https://github.com/tj-actions/changed-files/commit/1c2673b763ea086acd660dd4257c9be06eb77667))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36 ([#1168](https://github.com/tj-actions/changed-files/issues/1168))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([4e23a96](https://github.com/tj-actions/changed-files/commit/4e23a965c8abd6dfe7edc6d9f5523ebde932507d))  - (tj-actions[bot])
+
 # [36.0.0](https://github.com/tj-actions/changed-files/compare/v35.9.2...v36.0.0) - (2023-05-25)
 
 ## <!-- 0 -->🚀 Features
