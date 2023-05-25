@@ -1634,7 +1634,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
     core.debug(`file patterns: ${filePatterns}`);
-    return filePatterns.split('\n');
+    return filePatterns.trim().split('\n').filter(Boolean);
 });
 exports.getFilePatterns = getFilePatterns;
 const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
