@@ -438,9 +438,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         if (inputs.sinceLastRemoteCommit) {
             previousSha = env.GITHUB_EVENT_BEFORE;
             if (!previousSha) {
-                previousSha = yield (0, utils_1.gitRevParse)({
+                previousSha = yield (0, utils_1.gitLsRemote)({
                     cwd: workingDirectory,
-                    args: [`origin/${currentBranch}`]
+                    args: [currentBranch]
                 });
             }
             if ((yield (0, utils_1.verifyCommitSha)({
@@ -452,10 +452,13 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         else {
-            previousSha = yield (0, utils_1.gitRevParse)({
-                cwd: workingDirectory,
-                args: [`origin/${targetBranch}`]
-            });
+            previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+            if (!previousSha) {
+                previousSha = yield (0, utils_1.gitLsRemote)({
+                    cwd: workingDirectory,
+                    args: [targetBranch]
+                });
+            }
             if (isShallow) {
                 if (yield (0, utils_1.canDiffCommits)({
                     cwd: workingDirectory,
@@ -1162,7 +1165,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentHeadSha = exports.gitRevParse = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentHeadSha = exports.gitLsRemote = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1524,17 +1527,21 @@ const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     return stdout.trim();
 });
 exports.getHeadSha = getHeadSha;
-const gitRevParse = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', ...args], {
+const gitLsRemote = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['ls-remote', 'origin', ...args], {
         cwd,
         silent: false
     });
     if (exitCode !== 0) {
-        throw new Error(stderr || `Unable to get rev-parse ${args.join(' ')}`);
+        throw new Error(stderr || 'An unexpected error occurred');
     }
-    return stdout.trim();
+    const output = stdout.trim().split('\t');
+    if (output.length === 0) {
+        throw new Error('No output returned from git ls-remote');
+    }
+    return output[0];
 });
-exports.gitRevParse = gitRevParse;
+exports.gitLsRemote = gitLsRemote;
 const getParentHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
         cwd,
