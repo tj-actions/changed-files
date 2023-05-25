@@ -5,7 +5,6 @@ import {SHAResult} from './commitSha'
 import {Inputs} from './inputs'
 import {
   getDirnameMaxDepth,
-  getSubmodulePath,
   gitDiff,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
