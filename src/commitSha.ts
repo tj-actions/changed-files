@@ -21,7 +21,7 @@ const getCurrentSHA = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
-  let currentSha = ''
+  let currentSha = inputs.sha
   core.debug('Getting current SHA...')
 
   if (inputs.until) {
