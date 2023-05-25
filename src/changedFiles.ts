@@ -55,21 +55,12 @@ export const getRenamedFiles = async ({
           sha2: submoduleShaResult.currentSha,
           diff: shaResult.diff,
           oldNewSeparator: inputs.oldNewSeparator,
-          isSubmodule: true
+          isSubmodule: true,
+          parentDir: workingDirectory
         })
         renamedFiles.push(...submoduleRenamedFiles)
       }
     }
-  }
-
-  if (inputs.dirNames) {
-    renamedFiles = renamedFiles.map(renamedFile =>
-      getDirnameMaxDepth({
-        pathStr: renamedFile,
-        dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-        excludeRoot: inputs.dirNamesExcludeRoot
-      })
-    )
   }
 
   if (inputs.json) {
