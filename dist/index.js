@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getDiffFiles = exports.getRenamedFiles = void 0;
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
-const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) => __awaiter(void 0, void 0, void 0, function* () {
+const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
         sha1: shaResult.previousSha,
@@ -51,9 +51,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) 
         oldNewSeparator: inputs.oldNewSeparator
     });
     if (hasSubmodule) {
-        for (const submodulePath of yield (0, utils_1.getSubmodulePath)({
-            cwd: workingDirectory
-        })) {
+        for (const submodulePath of submodulePaths) {
             const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: shaResult.previousSha,
@@ -82,7 +80,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult }) 
     return renamedFiles.join(inputs.oldNewFilesSeparator);
 });
 exports.getRenamedFiles = getRenamedFiles;
-const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffFilter, filePatterns = [] }) => __awaiter(void 0, void 0, void 0, function* () {
+const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffFilter, filePatterns = [], submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     let files = yield (0, utils_1.gitDiff)({
         cwd: workingDirectory,
         sha1: shaResult.previousSha,
@@ -92,9 +90,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
         filePatterns
     });
     if (hasSubmodule) {
-        for (const submodulePath of yield (0, utils_1.getSubmodulePath)({
-            cwd: workingDirectory
-        })) {
+        for (const submodulePath of submodulePaths) {
             const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: shaResult.previousSha,
@@ -777,6 +773,9 @@ function run() {
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
         let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
+        const submodulePaths = yield (0, utils_1.getSubmodulePath)({
+            cwd: workingDirectory
+        });
         if (isTag) {
             gitExtraArgs = ['--prune', '--no-recurse-submodules'];
         }
@@ -799,7 +798,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'A',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Added files: ${addedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -813,7 +813,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'C',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Copied files: ${copiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -827,7 +828,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'M',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Modified files: ${modifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -841,7 +843,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'R',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Renamed files: ${renamedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -855,7 +858,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'T',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Type changed files: ${typeChangedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -869,7 +873,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'U',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Unmerged files: ${unmergedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -883,7 +888,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'X',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Unknown files: ${unknownFiles}`);
         yield (0, utils_1.setOutput)({
@@ -897,7 +903,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'ACDMRTUX',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -911,7 +918,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'ACMR',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`All changed files: ${allChangedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -921,7 +929,7 @@ function run() {
         });
         yield (0, utils_1.setOutput)({
             key: 'any_changed',
-            value: allChangedFiles && filePatterns.length > 0,
+            value: allChangedFiles.length > 0 && filePatterns.length > 0,
             inputs
         });
         const allOtherChangedFiles = yield (0, changedFiles_1.getDiffFiles)({
@@ -929,7 +937,8 @@ function run() {
             workingDirectory,
             hasSubmodule,
             shaResult,
-            diffFilter: 'ACMR'
+            diffFilter: 'ACMR',
+            submodulePaths
         });
         core.debug(`All other changed files: ${allOtherChangedFiles}`);
         const otherChangedFiles = allOtherChangedFiles
@@ -952,7 +961,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'ACMRD',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`All modified files: ${allModifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -962,7 +972,7 @@ function run() {
         });
         yield (0, utils_1.setOutput)({
             key: 'any_modified',
-            value: allModifiedFiles && filePatterns.length > 0,
+            value: allModifiedFiles.length > 0 && filePatterns.length > 0,
             inputs
         });
         const allOtherModifiedFiles = yield (0, changedFiles_1.getDiffFiles)({
@@ -970,7 +980,8 @@ function run() {
             workingDirectory,
             hasSubmodule,
             shaResult,
-            diffFilter: 'ACMRD'
+            diffFilter: 'ACMRD',
+            submodulePaths
         });
         const otherModifiedFiles = allOtherModifiedFiles
             .split(inputs.filesSeparator)
@@ -992,7 +1003,8 @@ function run() {
             hasSubmodule,
             shaResult,
             diffFilter: 'D',
-            filePatterns
+            filePatterns,
+            submodulePaths
         });
         core.debug(`Deleted files: ${deletedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -1002,7 +1014,7 @@ function run() {
         });
         yield (0, utils_1.setOutput)({
             key: 'any_deleted',
-            value: deletedFiles && filePatterns.length > 0,
+            value: deletedFiles.length > 0 && filePatterns.length > 0,
             inputs
         });
         const allOtherDeletedFiles = yield (0, changedFiles_1.getDiffFiles)({
@@ -1010,7 +1022,8 @@ function run() {
             workingDirectory,
             hasSubmodule,
             shaResult,
-            diffFilter: 'D'
+            diffFilter: 'D',
+            submodulePaths
         });
         const otherDeletedFiles = allOtherDeletedFiles
             .split(inputs.filesSeparator)
@@ -1031,7 +1044,8 @@ function run() {
                 inputs,
                 workingDirectory,
                 hasSubmodule,
-                shaResult
+                shaResult,
+                submodulePaths
             });
             core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`);
             yield (0, utils_1.setOutput)({

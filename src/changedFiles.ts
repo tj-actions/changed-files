@@ -16,12 +16,14 @@ export const getRenamedFiles = async ({
   inputs,
   workingDirectory,
   hasSubmodule,
-  shaResult
+  shaResult,
+  submodulePaths
 }: {
   inputs: Inputs
   workingDirectory: string
   hasSubmodule: boolean
   shaResult: SHAResult
+  submodulePaths: string[]
 }): Promise<string> => {
   const renamedFiles = await gitRenamedFiles({
     cwd: workingDirectory,
@@ -32,9 +34,7 @@ export const getRenamedFiles = async ({
   })
 
   if (hasSubmodule) {
-    for (const submodulePath of await getSubmodulePath({
-      cwd: workingDirectory
-    })) {
+    for (const submodulePath of submodulePaths) {
       const submoduleShaResult = await gitSubmoduleDiffSHA({
         cwd: workingDirectory,
         parentSha1: shaResult.previousSha,
@@ -76,7 +76,8 @@ export const getDiffFiles = async ({
   hasSubmodule,
   shaResult,
   diffFilter,
-  filePatterns = []
+  filePatterns = [],
+  submodulePaths
 }: {
   inputs: Inputs
   workingDirectory: string
@@ -84,6 +85,7 @@ export const getDiffFiles = async ({
   shaResult: SHAResult
   diffFilter: string
   filePatterns?: Pattern[]
+  submodulePaths: string[]
 }): Promise<string> => {
   let files = await gitDiff({
     cwd: workingDirectory,
@@ -95,9 +97,7 @@ export const getDiffFiles = async ({
   })
 
   if (hasSubmodule) {
-    for (const submodulePath of await getSubmodulePath({
-      cwd: workingDirectory
-    })) {
+    for (const submodulePath of submodulePaths) {
       const submoduleShaResult = await gitSubmoduleDiffSHA({
         cwd: workingDirectory,
         parentSha1: shaResult.previousSha,

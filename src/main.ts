@@ -10,6 +10,7 @@ import {getEnv} from './env'
 import {getInputs} from './inputs'
 import {
   getFilePatterns,
+  getSubmodulePath,
   isRepoShallow,
   setOutput,
   submoduleExists,
@@ -53,6 +54,9 @@ export async function run(): Promise<void> {
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
+  const submodulePaths = await getSubmodulePath({
+    cwd: workingDirectory
+  })
 
   if (isTag) {
     gitExtraArgs = ['--prune', '--no-recurse-submodules']
@@ -97,7 +101,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'A',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Added files: ${addedFiles}`)
   await setOutput({
@@ -112,7 +117,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'C',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Copied files: ${copiedFiles}`)
   await setOutput({
@@ -127,7 +133,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'M',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Modified files: ${modifiedFiles}`)
   await setOutput({
@@ -142,7 +149,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'R',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Renamed files: ${renamedFiles}`)
   await setOutput({
@@ -157,7 +165,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'T',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Type changed files: ${typeChangedFiles}`)
   await setOutput({
@@ -172,7 +181,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'U',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Unmerged files: ${unmergedFiles}`)
   await setOutput({
@@ -187,7 +197,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'X',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Unknown files: ${unknownFiles}`)
   await setOutput({
@@ -202,7 +213,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'ACDMRTUX',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`)
   await setOutput({
@@ -217,7 +229,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'ACMR',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`All changed files: ${allChangedFiles}`)
   await setOutput({
@@ -237,7 +250,8 @@ export async function run(): Promise<void> {
     workingDirectory,
     hasSubmodule,
     shaResult,
-    diffFilter: 'ACMR'
+    diffFilter: 'ACMR',
+    submodulePaths
   })
   core.debug(`All other changed files: ${allOtherChangedFiles}`)
 
@@ -269,7 +283,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'ACMRD',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`All modified files: ${allModifiedFiles}`)
   await setOutput({
@@ -289,7 +304,8 @@ export async function run(): Promise<void> {
     workingDirectory,
     hasSubmodule,
     shaResult,
-    diffFilter: 'ACMRD'
+    diffFilter: 'ACMRD',
+    submodulePaths
   })
 
   const otherModifiedFiles = allOtherModifiedFiles
@@ -320,7 +336,8 @@ export async function run(): Promise<void> {
     hasSubmodule,
     shaResult,
     diffFilter: 'D',
-    filePatterns
+    filePatterns,
+    submodulePaths
   })
   core.debug(`Deleted files: ${deletedFiles}`)
   await setOutput({
@@ -340,7 +357,8 @@ export async function run(): Promise<void> {
     workingDirectory,
     hasSubmodule,
     shaResult,
-    diffFilter: 'D'
+    diffFilter: 'D',
+    submodulePaths
   })
 
   const otherDeletedFiles = allOtherDeletedFiles
@@ -368,7 +386,8 @@ export async function run(): Promise<void> {
       inputs,
       workingDirectory,
       hasSubmodule,
-      shaResult
+      shaResult,
+      submodulePaths
     })
     core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`)
     await setOutput({
