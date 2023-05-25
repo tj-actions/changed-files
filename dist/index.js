@@ -1323,10 +1323,10 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
         core.warning(stderr || "Couldn't get submodule names");
         return [];
     }
-    return stdout
-        .split('\n')
-        .filter(Boolean)
-        .map(line => line.split(' ')[1]);
+    return stdout.split('\n').map(line => {
+        core.debug(`Submodule line: ${line}: ${line.split(' ')}`);
+        return line.split(' ')[1];
+    });
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1410,6 +1410,7 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
             return filePath !== '';
         }
         const match = patternHelper.match(filePatterns, filePath);
+        core.debug(`File: ${filePath} Match: ${match}`);
         return filePath !== '' && match === internal_match_kind_1.MatchKind.All;
     });
 });
