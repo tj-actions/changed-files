@@ -272,7 +272,9 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             diff
         };
     }
-    currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    if (!currentSha) {
+        currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    }
     if (!previousSha) {
         core.debug('Getting previous SHA...');
         if (inputs.since) {
@@ -435,7 +437,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             diff
         };
     }
-    currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    if (!currentSha) {
+        currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    }
     if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
         env.GITHUB_EVENT_HEAD_REPO_FORK === 'true') {
         diff = '..';
