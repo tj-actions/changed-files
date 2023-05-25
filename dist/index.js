@@ -254,6 +254,11 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
         }
     }
     if (previousSha && currentSha && currentBranch && targetBranch) {
+        if (previousSha === currentSha) {
+            core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
+            core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+            throw new Error('Similar commit hashes detected.');
+        }
         yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
         yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
         core.info(`Previous SHA: ${previousSha}`);
@@ -412,6 +417,11 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
     }
     if (previousSha && currentSha && currentBranch && targetBranch) {
+        if (previousSha === currentSha) {
+            core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
+            core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+            throw new Error('Similar commit hashes detected.');
+        }
         yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
         yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
         core.info(`Previous SHA: ${previousSha}`);
