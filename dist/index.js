@@ -808,9 +808,12 @@ function run() {
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
         let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
-        const submodulePaths = yield (0, utils_1.getSubmodulePath)({
-            cwd: workingDirectory
-        });
+        const submodulePaths = [];
+        if (hasSubmodule) {
+            submodulePaths.concat(...(yield (0, utils_1.getSubmodulePath)({
+                cwd: workingDirectory
+            })));
+        }
         if (isTag) {
             gitExtraArgs = ['--prune', '--no-recurse-submodules'];
         }

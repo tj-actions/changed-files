@@ -54,9 +54,15 @@ export async function run(): Promise<void> {
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
-  const submodulePaths = await getSubmodulePath({
-    cwd: workingDirectory
-  })
+  const submodulePaths: string[] = []
+
+  if (hasSubmodule) {
+    submodulePaths.concat(
+      ...(await getSubmodulePath({
+        cwd: workingDirectory
+      }))
+    )
+  }
 
   if (isTag) {
     gitExtraArgs = ['--prune', '--no-recurse-submodules']
