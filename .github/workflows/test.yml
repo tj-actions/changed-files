@@ -61,13 +61,14 @@ jobs:
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v14
         id: changed_files
+        if: github.event_name == 'pull_request'
         with:
           files: |
             src
             dist
 
       - name: Commit files
-        if: steps.changed_files.outputs.files_changed == 'true'
+        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -75,7 +76,7 @@ jobs:
           git commit -m "Added missing changes and modified dist assets."
 
       - name: Push changes
-        if: steps.changed_files.outputs.files_changed == 'true'
+        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
