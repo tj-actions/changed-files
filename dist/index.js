@@ -1386,6 +1386,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         .trim()
         .split('\n')
         .map(line => {
+        core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
         return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(newPath)}`;
     });
