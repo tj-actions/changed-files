@@ -313,7 +313,7 @@ export const getSHAForPullRequestEvent = async (
     }
   }
 
-  let currentSha = await getCurrentSHA({inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
 
