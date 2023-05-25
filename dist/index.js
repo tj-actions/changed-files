@@ -42,22 +42,22 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getDiffFiles = exports.getRenamedFiles = void 0;
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
-const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
+const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
-        sha1: shaResult.previousSha,
-        sha2: shaResult.currentSha,
-        diff: shaResult.diff,
+        sha1: diffResult.previousSha,
+        sha2: diffResult.currentSha,
+        diff: diffResult.diff,
         oldNewSeparator: inputs.oldNewSeparator
     });
     if (hasSubmodule) {
         for (const submodulePath of submodulePaths) {
             const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
-                parentSha1: shaResult.previousSha,
-                parentSha2: shaResult.currentSha,
+                parentSha1: diffResult.previousSha,
+                parentSha2: diffResult.currentSha,
                 submodulePath,
-                diff: shaResult.diff
+                diff: diffResult.diff
             });
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
@@ -65,7 +65,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, su
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
-                    diff: shaResult.diff,
+                    diff: diffResult.diff,
                     oldNewSeparator: inputs.oldNewSeparator,
                     isSubmodule: true,
                     parentDir: submodulePath
@@ -80,12 +80,12 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, su
     return renamedFiles.join(inputs.oldNewFilesSeparator);
 });
 exports.getRenamedFiles = getRenamedFiles;
-const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffFilter, filePatterns = [], submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
+const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diffFilter, filePatterns = [], submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     let files = yield (0, utils_1.gitDiff)({
         cwd: workingDirectory,
-        sha1: shaResult.previousSha,
-        sha2: shaResult.currentSha,
-        diff: shaResult.diff,
+        sha1: diffResult.previousSha,
+        sha2: diffResult.currentSha,
+        diff: diffResult.diff,
         diffFilter,
         filePatterns
     });
@@ -93,10 +93,10 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
         for (const submodulePath of submodulePaths) {
             const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
-                parentSha1: shaResult.previousSha,
-                parentSha2: shaResult.currentSha,
+                parentSha1: diffResult.previousSha,
+                parentSha2: diffResult.currentSha,
                 submodulePath,
-                diff: shaResult.diff
+                diff: diffResult.diff
             });
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
@@ -104,7 +104,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, shaResult, diffF
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
-                    diff: shaResult.diff,
+                    diff: diffResult.diff,
                     diffFilter,
                     isSubmodule: true,
                     filePatterns,
@@ -786,16 +786,16 @@ function run() {
         if (isTag) {
             gitExtraArgs = ['--prune', '--no-recurse-submodules'];
         }
-        let shaResult;
+        let diffResult;
         if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
             core.info('Running on a push event...');
-            shaResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag);
+            diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag);
         }
         else {
             core.info('Running on a pull request event...');
-            shaResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
+            diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
         }
-        core.info(`Retrieving changes between ${shaResult.previousSha} (${shaResult.targetBranch}) → ${shaResult.currentSha} (${shaResult.currentBranch})`);
+        core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs
         });
@@ -803,7 +803,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'A',
             filePatterns,
             submodulePaths
@@ -818,7 +818,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'C',
             filePatterns,
             submodulePaths
@@ -833,7 +833,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'M',
             filePatterns,
             submodulePaths
@@ -848,7 +848,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'R',
             filePatterns,
             submodulePaths
@@ -863,7 +863,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'T',
             filePatterns,
             submodulePaths
@@ -878,7 +878,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'U',
             filePatterns,
             submodulePaths
@@ -893,7 +893,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'X',
             filePatterns,
             submodulePaths
@@ -908,7 +908,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'ACDMRTUX',
             filePatterns,
             submodulePaths
@@ -923,7 +923,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'ACMR',
             filePatterns,
             submodulePaths
@@ -943,7 +943,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'ACMR',
             submodulePaths
         });
@@ -966,7 +966,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'ACMRD',
             filePatterns,
             submodulePaths
@@ -986,7 +986,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'ACMRD',
             submodulePaths
         });
@@ -1008,7 +1008,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'D',
             filePatterns,
             submodulePaths
@@ -1028,7 +1028,7 @@ function run() {
             inputs,
             workingDirectory,
             hasSubmodule,
-            shaResult,
+            diffResult,
             diffFilter: 'D',
             submodulePaths
         });
@@ -1051,7 +1051,7 @@ function run() {
                 inputs,
                 workingDirectory,
                 hasSubmodule,
-                shaResult,
+                diffResult,
                 submodulePaths
             });
             core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`);
