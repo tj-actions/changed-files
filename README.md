@@ -745,8 +745,7 @@ And many more...
 ## Known Limitation
 
 > **Warning**:
->
-> *   Using characters like `\n`, `%`, `.` and `\r` as separators would be [URL encoded](https://www.w3schools.com/tags/ref_urlencode.asp)
+> 
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent hidden issues.
 >
