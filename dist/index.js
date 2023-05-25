@@ -662,9 +662,6 @@ const getInputs = () => {
         required: false
     });
     const outputDir = core.getInput('output_dir', { required: false });
-    const matchDirectories = core.getBooleanInput('match_directories', {
-        required: false
-    });
     const inputs = {
         files,
         filesSeparator,
@@ -691,8 +688,7 @@ const getInputs = () => {
         escapeJson,
         sinceLastRemoteCommit,
         writeOutputFiles,
-        outputDir,
-        matchDirectories
+        outputDir
     };
     if (fetchDepth) {
         inputs.fetchDepth = parseInt(fetchDepth, 10);
@@ -1575,11 +1571,10 @@ const jsonOutput = ({ value, escape }) => {
 };
 exports.jsonOutput = jsonOutput;
 const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
-    let filesPatterns = inputs.files
+    let filePatterns = inputs.files
         .split(inputs.filesSeparator)
         .filter(p => p !== '')
         .join('\n');
-    core.debug(`files patterns: ${filesPatterns}`);
     if (inputs.filesFromSourceFile !== '') {
         const inputFilesFromSourceFile = inputs.filesFromSourceFile
             .split(inputs.filesFromSourceFileSeparator)
@@ -1587,7 +1582,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         core.debug(`files from source file: ${inputFilesFromSourceFile}`);
         const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
         core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
-        filesPatterns = filesPatterns.concat('\n', filesFromSourceFiles);
+        filePatterns = filePatterns.concat('\n', filesFromSourceFiles);
     }
     if (inputs.filesIgnore) {
         const filesIgnorePatterns = inputs.filesIgnore
@@ -1601,7 +1596,7 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
         })
             .join('\n');
         core.debug(`files ignore patterns: ${filesIgnorePatterns}`);
-        filesPatterns = filesPatterns.concat('\n', filesIgnorePatterns);
+        filePatterns = filePatterns.concat('\n', filesIgnorePatterns);
     }
     if (inputs.filesIgnoreFromSourceFile) {
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
@@ -1613,9 +1608,10 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
             excludedFiles: true
         })).join('\n');
         core.debug(`files ignore from source files patterns: ${filesIgnoreFromSourceFiles}`);
-        filesPatterns = filesPatterns.concat('\n', filesIgnoreFromSourceFiles);
+        filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles);
     }
-    const patterns = yield getPatterns(filesPatterns);
+    core.debug(`files patterns: ${filePatterns}`);
+    const patterns = yield getPatterns(filePatterns);
     core.debug(`patterns: ${patterns}`);
     return patterns;
 });
