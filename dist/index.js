@@ -1351,10 +1351,14 @@ const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.isRepoShallow = isRepoShallow;
 const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout } = yield exec.getExecOutput('git', ['submodule', 'status'], {
+    const { stdout, exitCode } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
+    if (exitCode !== 0) {
+        return false;
+    }
     return stdout.trim() !== '';
 });
 exports.submoduleExists = submoduleExists;
@@ -1383,7 +1387,6 @@ const normalizePath = (p) => {
     return p.replace(/\\/g, '/');
 };
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    // git submodule status | awk '{print $2}'
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
