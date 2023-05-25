@@ -1328,11 +1328,15 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     }
     return stdout
         .split('\n')
-        .filter(p => p !== '')
-        .map(line => normalizePath(line
-        .trim()
-        .split(' ')
-        .filter(p => !!p.trim())[1]));
+        .filter(Boolean)
+        .map(line => {
+        const regex = /^-[0-9a-f]{40} (.*) \(.+\)$/;
+        const match = regex.exec(line);
+        if (!match) {
+            throw new Error(`Unexpected submodule line: ${line}`);
+        }
+        return normalizePath(match[1]);
+    });
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
