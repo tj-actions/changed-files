@@ -234,8 +234,6 @@ Support this project with a :star:
 
 This GitHub Action follows the principles of [Semantic Versioning](https://semver.org) for versioning releases.
 
-In addition to the standard versioning scheme, this action also uses the `v[major.minor.patch]-sec` convention for versions that implement hardening security strategies as described in the [GitHub Actions security hardening guide](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions).
-
 The format of the version string is as follows:
 
 major: is a major release number that indicates significant changes or new features that may not be backward compatible.
@@ -243,12 +241,6 @@ major: is a major release number that indicates significant changes or new featu
 minor: is a minor release number that indicates minor changes or new features that are backward compatible.
 
 patch : is a patch release number that indicates bug fixes or other small changes that are backward compatible.
-
-`-sec` is a suffix that indicates a security-hardened version that implements additional security measures.
-
-For example, `v1.2.3-sec` would indicate a security-hardened version of the action with major version 1, minor version 2, and patch version 3.
-
-Using this versioning convention helps ensure that users can easily identify and choose security-hardened versions of this action when integrating it into their workflows.
 
 ## Examples
 
