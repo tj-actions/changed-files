@@ -79,10 +79,6 @@ export const getSHAForPushEvent = async (
   const currentBranch = targetBranch
   let initialCommit = false
 
-  let currentSha = inputs.sha
-  let previousSha = inputs.baseSha
-  const diff = '..'
-
   if (isShallow) {
     core.info('Repository is shallow, fetching more history...')
 
@@ -126,6 +122,10 @@ export const getSHAForPushEvent = async (
     }
   }
 
+  const currentSha = await getCurrentSHA({inputs, workingDirectory})
+  let previousSha = inputs.baseSha
+  const diff = '..'
+
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
       core.error(
@@ -149,10 +149,6 @@ export const getSHAForPushEvent = async (
       targetBranch,
       diff
     }
-  }
-
-  if (!currentSha) {
-    currentSha = await getCurrentSHA({inputs, workingDirectory})
   }
 
   if (!previousSha) {
@@ -257,10 +253,6 @@ export const getSHAForPullRequestEvent = async (
 ): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF
   const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF
-  let currentSha = inputs.sha
-  let previousSha = inputs.baseSha
-  let diff = '...'
-
   if (inputs.sinceLastRemoteCommit) {
     targetBranch = currentBranch
   }
@@ -321,6 +313,10 @@ export const getSHAForPullRequestEvent = async (
     }
   }
 
+  let currentSha = await getCurrentSHA({inputs, workingDirectory})
+  let previousSha = inputs.baseSha
+  let diff = '...'
+
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
       core.error(
@@ -344,10 +340,6 @@ export const getSHAForPullRequestEvent = async (
       targetBranch,
       diff
     }
-  }
-
-  if (!currentSha) {
-    currentSha = await getCurrentSHA({inputs, workingDirectory})
   }
 
   if (
