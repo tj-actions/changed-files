@@ -1343,42 +1343,34 @@ const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, voi
 });
 exports.updateGitGlobalConfig = updateGitGlobalConfig;
 const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
+    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'An unexpected error occurred');
-    }
     return stdout.trim() === 'true';
 });
 exports.isRepoShallow = isRepoShallow;
 const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
+    const { stdout } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'An unexpected error occurred');
-    }
     return stdout.trim() !== '';
 });
 exports.submoduleExists = submoduleExists;
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
-    /* istanbul ignore if */
-    if (exitCode !== 0) {
-        core.warning(stderr || "Couldn't fetch repository");
-    }
     return exitCode;
 });
 exports.gitFetch = gitFetch;
 const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
     /* istanbul ignore if */
@@ -1394,6 +1386,7 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     // git submodule status | awk '{print $2}'
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
     if (exitCode !== 0) {
@@ -1408,13 +1401,10 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     var _h, _j, _k, _l;
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['diff', parentSha1, parentSha2, '--', submodulePath], {
+    const { stdout } = yield exec.getExecOutput('git', ['diff', parentSha1, parentSha2, '--', submodulePath], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'An unexpected error occurred');
-    }
     const subprojectCommitPreRegex = /^(?<preCommit>-)Subproject commit (?<commitHash>.+)$/m;
     const subprojectCommitCurRegex = /^(?<curCommit>\+)Subproject commit (?<commitHash>.+)$/m;
     const previousSha = ((_j = (_h = subprojectCommitPreRegex.exec(stdout)) === null || _h === void 0 ? void 0 : _h.groups) === null || _j === void 0 ? void 0 : _j.commitHash) ||
@@ -1436,6 +1426,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
     if (exitCode !== 0) {
@@ -1473,6 +1464,7 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
     if (exitCode !== 0) {
@@ -1506,35 +1498,26 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
 });
 exports.gitDiff = gitDiff;
 const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['log', ...args], {
+    const { stdout } = yield exec.getExecOutput('git', ['log', ...args], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'An unexpected error occurred');
-    }
     return stdout.trim();
 });
 exports.gitLog = gitLog;
 const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
+    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'Unable to get HEAD sha');
-    }
     return stdout.trim();
 });
 exports.getHeadSha = getHeadSha;
 const gitLsRemote = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['ls-remote', 'origin', ...args], {
+    const { stdout } = yield exec.getExecOutput('git', ['ls-remote', 'origin', ...args], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'An unexpected error occurred');
-    }
     const output = stdout.trim().split('\t');
     if (output.length === 0) {
         throw new Error('No output returned from git ls-remote');
@@ -1543,19 +1526,17 @@ const gitLsRemote = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.gitLsRemote = gitLsRemote;
 const getParentHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
+    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'Unable to get HEAD^ sha');
-    }
     return stdout.trim();
 });
 exports.getParentHeadSha = getParentHeadSha;
 const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
     if (exitCode !== 0) {
@@ -1573,26 +1554,20 @@ const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(v
 });
 exports.verifyCommitSha = verifyCommitSha;
 const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['tag', '--sort=-version:refname'], {
+    const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-version:refname'], {
         cwd,
         silent: false
     });
-    if (exitCode !== 0) {
-        throw new Error(stderr || 'Unable to get previous tag');
-    }
     const tags = stdout.trim().split('\n');
     if (tags.length < 2) {
         core.warning('No previous tag found');
         return { tag: '', sha: '' };
     }
     const previousTag = tags[1];
-    const { exitCode: exitCode2, stdout: stdout2, stderr: stderr2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
+    const { stdout: stdout2, stderr: stderr2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
         cwd,
         silent: false
     });
-    if (exitCode2 !== 0) {
-        throw new Error(stderr2 || 'Unable to get previous tag');
-    }
     const sha = stdout2.trim();
     return { tag: previousTag, sha };
 });
@@ -1600,6 +1575,7 @@ exports.getPreviousGitTag = getPreviousGitTag;
 const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`], {
         cwd,
+        ignoreReturnCode: true,
         silent: false
     });
     if (exitCode !== 0) {

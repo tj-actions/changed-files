@@ -188,7 +188,7 @@ export const updateGitGlobalConfig = async ({
 }
 
 export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+  const {stdout} = await exec.getExecOutput(
     'git',
     ['rev-parse', '--is-shallow-repository'],
     {
@@ -196,10 +196,6 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
       silent: false
     }
   )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'An unexpected error occurred')
-  }
 
   return stdout.trim() === 'true'
 }
@@ -209,18 +205,10 @@ export const submoduleExists = async ({
 }: {
   cwd: string
 }): Promise<boolean> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    ['submodule', 'status'],
-    {
-      cwd,
-      silent: false
-    }
-  )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'An unexpected error occurred')
-  }
+  const {stdout} = await exec.getExecOutput('git', ['submodule', 'status'], {
+    cwd,
+    silent: false
+  })
 
   return stdout.trim() !== ''
 }
@@ -237,14 +225,10 @@ export const gitFetch = async ({
     ['fetch', '-q', ...args],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
-
-  /* istanbul ignore if */
-  if (exitCode !== 0) {
-    core.warning(stderr || "Couldn't fetch repository")
-  }
 
   return exitCode
 }
@@ -261,6 +245,7 @@ export const gitFetchSubmodules = async ({
     ['submodule', 'foreach', 'git', 'fetch', '-q', ...args],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
@@ -287,6 +272,7 @@ export const getSubmodulePath = async ({
     ['submodule', 'status'],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
@@ -315,7 +301,7 @@ export const gitSubmoduleDiffSHA = async ({
   submodulePath: string
   diff: string
 }): Promise<{previousSha?: string; currentSha?: string}> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+  const {stdout} = await exec.getExecOutput(
     'git',
     ['diff', parentSha1, parentSha2, '--', submodulePath],
     {
@@ -323,10 +309,6 @@ export const gitSubmoduleDiffSHA = async ({
       silent: false
     }
   )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'An unexpected error occurred')
-  }
 
   const subprojectCommitPreRegex =
     /^(?<preCommit>-)Subproject commit (?<commitHash>.+)$/m
@@ -376,6 +358,7 @@ export const gitRenamedFiles = async ({
     ],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
@@ -447,6 +430,7 @@ export const gitDiff = async ({
     ],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
@@ -497,35 +481,19 @@ export const gitLog = async ({
   args: string[]
   cwd: string
 }): Promise<string> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    ['log', ...args],
-    {
-      cwd,
-      silent: false
-    }
-  )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'An unexpected error occurred')
-  }
+  const {stdout} = await exec.getExecOutput('git', ['log', ...args], {
+    cwd,
+    silent: false
+  })
 
   return stdout.trim()
 }
 
 export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    ['rev-parse', 'HEAD'],
-    {
-      cwd,
-      silent: false
-    }
-  )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'Unable to get HEAD sha')
-  }
+  const {stdout} = await exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
+    cwd,
+    silent: false
+  })
 
   return stdout.trim()
 }
@@ -537,7 +505,7 @@ export const gitLsRemote = async ({
   cwd: string
   args: string[]
 }): Promise<string> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+  const {stdout} = await exec.getExecOutput(
     'git',
     ['ls-remote', 'origin', ...args],
     {
@@ -545,10 +513,6 @@ export const gitLsRemote = async ({
       silent: false
     }
   )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'An unexpected error occurred')
-  }
   const output = stdout.trim().split('\t')
 
   if (output.length === 0) {
@@ -563,18 +527,10 @@ export const getParentHeadSha = async ({
 }: {
   cwd: string
 }): Promise<string> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    ['rev-parse', 'HEAD^'],
-    {
-      cwd,
-      silent: false
-    }
-  )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'Unable to get HEAD^ sha')
-  }
+  const {stdout} = await exec.getExecOutput('git', ['rev-parse', 'HEAD^'], {
+    cwd,
+    silent: false
+  })
 
   return stdout.trim()
 }
@@ -593,6 +549,7 @@ export const verifyCommitSha = async ({
     ['rev-parse', '--verify', `${sha}^{commit}`],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
@@ -618,7 +575,7 @@ export const getPreviousGitTag = async ({
 }: {
   cwd: string
 }): Promise<{tag: string; sha: string}> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+  const {stdout} = await exec.getExecOutput(
     'git',
     ['tag', '--sort=-version:refname'],
     {
@@ -626,10 +583,6 @@ export const getPreviousGitTag = async ({
       silent: false
     }
   )
-
-  if (exitCode !== 0) {
-    throw new Error(stderr || 'Unable to get previous tag')
-  }
 
   const tags = stdout.trim().split('\n')
 
@@ -640,18 +593,14 @@ export const getPreviousGitTag = async ({
 
   const previousTag = tags[1]
 
-  const {
-    exitCode: exitCode2,
-    stdout: stdout2,
-    stderr: stderr2
-  } = await exec.getExecOutput('git', ['rev-parse', previousTag], {
-    cwd,
-    silent: false
-  })
-
-  if (exitCode2 !== 0) {
-    throw new Error(stderr2 || 'Unable to get previous tag')
-  }
+  const {stdout: stdout2, stderr: stderr2} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', previousTag],
+    {
+      cwd,
+      silent: false
+    }
+  )
 
   const sha = stdout2.trim()
 
@@ -674,6 +623,7 @@ export const canDiffCommits = async ({
     ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: false
     }
   )
