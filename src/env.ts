@@ -5,7 +5,7 @@ export type Env = {
   GITHUB_EVENT_PULL_REQUEST_HEAD_REF: string
   GITHUB_EVENT_PULL_REQUEST_BASE_REF: string
   GITHUB_EVENT_BEFORE: string
-  GITHUB_REFNAME: string
+  GITHUB_REF_NAME: string
   GITHUB_REF: string
   GITHUB_EVENT_BASE_REF: string
   GITHUB_EVENT_HEAD_REPO_FORK: string
@@ -41,7 +41,6 @@ export const getEnv = async (): Promise<Env> => {
   if (eventPath) {
     eventJson = JSON.parse(await fs.readFile(eventPath, {encoding: 'utf8'}))
   }
-
   core.debug(`Event: ${JSON.stringify(eventJson, null, 2)}`)
 
   return {
@@ -53,7 +52,7 @@ export const getEnv = async (): Promise<Env> => {
     GITHUB_EVENT_PULL_REQUEST_NUMBER: eventJson.pull_request?.number || '',
     GITHUB_EVENT_PULL_REQUEST_BASE_SHA: eventJson.pull_request?.base?.sha || '',
     GITHUB_EVENT_FORCED: eventJson.forced || '',
-    GITHUB_REFNAME: process.env.GITHUB_REFNAME || '',
+    GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
     GITHUB_REF: process.env.GITHUB_REF || '',
     GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
   }
