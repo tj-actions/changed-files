@@ -89,6 +89,12 @@ export async function run(): Promise<void> {
     )
   }
 
+  if (diffResult.initialCommit) {
+    core.info('This is the first commit for this repository; exiting...')
+    core.endGroup()
+    return
+  }
+
   core.info(
     `Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`
   )

@@ -63,6 +63,7 @@ export interface DiffResult {
   currentBranch: string
   targetBranch: string
   diff: string
+  initialCommit?: boolean
 }
 
 export const getSHAForPushEvent = async (
@@ -201,20 +202,15 @@ export const getSHAForPushEvent = async (
         })
       }
 
-      if (previousSha === currentSha) {
-        if (!(await getParentSha({cwd: workingDirectory}))) {
+      if (!previousSha || previousSha === currentSha) {
+        previousSha = await getParentSha({
+          cwd: workingDirectory
+        })
+
+        if (!previousSha) {
           core.warning('Initial commit detected no previous commit found.')
           initialCommit = true
           previousSha = currentSha
-        } else {
-          previousSha = await getParentSha({
-            cwd: workingDirectory
-          })
-        }
-      } else {
-        if (!previousSha) {
-          core.error('Unable to locate a previous commit.')
-          throw new Error('Unable to locate a previous commit.')
         }
       }
     }
@@ -241,7 +237,8 @@ export const getSHAForPushEvent = async (
     currentSha,
     currentBranch,
     targetBranch,
-    diff
+    diff,
+    initialCommit
   }
 }
 

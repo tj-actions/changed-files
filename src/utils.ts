@@ -526,14 +526,19 @@ export const gitLsRemote = async ({
 }
 
 export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
-  const {stdout} = await exec.getExecOutput(
+  const {stdout, exitCode} = await exec.getExecOutput(
     'git',
     ['rev-list', '-n', '1', 'HEAD^'],
     {
       cwd,
+      ignoreReturnCode: true,
       silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
+
+  if (exitCode !== 0) {
+    return ''
+  }
 
   return stdout.trim()
 }
