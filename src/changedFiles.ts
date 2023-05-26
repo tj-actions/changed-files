@@ -133,6 +133,7 @@ export const getDiffFiles = async ({
         excludeRoot: inputs.dirNamesExcludeRoot
       })
     )
+    files = [...new Set(files)]
   }
 
   if (inputs.json) {
