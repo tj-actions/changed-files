@@ -531,8 +531,8 @@ export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
     ['rev-list', '-n', '1', 'HEAD^'],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1',
-      ignoreReturnCode: true
+      ignoreReturnCode: true,
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
