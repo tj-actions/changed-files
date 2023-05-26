@@ -120,6 +120,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diff
             dirNamesMaxDepth: inputs.dirNamesMaxDepth,
             excludeRoot: inputs.dirNamesExcludeRoot
         }));
+        files = [...new Set(files)];
     }
     if (inputs.json) {
         return (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson });
