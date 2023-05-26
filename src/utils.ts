@@ -676,9 +676,11 @@ export const jsonOutput = ({
 }
 
 export const getFilePatterns = async ({
-  inputs
+  inputs,
+  workingDirectory
 }: {
   inputs: Inputs
+  workingDirectory: string
 }): Promise<string[]> => {
   let filePatterns = inputs.files
     .split(inputs.filesSeparator)
@@ -689,6 +691,7 @@ export const getFilePatterns = async ({
     const inputFilesFromSourceFile = inputs.filesFromSourceFile
       .split(inputs.filesFromSourceFileSeparator)
       .filter(p => p !== '')
+      .map(p => path.join(workingDirectory, p))
 
     core.debug(`files from source file: ${inputFilesFromSourceFile}`)
 
@@ -722,6 +725,7 @@ export const getFilePatterns = async ({
     const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
       .split(inputs.filesIgnoreFromSourceFileSeparator)
       .filter(p => p !== '')
+      .map(p => path.join(workingDirectory, p))
 
     core.debug(
       `files ignore from source file: ${inputFilesIgnoreFromSourceFile}`
