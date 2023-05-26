@@ -260,7 +260,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             throw new Error('Similar commit hashes detected.');
         }
         yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
-        core.info(`Previous SHA: ${previousSha}`);
+        core.debug(`Previous SHA: ${previousSha}`);
         return {
             previousSha,
             currentSha,
@@ -420,7 +420,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             throw new Error('Similar commit hashes detected.');
         }
         yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
-        core.info(`Previous SHA: ${previousSha}`);
+        core.debug(`Previous SHA: ${previousSha}`);
         return {
             previousSha,
             currentSha,
