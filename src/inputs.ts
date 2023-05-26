@@ -135,7 +135,7 @@ export const getInputs = (): Inputs => {
   }
 
   if (fetchDepth) {
-    inputs.fetchDepth = parseInt(fetchDepth, 10)
+    inputs.fetchDepth = parseInt(fetchDepth, 10) + 1
   }
 
   if (dirNamesMaxDepth) {
