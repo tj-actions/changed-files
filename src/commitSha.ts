@@ -137,7 +137,7 @@ export const getSHAForPushEvent = async (
     }
 
     await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
-    core.info(`Previous SHA: ${previousSha}`)
+    core.debug(`Previous SHA: ${previousSha}`)
 
     return {
       previousSha,
@@ -331,7 +331,7 @@ export const getSHAForPullRequestEvent = async (
     }
 
     await verifyCommitSha({sha: currentSha, cwd: workingDirectory})
-    core.info(`Previous SHA: ${previousSha}`)
+    core.debug(`Previous SHA: ${previousSha}`)
 
     return {
       previousSha,
