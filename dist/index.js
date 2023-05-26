@@ -826,7 +826,8 @@ function run() {
         }
         core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
-            inputs
+            inputs,
+            workingDirectory
         });
         const addedFiles = yield (0, changedFiles_1.getDiffFiles)({
             inputs,
@@ -1607,7 +1608,7 @@ const jsonOutput = ({ value, shouldEscape }) => {
     return shouldEscape ? result.replace(/"/g, '\\"') : result;
 };
 exports.jsonOutput = jsonOutput;
-const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
+const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     let filePatterns = inputs.files
         .split(inputs.filesSeparator)
         .filter(p => p !== '')
@@ -1615,7 +1616,8 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
     if (inputs.filesFromSourceFile !== '') {
         const inputFilesFromSourceFile = inputs.filesFromSourceFile
             .split(inputs.filesFromSourceFileSeparator)
-            .filter(p => p !== '');
+            .filter(p => p !== '')
+            .map(p => path.join(workingDirectory, p));
         core.debug(`files from source file: ${inputFilesFromSourceFile}`);
         const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
         core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
@@ -1638,7 +1640,8 @@ const getFilePatterns = ({ inputs }) => __awaiter(void 0, void 0, void 0, functi
     if (inputs.filesIgnoreFromSourceFile) {
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
             .split(inputs.filesIgnoreFromSourceFileSeparator)
-            .filter(p => p !== '');
+            .filter(p => p !== '')
+            .map(p => path.join(workingDirectory, p));
         core.debug(`files ignore from source file: ${inputFilesIgnoreFromSourceFile}`);
         const filesIgnoreFromSourceFiles = (yield getFilesFromSourceFile({
             filePaths: inputFilesIgnoreFromSourceFile,

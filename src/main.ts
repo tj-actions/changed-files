@@ -94,7 +94,8 @@ export async function run(): Promise<void> {
   )
 
   const filePatterns = await getFilePatterns({
-    inputs
+    inputs,
+    workingDirectory
   })
 
   const addedFiles = await getDiffFiles({
