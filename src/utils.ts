@@ -93,7 +93,7 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['--version'],
-    {silent: process.env.ACTION_DEBUG === 'false'}
+    {silent: process.env.RUNNER_DEBUG !== '1'}
   )
 
   if (exitCode !== 0) {
@@ -177,7 +177,7 @@ export const updateGitGlobalConfig = async ({
     ['config', '--global', name, value],
     {
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -193,7 +193,7 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
     ['rev-parse', '--is-shallow-repository'],
     {
       cwd,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -211,7 +211,7 @@ export const submoduleExists = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -232,7 +232,7 @@ export const gitFetch = async ({
   const {exitCode} = await exec.getExecOutput('git', ['fetch', '-q', ...args], {
     cwd,
     ignoreReturnCode: true,
-    silent: process.env.ACTION_DEBUG === 'false'
+    silent: process.env.RUNNER_DEBUG !== '1'
   })
 
   return exitCode
@@ -251,7 +251,7 @@ export const gitFetchSubmodules = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -276,7 +276,7 @@ export const getSubmodulePath = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -309,7 +309,7 @@ export const gitSubmoduleDiffSHA = async ({
     ['diff', parentSha1, parentSha2, '--', submodulePath],
     {
       cwd,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -362,7 +362,7 @@ export const gitRenamedFiles = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -434,7 +434,7 @@ export const gitDiff = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -486,7 +486,7 @@ export const gitLog = async ({
 }): Promise<string> => {
   const {stdout} = await exec.getExecOutput('git', ['log', ...args], {
     cwd,
-    silent: process.env.ACTION_DEBUG === 'false'
+    silent: process.env.RUNNER_DEBUG !== '1'
   })
 
   return stdout.trim()
@@ -495,7 +495,7 @@ export const gitLog = async ({
 export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   const {stdout} = await exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
     cwd,
-    silent: process.env.ACTION_DEBUG === 'false'
+    silent: process.env.RUNNER_DEBUG !== '1'
   })
 
   return stdout.trim()
@@ -513,7 +513,7 @@ export const gitLsRemote = async ({
     ['ls-remote', 'origin', ...args],
     {
       cwd,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
   const output = stdout.trim().split('\t')
@@ -531,7 +531,7 @@ export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
     ['rev-list', '-n', '1', 'HEAD^'],
     {
       cwd,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -553,7 +553,7 @@ export const verifyCommitSha = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -583,7 +583,7 @@ export const getPreviousGitTag = async ({
     ['tag', '--sort=-version:refname'],
     {
       cwd,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -601,7 +601,7 @@ export const getPreviousGitTag = async ({
     ['rev-parse', previousTag],
     {
       cwd,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
@@ -627,7 +627,7 @@ export const canDiffCommits = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.ACTION_DEBUG === 'false'
+      silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
 
