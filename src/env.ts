@@ -41,6 +41,7 @@ export const getEnv = async (): Promise<Env> => {
   if (eventPath) {
     eventJson = JSON.parse(await fs.readFile(eventPath, {encoding: 'utf8'}))
   }
+  core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`)
   core.debug(`Event: ${JSON.stringify(eventJson, null, 2)}`)
 
   return {
