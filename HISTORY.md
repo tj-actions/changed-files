@@ -1,5 +1,21 @@
 # Changelog
 
+# [36.0.4](https://github.com/tj-actions/changed-files/compare/v36.0.3...v36.0.4) - (2023-05-26)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug not using the path for source file inputs ([#1179](https://github.com/tj-actions/changed-files/issues/1179)) ([c798a4e](https://github.com/tj-actions/changed-files/commit/c798a4ea57f0e0a9d2b5374853c9c479ebb435a2))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1178](https://github.com/tj-actions/changed-files/issues/1178)) ([e82d391](https://github.com/tj-actions/changed-files/commit/e82d3911ce25632baf10067a87543332d022f6f3))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.3 ([#1177](https://github.com/tj-actions/changed-files/issues/1177))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([de2b6e4](https://github.com/tj-actions/changed-files/commit/de2b6e43f70bc5ad965dd5e8db9d437c1496b8e0))  - (tj-actions[bot])
+
 # [36.0.3](https://github.com/tj-actions/changed-files/compare/v36.0.2...v36.0.3) - (2023-05-26)
 
 ## <!-- 1 -->🐛 Bug Fixes
