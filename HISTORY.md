@@ -1,5 +1,17 @@
 # Changelog
 
+# [36.0.5](https://github.com/tj-actions/changed-files/compare/v36.0.4...v36.0.5) - (2023-05-26)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error detecting initial commits ([#1181](https://github.com/tj-actions/changed-files/issues/1181)) ([9ad1a5b](https://github.com/tj-actions/changed-files/commit/9ad1a5b96ab3e56cd2bb25ff90c6271e4e70eb71))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.4 ([#1180](https://github.com/tj-actions/changed-files/issues/1180))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([88fb02b](https://github.com/tj-actions/changed-files/commit/88fb02bd31e70f28785e86cc76437eff17f48e18))  - (tj-actions[bot])
+
 # [36.0.4](https://github.com/tj-actions/changed-files/compare/v36.0.3...v36.0.4) - (2023-05-26)
 
 ## <!-- 1 -->🐛 Bug Fixes
