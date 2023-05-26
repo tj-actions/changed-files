@@ -689,16 +689,16 @@ jobs:
           echo '${{ toJSON(steps.changed-files-json.outputs.all_changed_files) }}'
         shell:
           bash
-      - name: Run changed-files with json raw format
-        id: changed-files-json-raw-format
+      - name: Run changed-files with json unescaped format
+        id: changed-files-json-unescaped
         uses: ./
         with:
           json: true
-          json_raw_format: true
+          escape_json: false
       - name: Show output
         run: |
-          echo '${{ toJSON(steps.changed-files-json-raw-format.outputs) }}'
-          echo '${{ toJSON(steps.changed-files-json-raw-format.outputs.all_changed_files) }}'
+          echo '${{ toJSON(steps.changed-files-json-unescaped.outputs) }}'
+          echo '${{ toJSON(steps.changed-files-json-unescaped.outputs.all_changed_files) }}'
         shell:
           bash
       - name: Run changed-files with comma separator
