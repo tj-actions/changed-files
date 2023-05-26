@@ -1,5 +1,21 @@
 # Changelog
 
+# [36.0.6](https://github.com/tj-actions/changed-files/compare/v36.0.5...v36.0.6) - (2023-05-26)
+
+## <!-- 0 -->🚀 Features
+
+- Deduplicate dir names list ([#1183](https://github.com/tj-actions/changed-files/issues/1183)) ([652648a](https://github.com/tj-actions/changed-files/commit/652648acb4f32660a94e245a2a51c6d0e56b2a1d))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([8a36220](https://github.com/tj-actions/changed-files/commit/8a36220d042d6e935b636251a47084884bbfb1e8))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.5 ([#1182](https://github.com/tj-actions/changed-files/issues/1182))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([04de922](https://github.com/tj-actions/changed-files/commit/04de9221b6bdb9a219bafb7d50eeb085495df810))  - (tj-actions[bot])
+
 # [36.0.5](https://github.com/tj-actions/changed-files/compare/v36.0.4...v36.0.5) - (2023-05-26)
 
 ## <!-- 1 -->🐛 Bug Fixes
