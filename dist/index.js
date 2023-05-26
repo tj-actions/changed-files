@@ -315,22 +315,14 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
                     cwd: workingDirectory
                 });
             }
-            if (previousSha === currentSha) {
-                if (!(yield (0, utils_1.getParentSha)({ cwd: workingDirectory }))) {
+            if (!previousSha || previousSha === currentSha) {
+                previousSha = yield (0, utils_1.getParentSha)({
+                    cwd: workingDirectory
+                });
+                if (!previousSha) {
                     core.warning('Initial commit detected no previous commit found.');
                     initialCommit = true;
                     previousSha = currentSha;
-                }
-                else {
-                    previousSha = yield (0, utils_1.getParentSha)({
-                        cwd: workingDirectory
-                    });
-                }
-            }
-            else {
-                if (!previousSha) {
-                    core.error('Unable to locate a previous commit.');
-                    throw new Error('Unable to locate a previous commit.');
                 }
             }
         }
@@ -349,7 +341,8 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
         currentSha,
         currentBranch,
         targetBranch,
-        diff
+        diff,
+        initialCommit
     };
 });
 exports.getSHAForPushEvent = getSHAForPushEvent;
@@ -823,6 +816,11 @@ function run() {
         else {
             core.info('Running on a pull request event...');
             diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
+        }
+        if (diffResult.initialCommit) {
+            core.info('This is the first commit for this repository; exiting...');
+            core.endGroup();
+            return;
         }
         core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
@@ -1531,10 +1529,14 @@ const gitLsRemote = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.gitLsRemote = gitLsRemote;
 const getParentSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
+    const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
         cwd,
+        ignoreReturnCode: true,
         silent: process.env.RUNNER_DEBUG !== '1'
     });
+    if (exitCode !== 0) {
+        return '';
+    }
     return stdout.trim();
 });
 exports.getParentSha = getParentSha;
