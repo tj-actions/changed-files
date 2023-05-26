@@ -1,5 +1,19 @@
 # Changelog
 
+# [36.0.3](https://github.com/tj-actions/changed-files/compare/v36.0.2...v36.0.3) - (2023-05-26)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Fix/resolve bug fetching more history ([#1176](https://github.com/tj-actions/changed-files/issues/1176))
+
+Co-authored-by: GitHub Action <action@github.com> ([25eaddf](https://github.com/tj-actions/changed-files/commit/25eaddf37ae893cec889065e9a60439c8af6f089))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.2 ([#1175](https://github.com/tj-actions/changed-files/issues/1175))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([77f872a](https://github.com/tj-actions/changed-files/commit/77f872a7594af6375bf6c5f8f75714cac323926a))  - (tj-actions[bot])
+
 # [36.0.2](https://github.com/tj-actions/changed-files/compare/v36.0.1...v36.0.2) - (2023-05-25)
 
 ## <!-- 1 -->🐛 Bug Fixes
