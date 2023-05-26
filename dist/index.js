@@ -299,13 +299,18 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             if (env.GITHUB_EVENT_FORCED === 'false' || !env.GITHUB_EVENT_FORCED) {
                 previousSha = env.GITHUB_EVENT_BEFORE;
             }
-            else {
+            if (!previousSha ||
+                previousSha === '0000000000000000000000000000000000000000') {
                 previousSha = yield (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
             }
-            if (!previousSha ||
-                previousSha === '0000000000000000000000000000000000000000') {
+            else if ((yield (0, utils_1.verifyCommitSha)({
+                sha: previousSha,
+                cwd: workingDirectory,
+                showAsErrorMessage: false
+            })) !== 0) {
+                core.warning(`Previous commit ${previousSha} is not valid. Using parent commit.`);
                 previousSha = yield (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
@@ -575,6 +580,7 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
     if (eventPath) {
         eventJson = JSON.parse(yield fs_1.promises.readFile(eventPath, { encoding: 'utf8' }));
     }
+    core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
     core.debug(`Event: ${JSON.stringify(eventJson, null, 2)}`);
     return {
         GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ((_b = (_a = eventJson.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.ref) || '',
@@ -713,7 +719,7 @@ const getInputs = () => {
         outputDir
     };
     if (fetchDepth) {
-        inputs.fetchDepth = parseInt(fetchDepth, 10);
+        inputs.fetchDepth = parseInt(fetchDepth, 10) + 1;
     }
     if (dirNamesMaxDepth) {
         inputs.dirNamesMaxDepth = parseInt(dirNamesMaxDepth, 10);

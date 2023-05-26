@@ -177,16 +177,25 @@ export const getSHAForPushEvent = async (
       core.debug('Getting previous SHA for last remote commit...')
       if (env.GITHUB_EVENT_FORCED === 'false' || !env.GITHUB_EVENT_FORCED) {
         previousSha = env.GITHUB_EVENT_BEFORE
-      } else {
-        previousSha = await getParentSha({
-          cwd: workingDirectory
-        })
       }
 
       if (
         !previousSha ||
         previousSha === '0000000000000000000000000000000000000000'
       ) {
+        previousSha = await getParentSha({
+          cwd: workingDirectory
+        })
+      } else if (
+        (await verifyCommitSha({
+          sha: previousSha,
+          cwd: workingDirectory,
+          showAsErrorMessage: false
+        })) !== 0
+      ) {
+        core.warning(
+          `Previous commit ${previousSha} is not valid. Using parent commit.`
+        )
         previousSha = await getParentSha({
           cwd: workingDirectory
         })
