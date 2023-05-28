@@ -141,6 +141,8 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 ```
 
+To access more examples, navigate to the [Examples](#examples) section.
+
 If you feel generous and want to show some extra appreciation:
 
 Support this project with a :star:
