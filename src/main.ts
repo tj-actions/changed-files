@@ -265,10 +265,9 @@ export async function run(): Promise<void> {
   core.debug(`All other changed files: ${allOtherChangedFiles}`)
 
   const otherChangedFiles = allOtherChangedFiles
-    .split(inputs.filesSeparator)
+    .split(inputs.separator)
     .filter(
-      filePath =>
-        !allChangedFiles.split(inputs.filesSeparator).includes(filePath)
+      filePath => !allChangedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyChanged =
@@ -282,7 +281,7 @@ export async function run(): Promise<void> {
 
   await setOutput({
     key: 'other_changed_files',
-    value: otherChangedFiles.join(inputs.filesSeparator),
+    value: otherChangedFiles.join(inputs.separator),
     inputs
   })
 
@@ -318,10 +317,9 @@ export async function run(): Promise<void> {
   })
 
   const otherModifiedFiles = allOtherModifiedFiles
-    .split(inputs.filesSeparator)
+    .split(inputs.separator)
     .filter(
-      filePath =>
-        !allModifiedFiles.split(inputs.filesSeparator).includes(filePath)
+      filePath => !allModifiedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyModified =
@@ -335,7 +333,7 @@ export async function run(): Promise<void> {
 
   await setOutput({
     key: 'other_modified_files',
-    value: otherModifiedFiles.join(inputs.filesSeparator),
+    value: otherModifiedFiles.join(inputs.separator),
     inputs
   })
 
@@ -371,9 +369,9 @@ export async function run(): Promise<void> {
   })
 
   const otherDeletedFiles = allOtherDeletedFiles
-    .split(inputs.filesSeparator)
+    .split(inputs.separator)
     .filter(
-      filePath => !deletedFiles.split(inputs.filesSeparator).includes(filePath)
+      filePath => !deletedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0
@@ -386,7 +384,7 @@ export async function run(): Promise<void> {
 
   await setOutput({
     key: 'other_deleted_files',
-    value: otherDeletedFiles.join(inputs.filesSeparator),
+    value: otherDeletedFiles.join(inputs.separator),
     inputs
   })
 
