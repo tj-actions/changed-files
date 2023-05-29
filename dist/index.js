@@ -980,8 +980,8 @@ function run() {
         });
         core.debug(`All other changed files: ${allOtherChangedFiles}`);
         const otherChangedFiles = allOtherChangedFiles
-            .split(inputs.filesSeparator)
-            .filter(filePath => !allChangedFiles.split(inputs.filesSeparator).includes(filePath));
+            .split(inputs.separator)
+            .filter(filePath => !allChangedFiles.split(inputs.separator).includes(filePath));
         const onlyChanged = otherChangedFiles.length === 0 && allChangedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_changed',
@@ -990,7 +990,7 @@ function run() {
         });
         yield (0, utils_1.setOutput)({
             key: 'other_changed_files',
-            value: otherChangedFiles.join(inputs.filesSeparator),
+            value: otherChangedFiles.join(inputs.separator),
             inputs
         });
         const allModifiedFiles = yield (0, changedFiles_1.getDiffFiles)({
@@ -1022,8 +1022,8 @@ function run() {
             submodulePaths
         });
         const otherModifiedFiles = allOtherModifiedFiles
-            .split(inputs.filesSeparator)
-            .filter(filePath => !allModifiedFiles.split(inputs.filesSeparator).includes(filePath));
+            .split(inputs.separator)
+            .filter(filePath => !allModifiedFiles.split(inputs.separator).includes(filePath));
         const onlyModified = otherModifiedFiles.length === 0 && allModifiedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_modified',
@@ -1032,7 +1032,7 @@ function run() {
         });
         yield (0, utils_1.setOutput)({
             key: 'other_modified_files',
-            value: otherModifiedFiles.join(inputs.filesSeparator),
+            value: otherModifiedFiles.join(inputs.separator),
             inputs
         });
         const deletedFiles = yield (0, changedFiles_1.getDiffFiles)({
@@ -1064,8 +1064,8 @@ function run() {
             submodulePaths
         });
         const otherDeletedFiles = allOtherDeletedFiles
-            .split(inputs.filesSeparator)
-            .filter(filePath => !deletedFiles.split(inputs.filesSeparator).includes(filePath));
+            .split(inputs.separator)
+            .filter(filePath => !deletedFiles.split(inputs.separator).includes(filePath));
         const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_deleted',
@@ -1074,7 +1074,7 @@ function run() {
         });
         yield (0, utils_1.setOutput)({
             key: 'other_deleted_files',
-            value: otherDeletedFiles.join(inputs.filesSeparator),
+            value: otherDeletedFiles.join(inputs.separator),
             inputs
         });
         if (inputs.includeAllOldNewRenamedFiles) {
