@@ -213,7 +213,8 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
     if (isShallow) {
         core.info('Repository is shallow, fetching more history...');
         if (isTag) {
-            const sourceBranch = env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '');
+            const sourceBranch = env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '') ||
+                env.GITHUB_EVENT_RELEASE_TARGET_COMMITISH;
             yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
@@ -568,7 +569,7 @@ exports.getEnv = void 0;
 const fs_1 = __nccwpck_require__(7147);
 const core = __importStar(__nccwpck_require__(2186));
 const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     const eventPath = process.env.GITHUB_EVENT_PATH;
     let eventJson = {};
     if (eventPath) {
@@ -581,9 +582,10 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_EVENT_PULL_REQUEST_BASE_REF: ((_d = (_c = eventJson.pull_request) === null || _c === void 0 ? void 0 : _c.base) === null || _d === void 0 ? void 0 : _d.ref) || '',
         GITHUB_EVENT_BEFORE: eventJson.before || '',
         GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
-        GITHUB_EVENT_HEAD_REPO_FORK: ((_e = eventJson.head_repo) === null || _e === void 0 ? void 0 : _e.fork) || '',
-        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_f = eventJson.pull_request) === null || _f === void 0 ? void 0 : _f.number) || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_h = (_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.base) === null || _h === void 0 ? void 0 : _h.sha) || '',
+        GITHUB_EVENT_RELEASE_TARGET_COMMITISH: ((_e = eventJson.release) === null || _e === void 0 ? void 0 : _e.target_commitish) || '',
+        GITHUB_EVENT_HEAD_REPO_FORK: ((_f = eventJson.head_repo) === null || _f === void 0 ? void 0 : _f.fork) || '',
+        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.number) || '',
+        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_j = (_h = eventJson.pull_request) === null || _h === void 0 ? void 0 : _h.base) === null || _j === void 0 ? void 0 : _j.sha) || '',
         GITHUB_EVENT_FORCED: eventJson.forced || '',
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
