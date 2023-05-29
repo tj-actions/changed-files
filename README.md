@@ -771,7 +771,6 @@ With the switch from using grep's Extended regex to match files to the natively 
 
 This package was created with [cookiecutter-action](https://github.com/tj-actions/cookiecutter-action).
 
-*   [tj-actions/glob](https://github.com/tj-actions/glob)
 *   [tj-actions/auto-doc](https://github.com/tj-actions/auto-doc)
 *   [tj-actions/verify-changed-files](https://github.com/tj-actions/verify-changed-files)
 *   [tj-actions/demo](https://github.com/tj-actions/demo)
