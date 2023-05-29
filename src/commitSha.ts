@@ -83,7 +83,9 @@ export const getSHAForPushEvent = async (
     core.info('Repository is shallow, fetching more history...')
 
     if (isTag) {
-      const sourceBranch = env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '')
+      const sourceBranch =
+        env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '') ||
+        env.GITHUB_EVENT_RELEASE_TARGET_COMMITISH
       await gitFetch({
         cwd: workingDirectory,
         args: [
