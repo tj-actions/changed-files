@@ -59,7 +59,7 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 *   Restrict change detection to a subset of files and directories:
     *   Boolean output indicating that certain files have been changed.
     *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
-        *   Globstar.   
+        *   Globstar.
         *   Brace expansion.
 
 ## Usage
