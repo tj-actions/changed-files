@@ -92,7 +92,7 @@ export const getSHAForPushEvent = async (
           '--progress',
           `--deepen=${inputs.fetchDepth}`,
           'origin',
-          `+refs/tags/${sourceBranch}:refs/remotes/origin/${sourceBranch}`
+          `+refs/heads/${sourceBranch}:refs/remotes/origin/${sourceBranch}`
         ]
       })
     } else {
