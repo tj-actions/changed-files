@@ -8,6 +8,7 @@ export type Env = {
   GITHUB_REF_NAME: string
   GITHUB_REF: string
   GITHUB_EVENT_BASE_REF: string
+  GITHUB_EVENT_RELEASE_TARGET_COMMITISH: string
   GITHUB_EVENT_HEAD_REPO_FORK: string
   GITHUB_WORKSPACE: string
   GITHUB_EVENT_FORCED: string
@@ -26,6 +27,9 @@ type GithubEvent = {
       sha: string
     }
     number: string
+  }
+  release?: {
+    target_commitish: string
   }
   before?: string
   base_ref?: string
@@ -49,6 +53,8 @@ export const getEnv = async (): Promise<Env> => {
     GITHUB_EVENT_PULL_REQUEST_BASE_REF: eventJson.pull_request?.base?.ref || '',
     GITHUB_EVENT_BEFORE: eventJson.before || '',
     GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
+    GITHUB_EVENT_RELEASE_TARGET_COMMITISH:
+      eventJson.release?.target_commitish || '',
     GITHUB_EVENT_HEAD_REPO_FORK: eventJson.head_repo?.fork || '',
     GITHUB_EVENT_PULL_REQUEST_NUMBER: eventJson.pull_request?.number || '',
     GITHUB_EVENT_PULL_REQUEST_BASE_SHA: eventJson.pull_request?.base?.sha || '',
