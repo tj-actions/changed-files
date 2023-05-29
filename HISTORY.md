@@ -1,5 +1,27 @@
 # Changelog
 
+# [36.0.7](https://github.com/tj-actions/changed-files/compare/v36.0.6...v36.0.7) - (2023-05-29)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug running changed files with limited history ([#1188](https://github.com/tj-actions/changed-files/issues/1188)) ([449a845](https://github.com/tj-actions/changed-files/commit/449a845ff28da516ea1752afd195d2f7f642c6f4))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([777b2b4](https://github.com/tj-actions/changed-files/commit/777b2b437a82c8afbb474f57812fd790c7509391))  - (Tonye Jack)
+- Update README.md ([2fafe0a](https://github.com/tj-actions/changed-files/commit/2fafe0a7349fddf5ea3a02484419a4831979d79b))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1189](https://github.com/tj-actions/changed-files/issues/1189)) ([4e2535f](https://github.com/tj-actions/changed-files/commit/4e2535f2b330e70ff7055f7de4272653cfdbd555))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v19 ([#1185](https://github.com/tj-actions/changed-files/issues/1185)) ([bc88d8b](https://github.com/tj-actions/changed-files/commit/bc88d8bc954005f987c5c73e133f2cb4927ddf3e))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.6 ([#1184](https://github.com/tj-actions/changed-files/issues/1184))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([fd2b77d](https://github.com/tj-actions/changed-files/commit/fd2b77dd749ff644f3fe50e1f7341902e0064744))  - (tj-actions[bot])
+
 # [36.0.6](https://github.com/tj-actions/changed-files/compare/v36.0.5...v36.0.6) - (2023-05-26)
 
 ## <!-- 0 -->🚀 Features
