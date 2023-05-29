@@ -731,6 +731,10 @@ See [inputs](#inputs) for more information.
 
 *   [nodejs/docker-node: uses tj-actions/changed-files to generate matrix jobs based on changes detected](https://github.com/nodejs/docker-node/blob/3c4fa6daf06a4786d202f2f610351837806a0380/.github/workflows/build-test.yml#L29)
 
+*   [refined-github: uses tj-actions/changed-files to automate test URL validation in added/edited files](https://github.com/refined-github/refined-github/blob/b754bfe58904da8a599d7876fdaaf18302785629/.github/workflows/features.yml#L35)
+
+*   [aws-doc-sdk-examples: uses tj-actions/changed-files to automate testing](https://github.com/awsdocs/aws-doc-sdk-examples/blob/2393723ef6b0cad9502f4852f5c72f7be58ca89d/.github/workflows/javascript.yml#L22)
+
 And many more...
 
 ## Known Limitation
