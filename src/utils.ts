@@ -757,7 +757,23 @@ export const getFilePatterns = async ({
 
   core.debug(`file patterns: ${filePatterns}`)
 
-  return filePatterns.trim().split('\n').filter(Boolean)
+  return filePatterns
+    .trim()
+    .split('\n')
+    .filter(Boolean)
+    .map(pattern => {
+      if (pattern.endsWith('/')) {
+        return `${pattern}**`
+      } else {
+        const pathParts = pattern.split('/')
+        const lastPart = pathParts[pathParts.length - 1]
+        if (!lastPart.includes('.')) {
+          return `${pattern}/**`
+        } else {
+          return pattern
+        }
+      }
+    })
 }
 
 export const setOutput = async ({
