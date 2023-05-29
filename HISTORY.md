@@ -1,5 +1,17 @@
 # Changelog
 
+# [36.0.8](https://github.com/tj-actions/changed-files/compare/v36.0.7...v36.0.8) - (2023-05-29)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for running on release event ([#1191](https://github.com/tj-actions/changed-files/issues/1191)) ([043929e](https://github.com/tj-actions/changed-files/commit/043929ee8fffa1dd1d619782a5a338cf39e76e23))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.7 ([#1190](https://github.com/tj-actions/changed-files/issues/1190))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([96fd197](https://github.com/tj-actions/changed-files/commit/96fd19710a49b0e910f7363e8af37dd6b182636a))  - (tj-actions[bot])
+
 # [36.0.7](https://github.com/tj-actions/changed-files/compare/v36.0.6...v36.0.7) - (2023-05-29)
 
 ## <!-- 1 -->🐛 Bug Fixes
