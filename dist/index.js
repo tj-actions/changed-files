@@ -1660,7 +1660,25 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
     core.debug(`file patterns: ${filePatterns}`);
-    return filePatterns.trim().split('\n').filter(Boolean);
+    return filePatterns
+        .trim()
+        .split('\n')
+        .filter(Boolean)
+        .map(pattern => {
+        if (pattern.endsWith('/')) {
+            return `${pattern}**`;
+        }
+        else {
+            const pathParts = pattern.split('/');
+            const lastPart = pathParts[pathParts.length - 1];
+            if (!lastPart.includes('.')) {
+                return `${pattern}/**`;
+            }
+            else {
+                return pattern;
+            }
+        }
+    });
 });
 exports.getFilePatterns = getFilePatterns;
 const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
