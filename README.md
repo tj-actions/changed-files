@@ -124,19 +124,19 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
       
       # Example 3
-      - name: Get all changed *.js file(s) or any file in the static folder excluding the docs folder
+      - name: Get all changed .js file(s) or any file in the static folder excluding the docs folder
         id: changed-files-excluded
         uses: tj-actions/changed-files@v36
         with:
           files: |
-            **/*.js
+            **.js
             static
           files_ignore: docs
 
-      - name: Run step if any *.js file(s) or any file in the static folder change
+      - name: Run step if any .js file(s) or any file in the static folder change
         if: steps.changed-files-excluded.outputs.any_changed == 'true'
         run: |
-          echo "One or more *.js file(s) or any file in the static folder but not in the doc folder has changed."
+          echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 ```
 
