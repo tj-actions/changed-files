@@ -508,6 +508,16 @@ jobs:
           echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
         shell:
           bash
+      - name: Run changed-files with dir name
+        id: changed-files-dir-name
+        uses: ./
+        with:
+          files: .github/workflows
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-name.outputs) }}'
+        shell:
+          bash
       - name: Run changed-files with write_output_files
         id: changed-files-write-output-files
         uses: ./
