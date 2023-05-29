@@ -1,5 +1,30 @@
 # Changelog
 
+# [36.0.9](https://github.com/tj-actions/changed-files/compare/v36.0.8...v36.0.9) - (2023-05-29)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Matching all nested files with a directory name ([#1197](https://github.com/tj-actions/changed-files/issues/1197)) ([cf4fe87](https://github.com/tj-actions/changed-files/commit/cf4fe8759a45edd76ed6215da3529d2dbd2a3c68))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1196](https://github.com/tj-actions/changed-files/issues/1196))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([58c7ce2](https://github.com/tj-actions/changed-files/commit/58c7ce2addd872691e0da689c1fa281c07713275))  - (tj-actions[bot])
+- Update README.md ([61316fd](https://github.com/tj-actions/changed-files/commit/61316fda7680cc63f418e60ecc690b89be1da81f))  - (Tonye Jack)
+- Update README.md ([#1195](https://github.com/tj-actions/changed-files/issues/1195))
+
+ ([5d38ef5](https://github.com/tj-actions/changed-files/commit/5d38ef52895b6ff6402354d6848ec6fedbf0d2ca))  - (Tonye Jack)
+- Update README.md ([51330c5](https://github.com/tj-actions/changed-files/commit/51330c5719e5ccb3eba7e629ea5d44be35d04b00))  - (Tonye Jack)
+- Update README.md ([7b92155](https://github.com/tj-actions/changed-files/commit/7b92155d7a2bb44c09d58bd53e4cc54e6ce4811a))  - (Tonye Jack)
+- Update README.md ([3127174](https://github.com/tj-actions/changed-files/commit/3127174fab678ec0c8a22b5482efa6c350cec573))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.8 ([#1192](https://github.com/tj-actions/changed-files/issues/1192))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([cfdaf8f](https://github.com/tj-actions/changed-files/commit/cfdaf8f14eabcd0bbf60d1fdde9009892b275ddc))  - (tj-actions[bot])
+
 # [36.0.8](https://github.com/tj-actions/changed-files/compare/v36.0.7...v36.0.8) - (2023-05-29)
 
 ## <!-- 0 -->🚀 Features
