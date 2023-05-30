@@ -1,5 +1,25 @@
 # Changelog
 
+# [36.0.10](https://github.com/tj-actions/changed-files/compare/v36.0.9...v36.0.10) - (2023-05-30)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with diff output ([#1201](https://github.com/tj-actions/changed-files/issues/1201)) ([3f7b5c9](https://github.com/tj-actions/changed-files/commit/3f7b5c900bdbf1b80a825e220413986227b3ff03))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([161a189](https://github.com/tj-actions/changed-files/commit/161a189eb5c78db4f84ac77bab2ff4dbfc6b9d9c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v5.59.8 ([#1199](https://github.com/tj-actions/changed-files/issues/1199)) ([a48618a](https://github.com/tj-actions/changed-files/commit/a48618a94b7ff98374d2d326319105f772da3b7a))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.9 ([#1198](https://github.com/tj-actions/changed-files/issues/1198))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2bdfc0c](https://github.com/tj-actions/changed-files/commit/2bdfc0c60d432fdb25b4d45b810881e8dcdad82c))  - (tj-actions[bot])
+
 # [36.0.9](https://github.com/tj-actions/changed-files/compare/v36.0.8...v36.0.9) - (2023-05-29)
 
 ## <!-- 1 -->🐛 Bug Fixes
