@@ -404,6 +404,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 });
             }
         }
+        core.info('Completed fetching more history.');
     }
     const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
