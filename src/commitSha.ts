@@ -369,13 +369,13 @@ export const getSHAForPullRequestEvent = async (
         previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
     } else {
-      previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+      previousSha = await gitLsRemote({
+        cwd: workingDirectory,
+        args: [targetBranch]
+      })
 
       if (!previousSha) {
-        previousSha = await gitLsRemote({
-          cwd: workingDirectory,
-          args: [targetBranch]
-        })
+        previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
 
       if (isShallow) {
