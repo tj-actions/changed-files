@@ -404,6 +404,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 });
             }
         }
+        core.info('Completed fetching more history.');
     }
     const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
@@ -446,12 +447,12 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         else {
-            previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+            previousSha = yield (0, utils_1.gitLsRemote)({
+                cwd: workingDirectory,
+                args: [targetBranch]
+            });
             if (!previousSha) {
-                previousSha = yield (0, utils_1.gitLsRemote)({
-                    cwd: workingDirectory,
-                    args: [targetBranch]
-                });
+                previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
             }
             if (isShallow) {
                 if (yield (0, utils_1.canDiffCommits)({
