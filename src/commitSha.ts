@@ -312,6 +312,7 @@ export const getSHAForPullRequestEvent = async (
         })
       }
     }
+    core.info('Completed fetching more history.')
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
