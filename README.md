@@ -52,7 +52,7 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 *   Write outputs to a `.txt` or `.json` file at a specified location for further processing.
 *   Monorepos (Fetches a fixed number of commits).
 *   Supports all platforms (Linux, MacOS, Windows).
-*   [GitHub-hosted runne Editing changed-files/README.md at main · tj-actions/changed-files · GitHub rs](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
+*   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
 *   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
 *   [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) support.
 *   List all files and directories that have changed:
