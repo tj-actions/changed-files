@@ -42,6 +42,9 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 *   Fast execution (0-10 seconds on average).
 *   Easy to debug.
 *   Scales to large repositories.
+
+![image](https://github.com/tj-actions/changed-files/assets/17484350/23767413-4c51-42fb-ab1c-39ef72c44904)
+
 *   Supports Git submodules.
 *   Escaped JSON output which can be used to run matrix jobs based on changed files.
 *   List changed directories.
@@ -49,7 +52,7 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 *   Write outputs to a `.txt` or `.json` file at a specified location for further processing.
 *   Monorepos (Fetches a fixed number of commits).
 *   Supports all platforms (Linux, MacOS, Windows).
-*   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
+*   [GitHub-hosted runne Editing changed-files/README.md at main · tj-actions/changed-files · GitHub rs](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
 *   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
 *   [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) support.
 *   List all files and directories that have changed:
