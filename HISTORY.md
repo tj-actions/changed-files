@@ -1,5 +1,18 @@
 # Changelog
 
+# [36.0.11](https://github.com/tj-actions/changed-files/compare/v36.0.10...v36.0.11) - (2023-05-31)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update test to include pull request head sha checkout ([#1205](https://github.com/tj-actions/changed-files/issues/1205)) ([17c3e9e](https://github.com/tj-actions/changed-files/commit/17c3e9e98f47ef859502ba3e38be0b8a6a4bddd9))  - (Tonye Jack)
+- **deps:** Update dependency @types/jest to v29.5.2 ([#1207](https://github.com/tj-actions/changed-files/issues/1207)) ([c9dcbc3](https://github.com/tj-actions/changed-files/commit/c9dcbc31476236325f8079dd68519c7faae1ead8))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.10 ([#1202](https://github.com/tj-actions/changed-files/issues/1202))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([aa54931](https://github.com/tj-actions/changed-files/commit/aa54931d1daf7fb83e84f8b18362536ea6e86589))  - (tj-actions[bot])
+
 # [36.0.10](https://github.com/tj-actions/changed-files/compare/v36.0.9...v36.0.10) - (2023-05-30)
 
 ## <!-- 1 -->🐛 Bug Fixes
