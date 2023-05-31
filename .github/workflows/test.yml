@@ -316,6 +316,33 @@ jobs:
         shell:
           bash
 
+  test-pull-request-head-ref:
+    name: Test changed-files with pull request head ref
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'push'
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Download build assets
+        uses: actions/download-artifact@v3
+        with:
+          name: build-assets
+
+      - name: Run changed-files
+        id: changed-files
+        uses: ./
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
   test-non-existent-base-sha:
     name: Test changed-files non existent base sha
     runs-on: ubuntu-latest
