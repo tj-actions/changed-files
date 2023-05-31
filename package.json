@@ -37,7 +37,7 @@
     "micromatch": "^4.0.5"
   },
   "devDependencies": {
-    "@types/jest": "29.5.1",
+    "@types/jest": "29.5.2",
     "@types/micromatch": "^4.0.2",
     "@types/node": "20.2.1",
     "@types/uuid": "9.0.1",
