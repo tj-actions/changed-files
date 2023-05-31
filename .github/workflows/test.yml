@@ -317,7 +317,7 @@ jobs:
           bash
 
   test-pull-request-head-ref:
-    name: Test changed-files with limited commit history
+    name: Test changed-files with pull request head ref
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name != 'push'
