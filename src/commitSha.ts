@@ -7,10 +7,10 @@ import {
   getHeadSha,
   getParentSha,
   getPreviousGitTag,
+  getRemoteBranchHeadSha,
   gitFetch,
   gitFetchSubmodules,
   gitLog,
-  gitLsRemote,
   verifyCommitSha
 } from './utils'
 
@@ -261,7 +261,7 @@ export const getSHAForPullRequestEvent = async (
   if (isShallow) {
     core.info('Repository is shallow, fetching more history...')
 
-    const prFetchExitCode = await gitFetch({
+    let prFetchExitCode = await gitFetch({
       cwd: workingDirectory,
       args: [
         ...gitExtraArgs,
@@ -273,7 +273,7 @@ export const getSHAForPullRequestEvent = async (
     })
 
     if (prFetchExitCode !== 0) {
-      await gitFetch({
+      prFetchExitCode = await gitFetch({
         cwd: workingDirectory,
         args: [
           ...gitExtraArgs,
@@ -284,6 +284,12 @@ export const getSHAForPullRequestEvent = async (
           `+refs/heads/${currentBranch}*:refs/remotes/origin/${currentBranch}*`
         ]
       })
+    }
+
+    if (prFetchExitCode !== 0) {
+      throw new Error(
+        'Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage'
+      )
     }
 
     if (!inputs.sinceLastRemoteCommit) {
@@ -354,9 +360,9 @@ export const getSHAForPullRequestEvent = async (
       previousSha = env.GITHUB_EVENT_BEFORE
 
       if (!previousSha) {
-        previousSha = await gitLsRemote({
+        previousSha = await getRemoteBranchHeadSha({
           cwd: workingDirectory,
-          args: [currentBranch]
+          branch: currentBranch
         })
       }
 
@@ -370,9 +376,9 @@ export const getSHAForPullRequestEvent = async (
         previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
     } else {
-      previousSha = await gitLsRemote({
+      previousSha = await getRemoteBranchHeadSha({
         cwd: workingDirectory,
-        args: [targetBranch]
+        branch: targetBranch
       })
 
       if (!previousSha) {
