@@ -1,5 +1,17 @@
 # Changelog
 
+# [36.0.12](https://github.com/tj-actions/changed-files/compare/v36.0.11...v36.0.12) - (2023-06-01)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug retrieving diff when persist credentials is false ([#1209](https://github.com/tj-actions/changed-files/issues/1209)) ([5978e5a](https://github.com/tj-actions/changed-files/commit/5978e5a2df95ef20cde627d4acb5edd1f87ba46a))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.11 ([#1208](https://github.com/tj-actions/changed-files/issues/1208))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([ab45871](https://github.com/tj-actions/changed-files/commit/ab45871481bbe65bf9de161fdb13c95410d9b930))  - (tj-actions[bot])
+
 # [36.0.11](https://github.com/tj-actions/changed-files/compare/v36.0.10...v36.0.11) - (2023-05-31)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
