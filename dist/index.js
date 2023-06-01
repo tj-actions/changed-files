@@ -1524,7 +1524,7 @@ const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getHeadSha = getHeadSha;
 const getRemoteBranchHeadSha = ({ cwd, branch }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', `refs/remotes/origin/${branch}`], {
+    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', `origin/${branch}`], {
         cwd,
         silent: process.env.RUNNER_DEBUG !== '1'
     });
