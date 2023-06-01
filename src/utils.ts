@@ -501,28 +501,23 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
-export const gitLsRemote = async ({
+export const getRemoteBranchHeadSha = async ({
   cwd,
-  args
+  branch
 }: {
   cwd: string
-  args: string[]
+  branch: string
 }): Promise<string> => {
   const {stdout} = await exec.getExecOutput(
     'git',
-    ['ls-remote', 'origin', ...args],
+    ['rev-parse', `refs/remotes/origin/${branch}`],
     {
       cwd,
       silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
-  const output = stdout.trim().split('\t')
 
-  if (output.length === 0) {
-    throw new Error('No output returned from git ls-remote')
-  }
-
-  return output[0]
+  return stdout.trim()
 }
 
 export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
