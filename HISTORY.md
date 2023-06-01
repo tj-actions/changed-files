@@ -1,5 +1,11 @@
 # Changelog
 
+# [36.0.13](https://github.com/tj-actions/changed-files/compare/v36.0.12...v36.0.13) - (2023-06-01)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error fetching history ([#1211](https://github.com/tj-actions/changed-files/issues/1211)) ([8c9ee56](https://github.com/tj-actions/changed-files/commit/8c9ee56d0180a538ad5b6b8a208e4db974bad9c0))  - (Tonye Jack)
+
 # [36.0.12](https://github.com/tj-actions/changed-files/compare/v36.0.11...v36.0.12) - (2023-06-01)
 
 ## <!-- 1 -->🐛 Bug Fixes
