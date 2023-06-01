@@ -356,7 +356,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }
     if (isShallow) {
         core.info('Repository is shallow, fetching more history...');
-        const prFetchExitCode = yield (0, utils_1.gitFetch)({
+        let prFetchExitCode = yield (0, utils_1.gitFetch)({
             cwd: workingDirectory,
             args: [
                 ...gitExtraArgs,
@@ -367,7 +367,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             ]
         });
         if (prFetchExitCode !== 0) {
-            yield (0, utils_1.gitFetch)({
+            prFetchExitCode = yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
                     ...gitExtraArgs,
@@ -378,6 +378,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                     `+refs/heads/${currentBranch}*:refs/remotes/origin/${currentBranch}*`
                 ]
             });
+        }
+        if (prFetchExitCode !== 0) {
+            throw new Error('Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage');
         }
         if (!inputs.sinceLastRemoteCommit) {
             core.debug('Fetching target branch...');
@@ -433,9 +436,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         if (inputs.sinceLastRemoteCommit) {
             previousSha = env.GITHUB_EVENT_BEFORE;
             if (!previousSha) {
-                previousSha = yield (0, utils_1.gitLsRemote)({
+                previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
                     cwd: workingDirectory,
-                    args: [currentBranch]
+                    branch: currentBranch
                 });
             }
             if ((yield (0, utils_1.verifyCommitSha)({
@@ -447,9 +450,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         else {
-            previousSha = yield (0, utils_1.gitLsRemote)({
+            previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
                 cwd: workingDirectory,
-                args: [targetBranch]
+                branch: targetBranch
             });
             if (!previousSha) {
                 previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
@@ -1169,7 +1172,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.gitLsRemote = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1520,18 +1523,14 @@ const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     return stdout.trim();
 });
 exports.getHeadSha = getHeadSha;
-const gitLsRemote = ({ cwd, args }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout } = yield exec.getExecOutput('git', ['ls-remote', 'origin', ...args], {
+const getRemoteBranchHeadSha = ({ cwd, branch }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', `refs/remotes/origin/${branch}`], {
         cwd,
         silent: process.env.RUNNER_DEBUG !== '1'
     });
-    const output = stdout.trim().split('\t');
-    if (output.length === 0) {
-        throw new Error('No output returned from git ls-remote');
-    }
-    return output[0];
+    return stdout.trim();
 });
-exports.gitLsRemote = gitLsRemote;
+exports.getRemoteBranchHeadSha = getRemoteBranchHeadSha;
 const getParentSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
         cwd,
