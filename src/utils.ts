@@ -510,7 +510,7 @@ export const getRemoteBranchHeadSha = async ({
 }): Promise<string> => {
   const {stdout} = await exec.getExecOutput(
     'git',
-    ['rev-parse', `refs/remotes/origin/${branch}`],
+    ['rev-parse', `origin/${branch}`],
     {
       cwd,
       silent: process.env.RUNNER_DEBUG !== '1'
