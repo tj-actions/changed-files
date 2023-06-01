@@ -360,19 +360,10 @@ export const getSHAForPullRequestEvent = async (
       previousSha = env.GITHUB_EVENT_BEFORE
 
       if (!previousSha) {
-        previousSha = await getRemoteBranchHeadSha({
-          cwd: workingDirectory,
-          branch: currentBranch
-        })
+        previousSha = await getParentSha({cwd: workingDirectory})
       }
 
-      if (
-        (await verifyCommitSha({
-          sha: previousSha,
-          cwd: workingDirectory,
-          showAsErrorMessage: false
-        })) !== 0
-      ) {
+      if (!previousSha) {
         previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
     } else {
