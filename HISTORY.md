@@ -1,5 +1,22 @@
 # Changelog
 
+# [36.0.14](https://github.com/tj-actions/changed-files/compare/v36.0.13...v36.0.14) - (2023-06-01)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with retrieving the base sha when since last commit is enabled ([#1213](https://github.com/tj-actions/changed-files/issues/1213)) ([9ecc6e7](https://github.com/tj-actions/changed-files/commit/9ecc6e7fe2e26945b52485ccd9bc4b44000f5af1))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.13 ([#1212](https://github.com/tj-actions/changed-files/issues/1212))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([72cf889](https://github.com/tj-actions/changed-files/commit/72cf8893fc62273c86d15f761e8693ee99067553))  - (tj-actions[bot])
+- Upgraded to v36.0.12 ([#1210](https://github.com/tj-actions/changed-files/issues/1210))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([28d6f29](https://github.com/tj-actions/changed-files/commit/28d6f2964c56cd2c00615dae99814ebcb3339c32))  - (tj-actions[bot])
+
 # [36.0.13](https://github.com/tj-actions/changed-files/compare/v36.0.12...v36.0.13) - (2023-06-01)
 
 ## <!-- 1 -->🐛 Bug Fixes
