@@ -1,5 +1,28 @@
 # Changelog
 
+# [36.0.15](https://github.com/tj-actions/changed-files/compare/v36.0.14...v36.0.15) - (2023-06-02)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug retrieving base sha for force push ([#1216](https://github.com/tj-actions/changed-files/issues/1216)) ([47db5bd](https://github.com/tj-actions/changed-files/commit/47db5bd435ab26939338ff899af621be52f44da4))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([5436326](https://github.com/tj-actions/changed-files/commit/5436326dcff90d144b503f5956174744e1e2f3dd))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency typescript to v5.1.3 ([#1215](https://github.com/tj-actions/changed-files/issues/1215)) ([5d2fcdb](https://github.com/tj-actions/changed-files/commit/5d2fcdb4cbef720a52f49fd05d8c7edd18a64758))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v4.8.0 ([#1218](https://github.com/tj-actions/changed-files/issues/1218)) ([c0a8bcf](https://github.com/tj-actions/changed-files/commit/c0a8bcfa6aa8d8cb3617f30d7a97a9a94233f526))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1217](https://github.com/tj-actions/changed-files/issues/1217)) ([4bc117d](https://github.com/tj-actions/changed-files/commit/4bc117de0ccad2c57bf65627d45b5a397ad7aeab))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.14 ([#1214](https://github.com/tj-actions/changed-files/issues/1214))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([eeb5a25](https://github.com/tj-actions/changed-files/commit/eeb5a258f54ff87633389337e566ad43b7429c8d))  - (tj-actions[bot])
+
 # [36.0.14](https://github.com/tj-actions/changed-files/compare/v36.0.13...v36.0.14) - (2023-06-01)
 
 ## <!-- 1 -->🐛 Bug Fixes
