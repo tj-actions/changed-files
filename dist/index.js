@@ -435,10 +435,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     if (!previousSha) {
         if (inputs.sinceLastRemoteCommit) {
             previousSha = env.GITHUB_EVENT_BEFORE;
-            if (!previousSha) {
-                previousSha = yield (0, utils_1.getParentSha)({ cwd: workingDirectory });
-            }
-            if (!previousSha) {
+            if ((yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !== 0) {
                 previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
             }
         }
