@@ -1268,27 +1268,22 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
             crlfDelay: Infinity
         });
         try {
-            for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a;) {
+            for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a; _d = true) {
                 _c = rl_1_1.value;
                 _d = false;
-                try {
-                    const line = _c;
-                    if (!line.startsWith('#') && line !== '') {
-                        if (excludedFiles) {
-                            if (line.startsWith('!')) {
-                                yield yield __await(line);
-                            }
-                            else {
-                                yield yield __await(`!${line}`);
-                            }
-                        }
-                        else {
+                const line = _c;
+                if (!line.startsWith('#') && line !== '') {
+                    if (excludedFiles) {
+                        if (line.startsWith('!')) {
                             yield yield __await(line);
                         }
+                        else {
+                            yield yield __await(`!${line}`);
+                        }
                     }
-                }
-                finally {
-                    _d = true;
+                    else {
+                        yield yield __await(line);
+                    }
                 }
             }
         }
@@ -1306,16 +1301,11 @@ const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __await
     const lines = [];
     for (const filePath of filePaths) {
         try {
-            for (var _e = true, _f = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _g; _g = yield _f.next(), _b = _g.done, !_b;) {
+            for (var _e = true, _f = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _g; _g = yield _f.next(), _b = _g.done, !_b; _e = true) {
                 _d = _g.value;
                 _e = false;
-                try {
-                    const line = _d;
-                    lines.push(line);
-                }
-                finally {
-                    _e = true;
-                }
+                const line = _d;
+                lines.push(line);
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
