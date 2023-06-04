@@ -133,23 +133,23 @@ if [[ -z $GITHUB_EVENT_PULL_REQUEST_BASE_REF ]]; then
         if [[ "$GITHUB_EVENT_FORCED" == "false" || -z "$GITHUB_EVENT_FORCED" ]]; then
           PREVIOUS_SHA=$GITHUB_EVENT_BEFORE && exit_status=$? || exit_status=$?
         else
-          PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^") && exit_status=$? || exit_status=$?
+          PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^" || true) && exit_status=$? || exit_status=$?
         fi
       else
-        PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^" || true) && exit_status=$? || exit_status=$?
       fi
 
       if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "0000000000000000000000000000000000000000" ]]; then
-        PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^") && exit_status=$? || exit_status=$?
+        PREVIOUS_SHA=$(git rev-list -n 1 "HEAD^" || true) && exit_status=$? || exit_status=$?
       fi
 
-      if [[ "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
-        if ! git rev-parse "$PREVIOUS_SHA^1" &>/dev/null; then
+      if [[ -z "$PREVIOUS_SHA" || "$PREVIOUS_SHA" == "$CURRENT_SHA" ]]; then
+        if ! git rev-parse "$CURRENT_SHA^1" &>/dev/null; then
           INITIAL_COMMIT="true"
           PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA")
           echo "::warning::Initial commit detected no previous commit found."
         else
-          PREVIOUS_SHA=$(git rev-parse "$PREVIOUS_SHA^1")
+          PREVIOUS_SHA=$(git rev-parse "$CURRENT_SHA^1")
         fi
       else
         if [[ -z "$PREVIOUS_SHA" ]]; then
