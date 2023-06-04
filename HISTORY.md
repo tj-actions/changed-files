@@ -1,5 +1,18 @@
 # Changelog
 
+# [36.0.16](https://github.com/tj-actions/changed-files/compare/v36.0.15...v36.0.16) - (2023-06-03)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1221](https://github.com/tj-actions/changed-files/issues/1221)) ([1aae160](https://github.com/tj-actions/changed-files/commit/1aae16084af435f73c8cdfd742473028810c5f20))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.42.0 ([#1220](https://github.com/tj-actions/changed-files/issues/1220)) ([a593948](https://github.com/tj-actions/changed-files/commit/a593948c900d7f83d14a30cb162657a8d9894b0e))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.15 ([#1219](https://github.com/tj-actions/changed-files/issues/1219))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([96134b7](https://github.com/tj-actions/changed-files/commit/96134b7430da6261abf9182b7f2df2ae06eee300))  - (tj-actions[bot])
+
 # [36.0.15](https://github.com/tj-actions/changed-files/compare/v36.0.14...v36.0.15) - (2023-06-02)
 
 ## <!-- 1 -->🐛 Bug Fixes
