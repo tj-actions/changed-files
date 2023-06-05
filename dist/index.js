@@ -485,7 +485,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
         }
     }
-    if (previousSha === currentSha) {
+    if (previousSha === currentSha && env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
         currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
     }
     if (!(yield (0, utils_1.canDiffCommits)({
