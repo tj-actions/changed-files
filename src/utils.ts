@@ -288,7 +288,7 @@ export const getSubmodulePath = async ({
   return stdout
     .trim()
     .split('\n')
-    .map(line => normalizePath(line.split(' ')[1]))
+    .map((line: string) => normalizePath(line.split(' ')[1]))
 }
 
 export const gitSubmoduleDiffSHA = async ({
@@ -389,7 +389,7 @@ export const gitRenamedFiles = async ({
     .trim()
     .split('\n')
     .filter(Boolean)
-    .map(line => {
+    .map((line: string) => {
       core.debug(`Renamed file: ${line}`)
       const [, oldPath, newPath] = line.split('\t')
       if (isSubmodule) {
@@ -459,7 +459,7 @@ export const gitDiff = async ({
   const files = stdout
     .split('\n')
     .filter(Boolean)
-    .map(p => {
+    .map((p: string) => {
       if (isSubmodule) {
         return normalizePath(path.join(parentDir, p))
       }

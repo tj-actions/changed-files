@@ -14,6 +14,7 @@ export type Env = {
   GITHUB_EVENT_FORCED: string
   GITHUB_EVENT_PULL_REQUEST_NUMBER: string
   GITHUB_EVENT_PULL_REQUEST_BASE_SHA: string
+  GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: string
 }
 
 type GithubEvent = {
@@ -21,6 +22,7 @@ type GithubEvent = {
   pull_request?: {
     head: {
       ref: string
+      sha: string
     }
     base: {
       ref: string
@@ -58,6 +60,7 @@ export const getEnv = async (): Promise<Env> => {
     GITHUB_EVENT_HEAD_REPO_FORK: eventJson.head_repo?.fork || '',
     GITHUB_EVENT_PULL_REQUEST_NUMBER: eventJson.pull_request?.number || '',
     GITHUB_EVENT_PULL_REQUEST_BASE_SHA: eventJson.pull_request?.base?.sha || '',
+    GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: eventJson.pull_request?.head?.sha || '',
     GITHUB_EVENT_FORCED: eventJson.forced || '',
     GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
     GITHUB_REF: process.env.GITHUB_REF || '',
