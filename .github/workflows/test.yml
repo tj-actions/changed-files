@@ -4,14 +4,11 @@ on:
   push:
     branches:
       - "**"
+  pull_request_review:
+  pull_request_target:
   pull_request:
     branches:
       - main
-      - sec
-  pull_request_review:
-    branches:
-      - main
-      - sec
 
 jobs:
   shellcheck:
