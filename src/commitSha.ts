@@ -425,7 +425,7 @@ export const getSHAForPullRequestEvent = async (
     }
   }
 
-  if (previousSha === currentSha) {
+  if (previousSha === currentSha && env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
     currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
   }
 
