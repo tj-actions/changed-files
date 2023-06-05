@@ -321,7 +321,7 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  const currentSha = await getCurrentSHA({inputs, workingDirectory})
+  let currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
 
@@ -423,6 +423,10 @@ export const getSHAForPullRequestEvent = async (
     if (!previousSha || previousSha === currentSha) {
       previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
     }
+  }
+
+  if (previousSha === currentSha) {
+    currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
   }
 
   if (
