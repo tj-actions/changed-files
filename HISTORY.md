@@ -1,5 +1,19 @@
 # Changelog
 
+# [36.0.17](https://github.com/tj-actions/changed-files/compare/v36.0.16...v36.0.17) - (2023-06-05)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update README.md ([#1225](https://github.com/tj-actions/changed-files/issues/1225)) ([b137868](https://github.com/tj-actions/changed-files/commit/b13786805affca18e536ed489687d3d8d1f05d21))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1224](https://github.com/tj-actions/changed-files/issues/1224)) ([7c72320](https://github.com/tj-actions/changed-files/commit/7c7232040403e5ad44fb31057f9b7efe9dd43ace))  - (renovate[bot])
+- Update test.yml ([#1223](https://github.com/tj-actions/changed-files/issues/1223)) ([763a7bf](https://github.com/tj-actions/changed-files/commit/763a7bfbb5780f6798eb06361a5c91495c8b7488))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.16 ([#1222](https://github.com/tj-actions/changed-files/issues/1222))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([c789aec](https://github.com/tj-actions/changed-files/commit/c789aecfa677158f0ac6a33a87e38a2b4f530aea))  - (tj-actions[bot])
+
 # [36.0.16](https://github.com/tj-actions/changed-files/compare/v36.0.15...v36.0.16) - (2023-06-03)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
