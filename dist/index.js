@@ -409,7 +409,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
         core.info('Completed fetching more history.');
     }
-    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    let currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     let diff = '...';
     if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -484,6 +484,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         if (!previousSha || previousSha === currentSha) {
             previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
         }
+    }
+    if (previousSha === currentSha) {
+        currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
     }
     if (!(yield (0, utils_1.canDiffCommits)({
         cwd: workingDirectory,
@@ -563,7 +566,7 @@ exports.getEnv = void 0;
 const fs_1 = __nccwpck_require__(7147);
 const core = __importStar(__nccwpck_require__(2186));
 const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     const eventPath = process.env.GITHUB_EVENT_PATH;
     let eventJson = {};
     if (eventPath) {
@@ -580,6 +583,7 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_EVENT_HEAD_REPO_FORK: ((_f = eventJson.head_repo) === null || _f === void 0 ? void 0 : _f.fork) || '',
         GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.number) || '',
         GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_j = (_h = eventJson.pull_request) === null || _h === void 0 ? void 0 : _h.base) === null || _j === void 0 ? void 0 : _j.sha) || '',
+        GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ((_l = (_k = eventJson.pull_request) === null || _k === void 0 ? void 0 : _k.head) === null || _l === void 0 ? void 0 : _l.sha) || '',
         GITHUB_EVENT_FORCED: eventJson.forced || '',
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
@@ -1386,7 +1390,7 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     return stdout
         .trim()
         .split('\n')
-        .map(line => normalizePath(line.split(' ')[1]));
+        .map((line) => normalizePath(line.split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1435,7 +1439,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         .trim()
         .split('\n')
         .filter(Boolean)
-        .map(line => {
+        .map((line) => {
         core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
         if (isSubmodule) {
@@ -1471,7 +1475,7 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
     const files = stdout
         .split('\n')
         .filter(Boolean)
-        .map(p => {
+        .map((p) => {
         if (isSubmodule) {
             return normalizePath(path.join(parentDir, p));
         }
