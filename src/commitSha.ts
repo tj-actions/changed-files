@@ -49,7 +49,14 @@ const getCurrentSHA = async ({
     }
   } else {
     if (!currentSha) {
-      if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
+      if (
+        env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA &&
+        (await verifyCommitSha({
+          sha: env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA,
+          cwd: workingDirectory,
+          showAsErrorMessage: false
+        })) === 0
+      ) {
         currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
       } else {
         currentSha = await getHeadSha({cwd: workingDirectory})
