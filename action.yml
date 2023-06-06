@@ -79,15 +79,20 @@ inputs:
     default: "true"
   dir_names:
     default: "false"
-    description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the root of the project."
+    description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the current working directory which defaults to `$GITHUB_WORKSPACE`."
     required: false
   dir_names_max_depth:
     description: "Limit the directory output to a maximum depth e.g `test/test1/test2` with max depth of `2` returns `test/test1`."
     required: false
+  dir_names_exclude_current_dir:
+    description: "Exclude the current directory represented by `.` from the output when `dir_names` is set to `true`."
+    required: false
+    default: "false"
   dir_names_exclude_root:
     description: "Exclude the root directory represented by `.` from the output when `dir_names`is set to `true`."
     required: false
     default: "false"
+    deprecationMessage: "This input is deprecated. Use `dir_names_exclude_current_dir` instead."
   json:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false
