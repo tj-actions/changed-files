@@ -45,7 +45,8 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 *   Supports Git submodules.
 *   Escaped JSON output which can be used to run matrix jobs based on changed files.
 *   List changed directories.
-    *   Restrict the max depth of matching changed directories.
+    *   Limit the matching changed directories to a maximum depth.
+    *   Optionally exclude the current directory
 *   Write outputs to a `.txt` or `.json` file at a specified location for further processing.
 *   Monorepos (Fetches a fixed number of commits).
 *   Supports all platforms (Linux, MacOS, Windows).
