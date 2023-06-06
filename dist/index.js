@@ -118,7 +118,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diff
         files = files.map(file => (0, utils_1.getDirnameMaxDepth)({
             pathStr: file,
             dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-            excludeRoot: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+            excludeCurrentDir: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
         }));
         files = [...new Set(files)];
     }
@@ -1585,14 +1585,14 @@ const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, 
     return true;
 });
 exports.canDiffCommits = canDiffCommits;
-const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeRoot }) => {
+const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeCurrentDir }) => {
     const pathArr = dirname(pathStr).split(path.sep);
     const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length);
     let output = pathArr[0];
     for (let i = 1; i < maxDepth; i++) {
         output = path.join(output, pathArr[i]);
     }
-    if (excludeRoot && output === '.') {
+    if (excludeCurrentDir && output === '.') {
         return '';
     }
     return normalizePath(output);
