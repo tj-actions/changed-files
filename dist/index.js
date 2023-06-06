@@ -199,7 +199,12 @@ const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, v
     }
     else {
         if (!currentSha) {
-            if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
+            if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA &&
+                (yield (0, utils_1.verifyCommitSha)({
+                    sha: env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA,
+                    cwd: workingDirectory,
+                    showAsErrorMessage: false
+                })) === 0) {
                 currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
             }
             else {
