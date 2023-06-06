@@ -321,9 +321,23 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  let currentSha = await getCurrentSHA({inputs, workingDirectory})
+  let currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
   let previousSha = inputs.baseSha
   let diff = '...'
+
+  if (!currentSha) {
+    currentSha = await getCurrentSHA({inputs, workingDirectory})
+  } else {
+    if (
+      (await verifyCommitSha({
+        sha: currentSha,
+        cwd: workingDirectory,
+        showAsErrorMessage: false
+      })) !== 0
+    ) {
+      currentSha = await getCurrentSHA({inputs, workingDirectory})
+    }
+  }
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
@@ -336,7 +350,7 @@ export const getSHAForPullRequestEvent = async (
       throw new Error('Similar commit hashes detected.')
     }
 
-    await verifyCommitSha({sha: currentSha, cwd: workingDirectory})
+    await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
     core.debug(`Previous SHA: ${previousSha}`)
 
     return {
@@ -423,10 +437,6 @@ export const getSHAForPullRequestEvent = async (
     if (!previousSha || previousSha === currentSha) {
       previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
     }
-  }
-
-  if (previousSha === currentSha && env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
-    currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
   }
 
   if (

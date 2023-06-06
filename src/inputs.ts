@@ -23,6 +23,7 @@ export type Inputs = {
   dirNames: boolean
   dirNamesMaxDepth?: number
   dirNamesExcludeRoot: boolean
+  dirNamesExcludeCurrentDir: boolean
   json: boolean
   escapeJson: boolean
   fetchDepth?: number
@@ -93,6 +94,12 @@ export const getInputs = (): Inputs => {
   const dirNamesExcludeRoot = core.getBooleanInput('dir_names_exclude_root', {
     required: false
   })
+  const dirNamesExcludeCurrentDir = core.getBooleanInput(
+    'dir_names_exclude_current_dir',
+    {
+      required: false
+    }
+  )
   const json = core.getBooleanInput('json', {required: false})
   const escapeJson = core.getBooleanInput('escape_json', {required: false})
   const fetchDepth = core.getInput('fetch_depth', {required: false})
@@ -127,6 +134,7 @@ export const getInputs = (): Inputs => {
     diffRelative,
     dirNames,
     dirNamesExcludeRoot,
+    dirNamesExcludeCurrentDir,
     json,
     escapeJson,
     sinceLastRemoteCommit,
