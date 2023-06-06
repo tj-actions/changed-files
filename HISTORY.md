@@ -1,5 +1,39 @@
 # Changelog
 
+# [36.0.18](https://github.com/tj-actions/changed-files/compare/v36.0.17...v36.0.18) - (2023-06-06)
+
+## <!-- 0 -->🚀 Features
+
+- Add dir_names_exclude_current_dir input and cleaned up logic to retrieve the current sha ([#1229](https://github.com/tj-actions/changed-files/issues/1229)) ([353ea22](https://github.com/tj-actions/changed-files/commit/353ea22e6fc7b15ce3a30064d8cd19eef2a86b71))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1233](https://github.com/tj-actions/changed-files/issues/1233))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([07e0177](https://github.com/tj-actions/changed-files/commit/07e0177b72d3640efced741cae32f9861eee1367))  - (tj-actions[bot])
+- Updated README.md ([#1232](https://github.com/tj-actions/changed-files/issues/1232))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([fee9327](https://github.com/tj-actions/changed-files/commit/fee9327009ff80c0a0d442f2204944771f0552b1))  - (tj-actions[bot])
+- Update action.yml ([f991633](https://github.com/tj-actions/changed-files/commit/f991633730ca94b13263b3db2bfe3bb4406050e8))  - (Tonye Jack)
+- Updated README.md ([#1231](https://github.com/tj-actions/changed-files/issues/1231))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([1fc4377](https://github.com/tj-actions/changed-files/commit/1fc4377f0376e9e24eb836467b94dc0dbe92087a))  - (tj-actions[bot])
+- Updated README.md ([#1228](https://github.com/tj-actions/changed-files/issues/1228))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([cdf9afc](https://github.com/tj-actions/changed-files/commit/cdf9afcec863cb917421feea4e2d3fef708b2449))  - (tj-actions[bot])
+- Update README.md ([f58fe58](https://github.com/tj-actions/changed-files/commit/f58fe58af9008ac4c45e7caf949ff95791a9deef))  - (Tonye Jack)
+- Update action.yml ([9ab4230](https://github.com/tj-actions/changed-files/commit/9ab423063bd7d1ee892ecd5a0ce25f81f604e4f4))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v5.59.9 ([#1227](https://github.com/tj-actions/changed-files/issues/1227)) ([b8dd3a1](https://github.com/tj-actions/changed-files/commit/b8dd3a1a069b5eb261603aa081023c3e9689d6a4))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.17 ([#1226](https://github.com/tj-actions/changed-files/issues/1226))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([6e4b6b7](https://github.com/tj-actions/changed-files/commit/6e4b6b77a3fd4d60bd02608dba69c7eae38a117f))  - (tj-actions[bot])
+
 # [36.0.17](https://github.com/tj-actions/changed-files/compare/v36.0.16...v36.0.17) - (2023-06-05)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
