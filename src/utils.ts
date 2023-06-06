@@ -477,6 +477,94 @@ export const gitDiff = async ({
   })
 }
 
+export type ChangeType = 'A' | 'C' | 'D' | 'M' | 'R' | 'T' | 'U' | 'X'
+
+export type ChangedFile = {
+  filePath: string
+  changeType: ChangeType
+}
+
+const getAllChangedFiles = async ({
+  cwd,
+  sha1,
+  sha2,
+  diff,
+  filePatterns = [],
+  isSubmodule = false,
+  parentDir = ''
+}: {
+  cwd: string
+  sha1: string
+  sha2: string
+  diffFilter: string
+  diff: string
+  filePatterns?: string[]
+  isSubmodule?: boolean
+  parentDir?: string
+}): Promise<ChangedFile[]> => {
+  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+    'git',
+    [
+      'diff',
+      '--name-status',
+      '--ignore-submodules=all',
+      `--diff-filter=ACDMRTUX`,
+      `${sha1}${diff}${sha2}`
+    ],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: process.env.RUNNER_DEBUG !== '1'
+    }
+  )
+
+  if (exitCode !== 0) {
+    if (isSubmodule) {
+      core.warning(
+        stderr ||
+          `Failed to get changed files for submodule between: ${sha1}${diff}${sha2}`
+      )
+      core.warning(
+        'Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage'
+      )
+    } else {
+      core.warning(
+        stderr || `Failed to get changed files between: ${sha1}${diff}${sha2}`
+      )
+    }
+
+    return []
+  }
+
+  return stdout
+    .split('\n')
+    .filter(Boolean)
+    .map((line: string) => {
+      let [changeType, filePath] = line.split('\t')
+      if (isSubmodule) {
+        filePath = normalizePath(path.join(parentDir, filePath))
+      } else {
+        filePath = normalizePath(filePath)
+      }
+
+      return {
+        filePath,
+        changeType: changeType as ChangeType
+      }
+    })
+    .filter((file: ChangedFile) => {
+      if (filePatterns.length === 0) {
+        return true
+      }
+
+      return mm.isMatch(file.filePath, filePatterns, {
+        dot: true,
+        windows: IS_WINDOWS,
+        noext: true
+      })
+    })
+}
+
 export const gitLog = async ({
   args,
   cwd
