@@ -130,7 +130,7 @@ export const getDiffFiles = async ({
       getDirnameMaxDepth({
         pathStr: file,
         dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-        excludeRoot:
+        excludeCurrentDir:
           inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
       })
     )

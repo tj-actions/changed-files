@@ -642,11 +642,11 @@ export const canDiffCommits = async ({
 export const getDirnameMaxDepth = ({
   pathStr,
   dirNamesMaxDepth,
-  excludeRoot
+  excludeCurrentDir
 }: {
   pathStr: string
   dirNamesMaxDepth?: number
-  excludeRoot?: boolean
+  excludeCurrentDir?: boolean
 }): string => {
   const pathArr = dirname(pathStr).split(path.sep)
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
@@ -656,7 +656,7 @@ export const getDirnameMaxDepth = ({
     output = path.join(output, pathArr[i])
   }
 
-  if (excludeRoot && output === '.') {
+  if (excludeCurrentDir && output === '.') {
     return ''
   }
 
