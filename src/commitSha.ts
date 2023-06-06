@@ -15,9 +15,11 @@ import {
 } from './utils'
 
 const getCurrentSHA = async ({
+  env,
   inputs,
   workingDirectory
 }: {
+  env: Env
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
@@ -47,7 +49,11 @@ const getCurrentSHA = async ({
     }
   } else {
     if (!currentSha) {
-      currentSha = await getHeadSha({cwd: workingDirectory})
+      if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
+        currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
+      } else {
+        currentSha = await getHeadSha({cwd: workingDirectory})
+      }
     }
   }
 
@@ -124,7 +130,7 @@ export const getSHAForPushEvent = async (
     }
   }
 
-  const currentSha = await getCurrentSHA({inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
 
@@ -321,23 +327,9 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  let currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
+  let currentSha = await getCurrentSHA({env, inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
-
-  if (!currentSha) {
-    currentSha = await getCurrentSHA({inputs, workingDirectory})
-  } else {
-    if (
-      (await verifyCommitSha({
-        sha: currentSha,
-        cwd: workingDirectory,
-        showAsErrorMessage: false
-      })) !== 0
-    ) {
-      currentSha = await getCurrentSHA({inputs, workingDirectory})
-    }
-  }
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
