@@ -543,7 +543,9 @@ const getAllChangedFiles = async ({
       const [changeType, filePath] = line.split('\t')
 
       return {
-        filePath: isSubmodule ? normalizePath(path.join(parentDir, filePath)) : normalizePath(filePath),
+        filePath: isSubmodule
+          ? normalizePath(path.join(parentDir, filePath))
+          : normalizePath(filePath),
         changeType: changeType as ChangeType
       }
     })
