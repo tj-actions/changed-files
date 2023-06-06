@@ -118,7 +118,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diff
         files = files.map(file => (0, utils_1.getDirnameMaxDepth)({
             pathStr: file,
             dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-            excludeRoot: inputs.dirNamesExcludeRoot
+            excludeRoot: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
         }));
         files = [...new Set(files)];
     }
@@ -409,16 +409,28 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
         core.info('Completed fetching more history.');
     }
-    let currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    let currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
     let previousSha = inputs.baseSha;
     let diff = '...';
+    if (!currentSha) {
+        currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    }
+    else {
+        if ((yield (0, utils_1.verifyCommitSha)({
+            sha: currentSha,
+            cwd: workingDirectory,
+            showAsErrorMessage: false
+        })) !== 0) {
+            currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+        }
+    }
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
             core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
             throw new Error('Similar commit hashes detected.');
         }
-        yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
+        yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
         core.debug(`Previous SHA: ${previousSha}`);
         return {
             previousSha,
@@ -484,9 +496,6 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         if (!previousSha || previousSha === currentSha) {
             previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
         }
-    }
-    if (previousSha === currentSha && env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
-        currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
     }
     if (!(yield (0, utils_1.canDiffCommits)({
         cwd: workingDirectory,
@@ -676,6 +685,9 @@ const getInputs = () => {
     const dirNamesExcludeRoot = core.getBooleanInput('dir_names_exclude_root', {
         required: false
     });
+    const dirNamesExcludeCurrentDir = core.getBooleanInput('dir_names_exclude_current_dir', {
+        required: false
+    });
     const json = core.getBooleanInput('json', { required: false });
     const escapeJson = core.getBooleanInput('escape_json', { required: false });
     const fetchDepth = core.getInput('fetch_depth', { required: false });
@@ -706,6 +718,7 @@ const getInputs = () => {
         diffRelative,
         dirNames,
         dirNamesExcludeRoot,
+        dirNamesExcludeCurrentDir,
         json,
         escapeJson,
         sinceLastRemoteCommit,
