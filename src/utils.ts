@@ -540,15 +540,10 @@ const getAllChangedFiles = async ({
     .split('\n')
     .filter(Boolean)
     .map((line: string) => {
-      let [changeType, filePath] = line.split('\t')
-      if (isSubmodule) {
-        filePath = normalizePath(path.join(parentDir, filePath))
-      } else {
-        filePath = normalizePath(filePath)
-      }
+      const [changeType, filePath] = line.split('\t')
 
       return {
-        filePath,
+        filePath: isSubmodule ? normalizePath(path.join(parentDir, filePath)) : normalizePath(filePath),
         changeType: changeType as ChangeType
       }
     })
