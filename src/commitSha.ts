@@ -15,9 +15,11 @@ import {
 } from './utils'
 
 const getCurrentSHA = async ({
+  env,
   inputs,
   workingDirectory
 }: {
+  env: Env
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
@@ -47,7 +49,18 @@ const getCurrentSHA = async ({
     }
   } else {
     if (!currentSha) {
-      currentSha = await getHeadSha({cwd: workingDirectory})
+      if (
+        env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA &&
+        (await verifyCommitSha({
+          sha: env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA,
+          cwd: workingDirectory,
+          showAsErrorMessage: false
+        })) === 0
+      ) {
+        currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
+      } else {
+        currentSha = await getHeadSha({cwd: workingDirectory})
+      }
     }
   }
 
@@ -124,7 +137,7 @@ export const getSHAForPushEvent = async (
     }
   }
 
-  const currentSha = await getCurrentSHA({inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
 
@@ -321,7 +334,7 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  let currentSha = await getCurrentSHA({inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
 
@@ -336,7 +349,7 @@ export const getSHAForPullRequestEvent = async (
       throw new Error('Similar commit hashes detected.')
     }
 
-    await verifyCommitSha({sha: currentSha, cwd: workingDirectory})
+    await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
     core.debug(`Previous SHA: ${previousSha}`)
 
     return {
@@ -423,10 +436,6 @@ export const getSHAForPullRequestEvent = async (
     if (!previousSha || previousSha === currentSha) {
       previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
     }
-  }
-
-  if (previousSha === currentSha && env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
-    currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
   }
 
   if (
