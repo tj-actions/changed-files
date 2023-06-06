@@ -173,7 +173,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getSHAForPullRequestEvent = exports.getSHAForPushEvent = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const utils_1 = __nccwpck_require__(918);
-const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     let currentSha = inputs.sha;
     core.debug('Getting current SHA...');
     if (inputs.until) {
@@ -199,7 +199,12 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
     }
     else {
         if (!currentSha) {
-            currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
+            if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
+                currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
+            }
+            else {
+                currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
+            }
         }
     }
     yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
@@ -252,7 +257,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             });
         }
     }
-    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    const currentSha = yield getCurrentSHA({ env, inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     const diff = '..';
     if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -409,21 +414,9 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
         core.info('Completed fetching more history.');
     }
-    let currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
+    const currentSha = yield getCurrentSHA({ env, inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     let diff = '...';
-    if (!currentSha) {
-        currentSha = yield getCurrentSHA({ inputs, workingDirectory });
-    }
-    else {
-        if ((yield (0, utils_1.verifyCommitSha)({
-            sha: currentSha,
-            cwd: workingDirectory,
-            showAsErrorMessage: false
-        })) !== 0) {
-            currentSha = yield getCurrentSHA({ inputs, workingDirectory });
-        }
-    }
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
