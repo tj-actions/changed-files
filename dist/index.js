@@ -118,7 +118,7 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diff
         files = files.map(file => (0, utils_1.getDirnameMaxDepth)({
             pathStr: file,
             dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-            excludeRoot: inputs.dirNamesExcludeRoot
+            excludeRoot: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
         }));
         files = [...new Set(files)];
     }
@@ -173,7 +173,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getSHAForPullRequestEvent = exports.getSHAForPushEvent = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const utils_1 = __nccwpck_require__(918);
-const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     let currentSha = inputs.sha;
     core.debug('Getting current SHA...');
     if (inputs.until) {
@@ -199,7 +199,12 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
     }
     else {
         if (!currentSha) {
-            currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
+            if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
+                currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
+            }
+            else {
+                currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
+            }
         }
     }
     yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
@@ -252,7 +257,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             });
         }
     }
-    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    const currentSha = yield getCurrentSHA({ env, inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     const diff = '..';
     if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -409,7 +414,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
         core.info('Completed fetching more history.');
     }
-    let currentSha = yield getCurrentSHA({ inputs, workingDirectory });
+    const currentSha = yield getCurrentSHA({ env, inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     let diff = '...';
     if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -418,7 +423,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
             throw new Error('Similar commit hashes detected.');
         }
-        yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
+        yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
         core.debug(`Previous SHA: ${previousSha}`);
         return {
             previousSha,
@@ -484,9 +489,6 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         if (!previousSha || previousSha === currentSha) {
             previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
         }
-    }
-    if (previousSha === currentSha && env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA) {
-        currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
     }
     if (!(yield (0, utils_1.canDiffCommits)({
         cwd: workingDirectory,
@@ -676,6 +678,9 @@ const getInputs = () => {
     const dirNamesExcludeRoot = core.getBooleanInput('dir_names_exclude_root', {
         required: false
     });
+    const dirNamesExcludeCurrentDir = core.getBooleanInput('dir_names_exclude_current_dir', {
+        required: false
+    });
     const json = core.getBooleanInput('json', { required: false });
     const escapeJson = core.getBooleanInput('escape_json', { required: false });
     const fetchDepth = core.getInput('fetch_depth', { required: false });
@@ -706,6 +711,7 @@ const getInputs = () => {
         diffRelative,
         dirNames,
         dirNamesExcludeRoot,
+        dirNamesExcludeCurrentDir,
         json,
         escapeJson,
         sinceLastRemoteCommit,

@@ -130,7 +130,8 @@ export const getDiffFiles = async ({
       getDirnameMaxDepth({
         pathStr: file,
         dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-        excludeRoot: inputs.dirNamesExcludeRoot
+        excludeCurrentDir:
+          inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
       })
     )
     files = [...new Set(files)]
