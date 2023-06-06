@@ -327,7 +327,7 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  let currentSha = await getCurrentSHA({env, inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
 
