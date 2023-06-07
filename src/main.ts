@@ -50,7 +50,9 @@ export async function run(): Promise<void> {
     env.GITHUB_WORKSPACE || process.cwd(),
     inputs.path
   )
-  const isShallow = await isRepoShallow({cwd: workingDirectory})
+  const isShallow =
+    (await isRepoShallow({cwd: workingDirectory})) &&
+    core.getState('fetched') !== 'true'
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
@@ -93,6 +95,10 @@ export async function run(): Promise<void> {
     core.info('This is the first commit for this repository; exiting...')
     core.endGroup()
     return
+  }
+
+  if (isShallow) {
+    core.saveState('fetched', 'true')
   }
 
   core.info(
