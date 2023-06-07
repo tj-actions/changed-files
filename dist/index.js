@@ -809,7 +809,8 @@ function run() {
             });
         }
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
-        const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
+        const isShallow = (yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory })) &&
+            core.getState('fetched') !== 'true';
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
         let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
@@ -833,6 +834,9 @@ function run() {
             core.info('This is the first commit for this repository; exiting...');
             core.endGroup();
             return;
+        }
+        if (isShallow) {
+            core.saveState('fetched', 'true');
         }
         core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
