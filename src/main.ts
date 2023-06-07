@@ -271,7 +271,9 @@ export async function run(): Promise<void> {
     )
 
   const onlyChanged =
-    otherChangedFiles.length === 0 && allChangedFiles.length > 0
+    otherChangedFiles.length === 0 &&
+    allChangedFiles.length > 0 &&
+    filePatterns.length > 0
 
   await setOutput({
     key: 'only_changed',
@@ -323,7 +325,9 @@ export async function run(): Promise<void> {
     )
 
   const onlyModified =
-    otherModifiedFiles.length === 0 && allModifiedFiles.length > 0
+    otherModifiedFiles.length === 0 &&
+    allModifiedFiles.length > 0 &&
+    filePatterns.length > 0
 
   await setOutput({
     key: 'only_modified',
@@ -374,7 +378,10 @@ export async function run(): Promise<void> {
       filePath => !deletedFiles.split(inputs.separator).includes(filePath)
     )
 
-  const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0
+  const onlyDeleted =
+    otherDeletedFiles.length === 0 &&
+    deletedFiles.length > 0 &&
+    filePatterns.length > 0
 
   await setOutput({
     key: 'only_deleted',
