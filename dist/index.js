@@ -995,7 +995,9 @@ function run() {
         const otherChangedFiles = allOtherChangedFiles
             .split(inputs.separator)
             .filter(filePath => !allChangedFiles.split(inputs.separator).includes(filePath));
-        const onlyChanged = otherChangedFiles.length === 0 && allChangedFiles.length > 0;
+        const onlyChanged = otherChangedFiles.length === 0 &&
+            allChangedFiles.length > 0 &&
+            filePatterns.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_changed',
             value: onlyChanged,
@@ -1037,7 +1039,9 @@ function run() {
         const otherModifiedFiles = allOtherModifiedFiles
             .split(inputs.separator)
             .filter(filePath => !allModifiedFiles.split(inputs.separator).includes(filePath));
-        const onlyModified = otherModifiedFiles.length === 0 && allModifiedFiles.length > 0;
+        const onlyModified = otherModifiedFiles.length === 0 &&
+            allModifiedFiles.length > 0 &&
+            filePatterns.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_modified',
             value: onlyModified,
@@ -1079,7 +1083,9 @@ function run() {
         const otherDeletedFiles = allOtherDeletedFiles
             .split(inputs.separator)
             .filter(filePath => !deletedFiles.split(inputs.separator).includes(filePath));
-        const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0;
+        const onlyDeleted = otherDeletedFiles.length === 0 &&
+            deletedFiles.length > 0 &&
+            filePatterns.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_deleted',
             value: onlyDeleted,
