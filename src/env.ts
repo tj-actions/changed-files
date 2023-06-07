@@ -35,8 +35,10 @@ type GithubEvent = {
   }
   before?: string
   base_ref?: string
-  head_repo?: {
-    fork: string
+  head?: {
+    repo?: {
+      fork: string
+    }
   }
 }
 
@@ -57,7 +59,7 @@ export const getEnv = async (): Promise<Env> => {
     GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
     GITHUB_EVENT_RELEASE_TARGET_COMMITISH:
       eventJson.release?.target_commitish || '',
-    GITHUB_EVENT_HEAD_REPO_FORK: eventJson.head_repo?.fork || '',
+    GITHUB_EVENT_HEAD_REPO_FORK: eventJson.head?.repo?.fork || '',
     GITHUB_EVENT_PULL_REQUEST_NUMBER: eventJson.pull_request?.number || '',
     GITHUB_EVENT_PULL_REQUEST_BASE_SHA: eventJson.pull_request?.base?.sha || '',
     GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: eventJson.pull_request?.head?.sha || '',
