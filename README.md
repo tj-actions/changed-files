@@ -63,7 +63,6 @@ Retrieve all changed files and directories relative to a target branch, preceedi
         *   Globstar.
         *   Brace expansion.
 
-
 ## Usage
 
 > **Warning**:
