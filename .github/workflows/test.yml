@@ -96,6 +96,7 @@ jobs:
       - name: Push changes
         if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         uses: ad-m/github-push-action@master
+        continue-on-error: true
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ github.head_ref }}
