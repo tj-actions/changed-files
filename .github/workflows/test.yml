@@ -1258,7 +1258,7 @@ jobs:
           main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }}
           workflow-id: 'test.yml'
       - name: Run changed-files with a custom base sha
-        if: github.event_name != 'push' && github.event.action != 'closed' && matrix.fetch-depth == 0
+        if: github.event_name != 'push' && github.event.action != 'closed' && matrix.fetch-depth == 0 && steps.last_successful_commit.outputs.base != steps.last_successful_commit.outputs.head
         id: changed-files-custom-base-sha
         uses: ./
         with:
