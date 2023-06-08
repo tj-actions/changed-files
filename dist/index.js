@@ -573,7 +573,7 @@ exports.getEnv = void 0;
 const fs_1 = __nccwpck_require__(7147);
 const core = __importStar(__nccwpck_require__(2186));
 const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
     const eventPath = process.env.GITHUB_EVENT_PATH;
     let eventJson = {};
     if (eventPath) {
@@ -587,10 +587,10 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_EVENT_BEFORE: eventJson.before || '',
         GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
         GITHUB_EVENT_RELEASE_TARGET_COMMITISH: ((_e = eventJson.release) === null || _e === void 0 ? void 0 : _e.target_commitish) || '',
-        GITHUB_EVENT_HEAD_REPO_FORK: ((_f = eventJson.head_repo) === null || _f === void 0 ? void 0 : _f.fork) || '',
-        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_g = eventJson.pull_request) === null || _g === void 0 ? void 0 : _g.number) || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_j = (_h = eventJson.pull_request) === null || _h === void 0 ? void 0 : _h.base) === null || _j === void 0 ? void 0 : _j.sha) || '',
-        GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ((_l = (_k = eventJson.pull_request) === null || _k === void 0 ? void 0 : _k.head) === null || _l === void 0 ? void 0 : _l.sha) || '',
+        GITHUB_EVENT_HEAD_REPO_FORK: ((_g = (_f = eventJson.head) === null || _f === void 0 ? void 0 : _f.repo) === null || _g === void 0 ? void 0 : _g.fork) || '',
+        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_h = eventJson.pull_request) === null || _h === void 0 ? void 0 : _h.number) || '',
+        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_k = (_j = eventJson.pull_request) === null || _j === void 0 ? void 0 : _j.base) === null || _k === void 0 ? void 0 : _k.sha) || '',
+        GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ((_m = (_l = eventJson.pull_request) === null || _l === void 0 ? void 0 : _l.head) === null || _m === void 0 ? void 0 : _m.sha) || '',
         GITHUB_EVENT_FORCED: eventJson.forced || '',
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
@@ -810,7 +810,7 @@ function run() {
         }
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
         const isShallow = (yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory })) &&
-            core.getState('fetched') !== 'true';
+            process.env.CHANGED_FILES_HISTORY_FETCHED !== 'true';
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
         let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
@@ -836,7 +836,7 @@ function run() {
             return;
         }
         if (isShallow) {
-            core.saveState('fetched', 'true');
+            core.exportVariable('CHANGED_FILES_HISTORY_FETCHED', 'true');
         }
         core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
@@ -995,9 +995,7 @@ function run() {
         const otherChangedFiles = allOtherChangedFiles
             .split(inputs.separator)
             .filter(filePath => !allChangedFiles.split(inputs.separator).includes(filePath));
-        const onlyChanged = otherChangedFiles.length === 0 &&
-            allChangedFiles.length > 0 &&
-            filePatterns.length > 0;
+        const onlyChanged = otherChangedFiles.length === 0 && allChangedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_changed',
             value: onlyChanged,
@@ -1039,9 +1037,7 @@ function run() {
         const otherModifiedFiles = allOtherModifiedFiles
             .split(inputs.separator)
             .filter(filePath => !allModifiedFiles.split(inputs.separator).includes(filePath));
-        const onlyModified = otherModifiedFiles.length === 0 &&
-            allModifiedFiles.length > 0 &&
-            filePatterns.length > 0;
+        const onlyModified = otherModifiedFiles.length === 0 && allModifiedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_modified',
             value: onlyModified,
@@ -1083,9 +1079,7 @@ function run() {
         const otherDeletedFiles = allOtherDeletedFiles
             .split(inputs.separator)
             .filter(filePath => !deletedFiles.split(inputs.separator).includes(filePath));
-        const onlyDeleted = otherDeletedFiles.length === 0 &&
-            deletedFiles.length > 0 &&
-            filePatterns.length > 0;
+        const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_deleted',
             value: onlyDeleted,
