@@ -52,7 +52,7 @@ export async function run(): Promise<void> {
   )
   const isShallow =
     (await isRepoShallow({cwd: workingDirectory})) &&
-    process.env.CHANGED_FILES_FETCHED !== 'true'
+    process.env.CHANGED_FILES_HISTORY_FETCHED !== 'true'
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
@@ -98,7 +98,7 @@ export async function run(): Promise<void> {
   }
 
   if (isShallow) {
-    core.exportVariable('CHANGED_FILES_FETCHED', 'true')
+    core.exportVariable('CHANGED_FILES_HISTORY_FETCHED', 'true')
   }
 
   core.info(
