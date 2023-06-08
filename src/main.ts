@@ -52,7 +52,7 @@ export async function run(): Promise<void> {
   )
   const isShallow =
     (await isRepoShallow({cwd: workingDirectory})) &&
-    core.getState('fetched') !== 'true'
+    process.env.CHANGED_FILES_FETCHED !== 'true'
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
@@ -98,7 +98,7 @@ export async function run(): Promise<void> {
   }
 
   if (isShallow) {
-    core.saveState('fetched', 'true')
+    core.exportVariable('CHANGED_FILES_FETCHED', 'true')
   }
 
   core.info(
@@ -277,9 +277,7 @@ export async function run(): Promise<void> {
     )
 
   const onlyChanged =
-    otherChangedFiles.length === 0 &&
-    allChangedFiles.length > 0 &&
-    filePatterns.length > 0
+    otherChangedFiles.length === 0 && allChangedFiles.length > 0
 
   await setOutput({
     key: 'only_changed',
@@ -331,9 +329,7 @@ export async function run(): Promise<void> {
     )
 
   const onlyModified =
-    otherModifiedFiles.length === 0 &&
-    allModifiedFiles.length > 0 &&
-    filePatterns.length > 0
+    otherModifiedFiles.length === 0 && allModifiedFiles.length > 0
 
   await setOutput({
     key: 'only_modified',
@@ -384,10 +380,7 @@ export async function run(): Promise<void> {
       filePath => !deletedFiles.split(inputs.separator).includes(filePath)
     )
 
-  const onlyDeleted =
-    otherDeletedFiles.length === 0 &&
-    deletedFiles.length > 0 &&
-    filePatterns.length > 0
+  const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0
 
   await setOutput({
     key: 'only_deleted',
