@@ -67,7 +67,7 @@ export async function run(): Promise<void> {
   let diffResult: DiffResult
 
   if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
-    core.info('Running on a push event...')
+    core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'push'} event...`)
     diffResult = await getSHAForPushEvent(
       inputs,
       env,
@@ -78,7 +78,9 @@ export async function run(): Promise<void> {
       isTag
     )
   } else {
-    core.info('Running on a pull request event...')
+    core.info(
+      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} event...`
+    )
     diffResult = await getSHAForPullRequestEvent(
       inputs,
       env,
