@@ -839,11 +839,11 @@ function run() {
         }
         let diffResult;
         if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
-            core.info('Running on a push event...');
+            core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'push'} event...`);
             diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag);
         }
         else {
-            core.info('Running on a pull request event...');
+            core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} event...`);
             diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
         }
         if (diffResult.initialCommit) {
