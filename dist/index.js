@@ -809,7 +809,8 @@ function run() {
             });
         }
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
-        const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
+        const isShallow = (yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory })) &&
+            process.env.CHANGED_FILES_HISTORY_FETCHED !== 'true';
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
         let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
@@ -833,6 +834,9 @@ function run() {
             core.info('This is the first commit for this repository; exiting...');
             core.endGroup();
             return;
+        }
+        if (isShallow) {
+            core.exportVariable('CHANGED_FILES_HISTORY_FETCHED', 'true');
         }
         core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
         const filePatterns = yield (0, utils_1.getFilePatterns)({
@@ -991,9 +995,7 @@ function run() {
         const otherChangedFiles = allOtherChangedFiles
             .split(inputs.separator)
             .filter(filePath => !allChangedFiles.split(inputs.separator).includes(filePath));
-        const onlyChanged = otherChangedFiles.length === 0 &&
-            allChangedFiles.length > 0 &&
-            filePatterns.length > 0;
+        const onlyChanged = otherChangedFiles.length === 0 && allChangedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_changed',
             value: onlyChanged,
@@ -1035,9 +1037,7 @@ function run() {
         const otherModifiedFiles = allOtherModifiedFiles
             .split(inputs.separator)
             .filter(filePath => !allModifiedFiles.split(inputs.separator).includes(filePath));
-        const onlyModified = otherModifiedFiles.length === 0 &&
-            allModifiedFiles.length > 0 &&
-            filePatterns.length > 0;
+        const onlyModified = otherModifiedFiles.length === 0 && allModifiedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_modified',
             value: onlyModified,
@@ -1079,9 +1079,7 @@ function run() {
         const otherDeletedFiles = allOtherDeletedFiles
             .split(inputs.separator)
             .filter(filePath => !deletedFiles.split(inputs.separator).includes(filePath));
-        const onlyDeleted = otherDeletedFiles.length === 0 &&
-            deletedFiles.length > 0 &&
-            filePatterns.length > 0;
+        const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0;
         yield (0, utils_1.setOutput)({
             key: 'only_deleted',
             value: onlyDeleted,
