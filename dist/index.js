@@ -515,7 +515,23 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }
     if (previousSha === currentSha) {
         core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
-        core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+        // This occurs if a PR is created from a forked repository and the event is pull_request_target.
+        //  - name: Checkout to branch
+        //    uses: actions/checkout@v3
+        // Without setting the repository to use the same repository as the pull request will cause the previousSha
+        // to be the same as the currentSha since the currentSha cannot be found in the local history.
+        // The solution is to use:
+        //   - name: Checkout to branch
+        //     uses: actions/checkout@v3
+        //     with:
+        //       repository: ${{ github.event.pull_request.head.repo.full_name }}
+        if (env.GITHUB_EVENT_NAME === 'pull_request_target') {
+            core.warning('If this pull request is from a forked repository, please set the checkout action `repository` input to the same repository as the pull request.');
+            core.warning('This can be done by setting actions/checkout `repository` to ${{ github.event.pull_request.head.repo.full_name }}');
+        }
+        else {
+            core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+        }
         throw new Error('Similar commit hashes detected.');
     }
     return {
@@ -594,7 +610,8 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_EVENT_FORCED: eventJson.forced || '',
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
-        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
+        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
+        GITHUB_EVENT_NAME: process.env.GITHUB_EVENT_NAME || ''
     };
 });
 exports.getEnv = getEnv;
