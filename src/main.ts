@@ -50,7 +50,9 @@ export async function run(): Promise<void> {
     env.GITHUB_WORKSPACE || process.cwd(),
     inputs.path
   )
-  const isShallow = await isRepoShallow({cwd: workingDirectory})
+  const isShallow =
+    (await isRepoShallow({cwd: workingDirectory})) &&
+    process.env.CHANGED_FILES_HISTORY_FETCHED !== 'true'
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
@@ -93,6 +95,10 @@ export async function run(): Promise<void> {
     core.info('This is the first commit for this repository; exiting...')
     core.endGroup()
     return
+  }
+
+  if (isShallow) {
+    core.exportVariable('CHANGED_FILES_HISTORY_FETCHED', 'true')
   }
 
   core.info(
@@ -271,9 +277,7 @@ export async function run(): Promise<void> {
     )
 
   const onlyChanged =
-    otherChangedFiles.length === 0 &&
-    allChangedFiles.length > 0 &&
-    filePatterns.length > 0
+    otherChangedFiles.length === 0 && allChangedFiles.length > 0
 
   await setOutput({
     key: 'only_changed',
@@ -325,9 +329,7 @@ export async function run(): Promise<void> {
     )
 
   const onlyModified =
-    otherModifiedFiles.length === 0 &&
-    allModifiedFiles.length > 0 &&
-    filePatterns.length > 0
+    otherModifiedFiles.length === 0 && allModifiedFiles.length > 0
 
   await setOutput({
     key: 'only_modified',
@@ -378,10 +380,7 @@ export async function run(): Promise<void> {
       filePath => !deletedFiles.split(inputs.separator).includes(filePath)
     )
 
-  const onlyDeleted =
-    otherDeletedFiles.length === 0 &&
-    deletedFiles.length > 0 &&
-    filePatterns.length > 0
+  const onlyDeleted = otherDeletedFiles.length === 0 && deletedFiles.length > 0
 
   await setOutput({
     key: 'only_deleted',
