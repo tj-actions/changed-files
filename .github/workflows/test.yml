@@ -123,6 +123,7 @@ jobs:
       - name: Checkout into dir1
         uses: actions/checkout@v3
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
           fetch-depth: 0
           path: dir1
@@ -155,6 +156,7 @@ jobs:
       - name: Checkout into dir2
         uses: actions/checkout@v3
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
           fetch-depth: 0
           path: dir2
@@ -189,6 +191,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v3
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Download build assets
@@ -245,6 +248,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v3
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Download build assets
@@ -281,6 +285,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v3
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Download build assets
@@ -316,6 +321,7 @@ jobs:
       - name: Checkout to branch
         uses: actions/checkout@v3
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
@@ -379,6 +385,7 @@ jobs:
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
           persist-credentials: false
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Download build assets
         uses: actions/download-artifact@v3
@@ -560,6 +567,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: ${{ matrix.fetch-depth }}
       - name: Download build assets
         uses: actions/download-artifact@v3
