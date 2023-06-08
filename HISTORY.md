@@ -1,5 +1,34 @@
 # Changelog
 
+# [36.1.0](https://github.com/tj-actions/changed-files/compare/v36.0.18...v36.1.0) - (2023-06-08)
+
+## <!-- 0 -->🚀 Features
+
+- Improve warning message ([#1241](https://github.com/tj-actions/changed-files/issues/1241)) ([f41e41f](https://github.com/tj-actions/changed-files/commit/f41e41fa3fdcbdf47c5f73526be7d81e413f832e))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with errors from fork prs ([#1239](https://github.com/tj-actions/changed-files/issues/1239)) ([e208eb4](https://github.com/tj-actions/changed-files/commit/e208eb429a6a5b3444af0a2099bdbbfcd705fae6))  - (Tonye Jack)
+- Bug with only_(changed|modified|deleted) outputs ([#1238](https://github.com/tj-actions/changed-files/issues/1238)) ([6dc4095](https://github.com/tj-actions/changed-files/commit/6dc409580193a9e2e52aa4a647684c2ea5a99ddb))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update test.yml ([37e5be9](https://github.com/tj-actions/changed-files/commit/37e5be95e281cd60c1d89e92bb25242b37e9db3c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Fix bug with nx set shas ([#1244](https://github.com/tj-actions/changed-files/issues/1244)) ([fb20f4d](https://github.com/tj-actions/changed-files/commit/fb20f4d24890fadc539505b1746d260504b213d0))  - (Tonye Jack)
+- Update test ([#1243](https://github.com/tj-actions/changed-files/issues/1243)) ([b2a0ba4](https://github.com/tj-actions/changed-files/commit/b2a0ba40a4106c5de8de8ac8b0732f404d084f00))  - (Tonye Jack)
+- Update event name ([#1242](https://github.com/tj-actions/changed-files/issues/1242)) ([c467712](https://github.com/tj-actions/changed-files/commit/c467712045a1fb370c4f8a2ce40f93c718e7888e))  - (Tonye Jack)
+- Update test.yml ([f490eea](https://github.com/tj-actions/changed-files/commit/f490eeaa59c0a3957b24214e86c462a2e9a6c7fa))  - (tj-actions[bot])
+- Improve test coverage ([#1235](https://github.com/tj-actions/changed-files/issues/1235)) ([c784b6f](https://github.com/tj-actions/changed-files/commit/c784b6f1c4775e3db7ddc38d464ae017e41b1576))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.0.18 ([#1234](https://github.com/tj-actions/changed-files/issues/1234))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([a522bdb](https://github.com/tj-actions/changed-files/commit/a522bdb715e8ee0e5814bc94f576ebc24cebbfd3))  - (tj-actions[bot])
+
 # [36.0.18](https://github.com/tj-actions/changed-files/compare/v36.0.17...v36.0.18) - (2023-06-06)
 
 ## <!-- 0 -->🚀 Features
