@@ -71,7 +71,7 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 > *   For monorepos where pulling all the branch history might not be desired, you can omit [`actions/checkout`](https://github.com/actions/checkout#usage) - `fetch-depth` for `pull_request` events.
 > *   All multiline inputs should not use double or single quotes since the value is already a string seperated by a newline character. See [Examples](#examples) for more information.
 > *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) if `fetch-depth` isn't set to `0`.
-> *   For repositories that have PR's generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository: ${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
+> *   For repositories that have PR's generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
 
 ```yaml
 name: CI
