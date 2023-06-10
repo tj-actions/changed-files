@@ -110,7 +110,7 @@ inputs:
     required: false
     default: "false"
   write_output_files:
-    description: "Write outputs to the `output_dir` defaults to `.github/outputs` folder. **NOTE:** This creates a `.txt` (default) and `.json` file if `json` is set to `true`."
+    description: "Write outputs to the `output_dir` defaults to `.github/outputs` folder. **NOTE:** This creates a `.txt` file by default and a `.json` file if `json` is set to `true`."
     required: false
     default: "false"
   output_dir:
