@@ -78,7 +78,7 @@ jobs:
           yarn all
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v14
+        uses: tj-actions/verify-changed-files@v15
         id: changed_files
         if: github.event_name != 'push'
         with:
