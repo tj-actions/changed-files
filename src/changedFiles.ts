@@ -2,6 +2,7 @@ import * as path from 'path'
 
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
+import {ChangedFiles, ChangeType} from './types'
 import {
   getDirnameMaxDepth,
   gitRenamedFiles,
@@ -10,21 +11,6 @@ import {
   getAllChangedFiles
 } from './utils'
 import flatten from 'lodash/flatten'
-
-export enum ChangeType {
-  Added = 'A',
-  Copied = 'C',
-  Deleted = 'D',
-  Modified = 'M',
-  Renamed = 'R',
-  TypeChanged = 'T',
-  Unmerged = 'U',
-  Unknown = 'X'
-}
-
-export type ChangedFiles = {
-  [key in ChangeType]: string[]
-}
 
 export const getRenamedFiles = async ({
   inputs,

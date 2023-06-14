@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import path from 'path'
 import {
-  ChangeType,
   getAllChangeTypeFiles,
   getAllDiffFiles,
   getChangeTypeFiles,
@@ -14,6 +13,7 @@ import {
 } from './commitSha'
 import {getEnv} from './env'
 import {getInputs} from './inputs'
+import {ChangeType} from './types'
 import {
   getFilePatterns,
   getFilteredChangedFiles,
