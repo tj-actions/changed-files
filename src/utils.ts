@@ -5,6 +5,7 @@ import {createReadStream, promises as fs} from 'fs'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
+import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 
 import {Inputs} from './inputs'
 
@@ -403,32 +404,28 @@ export const gitRenamedFiles = async ({
     })
 }
 
-export const gitDiff = async ({
+export const getAllChangedFiles = async ({
   cwd,
   sha1,
   sha2,
   diff,
-  diffFilter,
-  filePatterns = [],
   isSubmodule = false,
   parentDir = ''
 }: {
   cwd: string
   sha1: string
   sha2: string
-  diffFilter: string
   diff: string
-  filePatterns?: string[]
   isSubmodule?: boolean
   parentDir?: string
-}): Promise<string[]> => {
+}): Promise<ChangedFiles> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     [
       'diff',
-      '--name-only',
+      '--name-status',
       '--ignore-submodules=all',
-      `--diff-filter=${diffFilter}`,
+      `--diff-filter=ACDMRTUX`,
       `${sha1}${diff}${sha2}`
     ],
     {
@@ -437,6 +434,16 @@ export const gitDiff = async ({
       silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
+  const changedFiles: ChangedFiles = {
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
+  }
 
   if (exitCode !== 0) {
     if (isSubmodule) {
@@ -453,28 +460,61 @@ export const gitDiff = async ({
       )
     }
 
-    return []
+    return changedFiles
   }
 
-  const files = stdout
-    .split('\n')
-    .filter(Boolean)
-    .map((p: string) => {
-      if (isSubmodule) {
-        return normalizePath(path.join(parentDir, p))
+  const lines = stdout.split('\n').filter(Boolean)
+
+  for (const line of lines) {
+    const [changeType, filePath] = line.split('\t')
+    const normalizedFilePath = isSubmodule
+      ? normalizePath(path.join(parentDir, filePath))
+      : normalizePath(filePath)
+
+    if (changeType.startsWith('R')) {
+      changedFiles[ChangeTypeEnum.Renamed].push(normalizedFilePath)
+    } else {
+      changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
+    }
+  }
+  return changedFiles
+}
+
+export const getFilteredChangedFiles = async ({
+  allDiffFiles,
+  filePatterns
+}: {
+  allDiffFiles: ChangedFiles
+  filePatterns: string[]
+}): Promise<ChangedFiles> => {
+  const changedFiles: ChangedFiles = {
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
+  }
+
+  for (const changeType of Object.keys(allDiffFiles)) {
+    for (const normalizedFilePath of allDiffFiles[
+      changeType as ChangeTypeEnum
+    ]) {
+      const isMatch = mm.isMatch(normalizedFilePath, filePatterns, {
+        dot: true,
+        windows: IS_WINDOWS,
+        noext: true
+      })
+
+      if (isMatch) {
+        changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
       }
-      return normalizePath(p)
-    })
-
-  if (filePatterns.length === 0) {
-    return files
+    }
   }
 
-  return mm(files, filePatterns, {
-    dot: true,
-    windows: IS_WINDOWS,
-    noext: true
-  })
+  return changedFiles
 }
 
 export const gitLog = async ({
