@@ -2,7 +2,7 @@ import * as path from 'path'
 
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
-import {ChangedFiles, ChangeType} from './types'
+import {ChangedFiles, ChangeTypeEnum} from './types'
 import {
   getDirnameMaxDepth,
   gitRenamedFiles,
@@ -113,7 +113,9 @@ export const getAllDiffFiles = async ({
           parentDir: submodulePath
         })
 
-        for (const changeType of Object.keys(submoduleFiles) as ChangeType[]) {
+        for (const changeType of Object.keys(
+          submoduleFiles
+        ) as ChangeTypeEnum[]) {
           if (!files[changeType]) {
             files[changeType] = []
           }
@@ -133,7 +135,7 @@ function* getChangeTypeFilesGenerator({
 }: {
   inputs: Inputs
   changedFiles: ChangedFiles
-  changeTypes: ChangeType[]
+  changeTypes: ChangeTypeEnum[]
 }): Generator<string> {
   for (const changeType of changeTypes) {
     const files = changedFiles[changeType] || []
@@ -159,7 +161,7 @@ export const getChangeTypeFiles = async ({
 }: {
   inputs: Inputs
   changedFiles: ChangedFiles
-  changeTypes: ChangeType[]
+  changeTypes: ChangeTypeEnum[]
 }): Promise<string> => {
   const files = [
     ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))

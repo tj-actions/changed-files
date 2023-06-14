@@ -13,7 +13,7 @@ import {
 } from './commitSha'
 import {getEnv} from './env'
 import {getInputs} from './inputs'
-import {ChangeType} from './types'
+import {ChangeTypeEnum} from './types'
 import {
   getFilePatterns,
   getFilteredChangedFiles,
@@ -128,7 +128,7 @@ export async function run(): Promise<void> {
   const addedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Added]
+    changeTypes: [ChangeTypeEnum.Added]
   })
   core.debug(`Added files: ${addedFiles}`)
   await setOutput({
@@ -140,7 +140,7 @@ export async function run(): Promise<void> {
   const copiedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Copied]
+    changeTypes: [ChangeTypeEnum.Copied]
   })
   core.debug(`Copied files: ${copiedFiles}`)
   await setOutput({
@@ -152,7 +152,7 @@ export async function run(): Promise<void> {
   const modifiedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Modified]
+    changeTypes: [ChangeTypeEnum.Modified]
   })
   core.debug(`Modified files: ${modifiedFiles}`)
   await setOutput({
@@ -164,7 +164,7 @@ export async function run(): Promise<void> {
   const renamedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Renamed]
+    changeTypes: [ChangeTypeEnum.Renamed]
   })
   core.debug(`Renamed files: ${renamedFiles}`)
   await setOutput({
@@ -176,7 +176,7 @@ export async function run(): Promise<void> {
   const typeChangedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.TypeChanged]
+    changeTypes: [ChangeTypeEnum.TypeChanged]
   })
   core.debug(`Type changed files: ${typeChangedFiles}`)
   await setOutput({
@@ -188,7 +188,7 @@ export async function run(): Promise<void> {
   const unmergedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Unmerged]
+    changeTypes: [ChangeTypeEnum.Unmerged]
   })
   core.debug(`Unmerged files: ${unmergedFiles}`)
   await setOutput({
@@ -200,7 +200,7 @@ export async function run(): Promise<void> {
   const unknownFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Unknown]
+    changeTypes: [ChangeTypeEnum.Unknown]
   })
   core.debug(`Unknown files: ${unknownFiles}`)
   await setOutput({
@@ -224,10 +224,10 @@ export async function run(): Promise<void> {
     inputs,
     changedFiles: allFilteredDiffFiles,
     changeTypes: [
-      ChangeType.Added,
-      ChangeType.Copied,
-      ChangeType.Modified,
-      ChangeType.Renamed
+      ChangeTypeEnum.Added,
+      ChangeTypeEnum.Copied,
+      ChangeTypeEnum.Modified,
+      ChangeTypeEnum.Renamed
     ]
   })
   core.debug(`All changed files: ${allChangedFiles}`)
@@ -247,10 +247,10 @@ export async function run(): Promise<void> {
     inputs,
     changedFiles: allDiffFiles,
     changeTypes: [
-      ChangeType.Added,
-      ChangeType.Copied,
-      ChangeType.Modified,
-      ChangeType.Renamed
+      ChangeTypeEnum.Added,
+      ChangeTypeEnum.Copied,
+      ChangeTypeEnum.Modified,
+      ChangeTypeEnum.Renamed
     ]
   })
   core.debug(`All other changed files: ${allOtherChangedFiles}`)
@@ -282,11 +282,11 @@ export async function run(): Promise<void> {
     inputs,
     changedFiles: allFilteredDiffFiles,
     changeTypes: [
-      ChangeType.Added,
-      ChangeType.Copied,
-      ChangeType.Modified,
-      ChangeType.Renamed,
-      ChangeType.Deleted
+      ChangeTypeEnum.Added,
+      ChangeTypeEnum.Copied,
+      ChangeTypeEnum.Modified,
+      ChangeTypeEnum.Renamed,
+      ChangeTypeEnum.Deleted
     ]
   })
   core.debug(`All modified files: ${allModifiedFiles}`)
@@ -306,11 +306,11 @@ export async function run(): Promise<void> {
     inputs,
     changedFiles: allDiffFiles,
     changeTypes: [
-      ChangeType.Added,
-      ChangeType.Copied,
-      ChangeType.Modified,
-      ChangeType.Renamed,
-      ChangeType.Deleted
+      ChangeTypeEnum.Added,
+      ChangeTypeEnum.Copied,
+      ChangeTypeEnum.Modified,
+      ChangeTypeEnum.Renamed,
+      ChangeTypeEnum.Deleted
     ]
   })
 
@@ -340,7 +340,7 @@ export async function run(): Promise<void> {
   const deletedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeType.Deleted]
+    changeTypes: [ChangeTypeEnum.Deleted]
   })
   core.debug(`Deleted files: ${deletedFiles}`)
   await setOutput({
@@ -358,7 +358,7 @@ export async function run(): Promise<void> {
   const allOtherDeletedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allDiffFiles,
-    changeTypes: [ChangeType.Deleted]
+    changeTypes: [ChangeTypeEnum.Deleted]
   })
 
   const otherDeletedFiles = allOtherDeletedFiles

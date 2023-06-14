@@ -7,7 +7,7 @@ import * as path from 'path'
 import {createInterface} from 'readline'
 
 import {Inputs} from './inputs'
-import {ChangedFiles, ChangeType} from './types'
+import {ChangedFiles, ChangeTypeEnum} from './types'
 
 const IS_WINDOWS = process.platform === 'win32'
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -435,14 +435,14 @@ export const getAllChangedFiles = async ({
     }
   )
   const changedFiles: ChangedFiles = {
-    [ChangeType.Added]: [],
-    [ChangeType.Copied]: [],
-    [ChangeType.Deleted]: [],
-    [ChangeType.Modified]: [],
-    [ChangeType.Renamed]: [],
-    [ChangeType.TypeChanged]: [],
-    [ChangeType.Unmerged]: [],
-    [ChangeType.Unknown]: []
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
   }
 
   if (exitCode !== 0) {
@@ -470,7 +470,12 @@ export const getAllChangedFiles = async ({
     const normalizedFilePath = isSubmodule
       ? normalizePath(path.join(parentDir, filePath))
       : normalizePath(filePath)
-    changedFiles[changeType as ChangeType].push(normalizedFilePath)
+
+    if (changeType.startsWith('R')) {
+      changedFiles[ChangeTypeEnum.Renamed].push(normalizedFilePath)
+    } else {
+      changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
+    }
   }
   return changedFiles
 }
@@ -483,18 +488,20 @@ export const getFilteredChangedFiles = async ({
   filePatterns: string[]
 }): Promise<ChangedFiles> => {
   const changedFiles: ChangedFiles = {
-    [ChangeType.Added]: [],
-    [ChangeType.Copied]: [],
-    [ChangeType.Deleted]: [],
-    [ChangeType.Modified]: [],
-    [ChangeType.Renamed]: [],
-    [ChangeType.TypeChanged]: [],
-    [ChangeType.Unmerged]: [],
-    [ChangeType.Unknown]: []
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
   }
 
   for (const changeType of Object.keys(allDiffFiles)) {
-    for (const normalizedFilePath of allDiffFiles[changeType as ChangeType]) {
+    for (const normalizedFilePath of allDiffFiles[
+      changeType as ChangeTypeEnum
+    ]) {
       const isMatch = mm.isMatch(normalizedFilePath, filePatterns, {
         dot: true,
         windows: IS_WINDOWS,
@@ -502,7 +509,7 @@ export const getFilteredChangedFiles = async ({
       })
 
       if (isMatch) {
-        changedFiles[changeType as ChangeType].push(normalizedFilePath)
+        changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
       }
     }
   }

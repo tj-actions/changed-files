@@ -1,4 +1,4 @@
-export enum ChangeType {
+export enum ChangeTypeEnum {
   Added = 'A',
   Copied = 'C',
   Deleted = 'D',
@@ -10,5 +10,5 @@ export enum ChangeType {
 }
 
 export type ChangedFiles = {
-  [key in ChangeType]: string[]
+  [key in ChangeTypeEnum]: string[]
 }
