@@ -1,5 +1,28 @@
 # Changelog
 
+# [36.2.1](https://github.com/tj-actions/changed-files/compare/v36.2.0...v36.2.1) - (2023-06-14)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for outputting renamed files as deleted and added ([#1260](https://github.com/tj-actions/changed-files/issues/1260)) ([90ef0b1](https://github.com/tj-actions/changed-files/commit/90ef0b1b22b674a0dea8c832029e63eed9fb8e13))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1261](https://github.com/tj-actions/changed-files/issues/1261))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([c912451](https://github.com/tj-actions/changed-files/commit/c9124514c375de5dbb9697afa6f2e36a236ee58c))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Rename git fetch arguments ([#1259](https://github.com/tj-actions/changed-files/issues/1259)) ([b9ea510](https://github.com/tj-actions/changed-files/commit/b9ea510e42795d425d659914078b74f51c774869))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.2.0 ([#1258](https://github.com/tj-actions/changed-files/issues/1258))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([c648759](https://github.com/tj-actions/changed-files/commit/c648759d899fd6217a96579680bdae3ac01e6219))  - (tj-actions[bot])
+
 # [36.2.0](https://github.com/tj-actions/changed-files/compare/v36.1.0...v36.2.0) - (2023-06-14)
 
 ## <!-- 0 -->🚀 Features
