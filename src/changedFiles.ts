@@ -2,7 +2,6 @@ import * as path from 'path'
 
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
-import {ChangedFiles} from './types'
 import {
   getDirnameMaxDepth,
   gitRenamedFiles,
@@ -68,6 +67,10 @@ export const getRenamedFiles = async ({
   }
 
   return renamedFiles.join(inputs.oldNewFilesSeparator)
+}
+
+export type ChangedFiles = {
+  [key in ChangeTypeEnum]: string[]
 }
 
 export const getAllDiffFiles = async ({

@@ -5,9 +5,9 @@ import {createReadStream, promises as fs} from 'fs'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
+import {ChangedFiles} from './changedFiles'
 
 import {Inputs} from './inputs'
-import {ChangedFiles} from './types'
 
 const IS_WINDOWS = process.platform === 'win32'
 const MINIMUM_GIT_VERSION = '2.18.0'
