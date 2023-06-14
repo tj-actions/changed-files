@@ -919,12 +919,12 @@ function run() {
             diffResult,
             submodulePaths
         });
-        core.debug(`All diff files: ${allDiffFiles}`);
+        core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
         const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
             allDiffFiles,
             filePatterns
         });
-        core.debug(`All filtered diff files: ${allFilteredDiffFiles}`);
+        core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
         const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
@@ -1582,21 +1582,17 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
         [changedFiles_1.ChangeTypeEnum.Unknown]: []
     };
     for (const changeType of Object.keys(allDiffFiles)) {
-        for (const normalizedFilePath of allDiffFiles[changeType]) {
-            const hasFilePatterns = filePatterns.length > 0;
-            if (hasFilePatterns) {
-                const isMatch = micromatch_1.default.isMatch(normalizedFilePath, filePatterns, {
-                    dot: true,
-                    windows: IS_WINDOWS,
-                    noext: true
-                });
-                if (isMatch) {
-                    changedFiles[changeType].push(normalizedFilePath);
-                }
-            }
-            else {
-                changedFiles[changeType].push(normalizedFilePath);
-            }
+        const files = allDiffFiles[changeType];
+        const hasFilePatterns = filePatterns.length > 0;
+        if (hasFilePatterns) {
+            changedFiles[changeType] = (0, micromatch_1.default)(files, filePatterns, {
+                dot: true,
+                windows: IS_WINDOWS,
+                noext: true
+            });
+        }
+        else {
+            changedFiles[changeType] = files;
         }
     }
     return changedFiles;
