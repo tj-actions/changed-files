@@ -592,6 +592,28 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 
 /***/ }),
 
+/***/ 2210:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChangeTypeEnum = void 0;
+var ChangeTypeEnum;
+(function (ChangeTypeEnum) {
+    ChangeTypeEnum["Added"] = "A";
+    ChangeTypeEnum["Copied"] = "C";
+    ChangeTypeEnum["Deleted"] = "D";
+    ChangeTypeEnum["Modified"] = "M";
+    ChangeTypeEnum["Renamed"] = "R";
+    ChangeTypeEnum["TypeChanged"] = "T";
+    ChangeTypeEnum["Unmerged"] = "U";
+    ChangeTypeEnum["Unknown"] = "X";
+})(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
+
+
+/***/ }),
+
 /***/ 9763:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -844,6 +866,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const changedFiles_1 = __nccwpck_require__(7358);
 const commitSha_1 = __nccwpck_require__(8613);
+const enum_1 = __nccwpck_require__(2210);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
@@ -914,7 +937,7 @@ function run() {
         const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Added]
+            changeTypes: [enum_1.ChangeTypeEnum.Added]
         });
         core.debug(`Added files: ${addedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -925,7 +948,7 @@ function run() {
         const copiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Copied]
+            changeTypes: [enum_1.ChangeTypeEnum.Copied]
         });
         core.debug(`Copied files: ${copiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -936,7 +959,7 @@ function run() {
         const modifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Modified]
+            changeTypes: [enum_1.ChangeTypeEnum.Modified]
         });
         core.debug(`Modified files: ${modifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -947,7 +970,7 @@ function run() {
         const renamedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Renamed]
+            changeTypes: [enum_1.ChangeTypeEnum.Renamed]
         });
         core.debug(`Renamed files: ${renamedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -958,7 +981,7 @@ function run() {
         const typeChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.TypeChanged]
+            changeTypes: [enum_1.ChangeTypeEnum.TypeChanged]
         });
         core.debug(`Type changed files: ${typeChangedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -969,7 +992,7 @@ function run() {
         const unmergedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Unmerged]
+            changeTypes: [enum_1.ChangeTypeEnum.Unmerged]
         });
         core.debug(`Unmerged files: ${unmergedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -980,7 +1003,7 @@ function run() {
         const unknownFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Unknown]
+            changeTypes: [enum_1.ChangeTypeEnum.Unknown]
         });
         core.debug(`Unknown files: ${unknownFiles}`);
         yield (0, utils_1.setOutput)({
@@ -1002,10 +1025,10 @@ function run() {
             inputs,
             changedFiles: allFilteredDiffFiles,
             changeTypes: [
-                ChangeTypeEnum.Added,
-                ChangeTypeEnum.Copied,
-                ChangeTypeEnum.Modified,
-                ChangeTypeEnum.Renamed
+                enum_1.ChangeTypeEnum.Added,
+                enum_1.ChangeTypeEnum.Copied,
+                enum_1.ChangeTypeEnum.Modified,
+                enum_1.ChangeTypeEnum.Renamed
             ]
         });
         core.debug(`All changed files: ${allChangedFiles}`);
@@ -1023,10 +1046,10 @@ function run() {
             inputs,
             changedFiles: allDiffFiles,
             changeTypes: [
-                ChangeTypeEnum.Added,
-                ChangeTypeEnum.Copied,
-                ChangeTypeEnum.Modified,
-                ChangeTypeEnum.Renamed
+                enum_1.ChangeTypeEnum.Added,
+                enum_1.ChangeTypeEnum.Copied,
+                enum_1.ChangeTypeEnum.Modified,
+                enum_1.ChangeTypeEnum.Renamed
             ]
         });
         core.debug(`All other changed files: ${allOtherChangedFiles}`);
@@ -1050,11 +1073,11 @@ function run() {
             inputs,
             changedFiles: allFilteredDiffFiles,
             changeTypes: [
-                ChangeTypeEnum.Added,
-                ChangeTypeEnum.Copied,
-                ChangeTypeEnum.Modified,
-                ChangeTypeEnum.Renamed,
-                ChangeTypeEnum.Deleted
+                enum_1.ChangeTypeEnum.Added,
+                enum_1.ChangeTypeEnum.Copied,
+                enum_1.ChangeTypeEnum.Modified,
+                enum_1.ChangeTypeEnum.Renamed,
+                enum_1.ChangeTypeEnum.Deleted
             ]
         });
         core.debug(`All modified files: ${allModifiedFiles}`);
@@ -1072,11 +1095,11 @@ function run() {
             inputs,
             changedFiles: allDiffFiles,
             changeTypes: [
-                ChangeTypeEnum.Added,
-                ChangeTypeEnum.Copied,
-                ChangeTypeEnum.Modified,
-                ChangeTypeEnum.Renamed,
-                ChangeTypeEnum.Deleted
+                enum_1.ChangeTypeEnum.Added,
+                enum_1.ChangeTypeEnum.Copied,
+                enum_1.ChangeTypeEnum.Modified,
+                enum_1.ChangeTypeEnum.Renamed,
+                enum_1.ChangeTypeEnum.Deleted
             ]
         });
         const otherModifiedFiles = allOtherModifiedFiles
@@ -1098,7 +1121,7 @@ function run() {
         const deletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
-            changeTypes: [ChangeTypeEnum.Deleted]
+            changeTypes: [enum_1.ChangeTypeEnum.Deleted]
         });
         core.debug(`Deleted files: ${deletedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -1114,7 +1137,7 @@ function run() {
         const allOtherDeletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allDiffFiles,
-            changeTypes: [ChangeTypeEnum.Deleted]
+            changeTypes: [enum_1.ChangeTypeEnum.Deleted]
         });
         const otherDeletedFiles = allOtherDeletedFiles
             .split(inputs.separator)
@@ -1231,6 +1254,7 @@ const fs_1 = __nccwpck_require__(7147);
 const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
 const readline_1 = __nccwpck_require__(4521);
+const enum_1 = __nccwpck_require__(2210);
 const IS_WINDOWS = process.platform === 'win32';
 const MINIMUM_GIT_VERSION = '2.18.0';
 /**
@@ -1329,27 +1353,22 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
             crlfDelay: Infinity
         });
         try {
-            for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a;) {
+            for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a; _d = true) {
                 _c = rl_1_1.value;
                 _d = false;
-                try {
-                    const line = _c;
-                    if (!line.startsWith('#') && line !== '') {
-                        if (excludedFiles) {
-                            if (line.startsWith('!')) {
-                                yield yield __await(line);
-                            }
-                            else {
-                                yield yield __await(`!${line}`);
-                            }
-                        }
-                        else {
+                const line = _c;
+                if (!line.startsWith('#') && line !== '') {
+                    if (excludedFiles) {
+                        if (line.startsWith('!')) {
                             yield yield __await(line);
                         }
+                        else {
+                            yield yield __await(`!${line}`);
+                        }
                     }
-                }
-                finally {
-                    _d = true;
+                    else {
+                        yield yield __await(line);
+                    }
                 }
             }
         }
@@ -1367,16 +1386,11 @@ const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __await
     const lines = [];
     for (const filePath of filePaths) {
         try {
-            for (var _e = true, _f = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _g; _g = yield _f.next(), _b = _g.done, !_b;) {
+            for (var _e = true, _f = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _g; _g = yield _f.next(), _b = _g.done, !_b; _e = true) {
                 _d = _g.value;
                 _e = false;
-                try {
-                    const line = _d;
-                    lines.push(line);
-                }
-                finally {
-                    _e = true;
-                }
+                const line = _d;
+                lines.push(line);
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -1529,14 +1543,14 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
         silent: process.env.RUNNER_DEBUG !== '1'
     });
     const changedFiles = {
-        [ChangeTypeEnum.Added]: [],
-        [ChangeTypeEnum.Copied]: [],
-        [ChangeTypeEnum.Deleted]: [],
-        [ChangeTypeEnum.Modified]: [],
-        [ChangeTypeEnum.Renamed]: [],
-        [ChangeTypeEnum.TypeChanged]: [],
-        [ChangeTypeEnum.Unmerged]: [],
-        [ChangeTypeEnum.Unknown]: []
+        [enum_1.ChangeTypeEnum.Added]: [],
+        [enum_1.ChangeTypeEnum.Copied]: [],
+        [enum_1.ChangeTypeEnum.Deleted]: [],
+        [enum_1.ChangeTypeEnum.Modified]: [],
+        [enum_1.ChangeTypeEnum.Renamed]: [],
+        [enum_1.ChangeTypeEnum.TypeChanged]: [],
+        [enum_1.ChangeTypeEnum.Unmerged]: [],
+        [enum_1.ChangeTypeEnum.Unknown]: []
     };
     if (exitCode !== 0) {
         if (isSubmodule) {
@@ -1556,7 +1570,7 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
             ? normalizePath(path.join(parentDir, filePath))
             : normalizePath(filePath);
         if (changeType.startsWith('R')) {
-            changedFiles[ChangeTypeEnum.Renamed].push(normalizedFilePath);
+            changedFiles[enum_1.ChangeTypeEnum.Renamed].push(normalizedFilePath);
         }
         else {
             changedFiles[changeType].push(normalizedFilePath);
@@ -1567,14 +1581,14 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
 exports.getAllChangedFiles = getAllChangedFiles;
 const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     const changedFiles = {
-        [ChangeTypeEnum.Added]: [],
-        [ChangeTypeEnum.Copied]: [],
-        [ChangeTypeEnum.Deleted]: [],
-        [ChangeTypeEnum.Modified]: [],
-        [ChangeTypeEnum.Renamed]: [],
-        [ChangeTypeEnum.TypeChanged]: [],
-        [ChangeTypeEnum.Unmerged]: [],
-        [ChangeTypeEnum.Unknown]: []
+        [enum_1.ChangeTypeEnum.Added]: [],
+        [enum_1.ChangeTypeEnum.Copied]: [],
+        [enum_1.ChangeTypeEnum.Deleted]: [],
+        [enum_1.ChangeTypeEnum.Modified]: [],
+        [enum_1.ChangeTypeEnum.Renamed]: [],
+        [enum_1.ChangeTypeEnum.TypeChanged]: [],
+        [enum_1.ChangeTypeEnum.Unmerged]: [],
+        [enum_1.ChangeTypeEnum.Unknown]: []
     };
     for (const changeType of Object.keys(allDiffFiles)) {
         for (const normalizedFilePath of allDiffFiles[changeType]) {
