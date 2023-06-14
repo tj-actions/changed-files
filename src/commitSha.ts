@@ -373,7 +373,11 @@ export const getSHAForPullRequestEvent = async (
       previousSha = env.GITHUB_EVENT_BEFORE
 
       if (
-        (await verifyCommitSha({sha: previousSha, cwd: workingDirectory})) !== 0
+        !previousSha ||
+        (
+          previousSha &&
+          (await verifyCommitSha({sha: previousSha, cwd: workingDirectory})) !== 0
+        )
       ) {
         previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
       }
