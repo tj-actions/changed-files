@@ -120,13 +120,13 @@ export async function run(): Promise<void> {
     diffResult,
     submodulePaths
   })
-  core.debug(`All diff files: ${allDiffFiles}`)
+  core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
 
   const allFilteredDiffFiles = await getFilteredChangedFiles({
     allDiffFiles,
     filePatterns
   })
-  core.debug(`All filtered diff files: ${allFilteredDiffFiles}`)
+  core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`)
 
   const addedFiles = await getChangeTypeFiles({
     inputs,
