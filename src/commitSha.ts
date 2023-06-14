@@ -85,7 +85,7 @@ export const getSHAForPushEvent = async (
   workingDirectory: string,
   isShallow: boolean,
   hasSubmodule: boolean,
-  gitExtraArgs: string[],
+  gitFetchExtraArgs: string[],
   isTag: boolean
 ): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_REF_NAME
@@ -102,7 +102,7 @@ export const getSHAForPushEvent = async (
       await gitFetch({
         cwd: workingDirectory,
         args: [
-          ...gitExtraArgs,
+          ...gitFetchExtraArgs,
           '-u',
           '--progress',
           `--deepen=${inputs.fetchDepth}`,
@@ -114,7 +114,7 @@ export const getSHAForPushEvent = async (
       await gitFetch({
         cwd: workingDirectory,
         args: [
-          ...gitExtraArgs,
+          ...gitFetchExtraArgs,
           '-u',
           '--progress',
           `--deepen=${inputs.fetchDepth}`,
@@ -128,7 +128,7 @@ export const getSHAForPushEvent = async (
       await gitFetchSubmodules({
         cwd: workingDirectory,
         args: [
-          ...gitExtraArgs,
+          ...gitFetchExtraArgs,
           '-u',
           '--progress',
           `--deepen=${inputs.fetchDepth}`
@@ -263,7 +263,7 @@ export const getSHAForPullRequestEvent = async (
   workingDirectory: string,
   isShallow: boolean,
   hasSubmodule: boolean,
-  gitExtraArgs: string[]
+  gitFetchExtraArgs: string[]
 ): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF
   const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF
@@ -277,7 +277,7 @@ export const getSHAForPullRequestEvent = async (
     let prFetchExitCode = await gitFetch({
       cwd: workingDirectory,
       args: [
-        ...gitExtraArgs,
+        ...gitFetchExtraArgs,
         '-u',
         '--progress',
         'origin',
@@ -289,7 +289,7 @@ export const getSHAForPullRequestEvent = async (
       prFetchExitCode = await gitFetch({
         cwd: workingDirectory,
         args: [
-          ...gitExtraArgs,
+          ...gitFetchExtraArgs,
           '-u',
           '--progress',
           `--deepen=${inputs.fetchDepth}`,
@@ -310,7 +310,7 @@ export const getSHAForPullRequestEvent = async (
       await gitFetch({
         cwd: workingDirectory,
         args: [
-          ...gitExtraArgs,
+          ...gitFetchExtraArgs,
           '-u',
           '--progress',
           `--deepen=${inputs.fetchDepth}`,
@@ -323,7 +323,7 @@ export const getSHAForPullRequestEvent = async (
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
-            ...gitExtraArgs,
+            ...gitFetchExtraArgs,
             '-u',
             '--progress',
             `--deepen=${inputs.fetchDepth}`
@@ -415,7 +415,7 @@ export const getSHAForPullRequestEvent = async (
             await gitFetch({
               cwd: workingDirectory,
               args: [
-                ...gitExtraArgs,
+                ...gitFetchExtraArgs,
                 '-u',
                 '--progress',
                 `--deepen=${inputs.fetchDepth}`,

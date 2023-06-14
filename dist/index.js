@@ -272,7 +272,7 @@ const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, v
     core.debug(`Current SHA: ${currentSha}`);
     return currentSha;
 });
-const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
+const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
     let targetBranch = env.GITHUB_REF_NAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
@@ -284,7 +284,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
-                    ...gitExtraArgs,
+                    ...gitFetchExtraArgs,
                     '-u',
                     '--progress',
                     `--deepen=${inputs.fetchDepth}`,
@@ -297,7 +297,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
-                    ...gitExtraArgs,
+                    ...gitFetchExtraArgs,
                     '-u',
                     '--progress',
                     `--deepen=${inputs.fetchDepth}`,
@@ -310,7 +310,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             yield (0, utils_1.gitFetchSubmodules)({
                 cwd: workingDirectory,
                 args: [
-                    ...gitExtraArgs,
+                    ...gitFetchExtraArgs,
                     '-u',
                     '--progress',
                     `--deepen=${inputs.fetchDepth}`
@@ -414,7 +414,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
     };
 });
 exports.getSHAForPushEvent = getSHAForPushEvent;
-const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
+const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
     let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF;
     const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF;
     if (inputs.sinceLastRemoteCommit) {
@@ -425,7 +425,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         let prFetchExitCode = yield (0, utils_1.gitFetch)({
             cwd: workingDirectory,
             args: [
-                ...gitExtraArgs,
+                ...gitFetchExtraArgs,
                 '-u',
                 '--progress',
                 'origin',
@@ -436,7 +436,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             prFetchExitCode = yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
-                    ...gitExtraArgs,
+                    ...gitFetchExtraArgs,
                     '-u',
                     '--progress',
                     `--deepen=${inputs.fetchDepth}`,
@@ -453,7 +453,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
-                    ...gitExtraArgs,
+                    ...gitFetchExtraArgs,
                     '-u',
                     '--progress',
                     `--deepen=${inputs.fetchDepth}`,
@@ -465,7 +465,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
-                        ...gitExtraArgs,
+                        ...gitFetchExtraArgs,
                         '-u',
                         '--progress',
                         `--deepen=${inputs.fetchDepth}`
@@ -534,7 +534,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                         yield (0, utils_1.gitFetch)({
                             cwd: workingDirectory,
                             args: [
-                                ...gitExtraArgs,
+                                ...gitFetchExtraArgs,
                                 '-u',
                                 '--progress',
                                 `--deepen=${inputs.fetchDepth}`,
@@ -893,23 +893,23 @@ function run() {
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
         const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
-        let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
+        let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
         let submodulePaths = [];
         if (hasSubmodule) {
             submodulePaths = yield (0, utils_1.getSubmodulePath)({ cwd: workingDirectory });
         }
         if (isTag) {
-            gitExtraArgs = ['--prune', '--no-recurse-submodules'];
+            gitFetchExtraArgs = ['--prune', '--no-recurse-submodules'];
         }
         let diffResult;
         if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
             core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'push'} event...`);
-            diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs, isTag);
+            diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag);
         }
         else {
             core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} event...`);
-            diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitExtraArgs);
+            diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs);
         }
         if (diffResult.initialCommit) {
             core.info('This is the first commit for this repository; exiting...');
