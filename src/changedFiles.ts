@@ -4,11 +4,12 @@ import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 import {
   getDirnameMaxDepth,
-  gitDiff,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
-  jsonOutput
+  jsonOutput,
+  getAllChangedFiles
 } from './utils'
+import flatten from 'lodash/flatten'
 
 export const getRenamedFiles = async ({
   inputs,
@@ -68,30 +69,37 @@ export const getRenamedFiles = async ({
   return renamedFiles.join(inputs.oldNewFilesSeparator)
 }
 
-export const getDiffFiles = async ({
-  inputs,
+export enum ChangeTypeEnum {
+  Added = 'A',
+  Copied = 'C',
+  Deleted = 'D',
+  Modified = 'M',
+  Renamed = 'R',
+  TypeChanged = 'T',
+  Unmerged = 'U',
+  Unknown = 'X'
+}
+
+export type ChangedFiles = {
+  [key in ChangeTypeEnum]: string[]
+}
+
+export const getAllDiffFiles = async ({
   workingDirectory,
   hasSubmodule,
   diffResult,
-  diffFilter,
-  filePatterns = [],
   submodulePaths
 }: {
-  inputs: Inputs
   workingDirectory: string
   hasSubmodule: boolean
   diffResult: DiffResult
-  diffFilter: string
-  filePatterns?: string[]
   submodulePaths: string[]
-}): Promise<string> => {
-  let files = await gitDiff({
+}): Promise<ChangedFiles> => {
+  const files = await getAllChangedFiles({
     cwd: workingDirectory,
     sha1: diffResult.previousSha,
     sha2: diffResult.currentSha,
-    diff: diffResult.diff,
-    diffFilter,
-    filePatterns
+    diff: diffResult.diff
   })
 
   if (hasSubmodule) {
@@ -110,32 +118,107 @@ export const getDiffFiles = async ({
       )
 
       if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
-        const submoduleFiles = await gitDiff({
+        const submoduleFiles = await getAllChangedFiles({
           cwd: submoduleWorkingDirectory,
           sha1: submoduleShaResult.previousSha,
           sha2: submoduleShaResult.currentSha,
           diff: diffResult.diff,
-          diffFilter,
           isSubmodule: true,
-          filePatterns,
           parentDir: submodulePath
         })
-        files.push(...submoduleFiles)
+
+        for (const changeType of Object.keys(
+          submoduleFiles
+        ) as ChangeTypeEnum[]) {
+          if (!files[changeType]) {
+            files[changeType] = []
+          }
+          files[changeType].push(...submoduleFiles[changeType])
+        }
       }
     }
   }
 
-  if (inputs.dirNames) {
-    files = files.map(file =>
-      getDirnameMaxDepth({
+  return files
+}
+
+function* getChangeTypeFilesGenerator({
+  inputs,
+  changedFiles,
+  changeTypes
+}: {
+  inputs: Inputs
+  changedFiles: ChangedFiles
+  changeTypes: ChangeTypeEnum[]
+}): Generator<string> {
+  for (const changeType of changeTypes) {
+    const files = changedFiles[changeType] || []
+    for (const file of files) {
+      if (inputs.dirNames) {
+        yield getDirnameMaxDepth({
+          pathStr: file,
+          dirNamesMaxDepth: inputs.dirNamesMaxDepth,
+          excludeCurrentDir:
+            inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+        })
+      } else {
+        yield file
+      }
+    }
+  }
+}
+
+export const getChangeTypeFiles = async ({
+  inputs,
+  changedFiles,
+  changeTypes
+}: {
+  inputs: Inputs
+  changedFiles: ChangedFiles
+  changeTypes: ChangeTypeEnum[]
+}): Promise<string> => {
+  const files = [
+    ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))
+  ]
+
+  if (inputs.json) {
+    return jsonOutput({value: files, shouldEscape: inputs.escapeJson})
+  }
+
+  return files.join(inputs.separator)
+}
+
+function* getAllChangeTypeFilesGenerator({
+  inputs,
+  changedFiles
+}: {
+  inputs: Inputs
+  changedFiles: ChangedFiles
+}): Generator<string> {
+  for (const file of flatten(Object.values(changedFiles))) {
+    if (inputs.dirNames) {
+      yield getDirnameMaxDepth({
         pathStr: file,
         dirNamesMaxDepth: inputs.dirNamesMaxDepth,
         excludeCurrentDir:
           inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
       })
-    )
-    files = [...new Set(files)]
+    } else {
+      yield file
+    }
   }
+}
+
+export const getAllChangeTypeFiles = async ({
+  inputs,
+  changedFiles
+}: {
+  inputs: Inputs
+  changedFiles: ChangedFiles
+}): Promise<string> => {
+  const files = [
+    ...new Set(getAllChangeTypeFilesGenerator({inputs, changedFiles}))
+  ]
 
   if (inputs.json) {
     return jsonOutput({value: files, shouldEscape: inputs.escapeJson})

@@ -60,6 +60,8 @@
     "@typescript-eslint/promise-function-async": "error",
     "@typescript-eslint/require-array-sort-compare": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
     "semi": "off",
     "filenames/match-regex": [
       "error",
