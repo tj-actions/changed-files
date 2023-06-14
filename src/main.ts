@@ -21,8 +21,7 @@ import {
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
-  verifyMinimumGitVersion,
-  ChangeTypeEnum
+  verifyMinimumGitVersion
 } from './utils'
 
 export async function run(): Promise<void> {

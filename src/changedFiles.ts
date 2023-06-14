@@ -7,8 +7,7 @@ import {
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
   jsonOutput,
-  getAllChangedFiles,
-  ChangeTypeEnum
+  getAllChangedFiles
 } from './utils'
 import flatten from 'lodash/flatten'
 
