@@ -1,5 +1,49 @@
 # Changelog
 
+# [36.2.0](https://github.com/tj-actions/changed-files/compare/v36.1.0...v36.2.0) - (2023-06-14)
+
+## <!-- 0 -->🚀 Features
+
+- Switch to use name status ([#1230](https://github.com/tj-actions/changed-files/issues/1230)) ([174a2a6](https://github.com/tj-actions/changed-files/commit/174a2a6360b54a2019877c254c4be78106efc94f))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1255](https://github.com/tj-actions/changed-files/issues/1255))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2c6893c](https://github.com/tj-actions/changed-files/commit/2c6893c21a91f8238df9e0ed2f3e4488efc0629f))  - (tj-actions[bot])
+- Update action.yml ([17ca5bb](https://github.com/tj-actions/changed-files/commit/17ca5bb3e554d4d9b631e09414186b64b6e64cd6))  - (Tonye Jack)
+- Updated README.md ([#1249](https://github.com/tj-actions/changed-files/issues/1249))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([a625ca3](https://github.com/tj-actions/changed-files/commit/a625ca325f498d75648b0ec941834edc16e71a40))  - (tj-actions[bot])
+- Updated README.md ([#1248](https://github.com/tj-actions/changed-files/issues/1248))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([752970e](https://github.com/tj-actions/changed-files/commit/752970edd01e2a1b9e1a9ef37207bd59a34c90f4))  - (tj-actions[bot])
+- Update action.yml ([7b64c76](https://github.com/tj-actions/changed-files/commit/7b64c76932d2ddd0a2be638832dc8f72eacec74c))  - (Tonye Jack)
+- Updated README.md ([#1246](https://github.com/tj-actions/changed-files/issues/1246))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([9333a5c](https://github.com/tj-actions/changed-files/commit/9333a5cf0c1a85e3dd5876284bb075ade076a9e0))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update peter-evans/create-pull-request action to v5.0.2 ([#1256](https://github.com/tj-actions/changed-files/issues/1256)) ([2d0b52f](https://github.com/tj-actions/changed-files/commit/2d0b52f4408b791c0c5c1eca405d8461b320dd01))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v5.59.11 ([#1253](https://github.com/tj-actions/changed-files/issues/1253)) ([d0e3a7c](https://github.com/tj-actions/changed-files/commit/d0e3a7c3aa15c15ace59f95a9fda1bcadf9ab3e2))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1252](https://github.com/tj-actions/changed-files/issues/1252)) ([61845c2](https://github.com/tj-actions/changed-files/commit/61845c2b19ec2ad7e3d79a6955e192e66d41cb80))  - (renovate[bot])
+- **deps:** Update tj-actions/verify-changed-files action to v15 ([#1251](https://github.com/tj-actions/changed-files/issues/1251)) ([417f924](https://github.com/tj-actions/changed-files/commit/417f924dea3b9800ea861d576eee55162ab6607c))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1250](https://github.com/tj-actions/changed-files/issues/1250)) ([c51a48d](https://github.com/tj-actions/changed-files/commit/c51a48d4f6bf95820aa0f9e3f3e6516bd427ae7a))  - (renovate[bot])
+- Update README.md ([6d9ee62](https://github.com/tj-actions/changed-files/commit/6d9ee62035acb0c3942fba9757033c677246f2f4))  - (Tonye Jack)
+- Update README.md ([b27dcc2](https://github.com/tj-actions/changed-files/commit/b27dcc252ada558d34ecd368bd253994df77acb1))  - (Tonye Jack)
+- **deps:** Update dependency @types/uuid to v9.0.2 ([#1247](https://github.com/tj-actions/changed-files/issues/1247)) ([b60e479](https://github.com/tj-actions/changed-files/commit/b60e479ceab551d9a8f832d5a989eb3e492d4bf4))  - (renovate[bot])
+- Update README.md ([#1237](https://github.com/tj-actions/changed-files/issues/1237)) ([8ec721e](https://github.com/tj-actions/changed-files/commit/8ec721eb3b7d57b7afc0d63748bd7242292989b1))  - (tj-actions[bot])
+- Update README.md ([#1240](https://github.com/tj-actions/changed-files/issues/1240)) ([7d1d4d2](https://github.com/tj-actions/changed-files/commit/7d1d4d2cce628fd1797af3acb779dd1d26b61d31))  - (tj-actions[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.1.0 ([#1245](https://github.com/tj-actions/changed-files/issues/1245))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([ab84931](https://github.com/tj-actions/changed-files/commit/ab8493166b33b74edc5101f3e814b63cd87f05ab))  - (tj-actions[bot])
+
 # [36.1.0](https://github.com/tj-actions/changed-files/compare/v36.0.18...v36.1.0) - (2023-06-08)
 
 ## <!-- 0 -->🚀 Features
