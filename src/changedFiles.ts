@@ -1,6 +1,7 @@
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
+import {ChangeTypeEnum} from './enum'
 import {Inputs} from './inputs'
 import {
   getDirnameMaxDepth,

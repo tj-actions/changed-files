@@ -1,4 +1,4 @@
-enum ChangeTypeEnum {
+export enum ChangeTypeEnum {
   Added = 'A',
   Copied = 'C',
   Deleted = 'D',

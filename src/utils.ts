@@ -6,6 +6,7 @@ import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
 import {ChangedFiles} from './changedFiles'
+import {ChangeTypeEnum} from './enum'
 
 import {Inputs} from './inputs'
 
