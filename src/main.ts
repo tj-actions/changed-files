@@ -1,15 +1,22 @@
 import * as core from '@actions/core'
 import path from 'path'
-import {getDiffFiles, getRenamedFiles} from './changedFiles'
 import {
+  ChangeType,
+  getAllChangeTypeFiles,
+  getAllDiffFiles,
+  getChangeTypeFiles,
+  getRenamedFiles
+} from './changedFiles'
+import {
+  DiffResult,
   getSHAForPullRequestEvent,
-  getSHAForPushEvent,
-  DiffResult
+  getSHAForPushEvent
 } from './commitSha'
 import {getEnv} from './env'
 import {getInputs} from './inputs'
 import {
   getFilePatterns,
+  getFilteredChangedFiles,
   getSubmodulePath,
   isRepoShallow,
   setOutput,
@@ -106,14 +113,22 @@ export async function run(): Promise<void> {
     workingDirectory
   })
 
-  const addedFiles = await getDiffFiles({
-    inputs,
+  const allDiffFiles = await getAllDiffFiles({
     workingDirectory,
     hasSubmodule,
     diffResult,
-    diffFilter: 'A',
-    filePatterns,
     submodulePaths
+  })
+
+  const allFilteredDiffFiles = await getFilteredChangedFiles({
+    allDiffFiles,
+    filePatterns
+  })
+
+  const addedFiles = await getChangeTypeFiles({
+    inputs,
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Added]
   })
   core.debug(`Added files: ${addedFiles}`)
   await setOutput({
@@ -122,14 +137,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const copiedFiles = await getDiffFiles({
+  const copiedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'C',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Copied]
   })
   core.debug(`Copied files: ${copiedFiles}`)
   await setOutput({
@@ -138,14 +149,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const modifiedFiles = await getDiffFiles({
+  const modifiedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'M',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Modified]
   })
   core.debug(`Modified files: ${modifiedFiles}`)
   await setOutput({
@@ -154,14 +161,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const renamedFiles = await getDiffFiles({
+  const renamedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'R',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Renamed]
   })
   core.debug(`Renamed files: ${renamedFiles}`)
   await setOutput({
@@ -170,14 +173,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const typeChangedFiles = await getDiffFiles({
+  const typeChangedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'T',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.TypeChanged]
   })
   core.debug(`Type changed files: ${typeChangedFiles}`)
   await setOutput({
@@ -186,14 +185,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const unmergedFiles = await getDiffFiles({
+  const unmergedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'U',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Unmerged]
   })
   core.debug(`Unmerged files: ${unmergedFiles}`)
   await setOutput({
@@ -202,14 +197,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const unknownFiles = await getDiffFiles({
+  const unknownFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'X',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Unknown]
   })
   core.debug(`Unknown files: ${unknownFiles}`)
   await setOutput({
@@ -218,14 +209,9 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const allChangedAndModifiedFiles = await getDiffFiles({
+  const allChangedAndModifiedFiles = await getAllChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'ACDMRTUX',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles
   })
   core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`)
   await setOutput({
@@ -234,14 +220,15 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const allChangedFiles = await getDiffFiles({
+  const allChangedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'ACMR',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [
+      ChangeType.Added,
+      ChangeType.Copied,
+      ChangeType.Modified,
+      ChangeType.Renamed
+    ]
   })
   core.debug(`All changed files: ${allChangedFiles}`)
   await setOutput({
@@ -256,13 +243,15 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const allOtherChangedFiles = await getDiffFiles({
+  const allOtherChangedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'ACMR',
-    submodulePaths
+    changedFiles: allDiffFiles,
+    changeTypes: [
+      ChangeType.Added,
+      ChangeType.Copied,
+      ChangeType.Modified,
+      ChangeType.Renamed
+    ]
   })
   core.debug(`All other changed files: ${allOtherChangedFiles}`)
 
@@ -289,14 +278,16 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const allModifiedFiles = await getDiffFiles({
+  const allModifiedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'ACMRD',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [
+      ChangeType.Added,
+      ChangeType.Copied,
+      ChangeType.Modified,
+      ChangeType.Renamed,
+      ChangeType.Deleted
+    ]
   })
   core.debug(`All modified files: ${allModifiedFiles}`)
   await setOutput({
@@ -311,13 +302,16 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const allOtherModifiedFiles = await getDiffFiles({
+  const allOtherModifiedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'ACMRD',
-    submodulePaths
+    changedFiles: allDiffFiles,
+    changeTypes: [
+      ChangeType.Added,
+      ChangeType.Copied,
+      ChangeType.Modified,
+      ChangeType.Renamed,
+      ChangeType.Deleted
+    ]
   })
 
   const otherModifiedFiles = allOtherModifiedFiles
@@ -343,14 +337,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const deletedFiles = await getDiffFiles({
+  const deletedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'D',
-    filePatterns,
-    submodulePaths
+    changedFiles: allFilteredDiffFiles,
+    changeTypes: [ChangeType.Deleted]
   })
   core.debug(`Deleted files: ${deletedFiles}`)
   await setOutput({
@@ -365,13 +355,10 @@ export async function run(): Promise<void> {
     inputs
   })
 
-  const allOtherDeletedFiles = await getDiffFiles({
+  const allOtherDeletedFiles = await getChangeTypeFiles({
     inputs,
-    workingDirectory,
-    hasSubmodule,
-    diffResult,
-    diffFilter: 'D',
-    submodulePaths
+    changedFiles: allDiffFiles,
+    changeTypes: [ChangeType.Deleted]
   })
 
   const otherDeletedFiles = allOtherDeletedFiles

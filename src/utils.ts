@@ -5,6 +5,7 @@ import {createReadStream, promises as fs} from 'fs'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
+import {ChangedFiles, ChangeType} from './changedFiles'
 
 import {Inputs} from './inputs'
 
@@ -403,105 +404,21 @@ export const gitRenamedFiles = async ({
     })
 }
 
-export const gitDiff = async ({
+export const getAllChangedFiles = async ({
   cwd,
   sha1,
   sha2,
   diff,
-  diffFilter,
-  filePatterns = [],
   isSubmodule = false,
   parentDir = ''
 }: {
   cwd: string
   sha1: string
   sha2: string
-  diffFilter: string
   diff: string
-  filePatterns?: string[]
   isSubmodule?: boolean
   parentDir?: string
-}): Promise<string[]> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    [
-      'diff',
-      '--name-only',
-      '--ignore-submodules=all',
-      `--diff-filter=${diffFilter}`,
-      `${sha1}${diff}${sha2}`
-    ],
-    {
-      cwd,
-      ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
-    }
-  )
-
-  if (exitCode !== 0) {
-    if (isSubmodule) {
-      core.warning(
-        stderr ||
-          `Failed to get changed files for submodule between: ${sha1}${diff}${sha2}`
-      )
-      core.warning(
-        'Please ensure that submodules are initialized and up to date. See: https://github.com/actions/checkout#usage'
-      )
-    } else {
-      core.warning(
-        stderr || `Failed to get changed files between: ${sha1}${diff}${sha2}`
-      )
-    }
-
-    return []
-  }
-
-  const files = stdout
-    .split('\n')
-    .filter(Boolean)
-    .map((p: string) => {
-      if (isSubmodule) {
-        return normalizePath(path.join(parentDir, p))
-      }
-      return normalizePath(p)
-    })
-
-  if (filePatterns.length === 0) {
-    return files
-  }
-
-  return mm(files, filePatterns, {
-    dot: true,
-    windows: IS_WINDOWS,
-    noext: true
-  })
-}
-
-export type ChangeType = 'A' | 'C' | 'D' | 'M' | 'R' | 'T' | 'U' | 'X'
-
-export type ChangedFile = {
-  filePath: string
-  changeType: ChangeType
-}
-
-const getAllChangedFiles = async ({
-  cwd,
-  sha1,
-  sha2,
-  diff,
-  filePatterns = [],
-  isSubmodule = false,
-  parentDir = ''
-}: {
-  cwd: string
-  sha1: string
-  sha2: string
-  diffFilter: string
-  diff: string
-  filePatterns?: string[]
-  isSubmodule?: boolean
-  parentDir?: string
-}): Promise<ChangedFile[]> => {
+}): Promise<ChangedFiles> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     [
@@ -517,6 +434,16 @@ const getAllChangedFiles = async ({
       silent: process.env.RUNNER_DEBUG !== '1'
     }
   )
+  const changedFiles: ChangedFiles = {
+    [ChangeType.Added]: [],
+    [ChangeType.Copied]: [],
+    [ChangeType.Deleted]: [],
+    [ChangeType.Modified]: [],
+    [ChangeType.Renamed]: [],
+    [ChangeType.TypeChanged]: [],
+    [ChangeType.Unmerged]: [],
+    [ChangeType.Unknown]: []
+  }
 
   if (exitCode !== 0) {
     if (isSubmodule) {
@@ -533,33 +460,56 @@ const getAllChangedFiles = async ({
       )
     }
 
-    return []
+    return changedFiles
   }
 
-  return stdout
+  stdout
     .split('\n')
     .filter(Boolean)
-    .map((line: string) => {
+    .forEach((line: string) => {
       const [changeType, filePath] = line.split('\t')
-
-      return {
-        filePath: isSubmodule
-          ? normalizePath(path.join(parentDir, filePath))
-          : normalizePath(filePath),
-        changeType: changeType as ChangeType
-      }
+      const normalizedFilePath = isSubmodule
+        ? normalizePath(path.join(parentDir, filePath))
+        : normalizePath(filePath)
+      changedFiles[changeType as ChangeType].push(normalizedFilePath)
     })
-    .filter((file: ChangedFile) => {
-      if (filePatterns.length === 0) {
-        return true
-      }
 
-      return mm.isMatch(file.filePath, filePatterns, {
+  return changedFiles
+}
+
+export const getFilteredChangedFiles = async ({
+  allDiffFiles,
+  filePatterns
+}: {
+  allDiffFiles: ChangedFiles
+  filePatterns: string[]
+}): Promise<ChangedFiles> => {
+  const changedFiles: ChangedFiles = {
+    [ChangeType.Added]: [],
+    [ChangeType.Copied]: [],
+    [ChangeType.Deleted]: [],
+    [ChangeType.Modified]: [],
+    [ChangeType.Renamed]: [],
+    [ChangeType.TypeChanged]: [],
+    [ChangeType.Unmerged]: [],
+    [ChangeType.Unknown]: []
+  }
+
+  for (const changeType of Object.keys(allDiffFiles)) {
+    for (const normalizedFilePath of allDiffFiles[changeType as ChangeType]) {
+      const isMatch = mm.isMatch(normalizedFilePath, filePatterns, {
         dot: true,
         windows: IS_WINDOWS,
         noext: true
       })
-    })
+
+      if (isMatch) {
+        changedFiles[changeType as ChangeType].push(normalizedFilePath)
+      }
+    }
+  }
+
+  return changedFiles
 }
 
 export const gitLog = async ({
