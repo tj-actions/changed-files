@@ -38,10 +38,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getDiffFiles = exports.getRenamedFiles = void 0;
+exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = void 0;
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
+const flatten_1 = __importDefault(__nccwpck_require__(2394));
 const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
@@ -80,14 +84,23 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
     return renamedFiles.join(inputs.oldNewFilesSeparator);
 });
 exports.getRenamedFiles = getRenamedFiles;
-const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diffFilter, filePatterns = [], submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
-    let files = yield (0, utils_1.gitDiff)({
+var ChangeTypeEnum;
+(function (ChangeTypeEnum) {
+    ChangeTypeEnum["Added"] = "A";
+    ChangeTypeEnum["Copied"] = "C";
+    ChangeTypeEnum["Deleted"] = "D";
+    ChangeTypeEnum["Modified"] = "M";
+    ChangeTypeEnum["Renamed"] = "R";
+    ChangeTypeEnum["TypeChanged"] = "T";
+    ChangeTypeEnum["Unmerged"] = "U";
+    ChangeTypeEnum["Unknown"] = "X";
+})(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
+const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
+    const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
         sha2: diffResult.currentSha,
-        diff: diffResult.diff,
-        diffFilter,
-        filePatterns
+        diff: diffResult.diff
     });
     if (hasSubmodule) {
         for (const submodulePath of submodulePaths) {
@@ -100,34 +113,77 @@ const getDiffFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, diff
             });
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
-                const submoduleFiles = yield (0, utils_1.gitDiff)({
+                const submoduleFiles = yield (0, utils_1.getAllChangedFiles)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
                     diff: diffResult.diff,
-                    diffFilter,
                     isSubmodule: true,
-                    filePatterns,
                     parentDir: submodulePath
                 });
-                files.push(...submoduleFiles);
+                for (const changeType of Object.keys(submoduleFiles)) {
+                    if (!files[changeType]) {
+                        files[changeType] = [];
+                    }
+                    files[changeType].push(...submoduleFiles[changeType]);
+                }
             }
         }
     }
-    if (inputs.dirNames) {
-        files = files.map(file => (0, utils_1.getDirnameMaxDepth)({
-            pathStr: file,
-            dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-            excludeCurrentDir: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
-        }));
-        files = [...new Set(files)];
+    return files;
+});
+exports.getAllDiffFiles = getAllDiffFiles;
+function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
+    for (const changeType of changeTypes) {
+        const files = changedFiles[changeType] || [];
+        for (const file of files) {
+            if (inputs.dirNames) {
+                yield (0, utils_1.getDirnameMaxDepth)({
+                    pathStr: file,
+                    dirNamesMaxDepth: inputs.dirNamesMaxDepth,
+                    excludeCurrentDir: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+                });
+            }
+            else {
+                yield file;
+            }
+        }
     }
+}
+const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(void 0, void 0, void 0, function* () {
+    const files = [
+        ...new Set(getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }))
+    ];
     if (inputs.json) {
         return (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson });
     }
     return files.join(inputs.separator);
 });
-exports.getDiffFiles = getDiffFiles;
+exports.getChangeTypeFiles = getChangeTypeFiles;
+function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
+    for (const file of (0, flatten_1.default)(Object.values(changedFiles))) {
+        if (inputs.dirNames) {
+            yield (0, utils_1.getDirnameMaxDepth)({
+                pathStr: file,
+                dirNamesMaxDepth: inputs.dirNamesMaxDepth,
+                excludeCurrentDir: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+            });
+        }
+        else {
+            yield file;
+        }
+    }
+}
+const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, void 0, void 0, function* () {
+    const files = [
+        ...new Set(getAllChangeTypeFilesGenerator({ inputs, changedFiles }))
+    ];
+    if (inputs.json) {
+        return (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson });
+    }
+    return files.join(inputs.separator);
+});
+exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 
 
 /***/ }),
@@ -856,14 +912,23 @@ function run() {
             inputs,
             workingDirectory
         });
-        const addedFiles = yield (0, changedFiles_1.getDiffFiles)({
-            inputs,
+        core.debug(`File patterns: ${filePatterns}`);
+        const allDiffFiles = yield (0, changedFiles_1.getAllDiffFiles)({
             workingDirectory,
             hasSubmodule,
             diffResult,
-            diffFilter: 'A',
-            filePatterns,
             submodulePaths
+        });
+        core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
+        const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+            allDiffFiles,
+            filePatterns
+        });
+        core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
+        const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+            inputs,
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Added]
         });
         core.debug(`Added files: ${addedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -871,14 +936,10 @@ function run() {
             value: addedFiles,
             inputs
         });
-        const copiedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const copiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'C',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Copied]
         });
         core.debug(`Copied files: ${copiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -886,14 +947,10 @@ function run() {
             value: copiedFiles,
             inputs
         });
-        const modifiedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const modifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'M',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Modified]
         });
         core.debug(`Modified files: ${modifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -901,14 +958,10 @@ function run() {
             value: modifiedFiles,
             inputs
         });
-        const renamedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const renamedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'R',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Renamed]
         });
         core.debug(`Renamed files: ${renamedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -916,14 +969,10 @@ function run() {
             value: renamedFiles,
             inputs
         });
-        const typeChangedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const typeChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'T',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.TypeChanged]
         });
         core.debug(`Type changed files: ${typeChangedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -931,14 +980,10 @@ function run() {
             value: typeChangedFiles,
             inputs
         });
-        const unmergedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const unmergedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'U',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Unmerged]
         });
         core.debug(`Unmerged files: ${unmergedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -946,14 +991,10 @@ function run() {
             value: unmergedFiles,
             inputs
         });
-        const unknownFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const unknownFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'X',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Unknown]
         });
         core.debug(`Unknown files: ${unknownFiles}`);
         yield (0, utils_1.setOutput)({
@@ -961,14 +1002,9 @@ function run() {
             value: unknownFiles,
             inputs
         });
-        const allChangedAndModifiedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const allChangedAndModifiedFiles = yield (0, changedFiles_1.getAllChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'ACDMRTUX',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles
         });
         core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -976,14 +1012,15 @@ function run() {
             value: allChangedAndModifiedFiles,
             inputs
         });
-        const allChangedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const allChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'ACMR',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [
+                changedFiles_1.ChangeTypeEnum.Added,
+                changedFiles_1.ChangeTypeEnum.Copied,
+                changedFiles_1.ChangeTypeEnum.Modified,
+                changedFiles_1.ChangeTypeEnum.Renamed
+            ]
         });
         core.debug(`All changed files: ${allChangedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -996,13 +1033,15 @@ function run() {
             value: allChangedFiles.length > 0 && filePatterns.length > 0,
             inputs
         });
-        const allOtherChangedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const allOtherChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'ACMR',
-            submodulePaths
+            changedFiles: allDiffFiles,
+            changeTypes: [
+                changedFiles_1.ChangeTypeEnum.Added,
+                changedFiles_1.ChangeTypeEnum.Copied,
+                changedFiles_1.ChangeTypeEnum.Modified,
+                changedFiles_1.ChangeTypeEnum.Renamed
+            ]
         });
         core.debug(`All other changed files: ${allOtherChangedFiles}`);
         const otherChangedFiles = allOtherChangedFiles
@@ -1021,14 +1060,16 @@ function run() {
             value: otherChangedFiles.join(inputs.separator),
             inputs
         });
-        const allModifiedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const allModifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'ACMRD',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [
+                changedFiles_1.ChangeTypeEnum.Added,
+                changedFiles_1.ChangeTypeEnum.Copied,
+                changedFiles_1.ChangeTypeEnum.Modified,
+                changedFiles_1.ChangeTypeEnum.Renamed,
+                changedFiles_1.ChangeTypeEnum.Deleted
+            ]
         });
         core.debug(`All modified files: ${allModifiedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -1041,13 +1082,16 @@ function run() {
             value: allModifiedFiles.length > 0 && filePatterns.length > 0,
             inputs
         });
-        const allOtherModifiedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const allOtherModifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'ACMRD',
-            submodulePaths
+            changedFiles: allDiffFiles,
+            changeTypes: [
+                changedFiles_1.ChangeTypeEnum.Added,
+                changedFiles_1.ChangeTypeEnum.Copied,
+                changedFiles_1.ChangeTypeEnum.Modified,
+                changedFiles_1.ChangeTypeEnum.Renamed,
+                changedFiles_1.ChangeTypeEnum.Deleted
+            ]
         });
         const otherModifiedFiles = allOtherModifiedFiles
             .split(inputs.separator)
@@ -1065,14 +1109,10 @@ function run() {
             value: otherModifiedFiles.join(inputs.separator),
             inputs
         });
-        const deletedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const deletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'D',
-            filePatterns,
-            submodulePaths
+            changedFiles: allFilteredDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
         });
         core.debug(`Deleted files: ${deletedFiles}`);
         yield (0, utils_1.setOutput)({
@@ -1085,13 +1125,10 @@ function run() {
             value: deletedFiles.length > 0 && filePatterns.length > 0,
             inputs
         });
-        const allOtherDeletedFiles = yield (0, changedFiles_1.getDiffFiles)({
+        const allOtherDeletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
-            workingDirectory,
-            hasSubmodule,
-            diffResult,
-            diffFilter: 'D',
-            submodulePaths
+            changedFiles: allDiffFiles,
+            changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
         });
         const otherDeletedFiles = allOtherDeletedFiles
             .split(inputs.separator)
@@ -1200,7 +1237,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.gitDiff = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.setOutput = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1208,6 +1245,7 @@ const fs_1 = __nccwpck_require__(7147);
 const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
 const readline_1 = __nccwpck_require__(4521);
+const changedFiles_1 = __nccwpck_require__(7358);
 const IS_WINDOWS = process.platform === 'win32';
 const MINIMUM_GIT_VERSION = '2.18.0';
 /**
@@ -1483,18 +1521,28 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
-const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
-        '--name-only',
+        '--name-status',
         '--ignore-submodules=all',
-        `--diff-filter=${diffFilter}`,
+        `--diff-filter=ACDMRTUX`,
         `${sha1}${diff}${sha2}`
     ], {
         cwd,
         ignoreReturnCode: true,
         silent: process.env.RUNNER_DEBUG !== '1'
     });
+    const changedFiles = {
+        [changedFiles_1.ChangeTypeEnum.Added]: [],
+        [changedFiles_1.ChangeTypeEnum.Copied]: [],
+        [changedFiles_1.ChangeTypeEnum.Deleted]: [],
+        [changedFiles_1.ChangeTypeEnum.Modified]: [],
+        [changedFiles_1.ChangeTypeEnum.Renamed]: [],
+        [changedFiles_1.ChangeTypeEnum.TypeChanged]: [],
+        [changedFiles_1.ChangeTypeEnum.Unmerged]: [],
+        [changedFiles_1.ChangeTypeEnum.Unknown]: []
+    };
     if (exitCode !== 0) {
         if (isSubmodule) {
             core.warning(stderr ||
@@ -1504,27 +1552,52 @@ const gitDiff = ({ cwd, sha1, sha2, diff, diffFilter, filePatterns = [], isSubmo
         else {
             core.warning(stderr || `Failed to get changed files between: ${sha1}${diff}${sha2}`);
         }
-        return [];
+        return changedFiles;
     }
-    const files = stdout
-        .split('\n')
-        .filter(Boolean)
-        .map((p) => {
-        if (isSubmodule) {
-            return normalizePath(path.join(parentDir, p));
+    const lines = stdout.split('\n').filter(Boolean);
+    for (const line of lines) {
+        const [changeType, filePath] = line.split('\t');
+        const normalizedFilePath = isSubmodule
+            ? normalizePath(path.join(parentDir, filePath))
+            : normalizePath(filePath);
+        if (changeType.startsWith('R')) {
+            changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(normalizedFilePath);
         }
-        return normalizePath(p);
-    });
-    if (filePatterns.length === 0) {
-        return files;
+        else {
+            changedFiles[changeType].push(normalizedFilePath);
+        }
     }
-    return (0, micromatch_1.default)(files, filePatterns, {
-        dot: true,
-        windows: IS_WINDOWS,
-        noext: true
-    });
+    return changedFiles;
 });
-exports.gitDiff = gitDiff;
+exports.getAllChangedFiles = getAllChangedFiles;
+const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+    const changedFiles = {
+        [changedFiles_1.ChangeTypeEnum.Added]: [],
+        [changedFiles_1.ChangeTypeEnum.Copied]: [],
+        [changedFiles_1.ChangeTypeEnum.Deleted]: [],
+        [changedFiles_1.ChangeTypeEnum.Modified]: [],
+        [changedFiles_1.ChangeTypeEnum.Renamed]: [],
+        [changedFiles_1.ChangeTypeEnum.TypeChanged]: [],
+        [changedFiles_1.ChangeTypeEnum.Unmerged]: [],
+        [changedFiles_1.ChangeTypeEnum.Unknown]: []
+    };
+    for (const changeType of Object.keys(allDiffFiles)) {
+        const files = allDiffFiles[changeType];
+        const hasFilePatterns = filePatterns.length > 0;
+        if (hasFilePatterns) {
+            changedFiles[changeType] = (0, micromatch_1.default)(files, filePatterns, {
+                dot: true,
+                windows: IS_WINDOWS,
+                noext: true
+            });
+        }
+        else {
+            changedFiles[changeType] = files;
+        }
+    }
+    return changedFiles;
+});
+exports.getFilteredChangedFiles = getFilteredChangedFiles;
 const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['log', ...args], {
         cwd,
@@ -5933,6 +6006,428 @@ module.exports = function(num) {
   }
   return false;
 };
+
+
+/***/ }),
+
+/***/ 9213:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var root = __nccwpck_require__(9882);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+
+/***/ 82:
+/***/ ((module) => {
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+module.exports = arrayPush;
+
+
+/***/ }),
+
+/***/ 9588:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var arrayPush = __nccwpck_require__(82),
+    isFlattenable = __nccwpck_require__(9299);
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+ * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, predicate, isStrict, result) {
+  var index = -1,
+      length = array.length;
+
+  predicate || (predicate = isFlattenable);
+  result || (result = []);
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && predicate(value)) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, predicate, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseFlatten;
+
+
+/***/ }),
+
+/***/ 7497:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var Symbol = __nccwpck_require__(9213),
+    getRawTag = __nccwpck_require__(923),
+    objectToString = __nccwpck_require__(4200);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+
+/***/ 2177:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var baseGetTag = __nccwpck_require__(7497),
+    isObjectLike = __nccwpck_require__(5926);
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
+
+/**
+ * The base implementation of `_.isArguments`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ */
+function baseIsArguments(value) {
+  return isObjectLike(value) && baseGetTag(value) == argsTag;
+}
+
+module.exports = baseIsArguments;
+
+
+/***/ }),
+
+/***/ 2085:
+/***/ ((module) => {
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+module.exports = freeGlobal;
+
+
+/***/ }),
+
+/***/ 923:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var Symbol = __nccwpck_require__(9213);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+module.exports = getRawTag;
+
+
+/***/ }),
+
+/***/ 9299:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var Symbol = __nccwpck_require__(9213),
+    isArguments = __nccwpck_require__(8495),
+    isArray = __nccwpck_require__(4869);
+
+/** Built-in value references. */
+var spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+/**
+ * Checks if `value` is a flattenable `arguments` object or array.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+ */
+function isFlattenable(value) {
+  return isArray(value) || isArguments(value) ||
+    !!(spreadableSymbol && value && value[spreadableSymbol]);
+}
+
+module.exports = isFlattenable;
+
+
+/***/ }),
+
+/***/ 4200:
+/***/ ((module) => {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+
+/***/ 9882:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var freeGlobal = __nccwpck_require__(2085);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ 2394:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var baseFlatten = __nccwpck_require__(9588);
+
+/**
+ * Flattens `array` a single level deep.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to flatten.
+ * @returns {Array} Returns the new flattened array.
+ * @example
+ *
+ * _.flatten([1, [2, [3, [4]], 5]]);
+ * // => [1, 2, [3, [4]], 5]
+ */
+function flatten(array) {
+  var length = array == null ? 0 : array.length;
+  return length ? baseFlatten(array, 1) : [];
+}
+
+module.exports = flatten;
+
+
+/***/ }),
+
+/***/ 8495:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var baseIsArguments = __nccwpck_require__(2177),
+    isObjectLike = __nccwpck_require__(5926);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+
+module.exports = isArguments;
+
+
+/***/ }),
+
+/***/ 4869:
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+
+/***/ }),
+
+/***/ 5926:
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
 
 
 /***/ }),
