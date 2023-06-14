@@ -12,6 +12,17 @@ import {Inputs} from './inputs'
 const IS_WINDOWS = process.platform === 'win32'
 const MINIMUM_GIT_VERSION = '2.18.0'
 
+export enum ChangeTypeEnum {
+  Added = 'A',
+  Copied = 'C',
+  Deleted = 'D',
+  Modified = 'M',
+  Renamed = 'R',
+  TypeChanged = 'T',
+  Unmerged = 'U',
+  Unknown = 'X'
+}
+
 /**
  * Normalize file path separators to '/' on Windows and Linux/macOS
  * @param p file path
