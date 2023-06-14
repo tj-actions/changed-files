@@ -5,7 +5,7 @@ import {createReadStream, promises as fs} from 'fs'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
-import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
+import {ChangedFiles, ChangeTypeEnum} from './changedFile'
 
 import {Inputs} from './inputs'
 
@@ -410,7 +410,8 @@ export const getAllChangedFiles = async ({
   sha2,
   diff,
   isSubmodule = false,
-  parentDir = ''
+  parentDir = '',
+  outputRenamedFilesAsDeletedAndAdded = false
 }: {
   cwd: string
   sha1: string
@@ -418,6 +419,7 @@ export const getAllChangedFiles = async ({
   diff: string
   isSubmodule?: boolean
   parentDir?: string
+  outputRenamedFilesAsDeletedAndAdded?: boolean
 }): Promise<ChangedFiles> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
@@ -466,13 +468,21 @@ export const getAllChangedFiles = async ({
   const lines = stdout.split('\n').filter(Boolean)
 
   for (const line of lines) {
-    const [changeType, filePath] = line.split('\t')
+    const [changeType, filePath, newPath = ''] = line.split('\t')
     const normalizedFilePath = isSubmodule
       ? normalizePath(path.join(parentDir, filePath))
       : normalizePath(filePath)
+    const normalizedNewPath = isSubmodule
+      ? normalizePath(path.join(parentDir, newPath))
+      : normalizePath(newPath)
 
     if (changeType.startsWith('R')) {
-      changedFiles[ChangeTypeEnum.Renamed].push(normalizedFilePath)
+      if (outputRenamedFilesAsDeletedAndAdded) {
+        changedFiles[ChangeTypeEnum.Deleted].push(normalizedFilePath)
+        changedFiles[ChangeTypeEnum.Added].push(normalizedNewPath)
+      } else {
+        changedFiles[ChangeTypeEnum.Renamed].push(normalizedFilePath)
+      }
     } else {
       changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
     }

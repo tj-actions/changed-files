@@ -370,12 +370,7 @@ export const getSHAForPullRequestEvent = async (
 
   if (!previousSha) {
     if (inputs.sinceLastRemoteCommit) {
-      previousSha =
-        env.GITHUB_EVENT_BEFORE ||
-        (await getRemoteBranchHeadSha({
-          cwd: workingDirectory,
-          branch: currentBranch
-        }))
+      previousSha = env.GITHUB_EVENT_BEFORE
 
       if (
         !previousSha ||

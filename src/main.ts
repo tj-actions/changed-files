@@ -6,7 +6,7 @@ import {
   getChangeTypeFiles,
   getRenamedFiles,
   ChangeTypeEnum
-} from './changedFiles'
+} from './changedFile'
 import {
   DiffResult,
   getSHAForPullRequestEvent,
@@ -61,6 +61,8 @@ export async function run(): Promise<void> {
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
+  const outputRenamedFilesAsDeletedAndAdded =
+    inputs.outputRenamedFilesAsDeletedAndAdded
   let submodulePaths: string[] = []
 
   if (hasSubmodule) {
@@ -118,7 +120,8 @@ export async function run(): Promise<void> {
     workingDirectory,
     hasSubmodule,
     diffResult,
-    submodulePaths
+    submodulePaths,
+    outputRenamedFilesAsDeletedAndAdded
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
 

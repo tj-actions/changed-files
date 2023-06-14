@@ -30,6 +30,7 @@ export type Inputs = {
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
   outputDir: string
+  outputRenamedFilesAsDeletedAndAdded: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -111,6 +112,10 @@ export const getInputs = (): Inputs => {
     required: false
   })
   const outputDir = core.getInput('output_dir', {required: false})
+  const outputRenamedFilesAsDeletedAndAdded = core.getBooleanInput(
+    'output_renamed_files_as_deleted_and_added',
+    {required: false}
+  )
 
   const inputs: Inputs = {
     files,
@@ -139,7 +144,8 @@ export const getInputs = (): Inputs => {
     escapeJson,
     sinceLastRemoteCommit,
     writeOutputFiles,
-    outputDir
+    outputDir,
+    outputRenamedFilesAsDeletedAndAdded
   }
 
   if (fetchDepth) {
