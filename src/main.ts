@@ -112,6 +112,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory
   })
+  core.debug(`File patterns: ${filePatterns}`)
 
   const allDiffFiles = await getAllDiffFiles({
     workingDirectory,
@@ -119,11 +120,13 @@ export async function run(): Promise<void> {
     diffResult,
     submodulePaths
   })
+  core.debug(`All diff files: ${allDiffFiles}`)
 
   const allFilteredDiffFiles = await getFilteredChangedFiles({
     allDiffFiles,
     filePatterns
   })
+  core.debug(`All filtered diff files: ${allFilteredDiffFiles}`)
 
   const addedFiles = await getChangeTypeFiles({
     inputs,
