@@ -59,7 +59,7 @@ export async function run(): Promise<void> {
   )
   const isShallow = await isRepoShallow({cwd: workingDirectory})
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
-  let gitExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
+  let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
   let submodulePaths: string[] = []
 
@@ -68,7 +68,7 @@ export async function run(): Promise<void> {
   }
 
   if (isTag) {
-    gitExtraArgs = ['--prune', '--no-recurse-submodules']
+    gitFetchExtraArgs = ['--prune', '--no-recurse-submodules']
   }
 
   let diffResult: DiffResult
@@ -81,7 +81,7 @@ export async function run(): Promise<void> {
       workingDirectory,
       isShallow,
       hasSubmodule,
-      gitExtraArgs,
+      gitFetchExtraArgs,
       isTag
     )
   } else {
@@ -94,7 +94,7 @@ export async function run(): Promise<void> {
       workingDirectory,
       isShallow,
       hasSubmodule,
-      gitExtraArgs
+      gitFetchExtraArgs
     )
   }
 
