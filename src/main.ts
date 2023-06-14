@@ -13,7 +13,6 @@ import {
 } from './commitSha'
 import {getEnv} from './env'
 import {getInputs} from './inputs'
-import {ChangeTypeEnum} from './types'
 import {
   getFilePatterns,
   getFilteredChangedFiles,

@@ -2,7 +2,7 @@ import * as path from 'path'
 
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
-import {ChangedFiles, ChangeTypeEnum} from './types'
+import {ChangedFiles} from './types'
 import {
   getDirnameMaxDepth,
   gitRenamedFiles,

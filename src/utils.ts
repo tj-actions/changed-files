@@ -7,7 +7,7 @@ import * as path from 'path'
 import {createInterface} from 'readline'
 
 import {Inputs} from './inputs'
-import {ChangedFiles, ChangeTypeEnum} from './types'
+import {ChangedFiles} from './types'
 
 const IS_WINDOWS = process.platform === 'win32'
 const MINIMUM_GIT_VERSION = '2.18.0'
