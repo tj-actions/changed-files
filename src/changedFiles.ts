@@ -1,7 +1,6 @@
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
-import {ChangeTypeEnum} from './enum'
 import {Inputs} from './inputs'
 import {
   getDirnameMaxDepth,
@@ -68,6 +67,17 @@ export const getRenamedFiles = async ({
   }
 
   return renamedFiles.join(inputs.oldNewFilesSeparator)
+}
+
+export enum ChangeTypeEnum {
+  Added = 'A',
+  Copied = 'C',
+  Deleted = 'D',
+  Modified = 'M',
+  Renamed = 'R',
+  TypeChanged = 'T',
+  Unmerged = 'U',
+  Unknown = 'X'
 }
 
 export type ChangedFiles = {

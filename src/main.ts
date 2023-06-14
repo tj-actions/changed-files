@@ -4,14 +4,14 @@ import {
   getAllChangeTypeFiles,
   getAllDiffFiles,
   getChangeTypeFiles,
-  getRenamedFiles
+  getRenamedFiles,
+  ChangeTypeEnum
 } from './changedFiles'
 import {
   DiffResult,
   getSHAForPullRequestEvent,
   getSHAForPushEvent
 } from './commitSha'
-import {ChangeTypeEnum} from './enum'
 import {getEnv} from './env'
 import {getInputs} from './inputs'
 import {
