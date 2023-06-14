@@ -62,6 +62,8 @@
     "@typescript-eslint/restrict-plus-operands": "error",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
+    "no-undef": "off",
+    "@typescript-eslint/no-undef": "error",
     "semi": "off",
     "filenames/match-regex": [
       "error",
