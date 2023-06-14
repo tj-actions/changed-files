@@ -95,12 +95,13 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded }) => __awaiter(void 0, void 0, void 0, function* () {
     const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
         sha2: diffResult.currentSha,
-        diff: diffResult.diff
+        diff: diffResult.diff,
+        outputRenamedFilesAsDeletedAndAdded
     });
     if (hasSubmodule) {
         for (const submodulePath of submodulePaths) {
@@ -119,7 +120,8 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
                     sha2: submoduleShaResult.currentSha,
                     diff: diffResult.diff,
                     isSubmodule: true,
-                    parentDir: submodulePath
+                    parentDir: submodulePath,
+                    outputRenamedFilesAsDeletedAndAdded
                 });
                 for (const changeType of Object.keys(submoduleFiles)) {
                     if (!files[changeType]) {
@@ -500,12 +502,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }
     if (!previousSha) {
         if (inputs.sinceLastRemoteCommit) {
-            previousSha =
-                env.GITHUB_EVENT_BEFORE ||
-                    (yield (0, utils_1.getRemoteBranchHeadSha)({
-                        cwd: workingDirectory,
-                        branch: currentBranch
-                    }));
+            previousSha = env.GITHUB_EVENT_BEFORE;
             if (!previousSha ||
                 (previousSha &&
                     (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
@@ -776,6 +773,7 @@ const getInputs = () => {
         required: false
     });
     const outputDir = core.getInput('output_dir', { required: false });
+    const outputRenamedFilesAsDeletedAndAdded = core.getBooleanInput('output_renamed_files_as_deleted_and_added', { required: false });
     const inputs = {
         files,
         filesSeparator,
@@ -803,7 +801,8 @@ const getInputs = () => {
         escapeJson,
         sinceLastRemoteCommit,
         writeOutputFiles,
-        outputDir
+        outputDir,
+        outputRenamedFilesAsDeletedAndAdded
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -895,6 +894,7 @@ function run() {
         const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
         let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
         const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
+        const outputRenamedFilesAsDeletedAndAdded = inputs.outputRenamedFilesAsDeletedAndAdded;
         let submodulePaths = [];
         if (hasSubmodule) {
             submodulePaths = yield (0, utils_1.getSubmodulePath)({ cwd: workingDirectory });
@@ -926,7 +926,8 @@ function run() {
             workingDirectory,
             hasSubmodule,
             diffResult,
-            submodulePaths
+            submodulePaths,
+            outputRenamedFilesAsDeletedAndAdded
         });
         core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
         const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
@@ -1055,7 +1056,7 @@ function run() {
         core.debug(`All other changed files: ${allOtherChangedFiles}`);
         const otherChangedFiles = allOtherChangedFiles
             .split(inputs.separator)
-            .filter(filePath => !allChangedFiles.split(inputs.separator).includes(filePath));
+            .filter((filePath) => !allChangedFiles.split(inputs.separator).includes(filePath));
         const onlyChanged = otherChangedFiles.length === 0 &&
             allChangedFiles.length > 0 &&
             filePatterns.length > 0;
@@ -1104,7 +1105,7 @@ function run() {
         });
         const otherModifiedFiles = allOtherModifiedFiles
             .split(inputs.separator)
-            .filter(filePath => !allModifiedFiles.split(inputs.separator).includes(filePath));
+            .filter((filePath) => !allModifiedFiles.split(inputs.separator).includes(filePath));
         const onlyModified = otherModifiedFiles.length === 0 &&
             allModifiedFiles.length > 0 &&
             filePatterns.length > 0;
@@ -1530,7 +1531,7 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
-const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
         '--name-status',
@@ -1565,12 +1566,21 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
     }
     const lines = stdout.split('\n').filter(Boolean);
     for (const line of lines) {
-        const [changeType, filePath] = line.split('\t');
+        const [changeType, filePath, newPath = ''] = line.split('\t');
         const normalizedFilePath = isSubmodule
             ? normalizePath(path.join(parentDir, filePath))
             : normalizePath(filePath);
+        const normalizedNewPath = isSubmodule
+            ? normalizePath(path.join(parentDir, newPath))
+            : normalizePath(newPath);
         if (changeType.startsWith('R')) {
-            changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(normalizedFilePath);
+            if (outputRenamedFilesAsDeletedAndAdded) {
+                changedFiles[changedFiles_1.ChangeTypeEnum.Deleted].push(normalizedFilePath);
+                changedFiles[changedFiles_1.ChangeTypeEnum.Added].push(normalizedNewPath);
+            }
+            else {
+                changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(normalizedFilePath);
+            }
         }
         else {
             changedFiles[changeType].push(normalizedFilePath);
