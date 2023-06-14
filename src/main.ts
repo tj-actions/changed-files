@@ -61,6 +61,8 @@ export async function run(): Promise<void> {
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
+  const outputRenamedFilesAsDeletedAndAdded =
+    inputs.outputRenamedFilesAsDeletedAndAdded
   let submodulePaths: string[] = []
 
   if (hasSubmodule) {
@@ -118,7 +120,8 @@ export async function run(): Promise<void> {
     workingDirectory,
     hasSubmodule,
     diffResult,
-    submodulePaths
+    submodulePaths,
+    outputRenamedFilesAsDeletedAndAdded
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
 
@@ -261,7 +264,8 @@ export async function run(): Promise<void> {
   const otherChangedFiles = allOtherChangedFiles
     .split(inputs.separator)
     .filter(
-      filePath => !allChangedFiles.split(inputs.separator).includes(filePath)
+      (filePath: string) =>
+        !allChangedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyChanged =
@@ -320,7 +324,8 @@ export async function run(): Promise<void> {
   const otherModifiedFiles = allOtherModifiedFiles
     .split(inputs.separator)
     .filter(
-      filePath => !allModifiedFiles.split(inputs.separator).includes(filePath)
+      (filePath: string) =>
+        !allModifiedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyModified =

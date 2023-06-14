@@ -117,6 +117,10 @@ inputs:
     description: "Directory to store output files."
     required: false
     default: ".github/outputs"
+  output_renamed_files_as_deleted_and_added:
+    description: "Output renamed files as deleted and added files."
+    required: false
+    default: "false"
 
 outputs:
   added_files:
