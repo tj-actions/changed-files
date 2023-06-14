@@ -95,7 +95,7 @@ export const getAllDiffFiles = async ({
   diffResult: DiffResult
   submodulePaths: string[]
 }): Promise<ChangedFiles> => {
-  let files = await getAllChangedFiles({
+  const files = await getAllChangedFiles({
     cwd: workingDirectory,
     sha1: diffResult.previousSha,
     sha2: diffResult.currentSha,
@@ -175,7 +175,7 @@ export const getChangeTypeFiles = async ({
   changedFiles: ChangedFiles
   changeTypes: ChangeType[]
 }): Promise<string> => {
-  let files = [
+  const files = [
     ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))
   ]
 
