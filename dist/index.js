@@ -912,16 +912,19 @@ function run() {
             inputs,
             workingDirectory
         });
+        core.debug(`File patterns: ${filePatterns}`);
         const allDiffFiles = yield (0, changedFiles_1.getAllDiffFiles)({
             workingDirectory,
             hasSubmodule,
             diffResult,
             submodulePaths
         });
+        core.debug(`All diff files: ${allDiffFiles}`);
         const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
             allDiffFiles,
             filePatterns
         });
+        core.debug(`All filtered diff files: ${allFilteredDiffFiles}`);
         const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
             inputs,
             changedFiles: allFilteredDiffFiles,
