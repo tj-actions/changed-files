@@ -869,6 +869,41 @@ jobs:
           exit 1
         shell:
           bash
+      - name: Run changed-files for old new filenames test rename 2 output as deleted and added
+        id: changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added
+        uses: ./
+        with:
+          base_sha: 4d04215
+          sha: fe238e6
+          fetch_depth: 60000
+          include_all_old_new_renamed_files: true
+          output_renamed_files_as_deleted_and_added: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs) }}'
+        shell:
+          bash
+      - name: Check all_old_new_renamed_files output
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt')"
+        run: |
+          echo "Invalid output: Expected to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check deleted_files output
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.deleted_files, 'test/test rename 2.txt')"
+        run: |
+          echo "Invalid output: Expected to include (test/test rename 2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check added_files output
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.added_files, 'test/test rename-2.txt')"
+        run: |
+          echo "Invalid output: Expected to include (test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
       - name: Run changed-files with specific files
         id: changed-files-specific
         uses: ./

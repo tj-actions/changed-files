@@ -6,7 +6,7 @@ import {
   getChangeTypeFiles,
   getRenamedFiles,
   ChangeTypeEnum
-} from './changedFile'
+} from './changedFiles'
 import {
   DiffResult,
   getSHAForPullRequestEvent,
@@ -264,7 +264,8 @@ export async function run(): Promise<void> {
   const otherChangedFiles = allOtherChangedFiles
     .split(inputs.separator)
     .filter(
-      filePath => !allChangedFiles.split(inputs.separator).includes(filePath)
+      (filePath: string) =>
+        !allChangedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyChanged =
@@ -323,7 +324,8 @@ export async function run(): Promise<void> {
   const otherModifiedFiles = allOtherModifiedFiles
     .split(inputs.separator)
     .filter(
-      filePath => !allModifiedFiles.split(inputs.separator).includes(filePath)
+      (filePath: string) =>
+        !allModifiedFiles.split(inputs.separator).includes(filePath)
     )
 
   const onlyModified =
