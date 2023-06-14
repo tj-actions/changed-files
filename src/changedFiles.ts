@@ -214,7 +214,7 @@ export const getAllChangeTypeFiles = async ({
   inputs: Inputs
   changedFiles: ChangedFiles
 }): Promise<string> => {
-  let files = [
+  const files = [
     ...new Set(getAllChangeTypeFilesGenerator({inputs, changedFiles}))
   ]
 
