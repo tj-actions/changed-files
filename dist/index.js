@@ -1580,12 +1580,18 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
     };
     for (const changeType of Object.keys(allDiffFiles)) {
         for (const normalizedFilePath of allDiffFiles[changeType]) {
-            const isMatch = micromatch_1.default.isMatch(normalizedFilePath, filePatterns, {
-                dot: true,
-                windows: IS_WINDOWS,
-                noext: true
-            });
-            if (isMatch) {
+            const hasFilePatterns = filePatterns.length > 0;
+            if (hasFilePatterns) {
+                const isMatch = micromatch_1.default.isMatch(normalizedFilePath, filePatterns, {
+                    dot: true,
+                    windows: IS_WINDOWS,
+                    noext: true
+                });
+                if (isMatch) {
+                    changedFiles[changeType].push(normalizedFilePath);
+                }
+            }
+            else {
                 changedFiles[changeType].push(normalizedFilePath);
             }
         }
