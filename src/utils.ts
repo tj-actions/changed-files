@@ -502,13 +502,19 @@ export const getFilteredChangedFiles = async ({
     for (const normalizedFilePath of allDiffFiles[
       changeType as ChangeTypeEnum
     ]) {
-      const isMatch = mm.isMatch(normalizedFilePath, filePatterns, {
-        dot: true,
-        windows: IS_WINDOWS,
-        noext: true
-      })
+      const hasFilePatterns = filePatterns.length > 0
 
-      if (isMatch) {
+      if (hasFilePatterns) {
+        const isMatch = mm.isMatch(normalizedFilePath, filePatterns, {
+          dot: true,
+          windows: IS_WINDOWS,
+          noext: true
+        })
+
+        if (isMatch) {
+          changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
+        }
+      } else {
         changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
       }
     }
