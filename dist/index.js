@@ -500,8 +500,17 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     }
     if (!previousSha) {
         if (inputs.sinceLastRemoteCommit) {
-            previousSha = env.GITHUB_EVENT_BEFORE;
-            if ((yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !== 0) {
+            previousSha =
+                env.GITHUB_EVENT_BEFORE ||
+                    (yield (0, utils_1.getRemoteBranchHeadSha)({
+                        cwd: workingDirectory,
+                        branch: currentBranch
+                    }));
+            if (!previousSha ||
+                (previousSha &&
+                    (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
+                        0)) {
+                core.warning('Unable to locate the remote branch head sha. Falling back to the pull request base sha.');
                 previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
             }
         }
