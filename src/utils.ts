@@ -463,17 +463,15 @@ export const getAllChangedFiles = async ({
     return changedFiles
   }
 
-  stdout
-    .split('\n')
-    .filter(Boolean)
-    .forEach((line: string) => {
-      const [changeType, filePath] = line.split('\t')
-      const normalizedFilePath = isSubmodule
-        ? normalizePath(path.join(parentDir, filePath))
-        : normalizePath(filePath)
-      changedFiles[changeType as ChangeType].push(normalizedFilePath)
-    })
+  const lines = stdout.split('\n').filter(Boolean)
 
+  for (const line of lines) {
+    const [changeType, filePath] = line.split('\t')
+    const normalizedFilePath = isSubmodule
+      ? normalizePath(path.join(parentDir, filePath))
+      : normalizePath(filePath)
+    changedFiles[changeType as ChangeType].push(normalizedFilePath)
+  }
   return changedFiles
 }
 
