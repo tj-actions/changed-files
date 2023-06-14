@@ -499,24 +499,17 @@ export const getFilteredChangedFiles = async ({
   }
 
   for (const changeType of Object.keys(allDiffFiles)) {
-    for (const normalizedFilePath of allDiffFiles[
-      changeType as ChangeTypeEnum
-    ]) {
-      const hasFilePatterns = filePatterns.length > 0
+    const files = allDiffFiles[changeType as ChangeTypeEnum]
+    const hasFilePatterns = filePatterns.length > 0
 
-      if (hasFilePatterns) {
-        const isMatch = mm.isMatch(normalizedFilePath, filePatterns, {
-          dot: true,
-          windows: IS_WINDOWS,
-          noext: true
-        })
-
-        if (isMatch) {
-          changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
-        }
-      } else {
-        changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
-      }
+    if (hasFilePatterns) {
+      changedFiles[changeType as ChangeTypeEnum] = mm(files, filePatterns, {
+        dot: true,
+        windows: IS_WINDOWS,
+        noext: true
+      })
+    } else {
+      changedFiles[changeType as ChangeTypeEnum] = files
     }
   }
 
