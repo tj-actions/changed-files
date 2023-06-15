@@ -19,7 +19,7 @@
 
 ## changed-files
 
-Retrieve all changed files and directories relative to a target branch, preceeding commit or the last remote commit returning **relative paths** from the project root.
+Retrieve all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root.
 
 ## Table of contents
 
@@ -69,9 +69,9 @@ Retrieve all changed files and directories relative to a target branch, preceedi
 >
 > *   **IMPORTANT:** For `push` events when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) the `fetch-depth` should be set to either `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case.
 > *   For monorepos where pulling all the branch history might not be desired, you can omit [`actions/checkout`](https://github.com/actions/checkout#usage) - `fetch-depth` for `pull_request` events.
-> *   All multiline inputs should not use double or single quotes since the value is already a string seperated by a newline character. See [Examples](#examples) for more information.
+> *   All multiline inputs should not use double or single quotes since the value is already a string separated by a newline character. See [Examples](#examples) for more information.
 > *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) if `fetch-depth` isn't set to `0`.
-> *   For repositories that have PR's generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
+> *   For repositories that have PRs generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
 
 ```yaml
 name: CI
@@ -85,7 +85,7 @@ on:
       - main
 
 # ------------------------------------------------------------------------------------------------------------
-# Event `push`: Compare the preceeding commit -> to the current commit of the main branch.
+# Event `push`: Compare the preceding commit -> to the current commit of the main branch.
 # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
 # ------------------------------------------------------------------------------------------------------------
 
@@ -243,11 +243,11 @@ This GitHub Action follows the principles of [Semantic Versioning](https://semve
 
 The format of the version string is as follows:
 
-major: is a major release number that indicates significant changes or new features that may not be backward compatible.
+- major: indicates significant changes or new features that may not be backward compatible.
 
-minor: is a minor release number that indicates minor changes or new features that are backward compatible.
+- minor: indicates minor changes or new features that are backward compatible.
 
-patch : is a patch release number that indicates bug fixes or other small changes that are backward compatible.
+- patch: indicates bug fixes or other small changes that are backward compatible.
 
 ## Examples
 
