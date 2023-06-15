@@ -1600,9 +1600,9 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
         [changedFiles_1.ChangeTypeEnum.Unmerged]: [],
         [changedFiles_1.ChangeTypeEnum.Unknown]: []
     };
+    const hasFilePatterns = filePatterns.length > 0;
     for (const changeType of Object.keys(allDiffFiles)) {
         const files = allDiffFiles[changeType];
-        const hasFilePatterns = filePatterns.length > 0;
         if (hasFilePatterns) {
             changedFiles[changeType] = (0, micromatch_1.default)(files, filePatterns, {
                 dot: true,
