@@ -5,6 +5,9 @@ export type Inputs = {
   filesSeparator: string
   filesFromSourceFile: string
   filesFromSourceFileSeparator: string
+  filesYaml: string
+  filesYamlFromSourceFile: string
+  filesYamlFromSourceFileSeparator: string
   filesIgnore: string
   filesIgnoreSeparator: string
   filesIgnoreFromSourceFile: string
@@ -49,6 +52,17 @@ export const getInputs = (): Inputs => {
   })
   const filesFromSourceFileSeparator = core.getInput(
     'files_from_source_file_separator',
+    {
+      required: false,
+      trimWhitespace: false
+    }
+  )
+  const filesYaml = core.getInput('files_yaml', {required: false})
+  const filesYamlFromSourceFile = core.getInput('files_yaml_from_source_file', {
+    required: false
+  })
+  const filesYamlFromSourceFileSeparator = core.getInput(
+    'files_yaml_from_source_file_separator',
     {
       required: false,
       trimWhitespace: false
@@ -122,6 +136,9 @@ export const getInputs = (): Inputs => {
     filesSeparator,
     filesFromSourceFile,
     filesFromSourceFileSeparator,
+    filesYaml,
+    filesYamlFromSourceFile,
+    filesYamlFromSourceFileSeparator,
     filesIgnore,
     filesIgnoreSeparator,
     filesIgnoreFromSourceFile,

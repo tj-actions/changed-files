@@ -2,9 +2,12 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import {createReadStream, promises as fs} from 'fs'
+import {readFile} from 'fs/promises'
+import {flattenDeep} from 'lodash'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
+import {parse} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 
 import {Inputs} from './inputs'
@@ -157,7 +160,7 @@ const getFilesFromSourceFile = async ({
   filePaths: string[]
   excludedFiles?: boolean
 }): Promise<string[]> => {
-  const lines = []
+  const lines: string[] = []
   for (const filePath of filePaths) {
     for await (const line of lineOfFileGenerator({filePath, excludedFiles})) {
       lines.push(line)
@@ -808,15 +811,98 @@ export const getFilePatterns = async ({
       if (pattern.endsWith('/')) {
         return `${pattern}**`
       } else {
-        const pathParts = pattern.split('/')
+        const pathParts = pattern.split(path.sep)
         const lastPart = pathParts[pathParts.length - 1]
         if (!lastPart.includes('.')) {
-          return `${pattern}/**`
+          return `${pattern}${path.sep}**`
         } else {
           return pattern
         }
       }
     })
+}
+
+// Example YAML input:
+//  filesYaml: |
+//     frontend:
+//       - frontend/**
+//     backend:
+//       - backend/**
+//     test: test/**
+//     shared: &shared
+//       - common/**
+//     lib:
+//       - *shared
+//       - lib/**
+// Return an Object:
+// {
+//   frontend: ['frontend/**'],
+//   backend: ['backend/**'],
+//   test: ['test/**'],
+//   shared: ['common/**'],
+//   lib: ['common/**', 'lib/**']
+// }
+
+type YamlObject = {
+  [key: string]: string | string[] | [string[], string]
+}
+
+export const getYamlFilePatterns = async ({
+  inputs,
+  workingDirectory
+}: {
+  inputs: Inputs
+  workingDirectory: string
+}): Promise<Record<string, string[]>> => {
+  const filePatterns: Record<string, string[]> = {}
+  if (inputs.filesYaml) {
+    const yamlInput: YamlObject = parse(inputs.filesYaml)
+
+    for (const key in yamlInput) {
+      const value = yamlInput[key]
+      if (typeof value === 'string') {
+        filePatterns[key] = [value]
+      } else if (Array.isArray(value)) {
+        filePatterns[key] = flattenDeep(value)
+      }
+    }
+  }
+
+  if (inputs.filesYamlFromSourceFile) {
+    const inputFilesYamlFromSourceFile = inputs.filesYamlFromSourceFile
+      .split(inputs.filesYamlFromSourceFileSeparator)
+      .filter(p => p !== '')
+      .map(p => path.join(workingDirectory, p))
+
+    core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`)
+
+    for (const filePath of inputFilesYamlFromSourceFile) {
+      if (!(await exists(filePath))) {
+        core.error(`File does not exist: ${filePath}`)
+        throw new Error(`File does not exist: ${filePath}`)
+      }
+
+      const fileContent = await readFile(filePath, 'utf8')
+
+      try {
+        const yamlInput: YamlObject = parse(fileContent)
+
+        for (const key in yamlInput) {
+          const value = yamlInput[key]
+          if (typeof value === 'string') {
+            filePatterns[key] = [value]
+          } else if (Array.isArray(value)) {
+            filePatterns[key] = flattenDeep(value)
+          }
+        }
+      } catch (error) {
+        core.error(`File content is not valid YAML: ${filePath}`)
+        throw new Error(`File content is not valid YAML: ${filePath}`)
+      }
+    }
+  }
+
+  return filePatterns
 }
 
 export const setOutput = async ({
@@ -832,7 +918,7 @@ export const setOutput = async ({
   core.setOutput(key, cleanedValue)
 
   if (inputs.writeOutputFiles) {
-    const outputDir = inputs.outputDir || '.github/outputs'
+    const outputDir = inputs.outputDir
     const extension = inputs.json ? 'json' : 'txt'
     const outputFilePath = path.join(outputDir, `${key}.${extension}`)
 
