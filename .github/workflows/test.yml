@@ -67,7 +67,7 @@ jobs:
 
       - name: Run eslint on changed files
         uses: tj-actions/eslint-changed-files@v19
-        if: github.event_name != 'push'
+        if: github.event_name == 'pull_request'
         with:
           token: ${{ secrets.PAT_TOKEN }}
           config_path: ".eslintrc.json"
@@ -80,14 +80,14 @@ jobs:
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v15
         id: changed_files
-        if: github.event_name != 'push'
+        if: github.event_name == 'pull_request'
         with:
           files: |
             src
             dist
 
       - name: Commit files
-        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name != 'push'
+        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
