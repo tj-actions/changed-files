@@ -395,12 +395,12 @@ export const getSHAForPullRequestEvent = async (
 
       if (isShallow) {
         if (
-          await canDiffCommits({
+          !(await canDiffCommits({
             cwd: workingDirectory,
             sha1: previousSha,
             sha2: currentSha,
             diff
-          })
+          }))
         ) {
           core.debug(
             'Merge base is not in the local history, fetching remote target branch...'

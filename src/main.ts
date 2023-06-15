@@ -131,7 +131,7 @@ export async function run(): Promise<void> {
     workingDirectory
   })
 
-  core.debug(`Yaml file patterns: ${yamlFilePatterns}`)
+  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
   for (const key of Object.keys(yamlFilePatterns)) {
     await setChangedFilesOutput({
