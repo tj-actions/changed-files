@@ -243,11 +243,11 @@ This GitHub Action follows the principles of [Semantic Versioning](https://semve
 
 The format of the version string is as follows:
 
-- major: indicates significant changes or new features that may not be backward compatible.
+*   major: indicates significant changes or new features that may not be backward compatible.
 
-- minor: indicates minor changes or new features that are backward compatible.
+*   minor: indicates minor changes or new features that are backward compatible.
 
-- patch: indicates bug fixes or other small changes that are backward compatible.
+*   patch: indicates bug fixes or other small changes that are backward compatible.
 
 ## Examples
 
