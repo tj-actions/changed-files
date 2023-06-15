@@ -507,11 +507,10 @@ export const getFilteredChangedFiles = async ({
     [ChangeTypeEnum.Unmerged]: [],
     [ChangeTypeEnum.Unknown]: []
   }
+  const hasFilePatterns = filePatterns.length > 0
 
   for (const changeType of Object.keys(allDiffFiles)) {
     const files = allDiffFiles[changeType as ChangeTypeEnum]
-    const hasFilePatterns = filePatterns.length > 0
-
     if (hasFilePatterns) {
       changedFiles[changeType as ChangeTypeEnum] = mm(files, filePatterns, {
         dot: true,
