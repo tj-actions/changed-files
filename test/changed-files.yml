@@ -1,0 +1,12 @@
+test:
+  - test/**.txt
+src:
+  - src/*.ts
+  - !src/__tests__/**
+dist:
+  - dist/**
+shared: &shared
+  - .github/**
+common:
+  - *shared
+  - .gitignore
