@@ -798,12 +798,12 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
             }
             if (isShallow) {
-                if (yield (0, utils_1.canDiffCommits)({
+                if (!(yield (0, utils_1.canDiffCommits)({
                     cwd: workingDirectory,
                     sha1: previousSha,
                     sha2: currentSha,
                     diff
-                })) {
+                }))) {
                     core.debug('Merge base is not in the local history, fetching remote target branch...');
                     for (let i = 1; i <= 10; i++) {
                         yield (0, utils_1.gitFetch)({
@@ -1229,7 +1229,7 @@ function run() {
             inputs,
             workingDirectory
         });
-        core.debug(`Yaml file patterns: ${yamlFilePatterns}`);
+        core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         for (const key of Object.keys(yamlFilePatterns)) {
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
