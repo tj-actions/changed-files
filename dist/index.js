@@ -235,7 +235,7 @@ const utils_1 = __nccwpck_require__(918);
 const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
-const setChangedFilesOutput = ({ allDiffFiles, filePatterns, inputs, outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const setChangedFilesOutput = ({ allDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
         allDiffFiles,
         filePatterns
@@ -1224,38 +1224,52 @@ function run() {
             outputRenamedFilesAsDeletedAndAdded
         });
         core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
-        const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
-            inputs,
-            workingDirectory
-        });
-        core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+        core.info('All Done!');
+        core.endGroup();
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs,
             workingDirectory
         });
         core.debug(`File patterns: ${filePatterns}`);
-        if (Object.keys(yamlFilePatterns).length === 0 || filePatterns.length > 0) {
+        if (filePatterns.length > 0) {
+            core.startGroup('changed-files-patterns');
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
                 filePatterns,
                 inputs
             });
+            core.info('All Done!');
+            core.endGroup();
         }
-        core.info('All Done!');
-        core.endGroup();
-        for (const key of Object.keys(yamlFilePatterns)) {
-            core.startGroup(`changed-${key}-files`);
+        const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
+            inputs,
+            workingDirectory
+        });
+        core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+        if (Object.keys(yamlFilePatterns).length > 0) {
+            for (const key of Object.keys(yamlFilePatterns)) {
+                core.startGroup(`changed-files-yaml-${key}`);
+                yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+                    allDiffFiles,
+                    filePatterns: yamlFilePatterns[key],
+                    inputs,
+                    outputPrefix: key
+                });
+                core.info('All Done!');
+                core.endGroup();
+            }
+        }
+        if (!filePatterns.length && !yamlFilePatterns.length) {
+            core.startGroup('changed-files-all');
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
-                filePatterns: yamlFilePatterns[key],
-                inputs,
-                outputPrefix: key
+                inputs
             });
             core.info('All Done!');
             core.endGroup();
         }
         if (inputs.includeAllOldNewRenamedFiles) {
-            core.startGroup('changed-renamed-files');
+            core.startGroup('changed-files-all-old-new-renamed-files');
             const allOldNewRenamedFiles = yield (0, changedFiles_1.getRenamedFiles)({
                 inputs,
                 workingDirectory,
