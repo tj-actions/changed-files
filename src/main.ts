@@ -134,15 +134,18 @@ export async function run(): Promise<void> {
   core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
   for (const key of Object.keys(yamlFilePatterns)) {
+    core.debug(`Retrieving changed-${key}-files...`)
     await setChangedFilesOutput({
       allDiffFiles,
       filePatterns: yamlFilePatterns[key],
       inputs,
       outputPrefix: key
     })
+    core.debug(`Retrieved changed-${key}-files`)
   }
 
   if (inputs.includeAllOldNewRenamedFiles) {
+    core.debug('Retrieving all old new renamed files...')
     const allOldNewRenamedFiles = await getRenamedFiles({
       inputs,
       workingDirectory,
@@ -156,6 +159,7 @@ export async function run(): Promise<void> {
       value: allOldNewRenamedFiles,
       inputs
     })
+    core.debug('Retrieved all old new renamed files')
   }
 
   core.info('All Done!')

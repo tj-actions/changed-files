@@ -847,6 +847,32 @@ type YamlObject = {
   [key: string]: string | string[] | [string[], string]
 }
 
+const getYamlFilePatternsFromContents = ({
+  content
+}: {
+  content: string
+}): Record<string, string[]> => {
+  const filePatterns: Record<string, string[]> = {}
+  const yamlObject: YamlObject = parse(content, {merge: true})
+
+  for (const key in yamlObject) {
+    let value = yamlObject[key]
+    if (typeof value === 'string') {
+      value = value.trim()
+
+      if (value) {
+        filePatterns[key] = [value]
+      }
+    } else if (Array.isArray(value)) {
+      filePatterns[key] = flattenDeep(value)
+        .map(v => v.trim())
+        .filter(v => v !== '')
+    }
+  }
+
+  return filePatterns
+}
+
 export const getYamlFilePatterns = async ({
   inputs,
   workingDirectory
@@ -854,17 +880,12 @@ export const getYamlFilePatterns = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<Record<string, string[]>> => {
-  const filePatterns: Record<string, string[]> = {}
+  let filePatterns: Record<string, string[]> = {}
   if (inputs.filesYaml) {
-    const yamlInput: YamlObject = parse(inputs.filesYaml)
-
-    for (const key in yamlInput) {
-      const value = yamlInput[key]
-      if (typeof value === 'string') {
-        filePatterns[key] = [value]
-      } else if (Array.isArray(value)) {
-        filePatterns[key] = flattenDeep(value)
-      }
+    filePatterns = {
+      ...getYamlFilePatternsFromContents({
+        content: inputs.filesYaml
+      })
     }
   }
 
@@ -884,20 +905,10 @@ export const getYamlFilePatterns = async ({
 
       const fileContent = await readFile(filePath, 'utf8')
 
-      try {
-        const yamlInput: YamlObject = parse(fileContent)
-
-        for (const key in yamlInput) {
-          const value = yamlInput[key]
-          if (typeof value === 'string') {
-            filePatterns[key] = [value]
-          } else if (Array.isArray(value)) {
-            filePatterns[key] = flattenDeep(value)
-          }
-        }
-      } catch (error) {
-        core.error(`File content is not valid YAML: ${filePath}`)
-        throw new Error(`File content is not valid YAML: ${filePath}`)
+      filePatterns = {
+        ...getYamlFilePatternsFromContents({
+          content: fileContent
+        })
       }
     }
   }
