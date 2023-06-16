@@ -125,27 +125,33 @@ export async function run(): Promise<void> {
     filePatterns,
     inputs
   })
+  core.info('All Done!')
+  core.endGroup()
 
+  core.startGroup('changed-yaml-files')
   const yamlFilePatterns = await getYamlFilePatterns({
     inputs,
     workingDirectory
   })
 
   core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+  core.info('All Done!')
+  core.endGroup()
 
   for (const key of Object.keys(yamlFilePatterns)) {
-    core.debug(`Retrieving changed-${key}-files...`)
+    core.startGroup(`changed-${key}-files`)
     await setChangedFilesOutput({
       allDiffFiles,
       filePatterns: yamlFilePatterns[key],
       inputs,
       outputPrefix: key
     })
-    core.debug(`Retrieved changed-${key}-files`)
+    core.info('All Done!')
+    core.endGroup()
   }
 
   if (inputs.includeAllOldNewRenamedFiles) {
-    core.debug('Retrieving all old new renamed files...')
+    core.startGroup('changed-renamed-files')
     const allOldNewRenamedFiles = await getRenamedFiles({
       inputs,
       workingDirectory,
@@ -159,12 +165,9 @@ export async function run(): Promise<void> {
       value: allOldNewRenamedFiles,
       inputs
     })
-    core.debug('Retrieved all old new renamed files')
+    core.info('All Done!')
+    core.endGroup()
   }
-
-  core.info('All Done!')
-
-  core.endGroup()
 }
 
 /* istanbul ignore if */
