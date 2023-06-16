@@ -83,7 +83,7 @@ export async function run(): Promise<void> {
     )
   } else {
     core.info(
-      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} event...`
+      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} (${env.GITHUB_EVENT_ACTION}) event...`
     )
     diffResult = await getSHAForPullRequestEvent(
       inputs,
