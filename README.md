@@ -63,7 +63,7 @@ Retrieve all changed files and directories relative to a target branch, precedin
         *   Globstar.
         *   Brace expansion.
         *   Negation.
-    *   Using [YAML](https://yaml.org/) syntax for specifying the patterns for files and directories.
+    *   Using [YAML](https://yaml.org/) syntax for specifying the patterns.
         *   Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
         *   Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
 
