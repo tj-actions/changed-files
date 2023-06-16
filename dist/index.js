@@ -1215,24 +1215,23 @@ function run() {
             outputRenamedFilesAsDeletedAndAdded
         });
         core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
-        const filePatterns = yield (0, utils_1.getFilePatterns)({
-            inputs,
-            workingDirectory
-        });
-        core.debug(`File patterns: ${filePatterns}`);
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
-            filePatterns,
-            inputs
-        });
-        core.info('All Done!');
-        core.endGroup();
-        core.startGroup('changed-yaml-files');
         const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
             inputs,
             workingDirectory
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+        const filePatterns = yield (0, utils_1.getFilePatterns)({
+            inputs,
+            workingDirectory
+        });
+        core.debug(`File patterns: ${filePatterns}`);
+        if (Object.keys(yamlFilePatterns).length === 0 || filePatterns.length > 0) {
+            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+                allDiffFiles,
+                filePatterns,
+                inputs
+            });
+        }
         core.info('All Done!');
         core.endGroup();
         for (const key of Object.keys(yamlFilePatterns)) {
@@ -1898,7 +1897,7 @@ const getYamlFilePatternsFromContents = ({ content = '', filePath = '' }) => __a
     else {
         source = content;
     }
-    const doc = (0, yaml_1.parseDocument)(source, { merge: true });
+    const doc = (0, yaml_1.parseDocument)(source, { merge: true, schema: 'failsafe' });
     if (doc.errors.length > 0) {
         if (filePath) {
             core.warning(`YAML errors in ${filePath}: ${doc.errors}`);
