@@ -153,7 +153,7 @@ export async function run(): Promise<void> {
     }
   }
 
-  if (!filePatterns.length && !yamlFilePatterns.length) {
+  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
     core.startGroup('changed-files-all')
     await setChangedFilesOutput({
       allDiffFiles,
