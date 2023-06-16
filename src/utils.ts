@@ -892,6 +892,11 @@ const getYamlFilePatternsFromContents = async ({
 
   for (const key in yamlObject) {
     let value = yamlObject[key]
+
+    if (typeof value === 'string' && value.includes('\n')) {
+      value = value.split('\n')
+    }
+
     if (typeof value === 'string') {
       value = value.trim()
 
