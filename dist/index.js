@@ -1021,6 +1021,12 @@ const getInputs = () => {
         required: false,
         trimWhitespace: false
     });
+    const filesIgnoreYaml = core.getInput('files_ignore_yaml', { required: false });
+    const filesIgnoreYamlFromSourceFile = core.getInput('files_ignore_yaml_from_source_file', { required: false });
+    const filesIgnoreYamlFromSourceFileSeparator = core.getInput('files_ignore_yaml_from_source_file_separator', {
+        required: false,
+        trimWhitespace: false
+    });
     const separator = core.getInput('separator', {
         required: true,
         trimWhitespace: false
@@ -1072,6 +1078,9 @@ const getInputs = () => {
         filesIgnoreSeparator,
         filesIgnoreFromSourceFile,
         filesIgnoreFromSourceFileSeparator,
+        filesIgnoreYaml,
+        filesIgnoreYamlFromSourceFile,
+        filesIgnoreYamlFromSourceFileSeparator,
         separator,
         includeAllOldNewRenamedFiles,
         oldNewSeparator,
@@ -1884,7 +1893,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     });
 });
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatternsFromContents = ({ content = '', filePath = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
     const filePatterns = {};
     let source = '';
     if (filePath) {
@@ -1920,13 +1929,20 @@ const getYamlFilePatternsFromContents = ({ content = '', filePath = '' }) => __a
         if (typeof value === 'string') {
             value = value.trim();
             if (value) {
-                filePatterns[key] = [value];
+                filePatterns[key] = [
+                    excludedFiles && !value.startsWith('!') ? `!${value}` : value
+                ];
             }
         }
         else if (Array.isArray(value)) {
             filePatterns[key] = (0, lodash_1.flattenDeep)(value)
-                .map(v => v.trim())
-                .filter(v => v !== '');
+                .filter(v => v.trim() !== '')
+                .map(v => {
+                if (excludedFiles && !v.startsWith('!')) {
+                    v = `!${v}`;
+                }
+                return v;
+            });
         }
     }
     return filePatterns;
@@ -1943,7 +1959,43 @@ const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, 
             .map(p => path.join(workingDirectory, p));
         core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`);
         for (const filePath of inputFilesYamlFromSourceFile) {
-            filePatterns = Object.assign({}, (yield getYamlFilePatternsFromContents({ filePath })));
+            const newFilePatterns = yield getYamlFilePatternsFromContents({ filePath });
+            for (const key in newFilePatterns) {
+                if (key in filePatterns) {
+                    core.warning(`files_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newFilePatterns[key]}.`);
+                }
+            }
+            filePatterns = Object.assign(Object.assign({}, filePatterns), newFilePatterns);
+        }
+    }
+    if (inputs.filesIgnoreYaml) {
+        const newIgnoreFilePatterns = yield getYamlFilePatternsFromContents({
+            content: inputs.filesIgnoreYaml,
+            excludedFiles: true
+        });
+        for (const key in newIgnoreFilePatterns) {
+            if (key in filePatterns) {
+                core.warning(`files_ignore_yaml: Duplicated key ${key} detected, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`);
+            }
+        }
+    }
+    if (inputs.filesIgnoreYamlFromSourceFile) {
+        const inputFilesIgnoreYamlFromSourceFile = inputs.filesIgnoreYamlFromSourceFile
+            .split(inputs.filesIgnoreYamlFromSourceFileSeparator)
+            .filter(p => p !== '')
+            .map(p => path.join(workingDirectory, p));
+        core.debug(`files ignore yaml from source file: ${inputFilesIgnoreYamlFromSourceFile}`);
+        for (const filePath of inputFilesIgnoreYamlFromSourceFile) {
+            const newIgnoreFilePatterns = yield getYamlFilePatternsFromContents({
+                filePath,
+                excludedFiles: true
+            });
+            for (const key in newIgnoreFilePatterns) {
+                if (key in filePatterns) {
+                    core.warning(`files_ignore_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`);
+                }
+            }
+            filePatterns = Object.assign(Object.assign({}, filePatterns), newIgnoreFilePatterns);
         }
     }
     return filePatterns;
