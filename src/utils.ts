@@ -848,8 +848,8 @@ type YamlObject = {
 }
 
 const getYamlFilePatternsFromContents = async ({
-  content,
-  filePath
+  content = '',
+  filePath = ''
 }: {
   content?: string
   filePath?: string
@@ -865,7 +865,7 @@ const getYamlFilePatternsFromContents = async ({
 
     source = await readFile(filePath, 'utf8')
   } else {
-    source = content!
+    source = content
   }
 
   const doc = parseDocument(source, {merge: true})
