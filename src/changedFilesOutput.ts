@@ -14,12 +14,12 @@ const getOutputKey = (key: string, outputPrefix: string): string => {
 
 export const setChangedFilesOutput = async ({
   allDiffFiles,
-  filePatterns,
   inputs,
+  filePatterns = [],
   outputPrefix = ''
 }: {
   allDiffFiles: ChangedFiles
-  filePatterns: string[]
+  filePatterns?: string[]
   inputs: Inputs
   outputPrefix?: string
 }): Promise<void> => {

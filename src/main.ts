@@ -113,12 +113,8 @@ export async function run(): Promise<void> {
     outputRenamedFilesAsDeletedAndAdded
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
-
-  const yamlFilePatterns = await getYamlFilePatterns({
-    inputs,
-    workingDirectory
-  })
-  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+  core.info('All Done!')
+  core.endGroup()
 
   const filePatterns = await getFilePatterns({
     inputs,
@@ -126,30 +122,49 @@ export async function run(): Promise<void> {
   })
   core.debug(`File patterns: ${filePatterns}`)
 
-  if (Object.keys(yamlFilePatterns).length === 0 || filePatterns.length > 0) {
+  if (filePatterns.length > 0) {
+    core.startGroup('changed-files-patterns')
     await setChangedFilesOutput({
       allDiffFiles,
       filePatterns,
       inputs
     })
+    core.info('All Done!')
+    core.endGroup()
   }
-  core.info('All Done!')
-  core.endGroup()
 
-  for (const key of Object.keys(yamlFilePatterns)) {
-    core.startGroup(`changed-${key}-files`)
+  const yamlFilePatterns = await getYamlFilePatterns({
+    inputs,
+    workingDirectory
+  })
+  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+
+  if (Object.keys(yamlFilePatterns).length > 0) {
+    for (const key of Object.keys(yamlFilePatterns)) {
+      core.startGroup(`changed-files-yaml-${key}`)
+      await setChangedFilesOutput({
+        allDiffFiles,
+        filePatterns: yamlFilePatterns[key],
+        inputs,
+        outputPrefix: key
+      })
+      core.info('All Done!')
+      core.endGroup()
+    }
+  }
+
+  if (!filePatterns.length && !yamlFilePatterns.length) {
+    core.startGroup('changed-files-all')
     await setChangedFilesOutput({
       allDiffFiles,
-      filePatterns: yamlFilePatterns[key],
-      inputs,
-      outputPrefix: key
+      inputs
     })
     core.info('All Done!')
     core.endGroup()
   }
 
   if (inputs.includeAllOldNewRenamedFiles) {
-    core.startGroup('changed-renamed-files')
+    core.startGroup('changed-files-all-old-new-renamed-files')
     const allOldNewRenamedFiles = await getRenamedFiles({
       inputs,
       workingDirectory,
