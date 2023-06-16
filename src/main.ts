@@ -114,27 +114,25 @@ export async function run(): Promise<void> {
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
 
+  const yamlFilePatterns = await getYamlFilePatterns({
+    inputs,
+    workingDirectory
+  })
+  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+
   const filePatterns = await getFilePatterns({
     inputs,
     workingDirectory
   })
   core.debug(`File patterns: ${filePatterns}`)
 
-  await setChangedFilesOutput({
-    allDiffFiles,
-    filePatterns,
-    inputs
-  })
-  core.info('All Done!')
-  core.endGroup()
-
-  core.startGroup('changed-yaml-files')
-  const yamlFilePatterns = await getYamlFilePatterns({
-    inputs,
-    workingDirectory
-  })
-
-  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+  if (Object.keys(yamlFilePatterns).length === 0) {
+    await setChangedFilesOutput({
+      allDiffFiles,
+      filePatterns,
+      inputs
+    })
+  }
   core.info('All Done!')
   core.endGroup()
 
