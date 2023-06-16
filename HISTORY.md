@@ -1,5 +1,34 @@
 # Changelog
 
+# [36.3.0](https://github.com/tj-actions/changed-files/compare/v36.2.1...v36.3.0) - (2023-06-16)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for complex filters ([#1265](https://github.com/tj-actions/changed-files/issues/1265)) ([c25c77a](https://github.com/tj-actions/changed-files/commit/c25c77a67a4da177bd7550612cacb74714d054f6))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1266](https://github.com/tj-actions/changed-files/issues/1266))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([9bf0914](https://github.com/tj-actions/changed-files/commit/9bf09145c3560e451e8d8e87b42ccb3fef5b692d))  - (tj-actions[bot])
+- Updated README.md ([#1264](https://github.com/tj-actions/changed-files/issues/1264))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: GitHub Action <action@github.com> ([d144c0c](https://github.com/tj-actions/changed-files/commit/d144c0c92d678494b332227c803cea83b4f7bdee))  - (tj-actions[bot])
+- Update README.md ([341b80d](https://github.com/tj-actions/changed-files/commit/341b80da8b4d69e7a389dc6f2df8c8ee41ea5736))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update test.yml ([ea90b5c](https://github.com/tj-actions/changed-files/commit/ea90b5ced9a0c8d0d18077656d2ecada2bb67ff3))  - (Tonye Jack)
+- Move check out of loop ([6cf9c82](https://github.com/tj-actions/changed-files/commit/6cf9c8246e3225cbcdc00d6c86ba6d6a05b2e231))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1263](https://github.com/tj-actions/changed-files/issues/1263)) ([9559461](https://github.com/tj-actions/changed-files/commit/955946132d0133d584404b86a03462e591ff30b3))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.2.1 ([#1262](https://github.com/tj-actions/changed-files/issues/1262))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([1f2cb3b](https://github.com/tj-actions/changed-files/commit/1f2cb3b00f32f8700ede1b03398337e39a64d448))  - (tj-actions[bot])
+
 # [36.2.1](https://github.com/tj-actions/changed-files/compare/v36.2.0...v36.2.1) - (2023-06-14)
 
 ## <!-- 0 -->🚀 Features
