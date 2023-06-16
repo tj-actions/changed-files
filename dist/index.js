@@ -1259,7 +1259,7 @@ function run() {
                 core.endGroup();
             }
         }
-        if (!filePatterns.length && !yamlFilePatterns.length) {
+        if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
             core.startGroup('changed-files-all');
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
