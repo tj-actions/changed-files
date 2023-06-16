@@ -12,6 +12,9 @@ export type Inputs = {
   filesIgnoreSeparator: string
   filesIgnoreFromSourceFile: string
   filesIgnoreFromSourceFileSeparator: string
+  filesIgnoreYaml: string
+  filesIgnoreYamlFromSourceFile: string
+  filesIgnoreYamlFromSourceFileSeparator: string
   separator: string
   includeAllOldNewRenamedFiles: boolean
   oldNewSeparator: string
@@ -74,6 +77,18 @@ export const getInputs = (): Inputs => {
   )
   const filesIgnoreFromSourceFileSeparator = core.getInput(
     'files_ignore_from_source_file_separator',
+    {
+      required: false,
+      trimWhitespace: false
+    }
+  )
+  const filesIgnoreYaml = core.getInput('files_ignore_yaml', {required: false})
+  const filesIgnoreYamlFromSourceFile = core.getInput(
+    'files_ignore_yaml_from_source_file',
+    {required: false}
+  )
+  const filesIgnoreYamlFromSourceFileSeparator = core.getInput(
+    'files_ignore_yaml_from_source_file_separator',
     {
       required: false,
       trimWhitespace: false
@@ -143,6 +158,9 @@ export const getInputs = (): Inputs => {
     filesIgnoreSeparator,
     filesIgnoreFromSourceFile,
     filesIgnoreFromSourceFileSeparator,
+    filesIgnoreYaml,
+    filesIgnoreYamlFromSourceFile,
+    filesIgnoreYamlFromSourceFileSeparator,
     separator,
     includeAllOldNewRenamedFiles,
     oldNewSeparator,

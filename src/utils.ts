@@ -849,10 +849,12 @@ type YamlObject = {
 
 const getYamlFilePatternsFromContents = async ({
   content = '',
-  filePath = ''
+  filePath = '',
+  excludedFiles = false
 }: {
   content?: string
   filePath?: string
+  excludedFiles?: boolean
 }): Promise<Record<string, string[]>> => {
   const filePatterns: Record<string, string[]> = {}
   let source = ''
@@ -894,12 +896,19 @@ const getYamlFilePatternsFromContents = async ({
       value = value.trim()
 
       if (value) {
-        filePatterns[key] = [value]
+        filePatterns[key] = [
+          excludedFiles && !value.startsWith('!') ? `!${value}` : value
+        ]
       }
     } else if (Array.isArray(value)) {
       filePatterns[key] = flattenDeep(value)
-        .map(v => v.trim())
-        .filter(v => v !== '')
+        .filter(v => v.trim() !== '')
+        .map(v => {
+          if (excludedFiles && !v.startsWith('!')) {
+            v = `!${v}`
+          }
+          return v
+        })
     }
   }
 
@@ -929,8 +938,65 @@ export const getYamlFilePatterns = async ({
     core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`)
 
     for (const filePath of inputFilesYamlFromSourceFile) {
+      const newFilePatterns = await getYamlFilePatternsFromContents({filePath})
+      for (const key in newFilePatterns) {
+        if (key in filePatterns) {
+          core.warning(
+            `files_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newFilePatterns[key]}.`
+          )
+        }
+      }
+
       filePatterns = {
-        ...(await getYamlFilePatternsFromContents({filePath}))
+        ...filePatterns,
+        ...newFilePatterns
+      }
+    }
+  }
+
+  if (inputs.filesIgnoreYaml) {
+    const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
+      content: inputs.filesIgnoreYaml,
+      excludedFiles: true
+    })
+
+    for (const key in newIgnoreFilePatterns) {
+      if (key in filePatterns) {
+        core.warning(
+          `files_ignore_yaml: Duplicated key ${key} detected, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`
+        )
+      }
+    }
+  }
+
+  if (inputs.filesIgnoreYamlFromSourceFile) {
+    const inputFilesIgnoreYamlFromSourceFile =
+      inputs.filesIgnoreYamlFromSourceFile
+        .split(inputs.filesIgnoreYamlFromSourceFileSeparator)
+        .filter(p => p !== '')
+        .map(p => path.join(workingDirectory, p))
+
+    core.debug(
+      `files ignore yaml from source file: ${inputFilesIgnoreYamlFromSourceFile}`
+    )
+
+    for (const filePath of inputFilesIgnoreYamlFromSourceFile) {
+      const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
+        filePath,
+        excludedFiles: true
+      })
+
+      for (const key in newIgnoreFilePatterns) {
+        if (key in filePatterns) {
+          core.warning(
+            `files_ignore_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`
+          )
+        }
+      }
+
+      filePatterns = {
+        ...filePatterns,
+        ...newIgnoreFilePatterns
       }
     }
   }

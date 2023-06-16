@@ -36,15 +36,27 @@ inputs:
     default: "\n"
     required: false
   files_yaml:
-    description: "YAML used to define custom file patterns to detect changes using only these list of file(s)"
+    description: "YAML used to define set of file patterns to detect changes"
     required: false
     default: ""
   files_yaml_from_source_file:
-    description: "Source file(s) used to populate the `files_yaml` input"
+    description: "Source file(s) used to populate the `files_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)"
     required: false
     default: ""
   files_yaml_from_source_file_separator:
     description: 'Separator used to split the `files_yaml_from_source_file` input'
+    default: "\n"
+    required: false
+  files_ignore_yaml:
+    description: "YAML used to define set of file patterns to ignore changes"
+    required: false
+    default: ""
+  files_ignore_yaml_from_source_file:
+    description: "Source file(s) used to populate the `files_ignore_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)"
+    required: false
+    default: ""
+  files_ignore_yaml_from_source_file_separator:
+    description: 'Separator used to split the `files_ignore_yaml_from_source_file` input'
     default: "\n"
     required: false
   files_ignore:
