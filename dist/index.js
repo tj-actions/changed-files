@@ -1880,7 +1880,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     });
 });
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatternsFromContents = ({ content, filePath }) => __awaiter(void 0, void 0, void 0, function* () {
+const getYamlFilePatternsFromContents = ({ content = '', filePath = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const filePatterns = {};
     let source = '';
     if (filePath) {
