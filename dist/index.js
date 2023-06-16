@@ -1225,23 +1225,29 @@ function run() {
             filePatterns,
             inputs
         });
+        core.info('All Done!');
+        core.endGroup();
+        core.startGroup('changed-yaml-files');
         const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
             inputs,
             workingDirectory
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+        core.info('All Done!');
+        core.endGroup();
         for (const key of Object.keys(yamlFilePatterns)) {
-            core.debug(`Retrieving changed-${key}-files...`);
+            core.startGroup(`changed-${key}-files`);
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
                 filePatterns: yamlFilePatterns[key],
                 inputs,
                 outputPrefix: key
             });
-            core.debug(`Retrieved changed-${key}-files`);
+            core.info('All Done!');
+            core.endGroup();
         }
         if (inputs.includeAllOldNewRenamedFiles) {
-            core.debug('Retrieving all old new renamed files...');
+            core.startGroup('changed-renamed-files');
             const allOldNewRenamedFiles = yield (0, changedFiles_1.getRenamedFiles)({
                 inputs,
                 workingDirectory,
@@ -1255,10 +1261,9 @@ function run() {
                 value: allOldNewRenamedFiles,
                 inputs
             });
-            core.debug('Retrieved all old new renamed files');
+            core.info('All Done!');
+            core.endGroup();
         }
-        core.info('All Done!');
-        core.endGroup();
     });
 }
 exports.run = run;
