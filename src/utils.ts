@@ -1032,3 +1032,68 @@ export const setOutput = async ({
     await fs.writeFile(outputFilePath, cleanedValue.replace(/\\"/g, '"'))
   }
 }
+
+const getDeletedFileContents = async ({
+  cwd,
+  filePath,
+  sha
+}: {
+  cwd: string
+  filePath: string
+  sha: string
+}): Promise<string> => {
+  const {stdout, exitCode, stderr} = await exec.getExecOutput(
+    'git',
+    ['show', `${sha}:${filePath}`],
+    {
+      cwd,
+      silent: process.env.RUNNER_DEBUG !== '1',
+      ignoreReturnCode: true
+    }
+  )
+
+  if (exitCode !== 0) {
+    throw new Error(
+      `Error getting file content from git history "${filePath}": ${stderr}`
+    )
+  }
+
+  return stdout
+}
+
+export const recoverDeletedFiles = async ({
+  inputs,
+  workingDirectory,
+  deletedFiles,
+  sha
+}: {
+  inputs: Inputs
+  workingDirectory: string
+  deletedFiles: string[]
+  sha: string
+}): Promise<void> => {
+  if (inputs.recoverDeletedFiles) {
+    for (const deletedFile of deletedFiles) {
+      let target = path.join(workingDirectory, deletedFile)
+
+      if (inputs.recoverDeletedFilesToDestination) {
+        target = path.join(
+          workingDirectory,
+          inputs.recoverDeletedFilesToDestination,
+          deletedFile
+        )
+      }
+
+      const deletedFileContents = await getDeletedFileContents({
+        cwd: workingDirectory,
+        filePath: deletedFile,
+        sha
+      })
+
+      if (!(await exists(path.dirname(target)))) {
+        await fs.mkdir(path.dirname(target), {recursive: true})
+      }
+      await fs.writeFile(target, deletedFileContents)
+    }
+  }
+}
