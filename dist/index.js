@@ -1264,7 +1264,6 @@ function run() {
 exports.run = run;
 /* istanbul ignore if */
 if (!process.env.TESTING) {
-    process.on('warning', e => core.warning(e.stack || e));
     // eslint-disable-next-line github/no-then
     run().catch(e => {
         core.setFailed(e.message || e);
@@ -1881,9 +1880,37 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     });
 });
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatternsFromContents = ({ content }) => {
+const getYamlFilePatternsFromContents = ({ content, filePath }) => __awaiter(void 0, void 0, void 0, function* () {
     const filePatterns = {};
-    const yamlObject = (0, yaml_1.parse)(content, { merge: true });
+    let source = '';
+    if (filePath) {
+        if (!(yield exists(filePath))) {
+            core.error(`File does not exist: ${filePath}`);
+            throw new Error(`File does not exist: ${filePath}`);
+        }
+        source = yield (0, promises_1.readFile)(filePath, 'utf8');
+    }
+    else {
+        source = content;
+    }
+    const doc = (0, yaml_1.parseDocument)(source, { merge: true });
+    if (doc.errors.length > 0) {
+        if (filePath) {
+            core.warning(`YAML errors in ${filePath}: ${doc.errors}`);
+        }
+        else {
+            core.warning(`YAML errors: ${doc.errors}`);
+        }
+    }
+    if (doc.warnings.length > 0) {
+        if (filePath) {
+            core.warning(`YAML warnings in ${filePath}: ${doc.warnings}`);
+        }
+        else {
+            core.warning(`YAML warnings: ${doc.warnings}`);
+        }
+    }
+    const yamlObject = doc.toJS();
     for (const key in yamlObject) {
         let value = yamlObject[key];
         if (typeof value === 'string') {
@@ -1899,13 +1926,11 @@ const getYamlFilePatternsFromContents = ({ content }) => {
         }
     }
     return filePatterns;
-};
+});
 const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     let filePatterns = {};
     if (inputs.filesYaml) {
-        filePatterns = Object.assign({}, getYamlFilePatternsFromContents({
-            content: inputs.filesYaml
-        }));
+        filePatterns = Object.assign({}, (yield getYamlFilePatternsFromContents({ content: inputs.filesYaml })));
     }
     if (inputs.filesYamlFromSourceFile) {
         const inputFilesYamlFromSourceFile = inputs.filesYamlFromSourceFile
@@ -1914,14 +1939,7 @@ const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, 
             .map(p => path.join(workingDirectory, p));
         core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`);
         for (const filePath of inputFilesYamlFromSourceFile) {
-            if (!(yield exists(filePath))) {
-                core.error(`File does not exist: ${filePath}`);
-                throw new Error(`File does not exist: ${filePath}`);
-            }
-            const fileContent = yield (0, promises_1.readFile)(filePath, 'utf8');
-            filePatterns = Object.assign({}, getYamlFilePatternsFromContents({
-                content: fileContent
-            }));
+            filePatterns = Object.assign({}, (yield getYamlFilePatternsFromContents({ filePath })));
         }
     }
     return filePatterns;
