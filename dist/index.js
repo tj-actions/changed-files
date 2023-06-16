@@ -785,8 +785,14 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 (previousSha &&
                     (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
                         0)) {
-                core.warning('Unable to locate the remote branch head sha. Falling back to the pull request base sha.');
-                previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+                core.warning('Unable to locate the remote branch head sha. Falling back to the previous commit in the local history.');
+                previousSha = yield (0, utils_1.getParentSha)({
+                    cwd: workingDirectory
+                });
+                if (!previousSha) {
+                    core.warning('Unable to locate the previous commit in the local history. Falling back to the pull request base sha.');
+                    previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+                }
             }
         }
         else {
@@ -948,6 +954,7 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_k = (_j = eventJson.pull_request) === null || _j === void 0 ? void 0 : _j.base) === null || _k === void 0 ? void 0 : _k.sha) || '',
         GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ((_m = (_l = eventJson.pull_request) === null || _l === void 0 ? void 0 : _l.head) === null || _m === void 0 ? void 0 : _m.sha) || '',
         GITHUB_EVENT_FORCED: eventJson.forced || '',
+        GITHUB_EVENT_ACTION: eventJson.action || '',
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
         GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
@@ -1207,7 +1214,7 @@ function run() {
             diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag);
         }
         else {
-            core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} event...`);
+            core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} (${env.GITHUB_EVENT_ACTION}) event...`);
             diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs);
         }
         if (diffResult.initialCommit) {
