@@ -1,12 +1,7 @@
 import * as core from '@actions/core'
 import path from 'path'
-import {
-  getAllChangeTypeFiles,
-  getAllDiffFiles,
-  getChangeTypeFiles,
-  getRenamedFiles,
-  ChangeTypeEnum
-} from './changedFiles'
+import {getAllDiffFiles, getRenamedFiles} from './changedFiles'
+import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
   getSHAForPullRequestEvent,
@@ -16,8 +11,8 @@ import {getEnv} from './env'
 import {getInputs} from './inputs'
 import {
   getFilePatterns,
-  getFilteredChangedFiles,
   getSubmodulePath,
+  getYamlFilePatterns,
   isRepoShallow,
   setOutput,
   submoduleExists,
@@ -88,7 +83,9 @@ export async function run(): Promise<void> {
     )
   } else {
     core.info(
-      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} event...`
+      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} (${
+        env.GITHUB_EVENT_ACTION
+      }) event...`
     )
     diffResult = await getSHAForPullRequestEvent(
       inputs,
@@ -110,12 +107,6 @@ export async function run(): Promise<void> {
     `Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`
   )
 
-  const filePatterns = await getFilePatterns({
-    inputs,
-    workingDirectory
-  })
-  core.debug(`File patterns: ${filePatterns}`)
-
   const allDiffFiles = await getAllDiffFiles({
     workingDirectory,
     hasSubmodule,
@@ -124,275 +115,58 @@ export async function run(): Promise<void> {
     outputRenamedFilesAsDeletedAndAdded
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
+  core.info('All Done!')
+  core.endGroup()
 
-  const allFilteredDiffFiles = await getFilteredChangedFiles({
-    allDiffFiles,
-    filePatterns
-  })
-  core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`)
-
-  const addedFiles = await getChangeTypeFiles({
+  const filePatterns = await getFilePatterns({
     inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Added]
+    workingDirectory
   })
-  core.debug(`Added files: ${addedFiles}`)
-  await setOutput({
-    key: 'added_files',
-    value: addedFiles,
-    inputs
-  })
+  core.debug(`File patterns: ${filePatterns}`)
 
-  const copiedFiles = await getChangeTypeFiles({
+  if (filePatterns.length > 0) {
+    core.startGroup('changed-files-patterns')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      filePatterns,
+      inputs
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+
+  const yamlFilePatterns = await getYamlFilePatterns({
     inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Copied]
+    workingDirectory
   })
-  core.debug(`Copied files: ${copiedFiles}`)
-  await setOutput({
-    key: 'copied_files',
-    value: copiedFiles,
-    inputs
-  })
+  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
-  const modifiedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Modified]
-  })
-  core.debug(`Modified files: ${modifiedFiles}`)
-  await setOutput({
-    key: 'modified_files',
-    value: modifiedFiles,
-    inputs
-  })
+  if (Object.keys(yamlFilePatterns).length > 0) {
+    for (const key of Object.keys(yamlFilePatterns)) {
+      core.startGroup(`changed-files-yaml-${key}`)
+      await setChangedFilesOutput({
+        allDiffFiles,
+        filePatterns: yamlFilePatterns[key],
+        inputs,
+        outputPrefix: key
+      })
+      core.info('All Done!')
+      core.endGroup()
+    }
+  }
 
-  const renamedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Renamed]
-  })
-  core.debug(`Renamed files: ${renamedFiles}`)
-  await setOutput({
-    key: 'renamed_files',
-    value: renamedFiles,
-    inputs
-  })
-
-  const typeChangedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.TypeChanged]
-  })
-  core.debug(`Type changed files: ${typeChangedFiles}`)
-  await setOutput({
-    key: 'type_changed_files',
-    value: typeChangedFiles,
-    inputs
-  })
-
-  const unmergedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Unmerged]
-  })
-  core.debug(`Unmerged files: ${unmergedFiles}`)
-  await setOutput({
-    key: 'unmerged_files',
-    value: unmergedFiles,
-    inputs
-  })
-
-  const unknownFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Unknown]
-  })
-  core.debug(`Unknown files: ${unknownFiles}`)
-  await setOutput({
-    key: 'unknown_files',
-    value: unknownFiles,
-    inputs
-  })
-
-  const allChangedAndModifiedFiles = await getAllChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles
-  })
-  core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`)
-  await setOutput({
-    key: 'all_changed_and_modified_files',
-    value: allChangedAndModifiedFiles,
-    inputs
-  })
-
-  const allChangedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [
-      ChangeTypeEnum.Added,
-      ChangeTypeEnum.Copied,
-      ChangeTypeEnum.Modified,
-      ChangeTypeEnum.Renamed
-    ]
-  })
-  core.debug(`All changed files: ${allChangedFiles}`)
-  await setOutput({
-    key: 'all_changed_files',
-    value: allChangedFiles,
-    inputs
-  })
-
-  await setOutput({
-    key: 'any_changed',
-    value: allChangedFiles.length > 0 && filePatterns.length > 0,
-    inputs
-  })
-
-  const allOtherChangedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allDiffFiles,
-    changeTypes: [
-      ChangeTypeEnum.Added,
-      ChangeTypeEnum.Copied,
-      ChangeTypeEnum.Modified,
-      ChangeTypeEnum.Renamed
-    ]
-  })
-  core.debug(`All other changed files: ${allOtherChangedFiles}`)
-
-  const otherChangedFiles = allOtherChangedFiles
-    .split(inputs.separator)
-    .filter(
-      (filePath: string) =>
-        !allChangedFiles.split(inputs.separator).includes(filePath)
-    )
-
-  const onlyChanged =
-    otherChangedFiles.length === 0 &&
-    allChangedFiles.length > 0 &&
-    filePatterns.length > 0
-
-  await setOutput({
-    key: 'only_changed',
-    value: onlyChanged,
-    inputs
-  })
-
-  await setOutput({
-    key: 'other_changed_files',
-    value: otherChangedFiles.join(inputs.separator),
-    inputs
-  })
-
-  const allModifiedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [
-      ChangeTypeEnum.Added,
-      ChangeTypeEnum.Copied,
-      ChangeTypeEnum.Modified,
-      ChangeTypeEnum.Renamed,
-      ChangeTypeEnum.Deleted
-    ]
-  })
-  core.debug(`All modified files: ${allModifiedFiles}`)
-  await setOutput({
-    key: 'all_modified_files',
-    value: allModifiedFiles,
-    inputs
-  })
-
-  await setOutput({
-    key: 'any_modified',
-    value: allModifiedFiles.length > 0 && filePatterns.length > 0,
-    inputs
-  })
-
-  const allOtherModifiedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allDiffFiles,
-    changeTypes: [
-      ChangeTypeEnum.Added,
-      ChangeTypeEnum.Copied,
-      ChangeTypeEnum.Modified,
-      ChangeTypeEnum.Renamed,
-      ChangeTypeEnum.Deleted
-    ]
-  })
-
-  const otherModifiedFiles = allOtherModifiedFiles
-    .split(inputs.separator)
-    .filter(
-      (filePath: string) =>
-        !allModifiedFiles.split(inputs.separator).includes(filePath)
-    )
-
-  const onlyModified =
-    otherModifiedFiles.length === 0 &&
-    allModifiedFiles.length > 0 &&
-    filePatterns.length > 0
-
-  await setOutput({
-    key: 'only_modified',
-    value: onlyModified,
-    inputs
-  })
-
-  await setOutput({
-    key: 'other_modified_files',
-    value: otherModifiedFiles.join(inputs.separator),
-    inputs
-  })
-
-  const deletedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allFilteredDiffFiles,
-    changeTypes: [ChangeTypeEnum.Deleted]
-  })
-  core.debug(`Deleted files: ${deletedFiles}`)
-  await setOutput({
-    key: 'deleted_files',
-    value: deletedFiles,
-    inputs
-  })
-
-  await setOutput({
-    key: 'any_deleted',
-    value: deletedFiles.length > 0 && filePatterns.length > 0,
-    inputs
-  })
-
-  const allOtherDeletedFiles = await getChangeTypeFiles({
-    inputs,
-    changedFiles: allDiffFiles,
-    changeTypes: [ChangeTypeEnum.Deleted]
-  })
-
-  const otherDeletedFiles = allOtherDeletedFiles
-    .split(inputs.separator)
-    .filter(
-      filePath => !deletedFiles.split(inputs.separator).includes(filePath)
-    )
-
-  const onlyDeleted =
-    otherDeletedFiles.length === 0 &&
-    deletedFiles.length > 0 &&
-    filePatterns.length > 0
-
-  await setOutput({
-    key: 'only_deleted',
-    value: onlyDeleted,
-    inputs
-  })
-
-  await setOutput({
-    key: 'other_deleted_files',
-    value: otherDeletedFiles.join(inputs.separator),
-    inputs
-  })
+  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
+    core.startGroup('changed-files-all')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      inputs
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
 
   if (inputs.includeAllOldNewRenamedFiles) {
+    core.startGroup('changed-files-all-old-new-renamed-files')
     const allOldNewRenamedFiles = await getRenamedFiles({
       inputs,
       workingDirectory,
@@ -406,11 +180,9 @@ export async function run(): Promise<void> {
       value: allOldNewRenamedFiles,
       inputs
     })
+    core.info('All Done!')
+    core.endGroup()
   }
-
-  core.info('All Done!')
-
-  core.endGroup()
 }
 
 /* istanbul ignore if */

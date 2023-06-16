@@ -379,9 +379,18 @@ export const getSHAForPullRequestEvent = async (
             0)
       ) {
         core.warning(
-          'Unable to locate the remote branch head sha. Falling back to the pull request base sha.'
+          'Unable to locate the remote branch head sha. Falling back to the previous commit in the local history.'
         )
-        previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+        previousSha = await getParentSha({
+          cwd: workingDirectory
+        })
+
+        if (!previousSha) {
+          core.warning(
+            'Unable to locate the previous commit in the local history. Falling back to the pull request base sha.'
+          )
+          previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+        }
       }
     } else {
       previousSha = await getRemoteBranchHeadSha({
@@ -395,12 +404,12 @@ export const getSHAForPullRequestEvent = async (
 
       if (isShallow) {
         if (
-          await canDiffCommits({
+          !(await canDiffCommits({
             cwd: workingDirectory,
             sha1: previousSha,
             sha2: currentSha,
             diff
-          })
+          }))
         ) {
           core.debug(
             'Merge base is not in the local history, fetching remote target branch...'

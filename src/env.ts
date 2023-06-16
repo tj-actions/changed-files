@@ -2,23 +2,25 @@ import {promises as fs} from 'fs'
 import * as core from '@actions/core'
 
 export type Env = {
-  GITHUB_EVENT_PULL_REQUEST_HEAD_REF: string
-  GITHUB_EVENT_PULL_REQUEST_BASE_REF: string
-  GITHUB_EVENT_BEFORE: string
   GITHUB_REF_NAME: string
   GITHUB_REF: string
+  GITHUB_WORKSPACE: string
+  GITHUB_EVENT_ACTION: string
+  GITHUB_EVENT_NAME: string
+  GITHUB_EVENT_FORCED: string
+  GITHUB_EVENT_BEFORE: string
   GITHUB_EVENT_BASE_REF: string
   GITHUB_EVENT_RELEASE_TARGET_COMMITISH: string
   GITHUB_EVENT_HEAD_REPO_FORK: string
-  GITHUB_WORKSPACE: string
-  GITHUB_EVENT_FORCED: string
   GITHUB_EVENT_PULL_REQUEST_NUMBER: string
   GITHUB_EVENT_PULL_REQUEST_BASE_SHA: string
   GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: string
-  GITHUB_EVENT_NAME: string
+  GITHUB_EVENT_PULL_REQUEST_HEAD_REF: string
+  GITHUB_EVENT_PULL_REQUEST_BASE_REF: string
 }
 
 type GithubEvent = {
+  action?: string
   forced?: string
   pull_request?: {
     head: {
@@ -65,6 +67,7 @@ export const getEnv = async (): Promise<Env> => {
     GITHUB_EVENT_PULL_REQUEST_BASE_SHA: eventJson.pull_request?.base?.sha || '',
     GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: eventJson.pull_request?.head?.sha || '',
     GITHUB_EVENT_FORCED: eventJson.forced || '',
+    GITHUB_EVENT_ACTION: eventJson.action || '',
     GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
     GITHUB_REF: process.env.GITHUB_REF || '',
     GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',

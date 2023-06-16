@@ -5,10 +5,16 @@ export type Inputs = {
   filesSeparator: string
   filesFromSourceFile: string
   filesFromSourceFileSeparator: string
+  filesYaml: string
+  filesYamlFromSourceFile: string
+  filesYamlFromSourceFileSeparator: string
   filesIgnore: string
   filesIgnoreSeparator: string
   filesIgnoreFromSourceFile: string
   filesIgnoreFromSourceFileSeparator: string
+  filesIgnoreYaml: string
+  filesIgnoreYamlFromSourceFile: string
+  filesIgnoreYamlFromSourceFileSeparator: string
   separator: string
   includeAllOldNewRenamedFiles: boolean
   oldNewSeparator: string
@@ -54,12 +60,35 @@ export const getInputs = (): Inputs => {
       trimWhitespace: false
     }
   )
+  const filesYaml = core.getInput('files_yaml', {required: false})
+  const filesYamlFromSourceFile = core.getInput('files_yaml_from_source_file', {
+    required: false
+  })
+  const filesYamlFromSourceFileSeparator = core.getInput(
+    'files_yaml_from_source_file_separator',
+    {
+      required: false,
+      trimWhitespace: false
+    }
+  )
   const filesIgnoreFromSourceFile = core.getInput(
     'files_ignore_from_source_file',
     {required: false}
   )
   const filesIgnoreFromSourceFileSeparator = core.getInput(
     'files_ignore_from_source_file_separator',
+    {
+      required: false,
+      trimWhitespace: false
+    }
+  )
+  const filesIgnoreYaml = core.getInput('files_ignore_yaml', {required: false})
+  const filesIgnoreYamlFromSourceFile = core.getInput(
+    'files_ignore_yaml_from_source_file',
+    {required: false}
+  )
+  const filesIgnoreYamlFromSourceFileSeparator = core.getInput(
+    'files_ignore_yaml_from_source_file_separator',
     {
       required: false,
       trimWhitespace: false
@@ -122,10 +151,16 @@ export const getInputs = (): Inputs => {
     filesSeparator,
     filesFromSourceFile,
     filesFromSourceFileSeparator,
+    filesYaml,
+    filesYamlFromSourceFile,
+    filesYamlFromSourceFileSeparator,
     filesIgnore,
     filesIgnoreSeparator,
     filesIgnoreFromSourceFile,
     filesIgnoreFromSourceFileSeparator,
+    filesIgnoreYaml,
+    filesIgnoreYamlFromSourceFile,
+    filesIgnoreYamlFromSourceFileSeparator,
     separator,
     includeAllOldNewRenamedFiles,
     oldNewSeparator,

@@ -28,11 +28,35 @@ inputs:
     default: "\n"
     required: false
   files:
-    description: "File and directory patterns to detect changes using only these list of file(s) (Defaults to the entire repo) **NOTE:** Multiline file/directory patterns should not include quotes."
+    description: "File and directory patterns used to detect changes (Defaults to the entire repo if unset) **NOTE:** Multiline file/directory patterns should not include quotes."
     required: false
     default: ""
   files_separator:
     description: "Separator used to split the `files` input"
+    default: "\n"
+    required: false
+  files_yaml:
+    description: "YAML used to define a set of file patterns to detect changes"
+    required: false
+    default: ""
+  files_yaml_from_source_file:
+    description: "Source file(s) used to populate the `files_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)"
+    required: false
+    default: ""
+  files_yaml_from_source_file_separator:
+    description: 'Separator used to split the `files_yaml_from_source_file` input'
+    default: "\n"
+    required: false
+  files_ignore_yaml:
+    description: "YAML used to define a set of file patterns to ignore changes"
+    required: false
+    default: ""
+  files_ignore_yaml_from_source_file:
+    description: "Source file(s) used to populate the `files_ignore_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)"
+    required: false
+    default: ""
+  files_ignore_yaml_from_source_file_separator:
+    description: 'Separator used to split the `files_ignore_yaml_from_source_file` input'
     default: "\n"
     required: false
   files_ignore:
@@ -70,7 +94,7 @@ inputs:
     required: false
     default: "."
   quotepath:
-    description: "Use non ascii characters to match files and output the filenames completely verbatim by setting this to `false`"
+    description: "Use non-ascii characters to match files and output the filenames completely verbatim by setting this to `false`"
     default: "true"
     required: false
   diff_relative:
@@ -106,7 +130,7 @@ inputs:
     required: false
     default: "50"
   since_last_remote_commit:
-    description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
+    description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non-merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: false
     default: "false"
   write_output_files:
@@ -134,7 +158,7 @@ outputs:
   renamed_files:
     description: "Returns only files that are Renamed (R)."
   all_old_new_renamed_files:
-    description:   "Returns only files that are Renamed and list their old and new names. **NOTE:** This requires setting `include_all_old_new_renamed_files` to `true` (R)"
+    description:   "Returns only files that are Renamed and lists their old and new names. **NOTE:** This requires setting `include_all_old_new_renamed_files` to `true`. Also, keep in mind that this output is global and wouldn't be nested in outputs generated when the `*_yaml_*` input is used. (R)"
   type_changed_files:
     description: "Returns only files that have their file type changed (T)."
   unmerged_files:

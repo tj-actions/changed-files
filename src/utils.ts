@@ -2,9 +2,12 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import {createReadStream, promises as fs} from 'fs'
+import {readFile} from 'fs/promises'
+import {flattenDeep} from 'lodash'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
+import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 
 import {Inputs} from './inputs'
@@ -157,7 +160,7 @@ const getFilesFromSourceFile = async ({
   filePaths: string[]
   excludedFiles?: boolean
 }): Promise<string[]> => {
-  const lines = []
+  const lines: string[] = []
   for (const filePath of filePaths) {
     for await (const line of lineOfFileGenerator({filePath, excludedFiles})) {
       lines.push(line)
@@ -808,15 +811,202 @@ export const getFilePatterns = async ({
       if (pattern.endsWith('/')) {
         return `${pattern}**`
       } else {
-        const pathParts = pattern.split('/')
+        const pathParts = pattern.split(path.sep)
         const lastPart = pathParts[pathParts.length - 1]
         if (!lastPart.includes('.')) {
-          return `${pattern}/**`
+          return `${pattern}${path.sep}**`
         } else {
           return pattern
         }
       }
     })
+}
+
+// Example YAML input:
+//  filesYaml: |
+//     frontend:
+//       - frontend/**
+//     backend:
+//       - backend/**
+//     test: test/**
+//     shared: &shared
+//       - common/**
+//     lib:
+//       - *shared
+//       - lib/**
+// Return an Object:
+// {
+//   frontend: ['frontend/**'],
+//   backend: ['backend/**'],
+//   test: ['test/**'],
+//   shared: ['common/**'],
+//   lib: ['common/**', 'lib/**']
+// }
+
+type YamlObject = {
+  [key: string]: string | string[] | [string[], string]
+}
+
+const getYamlFilePatternsFromContents = async ({
+  content = '',
+  filePath = '',
+  excludedFiles = false
+}: {
+  content?: string
+  filePath?: string
+  excludedFiles?: boolean
+}): Promise<Record<string, string[]>> => {
+  const filePatterns: Record<string, string[]> = {}
+  let source = ''
+
+  if (filePath) {
+    if (!(await exists(filePath))) {
+      core.error(`File does not exist: ${filePath}`)
+      throw new Error(`File does not exist: ${filePath}`)
+    }
+
+    source = await readFile(filePath, 'utf8')
+  } else {
+    source = content
+  }
+
+  const doc = parseDocument(source, {merge: true, schema: 'failsafe'})
+
+  if (doc.errors.length > 0) {
+    if (filePath) {
+      core.warning(`YAML errors in ${filePath}: ${doc.errors}`)
+    } else {
+      core.warning(`YAML errors: ${doc.errors}`)
+    }
+  }
+
+  if (doc.warnings.length > 0) {
+    if (filePath) {
+      core.warning(`YAML warnings in ${filePath}: ${doc.warnings}`)
+    } else {
+      core.warning(`YAML warnings: ${doc.warnings}`)
+    }
+  }
+
+  const yamlObject = doc.toJS() as YamlObject
+
+  for (const key in yamlObject) {
+    let value = yamlObject[key]
+
+    if (typeof value === 'string' && value.includes('\n')) {
+      value = value.split('\n')
+    }
+
+    if (typeof value === 'string') {
+      value = value.trim()
+
+      if (value) {
+        filePatterns[key] = [
+          excludedFiles && !value.startsWith('!') ? `!${value}` : value
+        ]
+      }
+    } else if (Array.isArray(value)) {
+      filePatterns[key] = flattenDeep(value)
+        .filter(v => v.trim() !== '')
+        .map(v => {
+          if (excludedFiles && !v.startsWith('!')) {
+            v = `!${v}`
+          }
+          return v
+        })
+    }
+  }
+
+  return filePatterns
+}
+
+export const getYamlFilePatterns = async ({
+  inputs,
+  workingDirectory
+}: {
+  inputs: Inputs
+  workingDirectory: string
+}): Promise<Record<string, string[]>> => {
+  let filePatterns: Record<string, string[]> = {}
+  if (inputs.filesYaml) {
+    filePatterns = {
+      ...(await getYamlFilePatternsFromContents({content: inputs.filesYaml}))
+    }
+  }
+
+  if (inputs.filesYamlFromSourceFile) {
+    const inputFilesYamlFromSourceFile = inputs.filesYamlFromSourceFile
+      .split(inputs.filesYamlFromSourceFileSeparator)
+      .filter(p => p !== '')
+      .map(p => path.join(workingDirectory, p))
+
+    core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`)
+
+    for (const filePath of inputFilesYamlFromSourceFile) {
+      const newFilePatterns = await getYamlFilePatternsFromContents({filePath})
+      for (const key in newFilePatterns) {
+        if (key in filePatterns) {
+          core.warning(
+            `files_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newFilePatterns[key]}.`
+          )
+        }
+      }
+
+      filePatterns = {
+        ...filePatterns,
+        ...newFilePatterns
+      }
+    }
+  }
+
+  if (inputs.filesIgnoreYaml) {
+    const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
+      content: inputs.filesIgnoreYaml,
+      excludedFiles: true
+    })
+
+    for (const key in newIgnoreFilePatterns) {
+      if (key in filePatterns) {
+        core.warning(
+          `files_ignore_yaml: Duplicated key ${key} detected, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`
+        )
+      }
+    }
+  }
+
+  if (inputs.filesIgnoreYamlFromSourceFile) {
+    const inputFilesIgnoreYamlFromSourceFile =
+      inputs.filesIgnoreYamlFromSourceFile
+        .split(inputs.filesIgnoreYamlFromSourceFileSeparator)
+        .filter(p => p !== '')
+        .map(p => path.join(workingDirectory, p))
+
+    core.debug(
+      `files ignore yaml from source file: ${inputFilesIgnoreYamlFromSourceFile}`
+    )
+
+    for (const filePath of inputFilesIgnoreYamlFromSourceFile) {
+      const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
+        filePath,
+        excludedFiles: true
+      })
+
+      for (const key in newIgnoreFilePatterns) {
+        if (key in filePatterns) {
+          core.warning(
+            `files_ignore_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`
+          )
+        }
+      }
+
+      filePatterns = {
+        ...filePatterns,
+        ...newIgnoreFilePatterns
+      }
+    }
+  }
+
+  return filePatterns
 }
 
 export const setOutput = async ({
@@ -832,7 +1022,7 @@ export const setOutput = async ({
   core.setOutput(key, cleanedValue)
 
   if (inputs.writeOutputFiles) {
-    const outputDir = inputs.outputDir || '.github/outputs'
+    const outputDir = inputs.outputDir
     const extension = inputs.json ? 'json' : 'txt'
     const outputFilePath = path.join(outputDir, `${key}.${extension}`)
 
