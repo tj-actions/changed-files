@@ -7,7 +7,7 @@ import {flattenDeep} from 'lodash'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
-import {parse} from 'yaml'
+import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 
 import {Inputs} from './inputs'
@@ -847,13 +847,46 @@ type YamlObject = {
   [key: string]: string | string[] | [string[], string]
 }
 
-const getYamlFilePatternsFromContents = ({
-  content
+const getYamlFilePatternsFromContents = async ({
+  content,
+  filePath
 }: {
-  content: string
-}): Record<string, string[]> => {
+  content?: string
+  filePath?: string
+}): Promise<Record<string, string[]>> => {
   const filePatterns: Record<string, string[]> = {}
-  const yamlObject: YamlObject = parse(content, {merge: true})
+  let source = ''
+
+  if (filePath) {
+    if (!(await exists(filePath))) {
+      core.error(`File does not exist: ${filePath}`)
+      throw new Error(`File does not exist: ${filePath}`)
+    }
+
+    source = await readFile(filePath, 'utf8')
+  } else {
+    source = content!
+  }
+
+  const doc = parseDocument(source, {merge: true})
+
+  if (doc.errors.length > 0) {
+    if (filePath) {
+      core.warning(`YAML errors in ${filePath}: ${doc.errors}`)
+    } else {
+      core.warning(`YAML errors: ${doc.errors}`)
+    }
+  }
+
+  if (doc.warnings.length > 0) {
+    if (filePath) {
+      core.warning(`YAML warnings in ${filePath}: ${doc.warnings}`)
+    } else {
+      core.warning(`YAML warnings: ${doc.warnings}`)
+    }
+  }
+
+  const yamlObject = doc.toJS() as YamlObject
 
   for (const key in yamlObject) {
     let value = yamlObject[key]
@@ -883,9 +916,7 @@ export const getYamlFilePatterns = async ({
   let filePatterns: Record<string, string[]> = {}
   if (inputs.filesYaml) {
     filePatterns = {
-      ...getYamlFilePatternsFromContents({
-        content: inputs.filesYaml
-      })
+      ...(await getYamlFilePatternsFromContents({content: inputs.filesYaml}))
     }
   }
 
@@ -898,17 +929,8 @@ export const getYamlFilePatterns = async ({
     core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`)
 
     for (const filePath of inputFilesYamlFromSourceFile) {
-      if (!(await exists(filePath))) {
-        core.error(`File does not exist: ${filePath}`)
-        throw new Error(`File does not exist: ${filePath}`)
-      }
-
-      const fileContent = await readFile(filePath, 'utf8')
-
       filePatterns = {
-        ...getYamlFilePatternsFromContents({
-          content: fileContent
-        })
+        ...(await getYamlFilePatternsFromContents({filePath}))
       }
     }
   }
