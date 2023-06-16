@@ -10,3 +10,7 @@ shared: &shared
 common:
   - *shared
   - .gitignore
+multiline: |
+  test/**
+  src/*.ts
+  .github/**

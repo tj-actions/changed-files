@@ -868,7 +868,7 @@ const getYamlFilePatternsFromContents = async ({
     source = content
   }
 
-  const doc = parseDocument(source, {merge: true})
+  const doc = parseDocument(source, {merge: true, schema: 'failsafe'})
 
   if (doc.errors.length > 0) {
     if (filePath) {

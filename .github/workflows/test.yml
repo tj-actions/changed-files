@@ -577,9 +577,6 @@ jobs:
         id: changed-files
         uses: ./
         with:
-          files: |
-            test/**.txt
-            test/**.md
           files_yaml: |
             test:
               - test/**.txt

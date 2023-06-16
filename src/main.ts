@@ -126,7 +126,7 @@ export async function run(): Promise<void> {
   })
   core.debug(`File patterns: ${filePatterns}`)
 
-  if (Object.keys(yamlFilePatterns).length === 0) {
+  if (Object.keys(yamlFilePatterns).length === 0 || filePatterns.length > 0) {
     await setChangedFilesOutput({
       allDiffFiles,
       filePatterns,

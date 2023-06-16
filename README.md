@@ -62,6 +62,10 @@ Retrieve all changed files and directories relative to a target branch, precedin
     *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
         *   Globstar.
         *   Brace expansion.
+        *   Negation.
+    *   Using [YAML](https://yaml.org/) syntax for specifying the patterns for files and directories.
+        *   Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
+        *   Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
 
 ## Usage
 
@@ -141,6 +145,35 @@ jobs:
         run: |
           echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
+
+      # Example 4
+      - name: Get all test files, doc and src files that have changed
+        id: changed-files-yml
+        uses: tj-actions/changed-files@v36
+        with:
+          files_yaml: |
+            doc:
+              - *.md
+              - docs/**
+              - !docs/README.md
+            test:
+              - test/**
+              - !test/README.md
+            src:
+              - src/**
+          # Optionally set `files_yaml_from_source_file` to read the YAML from a file. e.g `files_yaml_from_source_file: .github/changed-files.yml`
+
+      - name: Run step if test file(s) change
+        if: steps.changed-files-yml.outputs.test_any_changed == 'true'
+        run: |
+          echo "One or more test file(s) has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-yml.outputs.test_all_changed_files }}"
+      
+      - name: Run step if doc file(s) change
+        if: steps.changed-files-yml.outputs.doc_any_changed == 'true'
+        run: |
+          echo "One or more doc file(s) has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-yml.outputs.doc_all_changed_files }}"
 ```
 
 To access more examples, navigate to the [Examples](#examples) section.
