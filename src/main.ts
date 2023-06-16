@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import path from 'path'
-import {getAllDiffFiles, getRenamedFiles} from './changedFiles'
+import {ChangeTypeEnum, getAllDiffFiles, getRenamedFiles} from './changedFiles'
 import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
@@ -14,6 +14,7 @@ import {
   getSubmodulePath,
   getYamlFilePatterns,
   isRepoShallow,
+  recoverDeletedFiles,
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
@@ -117,6 +118,13 @@ export async function run(): Promise<void> {
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')
   core.endGroup()
+
+  recoverDeletedFiles({
+    inputs,
+    workingDirectory,
+    deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
+    sha: diffResult.currentSha
+  })
 
   const filePatterns = await getFilePatterns({
     inputs,

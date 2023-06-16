@@ -37,6 +37,8 @@ export type Inputs = {
   writeOutputFiles: boolean
   outputDir: string
   outputRenamedFilesAsDeletedAndAdded: boolean
+  recoverDeletedFiles: boolean
+  recoverDeletedFilesToDestination: string
 }
 
 export const getInputs = (): Inputs => {
@@ -145,6 +147,13 @@ export const getInputs = (): Inputs => {
     'output_renamed_files_as_deleted_and_added',
     {required: false}
   )
+  const recoverDeletedFiles = core.getBooleanInput('recover_deleted_files', {
+    required: false
+  })
+  const recoverDeletedFilesToDestination = core.getInput(
+    'recover_deleted_files_to_destination',
+    {required: false}
+  )
 
   const inputs: Inputs = {
     files,
@@ -180,7 +189,9 @@ export const getInputs = (): Inputs => {
     sinceLastRemoteCommit,
     writeOutputFiles,
     outputDir,
-    outputRenamedFilesAsDeletedAndAdded
+    outputRenamedFilesAsDeletedAndAdded,
+    recoverDeletedFiles,
+    recoverDeletedFilesToDestination
   }
 
   if (fetchDepth) {
