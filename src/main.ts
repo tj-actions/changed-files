@@ -169,6 +169,7 @@ export async function run(): Promise<void> {
 
 /* istanbul ignore if */
 if (!process.env.TESTING) {
+  process.on('warning', e => core.warning(e.stack || e))
   // eslint-disable-next-line github/no-then
   run().catch(e => {
     core.setFailed(e.message || e)
