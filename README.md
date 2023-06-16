@@ -147,7 +147,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 
       # Example 4
-      - name: Get all test files, doc and src files that have changed
+      - name: Get all test, doc and src files that have changed
         id: changed-files-yml
         uses: tj-actions/changed-files@v36
         with:
