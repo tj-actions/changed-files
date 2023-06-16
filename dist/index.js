@@ -1231,14 +1231,17 @@ function run() {
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         for (const key of Object.keys(yamlFilePatterns)) {
+            core.debug(`Retrieving changed-${key}-files...`);
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
                 filePatterns: yamlFilePatterns[key],
                 inputs,
                 outputPrefix: key
             });
+            core.debug(`Retrieved changed-${key}-files`);
         }
         if (inputs.includeAllOldNewRenamedFiles) {
+            core.debug('Retrieving all old new renamed files...');
             const allOldNewRenamedFiles = yield (0, changedFiles_1.getRenamedFiles)({
                 inputs,
                 workingDirectory,
@@ -1252,6 +1255,7 @@ function run() {
                 value: allOldNewRenamedFiles,
                 inputs
             });
+            core.debug('Retrieved all old new renamed files');
         }
         core.info('All Done!');
         core.endGroup();
@@ -1876,19 +1880,31 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     });
 });
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getYamlFilePatternsFromContents = ({ content }) => {
     const filePatterns = {};
-    if (inputs.filesYaml) {
-        const yamlInput = (0, yaml_1.parse)(inputs.filesYaml);
-        for (const key in yamlInput) {
-            const value = yamlInput[key];
-            if (typeof value === 'string') {
+    const yamlObject = (0, yaml_1.parse)(content, { merge: true });
+    for (const key in yamlObject) {
+        let value = yamlObject[key];
+        if (typeof value === 'string') {
+            value = value.trim();
+            if (value) {
                 filePatterns[key] = [value];
             }
-            else if (Array.isArray(value)) {
-                filePatterns[key] = (0, lodash_1.flattenDeep)(value);
-            }
         }
+        else if (Array.isArray(value)) {
+            filePatterns[key] = (0, lodash_1.flattenDeep)(value)
+                .map(v => v.trim())
+                .filter(v => v !== '');
+        }
+    }
+    return filePatterns;
+};
+const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+    let filePatterns = {};
+    if (inputs.filesYaml) {
+        filePatterns = Object.assign({}, getYamlFilePatternsFromContents({
+            content: inputs.filesYaml
+        }));
     }
     if (inputs.filesYamlFromSourceFile) {
         const inputFilesYamlFromSourceFile = inputs.filesYamlFromSourceFile
@@ -1902,22 +1918,9 @@ const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, 
                 throw new Error(`File does not exist: ${filePath}`);
             }
             const fileContent = yield (0, promises_1.readFile)(filePath, 'utf8');
-            try {
-                const yamlInput = (0, yaml_1.parse)(fileContent);
-                for (const key in yamlInput) {
-                    const value = yamlInput[key];
-                    if (typeof value === 'string') {
-                        filePatterns[key] = [value];
-                    }
-                    else if (Array.isArray(value)) {
-                        filePatterns[key] = (0, lodash_1.flattenDeep)(value);
-                    }
-                }
-            }
-            catch (error) {
-                core.error(`File content is not valid YAML: ${filePath}`);
-                throw new Error(`File content is not valid YAML: ${filePath}`);
-            }
+            filePatterns = Object.assign({}, getYamlFilePatternsFromContents({
+                content: fileContent
+            }));
         }
     }
     return filePatterns;
