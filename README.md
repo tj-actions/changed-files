@@ -39,37 +39,36 @@ Effortlessly track all changed files and directories relative to a target branch
 
 ## Features
 
-* Provides fast execution, averaging 0-10 seconds.
-* Facilitates easy debugging.
-* Scales to handle large repositories.
-* Supports Git submodules.
-* Generates escaped JSON output for running matrix jobs based on changed files.
-* Lists changed directories.
-    * Allows limiting the matching changed directories to a specified maximum depth.
-    * Optionally excludes the current directory.
-* Writes outputs to a designated `.txt` or `.json` file for further processing.
-* Restores deleted files to their previous location or a newly specified location.
-* Supports Monorepos by fetching a fixed number of commits.
-* Compatible with all platforms (Linux, MacOS, Windows).
-* Supports [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners).
-* Supports [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server).
-* Supports [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners).
-* Lists all files and directories that have changed:
-    * Between the current pull request branch and the last commit on the target branch.
-    * Between the last commit and the current pushed change.
-    * Between the last remote branch commit and the current HEAD.
-* Restricts change detection to a subset of files and directories:
-    * Provides boolean output indicating changes in specific files.
-    * Uses [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
-        * Supports Globstar.
-        * Supports brace expansion.
-        * Supports negation.
-    * Uses [YAML](https://yaml.org/) syntax for specifying patterns.
-        * Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
-        * Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
+*   Provides fast execution, averaging 0-10 seconds.
+*   Facilitates easy debugging.
+*   Scales to handle large repositories.
+*   Supports Git submodules.
+*   Generates escaped JSON output for running matrix jobs based on changed files.
+*   Lists changed directories.
+    *   Allows limiting the matching changed directories to a specified maximum depth.
+    *   Optionally excludes the current directory.
+*   Writes outputs to a designated `.txt` or `.json` file for further processing.
+*   Restores deleted files to their previous location or a newly specified location.
+*   Supports Monorepos by fetching a fixed number of commits.
+*   Compatible with all platforms (Linux, MacOS, Windows).
+*   Supports [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners).
+*   Supports [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server).
+*   Supports [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners).
+*   Lists all files and directories that have changed:
+    *   Between the current pull request branch and the last commit on the target branch.
+    *   Between the last commit and the current pushed change.
+    *   Between the last remote branch commit and the current HEAD.
+*   Restricts change detection to a subset of files and directories:
+    *   Provides boolean output indicating changes in specific files.
+    *   Uses [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
+        *   Supports Globstar.
+        *   Supports brace expansion.
+        *   Supports negation.
+    *   Uses [YAML](https://yaml.org/) syntax for specifying patterns.
+        *   Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
+        *   Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
 
 And many more.
-
 
 ## Usage
 
@@ -271,6 +270,8 @@ Support this project with a :star:
 |                  output\_renamed\_files\_as\_deleted\_and\_added                   | string |  false   |      `"false"`      |                                                                                               Output renamed files as deleted <br>and added files.                                                                                                |
 |                                     path                                     | string |  false   |        `"."`        |                                                                                 Specify a relative path under <br>`$GITHUB_WORKSPACE` to locate the repository.                                                                                   |
 |                                  quotepath                                   | string |  false   |      `"true"`       |                                                           Use non-ascii characters to match <br>files and output the filenames <br>completely verbatim by setting this <br>to `false`                                                             |
+|                            recover\_deleted\_files                             | string |  false   |      `"false"`      |                                                                                                              Recover deleted files.                                                                                                               |
+|                     recover\_deleted\_files\_to\_destination                     | string |  false   |                     |                                                                         Recover deleted files to a <br>new destination directory, defaults to <br>the original location.                                                                          |
 |                                  separator                                   | string |  false   |        `" "`        |                                                                                                        Split character for output strings                                                                                                         |
 |                                     sha                                      | string |  false   |                     |                                                                                          Specify a different commit SHA <br>used for comparing changes                                                                                            |
 |                                    since                                     | string |  false   |                     |                                                                               Get changed files for commits <br>whose timestamp is older than <br>the given time.                                                                                 |
