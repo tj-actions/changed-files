@@ -601,6 +601,84 @@ jobs:
         shell:
           bash
 
+  test_recover_deleted_file:
+    name: Test changed-files recover deleted file
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        fetch-depth: [0, 1, 2]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          submodules: recursive
+          fetch-depth: ${{ matrix.fetch-depth }}
+
+      - name: Download build assets
+        uses: actions/download-artifact@v3
+        with:
+          name: build-assets
+
+      - name: Run changed-files with recover_deleted_files
+        id: changed-files-recover-deleted-files
+        uses: ./
+        with:
+          base_sha: "a145f82f0fa44fc1da2ef4e77476be10692cbcd7"
+          sha: "a4d31c705125d6e8e1fe1cf95ee55f14fac0716d"
+          recover_deleted_files: true
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-recover-deleted-files.outputs) }}"
+        shell:
+          bash
+
+      - name: Verify deleted files
+        if: steps.changed-files-recover-deleted-files.outputs.deleted_files != 'test/test deleted.txt'
+        run: |
+            echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files.outputs.deleted_files }}"
+            exit 1
+
+      - name: Verify that test/test deleted.txt is restored
+        run: |
+          if [ ! -f "test/test deleted.txt" ]; then
+            echo "Expected: (test/test deleted.txt) to exist"
+            exit 1
+          fi
+
+      - name: Run changed-files with recover_deleted_files and recover_deleted_files_to_destination
+        id: changed-files-recover-deleted-files-to-destination
+        uses: ./
+        with:
+          base_sha: "a145f82f0fa44fc1da2ef4e77476be10692cbcd7"
+          sha: "a4d31c705125d6e8e1fe1cf95ee55f14fac0716d"
+          recover_deleted_files: true
+          recover_deleted_files_to_destination: "deleted_files"
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-recover-deleted-files-to-destination.outputs) }}"
+        shell:
+          bash
+
+      - name: Verify deleted files
+        if: steps.changed-files-recover-deleted-files-to-destination.outputs.deleted_files != 'test/test deleted.txt'
+        run: |
+          echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files-to-destination.outputs.deleted_files }}"
+          exit 1
+
+      - name: Verify that test/test deleted.txt is restored
+        run: |
+          if [ ! -f "deleted_files/test/test deleted.txt" ]; then
+            echo "Expected: (deleted_files/test/test deleted.txt) to exist"
+            exit 1
+          fi
+
   test:
     name: Test changed-files
     runs-on: ${{ matrix.platform }}

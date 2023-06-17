@@ -119,11 +119,11 @@ export async function run(): Promise<void> {
   core.info('All Done!')
   core.endGroup()
 
-  recoverDeletedFiles({
+  await recoverDeletedFiles({
     inputs,
     workingDirectory,
     deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
-    sha: diffResult.currentSha
+    sha: diffResult.previousSha
   })
 
   const filePatterns = await getFilePatterns({

@@ -145,12 +145,12 @@ inputs:
     description: "Output renamed files as deleted and added files."
     required: false
     default: "false"
-  recover_deleted_files_to_original_location:
-    description: "Recover deleted files to their original location."
+  recover_deleted_files:
+    description: "Recover deleted files."
     required: false
     default: "false"
   recover_deleted_files_to_destination:
-    description: "Recover deleted files to the destination directory."
+    description: "Recover deleted files to a new destination directory, defaults to the original location."
     required: false
     default: ""
 
