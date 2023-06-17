@@ -52,6 +52,11 @@ export const setChangedFilesOutput = async ({
     value: addedFiles,
     inputs
   })
+  await setOutput({
+    key: getOutputKey('added_files_count', outputPrefix),
+    value: addedFiles.length.toString(),
+    inputs
+  })
 
   const copiedFiles = await getChangeTypeFiles({
     inputs,
@@ -62,6 +67,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('copied_files', outputPrefix),
     value: copiedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('copied_files_count', outputPrefix),
+    value: copiedFiles.length.toString(),
     inputs
   })
 
@@ -77,6 +88,12 @@ export const setChangedFilesOutput = async ({
     inputs
   })
 
+  await setOutput({
+    key: getOutputKey('modified_files_count', outputPrefix),
+    value: modifiedFiles.length.toString(),
+    inputs
+  })
+
   const renamedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
@@ -86,6 +103,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('renamed_files', outputPrefix),
     value: renamedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('renamed_files_count', outputPrefix),
+    value: renamedFiles.length.toString(),
     inputs
   })
 
@@ -101,6 +124,12 @@ export const setChangedFilesOutput = async ({
     inputs
   })
 
+  await setOutput({
+    key: getOutputKey('type_changed_files_count', outputPrefix),
+    value: typeChangedFiles.length.toString(),
+    inputs
+  })
+
   const unmergedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
@@ -110,6 +139,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('unmerged_files', outputPrefix),
     value: unmergedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('unmerged_files_count', outputPrefix),
+    value: unmergedFiles.length.toString(),
     inputs
   })
 
@@ -125,6 +160,12 @@ export const setChangedFilesOutput = async ({
     inputs
   })
 
+  await setOutput({
+    key: getOutputKey('unknown_files_count', outputPrefix),
+    value: unknownFiles.length.toString(),
+    inputs
+  })
+
   const allChangedAndModifiedFiles = await getAllChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles
@@ -133,6 +174,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('all_changed_and_modified_files', outputPrefix),
     value: allChangedAndModifiedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('all_changed_and_modified_files_count', outputPrefix),
+    value: allChangedAndModifiedFiles.length.toString(),
     inputs
   })
 
@@ -150,6 +197,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('all_changed_files', outputPrefix),
     value: allChangedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('all_changed_files_count', outputPrefix),
+    value: allChangedFiles.length.toString(),
     inputs
   })
 
@@ -195,6 +248,12 @@ export const setChangedFilesOutput = async ({
     inputs
   })
 
+  await setOutput({
+    key: getOutputKey('other_changed_files_count', outputPrefix),
+    value: otherChangedFiles.length.toString(),
+    inputs
+  })
+
   const allModifiedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
@@ -210,6 +269,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('all_modified_files', outputPrefix),
     value: allModifiedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('all_modified_files_count', outputPrefix),
+    value: allModifiedFiles.length.toString(),
     inputs
   })
 
@@ -255,6 +320,12 @@ export const setChangedFilesOutput = async ({
     inputs
   })
 
+  await setOutput({
+    key: getOutputKey('other_modified_files_count', outputPrefix),
+    value: otherModifiedFiles.length.toString(),
+    inputs
+  })
+
   const deletedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
@@ -264,6 +335,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('deleted_files', outputPrefix),
     value: deletedFiles,
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('deleted_files_count', outputPrefix),
+    value: deletedFiles.length.toString(),
     inputs
   })
 
@@ -299,6 +376,12 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('other_deleted_files', outputPrefix),
     value: otherDeletedFiles.join(inputs.separator),
+    inputs
+  })
+
+  await setOutput({
+    key: getOutputKey('other_deleted_files_count', outputPrefix),
+    value: otherDeletedFiles.length.toString(),
     inputs
   })
 }
