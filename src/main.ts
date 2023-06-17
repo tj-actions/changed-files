@@ -191,6 +191,11 @@ export async function run(): Promise<void> {
       value: allOldNewRenamedFiles.count,
       inputs
     })
+    await setOutput({
+      key: 'all_old_new_renamed_files_count',
+      value: allOldNewRenamedFiles.length.toString(),
+      inputs
+    })
     core.info('All Done!')
     core.endGroup()
   }
