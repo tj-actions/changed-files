@@ -48,7 +48,7 @@ Effortlessly track all changed files and directories relative to a target branch
     * Allows limiting the matching changed directories to a specified maximum depth.
     * Optionally excludes the current directory.
 * Writes outputs to a designated `.txt` or `.json` file for further processing.
-* Restores deleted files to their previous location or a new specified location for all deleted files.
+* Restores deleted files to their previous location or a newly specified location.
 * Supports Monorepos by fetching a fixed number of commits.
 * Compatible with all platforms (Linux, MacOS, Windows).
 * Supports [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners).
