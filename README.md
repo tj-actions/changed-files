@@ -19,7 +19,7 @@
 
 ## changed-files
 
-Retrieve all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root.
+Effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root.
 
 ## Table of contents
 
@@ -39,33 +39,37 @@ Retrieve all changed files and directories relative to a target branch, precedin
 
 ## Features
 
-*   Fast execution (0-10 seconds on average).
-*   Easy to debug.
-*   Scales to large repositories.
-*   Supports Git submodules.
-*   Escaped JSON output which can be used to run matrix jobs based on changed files.
-*   List changed directories.
-    *   Limit the matching changed directories to a maximum depth.
-    *   Optionally exclude the current directory
-*   Write outputs to a `.txt` or `.json` file at a specified location for further processing.
-*   Monorepos (Fetches a fixed number of commits).
-*   Supports all platforms (Linux, MacOS, Windows).
-*   [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners) support
-*   [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server) support.
-*   [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) support.
-*   List all files and directories that have changed:
-    *   Between the current pull request branch and the last commit on the target branch.
-    *   Between the last commit and the current pushed change.
-    *   Between the last remote branch commit and the current HEAD.
-*   Restrict change detection to a subset of files and directories:
-    *   Boolean output indicating that certain files have been changed.
-    *   Using [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
-        *   Globstar.
-        *   Brace expansion.
-        *   Negation.
-    *   Using [YAML](https://yaml.org/) syntax for specifying the patterns.
-        *   Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
-        *   Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
+* Provides fast execution, averaging 0-10 seconds.
+* Facilitates easy debugging.
+* Scales to handle large repositories.
+* Supports Git submodules.
+* Generates escaped JSON output for running matrix jobs based on changed files.
+* Lists changed directories.
+    * Allows limiting the matching changed directories to a specified maximum depth.
+    * Optionally excludes the current directory.
+* Writes outputs to a designated `.txt` or `.json` file for further processing.
+* Restores deleted files to their previous location or a new specified location for all deleted files.
+* Supports Monorepos by fetching a fixed number of commits.
+* Compatible with all platforms (Linux, MacOS, Windows).
+* Supports [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners).
+* Supports [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server).
+* Supports [self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners).
+* Lists all files and directories that have changed:
+    * Between the current pull request branch and the last commit on the target branch.
+    * Between the last commit and the current pushed change.
+    * Between the last remote branch commit and the current HEAD.
+* Restricts change detection to a subset of files and directories:
+    * Provides boolean output indicating changes in specific files.
+    * Uses [Glob pattern](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) matching.
+        * Supports Globstar.
+        * Supports brace expansion.
+        * Supports negation.
+    * Uses [YAML](https://yaml.org/) syntax for specifying patterns.
+        * Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
+        * Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
+
+And many more.
+
 
 ## Usage
 
