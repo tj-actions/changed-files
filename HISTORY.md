@@ -1,5 +1,66 @@
 # Changelog
 
+# [36.4.0](https://github.com/tj-actions/changed-files/compare/v36.3.0...v36.4.0) - (2023-06-17)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for returning changed file counts ([#1273](https://github.com/tj-actions/changed-files/issues/1273)) ([f573054](https://github.com/tj-actions/changed-files/commit/f573054697fceee32a3bbc0ecf27286247aabb56))  - (Tonye Jack)
+- Move deleted file recovery to leverage filter ([#1272](https://github.com/tj-actions/changed-files/issues/1272)) ([c3c3db7](https://github.com/tj-actions/changed-files/commit/c3c3db7feee6dc9447b2c03b41ae18e63e043fe2))  - (Tonye Jack)
+- Add support for recovering deleted files ([#1269](https://github.com/tj-actions/changed-files/issues/1269)) ([77f9e6c](https://github.com/tj-actions/changed-files/commit/77f9e6c7c636ec1a11598091308b26a1c1ccf131))  - (Tonye Jack)
+- Add support for recovering deleted files ([d9105a4](https://github.com/tj-actions/changed-files/commit/d9105a4631593f0dc11f3ae6bfbcb5ac43625523))  - (Tonye Jack)
+
+## <!-- 16 -->➕ Add
+
+- Added deleted file
+ ([fcdeb5b](https://github.com/tj-actions/changed-files/commit/fcdeb5b3d797752d95f6dbe98552a95c29dad338))  - (Tonye Jack)
+- Added missing changes and modified dist assets.
+ ([01e83d6](https://github.com/tj-actions/changed-files/commit/01e83d602481802f6822004896b864b1e5e56cfb))  - (GitHub Action)
+
+## <!-- 17 -->➖ Remove
+
+- Removed test file
+ ([432e0c8](https://github.com/tj-actions/changed-files/commit/432e0c810c60ef1332850a971c5ec39022034b4c))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1274](https://github.com/tj-actions/changed-files/issues/1274))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([e1754a4](https://github.com/tj-actions/changed-files/commit/e1754a427f478b8778d349341b8f1d80f1f47f44))  - (tj-actions[bot])
+- Updated README.md ([#1270](https://github.com/tj-actions/changed-files/issues/1270))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([7fcd53a](https://github.com/tj-actions/changed-files/commit/7fcd53ac001f9faf1b1f57a58e10cd958da114ed))  - (tj-actions[bot])
+- Update README.md ([d7af20b](https://github.com/tj-actions/changed-files/commit/d7af20bab3d42577ec79dffc4e793c14d0df65b3))  - (Tonye Jack)
+- Update README.md ([690b721](https://github.com/tj-actions/changed-files/commit/690b721958b0220fa3f827e13559c5023d277b61))  - (Tonye Jack)
+- Updated the test
+ ([c82a34e](https://github.com/tj-actions/changed-files/commit/c82a34e7e5e87a5c69ee4aff0facae82e5177e3b))  - (Tonye Jack)
+- Updated the test
+ ([7a1c64e](https://github.com/tj-actions/changed-files/commit/7a1c64e8b15493fe087b9289d565d0502f1a97ab))  - (Tonye Jack)
+- Updated dist assets
+ ([71290f0](https://github.com/tj-actions/changed-files/commit/71290f02ff8f886712b65679f29e64216aa3e131))  - (Tonye Jack)
+- Updated test
+ ([ecf455a](https://github.com/tj-actions/changed-files/commit/ecf455a884019154bc08fa00fa237fd5a07b2287))  - (Tonye Jack)
+- Update README.md ([024cd58](https://github.com/tj-actions/changed-files/commit/024cd58ac6e73a0f9617287edc3954db32e85394))  - (Tonye Jack)
+- Update README.md ([c9a1c56](https://github.com/tj-actions/changed-files/commit/c9a1c56f6da50ec6d7986486064919eaeea692cc))  - (Tonye Jack)
+
+## <!-- 30 -->📝 Other
+
+- Merge branch 'feat/add-support-for-recovering-deleted-files'
+ ([749fe3b](https://github.com/tj-actions/changed-files/commit/749fe3bb283cc8d46fc71f976e78eb6e1669f37d))  - (Tonye Jack)
+- Merge d4f86e9d1689a5d2ddb94e173669f31cc3497351 into 0621d936c0d15c7a5a116268ea1f7c362b76c50b
+ ([c706c70](https://github.com/tj-actions/changed-files/commit/c706c70eed92c7d5843cd3921da0a078663423e8))  - (Tonye Jack)
+- Merge branch 'main' into feat/add-support-for-recovering-deleted-files ([d4f86e9](https://github.com/tj-actions/changed-files/commit/d4f86e9d1689a5d2ddb94e173669f31cc3497351))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1271](https://github.com/tj-actions/changed-files/issues/1271)) ([480e87d](https://github.com/tj-actions/changed-files/commit/480e87dd66bdf2a6036db2fd2ea72906a92cfde2))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.43.0 ([#1268](https://github.com/tj-actions/changed-files/issues/1268)) ([0621d93](https://github.com/tj-actions/changed-files/commit/0621d936c0d15c7a5a116268ea1f7c362b76c50b))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.3.0 ([#1267](https://github.com/tj-actions/changed-files/issues/1267))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([54a8c99](https://github.com/tj-actions/changed-files/commit/54a8c99a03eb57f7f561696dd7879bea7587e469))  - (tj-actions[bot])
+
 # [36.3.0](https://github.com/tj-actions/changed-files/compare/v36.2.1...v36.3.0) - (2023-06-16)
 
 ## <!-- 0 -->🚀 Features
