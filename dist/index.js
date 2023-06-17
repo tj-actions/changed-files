@@ -1239,11 +1239,11 @@ function run() {
         core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
         core.info('All Done!');
         core.endGroup();
-        (0, utils_1.recoverDeletedFiles)({
+        yield (0, utils_1.recoverDeletedFiles)({
             inputs,
             workingDirectory,
             deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
-            sha: diffResult.currentSha
+            sha: diffResult.previousSha
         });
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs,
