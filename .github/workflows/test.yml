@@ -641,14 +641,16 @@ jobs:
       - name: Verify deleted files
         if: steps.changed-files-recover-deleted-files.outputs.deleted_files != 'test/test deleted.txt'
         run: |
-            echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files.outputs.deleted_files }}"
-            exit 1
+          echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files.outputs.deleted_files }}"
+          exit 1
 
       - name: Verify that test/test deleted.txt is restored
         run: |
           if [ ! -f "test/test deleted.txt" ]; then
             echo "Expected: (test/test deleted.txt) to exist"
             exit 1
+          else
+            cat "test/test deleted.txt"
           fi
 
       - name: Run changed-files with recover_deleted_files and recover_deleted_files_to_destination
@@ -677,6 +679,8 @@ jobs:
           if [ ! -f "deleted_files/test/test deleted.txt" ]; then
             echo "Expected: (deleted_files/test/test deleted.txt) to exist"
             exit 1
+          else
+            cat "deleted_files/test/test deleted.txt"
           fi
 
   test:
