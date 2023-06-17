@@ -235,12 +235,18 @@ const utils_1 = __nccwpck_require__(918);
 const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
-const setChangedFilesOutput = ({ allDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffResult, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
         allDiffFiles,
         filePatterns
     });
     core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
+    yield (0, utils_1.recoverDeletedFiles)({
+        inputs,
+        workingDirectory,
+        deletedFiles: allFilteredDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
+        sha: diffResult.previousSha
+    });
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -1239,12 +1245,6 @@ function run() {
         core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
         core.info('All Done!');
         core.endGroup();
-        yield (0, utils_1.recoverDeletedFiles)({
-            inputs,
-            workingDirectory,
-            deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
-            sha: diffResult.previousSha
-        });
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs,
             workingDirectory
@@ -1255,7 +1255,9 @@ function run() {
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
                 filePatterns,
-                inputs
+                inputs,
+                workingDirectory,
+                diffResult
             });
             core.info('All Done!');
             core.endGroup();
@@ -1271,8 +1273,10 @@ function run() {
                 yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                     allDiffFiles,
                     filePatterns: yamlFilePatterns[key],
+                    outputPrefix: key,
                     inputs,
-                    outputPrefix: key
+                    workingDirectory,
+                    diffResult
                 });
                 core.info('All Done!');
                 core.endGroup();
@@ -1282,7 +1286,9 @@ function run() {
             core.startGroup('changed-files-all');
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
-                inputs
+                inputs,
+                workingDirectory,
+                diffResult
             });
             core.info('All Done!');
             core.endGroup();

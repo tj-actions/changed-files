@@ -651,6 +651,73 @@ jobs:
             exit 1
           else
             cat "test/test deleted.txt"
+            rm "test/test deleted.txt"
+          fi
+
+      - name: Run changed-files with recover_deleted_files and files input
+        id: changed-files-recover-deleted-files-with-files
+        uses: ./
+        with:
+          base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
+          sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
+          files: |
+            test
+          recover_deleted_files: true
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-recover-deleted-files-with-files.outputs) }}"
+        shell:
+          bash
+
+      - name: Verify deleted files
+        if: steps.changed-files-recover-deleted-files-with-files.outputs.deleted_files != 'test/test deleted.txt'
+        run: |
+          echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files-with-files.outputs.deleted_files }}"
+          exit 1
+
+      - name: Verify that test/test deleted.txt is restored
+        run: |
+          if [ ! -f "test/test deleted.txt" ]; then
+            echo "Expected: (test/test deleted.txt) to exist"
+            exit 1
+          else
+            cat "test/test deleted.txt"
+            rm "test/test deleted.txt"
+          fi
+
+      - name: Run changed-files with recover_deleted_files and files_yaml input
+        id: changed-files-recover-deleted-files-with-files-yaml
+        uses: ./
+        with:
+          base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
+          sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
+          files_yaml: |
+            test:
+              - test/**.txt
+              - test/**.md
+          recover_deleted_files: true
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-recover-deleted-files-with-files-yaml.outputs) }}"
+        shell:
+          bash
+
+      - name: Verify deleted files
+        if: steps.changed-files-recover-deleted-files-with-files-yaml.outputs.test_deleted_files != 'test/test deleted.txt'
+        run: |
+          echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files-with-files-yaml.outputs.test_deleted_files }}"
+          exit 1
+
+      - name: Verify that test/test deleted.txt is restored
+        run: |
+          if [ ! -f "test/test deleted.txt" ]; then
+            echo "Expected: (test/test deleted.txt) to exist"
+            exit 1
+          else
+            cat "test/test deleted.txt"
+            rm "test/test deleted.txt"
           fi
 
       - name: Run changed-files with recover_deleted_files and recover_deleted_files_to_destination

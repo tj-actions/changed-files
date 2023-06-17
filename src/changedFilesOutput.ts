@@ -5,8 +5,9 @@ import {
   getAllChangeTypeFiles,
   getChangeTypeFiles
 } from './changedFiles'
+import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
-import {getFilteredChangedFiles, setOutput} from './utils'
+import {getFilteredChangedFiles, recoverDeletedFiles, setOutput} from './utils'
 
 const getOutputKey = (key: string, outputPrefix: string): string => {
   return outputPrefix ? `${outputPrefix}_${key}` : key
@@ -15,12 +16,16 @@ const getOutputKey = (key: string, outputPrefix: string): string => {
 export const setChangedFilesOutput = async ({
   allDiffFiles,
   inputs,
+  workingDirectory,
+  diffResult,
   filePatterns = [],
   outputPrefix = ''
 }: {
   allDiffFiles: ChangedFiles
   filePatterns?: string[]
   inputs: Inputs
+  workingDirectory: string
+  diffResult: DiffResult
   outputPrefix?: string
 }): Promise<void> => {
   const allFilteredDiffFiles = await getFilteredChangedFiles({
@@ -28,6 +33,13 @@ export const setChangedFilesOutput = async ({
     filePatterns
   })
   core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`)
+
+  await recoverDeletedFiles({
+    inputs,
+    workingDirectory,
+    deletedFiles: allFilteredDiffFiles[ChangeTypeEnum.Deleted],
+    sha: diffResult.previousSha
+  })
 
   const addedFiles = await getChangeTypeFiles({
     inputs,
