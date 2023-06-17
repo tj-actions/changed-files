@@ -157,46 +157,76 @@ inputs:
 outputs:
   added_files:
     description: "Returns only files that are Added (A)."
+  added_files_count:
+    description: "Returns the number of `added_files`"
   copied_files:
     description: "Returns only files that are Copied (C)."
+  copied_files_count:
+    description: "Returns the number of `copied_files`"
   deleted_files:
     description: "Returns only files that are Deleted (D)."
+  deleted_files_count:
+    description: "Returns the number of `deleted_files`"
   modified_files:
     description: "Returns only files that are Modified (M)."
+  modified_files_count:
+    description: "Returns the number of `modified_files`"
   renamed_files:
     description: "Returns only files that are Renamed (R)."
+  renamed_files_count:
+    description: "Returns the number of `renamed_files`"
   all_old_new_renamed_files:
     description:   "Returns only files that are Renamed and lists their old and new names. **NOTE:** This requires setting `include_all_old_new_renamed_files` to `true`. Also, keep in mind that this output is global and wouldn't be nested in outputs generated when the `*_yaml_*` input is used. (R)"
+  all_old_new_renamed_files_count:
+    description:   "Returns the number of `all_old_new_renamed_files`"
   type_changed_files:
     description: "Returns only files that have their file type changed (T)."
+  type_changed_files_count:
+    description: "Returns the number of `type_changed_files`"
   unmerged_files:
     description: "Returns only files that are Unmerged (U)."
+  unmerged_files_count:
+    description: "Returns the number of `unmerged_files`"
   unknown_files:
     description: "Returns only files that are Unknown (X)."
+  unknown_files_count:
+    description: "Returns the number of `unknown_files`"
   all_changed_and_modified_files:
     description: "Returns all changed and modified files i.e. *a combination of (ACMRDTUX)*"
+  all_changed_and_modified_files_count:
+    description: "Returns the number of `all_changed_and_modified_files`"
   all_changed_files:
     description: "Returns all changed files i.e. *a combination of all added, copied, modified and renamed files (ACMR)*"
+  all_changed_files_count:
+    description: "Returns the number of `all_changed_files`"
   any_changed:
     description: "Returns `true` when any of the filenames provided using the `files*` or `files_ignore*` inputs has changed. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
   only_changed:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs has changed. i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
   other_changed_files:
     description: "Returns all other changed files not listed in the files input i.e. *using a combination of all added, copied, modified and renamed files (ACMR)*."
+  other_changed_files_count:
+    description: "Returns the number of `other_changed_files`"
   all_modified_files:
     description: "Returns all changed files i.e. *a combination of all added, copied, modified, renamed and deleted files (ACMRD)*."
+  all_modified_files_count:
+    description: "Returns the number of `all_modified_files`"
   any_modified:
     description: "Returns `true` when any of the filenames provided using the `files*` or `files_ignore*` inputs has been modified. i.e. *using a combination of all added, copied, modified, renamed, and deleted files (ACMRD)*."
   only_modified:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs has been modified. (ACMRD)."
   other_modified_files:
     description: "Returns all other modified files not listed in the files input i.e. *a  combination of all added, copied, modified, and deleted files (ACMRD)*"
+  other_modified_files_count:
+    description: "Returns the number of `other_modified_files`"
   any_deleted:
     description: "Returns `true` when any of the filenames provided using the `files*` or `files_ignore*` inputs has been deleted. (D)"
   only_deleted:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs has been deleted. (D)"
   other_deleted_files:
     description: "Returns all other deleted files not listed in the files input i.e. *a  combination of all deleted files (D)*"
+  other_deleted_files_count:
+    description: "Returns the number of `other_deleted_files`"
 
 runs:
   using: 'node16'

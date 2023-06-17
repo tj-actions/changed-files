@@ -79,9 +79,15 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
         }
     }
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: renamedFiles, shouldEscape: inputs.escapeJson });
+        return {
+            paths: (0, utils_1.jsonOutput)({ value: renamedFiles, shouldEscape: inputs.escapeJson }),
+            count: renamedFiles.length.toString()
+        };
     }
-    return renamedFiles.join(inputs.oldNewFilesSeparator);
+    return {
+        paths: renamedFiles.join(inputs.oldNewFilesSeparator),
+        count: renamedFiles.length.toString()
+    };
 });
 exports.getRenamedFiles = getRenamedFiles;
 var ChangeTypeEnum;
@@ -157,9 +163,15 @@ const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(
         ...new Set(getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }))
     ];
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson });
+        return {
+            paths: (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson }),
+            count: files.length.toString()
+        };
     }
-    return files.join(inputs.separator);
+    return {
+        paths: files.join(inputs.separator),
+        count: files.length.toString()
+    };
 });
 exports.getChangeTypeFiles = getChangeTypeFiles;
 function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
@@ -181,9 +193,15 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
         ...new Set(getAllChangeTypeFilesGenerator({ inputs, changedFiles }))
     ];
     if (inputs.json) {
-        return (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson });
+        return {
+            paths: (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson }),
+            count: files.length.toString()
+        };
     }
-    return files.join(inputs.separator);
+    return {
+        paths: files.join(inputs.separator),
+        count: files.length.toString()
+    };
 });
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 
@@ -255,7 +273,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Added files: ${addedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('added_files', outputPrefix),
-        value: addedFiles,
+        value: addedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('added_files_count', outputPrefix),
+        value: addedFiles.count,
         inputs
     });
     const copiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -266,7 +289,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Copied files: ${copiedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('copied_files', outputPrefix),
-        value: copiedFiles,
+        value: copiedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('copied_files_count', outputPrefix),
+        value: copiedFiles.count,
         inputs
     });
     const modifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -277,7 +305,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Modified files: ${modifiedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('modified_files', outputPrefix),
-        value: modifiedFiles,
+        value: modifiedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('modified_files_count', outputPrefix),
+        value: modifiedFiles.count,
         inputs
     });
     const renamedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -288,7 +321,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Renamed files: ${renamedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('renamed_files', outputPrefix),
-        value: renamedFiles,
+        value: renamedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('renamed_files_count', outputPrefix),
+        value: renamedFiles.count,
         inputs
     });
     const typeChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -299,7 +337,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Type changed files: ${typeChangedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('type_changed_files', outputPrefix),
-        value: typeChangedFiles,
+        value: typeChangedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('type_changed_files_count', outputPrefix),
+        value: typeChangedFiles.count,
         inputs
     });
     const unmergedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -310,7 +353,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Unmerged files: ${unmergedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('unmerged_files', outputPrefix),
-        value: unmergedFiles,
+        value: unmergedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('unmerged_files_count', outputPrefix),
+        value: unmergedFiles.count,
         inputs
     });
     const unknownFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -321,7 +369,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Unknown files: ${unknownFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('unknown_files', outputPrefix),
-        value: unknownFiles,
+        value: unknownFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('unknown_files_count', outputPrefix),
+        value: unknownFiles.count,
         inputs
     });
     const allChangedAndModifiedFiles = yield (0, changedFiles_1.getAllChangeTypeFiles)({
@@ -331,7 +384,12 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('all_changed_and_modified_files', outputPrefix),
-        value: allChangedAndModifiedFiles,
+        value: allChangedAndModifiedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('all_changed_and_modified_files_count', outputPrefix),
+        value: allChangedAndModifiedFiles.count,
         inputs
     });
     const allChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -347,12 +405,17 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`All changed files: ${allChangedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('all_changed_files', outputPrefix),
-        value: allChangedFiles,
+        value: allChangedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('all_changed_files_count', outputPrefix),
+        value: allChangedFiles.count,
         inputs
     });
     yield (0, utils_1.setOutput)({
         key: getOutputKey('any_changed', outputPrefix),
-        value: allChangedFiles.length > 0 && filePatterns.length > 0,
+        value: allChangedFiles.paths.length > 0 && filePatterns.length > 0,
         inputs
     });
     const allOtherChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -366,11 +429,11 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         ]
     });
     core.debug(`All other changed files: ${allOtherChangedFiles}`);
-    const otherChangedFiles = allOtherChangedFiles
+    const otherChangedFiles = allOtherChangedFiles.paths
         .split(inputs.separator)
-        .filter((filePath) => !allChangedFiles.split(inputs.separator).includes(filePath));
+        .filter((filePath) => !allChangedFiles.paths.split(inputs.separator).includes(filePath));
     const onlyChanged = otherChangedFiles.length === 0 &&
-        allChangedFiles.length > 0 &&
+        allChangedFiles.paths.length > 0 &&
         filePatterns.length > 0;
     yield (0, utils_1.setOutput)({
         key: getOutputKey('only_changed', outputPrefix),
@@ -380,6 +443,11 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     yield (0, utils_1.setOutput)({
         key: getOutputKey('other_changed_files', outputPrefix),
         value: otherChangedFiles.join(inputs.separator),
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('other_changed_files_count', outputPrefix),
+        value: otherChangedFiles.length.toString(),
         inputs
     });
     const allModifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -396,12 +464,17 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`All modified files: ${allModifiedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('all_modified_files', outputPrefix),
-        value: allModifiedFiles,
+        value: allModifiedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('all_modified_files_count', outputPrefix),
+        value: allModifiedFiles.count,
         inputs
     });
     yield (0, utils_1.setOutput)({
         key: getOutputKey('any_modified', outputPrefix),
-        value: allModifiedFiles.length > 0 && filePatterns.length > 0,
+        value: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
         inputs
     });
     const allOtherModifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -415,11 +488,11 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
             changedFiles_1.ChangeTypeEnum.Deleted
         ]
     });
-    const otherModifiedFiles = allOtherModifiedFiles
+    const otherModifiedFiles = allOtherModifiedFiles.paths
         .split(inputs.separator)
-        .filter((filePath) => !allModifiedFiles.split(inputs.separator).includes(filePath));
+        .filter((filePath) => !allModifiedFiles.paths.split(inputs.separator).includes(filePath));
     const onlyModified = otherModifiedFiles.length === 0 &&
-        allModifiedFiles.length > 0 &&
+        allModifiedFiles.paths.length > 0 &&
         filePatterns.length > 0;
     yield (0, utils_1.setOutput)({
         key: getOutputKey('only_modified', outputPrefix),
@@ -431,6 +504,11 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         value: otherModifiedFiles.join(inputs.separator),
         inputs
     });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('other_modified_files_count', outputPrefix),
+        value: otherModifiedFiles.length.toString(),
+        inputs
+    });
     const deletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -439,12 +517,17 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     core.debug(`Deleted files: ${deletedFiles}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('deleted_files', outputPrefix),
-        value: deletedFiles,
+        value: deletedFiles.paths,
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('deleted_files_count', outputPrefix),
+        value: deletedFiles.count,
         inputs
     });
     yield (0, utils_1.setOutput)({
         key: getOutputKey('any_deleted', outputPrefix),
-        value: deletedFiles.length > 0 && filePatterns.length > 0,
+        value: deletedFiles.paths.length > 0 && filePatterns.length > 0,
         inputs
     });
     const allOtherDeletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -452,11 +535,11 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
     });
-    const otherDeletedFiles = allOtherDeletedFiles
+    const otherDeletedFiles = allOtherDeletedFiles.paths
         .split(inputs.separator)
-        .filter(filePath => !deletedFiles.split(inputs.separator).includes(filePath));
+        .filter(filePath => !deletedFiles.paths.split(inputs.separator).includes(filePath));
     const onlyDeleted = otherDeletedFiles.length === 0 &&
-        deletedFiles.length > 0 &&
+        deletedFiles.paths.length > 0 &&
         filePatterns.length > 0;
     yield (0, utils_1.setOutput)({
         key: getOutputKey('only_deleted', outputPrefix),
@@ -466,6 +549,11 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
     yield (0, utils_1.setOutput)({
         key: getOutputKey('other_deleted_files', outputPrefix),
         value: otherDeletedFiles.join(inputs.separator),
+        inputs
+    });
+    yield (0, utils_1.setOutput)({
+        key: getOutputKey('other_deleted_files_count', outputPrefix),
+        value: otherDeletedFiles.length.toString(),
         inputs
     });
 });
@@ -1305,7 +1393,12 @@ function run() {
             core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`);
             yield (0, utils_1.setOutput)({
                 key: 'all_old_new_renamed_files',
-                value: allOldNewRenamedFiles,
+                value: allOldNewRenamedFiles.paths,
+                inputs
+            });
+            yield (0, utils_1.setOutput)({
+                key: 'all_old_new_renamed_files_count',
+                value: allOldNewRenamedFiles.count,
                 inputs
             });
             core.info('All Done!');

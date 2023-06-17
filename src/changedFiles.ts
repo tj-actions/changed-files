@@ -23,7 +23,7 @@ export const getRenamedFiles = async ({
   hasSubmodule: boolean
   diffResult: DiffResult
   submodulePaths: string[]
-}): Promise<string> => {
+}): Promise<{paths: string; count: string}> => {
   const renamedFiles = await gitRenamedFiles({
     cwd: workingDirectory,
     sha1: diffResult.previousSha,
@@ -63,10 +63,16 @@ export const getRenamedFiles = async ({
   }
 
   if (inputs.json) {
-    return jsonOutput({value: renamedFiles, shouldEscape: inputs.escapeJson})
+    return {
+      paths: jsonOutput({value: renamedFiles, shouldEscape: inputs.escapeJson}),
+      count: renamedFiles.length.toString()
+    }
   }
 
-  return renamedFiles.join(inputs.oldNewFilesSeparator)
+  return {
+    paths: renamedFiles.join(inputs.oldNewFilesSeparator),
+    count: renamedFiles.length.toString()
+  }
 }
 
 export enum ChangeTypeEnum {
@@ -180,16 +186,22 @@ export const getChangeTypeFiles = async ({
   inputs: Inputs
   changedFiles: ChangedFiles
   changeTypes: ChangeTypeEnum[]
-}): Promise<string> => {
+}): Promise<{paths: string; count: string}> => {
   const files = [
     ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))
   ]
 
   if (inputs.json) {
-    return jsonOutput({value: files, shouldEscape: inputs.escapeJson})
+    return {
+      paths: jsonOutput({value: files, shouldEscape: inputs.escapeJson}),
+      count: files.length.toString()
+    }
   }
 
-  return files.join(inputs.separator)
+  return {
+    paths: files.join(inputs.separator),
+    count: files.length.toString()
+  }
 }
 
 function* getAllChangeTypeFilesGenerator({
@@ -219,14 +231,20 @@ export const getAllChangeTypeFiles = async ({
 }: {
   inputs: Inputs
   changedFiles: ChangedFiles
-}): Promise<string> => {
+}): Promise<{paths: string; count: string}> => {
   const files = [
     ...new Set(getAllChangeTypeFilesGenerator({inputs, changedFiles}))
   ]
 
   if (inputs.json) {
-    return jsonOutput({value: files, shouldEscape: inputs.escapeJson})
+    return {
+      paths: jsonOutput({value: files, shouldEscape: inputs.escapeJson}),
+      count: files.length.toString()
+    }
   }
 
-  return files.join(inputs.separator)
+  return {
+    paths: files.join(inputs.separator),
+    count: files.length.toString()
+  }
 }

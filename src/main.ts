@@ -183,7 +183,12 @@ export async function run(): Promise<void> {
     core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`)
     await setOutput({
       key: 'all_old_new_renamed_files',
-      value: allOldNewRenamedFiles,
+      value: allOldNewRenamedFiles.paths,
+      inputs
+    })
+    await setOutput({
+      key: 'all_old_new_renamed_files_count',
+      value: allOldNewRenamedFiles.count,
       inputs
     })
     core.info('All Done!')
