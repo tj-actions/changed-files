@@ -1073,6 +1073,10 @@ const getInputs = () => {
     });
     const outputDir = core.getInput('output_dir', { required: false });
     const outputRenamedFilesAsDeletedAndAdded = core.getBooleanInput('output_renamed_files_as_deleted_and_added', { required: false });
+    const recoverDeletedFiles = core.getBooleanInput('recover_deleted_files', {
+        required: false
+    });
+    const recoverDeletedFilesToDestination = core.getInput('recover_deleted_files_to_destination', { required: false });
     const inputs = {
         files,
         filesSeparator,
@@ -1107,7 +1111,9 @@ const getInputs = () => {
         sinceLastRemoteCommit,
         writeOutputFiles,
         outputDir,
-        outputRenamedFilesAsDeletedAndAdded
+        outputRenamedFilesAsDeletedAndAdded,
+        recoverDeletedFiles,
+        recoverDeletedFilesToDestination
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -1233,6 +1239,12 @@ function run() {
         core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
         core.info('All Done!');
         core.endGroup();
+        yield (0, utils_1.recoverDeletedFiles)({
+            inputs,
+            workingDirectory,
+            deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
+            sha: diffResult.previousSha
+        });
         const filePatterns = yield (0, utils_1.getFilePatterns)({
             inputs,
             workingDirectory
@@ -1367,7 +1379,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.recoverDeletedFiles = exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2039,6 +2051,37 @@ const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.setOutput = setOutput;
+const getDeletedFileContents = ({ cwd, filePath, sha }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['show', `${sha}:${filePath}`], {
+        cwd,
+        silent: process.env.RUNNER_DEBUG !== '1',
+        ignoreReturnCode: true
+    });
+    if (exitCode !== 0) {
+        throw new Error(`Error getting file content from git history "${filePath}": ${stderr}`);
+    }
+    return stdout;
+});
+const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, sha }) => __awaiter(void 0, void 0, void 0, function* () {
+    if (inputs.recoverDeletedFiles) {
+        for (const deletedFile of deletedFiles) {
+            let target = path.join(workingDirectory, deletedFile);
+            if (inputs.recoverDeletedFilesToDestination) {
+                target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
+            }
+            const deletedFileContents = yield getDeletedFileContents({
+                cwd: workingDirectory,
+                filePath: deletedFile,
+                sha
+            });
+            if (!(yield exists(path.dirname(target)))) {
+                yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
+            }
+            yield fs_1.promises.writeFile(target, deletedFileContents);
+        }
+    }
+});
+exports.recoverDeletedFiles = recoverDeletedFiles;
 
 
 /***/ }),
