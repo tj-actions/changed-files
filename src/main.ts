@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import path from 'path'
-import {ChangeTypeEnum, getAllDiffFiles, getRenamedFiles} from './changedFiles'
+import {getAllDiffFiles, getRenamedFiles} from './changedFiles'
 import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
@@ -14,7 +14,6 @@ import {
   getSubmodulePath,
   getYamlFilePatterns,
   isRepoShallow,
-  recoverDeletedFiles,
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
@@ -119,13 +118,6 @@ export async function run(): Promise<void> {
   core.info('All Done!')
   core.endGroup()
 
-  await recoverDeletedFiles({
-    inputs,
-    workingDirectory,
-    deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
-    sha: diffResult.previousSha
-  })
-
   const filePatterns = await getFilePatterns({
     inputs,
     workingDirectory
@@ -137,7 +129,9 @@ export async function run(): Promise<void> {
     await setChangedFilesOutput({
       allDiffFiles,
       filePatterns,
-      inputs
+      inputs,
+      workingDirectory,
+      diffResult
     })
     core.info('All Done!')
     core.endGroup()
@@ -155,8 +149,10 @@ export async function run(): Promise<void> {
       await setChangedFilesOutput({
         allDiffFiles,
         filePatterns: yamlFilePatterns[key],
+        outputPrefix: key,
         inputs,
-        outputPrefix: key
+        workingDirectory,
+        diffResult
       })
       core.info('All Done!')
       core.endGroup()
@@ -167,7 +163,9 @@ export async function run(): Promise<void> {
     core.startGroup('changed-files-all')
     await setChangedFilesOutput({
       allDiffFiles,
-      inputs
+      inputs,
+      workingDirectory,
+      diffResult
     })
     core.info('All Done!')
     core.endGroup()
