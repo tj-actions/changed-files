@@ -628,8 +628,8 @@ jobs:
         id: changed-files-recover-deleted-files
         uses: ./
         with:
-          base_sha: "a145f82f0fa44fc1da2ef4e77476be10692cbcd7"
-          sha: "a4d31c705125d6e8e1fe1cf95ee55f14fac0716d"
+          base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
+          sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           recover_deleted_files: true
 
       - name: Show output
@@ -655,8 +655,8 @@ jobs:
         id: changed-files-recover-deleted-files-to-destination
         uses: ./
         with:
-          base_sha: "a145f82f0fa44fc1da2ef4e77476be10692cbcd7"
-          sha: "a4d31c705125d6e8e1fe1cf95ee55f14fac0716d"
+          base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
+          sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           recover_deleted_files: true
           recover_deleted_files_to_destination: "deleted_files"
 
