@@ -1,5 +1,28 @@
 # Changelog
 
+# [36.4.1](https://github.com/tj-actions/changed-files/compare/v36.4.0...v36.4.1) - (2023-06-19)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with returning old filename in renamed files output ([#1281](https://github.com/tj-actions/changed-files/issues/1281)) ([54479c3](https://github.com/tj-actions/changed-files/commit/54479c37f5eb47a43e595c6b71e1df2c112ce7f1))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update action.yml ([18c62c5](https://github.com/tj-actions/changed-files/commit/18c62c592a1bb252205275ac68d523e142aa3256))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v5.60.0 ([#1282](https://github.com/tj-actions/changed-files/issues/1282)) ([6d89069](https://github.com/tj-actions/changed-files/commit/6d890691342f29ee654d14841dae8c5d46b23180))  - (renovate[bot])
+- **deps:** Update reviewdog/action-shellcheck action to v1.18 ([#1279](https://github.com/tj-actions/changed-files/issues/1279)) ([3bbaba4](https://github.com/tj-actions/changed-files/commit/3bbaba4ae79020f9eaff96b5cbecc0f0663214a1))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.2.2 ([#1278](https://github.com/tj-actions/changed-files/issues/1278)) ([c39b06f](https://github.com/tj-actions/changed-files/commit/c39b06f825efcb60a604e5f952a513b644de6164))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1277](https://github.com/tj-actions/changed-files/issues/1277)) ([4c2f8ed](https://github.com/tj-actions/changed-files/commit/4c2f8eda370a246578045fa9ad100be4dd83fdc6))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.4.0 ([#1275](https://github.com/tj-actions/changed-files/issues/1275))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2c8123e](https://github.com/tj-actions/changed-files/commit/2c8123e91ee0d1adea852dca2c0139cb15c3aabf))  - (tj-actions[bot])
+
 # [36.4.0](https://github.com/tj-actions/changed-files/compare/v36.3.0...v36.4.0) - (2023-06-17)
 
 ## <!-- 0 -->🚀 Features
