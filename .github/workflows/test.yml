@@ -39,7 +39,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v3
       - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1.17
+        uses: reviewdog/action-shellcheck@v1.18
 
   build:
     runs-on: ubuntu-latest
