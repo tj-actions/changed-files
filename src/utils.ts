@@ -484,7 +484,7 @@ export const getAllChangedFiles = async ({
         changedFiles[ChangeTypeEnum.Deleted].push(normalizedFilePath)
         changedFiles[ChangeTypeEnum.Added].push(normalizedNewPath)
       } else {
-        changedFiles[ChangeTypeEnum.Renamed].push(normalizedFilePath)
+        changedFiles[ChangeTypeEnum.Renamed].push(normalizedNewPath)
       }
     } else {
       changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
