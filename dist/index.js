@@ -1813,7 +1813,7 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
                 changedFiles[changedFiles_1.ChangeTypeEnum.Added].push(normalizedNewPath);
             }
             else {
-                changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(normalizedFilePath);
+                changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(normalizedNewPath);
             }
         }
         else {
