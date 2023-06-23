@@ -522,7 +522,7 @@ jobs:
 
       - name: Run changed-files with REST API
         id: changed-files
-        uses: ./
+        uses: tj-actions/changed-files@feat/add-support-for-retrieving-changed-files-via-github-rest-api
 
       - name: Show output
         run: |
