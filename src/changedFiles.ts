@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import type {RestEndpointMethodTypes} from '@octokit/rest'
+// import type {RestEndpointMethodTypes} from '@octokit/rest'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
@@ -277,7 +277,7 @@ export const getChangedFilesFromGithubAPI = async ({
   const {data: pullRequest} = await octokit.rest.pulls.listFiles({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    pull_number: github.context.payload.pull_request?.number!,
+    pull_number: Number(env.GITHUB_EVENT_PULL_REQUEST_NUMBER),
     per_page: 100
   })
 
