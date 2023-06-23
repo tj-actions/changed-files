@@ -1,6 +1,9 @@
+import * as core from '@actions/core'
+import {Octokit, RestEndpointMethodTypes} from '@octokit/rest'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
+import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   getDirnameMaxDepth,
@@ -247,4 +250,52 @@ export const getAllChangeTypeFiles = async ({
     paths: files.join(inputs.separator),
     count: files.length.toString()
   }
+}
+
+export const getChangedFilesFromGithubAPI = async ({
+  inputs,
+  env
+}: {
+  inputs: Inputs
+  env: Env
+}): Promise<ChangedFiles> => {
+  const changedFiles: ChangedFiles = {
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
+  }
+
+  const octokit = new Octokit({
+    auth: inputs.token,
+    baseUrl: inputs.api_url
+  })
+
+  core.info('Getting changed files from GitHub API...')
+  for await (const response of octokit.paginate.iterator<
+    RestEndpointMethodTypes['pulls']['listFiles']['response']['data']
+  >(
+    octokit.pulls.listFiles.endpoint.merge({
+      owner: env.GITHUB_REPOSITORY_OWNER,
+      repo: env.GITHUB_REPOSITORY,
+      pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
+      per_page: 100
+    })
+  )) {
+    for (const paginatedItems of response.data) {
+      for (const item of paginatedItems) {
+        const changeType: ChangeTypeEnum =
+          item.status === 'removed'
+            ? ChangeTypeEnum.Deleted
+            : (item.status as ChangeTypeEnum)
+        changedFiles[changeType].push(item.filename)
+      }
+    }
+  }
+
+  return changedFiles
 }
