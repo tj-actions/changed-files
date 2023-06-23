@@ -153,6 +153,14 @@ inputs:
     description: "Recover deleted files to a new destination directory, defaults to the original location."
     required: false
     default: ""
+  token:
+    description: "Github token used to fetch changed files from Github's API."
+    required: false
+    default: ${{ github.token }}
+  api_url:
+    description: "Github API URL."
+    required: false
+    default: ${{ github.api_url }}
 
 outputs:
   added_files:

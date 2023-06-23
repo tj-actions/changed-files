@@ -132,6 +132,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-assets
+          path: dir1/dist
 
       - name: Run changed-files with defaults on the dir1
         id: changed-files-dir1
@@ -152,6 +153,12 @@ jobs:
           done
         shell:
           bash
+
+      - name: Download build assets
+        uses: actions/download-artifact@v3
+        with:
+          name: build-assets
+          path: dir2/dist
 
       - name: Checkout into dir2
         uses: actions/checkout@v3
@@ -507,6 +514,38 @@ jobs:
         run: |
           echo "Expected: (failure) got ${{ steps.changed-files-specific.outcome }}"
           exit 1
+
+  test-rest-api:
+    name: Test changed-files with REST API
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'push'
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Checkout into dir1
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          submodules: true
+          fetch-depth: 0
+          path: dir1
+
+      - name: Download build assets
+        uses: actions/download-artifact@v3
+        with:
+          name: build-assets
+          path: dir1/dist
+
+      - name: Run changed-files with REST API
+        id: changed-files
+        uses: ./dir1
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
 
   test-submodules:
     name: Test changed-files with submodule
