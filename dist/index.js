@@ -215,9 +215,7 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
-    const octokit = github.getOctokit(inputs.token, {
-        baseUrl: inputs.api_url
-    });
+    const octokit = github.getOctokit(inputs.token);
     const changedFiles = {
         [ChangeTypeEnum.Added]: [],
         [ChangeTypeEnum.Copied]: [],
