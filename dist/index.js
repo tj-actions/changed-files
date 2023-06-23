@@ -1543,7 +1543,7 @@ function run() {
         if (inputs.token &&
             env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
             !hasGitDirectory) {
-            core.info('Running via REST API');
+            core.info("Using GitHub's REST API to get changed files");
             const unsupportedInputs = [
                 'sha',
                 'baseSha',
@@ -1556,7 +1556,7 @@ function run() {
             ];
             for (const input of unsupportedInputs) {
                 if (inputs[input]) {
-                    core.warning(`Input "${input}" is not supported via REST API`);
+                    core.warning(`Input "${input}" is not supported when using GitHub's REST API to get changed files`);
                 }
             }
             yield getChangedFilesFromRESTAPI({ inputs, env, workingDirectory });
@@ -1566,7 +1566,7 @@ function run() {
                 core.setFailed("Can't find local .git directory. Please run actions/checkout before this action");
                 return;
             }
-            core.info('Running via local git');
+            core.info('Using local .git directory');
             yield getChangedFilesFromLocalGit({ inputs, env, workingDirectory });
         }
     });
