@@ -215,7 +215,9 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
-    const octokit = github.getOctokit(inputs.token);
+    const octokit = github.getOctokit(inputs.token, {
+        baseUrl: inputs.apiUrl
+    });
     const changedFiles = {
         [ChangeTypeEnum.Added]: [],
         [ChangeTypeEnum.Copied]: [],
@@ -234,7 +236,7 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
         per_page: 100
     });
     const paginatedResponse = yield octokit.paginate(options);
-    core.info(`Got ${paginatedResponse.length} changed files from GitHub API`);
+    core.info(`Found ${paginatedResponse.length} changed files from GitHub API`);
     const statusMap = {
         added: ChangeTypeEnum.Added,
         removed: ChangeTypeEnum.Deleted,
@@ -1243,7 +1245,7 @@ const getInputs = () => {
     });
     const recoverDeletedFilesToDestination = core.getInput('recover_deleted_files_to_destination', { required: false });
     const token = core.getInput('token', { required: false });
-    const api_url = core.getInput('api_url', { required: false });
+    const apiUrl = core.getInput('api_url', { required: false });
     const inputs = {
         files,
         filesSeparator,
@@ -1283,7 +1285,7 @@ const getInputs = () => {
         outputDir,
         outputRenamedFilesAsDeletedAndAdded,
         token,
-        api_url
+        apiUrl
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);

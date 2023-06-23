@@ -119,7 +119,7 @@ jobs:
   # Event `push`: Compare the preceding commit -> to the current commit of the main branch.
   # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
   # ------------------------------------------------------------------------------------------------------------
-  job2:  # Example 2 - Using local .git history
+  job2:  # Example 2 - Using local .git directory
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -141,7 +141,7 @@ jobs:
             echo "$file was changed"
           done
 
-  job3:  # Example 3 - Using local .git history
+  job3:  # Example 3 - Using local .git directory
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -161,7 +161,7 @@ jobs:
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
-  job4:  # Example 4 - Using local .git history
+  job4:  # Example 4 - Using local .git directory
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -184,7 +184,7 @@ jobs:
           echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 
-  job5:  # Example 5 - Using local .git history
+  job5:  # Example 5 - Using local .git directory
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:

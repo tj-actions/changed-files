@@ -258,7 +258,9 @@ export const getChangedFilesFromGithubAPI = async ({
   inputs: Inputs
   env: Env
 }): Promise<ChangedFiles> => {
-  const octokit = github.getOctokit(inputs.token)
+  const octokit = github.getOctokit(inputs.token, {
+    baseUrl: inputs.apiUrl
+  })
   const changedFiles: ChangedFiles = {
     [ChangeTypeEnum.Added]: [],
     [ChangeTypeEnum.Copied]: [],
@@ -283,7 +285,7 @@ export const getChangedFilesFromGithubAPI = async ({
     RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
   >(options)
 
-  core.info(`Got ${paginatedResponse.length} changed files from GitHub API`)
+  core.info(`Found ${paginatedResponse.length} changed files from GitHub API`)
   const statusMap: Record<string, ChangeTypeEnum> = {
     added: ChangeTypeEnum.Added,
     removed: ChangeTypeEnum.Deleted,
