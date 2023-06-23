@@ -102,6 +102,7 @@ jobs:
     # - A maximum of 3000 files can be returned.
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
+    if: github.event_name != 'push'
     permissions:
       pull-requests: read
     steps:
