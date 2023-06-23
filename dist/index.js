@@ -45,6 +45,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+// import type {RestEndpointMethodTypes} from '@octokit/rest'
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
 const flatten_1 = __importDefault(__nccwpck_require__(2394));
@@ -207,7 +208,6 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
 });
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     const octokit = github.getOctokit(inputs.token);
     const changedFiles = {
         [ChangeTypeEnum.Added]: [],
@@ -223,7 +223,7 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
     const { data: pullRequest } = yield octokit.rest.pulls.listFiles({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        pull_number: (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number,
+        pull_number: Number(env.GITHUB_EVENT_PULL_REQUEST_NUMBER),
         per_page: 100
     });
     core.info(`Got ${pullRequest.length} changed files from GitHub API`);
