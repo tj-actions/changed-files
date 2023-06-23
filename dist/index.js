@@ -235,14 +235,21 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
     });
     const paginatedResponse = yield octokit.paginate(options);
     core.info(`Got ${paginatedResponse.length} changed files from GitHub API`);
+    const statusMap = {
+        added: ChangeTypeEnum.Added,
+        removed: ChangeTypeEnum.Deleted,
+        modified: ChangeTypeEnum.Modified,
+        renamed: ChangeTypeEnum.Renamed,
+        copied: ChangeTypeEnum.Copied,
+        changed: ChangeTypeEnum.TypeChanged,
+        unchanged: ChangeTypeEnum.Unmerged
+    };
     try {
         for (var _d = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _a = paginatedResponse_1_1.done, !_a; _d = true) {
             _c = paginatedResponse_1_1.value;
             _d = false;
             const item = _c;
-            const changeType = item.status === 'removed'
-                ? ChangeTypeEnum.Deleted
-                : item.status;
+            const changeType = statusMap[item.status] || ChangeTypeEnum.Unknown;
             if (changeType === ChangeTypeEnum.Renamed) {
                 if (inputs.outputRenamedFilesAsDeletedAndAdded) {
                     changedFiles[ChangeTypeEnum.Deleted].push(item.filename);
