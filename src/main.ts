@@ -283,7 +283,7 @@ export async function run(): Promise<void> {
     env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
     !hasGitDirectory
   ) {
-    core.info('Using GitHub\'s REST API to get changed files')
+    core.info("Using GitHub's REST API to get changed files")
     const unsupportedInputs: (keyof Inputs)[] = [
       'sha',
       'baseSha',
@@ -297,7 +297,9 @@ export async function run(): Promise<void> {
 
     for (const input of unsupportedInputs) {
       if (inputs[input]) {
-        core.warning(`Input "${input}" is not supported when using GitHub's REST API to get changed files`)
+        core.warning(
+          `Input "${input}" is not supported when using GitHub's REST API to get changed files`
+        )
       }
     }
     await getChangedFilesFromRESTAPI({inputs, env, workingDirectory})
