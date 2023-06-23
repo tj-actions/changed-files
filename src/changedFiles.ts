@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {Octokit} from '@octokit/rest'
+import * as github from '@actions/github'
 import type {RestEndpointMethodTypes} from '@octokit/rest'
 import * as path from 'path'
 
@@ -260,6 +260,9 @@ export const getChangedFilesFromGithubAPI = async ({
   inputs: Inputs
   env: Env
 }): Promise<ChangedFiles> => {
+  const octokit = github.getOctokit(inputs.token, {
+    baseUrl: inputs.api_url
+  })
   const changedFiles: ChangedFiles = {
     [ChangeTypeEnum.Added]: [],
     [ChangeTypeEnum.Copied]: [],
@@ -271,16 +274,11 @@ export const getChangedFilesFromGithubAPI = async ({
     [ChangeTypeEnum.Unknown]: []
   }
 
-  const octokit = new Octokit({
-    auth: inputs.token,
-    baseUrl: inputs.api_url
-  })
-
   core.info('Getting changed files from GitHub API...')
   for await (const response of octokit.paginate.iterator<
     RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
   >(
-    octokit.pulls.listFiles.endpoint.merge({
+    octokit.rest.pulls.listFiles.endpoint.merge({
       owner: env.GITHUB_REPOSITORY_OWNER,
       repo: env.GITHUB_REPOSITORY,
       pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
