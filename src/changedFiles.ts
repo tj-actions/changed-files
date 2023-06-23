@@ -260,9 +260,7 @@ export const getChangedFilesFromGithubAPI = async ({
   inputs: Inputs
   env: Env
 }): Promise<ChangedFiles> => {
-  const octokit = github.getOctokit(inputs.token, {
-    baseUrl: inputs.api_url
-  })
+  const octokit = github.getOctokit(inputs.token)
   const changedFiles: ChangedFiles = {
     [ChangeTypeEnum.Added]: [],
     [ChangeTypeEnum.Copied]: [],
