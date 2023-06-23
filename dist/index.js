@@ -38,6 +38,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -45,7 +52,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-// import type {RestEndpointMethodTypes} from '@octokit/rest'
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
 const flatten_1 = __importDefault(__nccwpck_require__(2394));
@@ -208,6 +214,7 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
 });
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, e_1, _b, _c;
     const octokit = github.getOctokit(inputs.token);
     const changedFiles = {
         [ChangeTypeEnum.Added]: [],
@@ -220,47 +227,43 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
         [ChangeTypeEnum.Unknown]: []
     };
     core.info('Getting changed files from GitHub API...');
-    const { data: pullRequest } = yield octokit.rest.pulls.listFiles({
+    const options = octokit.rest.pulls.listFiles.endpoint.merge({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        pull_number: Number(env.GITHUB_EVENT_PULL_REQUEST_NUMBER),
+        pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
         per_page: 100
     });
-    core.info(`Got ${pullRequest.length} changed files from GitHub API`);
-    // for await (const response of octokit.paginate.iterator<
-    //   RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
-    // >(
-    //   octokit.rest.pulls.listFiles.endpoint.merge({
-    //     owner: env.GITHUB_REPOSITORY_OWNER,
-    //     repo: env.GITHUB_REPOSITORY,
-    //     pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
-    //     per_page: 100
-    //   })
-    // )) {
-    //   if (response.status !== 200) {
-    //     throw new Error(
-    //       `Failed to get changed files from GitHub API. Status: ${response.status}`
-    //     )
-    //   }
-    //   core.info(`Got ${response.data.length} changed files from GitHub API`)
-    //   for (const item of response.data) {
-    //     const changeType: ChangeTypeEnum =
-    //       item.status === 'removed'
-    //         ? ChangeTypeEnum.Deleted
-    //         : (item.status as ChangeTypeEnum)
-    //
-    //     if (changeType === ChangeTypeEnum.Renamed) {
-    //       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-    //         changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
-    //         changedFiles[ChangeTypeEnum.Added].push(item.filename)
-    //       } else {
-    //         changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
-    //       }
-    //     } else {
-    //       changedFiles[changeType].push(item.filename)
-    //     }
-    //   }
-    // }
+    const paginatedResponse = yield octokit.paginate(options);
+    core.info(`Got ${paginatedResponse.length} changed files from GitHub API`);
+    try {
+        for (var _d = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _a = paginatedResponse_1_1.done, !_a; _d = true) {
+            _c = paginatedResponse_1_1.value;
+            _d = false;
+            const item = _c;
+            const changeType = item.status === 'removed'
+                ? ChangeTypeEnum.Deleted
+                : item.status;
+            if (changeType === ChangeTypeEnum.Renamed) {
+                if (inputs.outputRenamedFilesAsDeletedAndAdded) {
+                    changedFiles[ChangeTypeEnum.Deleted].push(item.filename);
+                    changedFiles[ChangeTypeEnum.Added].push(item.filename);
+                }
+                else {
+                    changedFiles[ChangeTypeEnum.Renamed].push(item.filename);
+                }
+            }
+            else {
+                changedFiles[changeType].push(item.filename);
+            }
+        }
+    }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    finally {
+        try {
+            if (!_d && !_a && (_b = paginatedResponse_1.return)) yield _b.call(paginatedResponse_1);
+        }
+        finally { if (e_1) throw e_1.error; }
+    }
     return changedFiles;
 });
 exports.getChangedFilesFromGithubAPI = getChangedFilesFromGithubAPI;
