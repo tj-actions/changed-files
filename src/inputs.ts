@@ -39,7 +39,7 @@ export type Inputs = {
   recoverDeletedFiles: boolean
   recoverDeletedFilesToDestination: string
   token: string
-  api_url: string
+  apiUrl: string
 }
 
 export const getInputs = (): Inputs => {
@@ -153,7 +153,7 @@ export const getInputs = (): Inputs => {
     {required: false}
   )
   const token = core.getInput('token', {required: false})
-  const api_url = core.getInput('api_url', {required: false})
+  const apiUrl = core.getInput('api_url', {required: false})
 
   const inputs: Inputs = {
     files,
@@ -194,7 +194,7 @@ export const getInputs = (): Inputs => {
     outputDir,
     outputRenamedFilesAsDeletedAndAdded,
     token,
-    api_url
+    apiUrl
   }
 
   if (fetchDepth) {
