@@ -508,6 +508,24 @@ jobs:
           echo "Expected: (failure) got ${{ steps.changed-files-specific.outcome }}"
           exit 1
 
+  test-rest-api:
+    name: Test changed-files with REST API
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'push'
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Run changed-files with REST API
+        id: changed-files
+        uses: tj-actions/changed-files@feat/add-support-for-retrieving-changed-files-via-github-rest-api
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
   test-submodules:
     name: Test changed-files with submodule
     runs-on: ubuntu-latest

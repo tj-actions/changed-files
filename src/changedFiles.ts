@@ -1,6 +1,10 @@
+import * as core from '@actions/core'
+import * as github from '@actions/github'
+import type {RestEndpointMethodTypes} from '@octokit/rest'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
+import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   getDirnameMaxDepth,
@@ -247,4 +251,66 @@ export const getAllChangeTypeFiles = async ({
     paths: files.join(inputs.separator),
     count: files.length.toString()
   }
+}
+
+export const getChangedFilesFromGithubAPI = async ({
+  inputs,
+  env
+}: {
+  inputs: Inputs
+  env: Env
+}): Promise<ChangedFiles> => {
+  const octokit = github.getOctokit(inputs.token)
+  const changedFiles: ChangedFiles = {
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
+  }
+
+  core.info('Getting changed files from GitHub API...')
+
+  const options = octokit.rest.pulls.listFiles.endpoint.merge({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
+    per_page: 100
+  })
+
+  const paginatedResponse = await octokit.paginate<
+    RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
+  >(options)
+
+  core.info(`Got ${paginatedResponse.length} changed files from GitHub API`)
+  const statusMap: Record<string, ChangeTypeEnum> = {
+    added: ChangeTypeEnum.Added,
+    removed: ChangeTypeEnum.Deleted,
+    modified: ChangeTypeEnum.Modified,
+    renamed: ChangeTypeEnum.Renamed,
+    copied: ChangeTypeEnum.Copied,
+    changed: ChangeTypeEnum.TypeChanged,
+    unchanged: ChangeTypeEnum.Unmerged
+  }
+
+  for await (const item of paginatedResponse) {
+    const changeType: ChangeTypeEnum =
+      statusMap[item.status] || ChangeTypeEnum.Unknown
+
+    if (changeType === ChangeTypeEnum.Renamed) {
+      if (inputs.outputRenamedFilesAsDeletedAndAdded) {
+        changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
+        changedFiles[ChangeTypeEnum.Added].push(item.filename)
+      } else {
+        changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
+      }
+    } else {
+      changedFiles[changeType].push(item.filename)
+    }
+  }
+
+  return changedFiles
 }
