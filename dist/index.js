@@ -708,7 +708,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
     let targetBranch = env.GITHUB_REF_NAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
-    if (isShallow) {
+    if (isShallow && env.CHANGED_FILES_HISTORY_FETCHED !== 'true') {
         core.info('Repository is shallow, fetching more history...');
         if (isTag) {
             const sourceBranch = env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '') ||
@@ -852,7 +852,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
-    if (isShallow) {
+    if (isShallow && env.CHANGED_FILES_HISTORY_FETCHED !== 'true') {
         core.info('Repository is shallow, fetching more history...');
         let prFetchExitCode = yield (0, utils_1.gitFetch)({
             cwd: workingDirectory,
@@ -1112,7 +1112,8 @@ const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
         GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
         GITHUB_EVENT_NAME: process.env.GITHUB_EVENT_NAME || '',
         GITHUB_REPOSITORY_OWNER: process.env.GITHUB_REPOSITORY_OWNER || '',
-        GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY || ''
+        GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY || '',
+        CHANGED_FILES_HISTORY_FETCHED: process.env.CHANGED_FILES_HISTORY_FETCHED || ''
     };
 });
 exports.getEnv = getEnv;
@@ -1382,6 +1383,9 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory }) => __awa
         return;
     }
     core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
+    if (isShallow) {
+        core.exportVariable('CHANGED_FILES_HISTORY_FETCHED', 'true');
+    }
     const allDiffFiles = yield (0, changedFiles_1.getAllDiffFiles)({
         workingDirectory,
         hasSubmodule,

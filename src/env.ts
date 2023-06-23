@@ -19,6 +19,7 @@ export type Env = {
   GITHUB_EVENT_PULL_REQUEST_BASE_REF: string
   GITHUB_REPOSITORY_OWNER: string
   GITHUB_REPOSITORY: string
+  CHANGED_FILES_HISTORY_FETCHED: string
 }
 
 type GithubEvent = {
@@ -75,6 +76,8 @@ export const getEnv = async (): Promise<Env> => {
     GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
     GITHUB_EVENT_NAME: process.env.GITHUB_EVENT_NAME || '',
     GITHUB_REPOSITORY_OWNER: process.env.GITHUB_REPOSITORY_OWNER || '',
-    GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY || ''
+    GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY || '',
+    CHANGED_FILES_HISTORY_FETCHED:
+      process.env.CHANGED_FILES_HISTORY_FETCHED || ''
   }
 }
