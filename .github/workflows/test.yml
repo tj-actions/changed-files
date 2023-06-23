@@ -920,7 +920,7 @@ jobs:
           exit 1
         shell:
           bash
-      - name: Run changed-files with dir_names and dir_names_exclude_root
+      - name: Run changed-files with dir_names and dir_names_exclude_current_dir
         id: changed-files-dir-names-exclude-root
         uses: ./
         with:
@@ -928,7 +928,7 @@ jobs:
           sha: ce8c1983
           fetch_depth: 60000
           dir_names: "true"
-          dir_names_exclude_root: "true"
+          dir_names_exclude_current_dir: "true"
           dir_names_max_depth: "1"
       - name: Show output
         run: |
