@@ -511,6 +511,7 @@ jobs:
   test-rest-api:
     name: Test changed-files with REST API
     runs-on: ubuntu-latest
+    needs: build
     if: github.event_name != 'push'
     permissions:
       pull-requests: read
