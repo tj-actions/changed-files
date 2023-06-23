@@ -282,33 +282,26 @@ export const getChangedFilesFromGithubAPI = async ({
   })
 
   const paginatedResponse = await octokit.paginate<
-    RestEndpointMethodTypes['pulls']['listFiles']['response']
+    RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
   >(options)
 
-  for await (const response of paginatedResponse) {
-    if (response.status !== 200) {
-      throw new Error(
-        `Failed to get changed files from GitHub API. Status: ${response.status}`
-      )
-    }
-    core.info(`Got ${response.data.length} changed files from GitHub API`)
+  core.info(`Got ${paginatedResponse.length} changed files from GitHub API`)
 
-    for (const item of response.data) {
-      const changeType: ChangeTypeEnum =
-        item.status === 'removed'
-          ? ChangeTypeEnum.Deleted
-          : (item.status as ChangeTypeEnum)
+  for await (const item of paginatedResponse) {
+    const changeType: ChangeTypeEnum =
+      item.status === 'removed'
+        ? ChangeTypeEnum.Deleted
+        : (item.status as ChangeTypeEnum)
 
-      if (changeType === ChangeTypeEnum.Renamed) {
-        if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-          changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
-          changedFiles[ChangeTypeEnum.Added].push(item.filename)
-        } else {
-          changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
-        }
+    if (changeType === ChangeTypeEnum.Renamed) {
+      if (inputs.outputRenamedFilesAsDeletedAndAdded) {
+        changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
+        changedFiles[ChangeTypeEnum.Added].push(item.filename)
       } else {
-        changedFiles[changeType].push(item.filename)
+        changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
       }
+    } else {
+      changedFiles[changeType].push(item.filename)
     }
   }
 
