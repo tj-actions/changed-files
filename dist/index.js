@@ -1566,6 +1566,10 @@ function run() {
             yield getChangedFilesFromRESTAPI({ inputs, env, workingDirectory });
         }
         else {
+            if (!hasGitDirectory) {
+                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action");
+                return;
+            }
             core.info('Running via local git');
             yield getChangedFilesFromLocalGit({ inputs, env, workingDirectory });
         }
