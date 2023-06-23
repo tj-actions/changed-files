@@ -307,6 +307,13 @@ export async function run(): Promise<void> {
     }
     await getChangedFilesFromRESTAPI({inputs, env, workingDirectory})
   } else {
+    if (!hasGitDirectory) {
+      core.setFailed(
+        "Can't find local .git directory. Please run actions/checkout before this action"
+      )
+      return
+    }
+
     core.info('Running via local git')
     await getChangedFilesFromLocalGit({inputs, env, workingDirectory})
   }
