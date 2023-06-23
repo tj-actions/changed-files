@@ -22,10 +22,10 @@ export const setChangedFilesOutput = async ({
   outputPrefix = ''
 }: {
   allDiffFiles: ChangedFiles
-  filePatterns?: string[]
   inputs: Inputs
   workingDirectory: string
-  diffResult: DiffResult
+  diffResult?: DiffResult
+  filePatterns?: string[]
   outputPrefix?: string
 }): Promise<void> => {
   const allFilteredDiffFiles = await getFilteredChangedFiles({
@@ -34,12 +34,14 @@ export const setChangedFilesOutput = async ({
   })
   core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`)
 
-  await recoverDeletedFiles({
-    inputs,
-    workingDirectory,
-    deletedFiles: allFilteredDiffFiles[ChangeTypeEnum.Deleted],
-    sha: diffResult.previousSha
-  })
+  if (diffResult) {
+    await recoverDeletedFiles({
+      inputs,
+      workingDirectory,
+      deletedFiles: allFilteredDiffFiles[ChangeTypeEnum.Deleted],
+      sha: diffResult.previousSha
+    })
+  }
 
   const addedFiles = await getChangeTypeFiles({
     inputs,
