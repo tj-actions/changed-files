@@ -1,18 +1,23 @@
 import * as core from '@actions/core'
 import path from 'path'
-import {getAllDiffFiles, getRenamedFiles} from './changedFiles'
+import {
+  getAllDiffFiles,
+  getChangedFilesFromGithubAPI,
+  getRenamedFiles
+} from './changedFiles'
 import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
   getSHAForPullRequestEvent,
   getSHAForPushEvent
 } from './commitSha'
-import {getEnv} from './env'
-import {getInputs} from './inputs'
+import {Env, getEnv} from './env'
+import {getInputs, Inputs} from './inputs'
 import {
   getFilePatterns,
   getSubmodulePath,
   getYamlFilePatterns,
+  hasLocalGitDirectory,
   isRepoShallow,
   setOutput,
   submoduleExists,
@@ -20,14 +25,15 @@ import {
   verifyMinimumGitVersion
 } from './utils'
 
-export async function run(): Promise<void> {
-  core.startGroup('changed-files')
-
-  const env = await getEnv()
-  core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
-  const inputs = getInputs()
-  core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
-
+const getChangedFilesFromLocalGit = async ({
+  inputs,
+  env,
+  workingDirectory
+}: {
+  inputs: Inputs
+  env: Env
+  workingDirectory: string
+}): Promise<void> => {
   await verifyMinimumGitVersion()
 
   let quotePathValue = 'on'
@@ -48,10 +54,6 @@ export async function run(): Promise<void> {
     })
   }
 
-  const workingDirectory = path.resolve(
-    env.GITHUB_WORKSPACE || process.cwd(),
-    inputs.path
-  )
   const isShallow = await isRepoShallow({cwd: workingDirectory})
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
@@ -193,6 +195,127 @@ export async function run(): Promise<void> {
     })
     core.info('All Done!')
     core.endGroup()
+  }
+}
+
+const getChangedFilesFromRESTAPI = async ({
+  inputs,
+  env,
+  workingDirectory
+}: {
+  inputs: Inputs
+  env: Env
+  workingDirectory: string
+}): Promise<void> => {
+  const allDiffFiles = await getChangedFilesFromGithubAPI({
+    inputs,
+    env
+  })
+  core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
+  core.info('All Done!')
+
+  const filePatterns = await getFilePatterns({
+    inputs,
+    workingDirectory
+  })
+  core.debug(`File patterns: ${filePatterns}`)
+
+  if (filePatterns.length > 0) {
+    core.startGroup('changed-files-patterns')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      filePatterns,
+      inputs,
+      workingDirectory
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+
+  const yamlFilePatterns = await getYamlFilePatterns({
+    inputs,
+    workingDirectory
+  })
+  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+
+  if (Object.keys(yamlFilePatterns).length > 0) {
+    for (const key of Object.keys(yamlFilePatterns)) {
+      core.startGroup(`changed-files-yaml-${key}`)
+      await setChangedFilesOutput({
+        allDiffFiles,
+        filePatterns: yamlFilePatterns[key],
+        outputPrefix: key,
+        inputs,
+        workingDirectory
+      })
+      core.info('All Done!')
+      core.endGroup()
+    }
+  }
+
+  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
+    core.startGroup('changed-files-all')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      inputs,
+      workingDirectory
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+}
+
+export async function run(): Promise<void> {
+  core.startGroup('changed-files')
+
+  const env = await getEnv()
+  core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
+  const inputs = getInputs()
+  core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
+  const workingDirectory = path.resolve(
+    env.GITHUB_WORKSPACE || process.cwd(),
+    inputs.path
+  )
+  const hasGitDirectory = await hasLocalGitDirectory({workingDirectory})
+
+  if (
+    inputs.token &&
+    env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
+    !hasGitDirectory
+  ) {
+    core.info('Running via REST API')
+    const unsupportedInputs: (keyof Inputs)[] = [
+      'sha',
+      'baseSha',
+      'since',
+      'until',
+      'path',
+      'quotePath',
+      'diffRelative',
+      'sinceLastRemoteCommit',
+      'recoverDeletedFiles',
+      'recoverDeletedFilesToDestination',
+      'includeAllOldNewRenamedFiles',
+      'oldNewSeparator',
+      'oldNewFilesSeparator'
+    ]
+
+    for (const input of unsupportedInputs) {
+      if (inputs[input]) {
+        core.warning(`Input "${input}" is not supported via REST API`)
+      }
+    }
+    await getChangedFilesFromRESTAPI({inputs, env, workingDirectory})
+  } else {
+    if (!hasGitDirectory) {
+      core.setFailed(
+        "Can't find local .git directory. Please run actions/checkout before this action"
+      )
+      return
+    }
+
+    core.info('Running via local git')
+    await getChangedFilesFromLocalGit({inputs, env, workingDirectory})
   }
 }
 
