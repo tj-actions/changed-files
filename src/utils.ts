@@ -97,7 +97,7 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
     ['--version'],
-    {silent: process.env.RUNNER_DEBUG !== '1'}
+    {silent: !core.isDebug()}
   )
 
   if (exitCode !== 0) {
@@ -181,7 +181,7 @@ export const updateGitGlobalConfig = async ({
     ['config', '--global', name, value],
     {
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -197,7 +197,7 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
     ['rev-parse', '--is-shallow-repository'],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -215,7 +215,7 @@ export const submoduleExists = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -236,7 +236,7 @@ export const gitFetch = async ({
   const {exitCode} = await exec.getExecOutput('git', ['fetch', '-q', ...args], {
     cwd,
     ignoreReturnCode: true,
-    silent: process.env.RUNNER_DEBUG !== '1'
+    silent: !core.isDebug()
   })
 
   return exitCode
@@ -255,7 +255,7 @@ export const gitFetchSubmodules = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -280,7 +280,7 @@ export const getSubmodulePath = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -313,7 +313,7 @@ export const gitSubmoduleDiffSHA = async ({
     ['diff', parentSha1, parentSha2, '--', submodulePath],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -366,7 +366,7 @@ export const gitRenamedFiles = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -436,7 +436,7 @@ export const getAllChangedFiles = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
   const changedFiles: ChangedFiles = {
@@ -537,7 +537,7 @@ export const gitLog = async ({
 }): Promise<string> => {
   const {stdout} = await exec.getExecOutput('git', ['log', ...args], {
     cwd,
-    silent: process.env.RUNNER_DEBUG !== '1'
+    silent: !core.isDebug()
   })
 
   return stdout.trim()
@@ -546,7 +546,7 @@ export const gitLog = async ({
 export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   const {stdout} = await exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
     cwd,
-    silent: process.env.RUNNER_DEBUG !== '1'
+    silent: !core.isDebug()
   })
 
   return stdout.trim()
@@ -564,7 +564,7 @@ export const getRemoteBranchHeadSha = async ({
     ['rev-parse', `origin/${branch}`],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -578,7 +578,7 @@ export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -604,7 +604,7 @@ export const verifyCommitSha = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -634,7 +634,7 @@ export const getPreviousGitTag = async ({
     ['tag', '--sort=-version:refname'],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -652,7 +652,7 @@ export const getPreviousGitTag = async ({
     ['rev-parse', previousTag],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -678,7 +678,7 @@ export const canDiffCommits = async ({
     {
       cwd,
       ignoreReturnCode: true,
-      silent: process.env.RUNNER_DEBUG !== '1'
+      silent: !core.isDebug()
     }
   )
 
@@ -1047,7 +1047,7 @@ const getDeletedFileContents = async ({
     ['show', `${sha}:${filePath}`],
     {
       cwd,
-      silent: process.env.RUNNER_DEBUG !== '1',
+      silent: !core.isDebug(),
       ignoreReturnCode: true
     }
   )
