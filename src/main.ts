@@ -17,6 +17,7 @@ import {
   getFilePatterns,
   getSubmodulePath,
   getYamlFilePatterns,
+  hasLocalGitDirectory,
   isRepoShallow,
   setOutput,
   submoduleExists,
@@ -276,8 +277,16 @@ export async function run(): Promise<void> {
   core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
+  const hasGitDirectory = await hasLocalGitDirectory({
+    workingDirectory: env.GITHUB_WORKSPACE || process.cwd()
+  })
 
-  if (inputs.token && env.GITHUB_EVENT_PULL_REQUEST_NUMBER) {
+  if (
+    inputs.token &&
+    env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
+    !hasGitDirectory
+  ) {
+    core.info('Running via REST API')
     const unsupportedInputs: (keyof Inputs)[] = [
       'sha',
       'baseSha',
@@ -301,6 +310,7 @@ export async function run(): Promise<void> {
     }
     await getChangedFilesFromRESTAPI({inputs, env})
   } else {
+    core.info('Running via local git')
     await getChangedFilesFromLocalGit({inputs, env})
   }
 }

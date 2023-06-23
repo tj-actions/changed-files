@@ -1097,3 +1097,12 @@ export const recoverDeletedFiles = async ({
     }
   }
 }
+
+export const hasLocalGitDirectory = async ({
+  workingDirectory
+}: {
+  workingDirectory: string
+}): Promise<boolean> => {
+  const gitDirectory = path.join(workingDirectory, '.git')
+  return await exists(gitDirectory)
+}

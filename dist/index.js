@@ -1526,7 +1526,13 @@ function run() {
         core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
-        if (inputs.token && env.GITHUB_EVENT_PULL_REQUEST_NUMBER) {
+        const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({
+            workingDirectory: env.GITHUB_WORKSPACE || process.cwd()
+        });
+        if (inputs.token &&
+            env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
+            !hasGitDirectory) {
+            core.info('Running via REST API');
             const unsupportedInputs = [
                 'sha',
                 'baseSha',
@@ -1550,6 +1556,7 @@ function run() {
             yield getChangedFilesFromRESTAPI({ inputs, env });
         }
         else {
+            core.info('Running via local git');
             yield getChangedFilesFromLocalGit({ inputs, env });
         }
     });
@@ -1626,7 +1633,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.recoverDeletedFiles = exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2329,6 +2336,11 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, sha }) =>
     }
 });
 exports.recoverDeletedFiles = recoverDeletedFiles;
+const hasLocalGitDirectory = ({ workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+    const gitDirectory = path.join(workingDirectory, '.git');
+    return yield exists(gitDirectory);
+});
+exports.hasLocalGitDirectory = hasLocalGitDirectory;
 
 
 /***/ }),
