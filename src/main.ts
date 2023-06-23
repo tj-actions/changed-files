@@ -109,10 +109,6 @@ const getChangedFilesFromLocalGit = async ({
     `Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`
   )
 
-  if (isShallow) {
-    core.exportVariable('CHANGED_FILES_HISTORY_FETCHED', 'true')
-  }
-
   const allDiffFiles = await getAllDiffFiles({
     workingDirectory,
     hasSubmodule,

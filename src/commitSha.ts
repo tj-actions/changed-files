@@ -92,7 +92,7 @@ export const getSHAForPushEvent = async (
   const currentBranch = targetBranch
   let initialCommit = false
 
-  if (isShallow && env.CHANGED_FILES_HISTORY_FETCHED !== 'true') {
+  if (isShallow) {
     core.info('Repository is shallow, fetching more history...')
 
     if (isTag) {
@@ -271,7 +271,7 @@ export const getSHAForPullRequestEvent = async (
     targetBranch = currentBranch
   }
 
-  if (isShallow && env.CHANGED_FILES_HISTORY_FETCHED !== 'true') {
+  if (isShallow) {
     core.info('Repository is shallow, fetching more history...')
 
     let prFetchExitCode = await gitFetch({
