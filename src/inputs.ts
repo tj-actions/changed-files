@@ -39,6 +39,8 @@ export type Inputs = {
   outputRenamedFilesAsDeletedAndAdded: boolean
   recoverDeletedFiles: boolean
   recoverDeletedFilesToDestination: string
+  token: string
+  api_url: string
 }
 
 export const getInputs = (): Inputs => {
@@ -154,6 +156,8 @@ export const getInputs = (): Inputs => {
     'recover_deleted_files_to_destination',
     {required: false}
   )
+  const token = core.getInput('token', {required: false})
+  const api_url = core.getInput('api_url', {required: false})
 
   const inputs: Inputs = {
     files,
@@ -171,9 +175,7 @@ export const getInputs = (): Inputs => {
     filesIgnoreYamlFromSourceFile,
     filesIgnoreYamlFromSourceFileSeparator,
     separator,
-    includeAllOldNewRenamedFiles,
-    oldNewSeparator,
-    oldNewFilesSeparator,
+    // Not Supported via REST API
     sha,
     baseSha,
     since,
@@ -181,17 +183,23 @@ export const getInputs = (): Inputs => {
     path,
     quotePath,
     diffRelative,
+    sinceLastRemoteCommit,
+    recoverDeletedFiles,
+    recoverDeletedFilesToDestination,
+    includeAllOldNewRenamedFiles,
+    oldNewSeparator,
+    oldNewFilesSeparator,
+    // End Not Supported via REST API
     dirNames,
     dirNamesExcludeRoot,
     dirNamesExcludeCurrentDir,
     json,
     escapeJson,
-    sinceLastRemoteCommit,
     writeOutputFiles,
     outputDir,
     outputRenamedFilesAsDeletedAndAdded,
-    recoverDeletedFiles,
-    recoverDeletedFilesToDestination
+    token,
+    api_url
   }
 
   if (fetchDepth) {
