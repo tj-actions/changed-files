@@ -278,7 +278,7 @@ export async function run(): Promise<void> {
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
   if (inputs.token && env.GITHUB_EVENT_PULL_REQUEST_NUMBER) {
-    const unsupportedInputs: Array<keyof Inputs> = [
+    const unsupportedInputs: (keyof Inputs)[] = [
       'sha',
       'baseSha',
       'since',

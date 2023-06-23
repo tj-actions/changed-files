@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
-import {Octokit, RestEndpointMethodTypes} from '@octokit/rest'
+import {Octokit} from '@octokit/rest'
+import type {RestEndpointMethodTypes} from '@octokit/rest'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
