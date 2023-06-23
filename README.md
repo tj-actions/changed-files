@@ -102,6 +102,8 @@ jobs:
     # - A maximum of 3000 files can be returned.
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
+    permissions:
+      pull-requests: read
     steps:
       - name: Get changed files
         id: changed-files
