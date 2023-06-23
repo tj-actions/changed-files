@@ -172,8 +172,7 @@ function* getChangeTypeFilesGenerator({
         yield getDirnameMaxDepth({
           pathStr: file,
           dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-          excludeCurrentDir:
-            inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+          excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
         })
       } else {
         yield file
@@ -220,8 +219,7 @@ function* getAllChangeTypeFilesGenerator({
       yield getDirnameMaxDepth({
         pathStr: file,
         dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-        excludeCurrentDir:
-          inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+        excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
       })
     } else {
       yield file

@@ -112,11 +112,6 @@ inputs:
     description: "Exclude the current directory represented by `.` from the output when `dir_names` is set to `true`."
     required: false
     default: "false"
-  dir_names_exclude_root:
-    description: "Exclude the root directory represented by `.` from the output when `dir_names`is set to `true`."
-    required: false
-    default: "false"
-    deprecationMessage: "Use `dir_names_exclude_current_dir` instead."
   json:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false

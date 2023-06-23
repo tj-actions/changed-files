@@ -28,7 +28,6 @@ export type Inputs = {
   diffRelative: boolean
   dirNames: boolean
   dirNamesMaxDepth?: number
-  dirNamesExcludeRoot: boolean
   dirNamesExcludeCurrentDir: boolean
   json: boolean
   escapeJson: boolean
@@ -125,9 +124,6 @@ export const getInputs = (): Inputs => {
   const dirNamesMaxDepth = core.getInput('dir_names_max_depth', {
     required: false
   })
-  const dirNamesExcludeRoot = core.getBooleanInput('dir_names_exclude_root', {
-    required: false
-  })
   const dirNamesExcludeCurrentDir = core.getBooleanInput(
     'dir_names_exclude_current_dir',
     {
@@ -191,7 +187,6 @@ export const getInputs = (): Inputs => {
     oldNewFilesSeparator,
     // End Not Supported via REST API
     dirNames,
-    dirNamesExcludeRoot,
     dirNamesExcludeCurrentDir,
     json,
     escapeJson,

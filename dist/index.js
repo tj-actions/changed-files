@@ -158,7 +158,7 @@ function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
                 yield (0, utils_1.getDirnameMaxDepth)({
                     pathStr: file,
                     dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-                    excludeCurrentDir: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+                    excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
                 });
             }
             else {
@@ -189,7 +189,7 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
             yield (0, utils_1.getDirnameMaxDepth)({
                 pathStr: file,
                 dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-                excludeCurrentDir: inputs.dirNamesExcludeRoot || inputs.dirNamesExcludeCurrentDir
+                excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
             });
         }
         else {
@@ -1226,9 +1226,6 @@ const getInputs = () => {
     const dirNamesMaxDepth = core.getInput('dir_names_max_depth', {
         required: false
     });
-    const dirNamesExcludeRoot = core.getBooleanInput('dir_names_exclude_root', {
-        required: false
-    });
     const dirNamesExcludeCurrentDir = core.getBooleanInput('dir_names_exclude_current_dir', {
         required: false
     });
@@ -1279,7 +1276,6 @@ const getInputs = () => {
         oldNewFilesSeparator,
         // End Not Supported via REST API
         dirNames,
-        dirNamesExcludeRoot,
         dirNamesExcludeCurrentDir,
         json,
         escapeJson,
