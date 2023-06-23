@@ -1,5 +1,44 @@
 # Changelog
 
+# [37.0.0](https://github.com/tj-actions/changed-files/compare/v36.4.1...v37.0.0) - (2023-06-23)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for retrieving changed files via github rest api ([#1289](https://github.com/tj-actions/changed-files/issues/1289)) ([fd5b3a4](https://github.com/tj-actions/changed-files/commit/fd5b3a411da53db8da7b4b197cc1b1066dcd5360))  - (Tonye Jack)
+
+## <!-- 17 -->➖ Remove
+
+- Deprecated dir_names_exclude_root ([#1291](https://github.com/tj-actions/changed-files/issues/1291)) ([faa5db4](https://github.com/tj-actions/changed-files/commit/faa5db4b1d5c904bd14ba8dc0d429e2c257c9638))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1295](https://github.com/tj-actions/changed-files/issues/1295))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([a553a02](https://github.com/tj-actions/changed-files/commit/a553a029f5a46a8e74f782b41db046e63aab0cfb))  - (tj-actions[bot])
+- Updated README.md ([#1292](https://github.com/tj-actions/changed-files/issues/1292))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([63f203d](https://github.com/tj-actions/changed-files/commit/63f203d400de5479b07e8a01487881309f2bc0ce))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update README.md ([5817a9e](https://github.com/tj-actions/changed-files/commit/5817a9efb0d7cc34b917d8146ea10b9f32044968))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1297](https://github.com/tj-actions/changed-files/issues/1297)) ([33d50af](https://github.com/tj-actions/changed-files/commit/33d50af03f5e8e0914e7ddea9455ca6cde2033b1))  - (renovate[bot])
+- Use input api url ([#1293](https://github.com/tj-actions/changed-files/issues/1293)) ([a4cd522](https://github.com/tj-actions/changed-files/commit/a4cd522ee2e5d7999bb102867e6d806e59861c52))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1290](https://github.com/tj-actions/changed-files/issues/1290)) ([c4a394a](https://github.com/tj-actions/changed-files/commit/c4a394a9cfbbfcea1d864b5d6c9f9aa2b7960a9b))  - (renovate[bot])
+- **deps:** Update tj-actions/verify-changed-files action to v16 ([#1288](https://github.com/tj-actions/changed-files/issues/1288)) ([50ae49b](https://github.com/tj-actions/changed-files/commit/50ae49b0e4dc2c5bdccb7aad26373561c753b17f))  - (renovate[bot])
+- Update manual-test.yml ([588d46e](https://github.com/tj-actions/changed-files/commit/588d46e858ff7c814f5a26458ae8794b715d690a))  - (Tonye Jack)
+- Update README.md ([bdeaa91](https://github.com/tj-actions/changed-files/commit/bdeaa9108ce22a3e92aefbe165c85ea29b839a24))  - (Tonye Jack)
+- Update matrix-test.yml ([4d8812d](https://github.com/tj-actions/changed-files/commit/4d8812d205c7d0bca52560321514947f65c7a2f9))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1287](https://github.com/tj-actions/changed-files/issues/1287)) ([668fd3a](https://github.com/tj-actions/changed-files/commit/668fd3a7139e499b321f1889c2f1a90b508da43e))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1285](https://github.com/tj-actions/changed-files/issues/1285)) ([b952f3b](https://github.com/tj-actions/changed-files/commit/b952f3beb3bb65ec19163628da458efb10e5f3d6))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1284](https://github.com/tj-actions/changed-files/issues/1284)) ([ce8bc5d](https://github.com/tj-actions/changed-files/commit/ce8bc5d49a2cf03a217066239554d467140a3054))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v36.4.1 ([#1283](https://github.com/tj-actions/changed-files/issues/1283))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([9ff3603](https://github.com/tj-actions/changed-files/commit/9ff36033594327f40a8c22612579a3604e90fc7a))  - (tj-actions[bot])
+
 # [36.4.1](https://github.com/tj-actions/changed-files/compare/v36.4.0...v36.4.1) - (2023-06-19)
 
 ## <!-- 1 -->🐛 Bug Fixes
