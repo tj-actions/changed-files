@@ -286,12 +286,19 @@ export const getChangedFilesFromGithubAPI = async ({
   >(options)
 
   core.info(`Got ${paginatedResponse.length} changed files from GitHub API`)
+  const statusMap: Record<string, ChangeTypeEnum> = {
+    added: ChangeTypeEnum.Added,
+    removed: ChangeTypeEnum.Deleted,
+    modified: ChangeTypeEnum.Modified,
+    renamed: ChangeTypeEnum.Renamed,
+    copied: ChangeTypeEnum.Copied,
+    changed: ChangeTypeEnum.TypeChanged,
+    unchanged: ChangeTypeEnum.Unmerged
+  }
 
   for await (const item of paginatedResponse) {
     const changeType: ChangeTypeEnum =
-      item.status === 'removed'
-        ? ChangeTypeEnum.Deleted
-        : (item.status as ChangeTypeEnum)
+      statusMap[item.status] || ChangeTypeEnum.Unknown
 
     if (changeType === ChangeTypeEnum.Renamed) {
       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
