@@ -1338,7 +1338,7 @@ const commitSha_1 = __nccwpck_require__(8613);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
-const getChangedFilesFromLocalGit = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     yield (0, utils_1.verifyMinimumGitVersion)();
     let quotePathValue = 'on';
@@ -1355,7 +1355,6 @@ const getChangedFilesFromLocalGit = ({ inputs, env }) => __awaiter(void 0, void 
             value: 'true'
         });
     }
-    const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
     const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
     const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
     let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
@@ -1465,8 +1464,7 @@ const getChangedFilesFromLocalGit = ({ inputs, env }) => __awaiter(void 0, void 
         core.endGroup();
     }
 });
-const getChangedFilesFromRESTAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
-    const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
+const getChangedFilesFromRESTAPI = ({ inputs, env, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     const allDiffFiles = yield (0, changedFiles_1.getChangedFilesFromGithubAPI)({
         inputs,
         env
@@ -1526,9 +1524,8 @@ function run() {
         core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
-        const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({
-            workingDirectory: env.GITHUB_WORKSPACE || process.cwd()
-        });
+        const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
+        const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
         if (inputs.token &&
             env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
             !hasGitDirectory) {
@@ -1553,11 +1550,11 @@ function run() {
                     core.warning(`Input "${input}" is not supported via REST API`);
                 }
             }
-            yield getChangedFilesFromRESTAPI({ inputs, env });
+            yield getChangedFilesFromRESTAPI({ inputs, env, workingDirectory });
         }
         else {
             core.info('Running via local git');
-            yield getChangedFilesFromLocalGit({ inputs, env });
+            yield getChangedFilesFromLocalGit({ inputs, env, workingDirectory });
         }
     });
 }

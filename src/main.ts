@@ -27,10 +27,12 @@ import {
 
 const getChangedFilesFromLocalGit = async ({
   inputs,
-  env
+  env,
+  workingDirectory
 }: {
   inputs: Inputs
   env: Env
+  workingDirectory: string
 }): Promise<void> => {
   await verifyMinimumGitVersion()
 
@@ -52,10 +54,6 @@ const getChangedFilesFromLocalGit = async ({
     })
   }
 
-  const workingDirectory = path.resolve(
-    env.GITHUB_WORKSPACE || process.cwd(),
-    inputs.path
-  )
   const isShallow = await isRepoShallow({cwd: workingDirectory})
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
   let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
@@ -202,16 +200,13 @@ const getChangedFilesFromLocalGit = async ({
 
 const getChangedFilesFromRESTAPI = async ({
   inputs,
-  env
+  env,
+  workingDirectory
 }: {
   inputs: Inputs
   env: Env
+  workingDirectory: string
 }): Promise<void> => {
-  const workingDirectory = path.resolve(
-    env.GITHUB_WORKSPACE || process.cwd(),
-    inputs.path
-  )
-
   const allDiffFiles = await getChangedFilesFromGithubAPI({
     inputs,
     env
@@ -277,9 +272,11 @@ export async function run(): Promise<void> {
   core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
-  const hasGitDirectory = await hasLocalGitDirectory({
-    workingDirectory: env.GITHUB_WORKSPACE || process.cwd()
-  })
+  const workingDirectory = path.resolve(
+    env.GITHUB_WORKSPACE || process.cwd(),
+    inputs.path
+  )
+  const hasGitDirectory = await hasLocalGitDirectory({workingDirectory})
 
   if (
     inputs.token &&
@@ -308,10 +305,10 @@ export async function run(): Promise<void> {
         core.warning(`Input "${input}" is not supported via REST API`)
       }
     }
-    await getChangedFilesFromRESTAPI({inputs, env})
+    await getChangedFilesFromRESTAPI({inputs, env, workingDirectory})
   } else {
     core.info('Running via local git')
-    await getChangedFilesFromLocalGit({inputs, env})
+    await getChangedFilesFromLocalGit({inputs, env, workingDirectory})
   }
 }
 
