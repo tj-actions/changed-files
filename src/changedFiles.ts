@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-// import type {RestEndpointMethodTypes} from '@octokit/rest'
+import type {RestEndpointMethodTypes} from '@octokit/rest'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
@@ -274,49 +274,43 @@ export const getChangedFilesFromGithubAPI = async ({
 
   core.info('Getting changed files from GitHub API...')
 
-  const {data: pullRequest} = await octokit.rest.pulls.listFiles({
+  const options = octokit.rest.pulls.listFiles.endpoint.merge({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    pull_number: Number(env.GITHUB_EVENT_PULL_REQUEST_NUMBER),
+    pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
     per_page: 100
   })
 
-  core.info(`Got ${pullRequest.length} changed files from GitHub API`)
+  const paginatedResponse = await octokit.paginate<
+    RestEndpointMethodTypes['pulls']['listFiles']['response']
+  >(options)
 
-  // for await (const response of octokit.paginate.iterator<
-  //   RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
-  // >(
-  //   octokit.rest.pulls.listFiles.endpoint.merge({
-  //     owner: env.GITHUB_REPOSITORY_OWNER,
-  //     repo: env.GITHUB_REPOSITORY,
-  //     pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
-  //     per_page: 100
-  //   })
-  // )) {
-  //   if (response.status !== 200) {
-  //     throw new Error(
-  //       `Failed to get changed files from GitHub API. Status: ${response.status}`
-  //     )
-  //   }
-  //   core.info(`Got ${response.data.length} changed files from GitHub API`)
-  //   for (const item of response.data) {
-  //     const changeType: ChangeTypeEnum =
-  //       item.status === 'removed'
-  //         ? ChangeTypeEnum.Deleted
-  //         : (item.status as ChangeTypeEnum)
-  //
-  //     if (changeType === ChangeTypeEnum.Renamed) {
-  //       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-  //         changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
-  //         changedFiles[ChangeTypeEnum.Added].push(item.filename)
-  //       } else {
-  //         changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
-  //       }
-  //     } else {
-  //       changedFiles[changeType].push(item.filename)
-  //     }
-  //   }
-  // }
+  for await (const response of paginatedResponse) {
+    if (response.status !== 200) {
+      throw new Error(
+        `Failed to get changed files from GitHub API. Status: ${response.status}`
+      )
+    }
+    core.info(`Got ${response.data.length} changed files from GitHub API`)
+
+    for (const item of response.data) {
+      const changeType: ChangeTypeEnum =
+        item.status === 'removed'
+          ? ChangeTypeEnum.Deleted
+          : (item.status as ChangeTypeEnum)
+
+      if (changeType === ChangeTypeEnum.Renamed) {
+        if (inputs.outputRenamedFilesAsDeletedAndAdded) {
+          changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
+          changedFiles[ChangeTypeEnum.Added].push(item.filename)
+        } else {
+          changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
+        }
+      } else {
+        changedFiles[changeType].push(item.filename)
+      }
+    }
+  }
 
   return changedFiles
 }
