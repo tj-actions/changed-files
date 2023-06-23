@@ -40,6 +40,7 @@ Effortlessly track all changed files and directories relative to a target branch
 ## Features
 
 *   Provides fast execution, averaging 0-10 seconds.
+*   Leverages either [Github's REST API](https://docs.github.com/en/rest/reference/repos#list-commits) or [Git's native diff](https://git-scm.com/docs/git-diff) to determine changed files.
 *   Facilitates easy debugging.
 *   Scales to handle large repositories.
 *   Supports Git submodules.
@@ -91,13 +92,32 @@ on:
     branches:
       - main
 
-# ------------------------------------------------------------------------------------------------------------
-# Event `push`: Compare the preceding commit -> to the current commit of the main branch.
-# Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
-# ------------------------------------------------------------------------------------------------------------
-
 jobs:
-  job1:  # Example 1
+  # -------------------------------------------------------------
+  # Event `pull_request`: Returns all changed pull request files.
+  # --------------------------------------------------------------
+  job1:  # Example 1 - Using GitHub's API
+    # NOTE: 
+    # - This is limited to pull_request* events and would raise an error for other events.
+    # - A maximum of 3000 files can be returned.
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    name: Test changed-files
+    steps:
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v36
+
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+  # ------------------------------------------------------------------------------------------------------------
+  # Event `push`: Compare the preceding commit -> to the current commit of the main branch.
+  # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
+  # ------------------------------------------------------------------------------------------------------------
+  job2:  # Example 2 - Using local .git history
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -119,7 +139,7 @@ jobs:
             echo "$file was changed"
           done
 
-  job2:  # Example 2
+  job3:  # Example 3 - Using local .git history
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -139,7 +159,7 @@ jobs:
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
-  job3:  # Example 3
+  job4:  # Example 4 - Using local .git history
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -162,7 +182,7 @@ jobs:
           echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 
-  job4:  # Example 4
+  job5:  # Example 5 - Using local .git history
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:

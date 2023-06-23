@@ -283,7 +283,7 @@ export async function run(): Promise<void> {
     env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
     !hasGitDirectory
   ) {
-    core.info('Running via REST API')
+    core.info('Using GitHub\'s REST API to get changed files')
     const unsupportedInputs: (keyof Inputs)[] = [
       'sha',
       'baseSha',
@@ -297,7 +297,7 @@ export async function run(): Promise<void> {
 
     for (const input of unsupportedInputs) {
       if (inputs[input]) {
-        core.warning(`Input "${input}" is not supported via REST API`)
+        core.warning(`Input "${input}" is not supported when using GitHub's REST API to get changed files`)
       }
     }
     await getChangedFilesFromRESTAPI({inputs, env, workingDirectory})
@@ -309,7 +309,7 @@ export async function run(): Promise<void> {
       return
     }
 
-    core.info('Running via local git')
+    core.info('Using local .git directory')
     await getChangedFilesFromLocalGit({inputs, env, workingDirectory})
   }
 }
