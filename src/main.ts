@@ -289,15 +289,10 @@ export async function run(): Promise<void> {
       'baseSha',
       'since',
       'until',
-      'path',
-      'quotePath',
-      'diffRelative',
       'sinceLastRemoteCommit',
       'recoverDeletedFiles',
       'recoverDeletedFilesToDestination',
-      'includeAllOldNewRenamedFiles',
-      'oldNewSeparator',
-      'oldNewFilesSeparator'
+      'includeAllOldNewRenamedFiles'
     ]
 
     for (const input of unsupportedInputs) {
