@@ -552,6 +552,24 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
+export const isInsideWorkTree = async ({
+  cwd
+}: {
+  cwd: string
+}): Promise<boolean> => {
+  const {stdout} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', '--is-inside-work-tree'],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
+
+  return stdout.trim() === 'true'
+}
+
 export const getRemoteBranchHeadSha = async ({
   cwd,
   branch
@@ -1103,6 +1121,9 @@ export const hasLocalGitDirectory = async ({
 }: {
   workingDirectory: string
 }): Promise<boolean> => {
-  const gitDirectory = path.join(workingDirectory, '.git')
-  return await exists(gitDirectory)
+  const insideWorkTree = await isInsideWorkTree({
+    cwd: workingDirectory
+  })
+
+  return insideWorkTree
 }
