@@ -552,6 +552,16 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
+export const getGitDir = async ({cwd}: {cwd: string}): Promise<string> => {
+  const {stdout} = await exec.getExecOutput('git', ['rev-parse', '--git-dir'], {
+    cwd,
+    ignoreReturnCode: true,
+    silent: !core.isDebug()
+  })
+
+  return stdout.trim()
+}
+
 export const getRemoteBranchHeadSha = async ({
   cwd,
   branch
@@ -1103,6 +1113,13 @@ export const hasLocalGitDirectory = async ({
 }: {
   workingDirectory: string
 }): Promise<boolean> => {
-  const gitDirectory = path.join(workingDirectory, '.git')
-  return await exists(gitDirectory)
+  const gitDirectory = await getGitDir({
+    cwd: workingDirectory
+  })
+
+  if (gitDirectory) {
+    return await exists(gitDirectory)
+  }
+
+  return false
 }
