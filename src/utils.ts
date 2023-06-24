@@ -567,7 +567,7 @@ export const isInsideWorkTree = async ({
     }
   )
 
-  return stdout.trim() === "true"
+  return stdout.trim() === 'true'
 }
 
 export const getRemoteBranchHeadSha = async ({
