@@ -1,5 +1,17 @@
 # Changelog
 
+# [37.0.1](https://github.com/tj-actions/changed-files/compare/v37.0.0...v37.0.1) - (2023-06-24)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error using current path to determine the .git dir location ([#1299](https://github.com/tj-actions/changed-files/issues/1299)) ([e5efec4](https://github.com/tj-actions/changed-files/commit/e5efec47f620e0fde64a1ad8f53bbf53d51a8c97))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37 ([#1298](https://github.com/tj-actions/changed-files/issues/1298))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([d6d7cb2](https://github.com/tj-actions/changed-files/commit/d6d7cb291e28bba32464fbbf0d13c7f6c2c75de1))  - (tj-actions[bot])
+
 # [37.0.0](https://github.com/tj-actions/changed-files/compare/v36.4.1...v37.0.0) - (2023-06-23)
 
 ## <!-- 0 -->🚀 Features
