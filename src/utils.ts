@@ -556,7 +556,7 @@ export const isInsideWorkTree = async ({
   cwd
 }: {
   cwd: string
-}): Promise<string> => {
+}): Promise<boolean> => {
   const {stdout} = await exec.getExecOutput(
     'git',
     ['rev-parse', '--is-inside-work-tree'],
