@@ -552,12 +552,20 @@ export const getHeadSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
-export const isInsideWorkTree = async ({cwd}: {cwd: string}): Promise<string> => {
-  const {stdout} = await exec.getExecOutput('git', ['rev-parse', '--is-inside-work-tree'], {
-    cwd,
-    ignoreReturnCode: true,
-    silent: !core.isDebug()
-  })
+export const isInsideWorkTree = async ({
+  cwd
+}: {
+  cwd: string
+}): Promise<string> => {
+  const {stdout} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', '--is-inside-work-tree'],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
 
   return stdout.trim() === "true"
 }
