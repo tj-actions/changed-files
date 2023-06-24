@@ -1641,7 +1641,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.getGitDir = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2030,15 +2030,15 @@ const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     return stdout.trim();
 });
 exports.getHeadSha = getHeadSha;
-const getGitDir = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--git-dir'], {
+const isInsideWorkTree = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-inside-work-tree'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
-    return stdout.trim();
+    return stdout.trim() === 'true';
 });
-exports.getGitDir = getGitDir;
+exports.isInsideWorkTree = isInsideWorkTree;
 const getRemoteBranchHeadSha = ({ cwd, branch }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', `origin/${branch}`], {
         cwd,
@@ -2354,13 +2354,10 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, sha }) =>
 });
 exports.recoverDeletedFiles = recoverDeletedFiles;
 const hasLocalGitDirectory = ({ workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    const gitDirectory = yield (0, exports.getGitDir)({
+    const insideWorkTree = yield (0, exports.isInsideWorkTree)({
         cwd: workingDirectory
     });
-    if (gitDirectory) {
-        return yield exists(gitDirectory);
-    }
-    return false;
+    return insideWorkTree;
 });
 exports.hasLocalGitDirectory = hasLocalGitDirectory;
 
