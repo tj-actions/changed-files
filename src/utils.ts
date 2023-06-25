@@ -209,7 +209,7 @@ export const submoduleExists = async ({
 }: {
   cwd: string
 }): Promise<boolean> => {
-  const {stdout, exitCode} = await exec.getExecOutput(
+  const {stdout, exitCode, stderr} = await exec.getExecOutput(
     'git',
     ['submodule', 'status'],
     {
@@ -220,6 +220,7 @@ export const submoduleExists = async ({
   )
 
   if (exitCode !== 0) {
+    core.warning(stderr || "Couldn't list submodules")
     return false
   }
 
