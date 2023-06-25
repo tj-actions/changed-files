@@ -1,5 +1,22 @@
 # Changelog
 
+# [37.0.2](https://github.com/tj-actions/changed-files/compare/v37.0.1...v37.0.2) - (2023-06-25)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Add warning message when unable to list submodules ([#1304](https://github.com/tj-actions/changed-files/issues/1304)) ([2106eb4](https://github.com/tj-actions/changed-files/commit/2106eb4457dd2aba4d37c8cdd16acba5d18739b9))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.3.1 ([#1303](https://github.com/tj-actions/changed-files/issues/1303)) ([4afe0ab](https://github.com/tj-actions/changed-files/commit/4afe0ab671c36efef1ae5e3e27d8286c3f797f03))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v20 ([#1301](https://github.com/tj-actions/changed-files/issues/1301)) ([5768dd7](https://github.com/tj-actions/changed-files/commit/5768dd7d22ef79603ef768047c6d91ea034d0cdc))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.0.1 ([#1300](https://github.com/tj-actions/changed-files/issues/1300))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([648f9c1](https://github.com/tj-actions/changed-files/commit/648f9c1aaf717f92ac2b503be6694ef804b8a49e))  - (tj-actions[bot])
+
 # [37.0.1](https://github.com/tj-actions/changed-files/compare/v37.0.0...v37.0.1) - (2023-06-24)
 
 ## <!-- 1 -->🐛 Bug Fixes
