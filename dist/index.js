@@ -1821,12 +1821,13 @@ const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.isRepoShallow = isRepoShallow;
 const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout, exitCode } = yield exec.getExecOutput('git', ['submodule', 'status'], {
+    const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
     if (exitCode !== 0) {
+        core.warning(stderr || "Couldn't list submodules");
         return false;
     }
     return stdout.trim() !== '';
