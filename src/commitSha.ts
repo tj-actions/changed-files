@@ -411,7 +411,7 @@ export const getSHAForPullRequestEvent = async (
             diff
           }))
         ) {
-          core.debug(
+          core.info(
             'Merge base is not in the local history, fetching remote target branch...'
           )
 
@@ -439,10 +439,10 @@ export const getSHAForPullRequestEvent = async (
               break
             }
 
-            core.debug(
+            core.info(
               'Merge base is not in the local history, fetching remote target branch again...'
             )
-            core.debug(`Attempt ${i}/10`)
+            core.info(`Attempt ${i}/10`)
           }
         }
       }
