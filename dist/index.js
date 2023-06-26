@@ -978,7 +978,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                     sha2: currentSha,
                     diff
                 }))) {
-                    core.debug('Merge base is not in the local history, fetching remote target branch...');
+                    core.info('Merge base is not in the local history, fetching remote target branch...');
                     for (let i = 1; i <= 10; i++) {
                         yield (0, utils_1.gitFetch)({
                             cwd: workingDirectory,
@@ -999,8 +999,8 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                         })) {
                             break;
                         }
-                        core.debug('Merge base is not in the local history, fetching remote target branch again...');
-                        core.debug(`Attempt ${i}/10`);
+                        core.info('Merge base is not in the local history, fetching remote target branch again...');
+                        core.info(`Attempt ${i}/10`);
                     }
                 }
             }
