@@ -1870,7 +1870,7 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     return stdout
         .trim()
         .split('\n')
-        .map((line) => normalizePath(line.split(' ')[1]));
+        .map((line) => normalizePath(line.trim().split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
