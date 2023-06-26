@@ -293,7 +293,7 @@ export const getSubmodulePath = async ({
   return stdout
     .trim()
     .split('\n')
-    .map((line: string) => normalizePath(line.split(' ')[1]))
+    .map((line: string) => normalizePath(line.trim().split(' ')[1]))
 }
 
 export const gitSubmoduleDiffSHA = async ({
