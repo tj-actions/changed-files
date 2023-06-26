@@ -842,7 +842,7 @@ See [inputs](#inputs) for more information.
 
 *   [aws-doc-sdk-examples: uses tj-actions/changed-files to automate testing](https://github.com/awsdocs/aws-doc-sdk-examples/blob/2393723ef6b0cad9502f4852f5c72f7be58ca89d/.github/workflows/javascript.yml#L22)
 
-* [nhost: uses tj-actions/changed-files to automate testing based on changes detected](https://github.com/nhost/nhost/blob/main/.github/workflows/ci.yaml#L44-L48)
+*   [nhost: uses tj-actions/changed-files to automate testing based on changes detected](https://github.com/nhost/nhost/blob/main/.github/workflows/ci.yaml#L44-L48)
 
 ![image](https://github.com/tj-actions/changed-files/assets/17484350/23767413-4c51-42fb-ab1c-39ef72c44904)
 
