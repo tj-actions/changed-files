@@ -1,5 +1,22 @@
 # Changelog
 
+# [37.0.3](https://github.com/tj-actions/changed-files/compare/v37.0.2...v37.0.3) - (2023-06-26)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug listing submodule paths ([#1308](https://github.com/tj-actions/changed-files/issues/1308)) ([7d7c695](https://github.com/tj-actions/changed-files/commit/7d7c69556b242d112e52d307ae14ba770a52af47))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1309](https://github.com/tj-actions/changed-files/issues/1309)) ([ec1e14c](https://github.com/tj-actions/changed-files/commit/ec1e14cf27f4585783f463070881b2c499349a8a))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1306](https://github.com/tj-actions/changed-files/issues/1306)) ([cb82bb7](https://github.com/tj-actions/changed-files/commit/cb82bb73255fe3d708c0da15a592f93d820e3499))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.0.2 ([#1305](https://github.com/tj-actions/changed-files/issues/1305))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([07e161e](https://github.com/tj-actions/changed-files/commit/07e161e47fa182e1cc2cb37c80f4e3b175124385))  - (tj-actions[bot])
+
 # [37.0.2](https://github.com/tj-actions/changed-files/compare/v37.0.1...v37.0.2) - (2023-06-25)
 
 ## <!-- 1 -->🐛 Bug Fixes
