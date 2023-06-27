@@ -1,5 +1,39 @@
 # Changelog
 
+# [37.0.4](https://github.com/tj-actions/changed-files/compare/v37.0.3...v37.0.4) - (2023-06-27)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @octokit/rest to v19.0.13 ([#1318](https://github.com/tj-actions/changed-files/issues/1318)) ([eb59803](https://github.com/tj-actions/changed-files/commit/eb598038365111ee2d653fed71db39c68d8a5ca6))  - (renovate[bot])
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1314](https://github.com/tj-actions/changed-files/issues/1314))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([4904bb2](https://github.com/tj-actions/changed-files/commit/4904bb2843fce2a1cec977be83ccda6c1605ff9c))  - (tj-actions[bot])
+- Update README.md ([13e016d](https://github.com/tj-actions/changed-files/commit/13e016d7c459ba0b877df6680a5543e9f8890ef9))  - (Tonye Jack)
+- Updated submodule ([#1307](https://github.com/tj-actions/changed-files/issues/1307))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([e6e128a](https://github.com/tj-actions/changed-files/commit/e6e128a1c4b816aabb14c127146e2371749458c0))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1320](https://github.com/tj-actions/changed-files/issues/1320)) ([bb33761](https://github.com/tj-actions/changed-files/commit/bb3376162b179308a79fc4450262a15a8e1d6888))  - (renovate[bot])
+- **deps:** Bump lodash from 4.17.15 to 4.17.21 ([#1322](https://github.com/tj-actions/changed-files/issues/1322)) ([6d35052](https://github.com/tj-actions/changed-files/commit/6d350523ea913b29cd86acff803c50fcbd829ffc))  - (dependabot[bot])
+- Update package.json ([8838901](https://github.com/tj-actions/changed-files/commit/8838901b21e20574f67a02954a585a5ba579809e))  - (Tonye Jack)
+- Update package version requirements ([#1317](https://github.com/tj-actions/changed-files/issues/1317)) ([bdf73bf](https://github.com/tj-actions/changed-files/commit/bdf73bf6aec3938ce64ef74eb6b86af0271804a2))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.3.2 ([#1315](https://github.com/tj-actions/changed-files/issues/1315)) ([4cddd28](https://github.com/tj-actions/changed-files/commit/4cddd28d4b8f3c05636331fdba69336f95c127a2))  - (renovate[bot])
+- Increase fetch-depth to resolve error with test ([#1316](https://github.com/tj-actions/changed-files/issues/1316)) ([89f014a](https://github.com/tj-actions/changed-files/commit/89f014aed90c84e49f2d9c972ad1b3b43f6e10d8))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v5.60.1 ([#1313](https://github.com/tj-actions/changed-files/issues/1313)) ([709c71a](https://github.com/tj-actions/changed-files/commit/709c71af5fefd98c04ccbfb9e588784850d867cd))  - (renovate[bot])
+- Update debug message ([#1311](https://github.com/tj-actions/changed-files/issues/1311)) ([8c58d60](https://github.com/tj-actions/changed-files/commit/8c58d60f5bd07539ff823a0ed6eb66262bd89c70))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.0.3 ([#1310](https://github.com/tj-actions/changed-files/issues/1310))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([358ff4f](https://github.com/tj-actions/changed-files/commit/358ff4f347713d6c6eb579a95b43955158857ac1))  - (tj-actions[bot])
+
 # [37.0.3](https://github.com/tj-actions/changed-files/compare/v37.0.2...v37.0.3) - (2023-06-26)
 
 ## <!-- 1 -->🐛 Bug Fixes
