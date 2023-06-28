@@ -135,6 +135,7 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
+      # Example 1
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v37
@@ -149,14 +150,7 @@ jobs:
             echo "$file was changed"
           done
 
-  job3:
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
-    name: Test changed-files
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
+      # Example 2
       - name: Get changed files in the docs folder
         id: changed-files-specific
         uses: tj-actions/changed-files@v37
@@ -169,14 +163,7 @@ jobs:
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
-  job4:
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
-    name: Test changed-files
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-  
+      # Example 3
       - name: Get all changed .js file(s) or any file in the static folder excluding the docs folder
         id: changed-files-excluded
         uses: tj-actions/changed-files@v37
@@ -192,14 +179,7 @@ jobs:
           echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 
-  job5:
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
-    name: Test changed-files
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
+      # Example 4
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
         uses: tj-actions/changed-files@v37
