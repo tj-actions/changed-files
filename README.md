@@ -94,17 +94,22 @@ on:
 
 jobs:
   # -------------------------------------------------------------
+  # Using GitHub's API
+  # -------------------------------------------------------------
   # Event `pull_request`: Returns all changed pull request files.
   # --------------------------------------------------------------
-  job1:  # Example 1 - Using GitHub's API
-    # NOTE: 
+  job1:
+    # NOTE:
     # - This is limited to pull_request* events and would raise an error for other events.
     # - A maximum of 3000 files can be returned.
+    # - For more flexibility and no limitations see "Using local .git directory" below.
+
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     if: github.event_name != 'push'
     permissions:
       pull-requests: read
+
     steps:
       - name: Get changed files
         id: changed-files
@@ -117,10 +122,12 @@ jobs:
           done
 
   # ------------------------------------------------------------------------------------------------------------
+  # Using local .git directory
+  # ------------------------------------------------------------------------------------------------------------
   # Event `push`: Compare the preceding commit -> to the current commit of the main branch.
   # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
   # ------------------------------------------------------------------------------------------------------------
-  job2:  # Example 2 - Using local .git directory
+  job2:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -142,7 +149,7 @@ jobs:
             echo "$file was changed"
           done
 
-  job3:  # Example 3 - Using local .git directory
+  job3:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -162,7 +169,7 @@ jobs:
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
-  job4:  # Example 4 - Using local .git directory
+  job4:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -185,7 +192,7 @@ jobs:
           echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
 
-  job5:  # Example 5 - Using local .git directory
+  job5:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
