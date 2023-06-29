@@ -81,13 +81,13 @@ And many more.
 > *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) if `fetch-depth` isn't set to `0`.
 > *   For repositories that have PRs generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
 
+
+`pull_request`
+
 ```yaml
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -106,7 +106,6 @@ jobs:
 
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
-    if: github.event_name != 'push'
     permissions:
       pull-requests: read
 
@@ -124,7 +123,6 @@ jobs:
   # ------------------------------------------------------------------------------------------------------------
   # Using local .git directory
   # ------------------------------------------------------------------------------------------------------------
-  # Event `push`: Compare the preceding commit -> to the current commit of the main branch.
   # Event `pull_request`: Compare the last commit of main -> to the current commit of a Pull Request branch.
   # ------------------------------------------------------------------------------------------------------------
   job2:
@@ -156,6 +154,7 @@ jobs:
         uses: tj-actions/changed-files@v37
         with:
           files: docs/*.{js,html}  # Alternatively using: `docs/**` or `docs`
+          files_ignore: docs/static.js
 
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
@@ -164,22 +163,6 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
       # Example 3
-      - name: Get all changed .js file(s) or any file in the static folder excluding the docs folder
-        id: changed-files-excluded
-        uses: tj-actions/changed-files@v37
-        with:
-          files: |
-            **.js
-            static
-          files_ignore: docs
-
-      - name: Run step if any .js file(s) or any file in the static folder change
-        if: steps.changed-files-excluded.outputs.any_changed == 'true'
-        run: |
-          echo "One or more .js file(s) or any file in the static folder but not in the doc folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-excluded.outputs.all_changed_files }}"
-
-      # Example 4
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
         uses: tj-actions/changed-files@v37
@@ -208,6 +191,71 @@ jobs:
           echo "One or more doc file(s) has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}"
 ```
+
+`push` 
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+# -------------------------------
+#  Optionally run on other events
+# -------------------------------
+#  schedule:
+#     - cron: '0 0 * * *'
+#
+#  release:
+#    types: [published]
+#
+#  push:
+#    tags:
+#      - '**'
+#
+# ...and many more
+
+
+jobs:
+  # -------------------------------------------------------------
+  # Using GitHub's API is not supported for push events
+  # -------------------------------------------------------------
+  # 
+  # ----------------------------------------------------------------------------------------------
+  # Using local .git directory
+  # ----------------------------------------------------------------------------------------------
+  # Event `push`: Compare the preceding remote commit -> to the current commit of the main branch 
+  # ----------------------------------------------------------------------------------------------
+  job2:
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+
+      # Example 1
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v37
+
+      # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
+
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+      # Example 2: See above
+      ...
+
+      # Example 3: See above
+      ...
+```
+
 
 To access more examples, navigate to the [Examples](#examples) section.
 
