@@ -25,6 +25,8 @@ Effortlessly track all changed files and directories relative to a target branch
 
 *   [Features](#features)
 *   [Usage](#usage)
+    *   [On `pull_request`](#on-pull_request)
+    *   [On `push`](#on-push)
 *   [Useful Acronyms](#useful-acronyms)
 *   [Outputs](#outputs)
 *   [Inputs](#inputs)
@@ -80,7 +82,6 @@ And many more.
 > *   All multiline inputs should not use double or single quotes since the value is already a string separated by a newline character. See [Examples](#examples) for more information.
 > *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) if `fetch-depth` isn't set to `0`.
 > *   For repositories that have PRs generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
-
 
 ### On `pull_request`
 
@@ -192,7 +193,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}"
 ```
 
-### On `push` 
+### On `push`
 
 ```yaml
 name: CI
@@ -255,7 +256,6 @@ jobs:
       # Example 3: See above
       ...
 ```
-
 
 To access more examples, navigate to the [Examples](#examples) section.
 
