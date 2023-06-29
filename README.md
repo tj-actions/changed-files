@@ -82,7 +82,7 @@ And many more.
 > *   For repositories that have PRs generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
 
 
-`pull_request`
+### On `pull_request`
 
 ```yaml
 name: CI
@@ -192,7 +192,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}"
 ```
 
-`push` 
+### On `push` 
 
 ```yaml
 name: CI
