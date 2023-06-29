@@ -1,5 +1,30 @@
 # Changelog
 
+# [37.0.5](https://github.com/tj-actions/changed-files/compare/v37.0.4...v37.0.5) - (2023-06-29)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([034e423](https://github.com/tj-actions/changed-files/commit/034e423c9c8101a65e1da676ac29a3423ff442f7))  - (Tonye Jack)
+- Updated README.md ([#1329](https://github.com/tj-actions/changed-files/issues/1329))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([89c3181](https://github.com/tj-actions/changed-files/commit/89c31817b274e258fb873b539a68e467a4a385b0))  - (tj-actions[bot])
+- Update README.md ([e42f43b](https://github.com/tj-actions/changed-files/commit/e42f43b67b2ca0d726dec681aa34e4b875ddd284))  - (Tonye Jack)
+- Update README.md ([fe20777](https://github.com/tj-actions/changed-files/commit/fe20777b56dffa2faca8f02f32ba42ae644b5a7b))  - (Tonye Jack)
+- Update README.md ([89890d6](https://github.com/tj-actions/changed-files/commit/89890d6f77a064cdbf5c475517dca8d39228f154))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1330](https://github.com/tj-actions/changed-files/issues/1330)) ([54849de](https://github.com/tj-actions/changed-files/commit/54849deb963ca9f24185fb5de2965e002d066e6b))  - (renovate[bot])
+- Update README.md ([6fdb8b5](https://github.com/tj-actions/changed-files/commit/6fdb8b53b33f2cf5a6a6969836ebfd774e05ff87))  - (Tonye Jack)
+- **deps:** Update dependency typescript to v5.1.6 ([#1328](https://github.com/tj-actions/changed-files/issues/1328)) ([3323f78](https://github.com/tj-actions/changed-files/commit/3323f78bb45033e3f3bb7d9cbc125d3f0833c243))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.1.5 ([#1324](https://github.com/tj-actions/changed-files/issues/1324)) ([927a8c5](https://github.com/tj-actions/changed-files/commit/927a8c5ba3f01280932398e5ce47d64bada31e32))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.0.4 ([#1323](https://github.com/tj-actions/changed-files/issues/1323))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([5e7542f](https://github.com/tj-actions/changed-files/commit/5e7542fc4bfffb67ec6f613fb57d17364b602f57))  - (tj-actions[bot])
+
 # [37.0.4](https://github.com/tj-actions/changed-files/compare/v37.0.3...v37.0.4) - (2023-06-27)
 
 ## <!-- 1 -->🐛 Bug Fixes
