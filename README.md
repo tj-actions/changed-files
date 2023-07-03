@@ -515,7 +515,7 @@ See [outputs](#outputs) for a list of all available outputs.
           *.png
           !*.md
           test_directory
-          **/*.sql
+          **.sql
 ...
 ```
 
@@ -538,7 +538,7 @@ See [inputs](#inputs) for more information.
           *.png
           !*.md
           test_directory
-          **/*.sql
+          **.sql
 
     - name: Run step if any of the listed files above change
       if: steps.changed-files-specific.outputs.any_changed == 'true'
