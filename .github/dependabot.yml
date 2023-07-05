@@ -14,4 +14,4 @@ updates:
     interval: daily
   open-pull-requests-limit: 10
   labels:
-      - "merge when passing"
+    - "merge when passing"
