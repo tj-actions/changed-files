@@ -1,7 +1,17 @@
 version: 2
 updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  versioning-strategy: widen
+  labels:
+    - "merge when passing"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  labels:
+      - "merge when passing"
