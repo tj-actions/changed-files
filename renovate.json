@@ -3,8 +3,8 @@
     "config:base"
   ],
   "enabled": true,
-  "prHourlyLimit": 30,
-  "prConcurrentLimit": 10,
+  "prHourlyLimit": 10,
+  "prConcurrentLimit": 5,
   "rebaseWhen": "behind-base-branch",
   "addLabels": [
     "dependencies",
@@ -20,13 +20,21 @@
     "enabled": true,
     "automerge": true
   },
+  "nvm": {
+    "enabled": false
+  },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automerge": true,
       "rebaseWhen": "behind-base-branch",
       "addLabels": [
-        "automerge"
+        "merge when passing"
       ]
     },
     {
@@ -34,10 +42,15 @@
       "matchLanguages": [
         "docker"
       ],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "rebaseWhen": "behind-base-branch",
       "addLabels": [
-        "automerge"
+        "merge when passing"
       ],
       "automerge": true
     }
