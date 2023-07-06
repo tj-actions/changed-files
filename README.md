@@ -19,7 +19,7 @@
 
 ## changed-files
 
-Effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root.
+Github action used to effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root.
 
 ## Table of contents
 
