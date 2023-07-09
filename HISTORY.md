@@ -1,5 +1,51 @@
 # Changelog
 
+# [37.1.0](https://github.com/tj-actions/changed-files/compare/v37.0.5...v37.1.0) - (2023-07-09)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for skipping initial fetch ([#1353](https://github.com/tj-actions/changed-files/issues/1353)) ([2f49eb9](https://github.com/tj-actions/changed-files/commit/2f49eb9ee1f1dc38d9f070ebecf12b59c9436e0e))  - (Tonye Jack)
+
+## <!-- 17 -->➖ Remove
+
+- Deleted .github/workflows/auto-merge.yml ([d1028b2](https://github.com/tj-actions/changed-files/commit/d1028b2eb89e46a93cc618ef283598da9e43a860))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1354](https://github.com/tj-actions/changed-files/issues/1354))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([87e23c4](https://github.com/tj-actions/changed-files/commit/87e23c4c79a603288642711155953c7da34b11ac))  - (tj-actions[bot])
+- Update README.md ([00b3d3d](https://github.com/tj-actions/changed-files/commit/00b3d3d9e7d0efa856785fc5586fefd61cbf9e92))  - (Tonye Jack)
+- Update README.md ([626a6b7](https://github.com/tj-actions/changed-files/commit/626a6b7213d3d54c32b7f8afae6251494453ded6))  - (Tonye Jack)
+- Update dependabot.yml ([7ee3290](https://github.com/tj-actions/changed-files/commit/7ee3290f25f5a3f42d74b3399dd2106a7f7ce2f3))  - (Tonye Jack)
+- Updated renovate.json ([e9eccdd](https://github.com/tj-actions/changed-files/commit/e9eccdd473f87222a6a8393f849d7c945568b842))  - (Tonye Jack)
+- Update dependabot.yml ([6dc8c79](https://github.com/tj-actions/changed-files/commit/6dc8c796c9b6810ee03d89669f5f7edf09069788))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps-dev:** Bump prettier from 2.8.8 to 3.0.0 ([#1345](https://github.com/tj-actions/changed-files/issues/1345)) ([19193bd](https://github.com/tj-actions/changed-files/commit/19193bdb2634c8529d7b25642f3436f76eae0b45))  - (dependabot[bot])
+- **deps:** Update dependency @types/node to v20.4.1 ([#1351](https://github.com/tj-actions/changed-files/issues/1351)) ([d12b5fc](https://github.com/tj-actions/changed-files/commit/d12b5fc2ab2546513a4be53b41218c928fd70b99))  - (renovate[bot])
+- **deps:** Update dependency jest to v29.6.1 ([#1350](https://github.com/tj-actions/changed-files/issues/1350)) ([338f354](https://github.com/tj-actions/changed-files/commit/338f3541063a272dd7dcf8ed531daa483ca95762))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1349](https://github.com/tj-actions/changed-files/issues/1349)) ([090f901](https://github.com/tj-actions/changed-files/commit/090f90127a77657c1531f97f8f22a7ec1fbeeb1c))  - (renovate[bot])
+- **deps-dev:** Bump @types/node from 20.3.3 to 20.4.0 ([#1348](https://github.com/tj-actions/changed-files/issues/1348)) ([598640f](https://github.com/tj-actions/changed-files/commit/598640f3beb83bd8c85ef43b7df70d8fca22dca6))  - (dependabot[bot])
+- **deps:** Update actions/setup-node action to v3.7.0 ([#1344](https://github.com/tj-actions/changed-files/issues/1344)) ([0e24ceb](https://github.com/tj-actions/changed-files/commit/0e24cebad03e8080e8912d6a4a9a200b06ebd261))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1342](https://github.com/tj-actions/changed-files/issues/1342)) ([d8f8ad9](https://github.com/tj-actions/changed-files/commit/d8f8ad9a74cda2e39386f4cebf232f27f4099887))  - (renovate[bot])
+- **deps:** Update dependency jest to v29.6.0 ([#1341](https://github.com/tj-actions/changed-files/issues/1341)) ([47a703e](https://github.com/tj-actions/changed-files/commit/47a703e935c9dd0ecb0421d5656df3f8700d3a0c))  - (renovate[bot])
+- Update filter pattern ([#1340](https://github.com/tj-actions/changed-files/issues/1340)) ([742b641](https://github.com/tj-actions/changed-files/commit/742b6417b4068dac99221f71a1466631de290ebb))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v5.61.0 ([#1339](https://github.com/tj-actions/changed-files/issues/1339)) ([af9376f](https://github.com/tj-actions/changed-files/commit/af9376f80142244248805dc85f751b19e5875fbf))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1338](https://github.com/tj-actions/changed-files/issues/1338)) ([adaff22](https://github.com/tj-actions/changed-files/commit/adaff22dedce1452500712c7d1445f1ae776739a))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.44.0 ([#1337](https://github.com/tj-actions/changed-files/issues/1337)) ([2cd4de3](https://github.com/tj-actions/changed-files/commit/2cd4de3431b86792632cb629f30e5743924edb0a))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.3.3 ([#1336](https://github.com/tj-actions/changed-files/issues/1336)) ([b199521](https://github.com/tj-actions/changed-files/commit/b1995217737c4c6b644dfee6b73e35063eff6591))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.1.1 ([#1333](https://github.com/tj-actions/changed-files/issues/1333)) ([aecc5eb](https://github.com/tj-actions/changed-files/commit/aecc5ebeee84c2358e83fc9101ef1a70bd0581ac))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1331](https://github.com/tj-actions/changed-files/issues/1331)) ([c060576](https://github.com/tj-actions/changed-files/commit/c060576a37b64111bff7727c21c1c91948fd88b2))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.0.5 ([#1332](https://github.com/tj-actions/changed-files/issues/1332))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([630aa37](https://github.com/tj-actions/changed-files/commit/630aa37bbd533646936247a99e24e04efeb41602))  - (tj-actions[bot])
+
 # [37.0.5](https://github.com/tj-actions/changed-files/compare/v37.0.4...v37.0.5) - (2023-06-29)
 
 ## <!-- 26 -->🔄 Update
