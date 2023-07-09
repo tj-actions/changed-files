@@ -1,7 +1,8 @@
 {
   "plugins": [
     "jest",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "github"
   ],
   "extends": [
     "plugin:github/recommended"
