@@ -724,7 +724,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
     let targetBranch = env.GITHUB_REF_NAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
-    if (isShallow) {
+    if (isShallow && !inputs.skipInitialFetch) {
         core.info('Repository is shallow, fetching more history...');
         if (isTag) {
             const sourceBranch = env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '') ||
@@ -868,7 +868,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
-    if (isShallow) {
+    if (isShallow && !inputs.skipInitialFetch) {
         core.info('Repository is shallow, fetching more history...');
         let prFetchExitCode = yield (0, utils_1.gitFetch)({
             cwd: workingDirectory,
@@ -1246,6 +1246,9 @@ const getInputs = () => {
     const recoverDeletedFilesToDestination = core.getInput('recover_deleted_files_to_destination', { required: false });
     const token = core.getInput('token', { required: false });
     const apiUrl = core.getInput('api_url', { required: false });
+    const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1285,7 +1288,8 @@ const getInputs = () => {
         outputDir,
         outputRenamedFilesAsDeletedAndAdded,
         token,
-        apiUrl
+        apiUrl,
+        skipInitialFetch
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -1350,7 +1354,7 @@ const commitSha_1 = __nccwpck_require__(8613);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
-const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     yield (0, utils_1.verifyMinimumGitVersion)();
     let quotePathValue = 'on';
@@ -1404,11 +1408,6 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory }) => __awa
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
     core.endGroup();
-    const filePatterns = yield (0, utils_1.getFilePatterns)({
-        inputs,
-        workingDirectory
-    });
-    core.debug(`File patterns: ${filePatterns}`);
     if (filePatterns.length > 0) {
         core.startGroup('changed-files-patterns');
         yield (0, changedFilesOutput_1.setChangedFilesOutput)({
@@ -1421,11 +1420,6 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory }) => __awa
         core.info('All Done!');
         core.endGroup();
     }
-    const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
-        inputs,
-        workingDirectory
-    });
-    core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
     if (Object.keys(yamlFilePatterns).length > 0) {
         for (const key of Object.keys(yamlFilePatterns)) {
             core.startGroup(`changed-files-yaml-${key}`);
@@ -1476,18 +1470,13 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory }) => __awa
         core.endGroup();
     }
 });
-const getChangedFilesFromRESTAPI = ({ inputs, env, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromRESTAPI = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     const allDiffFiles = yield (0, changedFiles_1.getChangedFilesFromGithubAPI)({
         inputs,
         env
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
-    const filePatterns = yield (0, utils_1.getFilePatterns)({
-        inputs,
-        workingDirectory
-    });
-    core.debug(`File patterns: ${filePatterns}`);
     if (filePatterns.length > 0) {
         core.startGroup('changed-files-patterns');
         yield (0, changedFilesOutput_1.setChangedFilesOutput)({
@@ -1499,11 +1488,6 @@ const getChangedFilesFromRESTAPI = ({ inputs, env, workingDirectory }) => __awai
         core.info('All Done!');
         core.endGroup();
     }
-    const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
-        inputs,
-        workingDirectory
-    });
-    core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
     if (Object.keys(yamlFilePatterns).length > 0) {
         for (const key of Object.keys(yamlFilePatterns)) {
             core.startGroup(`changed-files-yaml-${key}`);
@@ -1537,7 +1521,19 @@ function run() {
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
+        core.debug(`Working directory: ${workingDirectory}`);
         const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
+        core.debug(`Has git directory: ${hasGitDirectory}`);
+        const filePatterns = yield (0, utils_1.getFilePatterns)({
+            inputs,
+            workingDirectory
+        });
+        core.debug(`File patterns: ${filePatterns}`);
+        const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
+            inputs,
+            workingDirectory
+        });
+        core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         if (inputs.token &&
             env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
             !hasGitDirectory) {
@@ -1557,7 +1553,13 @@ function run() {
                     core.warning(`Input "${input}" is not supported when using GitHub's REST API to get changed files`);
                 }
             }
-            yield getChangedFilesFromRESTAPI({ inputs, env, workingDirectory });
+            yield getChangedFilesFromRESTAPI({
+                inputs,
+                env,
+                workingDirectory,
+                filePatterns,
+                yamlFilePatterns
+            });
         }
         else {
             if (!hasGitDirectory) {
@@ -1565,7 +1567,13 @@ function run() {
                 return;
             }
             core.info('Using local .git directory');
-            yield getChangedFilesFromLocalGit({ inputs, env, workingDirectory });
+            yield getChangedFilesFromLocalGit({
+                inputs,
+                env,
+                workingDirectory,
+                filePatterns,
+                yamlFilePatterns
+            });
         }
     });
 }
