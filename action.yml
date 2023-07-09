@@ -124,6 +124,10 @@ inputs:
     description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
     required: false
     default: "50"
+  skip_initial_fetch:
+    description: "Skip the initial fetch to improve performance."
+    required: false
+    default: "false"
   since_last_remote_commit:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non-merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: false

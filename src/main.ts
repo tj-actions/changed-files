@@ -28,11 +28,15 @@ import {
 const getChangedFilesFromLocalGit = async ({
   inputs,
   env,
-  workingDirectory
+  workingDirectory,
+  filePatterns,
+  yamlFilePatterns
 }: {
   inputs: Inputs
   env: Env
   workingDirectory: string
+  filePatterns: string[]
+  yamlFilePatterns: Record<string, string[]>
 }): Promise<void> => {
   await verifyMinimumGitVersion()
 
@@ -120,12 +124,6 @@ const getChangedFilesFromLocalGit = async ({
   core.info('All Done!')
   core.endGroup()
 
-  const filePatterns = await getFilePatterns({
-    inputs,
-    workingDirectory
-  })
-  core.debug(`File patterns: ${filePatterns}`)
-
   if (filePatterns.length > 0) {
     core.startGroup('changed-files-patterns')
     await setChangedFilesOutput({
@@ -138,12 +136,6 @@ const getChangedFilesFromLocalGit = async ({
     core.info('All Done!')
     core.endGroup()
   }
-
-  const yamlFilePatterns = await getYamlFilePatterns({
-    inputs,
-    workingDirectory
-  })
-  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
   if (Object.keys(yamlFilePatterns).length > 0) {
     for (const key of Object.keys(yamlFilePatterns)) {
@@ -201,11 +193,15 @@ const getChangedFilesFromLocalGit = async ({
 const getChangedFilesFromRESTAPI = async ({
   inputs,
   env,
-  workingDirectory
+  workingDirectory,
+  filePatterns,
+  yamlFilePatterns
 }: {
   inputs: Inputs
   env: Env
   workingDirectory: string
+  filePatterns: string[]
+  yamlFilePatterns: Record<string, string[]>
 }): Promise<void> => {
   const allDiffFiles = await getChangedFilesFromGithubAPI({
     inputs,
@@ -213,12 +209,6 @@ const getChangedFilesFromRESTAPI = async ({
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')
-
-  const filePatterns = await getFilePatterns({
-    inputs,
-    workingDirectory
-  })
-  core.debug(`File patterns: ${filePatterns}`)
 
   if (filePatterns.length > 0) {
     core.startGroup('changed-files-patterns')
@@ -231,12 +221,6 @@ const getChangedFilesFromRESTAPI = async ({
     core.info('All Done!')
     core.endGroup()
   }
-
-  const yamlFilePatterns = await getYamlFilePatterns({
-    inputs,
-    workingDirectory
-  })
-  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
   if (Object.keys(yamlFilePatterns).length > 0) {
     for (const key of Object.keys(yamlFilePatterns)) {
@@ -270,13 +254,30 @@ export async function run(): Promise<void> {
 
   const env = await getEnv()
   core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
+
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
+
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
     inputs.path
   )
+  core.debug(`Working directory: ${workingDirectory}`)
+
   const hasGitDirectory = await hasLocalGitDirectory({workingDirectory})
+  core.debug(`Has git directory: ${hasGitDirectory}`)
+
+  const filePatterns = await getFilePatterns({
+    inputs,
+    workingDirectory
+  })
+  core.debug(`File patterns: ${filePatterns}`)
+
+  const yamlFilePatterns = await getYamlFilePatterns({
+    inputs,
+    workingDirectory
+  })
+  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
   if (
     inputs.token &&
@@ -302,7 +303,13 @@ export async function run(): Promise<void> {
         )
       }
     }
-    await getChangedFilesFromRESTAPI({inputs, env, workingDirectory})
+    await getChangedFilesFromRESTAPI({
+      inputs,
+      env,
+      workingDirectory,
+      filePatterns,
+      yamlFilePatterns
+    })
   } else {
     if (!hasGitDirectory) {
       core.setFailed(
@@ -312,7 +319,13 @@ export async function run(): Promise<void> {
     }
 
     core.info('Using local .git directory')
-    await getChangedFilesFromLocalGit({inputs, env, workingDirectory})
+    await getChangedFilesFromLocalGit({
+      inputs,
+      env,
+      workingDirectory,
+      filePatterns,
+      yamlFilePatterns
+    })
   }
 }
 
