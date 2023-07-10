@@ -85,6 +85,8 @@ And many more.
 
 ### On `pull_request`
 
+#### Using local .git history
+
 ```yaml
 name: CI
 
@@ -94,39 +96,10 @@ on:
       - main
 
 jobs:
-  # -------------------------------------------------------------
-  # Using GitHub's API
-  # -------------------------------------------------------------
-  # Event `pull_request`: Returns all changed pull request files.
-  # --------------------------------------------------------------
-  job1:
-    # NOTE:
-    # - This is limited to pull_request* events and would raise an error for other events.
-    # - A maximum of 3000 files can be returned.
-    # - For more flexibility and no limitations see "Using local .git history" below.
-
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
-    name: Test changed-files
-    permissions:
-      pull-requests: read
-
-    steps:
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v37
-
-      - name: List all changed files
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
-
-  # ------------------------------------------------------------------------------------------------------------------------------------------------
-  # Using local .git history
   # ------------------------------------------------------------------------------------------------------------------------------------------------
   # Event `pull_request`: Compare the last commit of the main branch or last remote commit of the PR branch -> to the current commit of a PR branch.
   # ------------------------------------------------------------------------------------------------------------------------------------------------
-  job2:
+  changed_files:
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
     steps:
@@ -192,6 +165,44 @@ jobs:
           echo "One or more doc file(s) has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}"
 ```
+
+#### Using Github's API
+
+```yaml
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # -------------------------------------------------------------
+  # Event `pull_request`: Returns all changed pull request files.
+  # --------------------------------------------------------------
+  changed_files:
+    # NOTE:
+    # - This is limited to pull_request* events and would raise an error for other events.
+    # - A maximum of 3000 files can be returned.
+    # - For more flexibility and no limitations see "Using local .git history" below.
+
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    name: Test changed-files
+    permissions:
+      pull-requests: read
+
+    steps:
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v37
+
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+```
+
 
 ### On `push`
 
