@@ -103,7 +103,7 @@ jobs:
     # NOTE:
     # - This is limited to pull_request* events and would raise an error for other events.
     # - A maximum of 3000 files can be returned.
-    # - For more flexibility and no limitations see "Using local .git directory" below.
+    # - For more flexibility and no limitations see "Using local .git history" below.
 
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
@@ -122,7 +122,7 @@ jobs:
           done
 
   # ------------------------------------------------------------------------------------------------------------------------------------------------
-  # Using local .git directory
+  # Using local .git history
   # ------------------------------------------------------------------------------------------------------------------------------------------------
   # Event `pull_request`: Compare the last commit of the main branch or last remote commit of the PR branch -> to the current commit of a PR branch.
   # ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ jobs:
   # -------------------------------------------------------------
   # 
   # ----------------------------------------------------------------------------------------------
-  # Using local .git directory
+  # Using local .git history
   # ----------------------------------------------------------------------------------------------
   # Event `push`: Compare the preceding remote commit -> to the current commit of the main branch 
   # ----------------------------------------------------------------------------------------------
