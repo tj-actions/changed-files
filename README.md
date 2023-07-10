@@ -26,6 +26,8 @@ Github action used to effortlessly track all changed files and directories relat
 *   [Features](#features)
 *   [Usage](#usage)
     *   [On `pull_request`](#on-pull_request)
+        *   [Using local .git history](#using-local-git-history)
+        *   [Using Github's API](#using-githubs-api)
     *   [On `push`](#on-push)
 *   [Useful Acronyms](#useful-acronyms)
 *   [Outputs](#outputs)
@@ -202,7 +204,6 @@ jobs:
             echo "$file was changed"
           done
 ```
-
 
 ### On `push`
 
