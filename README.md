@@ -43,7 +43,7 @@ Github action used to effortlessly track all changed files and directories relat
 
 ## Features
 
-*   Provides fast execution, averaging 0-10 seconds.
+*   Fast execution, averaging 0-10 seconds.
 *   Leverages either [Github's REST API](https://docs.github.com/en/rest/reference/repos#list-commits) or [Git's native diff](https://git-scm.com/docs/git-diff) to determine changed files.
 *   Facilitates easy debugging.
 *   Scales to handle large repositories.
