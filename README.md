@@ -145,7 +145,7 @@ jobs:
         with:
           files_yaml: |
             doc:
-              - *.md
+              - **.md
               - docs/**
               - !docs/README.md
             test:
