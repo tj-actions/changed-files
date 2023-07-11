@@ -50,7 +50,7 @@ Github action used to effortlessly track all changed files and directories relat
 *   Supports Git submodules.
 *   Generates escaped JSON output for running matrix jobs based on changed files.
 *   Lists changed directories.
-    *   Allows limiting the matching changed directories to a specified maximum depth.
+    *   Limits matching changed directories to a specified maximum depth.
     *   Optionally excludes the current directory.
 *   Writes outputs to a designated `.txt` or `.json` file for further processing.
 *   Restores deleted files to their previous location or a newly specified location.
