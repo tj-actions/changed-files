@@ -186,7 +186,7 @@ jobs:
     # NOTE:
     # - This is limited to pull_request* events and would raise an error for other events.
     # - A maximum of 3000 files can be returned.
-    # - For more flexibility and no limitations see "Using local .git history" below.
+    # - For more flexibility and no limitations see "Using local .git history" above.
 
     runs-on: ubuntu-latest  # windows-latest | macos-latest
     name: Test changed-files
