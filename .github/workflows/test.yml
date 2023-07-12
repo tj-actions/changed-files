@@ -342,7 +342,7 @@ jobs:
         uses: ./
         with:
           fetch_depth: ${{ matrix.input-fetch_depth }}
-          skip_initial_fetch: ${{ matrix.input-skip_initial_fetch }}
+          skip_initial_fetch: ${{ matrix.input-skip_initial_fetch && github.event_name != 'push' }}
 
       - name: Show output
         run: |
