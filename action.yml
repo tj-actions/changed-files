@@ -125,7 +125,7 @@ inputs:
     required: false
     default: "50"
   skip_initial_fetch:
-    description: "Skip the initial fetch to improve performance."
+    description: "Skip the initial fetch to improve performance for shallow . **NOTE**: This could lead to errors with missing history and the intended use is limited to when you've fetched the history necessary to perform the diff."
     required: false
     default: "false"
   since_last_remote_commit:
