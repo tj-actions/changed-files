@@ -323,6 +323,7 @@ jobs:
       matrix:
         fetch-depth: [1, 2]
         input-fetch_depth: [1, 50]
+        input-skip_initial_fetch: [true, false]
 
     steps:
       - name: Checkout branch
@@ -341,6 +342,7 @@ jobs:
         uses: ./
         with:
           fetch_depth: ${{ matrix.input-fetch_depth }}
+          skip_initial_fetch: ${{ matrix.input-skip_initial_fetch }}
 
       - name: Show output
         run: |
@@ -640,7 +642,7 @@ jobs:
         shell:
           bash
 
-  test_recover_deleted_file:
+  test-recover-deleted-file:
     name: Test changed-files recover deleted file
     runs-on: ubuntu-latest
     needs: build
