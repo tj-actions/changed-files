@@ -236,7 +236,7 @@ outputs:
     description: "Returns the number of `other_deleted_files`"
 
 runs:
-  using: 'node16'
+  using: 'node18'
   main: 'dist/index.js'
 
 branding:
