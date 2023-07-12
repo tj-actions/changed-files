@@ -321,8 +321,8 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        fetch-depth: [1, 2]
-        input-fetch_depth: [1, 50]
+        fetch-depth: [1, 2, 50]
+        input-fetch_depth: [1, 2, 50]
 
     steps:
       - name: Checkout branch
@@ -339,8 +339,10 @@ jobs:
       - name: Run changed-files
         id: changed-files
         uses: ./
+        continue-on-error: ${{ matrix.input-skip_initial_fetch == true && matrix.fetch-depth < 10 }}
         with:
           fetch_depth: ${{ matrix.input-fetch_depth }}
+          skip_initial_fetch: ${{ github.event_name == 'push' }}
 
       - name: Show output
         run: |
@@ -640,7 +642,7 @@ jobs:
         shell:
           bash
 
-  test_recover_deleted_file:
+  test-recover-deleted-file:
     name: Test changed-files recover deleted file
     runs-on: ubuntu-latest
     needs: build
