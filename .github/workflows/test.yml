@@ -323,7 +323,6 @@ jobs:
       matrix:
         fetch-depth: [1, 2, 50]
         input-fetch_depth: [1, 2, 50]
-        input-skip_initial_fetch: [true, false]
 
     steps:
       - name: Checkout branch
@@ -343,7 +342,7 @@ jobs:
         continue-on-error: ${{ matrix.input-skip_initial_fetch == true && matrix.fetch-depth < 10 }}
         with:
           fetch_depth: ${{ matrix.input-fetch_depth }}
-          skip_initial_fetch: ${{ matrix.input-skip_initial_fetch }}
+          skip_initial_fetch: ${{ github.event_name == 'push' }}
 
       - name: Show output
         run: |
