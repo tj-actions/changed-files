@@ -719,7 +719,9 @@ export const getDirnameMaxDepth = ({
   excludeCurrentDir?: boolean
 }): string => {
   if (dirNamesMaxDepth < 2 && excludeCurrentDir) {
-    core.warning("Can't exclude the current directory with max depth less than 2")
+    core.warning(
+      "Can't exclude the current directory with max depth less than 2"
+    )
     return ''
   }
   
