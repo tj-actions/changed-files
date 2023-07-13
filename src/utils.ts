@@ -718,16 +718,6 @@ export const getDirnameMaxDepth = ({
   dirNamesMaxDepth?: number
   excludeCurrentDir?: boolean
 }): string => {
-  if (
-    typeof dirNamesMaxDepth !== 'undefined' &&
-    dirNamesMaxDepth < 2 &&
-    excludeCurrentDir
-  ) {
-    core.warning(
-      "Can't exclude the current directory with max depth less than 2"
-    )
-    return ''
-  }
   const pathArr = dirname(pathStr).split(path.sep)
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
   let output = pathArr[0]
@@ -736,7 +726,7 @@ export const getDirnameMaxDepth = ({
     output = path.join(output, pathArr[i])
   }
 
-  if (excludeCurrentDir && output === '.') {
+  if (excludeCurrentDir && (output === '.' || output === '')) {
     return ''
   }
 
