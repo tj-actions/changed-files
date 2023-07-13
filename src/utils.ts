@@ -722,6 +722,11 @@ export const getDirnameMaxDepth = ({
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
   let output = pathArr[0]
 
+  if (maxDepth < 2 && excludeCurrentDir) {
+    core.warning("Can't exclude the current directory with max depth less than 2")
+    return ''
+  }
+
   for (let i = 1; i < maxDepth; i++) {
     output = path.join(output, pathArr[i])
   }
