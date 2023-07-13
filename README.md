@@ -19,7 +19,7 @@
 
 ## changed-files
 
-Github action used to effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root.
+Effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root using this GitHub action.
 
 ## Table of contents
 
@@ -102,7 +102,7 @@ jobs:
   # Event `pull_request`: Compare the last commit of the main branch or last remote commit of the PR branch -> to the current commit of a PR branch.
   # ------------------------------------------------------------------------------------------------------------------------------------------------
   changed_files:
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
     steps:
       - uses: actions/checkout@v3
@@ -188,7 +188,7 @@ jobs:
     # - A maximum of 3000 files can be returned.
     # - For more flexibility and no limitations see "Using local .git history" above.
 
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
     permissions:
       pull-requests: read
@@ -241,8 +241,8 @@ jobs:
   # ----------------------------------------------------------------------------------------------
   # Event `push`: Compare the preceding remote commit -> to the current commit of the main branch 
   # ----------------------------------------------------------------------------------------------
-  job2:
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
+  changed_files:
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
     steps:
       - uses: actions/checkout@v3
@@ -374,7 +374,7 @@ Support this project with a :star:
 |                  output\_dir                  | string |  false   |    `".github/outputs"`    |                                                                                                                Directory to store output files.                                                                                                                 |
 |  output\_renamed\_files\_as\_deleted\_and\_added   | string |  false   |         `"false"`         |                                                                                                      Output renamed files as deleted <br>and added files.                                                                                                       |
 |                     path                     | string |  false   |           `"."`           |                                                                                        Specify a relative path under <br>`$GITHUB_WORKSPACE` to locate the repository.                                                                                          |
-|                  quotepath                   | string |  false   |         `"true"`          |                                                                  Use non-ascii characters to match <br>files and output the filenames <br>completely verbatim by setting this <br>to `false`                                                                    |
+|                  quotepath                   | string |  false   |         `"true"`          |                                                                  Use non-ASCII characters to match <br>files and output the filenames <br>completely verbatim by setting this <br>to `false`                                                                    |
 |            recover\_deleted\_files             | string |  false   |         `"false"`         |                                                                                                                     Recover deleted files.                                                                                                                      |
 |     recover\_deleted\_files\_to\_destination     | string |  false   |                           |                                                                                Recover deleted files to a <br>new destination directory, defaults to <br>the original location.                                                                                 |
 |                  separator                   | string |  false   |           `" "`           |                                                                                                               Split character for output strings                                                                                                                |
@@ -416,7 +416,7 @@ The format of the version string is as follows:
 </details>
 
 <details>
-<summary>Get all changed files and using a comma separator</summary>
+<summary>Get all changed files and use a comma separator</summary>
 
 ```yaml
 ...
@@ -479,7 +479,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ```yaml
 ...
 
-   - name: Get changed files and write the outputs to a txt file
+   - name: Get changed files and write the outputs to a Txt file
      id: changed-files-write-output-files-txt
      uses: ./
      with:
@@ -498,7 +498,7 @@ See [outputs](#outputs) for a list of all available outputs.
 
 ```yaml
 ...
-   - name: Get changed files and write the outputs to a json file
+   - name: Get changed files and write the outputs to a JSON file
      id: changed-files-write-output-files-json
      uses: ./
      with:
@@ -728,7 +728,7 @@ See [inputs](#inputs) for more information.
 </details>
 
 <details>
-<summary>Get all changed files with non äšćįí characters i.e (Filename in other languages)</summary>
+<summary>Get all changed files with non-äšćįí characters i.e (Filename in other languages)</summary>
 
 ```yaml
 ...
@@ -795,10 +795,10 @@ See [inputs](#inputs) for more information.
       - uses: nrwl/nx-set-shas@v3
         id: last_successful_commit_pull_request
         with:
-          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch
+          main-branch-name: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on the master or main branch
           workflow_id: 'test.yml'
 
-      - name: Run changed-files with the commit of the last successful test workflow run on main
+      - name: Run changed-files with the commit of the last successful test workflow run on the main branch
         id: changed-files-base-sha-pull-request
         uses: tj-actions/changed-files@v37
         with:
@@ -839,7 +839,7 @@ See [inputs](#inputs) for more information.
 
 ```yaml
 ...
-    - name: Run changed-files with json output
+    - name: Run changed-files with JSON output
       id: changed-files-json
       uses: tj-actions/changed-files@v37
       with:
@@ -874,7 +874,7 @@ See [inputs](#inputs) for more information.
 
 </details>
 
-## Real world usage
+## Real-world usage
 
 *   [vitejs/vite: uses tj-actions/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
 
