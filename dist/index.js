@@ -170,7 +170,7 @@ function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
 const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(void 0, void 0, void 0, function* () {
     const files = [
         ...new Set(getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }))
-    ];
+    ].filter(Boolean);
     if (inputs.json) {
         return {
             paths: (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson }),
@@ -200,7 +200,7 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
 const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, void 0, void 0, function* () {
     const files = [
         ...new Set(getAllChangeTypeFilesGenerator({ inputs, changedFiles }))
-    ];
+    ].filter(Boolean);
     if (inputs.json) {
         return {
             paths: (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson }),
@@ -2127,7 +2127,7 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeCurrentDir }) =>
     for (let i = 1; i < maxDepth; i++) {
         output = path.join(output, pathArr[i]);
     }
-    if (excludeCurrentDir && (output === '.' || output === '')) {
+    if (excludeCurrentDir && output === '.') {
         return '';
     }
     return normalizePath(output);
