@@ -2127,7 +2127,7 @@ const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeCurrentDir }) =>
     for (let i = 1; i < maxDepth; i++) {
         output = path.join(output, pathArr[i]);
     }
-    if (excludeCurrentDir && output === '.') {
+    if (excludeCurrentDir && (output === '.' || output === '')) {
         return '';
     }
     return normalizePath(output);

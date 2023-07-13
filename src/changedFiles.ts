@@ -192,7 +192,7 @@ export const getChangeTypeFiles = async ({
 }): Promise<{paths: string; count: string}> => {
   const files = [
     ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))
-  ]
+  ].filter(Boolean)
 
   if (inputs.json) {
     return {
@@ -236,7 +236,7 @@ export const getAllChangeTypeFiles = async ({
 }): Promise<{paths: string; count: string}> => {
   const files = [
     ...new Set(getAllChangeTypeFilesGenerator({inputs, changedFiles}))
-  ]
+  ].filter(Boolean)
 
   if (inputs.json) {
     return {
