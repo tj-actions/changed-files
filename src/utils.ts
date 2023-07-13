@@ -724,7 +724,6 @@ export const getDirnameMaxDepth = ({
     )
     return ''
   }
-  
   const pathArr = dirname(pathStr).split(path.sep)
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
   let output = pathArr[0]
