@@ -726,7 +726,7 @@ export const getDirnameMaxDepth = ({
     output = path.join(output, pathArr[i])
   }
 
-  if (excludeCurrentDir && (output === '.' || output === '')) {
+  if (excludeCurrentDir && output === '.') {
     return ''
   }
 
