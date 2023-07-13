@@ -1,5 +1,44 @@
 # Changelog
 
+# [37.1.2](https://github.com/tj-actions/changed-files/compare/v37.1.1...v37.1.2) - (2023-07-13)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Excluding current dir with max depth less than 2 ([#1375](https://github.com/tj-actions/changed-files/issues/1375)) ([2a968ff](https://github.com/tj-actions/changed-files/commit/2a968ff601949c81b47d9c1fdb789b0d25ddeea2))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1373](https://github.com/tj-actions/changed-files/issues/1373))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([fe91ab7](https://github.com/tj-actions/changed-files/commit/fe91ab72f6a9ecb02a0242c01b58685d5680fd4e))  - (tj-actions[bot])
+- Update README.md ([cc23ede](https://github.com/tj-actions/changed-files/commit/cc23ede8379d7798f2cd63082882472ae1add438))  - (Tonye Jack)
+- Updated README.md ([#1368](https://github.com/tj-actions/changed-files/issues/1368))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([032079b](https://github.com/tj-actions/changed-files/commit/032079bf7feccea4cc0b271962986e7770e345b3))  - (tj-actions[bot])
+- Update action.yml ([21ccb43](https://github.com/tj-actions/changed-files/commit/21ccb43669e77a07efac5f011bd4ee8b73128ef6))  - (Tonye Jack)
+- Updated README.md ([#1367](https://github.com/tj-actions/changed-files/issues/1367))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([038a51a](https://github.com/tj-actions/changed-files/commit/038a51af80a6a09ec582702adc3df051791f9db0))  - (tj-actions[bot])
+- Update README.md ([c6c396f](https://github.com/tj-actions/changed-files/commit/c6c396f2fe271cc83e7e0f9d536c3d86ec4c26ba))  - (Tonye Jack)
+- Update README.md ([7f05b89](https://github.com/tj-actions/changed-files/commit/7f05b891876669d2c7c19a0d297f6a3b856e0a74))  - (Tonye Jack)
+- Update README.md ([97365f6](https://github.com/tj-actions/changed-files/commit/97365f6cd24ea353a8eb76ec7882677c79f73b7e))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency eslint-plugin-github to v4.9.0 ([#1377](https://github.com/tj-actions/changed-files/issues/1377)) ([ef327f9](https://github.com/tj-actions/changed-files/commit/ef327f98b5f31e95aad0ae00e29a83a72294910a))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.2.3 ([#1376](https://github.com/tj-actions/changed-files/issues/1376)) ([5c1cab8](https://github.com/tj-actions/changed-files/commit/5c1cab842919e3c5e2c9385b01039715b7f81382))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.4.2 ([#1372](https://github.com/tj-actions/changed-files/issues/1372)) ([60e7ac7](https://github.com/tj-actions/changed-files/commit/60e7ac7c28a8e1f8d0dca3a5b0b2c558c38526d1))  - (renovate[bot])
+- Update README.md ([#1371](https://github.com/tj-actions/changed-files/issues/1371)) ([76dc7bc](https://github.com/tj-actions/changed-files/commit/76dc7bcd3f1236de1b72ce30d0b98b19cea5ab9d))  - (Tonye Jack)
+- Improve test coverage ([#1369](https://github.com/tj-actions/changed-files/issues/1369)) ([c7072f0](https://github.com/tj-actions/changed-files/commit/c7072f096921517be8c12059fdcdfaa3c27f8ee3))  - (Tonye Jack)
+- Update readme to include downsides of skipping the initial fetch ([a5f4b54](https://github.com/tj-actions/changed-files/commit/a5f4b54b5f4e834abbbe77a9f9f94af0b3d93ab0))  - (Tonye Jack)
+- **deps:** Update dependency eslint-plugin-prettier to v5.0.0 ([#1364](https://github.com/tj-actions/changed-files/issues/1364)) ([61e9ed7](https://github.com/tj-actions/changed-files/commit/61e9ed7dab363242491581aca47219f0201eb362))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.1.1 ([#1363](https://github.com/tj-actions/changed-files/issues/1363))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([139cb86](https://github.com/tj-actions/changed-files/commit/139cb86a771ba8b366563c29e123d7bd97ece0c2))  - (tj-actions[bot])
+
 # [37.1.1](https://github.com/tj-actions/changed-files/compare/v37.1.0...v37.1.1) - (2023-07-11)
 
 ## <!-- 26 -->🔄 Update
