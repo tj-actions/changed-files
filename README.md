@@ -34,7 +34,7 @@ Effortlessly track all changed files and directories relative to a target branch
 *   [Inputs](#inputs)
 *   [Versioning](#versioning)
 *   [Examples](#examples)
-*   [Real world usage](#real-world-usage)
+*   [Real-world usage](#real-world-usage)
 *   [Known Limitation](#known-limitation)
 *   [Migration guide](#migration-guide)
 *   [Credits](#credits)
@@ -374,7 +374,7 @@ Support this project with a :star:
 |                  output\_dir                  | string |  false   |    `".github/outputs"`    |                                                                                                                Directory to store output files.                                                                                                                 |
 |  output\_renamed\_files\_as\_deleted\_and\_added   | string |  false   |         `"false"`         |                                                                                                      Output renamed files as deleted <br>and added files.                                                                                                       |
 |                     path                     | string |  false   |           `"."`           |                                                                                        Specify a relative path under <br>`$GITHUB_WORKSPACE` to locate the repository.                                                                                          |
-|                  quotepath                   | string |  false   |         `"true"`          |                                                                  Use non-ASCII characters to match <br>files and output the filenames <br>completely verbatim by setting this <br>to `false`                                                                    |
+|                  quotepath                   | string |  false   |         `"true"`          |                                                                  Use non-ascii characters to match <br>files and output the filenames <br>completely verbatim by setting this <br>to `false`                                                                    |
 |            recover\_deleted\_files             | string |  false   |         `"false"`         |                                                                                                                     Recover deleted files.                                                                                                                      |
 |     recover\_deleted\_files\_to\_destination     | string |  false   |                           |                                                                                Recover deleted files to a <br>new destination directory, defaults to <br>the original location.                                                                                 |
 |                  separator                   | string |  false   |           `" "`           |                                                                                                               Split character for output strings                                                                                                                |
