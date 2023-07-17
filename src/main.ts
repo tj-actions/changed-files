@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 import path from 'path'
 import {
   getAllDiffFiles,
@@ -77,7 +78,7 @@ const getChangedFilesFromLocalGit = async ({
   let diffResult: DiffResult
 
   if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
-    core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'push'} event...`)
+    core.info(`Running on a ${github.context.eventName || 'push'} event...`)
     diffResult = await getSHAForPushEvent(
       inputs,
       env,
@@ -89,8 +90,8 @@ const getChangedFilesFromLocalGit = async ({
     )
   } else {
     core.info(
-      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} (${
-        env.GITHUB_EVENT_ACTION
+      `Running on a ${github.context.eventName || 'pull_request'} (${
+        github.context.action
       }) event...`
     )
     diffResult = await getSHAForPullRequestEvent(

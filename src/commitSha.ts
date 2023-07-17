@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 
 import {Env} from './env'
 import {Inputs} from './inputs'
@@ -494,7 +495,7 @@ export const getSHAForPullRequestEvent = async (
     //     uses: actions/checkout@v3
     //     with:
     //       repository: ${{ github.event.pull_request.head.repo.full_name }}
-    if (env.GITHUB_EVENT_NAME === 'pull_request_target') {
+    if (github.context.eventName === 'pull_request_target') {
       core.warning(
         'If this pull request is from a forked repository, please set the checkout action `repository` input to the same repository as the pull request.'
       )
