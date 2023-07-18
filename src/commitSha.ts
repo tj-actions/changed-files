@@ -16,11 +16,9 @@ import {
 } from './utils'
 
 const getCurrentSHA = async ({
-  env,
   inputs,
   workingDirectory
 }: {
-  env: Env
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
@@ -138,7 +136,7 @@ export const getSHAForPushEvent = async (
     }
   }
 
-  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
 
@@ -338,7 +336,7 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
 
