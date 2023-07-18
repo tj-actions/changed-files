@@ -1,19 +1,19 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import type {RestEndpointMethodTypes} from '@octokit/rest'
+import flatten from 'lodash/flatten'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
 import {Env} from './env'
 import {Inputs} from './inputs'
 import {
+  getAllChangedFiles,
   getDirnameMaxDepth,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
-  jsonOutput,
-  getAllChangedFiles
+  jsonOutput
 } from './utils'
-import flatten from 'lodash/flatten'
 
 export const getRenamedFiles = async ({
   inputs,
