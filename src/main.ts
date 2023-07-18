@@ -256,8 +256,8 @@ export async function run(): Promise<void> {
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
-  const eventPayload = github.context.payload
-  core.debug(`Event Payload: ${JSON.stringify(eventPayload, null, 2)}`)
+  const githubContext = github.context
+  core.debug(`Github Context: ${JSON.stringify(githubContext, null, 2)}`)
 
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
