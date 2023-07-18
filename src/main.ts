@@ -193,20 +193,17 @@ const getChangedFilesFromLocalGit = async ({
 
 const getChangedFilesFromRESTAPI = async ({
   inputs,
-  env,
   workingDirectory,
   filePatterns,
   yamlFilePatterns
 }: {
   inputs: Inputs
-  env: Env
   workingDirectory: string
   filePatterns: string[]
   yamlFilePatterns: Record<string, string[]>
 }): Promise<void> => {
   const allDiffFiles = await getChangedFilesFromGithubAPI({
-    inputs,
-    env
+    inputs
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')
@@ -309,7 +306,6 @@ export async function run(): Promise<void> {
     }
     await getChangedFilesFromRESTAPI({
       inputs,
-      env,
       workingDirectory,
       filePatterns,
       yamlFilePatterns

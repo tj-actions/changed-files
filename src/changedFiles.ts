@@ -252,11 +252,9 @@ export const getAllChangeTypeFiles = async ({
 }
 
 export const getChangedFilesFromGithubAPI = async ({
-  inputs,
-  env
+  inputs
 }: {
   inputs: Inputs
-  env: Env
 }): Promise<ChangedFiles> => {
   const octokit = github.getOctokit(inputs.token, {
     baseUrl: inputs.apiUrl
