@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 import path from 'path'
 import {
   getAllDiffFiles,
@@ -76,8 +77,8 @@ const getChangedFilesFromLocalGit = async ({
 
   let diffResult: DiffResult
 
-  if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
-    core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'push'} event...`)
+  if (!github.context.payload.pull_request?.base?.ref) {
+    core.info(`Running on a ${github.context.eventName || 'push'} event...`)
     diffResult = await getSHAForPushEvent(
       inputs,
       env,
@@ -89,8 +90,8 @@ const getChangedFilesFromLocalGit = async ({
     )
   } else {
     core.info(
-      `Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} (${
-        env.GITHUB_EVENT_ACTION
+      `Running on a ${github.context.eventName || 'pull_request'} (${
+        github.context.payload.action
       }) event...`
     )
     diffResult = await getSHAForPullRequestEvent(
@@ -192,20 +193,17 @@ const getChangedFilesFromLocalGit = async ({
 
 const getChangedFilesFromRESTAPI = async ({
   inputs,
-  env,
   workingDirectory,
   filePatterns,
   yamlFilePatterns
 }: {
   inputs: Inputs
-  env: Env
   workingDirectory: string
   filePatterns: string[]
   yamlFilePatterns: Record<string, string[]>
 }): Promise<void> => {
   const allDiffFiles = await getChangedFilesFromGithubAPI({
-    inputs,
-    env
+    inputs
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')
@@ -258,6 +256,9 @@ export async function run(): Promise<void> {
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
+  const githubContext = github.context
+  core.debug(`Github Context: ${JSON.stringify(githubContext, null, 2)}`)
+
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
     inputs.path
@@ -281,7 +282,7 @@ export async function run(): Promise<void> {
 
   if (
     inputs.token &&
-    env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
+    github.context.payload.pull_request?.number &&
     !hasGitDirectory
   ) {
     core.info("Using GitHub's REST API to get changed files")
@@ -305,7 +306,6 @@ export async function run(): Promise<void> {
     }
     await getChangedFilesFromRESTAPI({
       inputs,
-      env,
       workingDirectory,
       filePatterns,
       yamlFilePatterns

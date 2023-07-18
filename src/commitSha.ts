@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 
 import {Env} from './env'
 import {Inputs} from './inputs'
@@ -15,11 +16,9 @@ import {
 } from './utils'
 
 const getCurrentSHA = async ({
-  env,
   inputs,
   workingDirectory
 }: {
-  env: Env
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
@@ -50,14 +49,14 @@ const getCurrentSHA = async ({
   } else {
     if (!currentSha) {
       if (
-        env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA &&
+        github.context.payload.pull_request?.head?.sha &&
         (await verifyCommitSha({
-          sha: env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA,
+          sha: github.context.payload.pull_request?.head?.sha,
           cwd: workingDirectory,
           showAsErrorMessage: false
         })) === 0
       ) {
-        currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA
+        currentSha = github.context.payload.pull_request?.head?.sha
       } else {
         currentSha = await getHeadSha({cwd: workingDirectory})
       }
@@ -97,8 +96,8 @@ export const getSHAForPushEvent = async (
 
     if (isTag) {
       const sourceBranch =
-        env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '') ||
-        env.GITHUB_EVENT_RELEASE_TARGET_COMMITISH
+        github.context.payload.base_ref.replace('refs/heads/', '') ||
+        github.context.payload.release?.target_commitish
       await gitFetch({
         cwd: workingDirectory,
         args: [
@@ -137,7 +136,7 @@ export const getSHAForPushEvent = async (
     }
   }
 
-  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
 
@@ -191,8 +190,11 @@ export const getSHAForPushEvent = async (
       targetBranch = tag
     } else {
       core.debug('Getting previous SHA for last remote commit...')
-      if (env.GITHUB_EVENT_FORCED === 'false' || !env.GITHUB_EVENT_FORCED) {
-        previousSha = env.GITHUB_EVENT_BEFORE
+      if (
+        github.context.payload.forced === 'false' ||
+        !github.context.payload.forced
+      ) {
+        previousSha = github.context.payload.before
       }
 
       if (
@@ -265,8 +267,8 @@ export const getSHAForPullRequestEvent = async (
   hasSubmodule: boolean,
   gitFetchExtraArgs: string[]
 ): Promise<DiffResult> => {
-  let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF
-  const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF
+  let targetBranch = github.context.payload.pull_request?.base?.ref
+  const currentBranch = github.context.payload.pull_request?.head?.ref
   if (inputs.sinceLastRemoteCommit) {
     targetBranch = currentBranch
   }
@@ -281,7 +283,7 @@ export const getSHAForPullRequestEvent = async (
         '-u',
         '--progress',
         'origin',
-        `pull/${env.GITHUB_EVENT_PULL_REQUEST_NUMBER}/head:${currentBranch}`
+        `pull/${github.context.payload.pull_request?.number}/head:${currentBranch}`
       ]
     })
 
@@ -334,7 +336,7 @@ export const getSHAForPullRequestEvent = async (
     core.info('Completed fetching more history.')
   }
 
-  const currentSha = await getCurrentSHA({env, inputs, workingDirectory})
+  const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   let diff = '...'
 
@@ -362,15 +364,15 @@ export const getSHAForPullRequestEvent = async (
   }
 
   if (
-    !env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
-    env.GITHUB_EVENT_HEAD_REPO_FORK === 'true'
+    !github.context.payload.pull_request?.base?.ref ||
+    github.context.payload.head?.repo?.fork === 'true'
   ) {
     diff = '..'
   }
 
   if (!previousSha) {
     if (inputs.sinceLastRemoteCommit) {
-      previousSha = env.GITHUB_EVENT_BEFORE
+      previousSha = github.context.payload.before
 
       if (
         !previousSha ||
@@ -389,7 +391,7 @@ export const getSHAForPullRequestEvent = async (
           core.warning(
             'Unable to locate the previous commit in the local history. Falling back to the pull request base sha.'
           )
-          previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+          previousSha = github.context.payload.pull_request?.base?.sha
         }
       }
     } else {
@@ -399,7 +401,7 @@ export const getSHAForPullRequestEvent = async (
       })
 
       if (!previousSha) {
-        previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+        previousSha = github.context.payload.pull_request?.base?.sha
       }
 
       if (isShallow) {
@@ -449,7 +451,7 @@ export const getSHAForPullRequestEvent = async (
     }
 
     if (!previousSha || previousSha === currentSha) {
-      previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA
+      previousSha = github.context.payload.pull_request?.base?.sha
     }
   }
 
@@ -494,7 +496,7 @@ export const getSHAForPullRequestEvent = async (
     //     uses: actions/checkout@v3
     //     with:
     //       repository: ${{ github.event.pull_request.head.repo.full_name }}
-    if (env.GITHUB_EVENT_NAME === 'pull_request_target') {
+    if (github.context.eventName === 'pull_request_target') {
       core.warning(
         'If this pull request is from a forked repository, please set the checkout action `repository` input to the same repository as the pull request.'
       )

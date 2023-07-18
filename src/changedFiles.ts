@@ -1,19 +1,18 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import type {RestEndpointMethodTypes} from '@octokit/rest'
+import flatten from 'lodash/flatten'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
-import {Env} from './env'
 import {Inputs} from './inputs'
 import {
+  getAllChangedFiles,
   getDirnameMaxDepth,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
-  jsonOutput,
-  getAllChangedFiles
+  jsonOutput
 } from './utils'
-import flatten from 'lodash/flatten'
 
 export const getRenamedFiles = async ({
   inputs,
@@ -252,11 +251,9 @@ export const getAllChangeTypeFiles = async ({
 }
 
 export const getChangedFilesFromGithubAPI = async ({
-  inputs,
-  env
+  inputs
 }: {
   inputs: Inputs
-  env: Env
 }): Promise<ChangedFiles> => {
   const octokit = github.getOctokit(inputs.token, {
     baseUrl: inputs.apiUrl
@@ -277,7 +274,7 @@ export const getChangedFilesFromGithubAPI = async ({
   const options = octokit.rest.pulls.listFiles.endpoint.merge({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
+    pull_number: github.context.payload.pull_request?.number,
     per_page: 100
   })
 
