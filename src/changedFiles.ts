@@ -277,7 +277,7 @@ export const getChangedFilesFromGithubAPI = async ({
   const options = octokit.rest.pulls.listFiles.endpoint.merge({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
+    pull_number: github.context.payload.pull_request?.number,
     per_page: 100
   })
 

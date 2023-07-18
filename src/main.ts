@@ -77,7 +77,7 @@ const getChangedFilesFromLocalGit = async ({
 
   let diffResult: DiffResult
 
-  if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
+  if (!github.context.payload.pull_request?.base?.ref) {
     core.info(`Running on a ${github.context.eventName || 'push'} event...`)
     diffResult = await getSHAForPushEvent(
       inputs,
@@ -91,7 +91,7 @@ const getChangedFilesFromLocalGit = async ({
   } else {
     core.info(
       `Running on a ${github.context.eventName || 'pull_request'} (${
-        github.context.action
+        github.context.payload.action
       }) event...`
     )
     diffResult = await getSHAForPullRequestEvent(
@@ -259,6 +259,9 @@ export async function run(): Promise<void> {
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
+  const eventPayload = github.context.payload
+  core.debug(`Event Payload: ${JSON.stringify(eventPayload, null, 2)}`)
+
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
     inputs.path
@@ -282,7 +285,7 @@ export async function run(): Promise<void> {
 
   if (
     inputs.token &&
-    env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
+    github.context.payload.pull_request?.number &&
     !hasGitDirectory
   ) {
     core.info("Using GitHub's REST API to get changed files")

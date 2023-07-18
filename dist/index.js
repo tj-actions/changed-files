@@ -215,6 +215,7 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
 const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
+    var _d;
     const octokit = github.getOctokit(inputs.token, {
         baseUrl: inputs.apiUrl
     });
@@ -232,7 +233,7 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
     const options = octokit.rest.pulls.listFiles.endpoint.merge({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        pull_number: env.GITHUB_EVENT_PULL_REQUEST_NUMBER,
+        pull_number: (_d = github.context.payload.pull_request) === null || _d === void 0 ? void 0 : _d.number,
         per_page: 100
     });
     const paginatedResponse = yield octokit.paginate(options);
@@ -247,9 +248,9 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
         unchanged: ChangeTypeEnum.Unmerged
     };
     try {
-        for (var _d = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _a = paginatedResponse_1_1.done, !_a; _d = true) {
+        for (var _e = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _a = paginatedResponse_1_1.done, !_a; _e = true) {
             _c = paginatedResponse_1_1.value;
-            _d = false;
+            _e = false;
             const item = _c;
             const changeType = statusMap[item.status] || ChangeTypeEnum.Unknown;
             if (changeType === ChangeTypeEnum.Renamed) {
@@ -269,7 +270,7 @@ const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (!_d && !_a && (_b = paginatedResponse_1.return)) yield _b.call(paginatedResponse_1);
+            if (!_e && !_a && (_b = paginatedResponse_1.return)) yield _b.call(paginatedResponse_1);
         }
         finally { if (e_1) throw e_1.error; }
     }
@@ -344,7 +345,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Added]
     });
-    core.debug(`Added files: ${addedFiles}`);
+    core.debug(`Added files: ${JSON.stringify(addedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('added_files', outputPrefix),
         value: addedFiles.paths,
@@ -360,7 +361,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Copied]
     });
-    core.debug(`Copied files: ${copiedFiles}`);
+    core.debug(`Copied files: ${JSON.stringify(copiedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('copied_files', outputPrefix),
         value: copiedFiles.paths,
@@ -376,7 +377,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Modified]
     });
-    core.debug(`Modified files: ${modifiedFiles}`);
+    core.debug(`Modified files: ${JSON.stringify(modifiedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('modified_files', outputPrefix),
         value: modifiedFiles.paths,
@@ -392,7 +393,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Renamed]
     });
-    core.debug(`Renamed files: ${renamedFiles}`);
+    core.debug(`Renamed files: ${JSON.stringify(renamedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('renamed_files', outputPrefix),
         value: renamedFiles.paths,
@@ -408,7 +409,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.TypeChanged]
     });
-    core.debug(`Type changed files: ${typeChangedFiles}`);
+    core.debug(`Type changed files: ${JSON.stringify(typeChangedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('type_changed_files', outputPrefix),
         value: typeChangedFiles.paths,
@@ -424,7 +425,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Unmerged]
     });
-    core.debug(`Unmerged files: ${unmergedFiles}`);
+    core.debug(`Unmerged files: ${JSON.stringify(unmergedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('unmerged_files', outputPrefix),
         value: unmergedFiles.paths,
@@ -440,7 +441,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Unknown]
     });
-    core.debug(`Unknown files: ${unknownFiles}`);
+    core.debug(`Unknown files: ${JSON.stringify(unknownFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('unknown_files', outputPrefix),
         value: unknownFiles.paths,
@@ -455,7 +456,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         inputs,
         changedFiles: allFilteredDiffFiles
     });
-    core.debug(`All changed and modified files: ${allChangedAndModifiedFiles}`);
+    core.debug(`All changed and modified files: ${JSON.stringify(allChangedAndModifiedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('all_changed_and_modified_files', outputPrefix),
         value: allChangedAndModifiedFiles.paths,
@@ -476,7 +477,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
             changedFiles_1.ChangeTypeEnum.Renamed
         ]
     });
-    core.debug(`All changed files: ${allChangedFiles}`);
+    core.debug(`All changed files: ${JSON.stringify(allChangedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('all_changed_files', outputPrefix),
         value: allChangedFiles.paths,
@@ -502,7 +503,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
             changedFiles_1.ChangeTypeEnum.Renamed
         ]
     });
-    core.debug(`All other changed files: ${allOtherChangedFiles}`);
+    core.debug(`All other changed files: ${JSON.stringify(allOtherChangedFiles)}`);
     const otherChangedFiles = allOtherChangedFiles.paths
         .split(inputs.separator)
         .filter((filePath) => !allChangedFiles.paths.split(inputs.separator).includes(filePath));
@@ -535,7 +536,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
             changedFiles_1.ChangeTypeEnum.Deleted
         ]
     });
-    core.debug(`All modified files: ${allModifiedFiles}`);
+    core.debug(`All modified files: ${JSON.stringify(allModifiedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('all_modified_files', outputPrefix),
         value: allModifiedFiles.paths,
@@ -588,7 +589,7 @@ const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffRes
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
     });
-    core.debug(`Deleted files: ${deletedFiles}`);
+    core.debug(`Deleted files: ${JSON.stringify(deletedFiles)}`);
     yield (0, utils_1.setOutput)({
         key: getOutputKey('deleted_files', outputPrefix),
         value: deletedFiles.paths,
@@ -676,8 +677,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getSHAForPullRequestEvent = exports.getSHAForPushEvent = void 0;
 const core = __importStar(__nccwpck_require__(2186));
+const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
 const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d, _e, _f;
     let currentSha = inputs.sha;
     core.debug('Getting current SHA...');
     if (inputs.until) {
@@ -703,13 +706,13 @@ const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, v
     }
     else {
         if (!currentSha) {
-            if (env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA &&
+            if (((_b = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha) &&
                 (yield (0, utils_1.verifyCommitSha)({
-                    sha: env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA,
+                    sha: (_d = (_c = github.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.sha,
                     cwd: workingDirectory,
                     showAsErrorMessage: false
                 })) === 0) {
-                currentSha = env.GITHUB_EVENT_PULL_REQUEST_HEAD_SHA;
+                currentSha = (_f = (_e = github.context.payload.pull_request) === null || _e === void 0 ? void 0 : _e.head) === null || _f === void 0 ? void 0 : _f.sha;
             }
             else {
                 currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
@@ -721,14 +724,15 @@ const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, v
     return currentSha;
 });
 const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
+    var _g;
     let targetBranch = env.GITHUB_REF_NAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
     if (isShallow && !inputs.skipInitialFetch) {
         core.info('Repository is shallow, fetching more history...');
         if (isTag) {
-            const sourceBranch = env.GITHUB_EVENT_BASE_REF.replace('refs/heads/', '') ||
-                env.GITHUB_EVENT_RELEASE_TARGET_COMMITISH;
+            const sourceBranch = github.context.payload.base_ref.replace('refs/heads/', '') ||
+                ((_g = github.context.payload.release) === null || _g === void 0 ? void 0 : _g.target_commitish);
             yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
@@ -812,8 +816,9 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
         }
         else {
             core.debug('Getting previous SHA for last remote commit...');
-            if (env.GITHUB_EVENT_FORCED === 'false' || !env.GITHUB_EVENT_FORCED) {
-                previousSha = env.GITHUB_EVENT_BEFORE;
+            if (github.context.payload.forced === 'false' ||
+                !github.context.payload.forced) {
+                previousSha = github.context.payload.before;
             }
             if (!previousSha ||
                 previousSha === '0000000000000000000000000000000000000000') {
@@ -863,8 +868,9 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
 });
 exports.getSHAForPushEvent = getSHAForPushEvent;
 const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
-    let targetBranch = env.GITHUB_EVENT_PULL_REQUEST_BASE_REF;
-    const currentBranch = env.GITHUB_EVENT_PULL_REQUEST_HEAD_REF;
+    var _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+    let targetBranch = (_j = (_h = github.context.payload.pull_request) === null || _h === void 0 ? void 0 : _h.base) === null || _j === void 0 ? void 0 : _j.ref;
+    const currentBranch = (_l = (_k = github.context.payload.pull_request) === null || _k === void 0 ? void 0 : _k.head) === null || _l === void 0 ? void 0 : _l.ref;
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
@@ -877,7 +883,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 '-u',
                 '--progress',
                 'origin',
-                `pull/${env.GITHUB_EVENT_PULL_REQUEST_NUMBER}/head:${currentBranch}`
+                `pull/${(_m = github.context.payload.pull_request) === null || _m === void 0 ? void 0 : _m.number}/head:${currentBranch}`
             ]
         });
         if (prFetchExitCode !== 0) {
@@ -942,13 +948,13 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             diff
         };
     }
-    if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF ||
-        env.GITHUB_EVENT_HEAD_REPO_FORK === 'true') {
+    if (!((_p = (_o = github.context.payload.pull_request) === null || _o === void 0 ? void 0 : _o.base) === null || _p === void 0 ? void 0 : _p.ref) ||
+        ((_r = (_q = github.context.payload.head) === null || _q === void 0 ? void 0 : _q.repo) === null || _r === void 0 ? void 0 : _r.fork) === 'true') {
         diff = '..';
     }
     if (!previousSha) {
         if (inputs.sinceLastRemoteCommit) {
-            previousSha = env.GITHUB_EVENT_BEFORE;
+            previousSha = github.context.payload.before;
             if (!previousSha ||
                 (previousSha &&
                     (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
@@ -959,7 +965,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 });
                 if (!previousSha) {
                     core.warning('Unable to locate the previous commit in the local history. Falling back to the pull request base sha.');
-                    previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+                    previousSha = (_t = (_s = github.context.payload.pull_request) === null || _s === void 0 ? void 0 : _s.base) === null || _t === void 0 ? void 0 : _t.sha;
                 }
             }
         }
@@ -969,7 +975,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 branch: targetBranch
             });
             if (!previousSha) {
-                previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+                previousSha = (_v = (_u = github.context.payload.pull_request) === null || _u === void 0 ? void 0 : _u.base) === null || _v === void 0 ? void 0 : _v.sha;
             }
             if (isShallow) {
                 if (!(yield (0, utils_1.canDiffCommits)({
@@ -1006,7 +1012,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         if (!previousSha || previousSha === currentSha) {
-            previousSha = env.GITHUB_EVENT_PULL_REQUEST_BASE_SHA;
+            previousSha = (_x = (_w = github.context.payload.pull_request) === null || _w === void 0 ? void 0 : _w.base) === null || _x === void 0 ? void 0 : _x.sha;
         }
     }
     if (!(yield (0, utils_1.canDiffCommits)({
@@ -1039,7 +1045,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         //     uses: actions/checkout@v3
         //     with:
         //       repository: ${{ github.event.pull_request.head.repo.full_name }}
-        if (env.GITHUB_EVENT_NAME === 'pull_request_target') {
+        if (github.context.eventName === 'pull_request_target') {
             core.warning('If this pull request is from a forked repository, please set the checkout action `repository` input to the same repository as the pull request.');
             core.warning('This can be done by setting actions/checkout `repository` to ${{ github.event.pull_request.head.repo.full_name }}');
         }
@@ -1100,35 +1106,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getEnv = void 0;
-const fs_1 = __nccwpck_require__(7147);
 const core = __importStar(__nccwpck_require__(2186));
 const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
-    const eventPath = process.env.GITHUB_EVENT_PATH;
-    let eventJson = {};
-    if (eventPath) {
-        eventJson = JSON.parse(yield fs_1.promises.readFile(eventPath, { encoding: 'utf8' }));
-    }
-    core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
-    core.debug(`Event: ${JSON.stringify(eventJson, null, 2)}`);
+    core.debug(`Process Env: ${JSON.stringify(process.env, null, 2)}`);
     return {
-        GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ((_b = (_a = eventJson.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.ref) || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_REF: ((_d = (_c = eventJson.pull_request) === null || _c === void 0 ? void 0 : _c.base) === null || _d === void 0 ? void 0 : _d.ref) || '',
-        GITHUB_EVENT_BEFORE: eventJson.before || '',
-        GITHUB_EVENT_BASE_REF: eventJson.base_ref || '',
-        GITHUB_EVENT_RELEASE_TARGET_COMMITISH: ((_e = eventJson.release) === null || _e === void 0 ? void 0 : _e.target_commitish) || '',
-        GITHUB_EVENT_HEAD_REPO_FORK: ((_g = (_f = eventJson.head) === null || _f === void 0 ? void 0 : _f.repo) === null || _g === void 0 ? void 0 : _g.fork) || '',
-        GITHUB_EVENT_PULL_REQUEST_NUMBER: ((_h = eventJson.pull_request) === null || _h === void 0 ? void 0 : _h.number) || '',
-        GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ((_k = (_j = eventJson.pull_request) === null || _j === void 0 ? void 0 : _j.base) === null || _k === void 0 ? void 0 : _k.sha) || '',
-        GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ((_m = (_l = eventJson.pull_request) === null || _l === void 0 ? void 0 : _l.head) === null || _m === void 0 ? void 0 : _m.sha) || '',
-        GITHUB_EVENT_FORCED: eventJson.forced || '',
-        GITHUB_EVENT_ACTION: eventJson.action || '',
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
-        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || '',
-        GITHUB_EVENT_NAME: process.env.GITHUB_EVENT_NAME || '',
-        GITHUB_REPOSITORY_OWNER: process.env.GITHUB_REPOSITORY_OWNER || '',
-        GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY || ''
+        GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
     };
 });
 exports.getEnv = getEnv;
@@ -1347,6 +1331,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
+const github = __importStar(__nccwpck_require__(5438));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const changedFiles_1 = __nccwpck_require__(7358);
 const changedFilesOutput_1 = __nccwpck_require__(8930);
@@ -1355,7 +1340,7 @@ const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
 const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b, _c;
     yield (0, utils_1.verifyMinimumGitVersion)();
     let quotePathValue = 'on';
     if (!inputs.quotePath) {
@@ -1384,12 +1369,12 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
         gitFetchExtraArgs = ['--prune', '--no-recurse-submodules'];
     }
     let diffResult;
-    if (!env.GITHUB_EVENT_PULL_REQUEST_BASE_REF) {
-        core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'push'} event...`);
+    if (!((_c = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.base) === null || _c === void 0 ? void 0 : _c.ref)) {
+        core.info(`Running on a ${github.context.eventName || 'push'} event...`);
         diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag);
     }
     else {
-        core.info(`Running on a ${env.GITHUB_EVENT_NAME || 'pull_request'} (${env.GITHUB_EVENT_ACTION}) event...`);
+        core.info(`Running on a ${github.context.eventName || 'pull_request'} (${github.context.payload.action}) event...`);
         diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs);
     }
     if (diffResult.initialCommit) {
@@ -1514,12 +1499,15 @@ const getChangedFilesFromRESTAPI = ({ inputs, env, workingDirectory, filePattern
     }
 });
 function run() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         core.startGroup('changed-files');
         const env = yield (0, env_1.getEnv)();
         core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
+        const eventPayload = github.context.payload;
+        core.debug(`Event Payload: ${JSON.stringify(eventPayload, null, 2)}`);
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
         core.debug(`Working directory: ${workingDirectory}`);
         const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
@@ -1535,7 +1523,7 @@ function run() {
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         if (inputs.token &&
-            env.GITHUB_EVENT_PULL_REQUEST_NUMBER &&
+            ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) &&
             !hasGitDirectory) {
             core.info("Using GitHub's REST API to get changed files");
             const unsupportedInputs = [
