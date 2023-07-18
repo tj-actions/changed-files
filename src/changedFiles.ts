@@ -5,7 +5,6 @@ import flatten from 'lodash/flatten'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
-import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   getAllChangedFiles,
