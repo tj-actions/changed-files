@@ -1505,8 +1505,8 @@ function run() {
         core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
-        const eventPayload = github.context.payload;
-        core.debug(`Event Payload: ${JSON.stringify(eventPayload, null, 2)}`);
+        const githubContext = github.context;
+        core.debug(`Github Context: ${JSON.stringify(githubContext, null, 2)}`);
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
         core.debug(`Working directory: ${workingDirectory}`);
         const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
