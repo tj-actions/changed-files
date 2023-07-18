@@ -52,9 +52,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+const flatten_1 = __importDefault(__nccwpck_require__(2394));
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
-const flatten_1 = __importDefault(__nccwpck_require__(2394));
 const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
@@ -213,7 +213,7 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
     };
 });
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
-const getChangedFilesFromGithubAPI = ({ inputs, env }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromGithubAPI = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
     var _d;
     const octokit = github.getOctokit(inputs.token, {
@@ -679,7 +679,7 @@ exports.getSHAForPullRequestEvent = exports.getSHAForPushEvent = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
-const getCurrentSHA = ({ env, inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f;
     let currentSha = inputs.sha;
     core.debug('Getting current SHA...');
@@ -770,7 +770,7 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             });
         }
     }
-    const currentSha = yield getCurrentSHA({ env, inputs, workingDirectory });
+    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     const diff = '..';
     if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -929,7 +929,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
         core.info('Completed fetching more history.');
     }
-    const currentSha = yield getCurrentSHA({ env, inputs, workingDirectory });
+    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     let diff = '...';
     if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -1455,10 +1455,9 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
         core.endGroup();
     }
 });
-const getChangedFilesFromRESTAPI = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromRESTAPI = ({ inputs, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     const allDiffFiles = yield (0, changedFiles_1.getChangedFilesFromGithubAPI)({
-        inputs,
-        env
+        inputs
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
@@ -1543,7 +1542,6 @@ function run() {
             }
             yield getChangedFilesFromRESTAPI({
                 inputs,
-                env,
                 workingDirectory,
                 filePatterns,
                 yamlFilePatterns
