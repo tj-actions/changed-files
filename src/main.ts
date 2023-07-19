@@ -177,7 +177,13 @@ const getChangedFilesFromLocalGit = async ({
   core.endGroup()
 
   if (inputs.recoverDeletedFiles) {
-    const recoverPatterns = getRecoverFilePatterns({inputs})
+    let recoverPatterns = getRecoverFilePatterns({inputs})
+
+    if (recoverPatterns.length > 0 && filePatterns.length > 0) {
+      core.info('No recover patterns found; defaulting to file patterns')
+      recoverPatterns = filePatterns
+    }
+
     await recoverDeletedFiles({
       inputs,
       workingDirectory,
