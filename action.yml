@@ -153,7 +153,7 @@ inputs:
     required: false
     default: ""
   recover_files:
-    description: "File and directory patterns used to recover deleted files."
+    description: "File and directory patterns used to recover deleted files, defaults to the patterns provided via the `files`, `files_from_source_file`, `files_ignore` and `files_ignore_from_source_file` inputs or all deleted files if no patterns are provided."
     required: false
     default: ""
   recover_files_separator:
