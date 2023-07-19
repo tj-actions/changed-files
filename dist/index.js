@@ -1436,7 +1436,11 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
     core.info('All Done!');
     core.endGroup();
     if (inputs.recoverDeletedFiles) {
-        const recoverPatterns = (0, utils_1.getRecoverFilePatterns)({ inputs });
+        let recoverPatterns = (0, utils_1.getRecoverFilePatterns)({ inputs });
+        if (recoverPatterns.length > 0 && filePatterns.length > 0) {
+            core.info('No recover patterns found; defaulting to file patterns');
+            recoverPatterns = filePatterns;
+        }
         yield (0, utils_1.recoverDeletedFiles)({
             inputs,
             workingDirectory,
