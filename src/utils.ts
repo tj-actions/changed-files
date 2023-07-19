@@ -1053,6 +1053,8 @@ export const getRecoverFilePatterns = ({
     )
   }
 
+  core.debug(`recover file patterns: ${filePatterns}`)
+
   return filePatterns
 }
 
