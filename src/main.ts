@@ -2,6 +2,8 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import path from 'path'
 import {
+  ChangedFiles,
+  ChangeTypeEnum,
   getAllDiffFiles,
   getChangedFilesFromGithubAPI,
   getRenamedFiles
@@ -16,15 +18,64 @@ import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
 import {
   getFilePatterns,
+  getRecoverFilePatterns,
   getSubmodulePath,
   getYamlFilePatterns,
   hasLocalGitDirectory,
   isRepoShallow,
+  recoverDeletedFiles,
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
   verifyMinimumGitVersion
 } from './utils'
+
+const changedFilesOutput = async ({
+  filePatterns,
+  allDiffFiles,
+  inputs,
+  yamlFilePatterns
+}: {
+  filePatterns: string[]
+  allDiffFiles: ChangedFiles
+  inputs: Inputs
+  yamlFilePatterns: Record<string, string[]>
+}): Promise<void> => {
+  if (filePatterns.length > 0) {
+    core.startGroup('changed-files-patterns')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      filePatterns,
+      inputs
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+
+  if (Object.keys(yamlFilePatterns).length > 0) {
+    for (const key of Object.keys(yamlFilePatterns)) {
+      core.startGroup(`changed-files-yaml-${key}`)
+      await setChangedFilesOutput({
+        allDiffFiles,
+        filePatterns: yamlFilePatterns[key],
+        outputPrefix: key,
+        inputs
+      })
+      core.info('All Done!')
+      core.endGroup()
+    }
+  }
+
+  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
+    core.startGroup('changed-files-all')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      inputs
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+}
 
 const getChangedFilesFromLocalGit = async ({
   inputs,
@@ -125,46 +176,29 @@ const getChangedFilesFromLocalGit = async ({
   core.info('All Done!')
   core.endGroup()
 
-  if (filePatterns.length > 0) {
-    core.startGroup('changed-files-patterns')
-    await setChangedFilesOutput({
-      allDiffFiles,
-      filePatterns,
-      inputs,
-      workingDirectory,
-      diffResult
-    })
-    core.info('All Done!')
-    core.endGroup()
-  }
+  if (inputs.recoverDeletedFiles) {
+    let recoverPatterns = getRecoverFilePatterns({inputs})
 
-  if (Object.keys(yamlFilePatterns).length > 0) {
-    for (const key of Object.keys(yamlFilePatterns)) {
-      core.startGroup(`changed-files-yaml-${key}`)
-      await setChangedFilesOutput({
-        allDiffFiles,
-        filePatterns: yamlFilePatterns[key],
-        outputPrefix: key,
-        inputs,
-        workingDirectory,
-        diffResult
-      })
-      core.info('All Done!')
-      core.endGroup()
+    if (recoverPatterns.length > 0 && filePatterns.length > 0) {
+      core.info('No recover patterns found; defaulting to file patterns')
+      recoverPatterns = filePatterns
     }
-  }
 
-  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
-    core.startGroup('changed-files-all')
-    await setChangedFilesOutput({
-      allDiffFiles,
+    await recoverDeletedFiles({
       inputs,
       workingDirectory,
-      diffResult
+      deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
+      recoverPatterns,
+      sha: diffResult.previousSha
     })
-    core.info('All Done!')
-    core.endGroup()
   }
+
+  await changedFilesOutput({
+    filePatterns,
+    allDiffFiles,
+    inputs,
+    yamlFilePatterns
+  })
 
   if (inputs.includeAllOldNewRenamedFiles) {
     core.startGroup('changed-files-all-old-new-renamed-files')
@@ -193,12 +227,10 @@ const getChangedFilesFromLocalGit = async ({
 
 const getChangedFilesFromRESTAPI = async ({
   inputs,
-  workingDirectory,
   filePatterns,
   yamlFilePatterns
 }: {
   inputs: Inputs
-  workingDirectory: string
   filePatterns: string[]
   yamlFilePatterns: Record<string, string[]>
 }): Promise<void> => {
@@ -208,43 +240,12 @@ const getChangedFilesFromRESTAPI = async ({
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')
 
-  if (filePatterns.length > 0) {
-    core.startGroup('changed-files-patterns')
-    await setChangedFilesOutput({
-      allDiffFiles,
-      filePatterns,
-      inputs,
-      workingDirectory
-    })
-    core.info('All Done!')
-    core.endGroup()
-  }
-
-  if (Object.keys(yamlFilePatterns).length > 0) {
-    for (const key of Object.keys(yamlFilePatterns)) {
-      core.startGroup(`changed-files-yaml-${key}`)
-      await setChangedFilesOutput({
-        allDiffFiles,
-        filePatterns: yamlFilePatterns[key],
-        outputPrefix: key,
-        inputs,
-        workingDirectory
-      })
-      core.info('All Done!')
-      core.endGroup()
-    }
-  }
-
-  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
-    core.startGroup('changed-files-all')
-    await setChangedFilesOutput({
-      allDiffFiles,
-      inputs,
-      workingDirectory
-    })
-    core.info('All Done!')
-    core.endGroup()
-  }
+  await changedFilesOutput({
+    filePatterns,
+    allDiffFiles,
+    inputs,
+    yamlFilePatterns
+  })
 }
 
 export async function run(): Promise<void> {
@@ -256,8 +257,7 @@ export async function run(): Promise<void> {
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
-  const githubContext = github.context
-  core.debug(`Github Context: ${JSON.stringify(githubContext, null, 2)}`)
+  core.debug(`Github Context: ${JSON.stringify(github.context, null, 2)}`)
 
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
@@ -306,7 +306,6 @@ export async function run(): Promise<void> {
     }
     await getChangedFilesFromRESTAPI({
       inputs,
-      workingDirectory,
       filePatterns,
       yamlFilePatterns
     })

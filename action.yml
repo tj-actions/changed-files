@@ -152,6 +152,22 @@ inputs:
     description: "Recover deleted files to a new destination directory, defaults to the original location."
     required: false
     default: ""
+  recover_files:
+    description: "File and directory patterns used to recover deleted files."
+    required: false
+    default: ""
+  recover_files_separator:
+    description: "Separator used to split the `recover_files` input"
+    default: "\n"
+    required: false
+  recover_files_ignore:
+    description: "File and directory patterns to ignore when recovering deleted files."
+    required: false
+    default: ""
+  recover_files_ignore_separator:
+    description: "Separator used to split the `recover_files_ignore` input"
+    default: "\n"
+    required: false
   token:
     description: "Github token used to fetch changed files from Github's API."
     required: false
