@@ -1055,7 +1055,7 @@ export const getRecoverFilePatterns = ({
 
   core.debug(`recover file patterns: ${filePatterns}`)
 
-  return filePatterns
+  return filePatterns.filter(Boolean)
 }
 
 export const setOutput = async ({

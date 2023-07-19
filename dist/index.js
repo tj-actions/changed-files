@@ -2306,7 +2306,7 @@ const getRecoverFilePatterns = ({ inputs }) => {
         }));
     }
     core.debug(`recover file patterns: ${filePatterns}`);
-    return filePatterns;
+    return filePatterns.filter(Boolean);
 };
 exports.getRecoverFilePatterns = getRecoverFilePatterns;
 const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
