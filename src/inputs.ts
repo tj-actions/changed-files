@@ -38,6 +38,10 @@ export type Inputs = {
   outputRenamedFilesAsDeletedAndAdded: boolean
   recoverDeletedFiles: boolean
   recoverDeletedFilesToDestination: string
+  recoverFiles: string
+  recoverFilesSeparator: string
+  recoverFilesIgnore: string
+  recoverFilesIgnoreSeparator: string
   token: string
   apiUrl: string
   skipInitialFetch: boolean
@@ -153,6 +157,21 @@ export const getInputs = (): Inputs => {
     'recover_deleted_files_to_destination',
     {required: false}
   )
+  const recoverFiles = core.getInput('recover_files', {required: false})
+  const recoverFilesSeparator = core.getInput('recover_files_separator', {
+    required: false,
+    trimWhitespace: false
+  })
+  const recoverFilesIgnore = core.getInput('recover_files_ignore', {
+    required: false
+  })
+  const recoverFilesIgnoreSeparator = core.getInput(
+    'recover_files_ignore_separator',
+    {
+      required: false,
+      trimWhitespace: false
+    }
+  )
   const token = core.getInput('token', {required: false})
   const apiUrl = core.getInput('api_url', {required: false})
   const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
@@ -186,6 +205,10 @@ export const getInputs = (): Inputs => {
     sinceLastRemoteCommit,
     recoverDeletedFiles,
     recoverDeletedFilesToDestination,
+    recoverFiles,
+    recoverFilesSeparator,
+    recoverFilesIgnore,
+    recoverFilesIgnoreSeparator,
     includeAllOldNewRenamedFiles,
     oldNewSeparator,
     oldNewFilesSeparator,

@@ -1028,6 +1028,36 @@ export const getYamlFilePatterns = async ({
   return filePatterns
 }
 
+export const getRecoverFilePatterns = ({
+  inputs
+}: {
+  inputs: Inputs
+}): string[] => {
+  let filePatterns: string[] = inputs.recoverFiles.split(
+    inputs.recoverFilesSeparator
+  )
+
+  if (inputs.recoverFilesIgnore) {
+    const ignoreFilePatterns = inputs.recoverFilesIgnore.split(
+      inputs.recoverFilesSeparator
+    )
+
+    filePatterns = filePatterns.concat(
+      ignoreFilePatterns.map(p => {
+        if (p.startsWith('!')) {
+          return p
+        } else {
+          return `!${p}`
+        }
+      })
+    )
+  }
+
+  core.debug(`recover file patterns: ${filePatterns}`)
+
+  return filePatterns.filter(Boolean)
+}
+
 export const setOutput = async ({
   key,
   value,
@@ -1084,36 +1114,48 @@ export const recoverDeletedFiles = async ({
   inputs,
   workingDirectory,
   deletedFiles,
+  recoverPatterns,
   sha
 }: {
   inputs: Inputs
   workingDirectory: string
   deletedFiles: string[]
+  recoverPatterns: string[]
   sha: string
 }): Promise<void> => {
-  if (inputs.recoverDeletedFiles) {
-    for (const deletedFile of deletedFiles) {
-      let target = path.join(workingDirectory, deletedFile)
+  let recoverableDeletedFiles = deletedFiles
+  core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`)
 
-      if (inputs.recoverDeletedFilesToDestination) {
-        target = path.join(
-          workingDirectory,
-          inputs.recoverDeletedFilesToDestination,
-          deletedFile
-        )
-      }
+  if (recoverPatterns.length > 0) {
+    recoverableDeletedFiles = mm(deletedFiles, recoverPatterns, {
+      dot: true,
+      windows: IS_WINDOWS,
+      noext: true
+    })
+    core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles}`)
+  }
 
-      const deletedFileContents = await getDeletedFileContents({
-        cwd: workingDirectory,
-        filePath: deletedFile,
-        sha
-      })
+  for (const deletedFile of recoverableDeletedFiles) {
+    let target = path.join(workingDirectory, deletedFile)
 
-      if (!(await exists(path.dirname(target)))) {
-        await fs.mkdir(path.dirname(target), {recursive: true})
-      }
-      await fs.writeFile(target, deletedFileContents)
+    if (inputs.recoverDeletedFilesToDestination) {
+      target = path.join(
+        workingDirectory,
+        inputs.recoverDeletedFilesToDestination,
+        deletedFile
+      )
     }
+
+    const deletedFileContents = await getDeletedFileContents({
+      cwd: workingDirectory,
+      filePath: deletedFile,
+      sha
+    })
+
+    if (!(await exists(path.dirname(target)))) {
+      await fs.mkdir(path.dirname(target), {recursive: true})
+    }
+    await fs.writeFile(target, deletedFileContents)
   }
 }
 

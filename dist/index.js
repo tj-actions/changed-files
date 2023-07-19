@@ -326,20 +326,12 @@ const utils_1 = __nccwpck_require__(918);
 const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
-const setChangedFilesOutput = ({ allDiffFiles, inputs, workingDirectory, diffResult, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const setChangedFilesOutput = ({ allDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
         allDiffFiles,
         filePatterns
     });
     core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
-    if (diffResult) {
-        yield (0, utils_1.recoverDeletedFiles)({
-            inputs,
-            workingDirectory,
-            deletedFiles: allFilteredDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
-            sha: diffResult.previousSha
-        });
-    }
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -1228,6 +1220,18 @@ const getInputs = () => {
         required: false
     });
     const recoverDeletedFilesToDestination = core.getInput('recover_deleted_files_to_destination', { required: false });
+    const recoverFiles = core.getInput('recover_files', { required: false });
+    const recoverFilesSeparator = core.getInput('recover_files_separator', {
+        required: false,
+        trimWhitespace: false
+    });
+    const recoverFilesIgnore = core.getInput('recover_files_ignore', {
+        required: false
+    });
+    const recoverFilesIgnoreSeparator = core.getInput('recover_files_ignore_separator', {
+        required: false,
+        trimWhitespace: false
+    });
     const token = core.getInput('token', { required: false });
     const apiUrl = core.getInput('api_url', { required: false });
     const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
@@ -1260,6 +1264,10 @@ const getInputs = () => {
         sinceLastRemoteCommit,
         recoverDeletedFiles,
         recoverDeletedFilesToDestination,
+        recoverFiles,
+        recoverFilesSeparator,
+        recoverFilesIgnore,
+        recoverFilesIgnoreSeparator,
         includeAllOldNewRenamedFiles,
         oldNewSeparator,
         oldNewFilesSeparator,
@@ -1339,6 +1347,40 @@ const commitSha_1 = __nccwpck_require__(8613);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
+const changedFilesOutput = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+    if (filePatterns.length > 0) {
+        core.startGroup('changed-files-patterns');
+        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+            allDiffFiles,
+            filePatterns,
+            inputs
+        });
+        core.info('All Done!');
+        core.endGroup();
+    }
+    if (Object.keys(yamlFilePatterns).length > 0) {
+        for (const key of Object.keys(yamlFilePatterns)) {
+            core.startGroup(`changed-files-yaml-${key}`);
+            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+                allDiffFiles,
+                filePatterns: yamlFilePatterns[key],
+                outputPrefix: key,
+                inputs
+            });
+            core.info('All Done!');
+            core.endGroup();
+        }
+    }
+    if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
+        core.startGroup('changed-files-all');
+        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+            allDiffFiles,
+            inputs
+        });
+        core.info('All Done!');
+        core.endGroup();
+    }
+});
 const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     yield (0, utils_1.verifyMinimumGitVersion)();
@@ -1393,44 +1435,26 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
     core.endGroup();
-    if (filePatterns.length > 0) {
-        core.startGroup('changed-files-patterns');
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
-            filePatterns,
-            inputs,
-            workingDirectory,
-            diffResult
-        });
-        core.info('All Done!');
-        core.endGroup();
-    }
-    if (Object.keys(yamlFilePatterns).length > 0) {
-        for (const key of Object.keys(yamlFilePatterns)) {
-            core.startGroup(`changed-files-yaml-${key}`);
-            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-                allDiffFiles,
-                filePatterns: yamlFilePatterns[key],
-                outputPrefix: key,
-                inputs,
-                workingDirectory,
-                diffResult
-            });
-            core.info('All Done!');
-            core.endGroup();
+    if (inputs.recoverDeletedFiles) {
+        let recoverPatterns = (0, utils_1.getRecoverFilePatterns)({ inputs });
+        if (recoverPatterns.length > 0 && filePatterns.length > 0) {
+            core.info('No recover patterns found; defaulting to file patterns');
+            recoverPatterns = filePatterns;
         }
-    }
-    if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
-        core.startGroup('changed-files-all');
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
+        yield (0, utils_1.recoverDeletedFiles)({
             inputs,
             workingDirectory,
-            diffResult
+            deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
+            recoverPatterns,
+            sha: diffResult.previousSha
         });
-        core.info('All Done!');
-        core.endGroup();
     }
+    yield changedFilesOutput({
+        filePatterns,
+        allDiffFiles,
+        inputs,
+        yamlFilePatterns
+    });
     if (inputs.includeAllOldNewRenamedFiles) {
         core.startGroup('changed-files-all-old-new-renamed-files');
         const allOldNewRenamedFiles = yield (0, changedFiles_1.getRenamedFiles)({
@@ -1455,47 +1479,18 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
         core.endGroup();
     }
 });
-const getChangedFilesFromRESTAPI = ({ inputs, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromRESTAPI = ({ inputs, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     const allDiffFiles = yield (0, changedFiles_1.getChangedFilesFromGithubAPI)({
         inputs
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
-    if (filePatterns.length > 0) {
-        core.startGroup('changed-files-patterns');
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
-            filePatterns,
-            inputs,
-            workingDirectory
-        });
-        core.info('All Done!');
-        core.endGroup();
-    }
-    if (Object.keys(yamlFilePatterns).length > 0) {
-        for (const key of Object.keys(yamlFilePatterns)) {
-            core.startGroup(`changed-files-yaml-${key}`);
-            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-                allDiffFiles,
-                filePatterns: yamlFilePatterns[key],
-                outputPrefix: key,
-                inputs,
-                workingDirectory
-            });
-            core.info('All Done!');
-            core.endGroup();
-        }
-    }
-    if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
-        core.startGroup('changed-files-all');
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
-            inputs,
-            workingDirectory
-        });
-        core.info('All Done!');
-        core.endGroup();
-    }
+    yield changedFilesOutput({
+        filePatterns,
+        allDiffFiles,
+        inputs,
+        yamlFilePatterns
+    });
 });
 function run() {
     var _a;
@@ -1505,8 +1500,7 @@ function run() {
         core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
-        const githubContext = github.context;
-        core.debug(`Github Context: ${JSON.stringify(githubContext, null, 2)}`);
+        core.debug(`Github Context: ${JSON.stringify(github.context, null, 2)}`);
         const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
         core.debug(`Working directory: ${workingDirectory}`);
         const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
@@ -1542,7 +1536,6 @@ function run() {
             }
             yield getChangedFilesFromRESTAPI({
                 inputs,
-                workingDirectory,
                 filePatterns,
                 yamlFilePatterns
             });
@@ -1635,7 +1628,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2303,6 +2296,23 @@ const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, 
     return filePatterns;
 });
 exports.getYamlFilePatterns = getYamlFilePatterns;
+const getRecoverFilePatterns = ({ inputs }) => {
+    let filePatterns = inputs.recoverFiles.split(inputs.recoverFilesSeparator);
+    if (inputs.recoverFilesIgnore) {
+        const ignoreFilePatterns = inputs.recoverFilesIgnore.split(inputs.recoverFilesSeparator);
+        filePatterns = filePatterns.concat(ignoreFilePatterns.map(p => {
+            if (p.startsWith('!')) {
+                return p;
+            }
+            else {
+                return `!${p}`;
+            }
+        }));
+    }
+    core.debug(`recover file patterns: ${filePatterns}`);
+    return filePatterns.filter(Boolean);
+};
+exports.getRecoverFilePatterns = getRecoverFilePatterns;
 const setOutput = ({ key, value, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
     const cleanedValue = value.toString().trim();
     core.setOutput(key, cleanedValue);
@@ -2328,23 +2338,31 @@ const getDeletedFileContents = ({ cwd, filePath, sha }) => __awaiter(void 0, voi
     }
     return stdout;
 });
-const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, sha }) => __awaiter(void 0, void 0, void 0, function* () {
-    if (inputs.recoverDeletedFiles) {
-        for (const deletedFile of deletedFiles) {
-            let target = path.join(workingDirectory, deletedFile);
-            if (inputs.recoverDeletedFilesToDestination) {
-                target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
-            }
-            const deletedFileContents = yield getDeletedFileContents({
-                cwd: workingDirectory,
-                filePath: deletedFile,
-                sha
-            });
-            if (!(yield exists(path.dirname(target)))) {
-                yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
-            }
-            yield fs_1.promises.writeFile(target, deletedFileContents);
+const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPatterns, sha }) => __awaiter(void 0, void 0, void 0, function* () {
+    let recoverableDeletedFiles = deletedFiles;
+    core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
+    if (recoverPatterns.length > 0) {
+        recoverableDeletedFiles = (0, micromatch_1.default)(deletedFiles, recoverPatterns, {
+            dot: true,
+            windows: IS_WINDOWS,
+            noext: true
+        });
+        core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles}`);
+    }
+    for (const deletedFile of recoverableDeletedFiles) {
+        let target = path.join(workingDirectory, deletedFile);
+        if (inputs.recoverDeletedFilesToDestination) {
+            target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
         }
+        const deletedFileContents = yield getDeletedFileContents({
+            cwd: workingDirectory,
+            filePath: deletedFile,
+            sha
+        });
+        if (!(yield exists(path.dirname(target)))) {
+            yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
+        }
+        yield fs_1.promises.writeFile(target, deletedFileContents);
     }
 });
 exports.recoverDeletedFiles = recoverDeletedFiles;
