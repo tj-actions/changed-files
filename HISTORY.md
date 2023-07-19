@@ -1,5 +1,23 @@
 # Changelog
 
+# [37.3.0](https://github.com/tj-actions/changed-files/compare/v37.2.0...v37.3.0) - (2023-07-19)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for restricting recoverable deleted files via patterns ([#1390](https://github.com/tj-actions/changed-files/issues/1390)) ([33288d3](https://github.com/tj-actions/changed-files/commit/33288d37e78121ba601151ba03d8dacaf856777c))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1391](https://github.com/tj-actions/changed-files/issues/1391))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([3928317](https://github.com/tj-actions/changed-files/commit/39283171cefdf491e0f0d6cf285b86b31eb6f3cd))  - (tj-actions[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.2.0 ([#1389](https://github.com/tj-actions/changed-files/issues/1389))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([b60277d](https://github.com/tj-actions/changed-files/commit/b60277dde98548f8d384a0b92a469fc5d0f46b1f))  - (tj-actions[bot])
+
 # [37.2.0](https://github.com/tj-actions/changed-files/compare/v37.1.2...v37.2.0) - (2023-07-18)
 
 ## <!-- 26 -->🔄 Update
