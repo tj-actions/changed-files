@@ -5,9 +5,8 @@ import {
   getAllChangeTypeFiles,
   getChangeTypeFiles
 } from './changedFiles'
-import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
-import {getFilteredChangedFiles, recoverDeletedFiles, setOutput} from './utils'
+import {getFilteredChangedFiles, setOutput} from './utils'
 
 const getOutputKey = (key: string, outputPrefix: string): string => {
   return outputPrefix ? `${outputPrefix}_${key}` : key
