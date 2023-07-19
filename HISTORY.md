@@ -1,5 +1,27 @@
 # Changelog
 
+# [37.2.0](https://github.com/tj-actions/changed-files/compare/v37.1.2...v37.2.0) - (2023-07-18)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([e3ea6b7](https://github.com/tj-actions/changed-files/commit/e3ea6b7948826820cfd616fda2d9c974a4ead314))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency eslint-plugin-github to v4.9.2 ([#1388](https://github.com/tj-actions/changed-files/issues/1388)) ([68b429d](https://github.com/tj-actions/changed-files/commit/68b429ddc666ea0dba46309e1ee45e06bb408df8))  - (renovate[bot])
+- Switch to use the github context ([#1386](https://github.com/tj-actions/changed-files/issues/1386)) ([ec0b6d0](https://github.com/tj-actions/changed-files/commit/ec0b6d0e4c2965e4073849cbd0ab0e6fd3b42d50))  - (Tonye Jack)
+- **deps:** Update dependency eslint-plugin-github to v4.9.1 ([#1387](https://github.com/tj-actions/changed-files/issues/1387)) ([8c8be23](https://github.com/tj-actions/changed-files/commit/8c8be234b2ced36de48c003dd2b2b0cd3448985f))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.1.0 ([#1385](https://github.com/tj-actions/changed-files/issues/1385)) ([029d6cd](https://github.com/tj-actions/changed-files/commit/029d6cd6b8191709b7e3d2bff0207a58a0c9c272))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1383](https://github.com/tj-actions/changed-files/issues/1383)) ([8fc95ea](https://github.com/tj-actions/changed-files/commit/8fc95ea17520d70ecf9d3141ec0a0d8443780a48))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1382](https://github.com/tj-actions/changed-files/issues/1382)) ([3e2a2ce](https://github.com/tj-actions/changed-files/commit/3e2a2ce2d08798ebef6a1b3b7fd8782820484ea4))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.45.0 ([#1381](https://github.com/tj-actions/changed-files/issues/1381)) ([4aebdaf](https://github.com/tj-actions/changed-files/commit/4aebdafc0bbe1a3beffb6e7f6278d3323c6aabcb))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.1.2 ([#1378](https://github.com/tj-actions/changed-files/issues/1378))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2aadab2](https://github.com/tj-actions/changed-files/commit/2aadab2297933ef2a8eaa3a3316ae458aafe4964))  - (tj-actions[bot])
+
 # [37.1.2](https://github.com/tj-actions/changed-files/compare/v37.1.1...v37.1.2) - (2023-07-13)
 
 ## <!-- 1 -->🐛 Bug Fixes
