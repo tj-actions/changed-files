@@ -1,5 +1,26 @@
 # Changelog
 
+# [37.4.0](https://github.com/tj-actions/changed-files/compare/v37.3.0...v37.4.0) - (2023-07-20)
+
+## <!-- 0 -->🚀 Features
+
+- Update error handling for yaml inputs ([#1395](https://github.com/tj-actions/changed-files/issues/1395)) ([de0eba3](https://github.com/tj-actions/changed-files/commit/de0eba32790fb9bf87471b32855a30fc8f9d5fc6))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([bc262c2](https://github.com/tj-actions/changed-files/commit/bc262c2f61e2fdc75b802ad2213f80fefc98af12))  - (Tonye Jack)
+- Update README.md ([d4389f0](https://github.com/tj-actions/changed-files/commit/d4389f0f4fe92065f29aee6519d551c3c5d26583))  - (Tonye Jack)
+- Updated README.md ([#1394](https://github.com/tj-actions/changed-files/issues/1394))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([7998446](https://github.com/tj-actions/changed-files/commit/79984462e18db53eaaee1f8d582c2e752d13cf0c))  - (tj-actions[bot])
+- Update action.yml ([c6dcc2a](https://github.com/tj-actions/changed-files/commit/c6dcc2a013c3d4f2a21908234845ba52952f2a57))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.3.0 ([#1392](https://github.com/tj-actions/changed-files/issues/1392))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([e6dde3c](https://github.com/tj-actions/changed-files/commit/e6dde3c0653441e7c18779d1207fe87efa071f02))  - (tj-actions[bot])
+
 # [37.3.0](https://github.com/tj-actions/changed-files/compare/v37.2.0...v37.3.0) - (2023-07-19)
 
 ## <!-- 0 -->🚀 Features
