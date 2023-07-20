@@ -123,7 +123,7 @@ jobs:
               - 'test/**'
               - !test/README.md
             src:
-              - src/**
+              - 'src/**'
           # Optionally set `files_yaml_from_source_file` to read the YAML from a file. e.g `files_yaml_from_source_file: .github/changed-files.yml`
 
       - name: Run step if test file(s) change
