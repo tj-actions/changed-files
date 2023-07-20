@@ -116,11 +116,11 @@ jobs:
         with:
           files_yaml: |
             doc:
-              - **.md
-              - docs/**
+              - '**.md'
+              - 'docs/**'
               - !docs/README.md
             test:
-              - test/**
+              - 'test/**'
               - !test/README.md
             src:
               - src/**
