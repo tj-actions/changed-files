@@ -2201,18 +2201,18 @@ const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excluded
     const doc = (0, yaml_1.parseDocument)(source, { merge: true, schema: 'failsafe' });
     if (doc.errors.length > 0) {
         if (filePath) {
-            core.warning(`YAML errors in ${filePath}: ${doc.errors}`);
+            throw new Error(`YAML errors in ${filePath}: ${doc.errors}`);
         }
         else {
-            core.warning(`YAML errors: ${doc.errors}`);
+            throw new Error(`YAML errors: ${doc.errors}`);
         }
     }
     if (doc.warnings.length > 0) {
         if (filePath) {
-            core.warning(`YAML warnings in ${filePath}: ${doc.warnings}`);
+            throw new Error(`YAML warnings in ${filePath}: ${doc.warnings}`);
         }
         else {
-            core.warning(`YAML warnings: ${doc.warnings}`);
+            throw new Error(`YAML warnings: ${doc.warnings}`);
         }
     }
     const yamlObject = doc.toJS();
@@ -2367,10 +2367,9 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
 });
 exports.recoverDeletedFiles = recoverDeletedFiles;
 const hasLocalGitDirectory = ({ workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    const insideWorkTree = yield (0, exports.isInsideWorkTree)({
+    return yield (0, exports.isInsideWorkTree)({
         cwd: workingDirectory
     });
-    return insideWorkTree;
 });
 exports.hasLocalGitDirectory = hasLocalGitDirectory;
 
