@@ -893,17 +893,17 @@ const getYamlFilePatternsFromContents = async ({
 
   if (doc.errors.length > 0) {
     if (filePath) {
-      core.warning(`YAML errors in ${filePath}: ${doc.errors}`)
+      throw new Error(`YAML errors in ${filePath}: ${doc.errors}`)
     } else {
-      core.warning(`YAML errors: ${doc.errors}`)
+      throw new Error(`YAML errors: ${doc.errors}`)
     }
   }
 
   if (doc.warnings.length > 0) {
     if (filePath) {
-      core.warning(`YAML warnings in ${filePath}: ${doc.warnings}`)
+      throw new Error(`YAML warnings in ${filePath}: ${doc.warnings}`)
     } else {
-      core.warning(`YAML warnings: ${doc.warnings}`)
+      throw new Error(`YAML warnings: ${doc.warnings}`)
     }
   }
 
@@ -1164,9 +1164,7 @@ export const hasLocalGitDirectory = async ({
 }: {
   workingDirectory: string
 }): Promise<boolean> => {
-  const insideWorkTree = await isInsideWorkTree({
+  return await isInsideWorkTree({
     cwd: workingDirectory
   })
-
-  return insideWorkTree
 }
