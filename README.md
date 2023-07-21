@@ -117,13 +117,13 @@ jobs:
           files_yaml: |
             doc:
               - '**.md'
-              - 'docs/**'
-              - !docs/README.md
+              - docs/**
+              - docs/README.md
             test:
-              - 'test/**'
-              - !test/README.md
+              - test/**
+              - '!test/**.md'
             src:
-              - 'src/**'
+              - src/**
           # Optionally set `files_yaml_from_source_file` to read the YAML from a file. e.g `files_yaml_from_source_file: .github/changed-files.yml`
 
       - name: Run step if test file(s) change
