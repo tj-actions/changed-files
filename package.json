@@ -1,7 +1,7 @@
 {
-  "name": "@tj-actions/glob",
+  "name": "@tj-actions/changed-files",
   "version": "17.2.5",
-  "description": "Glob pattern matching GitHub action",
+  "description": "Github action to retrieve all (added, copied, modified, deleted, renamed, type changed, unmerged, unknown) files and directories.",
   "main": "lib/main.js",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
