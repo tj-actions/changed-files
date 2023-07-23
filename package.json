@@ -1,7 +1,7 @@
 {
   "name": "@tj-actions/glob",
   "version": "17.2.5",
-  "description": "Glob pattern matching github action",
+  "description": "Glob pattern matching GitHub action",
   "main": "lib/main.js",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tj-actions/glob.git"
+    "url": "git+https://github.com/tj-actions/changed-files.git"
   },
   "keywords": [
     "actions",
@@ -28,9 +28,9 @@
   "author": "Tonye Jack",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tj-actions/glob/issues"
+    "url": "https://github.com/tj-actions/changed-files/issues"
   },
-  "homepage": "https://github.com/tj-actions/glob#readme",
+  "homepage": "https://github.com/tj-actions/changed-files#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/exec": "^1.1.1",
