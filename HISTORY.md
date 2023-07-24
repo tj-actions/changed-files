@@ -1,5 +1,37 @@
 # Changelog
 
+# [37.5.0](https://github.com/tj-actions/changed-files/compare/v37.4.0...v37.5.0) - (2023-07-24)
+
+## <!-- 0 -->🚀 Features
+
+- Add support to detect changes for merge group event ([#1404](https://github.com/tj-actions/changed-files/issues/1404)) ([b8e577a](https://github.com/tj-actions/changed-files/commit/b8e577a27496ebc04ffb8b3bbca1b30a145001b1))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error fetch more history for release events ([#1403](https://github.com/tj-actions/changed-files/issues/1403)) ([fc3c551](https://github.com/tj-actions/changed-files/commit/fc3c551a67c6151b4b7746c157a9c0914f18e129))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update package.json ([73d266f](https://github.com/tj-actions/changed-files/commit/73d266fe29bbb01958506ffe53b575269d8f2b13))  - (Tonye Jack)
+- Update package.json ([e1ddf02](https://github.com/tj-actions/changed-files/commit/e1ddf02aff6c4d9a624216633291c52df6630421))  - (Tonye Jack)
+- Update README.md ([f543980](https://github.com/tj-actions/changed-files/commit/f5439803c2c02cdb10b325d247c8ccc66cbc2203))  - (Tonye Jack)
+- Update README.md ([a0a0be0](https://github.com/tj-actions/changed-files/commit/a0a0be0376b580745f0bd13a6b7ee4e98d028bf3))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([#1406](https://github.com/tj-actions/changed-files/issues/1406)) ([920e7b9](https://github.com/tj-actions/changed-files/commit/920e7b9ae1d45913fc81f86c956fee89c77d2e5e))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.2.0 ([#1402](https://github.com/tj-actions/changed-files/issues/1402)) ([797a722](https://github.com/tj-actions/changed-files/commit/797a7222448d90d32258966774780cfb39ee4f44))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1401](https://github.com/tj-actions/changed-files/issues/1401)) ([44790ad](https://github.com/tj-actions/changed-files/commit/44790ad9d8b0716d28defa47199281f484931e31))  - (renovate[bot])
+- Update package.json ([66d62c9](https://github.com/tj-actions/changed-files/commit/66d62c97d57b2c770a365925793a1e8eb2b1dcd0))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.4.4 ([#1400](https://github.com/tj-actions/changed-files/issues/1400)) ([d44a61e](https://github.com/tj-actions/changed-files/commit/d44a61ef339541580efca1a47286b8b9e3b69311))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.4.3 ([#1399](https://github.com/tj-actions/changed-files/issues/1399)) ([ef59201](https://github.com/tj-actions/changed-files/commit/ef59201f02fa40b09640c053d97cdf5c5dc65391))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.4.0 ([#1397](https://github.com/tj-actions/changed-files/issues/1397))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([48ce584](https://github.com/tj-actions/changed-files/commit/48ce5846c9a7c7c959b6c60e3afc80aaba4e6b0c))  - (tj-actions[bot])
+
 # [37.4.0](https://github.com/tj-actions/changed-files/compare/v37.3.0...v37.4.0) - (2023-07-20)
 
 ## <!-- 0 -->🚀 Features
