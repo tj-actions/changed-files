@@ -12,7 +12,7 @@ import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
   getSHAForPullRequestEvent,
-  getSHAForPushEvent
+  getSHAForNonPullRequestEvent
 } from './commitSha'
 import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
@@ -130,7 +130,7 @@ const getChangedFilesFromLocalGit = async ({
 
   if (!github.context.payload.pull_request?.base?.ref) {
     core.info(`Running on a ${github.context.eventName || 'push'} event...`)
-    diffResult = await getSHAForPushEvent(
+    diffResult = await getSHAForNonPullRequestEvent(
       inputs,
       env,
       workingDirectory,

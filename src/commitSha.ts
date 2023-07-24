@@ -57,6 +57,8 @@ const getCurrentSHA = async ({
         })) === 0
       ) {
         currentSha = github.context.payload.pull_request?.head?.sha
+      } else if (github.context.eventName === 'merge_group') {
+        currentSha = github.context.payload.merge_group?.head_sha
       } else {
         currentSha = await getHeadSha({cwd: workingDirectory})
       }
@@ -78,7 +80,7 @@ export interface DiffResult {
   initialCommit?: boolean
 }
 
-export const getSHAForPushEvent = async (
+export const getSHAForNonPullRequestEvent = async (
   inputs: Inputs,
   env: Env,
   workingDirectory: string,
@@ -197,12 +199,17 @@ export const getSHAForPushEvent = async (
       previousSha = sha
       targetBranch = tag
     } else {
-      core.debug('Getting previous SHA for last remote commit...')
-      if (
-        github.context.payload.forced === 'false' ||
-        !github.context.payload.forced
-      ) {
-        previousSha = github.context.payload.before
+      if (github.context.eventName === 'merge_group') {
+        core.debug('Getting previous SHA for merge group...')
+        previousSha = github.context.payload.merge_group?.base_sha
+      } else {
+        core.debug('Getting previous SHA for last remote commit...')
+        if (
+          github.context.payload.forced === 'false' ||
+          !github.context.payload.forced
+        ) {
+          previousSha = github.context.payload.before
+        }
       }
 
       if (
