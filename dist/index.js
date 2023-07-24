@@ -667,12 +667,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getSHAForPullRequestEvent = exports.getSHAForPushEvent = void 0;
+exports.getSHAForPullRequestEvent = exports.getSHAForNonPullRequestEvent = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
 const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g;
     let currentSha = inputs.sha;
     core.debug('Getting current SHA...');
     if (inputs.until) {
@@ -706,6 +706,9 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
                 })) === 0) {
                 currentSha = (_f = (_e = github.context.payload.pull_request) === null || _e === void 0 ? void 0 : _e.head) === null || _f === void 0 ? void 0 : _f.sha;
             }
+            else if (github.context.eventName === 'merge_group') {
+                currentSha = (_g = github.context.payload.merge_group) === null || _g === void 0 ? void 0 : _g.head_sha;
+            }
             else {
                 currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
             }
@@ -715,8 +718,8 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
     core.debug(`Current SHA: ${currentSha}`);
     return currentSha;
 });
-const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
-    var _g, _h;
+const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
+    var _h, _j, _k;
     let targetBranch = env.GITHUB_REF_NAME;
     const currentBranch = targetBranch;
     let initialCommit = false;
@@ -727,8 +730,8 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             if (github.context.payload.base_ref) {
                 sourceBranch = github.context.payload.base_ref.replace('refs/heads/', '');
             }
-            else if ((_g = github.context.payload.release) === null || _g === void 0 ? void 0 : _g.target_commitish) {
-                sourceBranch = (_h = github.context.payload.release) === null || _h === void 0 ? void 0 : _h.target_commitish;
+            else if ((_h = github.context.payload.release) === null || _h === void 0 ? void 0 : _h.target_commitish) {
+                sourceBranch = (_j = github.context.payload.release) === null || _j === void 0 ? void 0 : _j.target_commitish;
             }
             yield (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
@@ -812,10 +815,16 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
             targetBranch = tag;
         }
         else {
-            core.debug('Getting previous SHA for last remote commit...');
-            if (github.context.payload.forced === 'false' ||
-                !github.context.payload.forced) {
-                previousSha = github.context.payload.before;
+            if (github.context.eventName === 'merge_group') {
+                core.debug('Getting previous SHA for merge group...');
+                previousSha = (_k = github.context.payload.merge_group) === null || _k === void 0 ? void 0 : _k.base_sha;
+            }
+            else {
+                core.debug('Getting previous SHA for last remote commit...');
+                if (github.context.payload.forced === 'false' ||
+                    !github.context.payload.forced) {
+                    previousSha = github.context.payload.before;
+                }
             }
             if (!previousSha ||
                 previousSha === '0000000000000000000000000000000000000000') {
@@ -863,11 +872,11 @@ const getSHAForPushEvent = (inputs, env, workingDirectory, isShallow, hasSubmodu
         initialCommit
     };
 });
-exports.getSHAForPushEvent = getSHAForPushEvent;
+exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
 const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
-    var _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
-    let targetBranch = (_k = (_j = github.context.payload.pull_request) === null || _j === void 0 ? void 0 : _j.base) === null || _k === void 0 ? void 0 : _k.ref;
-    const currentBranch = (_m = (_l = github.context.payload.pull_request) === null || _l === void 0 ? void 0 : _l.head) === null || _m === void 0 ? void 0 : _m.ref;
+    var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
+    let targetBranch = (_m = (_l = github.context.payload.pull_request) === null || _l === void 0 ? void 0 : _l.base) === null || _m === void 0 ? void 0 : _m.ref;
+    const currentBranch = (_p = (_o = github.context.payload.pull_request) === null || _o === void 0 ? void 0 : _o.head) === null || _p === void 0 ? void 0 : _p.ref;
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
@@ -880,7 +889,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 '-u',
                 '--progress',
                 'origin',
-                `pull/${(_o = github.context.payload.pull_request) === null || _o === void 0 ? void 0 : _o.number}/head:${currentBranch}`
+                `pull/${(_q = github.context.payload.pull_request) === null || _q === void 0 ? void 0 : _q.number}/head:${currentBranch}`
             ]
         });
         if (prFetchExitCode !== 0) {
@@ -945,8 +954,8 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             diff
         };
     }
-    if (!((_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.base) === null || _q === void 0 ? void 0 : _q.ref) ||
-        ((_s = (_r = github.context.payload.head) === null || _r === void 0 ? void 0 : _r.repo) === null || _s === void 0 ? void 0 : _s.fork) === 'true') {
+    if (!((_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.base) === null || _s === void 0 ? void 0 : _s.ref) ||
+        ((_u = (_t = github.context.payload.head) === null || _t === void 0 ? void 0 : _t.repo) === null || _u === void 0 ? void 0 : _u.fork) === 'true') {
         diff = '..';
     }
     if (!previousSha) {
@@ -962,7 +971,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 });
                 if (!previousSha) {
                     core.warning('Unable to locate the previous commit in the local history. Falling back to the pull request base sha.');
-                    previousSha = (_u = (_t = github.context.payload.pull_request) === null || _t === void 0 ? void 0 : _t.base) === null || _u === void 0 ? void 0 : _u.sha;
+                    previousSha = (_w = (_v = github.context.payload.pull_request) === null || _v === void 0 ? void 0 : _v.base) === null || _w === void 0 ? void 0 : _w.sha;
                 }
             }
         }
@@ -972,7 +981,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 branch: targetBranch
             });
             if (!previousSha) {
-                previousSha = (_w = (_v = github.context.payload.pull_request) === null || _v === void 0 ? void 0 : _v.base) === null || _w === void 0 ? void 0 : _w.sha;
+                previousSha = (_y = (_x = github.context.payload.pull_request) === null || _x === void 0 ? void 0 : _x.base) === null || _y === void 0 ? void 0 : _y.sha;
             }
             if (isShallow) {
                 if (!(yield (0, utils_1.canDiffCommits)({
@@ -1009,7 +1018,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         if (!previousSha || previousSha === currentSha) {
-            previousSha = (_y = (_x = github.context.payload.pull_request) === null || _x === void 0 ? void 0 : _x.base) === null || _y === void 0 ? void 0 : _y.sha;
+            previousSha = (_0 = (_z = github.context.payload.pull_request) === null || _z === void 0 ? void 0 : _z.base) === null || _0 === void 0 ? void 0 : _0.sha;
         }
     }
     if (!(yield (0, utils_1.canDiffCommits)({
@@ -1418,7 +1427,7 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
     let diffResult;
     if (!((_c = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.base) === null || _c === void 0 ? void 0 : _c.ref)) {
         core.info(`Running on a ${github.context.eventName || 'push'} event...`);
-        diffResult = yield (0, commitSha_1.getSHAForPushEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag);
+        diffResult = yield (0, commitSha_1.getSHAForNonPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag);
     }
     else {
         core.info(`Running on a ${github.context.eventName || 'pull_request'} (${github.context.payload.action}) event...`);
