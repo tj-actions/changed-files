@@ -80,16 +80,6 @@ And many more.
 
 > **Warning**:
 >
-> *   **IMPORTANT:** For `push` events when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) the `fetch-depth` should be set to either `fetch-depth: 0` **OR** `fetch-depth: 2` depending on your use case. [See discussion for more information](https://github.com/tj-actions/changed-files/discussions/1411)
-> *   For mono repositories where pulling all the branch history might not be desired, you can still use the default [`fetch-depth`](https://github.com/actions/checkout#usage) which is set to `1` for `pull_request` events.
-> *   All multiline inputs should not use double or single quotes since the value is already a string separated by a newline character. See [Examples](#examples) for more information.
-> *   Ensure that `persist-credentials` is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) if `fetch-depth` isn't set to `0`.
-> *   For repositories that have PRs generated from forks when configuring [`actions/checkout`](https://github.com/actions/checkout#usage) set the `repository` to `${{ github.event.pull_request.head.repo.full_name }}`. See: [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/test.yml#L47-L51)
-
-
-
-> **Warning**:
->
 > - For `push` events: **When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set `fetch-depth` to either `0` or `2`, depending on your use case.
 > - For mono repositories where pulling all the branch history might not be desired, you can still use the default [`fetch-depth`](https://github.com/actions/checkout#usage), which is set to `1` for `pull_request` events.
 > - Avoid using single or double quotes for multiline inputs, as the value is already a string separated by a newline character. See [Examples](#examples) for more information.
