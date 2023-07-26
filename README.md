@@ -226,7 +226,9 @@ on:
 #     - cron: '0 0 * * *'
 #
 #  release:
-#    types: [published]
+#    types: [...]
+#
+#  workflow_dispatch:
 #
 #  push:
 #    tags:
