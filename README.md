@@ -129,8 +129,8 @@ jobs:
               - src/**
           # Optionally set `files_yaml_from_source_file` to read the YAML from a file. e.g `files_yaml_from_source_file: .github/changed-files.yml`
 
-      # NOTE: The key has to start with the same key used above e.g. `test_(...)` | `doc_(...)` | `src_(...)` when trying to access the `any_changed` output.
       - name: Run step if test file(s) change
+        # NOTE: The key has to start with the same key used above e.g. `test_(...)` | `doc_(...)` | `src_(...)` when trying to access the `any_changed` output.
         if: steps.changed-files-yaml.outputs.test_any_changed == 'true'  
         run: |
           echo "One or more test file(s) has changed."
