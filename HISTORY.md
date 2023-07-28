@@ -1,5 +1,36 @@
 # Changelog
 
+# [37.5.1](https://github.com/tj-actions/changed-files/compare/v37.5.0...v37.5.1) - (2023-07-28)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([ca51c3f](https://github.com/tj-actions/changed-files/commit/ca51c3f4304b9cd96adebaa47025a2014040eb61))  - (Tonye Jack)
+- Update README.md ([5716c62](https://github.com/tj-actions/changed-files/commit/5716c6246fcfd7031340a7be53243a6a6b689c3e))  - (Tonye Jack)
+- Update README.md ([f6edf88](https://github.com/tj-actions/changed-files/commit/f6edf885b4a59cd97f396367b3e6fe4f26454601))  - (Tonye Jack)
+- Update README.md ([331d2da](https://github.com/tj-actions/changed-files/commit/331d2daf96995ca6711e07b13681faa6a55bda62))  - (Tonye Jack)
+- Updated README.md ([#1412](https://github.com/tj-actions/changed-files/issues/1412))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([174b246](https://github.com/tj-actions/changed-files/commit/174b246d44adb53ce1a125fc589734fce01e47eb))  - (tj-actions[bot])
+- Update README.md ([0bf8395](https://github.com/tj-actions/changed-files/commit/0bf83955a913aa99abe90724dc460e86708af650))  - (Tonye Jack)
+- Update README.md ([69c6091](https://github.com/tj-actions/changed-files/commit/69c6091ee4f562b2c6509ded97c4e5330ac95b09))  - (Tonye Jack)
+- Update README.md ([ba9054e](https://github.com/tj-actions/changed-files/commit/ba9054e8d5ffe1537ded23c6a65348cb9b78e8c4))  - (Tonye Jack)
+- Update README.md ([7e9cc01](https://github.com/tj-actions/changed-files/commit/7e9cc01c5474ea22e06e55ea8a296c8653e64d0c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency eslint to v8.46.0 ([#1417](https://github.com/tj-actions/changed-files/issues/1417)) ([a96679d](https://github.com/tj-actions/changed-files/commit/a96679dfee2a1e64b1db5a210c0ffaf1f2cb24ce))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1416](https://github.com/tj-actions/changed-files/issues/1416)) ([0c65957](https://github.com/tj-actions/changed-files/commit/0c659577d4b26faf3f99868ea9cabd2775f9b3cb))  - (renovate[bot])
+- **deps:** Update dependency jest to v29.6.2 ([#1415](https://github.com/tj-actions/changed-files/issues/1415)) ([ea41e77](https://github.com/tj-actions/changed-files/commit/ea41e772876ff19a8d86e3315c52ceff3dae1941))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.196 ([#1413](https://github.com/tj-actions/changed-files/issues/1413)) ([4acaa72](https://github.com/tj-actions/changed-files/commit/4acaa728bbc362e0ced57dad81204885d253a0e6))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.4.5 ([#1409](https://github.com/tj-actions/changed-files/issues/1409)) ([cf02ab9](https://github.com/tj-actions/changed-files/commit/cf02ab960fc3dee58fc4911fac2c6946f4f64552))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1408](https://github.com/tj-actions/changed-files/issues/1408)) ([b50d1ab](https://github.com/tj-actions/changed-files/commit/b50d1ab2d1388e35e9163a8eb2ae8b903e62ca8e))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.5.0 ([#1407](https://github.com/tj-actions/changed-files/issues/1407))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([0f52c86](https://github.com/tj-actions/changed-files/commit/0f52c861db7764988bb85cbb66a0b166787f586b))  - (tj-actions[bot])
+
 # [37.5.0](https://github.com/tj-actions/changed-files/compare/v37.4.0...v37.5.0) - (2023-07-24)
 
 ## <!-- 0 -->🚀 Features
