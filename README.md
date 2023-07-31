@@ -298,7 +298,7 @@ Support this project with a :star:
 
 > **Warning**:
 >
-> *   When using `files_yaml*` ensure all ouputs are prefixed by the key. e.g. `test_added_files`, `test_any_changed`
+> *   When using `files_yaml*` inputs ensure all outputs are prefixed by the key `test_{...}` e.g. `test_added_files`, `test_any_changed`
 
 ## Outputs
 
