@@ -538,7 +538,7 @@ See [outputs](#outputs) for a list of all available outputs.
           *.png
           !*.md
           test_directory
-          **.sql
+          **/*.sql
 ...
 ```
 
@@ -561,7 +561,7 @@ See [inputs](#inputs) for more information.
           *.png
           !*.md
           test_directory
-          **.sql
+          **/*.sql
 
     - name: Run step if any of the listed files above change
       if: steps.changed-files-specific.outputs.any_changed == 'true'
@@ -929,9 +929,8 @@ With the switch from using grep's Extended regex to match files to the natively 
 -            \.sh$
 -            .(sql|py)$
 -            ^(dir1|dir2)
-+            *.{sh,sql,py}
-+            dir1
-+            dir2
++            **/*.{sh,sql,py}
++            {dir1,dir2}/**
 ```
 
 *   Free software: [MIT license](LICENSE)
