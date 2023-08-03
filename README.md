@@ -821,7 +821,7 @@ See [inputs](#inputs) for more information.
 </ul>
 
 > **Warning**:
-> 
+>
 > This setting overrides the commit sha used by setting `since_last_remote_commit` to true.
 > It is recommended to use either solution that works for your use case.
 
