@@ -166,15 +166,15 @@ function* getChangeTypeFilesGenerator({
 }): Generator<string> {
   for (const changeType of changeTypes) {
     const files = changedFiles[changeType] || []
-    for (const file of files) {
+    for (const filePath of files) {
       if (inputs.dirNames) {
         yield getDirnameMaxDepth({
-          pathStr: file,
+          relativePath: filePath,
           dirNamesMaxDepth: inputs.dirNamesMaxDepth,
           excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
         })
       } else {
-        yield file
+        yield filePath
       }
     }
   }
@@ -213,15 +213,15 @@ function* getAllChangeTypeFilesGenerator({
   inputs: Inputs
   changedFiles: ChangedFiles
 }): Generator<string> {
-  for (const file of flatten(Object.values(changedFiles))) {
+  for (const filePath of flatten(Object.values(changedFiles))) {
     if (inputs.dirNames) {
       yield getDirnameMaxDepth({
-        pathStr: file,
+        relativePath: filePath,
         dirNamesMaxDepth: inputs.dirNamesMaxDepth,
         excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
       })
     } else {
-      yield file
+      yield filePath
     }
   }
 }
