@@ -153,16 +153,16 @@ exports.getAllDiffFiles = getAllDiffFiles;
 function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
     for (const changeType of changeTypes) {
         const files = changedFiles[changeType] || [];
-        for (const file of files) {
+        for (const filePath of files) {
             if (inputs.dirNames) {
                 yield (0, utils_1.getDirnameMaxDepth)({
-                    pathStr: file,
+                    relativePath: filePath,
                     dirNamesMaxDepth: inputs.dirNamesMaxDepth,
                     excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
                 });
             }
             else {
-                yield file;
+                yield filePath;
             }
         }
     }
@@ -184,16 +184,16 @@ const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(
 });
 exports.getChangeTypeFiles = getChangeTypeFiles;
 function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
-    for (const file of (0, flatten_1.default)(Object.values(changedFiles))) {
+    for (const filePath of (0, flatten_1.default)(Object.values(changedFiles))) {
         if (inputs.dirNames) {
             yield (0, utils_1.getDirnameMaxDepth)({
-                pathStr: file,
+                relativePath: filePath,
                 dirNamesMaxDepth: inputs.dirNamesMaxDepth,
                 excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
             });
         }
         else {
-            yield file;
+            yield filePath;
         }
     }
 }
@@ -1642,7 +1642,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1654,16 +1654,19 @@ const path = __importStar(__nccwpck_require__(1017));
 const readline_1 = __nccwpck_require__(4521);
 const yaml_1 = __nccwpck_require__(4083);
 const changedFiles_1 = __nccwpck_require__(7358);
-const IS_WINDOWS = process.platform === 'win32';
 const MINIMUM_GIT_VERSION = '2.18.0';
+const isWindows = () => {
+    return process.platform === 'win32';
+};
+exports.isWindows = isWindows;
 /**
- * Normalize file path separators to '/' on Windows and Linux/macOS
- * @param p file path
+ * Normalize file path separators to '/' on Linux/macOS and '\\' on Windows
+ * @param p - file path
  * @returns file path with normalized separators
  */
 const normalizeSeparators = (p) => {
     // Windows
-    if (IS_WINDOWS) {
+    if ((0, exports.isWindows)()) {
         // Convert slashes on Windows
         p = p.replace(/\//g, '\\');
         // Remove redundant slashes
@@ -1673,9 +1676,18 @@ const normalizeSeparators = (p) => {
     // Remove redundant slashes
     return p.replace(/\/\/+/g, '/');
 };
+exports.normalizeSeparators = normalizeSeparators;
+/**
+ * Normalize file path separators to '/' on all platforms
+ * @param p - file path
+ * @returns file path with normalized separators
+ */
+const normalizePath = (p) => {
+    return p.replace(/\\/g, '/');
+};
 /**
  * Trims unnecessary trailing slash from file path
- * @param p file path
+ * @param p - file path
  * @returns file path without unnecessary trailing slash
  */
 const safeTrimTrailingSeparator = (p) => {
@@ -1684,7 +1696,7 @@ const safeTrimTrailingSeparator = (p) => {
         return '';
     }
     // Normalize separators
-    p = normalizeSeparators(p);
+    p = (0, exports.normalizeSeparators)(p);
     // No trailing slash
     if (!p.endsWith(path.sep)) {
         return p;
@@ -1694,31 +1706,51 @@ const safeTrimTrailingSeparator = (p) => {
         return p;
     }
     // On Windows, avoid trimming the drive root, e.g. C:\ or \\hello
-    if (IS_WINDOWS && /^[A-Z]:\\$/i.test(p)) {
+    if ((0, exports.isWindows)() && /^[A-Z]:\\$/i.test(p)) {
         return p;
     }
     // Trim trailing slash
     return p.substring(0, p.length - 1);
 };
-const dirname = (p) => {
+/**
+ * Gets the dirname of a path, similar to the Node.js path.dirname() function except that this function
+ * also works for Windows UNC root paths, e.g. \\hello\world
+ * @param p - file path
+ * @returns dirname of path
+ */
+const getDirname = (p) => {
     // Normalize slashes and trim unnecessary trailing slash
     p = safeTrimTrailingSeparator(p);
     // Windows UNC root, e.g. \\hello or \\hello\world
-    if (IS_WINDOWS && /^\\\\[^\\]+(\\[^\\]+)?$/.test(p)) {
+    if ((0, exports.isWindows)() && /^\\\\[^\\]+(\\[^\\]+)?$/.test(p)) {
         return p;
     }
     // Get dirname
     let result = path.dirname(p);
     // Trim trailing slash for Windows UNC root, e.g. \\hello\world\
-    if (IS_WINDOWS && /^\\\\[^\\]+\\[^\\]+\\$/.test(result)) {
+    if ((0, exports.isWindows)() && /^\\\\[^\\]+\\[^\\]+\\$/.test(result)) {
         result = safeTrimTrailingSeparator(result);
     }
     return result;
 };
+exports.getDirname = getDirname;
+/**
+ * Converts the version string to a number
+ * @param version - version string
+ * @returns version number
+ */
 const versionToNumber = (version) => {
     const [major, minor, patch] = version.split('.').map(Number);
     return major * 1000000 + minor * 1000 + patch;
 };
+/**
+ * Verifies the minimum required git version
+ * @returns minimum required git version
+ * @throws Minimum git version requirement is not met
+ * @throws Git is not installed
+ * @throws Git is not found in PATH
+ * @throws An unexpected error occurred
+ */
 const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: !core.isDebug() });
     if (exitCode !== 0) {
@@ -1730,6 +1762,11 @@ const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.verifyMinimumGitVersion = verifyMinimumGitVersion;
+/**
+ * Checks if a path exists
+ * @param filePath - path to check
+ * @returns path exists
+ */
 const exists = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield fs_1.promises.access(filePath);
@@ -1739,6 +1776,11 @@ const exists = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
         return false;
     }
 });
+/**
+ * Generates lines of a file as an async iterable iterator
+ * @param filePath - path of file to read
+ * @param excludedFiles - whether to exclude files
+ */
 function lineOfFileGenerator({ filePath, excludedFiles }) {
     return __asyncGenerator(this, arguments, function* lineOfFileGenerator_1() {
         var _a, e_1, _b, _c;
@@ -1780,6 +1822,11 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
         }
     });
 }
+/**
+ * Gets the file patterns from a source file
+ * @param filePaths - paths of files to read
+ * @param excludedFiles - whether to exclude the file patterns
+ */
 const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
     var _b, e_2, _c, _d;
     const lines = [];
@@ -1802,6 +1849,12 @@ const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __await
     }
     return lines;
 });
+/**
+ * Sets the global git configs
+ * @param name - name of config
+ * @param value - value of config
+ * @throws Couldn't update git global config
+ */
 const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['config', '--global', name, value], {
         ignoreReturnCode: true,
@@ -1813,6 +1866,11 @@ const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, voi
     }
 });
 exports.updateGitGlobalConfig = updateGitGlobalConfig;
+/**
+ * Checks if a git repository is shallow
+ * @param cwd - working directory
+ * @returns repository is shallow
+ */
 const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
@@ -1821,6 +1879,11 @@ const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* (
     return stdout.trim() === 'true';
 });
 exports.isRepoShallow = isRepoShallow;
+/**
+ * Checks if a submodule exists
+ * @param cwd - working directory
+ * @returns submodule exists
+ */
 const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
@@ -1834,6 +1897,11 @@ const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function*
     return stdout.trim() !== '';
 });
 exports.submoduleExists = submoduleExists;
+/**
+ * Fetches the git repository
+ * @param args - arguments for fetch command
+ * @param cwd - working directory
+ */
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
@@ -1843,6 +1911,11 @@ const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* 
     return exitCode;
 });
 exports.gitFetch = gitFetch;
+/**
+ * Fetches the git repository submodules
+ * @param args - arguments for fetch command
+ * @param cwd - working directory
+ */
 const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
@@ -1855,9 +1928,10 @@ const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.gitFetchSubmodules = gitFetchSubmodules;
-const normalizePath = (p) => {
-    return p.replace(/\\/g, '/');
-};
+/**
+ * Retrieves all the submodule paths
+ * @param cwd - working directory
+ */
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
@@ -1874,9 +1948,17 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
         .map((line) => normalizePath(line.trim().split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
+/**
+ * Retrieves commit sha of a submodule from a parent commit
+ * @param cwd - working directory
+ * @param parentSha1 - parent commit sha
+ * @param parentSha2 - parent commit sha
+ * @param submodulePath - path of submodule
+ * @param diff - diff type between parent commits (`..` or `...`)
+ */
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     var _h, _j, _k, _l;
-    const { stdout } = yield exec.getExecOutput('git', ['diff', parentSha1, parentSha2, '--', submodulePath], {
+    const { stdout } = yield exec.getExecOutput('git', ['diff', `${parentSha1}${diff}${parentSha2}`, '--', submodulePath], {
         cwd,
         silent: !core.isDebug()
     });
@@ -1930,6 +2012,16 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
+/**
+ * Retrieves all the changed files between two commits
+ * @param cwd - working directory
+ * @param sha1 - commit sha
+ * @param sha2 - commit sha
+ * @param diff - diff type between parent commits (`..` or `...`)
+ * @param isSubmodule - is the repo a submodule
+ * @param parentDir - parent directory of the submodule
+ * @param outputRenamedFilesAsDeletedAndAdded - output renamed files as deleted and added
+ */
 const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
@@ -1988,6 +2080,11 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
     return changedFiles;
 });
 exports.getAllChangedFiles = getAllChangedFiles;
+/**
+ * Filters the changed files by the file patterns
+ * @param allDiffFiles - all the changed files
+ * @param filePatterns - file patterns to filter by
+ */
 const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     const changedFiles = {
         [changedFiles_1.ChangeTypeEnum.Added]: [],
@@ -2005,7 +2102,7 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
         if (hasFilePatterns) {
             changedFiles[changeType] = (0, micromatch_1.default)(files, filePatterns, {
                 dot: true,
-                windows: IS_WINDOWS,
+                windows: (0, exports.isWindows)(),
                 noext: true
             });
         }
@@ -2113,8 +2210,8 @@ const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, 
     return true;
 });
 exports.canDiffCommits = canDiffCommits;
-const getDirnameMaxDepth = ({ pathStr, dirNamesMaxDepth, excludeCurrentDir }) => {
-    const pathArr = dirname(pathStr).split(path.sep);
+const getDirnameMaxDepth = ({ relativePath, dirNamesMaxDepth, excludeCurrentDir }) => {
+    const pathArr = (0, exports.getDirname)(relativePath).split(path.sep);
     const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length);
     let output = pathArr[0];
     for (let i = 1; i < maxDepth; i++) {
@@ -2173,7 +2270,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         core.debug(`files ignore from source files patterns: ${filesIgnoreFromSourceFiles}`);
         filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles);
     }
-    if (IS_WINDOWS) {
+    if ((0, exports.isWindows)()) {
         filePatterns = filePatterns.replace(/\r\n/g, '\n');
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
@@ -2358,7 +2455,7 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
     if (recoverPatterns.length > 0) {
         recoverableDeletedFiles = (0, micromatch_1.default)(deletedFiles, recoverPatterns, {
             dot: true,
-            windows: IS_WINDOWS,
+            windows: (0, exports.isWindows)(),
             noext: true
         });
         core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles}`);

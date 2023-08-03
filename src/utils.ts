@@ -12,17 +12,20 @@ import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 
 import {Inputs} from './inputs'
 
-const IS_WINDOWS = process.platform === 'win32'
 const MINIMUM_GIT_VERSION = '2.18.0'
 
+export const isWindows = (): boolean => {
+  return process.platform === 'win32'
+}
+
 /**
- * Normalize file path separators to '/' on Windows and Linux/macOS
- * @param p file path
+ * Normalize file path separators to '/' on Linux/macOS and '\\' on Windows
+ * @param p - file path
  * @returns file path with normalized separators
  */
-const normalizeSeparators = (p: string): string => {
+export const normalizeSeparators = (p: string): string => {
   // Windows
-  if (IS_WINDOWS) {
+  if (isWindows()) {
     // Convert slashes on Windows
     p = p.replace(/\//g, '\\')
 
@@ -36,8 +39,17 @@ const normalizeSeparators = (p: string): string => {
 }
 
 /**
+ * Normalize file path separators to '/' on all platforms
+ * @param p - file path
+ * @returns file path with normalized separators
+ */
+const normalizePath = (p: string): string => {
+  return p.replace(/\\/g, '/')
+}
+
+/**
  * Trims unnecessary trailing slash from file path
- * @param p file path
+ * @param p - file path
  * @returns file path without unnecessary trailing slash
  */
 const safeTrimTrailingSeparator = (p: string): string => {
@@ -60,7 +72,7 @@ const safeTrimTrailingSeparator = (p: string): string => {
   }
 
   // On Windows, avoid trimming the drive root, e.g. C:\ or \\hello
-  if (IS_WINDOWS && /^[A-Z]:\\$/i.test(p)) {
+  if (isWindows() && /^[A-Z]:\\$/i.test(p)) {
     return p
   }
 
@@ -68,12 +80,18 @@ const safeTrimTrailingSeparator = (p: string): string => {
   return p.substring(0, p.length - 1)
 }
 
-const dirname = (p: string): string => {
+/**
+ * Gets the dirname of a path, similar to the Node.js path.dirname() function except that this function
+ * also works for Windows UNC root paths, e.g. \\hello\world
+ * @param p - file path
+ * @returns dirname of path
+ */
+export const getDirname = (p: string): string => {
   // Normalize slashes and trim unnecessary trailing slash
   p = safeTrimTrailingSeparator(p)
 
   // Windows UNC root, e.g. \\hello or \\hello\world
-  if (IS_WINDOWS && /^\\\\[^\\]+(\\[^\\]+)?$/.test(p)) {
+  if (isWindows() && /^\\\\[^\\]+(\\[^\\]+)?$/.test(p)) {
     return p
   }
 
@@ -81,18 +99,31 @@ const dirname = (p: string): string => {
   let result = path.dirname(p)
 
   // Trim trailing slash for Windows UNC root, e.g. \\hello\world\
-  if (IS_WINDOWS && /^\\\\[^\\]+\\[^\\]+\\$/.test(result)) {
+  if (isWindows() && /^\\\\[^\\]+\\[^\\]+\\$/.test(result)) {
     result = safeTrimTrailingSeparator(result)
   }
 
   return result
 }
 
+/**
+ * Converts the version string to a number
+ * @param version - version string
+ * @returns version number
+ */
 const versionToNumber = (version: string): number => {
   const [major, minor, patch] = version.split('.').map(Number)
   return major * 1000000 + minor * 1000 + patch
 }
 
+/**
+ * Verifies the minimum required git version
+ * @returns minimum required git version
+ * @throws Minimum git version requirement is not met
+ * @throws Git is not installed
+ * @throws Git is not found in PATH
+ * @throws An unexpected error occurred
+ */
 export const verifyMinimumGitVersion = async (): Promise<void> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
@@ -113,6 +144,11 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
   }
 }
 
+/**
+ * Checks if a path exists
+ * @param filePath - path to check
+ * @returns path exists
+ */
 const exists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath)
@@ -122,6 +158,11 @@ const exists = async (filePath: string): Promise<boolean> => {
   }
 }
 
+/**
+ * Generates lines of a file as an async iterable iterator
+ * @param filePath - path of file to read
+ * @param excludedFiles - whether to exclude files
+ */
 async function* lineOfFileGenerator({
   filePath,
   excludedFiles
@@ -153,6 +194,11 @@ async function* lineOfFileGenerator({
   }
 }
 
+/**
+ * Gets the file patterns from a source file
+ * @param filePaths - paths of files to read
+ * @param excludedFiles - whether to exclude the file patterns
+ */
 const getFilesFromSourceFile = async ({
   filePaths,
   excludedFiles = false
@@ -169,6 +215,12 @@ const getFilesFromSourceFile = async ({
   return lines
 }
 
+/**
+ * Sets the global git configs
+ * @param name - name of config
+ * @param value - value of config
+ * @throws Couldn't update git global config
+ */
 export const updateGitGlobalConfig = async ({
   name,
   value
@@ -191,6 +243,11 @@ export const updateGitGlobalConfig = async ({
   }
 }
 
+/**
+ * Checks if a git repository is shallow
+ * @param cwd - working directory
+ * @returns repository is shallow
+ */
 export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
   const {stdout} = await exec.getExecOutput(
     'git',
@@ -204,6 +261,11 @@ export const isRepoShallow = async ({cwd}: {cwd: string}): Promise<boolean> => {
   return stdout.trim() === 'true'
 }
 
+/**
+ * Checks if a submodule exists
+ * @param cwd - working directory
+ * @returns submodule exists
+ */
 export const submoduleExists = async ({
   cwd
 }: {
@@ -227,6 +289,11 @@ export const submoduleExists = async ({
   return stdout.trim() !== ''
 }
 
+/**
+ * Fetches the git repository
+ * @param args - arguments for fetch command
+ * @param cwd - working directory
+ */
 export const gitFetch = async ({
   args,
   cwd
@@ -243,6 +310,11 @@ export const gitFetch = async ({
   return exitCode
 }
 
+/**
+ * Fetches the git repository submodules
+ * @param args - arguments for fetch command
+ * @param cwd - working directory
+ */
 export const gitFetchSubmodules = async ({
   args,
   cwd
@@ -266,10 +338,10 @@ export const gitFetchSubmodules = async ({
   }
 }
 
-const normalizePath = (p: string): string => {
-  return p.replace(/\\/g, '/')
-}
-
+/**
+ * Retrieves all the submodule paths
+ * @param cwd - working directory
+ */
 export const getSubmodulePath = async ({
   cwd
 }: {
@@ -296,6 +368,14 @@ export const getSubmodulePath = async ({
     .map((line: string) => normalizePath(line.trim().split(' ')[1]))
 }
 
+/**
+ * Retrieves commit sha of a submodule from a parent commit
+ * @param cwd - working directory
+ * @param parentSha1 - parent commit sha
+ * @param parentSha2 - parent commit sha
+ * @param submodulePath - path of submodule
+ * @param diff - diff type between parent commits (`..` or `...`)
+ */
 export const gitSubmoduleDiffSHA = async ({
   cwd,
   parentSha1,
@@ -311,7 +391,7 @@ export const gitSubmoduleDiffSHA = async ({
 }): Promise<{previousSha?: string; currentSha?: string}> => {
   const {stdout} = await exec.getExecOutput(
     'git',
-    ['diff', parentSha1, parentSha2, '--', submodulePath],
+    ['diff', `${parentSha1}${diff}${parentSha2}`, '--', submodulePath],
     {
       cwd,
       silent: !core.isDebug()
@@ -408,6 +488,16 @@ export const gitRenamedFiles = async ({
     })
 }
 
+/**
+ * Retrieves all the changed files between two commits
+ * @param cwd - working directory
+ * @param sha1 - commit sha
+ * @param sha2 - commit sha
+ * @param diff - diff type between parent commits (`..` or `...`)
+ * @param isSubmodule - is the repo a submodule
+ * @param parentDir - parent directory of the submodule
+ * @param outputRenamedFilesAsDeletedAndAdded - output renamed files as deleted and added
+ */
 export const getAllChangedFiles = async ({
   cwd,
   sha1,
@@ -494,6 +584,11 @@ export const getAllChangedFiles = async ({
   return changedFiles
 }
 
+/**
+ * Filters the changed files by the file patterns
+ * @param allDiffFiles - all the changed files
+ * @param filePatterns - file patterns to filter by
+ */
 export const getFilteredChangedFiles = async ({
   allDiffFiles,
   filePatterns
@@ -518,7 +613,7 @@ export const getFilteredChangedFiles = async ({
     if (hasFilePatterns) {
       changedFiles[changeType as ChangeTypeEnum] = mm(files, filePatterns, {
         dot: true,
-        windows: IS_WINDOWS,
+        windows: isWindows(),
         noext: true
       })
     } else {
@@ -710,15 +805,15 @@ export const canDiffCommits = async ({
 }
 
 export const getDirnameMaxDepth = ({
-  pathStr,
+  relativePath,
   dirNamesMaxDepth,
   excludeCurrentDir
 }: {
-  pathStr: string
+  relativePath: string
   dirNamesMaxDepth?: number
   excludeCurrentDir?: boolean
 }): string => {
-  const pathArr = dirname(pathStr).split(path.sep)
+  const pathArr = getDirname(relativePath).split(path.sep)
   const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length)
   let output = pathArr[0]
 
@@ -815,7 +910,7 @@ export const getFilePatterns = async ({
     filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles)
   }
 
-  if (IS_WINDOWS) {
+  if (isWindows()) {
     filePatterns = filePatterns.replace(/\r\n/g, '\n')
     filePatterns = filePatterns.replace(/\r/g, '\n')
   }
@@ -1129,7 +1224,7 @@ export const recoverDeletedFiles = async ({
   if (recoverPatterns.length > 0) {
     recoverableDeletedFiles = mm(deletedFiles, recoverPatterns, {
       dot: true,
-      windows: IS_WINDOWS,
+      windows: isWindows(),
       noext: true
     })
     core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles}`)
