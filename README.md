@@ -117,7 +117,7 @@ jobs:
             doc:
               - '**/*.md'
               - docs/**
-              - docs/README.md
+              - README.md
             test:
               - test/**
               - '!test/**.md'
