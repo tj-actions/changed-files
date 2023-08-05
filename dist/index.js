@@ -2198,18 +2198,47 @@ const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getPreviousGitTag = getPreviousGitTag;
 const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`], {
-        cwd,
-        ignoreReturnCode: true,
-        silent: !core.isDebug()
-    });
-    if (exitCode !== 0) {
-        core.warning(stderr || `Unable find merge base between ${sha1} and ${sha2}`);
-        return false;
+    if (diff === '...') {
+        const mergeBase = yield getMergeBase(cwd, sha1, sha2);
+        if (!mergeBase) {
+            core.warning(`Unable to find merge base between ${sha1} and ${sha2}`);
+            return false;
+        }
+        const { exitCode, stderr } = yield exec.getExecOutput('git', ['log', '--format=%H', `${mergeBase}..${sha2}`], {
+            cwd,
+            ignoreReturnCode: true,
+            silent: !core.isDebug()
+        });
+        if (exitCode !== 0) {
+            core.warning(stderr || `Error checking commit history`);
+            return false;
+        }
+        return true;
     }
-    return true;
+    else {
+        const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--quiet', sha1, sha2], {
+            cwd,
+            ignoreReturnCode: true,
+            silent: !core.isDebug()
+        });
+        if (exitCode !== 0) {
+            core.warning(stderr || `Error checking commit history`);
+            return false;
+        }
+        return true;
+    }
 });
 exports.canDiffCommits = canDiffCommits;
+const getMergeBase = (cwd, sha1, sha2) => __awaiter(void 0, void 0, void 0, function* () {
+    const { exitCode, stdout } = yield exec.getExecOutput('git', ['merge-base', sha1, sha2], {
+        cwd,
+        ignoreReturnCode: true
+    });
+    if (exitCode !== 0) {
+        return null;
+    }
+    return stdout.trim();
+});
 const getDirnameMaxDepth = ({ relativePath, dirNamesMaxDepth, excludeCurrentDir }) => {
     const pathArr = (0, exports.getDirname)(relativePath).split(path.sep);
     const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length);
