@@ -421,5 +421,25 @@ describe('utils test', () => {
         'test/migrations/test.sql'
       ])
     })
+
+    // Tests that getFilteredChangedFiles correctly filters files using ignore glob patterns
+    it('should filter files using ignore glob patterns', async () => {
+      const allDiffFiles = {
+        [ChangeTypeEnum.Added]: [],
+        [ChangeTypeEnum.Copied]: [],
+        [ChangeTypeEnum.Deleted]: [],
+        [ChangeTypeEnum.Modified]: ['assets/scripts/configure-minikube-linux.sh'],
+        [ChangeTypeEnum.Renamed]: [],
+        [ChangeTypeEnum.TypeChanged]: [],
+        [ChangeTypeEnum.Unmerged]: [],
+        [ChangeTypeEnum.Unknown]: []
+      }
+      const filePatterns = ['assets/scripts/**.sh', 'assets/scripts/configure-minikube-linux.sh']
+      const filteredFiles = await getFilteredChangedFiles({
+        allDiffFiles,
+        filePatterns
+      })
+      expect(filteredFiles[ChangeTypeEnum.Modified]).toEqual([])
+    })
   })
 })
