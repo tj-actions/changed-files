@@ -70,7 +70,7 @@ Effortlessly track all changed files and directories relative to a target branch
         *   Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
         *   Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
 
-And many more.
+And many more...
 
 ## Usage
 
