@@ -2232,7 +2232,8 @@ exports.canDiffCommits = canDiffCommits;
 const getMergeBase = (cwd, sha1, sha2) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout } = yield exec.getExecOutput('git', ['merge-base', sha1, sha2], {
         cwd,
-        ignoreReturnCode: true
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
     });
     if (exitCode !== 0) {
         return null;
