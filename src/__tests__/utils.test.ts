@@ -428,13 +428,18 @@ describe('utils test', () => {
         [ChangeTypeEnum.Added]: [],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
-        [ChangeTypeEnum.Modified]: ['assets/scripts/configure-minikube-linux.sh'],
+        [ChangeTypeEnum.Modified]: [
+          'assets/scripts/configure-minikube-linux.sh'
+        ],
         [ChangeTypeEnum.Renamed]: [],
         [ChangeTypeEnum.TypeChanged]: [],
         [ChangeTypeEnum.Unmerged]: [],
         [ChangeTypeEnum.Unknown]: []
       }
-      const filePatterns = ['assets/scripts/**.sh', 'assets/scripts/configure-minikube-linux.sh']
+      const filePatterns = [
+        'assets/scripts/**.sh',
+        'assets/scripts/configure-minikube-linux.sh'
+      ]
       const filteredFiles = await getFilteredChangedFiles({
         allDiffFiles,
         filePatterns
