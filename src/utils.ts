@@ -840,7 +840,8 @@ const getMergeBase = async (
     ['merge-base', sha1, sha2],
     {
       cwd,
-      ignoreReturnCode: true
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
     }
   )
 
