@@ -438,7 +438,7 @@ describe('utils test', () => {
       }
       const filePatterns = [
         'assets/scripts/**.sh',
-        'assets/scripts/configure-minikube-linux.sh'
+        '!assets/scripts/configure-minikube-linux.sh'
       ]
       const filteredFiles = await getFilteredChangedFiles({
         allDiffFiles,
