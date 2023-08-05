@@ -786,22 +786,69 @@ export const canDiffCommits = async ({
   sha2: string
   diff: string
 }): Promise<boolean> => {
-  const {exitCode, stderr} = await exec.getExecOutput(
+  if (diff === '...') {
+    const mergeBase = await getMergeBase(cwd, sha1, sha2)
+
+    if (!mergeBase) {
+      core.warning(`Unable to find merge base between ${sha1} and ${sha2}`)
+      return false
+    }
+
+    const {exitCode, stderr} = await exec.getExecOutput(
+      'git',
+      ['log', '--format=%H', `${mergeBase}..${sha2}`],
+      {
+        cwd,
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+      }
+    )
+
+    if (exitCode !== 0) {
+      core.warning(stderr || `Error checking commit history`)
+      return false
+    }
+
+    return true
+  } else {
+    const {exitCode, stderr} = await exec.getExecOutput(
+      'git',
+      ['diff', '--quiet', sha1, sha2],
+      {
+        cwd,
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+      }
+    )
+
+    if (exitCode !== 0) {
+      core.warning(stderr || `Error checking commit history`)
+      return false
+    }
+
+    return true
+  }
+}
+
+const getMergeBase = async (
+  cwd: string,
+  sha1: string,
+  sha2: string
+): Promise<string | null> => {
+  const {exitCode, stdout} = await exec.getExecOutput(
     'git',
-    ['diff', '--name-only', '--ignore-submodules=all', `${sha1}${diff}${sha2}`],
+    ['merge-base', sha1, sha2],
     {
       cwd,
-      ignoreReturnCode: true,
-      silent: !core.isDebug()
+      ignoreReturnCode: true
     }
   )
 
   if (exitCode !== 0) {
-    core.warning(stderr || `Unable find merge base between ${sha1} and ${sha2}`)
-    return false
+    return null
   }
 
-  return true
+  return stdout.trim()
 }
 
 export const getDirnameMaxDepth = ({
