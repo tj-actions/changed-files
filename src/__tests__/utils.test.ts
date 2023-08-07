@@ -347,6 +347,46 @@ describe('utils test', () => {
       })
     })
 
+    // Tests that the function returns only the files that match the file patterns with globstar
+    it('should return only the files that match the file patterns with globstar', async () => {
+      const allDiffFiles = {
+        [ChangeTypeEnum.Added]: [
+          'file1.txt',
+          'file2.md',
+          'file3.txt',
+          'test/dir/file4.txt',
+          '/test/dir/file5.txt',
+          'dir/file6.md'
+        ],
+        [ChangeTypeEnum.Copied]: [],
+        [ChangeTypeEnum.Deleted]: [],
+        [ChangeTypeEnum.Modified]: [],
+        [ChangeTypeEnum.Renamed]: [],
+        [ChangeTypeEnum.TypeChanged]: [],
+        [ChangeTypeEnum.Unmerged]: [],
+        [ChangeTypeEnum.Unknown]: []
+      }
+      const result = await getFilteredChangedFiles({
+        allDiffFiles,
+        filePatterns: ['**.txt']
+      })
+      expect(result).toEqual({
+        [ChangeTypeEnum.Added]: [
+          'file1.txt',
+          'file3.txt',
+          'test/dir/file4.txt',
+          '/test/dir/file5.txt'
+        ],
+        [ChangeTypeEnum.Copied]: [],
+        [ChangeTypeEnum.Deleted]: [],
+        [ChangeTypeEnum.Modified]: [],
+        [ChangeTypeEnum.Renamed]: [],
+        [ChangeTypeEnum.TypeChanged]: [],
+        [ChangeTypeEnum.Unmerged]: [],
+        [ChangeTypeEnum.Unknown]: []
+      })
+    })
+
     // Tests that the function returns an empty object when there are no files that match the file patterns
     it('should return an empty object when there are no files that match the file patterns', async () => {
       const allDiffFiles = {
