@@ -69,7 +69,9 @@ const changedFilesOutput = async ({
         filePatterns: yamlFilePatterns[key]
       })
       core.debug(
-        `All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`
+        `All filtered diff files for ${key}: ${JSON.stringify(
+          allFilteredDiffFiles
+        )}`
       )
       await setChangedFilesOutput({
         allDiffFiles,
