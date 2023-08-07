@@ -14,21 +14,17 @@ const getOutputKey = (key: string, outputPrefix: string): string => {
 
 export const setChangedFilesOutput = async ({
   allDiffFiles,
+  allFilteredDiffFiles,
   inputs,
   filePatterns = [],
   outputPrefix = ''
 }: {
   allDiffFiles: ChangedFiles
+  allFilteredDiffFiles: ChangedFiles
   inputs: Inputs
   filePatterns?: string[]
   outputPrefix?: string
 }): Promise<void> => {
-  const allFilteredDiffFiles = await getFilteredChangedFiles({
-    allDiffFiles,
-    filePatterns
-  })
-  core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`)
-
   const addedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,

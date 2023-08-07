@@ -315,7 +315,14 @@ describe('utils test', () => {
     // Tests that the function returns only the files that match the file patterns
     it('should return only the files that match the file patterns', async () => {
       const allDiffFiles = {
-        [ChangeTypeEnum.Added]: ['file1.txt', 'file2.md', 'file3.txt'],
+        [ChangeTypeEnum.Added]: [
+          'file1.txt',
+          'file2.md',
+          'file3.txt',
+          'test/dir/file4.txt',
+          '/test/dir/file5.txt',
+          'dir/file6.md'
+        ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
