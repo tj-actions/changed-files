@@ -1,5 +1,42 @@
 # Changelog
 
+# [37.6.0](https://github.com/tj-actions/changed-files/compare/v37.5.2...v37.6.0) - (2023-08-07)
+
+## <!-- 0 -->🚀 Features
+
+- Improve checking local branch history ([#1436](https://github.com/tj-actions/changed-files/issues/1436)) ([d4e6e22](https://github.com/tj-actions/changed-files/commit/d4e6e22e932832260459e972c83fa76adca04a5c))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([1e9cd5f](https://github.com/tj-actions/changed-files/commit/1e9cd5f2990496e3dc049d7978a807ed153b11a7))  - (Tonye Jack)
+- Update README.md ([6b028b6](https://github.com/tj-actions/changed-files/commit/6b028b63039ee69ccfad97e35166eb997f6807ff))  - (Tonye Jack)
+- Updated README.md ([#1432](https://github.com/tj-actions/changed-files/issues/1432))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([b61db78](https://github.com/tj-actions/changed-files/commit/b61db7817fbdc9f587fb205f4276886cda5913c5))  - (tj-actions[bot])
+- Update README.md ([6a48a0a](https://github.com/tj-actions/changed-files/commit/6a48a0a0182db1daa7e00603ede7e99364f65ff2))  - (Tonye Jack)
+- Update README.md ([3415802](https://github.com/tj-actions/changed-files/commit/3415802ae92f45865a7bb5f80578ad22994f57ea))  - (Tonye Jack)
+- Update README.md ([20a19b9](https://github.com/tj-actions/changed-files/commit/20a19b977fa3a78c7d87956e7b388681926d3b56))  - (Tonye Jack)
+- Update README.md ([10228bf](https://github.com/tj-actions/changed-files/commit/10228bf07b9286b8db198de83022b52ab908bde7))  - (Tonye Jack)
+
+## <!-- 6 -->🧪 Testing
+
+- Improve test coverage ([#1435](https://github.com/tj-actions/changed-files/issues/1435)) ([29022e8](https://github.com/tj-actions/changed-files/commit/29022e81a423492ed68172112181d0109be5e64e))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Improve test coverage ([#1440](https://github.com/tj-actions/changed-files/issues/1440)) ([87697c0](https://github.com/tj-actions/changed-files/commit/87697c0dca7dd44e37a2b79a79489332556ff1f3))  - (Tonye Jack)
+- Simplify code ([#1439](https://github.com/tj-actions/changed-files/issues/1439)) ([0acc1c3](https://github.com/tj-actions/changed-files/commit/0acc1c308efedeb1a3a82d4c3812e380cacc86ec))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1438](https://github.com/tj-actions/changed-files/issues/1438)) ([312a3d8](https://github.com/tj-actions/changed-files/commit/312a3d8003811361254cc82903f9a5e057bd1d66))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.4.8 ([#1425](https://github.com/tj-actions/changed-files/issues/1425)) ([701bae5](https://github.com/tj-actions/changed-files/commit/701bae514b676a5deb33f611a66c7639c3ee2690))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1437](https://github.com/tj-actions/changed-files/issues/1437)) ([8bffb97](https://github.com/tj-actions/changed-files/commit/8bffb974e49dd3c5f242d8af10b9326194c99740))  - (renovate[bot])
+- **deps-dev:** Bump @types/node from 20.4.6 to 20.4.7 ([#1433](https://github.com/tj-actions/changed-files/issues/1433)) ([f762082](https://github.com/tj-actions/changed-files/commit/f76208237d15a696b0174f93dbb00254bc016c65))  - (dependabot[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.5.2 ([#1431](https://github.com/tj-actions/changed-files/issues/1431))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([24ac45c](https://github.com/tj-actions/changed-files/commit/24ac45c74eee7f284e92f053e045dd94823f7255))  - (tj-actions[bot])
+
 # [37.5.2](https://github.com/tj-actions/changed-files/compare/v37.5.1...v37.5.2) - (2023-08-03)
 
 ## <!-- 26 -->🔄 Update
