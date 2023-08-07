@@ -326,12 +326,7 @@ const utils_1 = __nccwpck_require__(918);
 const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
-const setChangedFilesOutput = ({ allDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
-    const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
-        allDiffFiles,
-        filePatterns
-    });
-    core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
+const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -1364,10 +1359,16 @@ const utils_1 = __nccwpck_require__(918);
 const changedFilesOutput = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     if (filePatterns.length > 0) {
         core.startGroup('changed-files-patterns');
+        const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+            allDiffFiles,
+            filePatterns
+        });
+        core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
         yield (0, changedFilesOutput_1.setChangedFilesOutput)({
             allDiffFiles,
-            filePatterns,
-            inputs
+            allFilteredDiffFiles,
+            inputs,
+            filePatterns
         });
         core.info('All Done!');
         core.endGroup();
@@ -1375,11 +1376,17 @@ const changedFilesOutput = ({ filePatterns, allDiffFiles, inputs, yamlFilePatter
     if (Object.keys(yamlFilePatterns).length > 0) {
         for (const key of Object.keys(yamlFilePatterns)) {
             core.startGroup(`changed-files-yaml-${key}`);
+            const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+                allDiffFiles,
+                filePatterns: yamlFilePatterns[key]
+            });
+            core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
             yield (0, changedFilesOutput_1.setChangedFilesOutput)({
                 allDiffFiles,
+                allFilteredDiffFiles,
+                inputs,
                 filePatterns: yamlFilePatterns[key],
-                outputPrefix: key,
-                inputs
+                outputPrefix: key
             });
             core.info('All Done!');
             core.endGroup();
@@ -1389,6 +1396,7 @@ const changedFilesOutput = ({ filePatterns, allDiffFiles, inputs, yamlFilePatter
         core.startGroup('changed-files-all');
         yield (0, changedFilesOutput_1.setChangedFilesOutput)({
             allDiffFiles,
+            allFilteredDiffFiles: allDiffFiles,
             inputs
         });
         core.info('All Done!');
@@ -6379,19 +6387,6 @@ class HttpClientResponse {
             }));
         });
     }
-    readBodyBuffer() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                const chunks = [];
-                this.message.on('data', (chunk) => {
-                    chunks.push(chunk);
-                });
-                this.message.on('end', () => {
-                    resolve(Buffer.concat(chunks));
-                });
-            }));
-        });
-    }
 }
 exports.HttpClientResponse = HttpClientResponse;
 function isHttps(requestUrl) {
@@ -6896,13 +6891,7 @@ function getProxyUrl(reqUrl) {
         }
     })();
     if (proxyVar) {
-        try {
-            return new URL(proxyVar);
-        }
-        catch (_a) {
-            if (!proxyVar.startsWith('http://') && !proxyVar.startsWith('https://'))
-                return new URL(`http://${proxyVar}`);
-        }
+        return new URL(proxyVar);
     }
     else {
         return undefined;
