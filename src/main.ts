@@ -18,6 +18,7 @@ import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
 import {
   getFilePatterns,
+  getFilteredChangedFiles,
   getRecoverFilePatterns,
   getSubmodulePath,
   getYamlFilePatterns,
@@ -43,10 +44,18 @@ const changedFilesOutput = async ({
 }): Promise<void> => {
   if (filePatterns.length > 0) {
     core.startGroup('changed-files-patterns')
+    const allFilteredDiffFiles = await getFilteredChangedFiles({
+      allDiffFiles,
+      filePatterns
+    })
+    core.debug(
+      `All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`
+    )
     await setChangedFilesOutput({
       allDiffFiles,
-      filePatterns,
-      inputs
+      allFilteredDiffFiles,
+      inputs,
+      filePatterns
     })
     core.info('All Done!')
     core.endGroup()
@@ -55,11 +64,21 @@ const changedFilesOutput = async ({
   if (Object.keys(yamlFilePatterns).length > 0) {
     for (const key of Object.keys(yamlFilePatterns)) {
       core.startGroup(`changed-files-yaml-${key}`)
+      const allFilteredDiffFiles = await getFilteredChangedFiles({
+        allDiffFiles,
+        filePatterns: yamlFilePatterns[key]
+      })
+      core.debug(
+        `All filtered diff files for ${key}: ${JSON.stringify(
+          allFilteredDiffFiles
+        )}`
+      )
       await setChangedFilesOutput({
         allDiffFiles,
+        allFilteredDiffFiles,
+        inputs,
         filePatterns: yamlFilePatterns[key],
-        outputPrefix: key,
-        inputs
+        outputPrefix: key
       })
       core.info('All Done!')
       core.endGroup()
@@ -70,6 +89,7 @@ const changedFilesOutput = async ({
     core.startGroup('changed-files-all')
     await setChangedFilesOutput({
       allDiffFiles,
+      allFilteredDiffFiles: allDiffFiles,
       inputs
     })
     core.info('All Done!')
