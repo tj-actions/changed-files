@@ -6,7 +6,7 @@ import {
   getChangeTypeFiles
 } from './changedFiles'
 import {Inputs} from './inputs'
-import {getFilteredChangedFiles, setOutput} from './utils'
+import {setOutput} from './utils'
 
 const getOutputKey = (key: string, outputPrefix: string): string => {
   return outputPrefix ? `${outputPrefix}_${key}` : key
