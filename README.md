@@ -230,6 +230,8 @@ on:
 #    tags:
 #      - '**'
 #
+#  merge_group:
+#
 # ...and many more
 
 
