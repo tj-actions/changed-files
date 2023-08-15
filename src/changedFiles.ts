@@ -278,9 +278,10 @@ export const getChangedFilesFromGithubAPI = async ({
     per_page: 100
   })
 
-  const paginatedResponse = await octokit.paginate<
-    RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
-  >(options)
+  const paginatedResponse =
+    await octokit.paginate<
+      RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
+    >(options)
 
   core.info(`Found ${paginatedResponse.length} changed files from GitHub API`)
   const statusMap: Record<string, ChangeTypeEnum> = {
