@@ -1,5 +1,33 @@
 # Changelog
 
+# [37.6.1](https://github.com/tj-actions/changed-files/compare/v37.6.0...v37.6.1) - (2023-08-15)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([9273633](https://github.com/tj-actions/changed-files/commit/927363397d870aec841c3616c5136442218239af))  - (Tonye Jack)
+- Update README.md ([a2e7076](https://github.com/tj-actions/changed-files/commit/a2e707696afd3f2f1738328cbfed71c56cd9b744))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency prettier to v3.0.2 ([#1457](https://github.com/tj-actions/changed-files/issues/1457)) ([a0585ff](https://github.com/tj-actions/changed-files/commit/a0585ff9904b77d046192a7846e59783d6ea287b))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.4.0 ([#1456](https://github.com/tj-actions/changed-files/issues/1456)) ([ec3a2a3](https://github.com/tj-actions/changed-files/commit/ec3a2a3b3bf9648f952a5c642013948f99ab154f))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v3.8.0 ([#1455](https://github.com/tj-actions/changed-files/issues/1455)) ([24e2a6f](https://github.com/tj-actions/changed-files/commit/24e2a6fb86042fb1e67a527045d6f8dea53b7d06))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1454](https://github.com/tj-actions/changed-files/issues/1454)) ([1144bc6](https://github.com/tj-actions/changed-files/commit/1144bc6587e8570446c99b3cd5961539c750de3e))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.5.0 ([#1453](https://github.com/tj-actions/changed-files/issues/1453)) ([fa84d94](https://github.com/tj-actions/changed-files/commit/fa84d9471e31552ac5031e74416776d80f7b3c23))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.4.10 ([#1452](https://github.com/tj-actions/changed-files/issues/1452)) ([71dfd0d](https://github.com/tj-actions/changed-files/commit/71dfd0dc2e7cde599586ee53148fcf31fda68499))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.47.0 ([#1451](https://github.com/tj-actions/changed-files/issues/1451)) ([b941520](https://github.com/tj-actions/changed-files/commit/b941520afb05ff090564ee87734ece045963aaa7))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1450](https://github.com/tj-actions/changed-files/issues/1450)) ([be11012](https://github.com/tj-actions/changed-files/commit/be110124f6253e3471e3c0280329c359fef9b077))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.197 ([#1446](https://github.com/tj-actions/changed-files/issues/1446)) ([9dc097c](https://github.com/tj-actions/changed-files/commit/9dc097cfe56dd6dca442b8b71b988aad4c385f94))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.4.9 ([#1444](https://github.com/tj-actions/changed-files/issues/1444)) ([e3b0c8a](https://github.com/tj-actions/changed-files/commit/e3b0c8a681e6f809136066ceeaae9a9203eddf29))  - (renovate[bot])
+- Fix typo ([a62be95](https://github.com/tj-actions/changed-files/commit/a62be95af39e3e8d28a0ff4a80d07d30e7d16e17))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v6.3.0 ([#1442](https://github.com/tj-actions/changed-files/issues/1442)) ([f267068](https://github.com/tj-actions/changed-files/commit/f267068b025785a2b8e6c5fd692c18782759af31))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.6.0 ([#1441](https://github.com/tj-actions/changed-files/issues/1441))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([7f0849b](https://github.com/tj-actions/changed-files/commit/7f0849be06042444c62445709a000389e08d70e6))  - (tj-actions[bot])
+
 # [37.6.0](https://github.com/tj-actions/changed-files/compare/v37.5.2...v37.6.0) - (2023-08-07)
 
 ## <!-- 0 -->🚀 Features
