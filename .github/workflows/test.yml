@@ -51,7 +51,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v3.8.0
+        uses: actions/setup-node@v3.8.1
         with:
           cache: 'yarn'
           node-version: '16.x'
