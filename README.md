@@ -74,7 +74,7 @@ And many more...
 
 ## Usage
 
-> **Warning**:
+> **Warning**
 >
 > *   For `push` events: When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set [`fetch-depth`](https://github.com/actions/checkout#usage) to either `0` or `2`, depending on your use case.
 > *   For mono repositories where pulling all branch history might not be desired, you can still use the default [`fetch-depth`](https://github.com/actions/checkout#usage), which is set to `1` for `pull_request` events.
@@ -298,7 +298,7 @@ Support this project with a :star:
 |     U     |   Unmerged   |
 |     X     |   Unknown    |
 
-> **Warning**:
+> **Warning**
 >
 > *   When using `files_yaml*` inputs ensure all outputs are prefixed by the key `test_{...}` e.g. `test_added_files`, `test_any_changed`
 
@@ -822,7 +822,7 @@ See [inputs](#inputs) for more information.
 </li>
 </ul>
 
-> **Warning**:
+> **Warning**
 >
 > This setting overrides the commit sha used by setting `since_last_remote_commit` to true.
 > It is recommended to use either solution that works for your use case.
@@ -912,7 +912,7 @@ And many more...
 
 ## Known Limitation
 
-> **Warning**:
+> **Warning**
 >
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent any hidden issues.
