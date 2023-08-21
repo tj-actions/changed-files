@@ -29,6 +29,8 @@ export type Inputs = {
   dirNames: boolean
   dirNamesMaxDepth?: number
   dirNamesExcludeCurrentDir: boolean
+  dirNamesIncludeFiles: string
+  dirNamesIncludeFilesSeparator: string
   json: boolean
   escapeJson: boolean
   fetchDepth?: number
@@ -135,6 +137,16 @@ export const getInputs = (): Inputs => {
       required: false
     }
   )
+  const dirNamesIncludeFiles = core.getInput('dir_names_include_files', {
+    required: false
+  })
+  const dirNamesIncludeFilesSeparator = core.getInput(
+    'dir_names_include_files_separator',
+    {
+      required: false,
+      trimWhitespace: false
+    }
+  )
   const json = core.getBooleanInput('json', {required: false})
   const escapeJson = core.getBooleanInput('escape_json', {required: false})
   const fetchDepth = core.getInput('fetch_depth', {required: false})
@@ -212,17 +224,19 @@ export const getInputs = (): Inputs => {
     includeAllOldNewRenamedFiles,
     oldNewSeparator,
     oldNewFilesSeparator,
+    skipInitialFetch,
     // End Not Supported via REST API
     dirNames,
     dirNamesExcludeCurrentDir,
+    dirNamesIncludeFiles,
+    dirNamesIncludeFilesSeparator,
     json,
     escapeJson,
     writeOutputFiles,
     outputDir,
     outputRenamedFilesAsDeletedAndAdded,
     token,
-    apiUrl,
-    skipInitialFetch
+    apiUrl
   }
 
   if (fetchDepth) {

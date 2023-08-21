@@ -607,13 +607,14 @@ export const getFilteredChangedFiles = async ({
     [ChangeTypeEnum.Unknown]: []
   }
   const hasFilePatterns = filePatterns.length > 0
+  const isWin = isWindows()
 
   for (const changeType of Object.keys(allDiffFiles)) {
     const files = allDiffFiles[changeType as ChangeTypeEnum]
     if (hasFilePatterns) {
       changedFiles[changeType as ChangeTypeEnum] = mm(files, filePatterns, {
         dot: true,
-        windows: isWindows(),
+        windows: isWin,
         noext: true
       })
     } else {
@@ -888,6 +889,16 @@ export const jsonOutput = ({
   return shouldEscape ? result.replace(/"/g, '\\"') : result
 }
 
+export const getDirNamesIncludeFilesPattern = ({
+  inputs
+}: {
+  inputs: Inputs
+}): string[] => {
+  return inputs.dirNamesIncludeFiles
+    .split(inputs.dirNamesIncludeFilesSeparator)
+    .filter(Boolean)
+}
+
 export const getFilePatterns = async ({
   inputs,
   workingDirectory
@@ -897,7 +908,7 @@ export const getFilePatterns = async ({
 }): Promise<string[]> => {
   let filePatterns = inputs.files
     .split(inputs.filesSeparator)
-    .filter(p => p !== '')
+    .filter(Boolean)
     .join('\n')
 
   if (inputs.filesFromSourceFile !== '') {
