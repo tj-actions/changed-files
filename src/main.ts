@@ -11,13 +11,12 @@ import {
 import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
-  getSHAForPullRequestEvent,
-  getSHAForNonPullRequestEvent
+  getSHAForNonPullRequestEvent,
+  getSHAForPullRequestEvent
 } from './commitSha'
 import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
 import {
-  getDirNamesIncludeFilesPattern,
   getFilePatterns,
   getFilteredChangedFiles,
   getRecoverFilePatterns,
