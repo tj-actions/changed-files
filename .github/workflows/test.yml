@@ -990,7 +990,7 @@ jobs:
           exit 1
         shell:
           bash
-      - name: Run changed-files with dir_names specific and dir_names_include_files
+      - name: Run changed-files with dir_names and dir_names_include_files with specific files
         id: changed-files-dir-names-specific-include-files
         uses: ./
         with:
