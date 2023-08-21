@@ -936,7 +936,7 @@ jobs:
           fetch_depth: 60000
           dir_names: "true"
           dir_names_exclude_current_dir: "true"
-          dir_names_max_depth: "1"
+          dir_names_max_depth: 1
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-dir-names-exclude-root.outputs) }}'
@@ -984,9 +984,31 @@ jobs:
         shell:
           bash
       - name: Check dir_names output
-        if: steps.changed-files-dir-names.outputs.all_changed_files != 'test'
+        if: steps.changed-files-dir-names-specific.outputs.all_changed_files != 'test'
         run: |
           echo "Invalid output: Expected (test) got (${{ steps.changed-files-dir-names-specific.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Run changed-files with dir_names specific and dir_names_include_files
+        id: changed-files-dir-names-specific-include-files
+        uses: ./
+        with:
+          base_sha: d1c0ee4
+          sha: 4d04215
+          fetch_depth: 60000
+          dir_names: "true"
+          dir_names_include_files: test/*.txt
+          files: test/**
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-specific-include-files.outputs) }}'
+        shell:
+          bash
+      - name: Check dir_names output
+        if: steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files != 'test/test rename-1.txt'
+        run: |
+          echo "Invalid output: Expected (test/test rename-1.txt) got (${{ steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files }})"
           exit 1
         shell:
           bash

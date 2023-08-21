@@ -17,6 +17,7 @@ import {
 import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
 import {
+  getDirNamesIncludeFilesPattern,
   getFilePatterns,
   getFilteredChangedFiles,
   getRecoverFilePatterns,
@@ -311,10 +312,20 @@ export async function run(): Promise<void> {
       'baseSha',
       'since',
       'until',
+      'path',
+      'quotePath',
+      'diffRelative',
       'sinceLastRemoteCommit',
       'recoverDeletedFiles',
       'recoverDeletedFilesToDestination',
-      'includeAllOldNewRenamedFiles'
+      'recoverFiles',
+      'recoverFilesSeparator',
+      'recoverFilesIgnore',
+      'recoverFilesIgnoreSeparator',
+      'includeAllOldNewRenamedFiles',
+      'oldNewSeparator',
+      'oldNewFilesSeparator',
+      'skipInitialFetch'
     ]
 
     for (const input of unsupportedInputs) {

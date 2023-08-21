@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import type {RestEndpointMethodTypes} from '@octokit/rest'
 import flatten from 'lodash/flatten'
+import mm from 'micromatch'
 import * as path from 'path'
 
 import {DiffResult} from './commitSha'
@@ -9,8 +10,10 @@ import {Inputs} from './inputs'
 import {
   getAllChangedFiles,
   getDirnameMaxDepth,
+  getDirNamesIncludeFilesPattern,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
+  isWindows,
   jsonOutput
 } from './utils'
 
@@ -155,6 +158,40 @@ export const getAllDiffFiles = async ({
   return files
 }
 
+function* getFilePaths({
+  inputs,
+  filePaths,
+  dirNamesIncludeFilePatterns
+}: {
+  inputs: Inputs
+  filePaths: string[]
+  dirNamesIncludeFilePatterns: string[]
+}): Generator<string> {
+  for (const filePath of filePaths) {
+    if (inputs.dirNames) {
+      if (dirNamesIncludeFilePatterns.length > 0) {
+        const isWin = isWindows()
+        const matchOptions = {dot: true, windows: isWin, noext: true}
+
+        for (const filePath of mm(
+          filePaths,
+          dirNamesIncludeFilePatterns,
+          matchOptions
+        )) {
+          yield filePath
+        }
+      }
+      yield getDirnameMaxDepth({
+        relativePath: filePath,
+        dirNamesMaxDepth: inputs.dirNamesMaxDepth,
+        excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
+      })
+    } else {
+      yield filePath
+    }
+  }
+}
+
 function* getChangeTypeFilesGenerator({
   inputs,
   changedFiles,
@@ -164,18 +201,21 @@ function* getChangeTypeFilesGenerator({
   changedFiles: ChangedFiles
   changeTypes: ChangeTypeEnum[]
 }): Generator<string> {
+  const dirNamesIncludeFilePatterns = getDirNamesIncludeFilesPattern({inputs})
+  core.debug(
+    `Dir names include file patterns: ${JSON.stringify(
+      dirNamesIncludeFilePatterns
+    )}`
+  )
+
   for (const changeType of changeTypes) {
-    const files = changedFiles[changeType] || []
-    for (const filePath of files) {
-      if (inputs.dirNames) {
-        yield getDirnameMaxDepth({
-          relativePath: filePath,
-          dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-          excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
-        })
-      } else {
-        yield filePath
-      }
+    const filePaths = changedFiles[changeType] || []
+    for (const filePath of getFilePaths({
+      inputs,
+      filePaths,
+      dirNamesIncludeFilePatterns
+    })) {
+      yield filePath
     }
   }
 }
@@ -213,16 +253,21 @@ function* getAllChangeTypeFilesGenerator({
   inputs: Inputs
   changedFiles: ChangedFiles
 }): Generator<string> {
-  for (const filePath of flatten(Object.values(changedFiles))) {
-    if (inputs.dirNames) {
-      yield getDirnameMaxDepth({
-        relativePath: filePath,
-        dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-        excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
-      })
-    } else {
-      yield filePath
-    }
+  const dirNamesIncludeFilePatterns = getDirNamesIncludeFilesPattern({inputs})
+  core.debug(
+    `Dir names include file patterns: ${JSON.stringify(
+      dirNamesIncludeFilePatterns
+    )}`
+  )
+
+  const filePaths = flatten(Object.values(changedFiles))
+
+  for (const filePath of getFilePaths({
+    inputs,
+    filePaths,
+    dirNamesIncludeFilePatterns
+  })) {
+    yield filePath
   }
 }
 
@@ -278,10 +323,9 @@ export const getChangedFilesFromGithubAPI = async ({
     per_page: 100
   })
 
-  const paginatedResponse =
-    await octokit.paginate<
-      RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
-    >(options)
+  const paginatedResponse = await octokit.paginate<
+    RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
+  >(options)
 
   core.info(`Found ${paginatedResponse.length} changed files from GitHub API`)
   const statusMap: Record<string, ChangeTypeEnum> = {
