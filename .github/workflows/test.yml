@@ -43,6 +43,8 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    outputs:
+      files_changed: ${{ steps.changed_files.outputs.files_changed }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -119,6 +121,7 @@ jobs:
     name: Test with multiple repositories
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v3
@@ -192,7 +195,7 @@ jobs:
     name: Test changed-files using since and until
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -250,6 +253,7 @@ jobs:
     name: Test changed-files similar base and commit sha
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -287,6 +291,7 @@ jobs:
     name: Test unset GITHUB_OUTPUT env
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -317,6 +322,8 @@ jobs:
     name: Test changed-files with limited commit history
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
+
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -354,7 +361,7 @@ jobs:
     name: Test changed-files with pull request head ref
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name != 'push'
+    if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -381,7 +388,7 @@ jobs:
     name: Test changed-files with pull request without persist credentials
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name != 'push'
+    if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -415,6 +422,7 @@ jobs:
     name: Test changed-files non existent base sha
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -468,6 +476,7 @@ jobs:
     name: Test changed-files non existent sha
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -521,7 +530,7 @@ jobs:
     name: Test changed-files with REST API
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name != 'push'
+    if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
       pull-requests: read
     steps:
@@ -553,6 +562,7 @@ jobs:
     name: Test changed-files with submodule
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -595,6 +605,7 @@ jobs:
     name: Test changed-files with yaml
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -646,6 +657,7 @@ jobs:
     name: Test changed-files recover deleted file
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -799,6 +811,7 @@ jobs:
     name: Test changed-files
     runs-on: ${{ matrix.platform }}
     needs: build
+    if: needs.build.outputs.files_changed != 'true'
     strategy:
       fail-fast: false
       max-parallel: 4
