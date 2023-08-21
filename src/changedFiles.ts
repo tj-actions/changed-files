@@ -309,6 +309,5 @@ export const getChangedFilesFromGithubAPI = async ({
       changedFiles[changeType].push(item.filename)
     }
   }
-
   return changedFiles
 }
