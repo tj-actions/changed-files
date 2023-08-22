@@ -2352,14 +2352,15 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         .trim()
         .split('\n')
         .filter(Boolean)
+        .map(exports.normalizeSeparators)
         .map(pattern => {
-        if (pattern.endsWith('/')) {
+        if (pattern.endsWith(path.sep)) {
             return `${pattern}**`;
         }
         else {
             const pathParts = pattern.split(path.sep);
             const lastPart = pathParts[pathParts.length - 1];
-            if (!lastPart.includes('.')) {
+            if (!lastPart.includes('.') && !lastPart.includes('*')) {
                 return `${pattern}${path.sep}**`;
             }
             else {
