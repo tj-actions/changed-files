@@ -1712,7 +1712,7 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test.txt') ||
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') ||
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml') ||
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml')
           ) && runner.os != 'Windows'
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_modified }}" != "false" ]]; then
