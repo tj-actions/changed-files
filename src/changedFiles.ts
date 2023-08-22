@@ -8,6 +8,7 @@ import * as path from 'path'
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 import {
+  canDiffCommits,
   getAllChangedFiles,
   getDirnameMaxDepth,
   getDirNamesIncludeFilesPattern,
@@ -54,11 +55,24 @@ export const getRenamedFiles = async ({
       )
 
       if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+        let diff = '...'
+
+        if (
+          !(await canDiffCommits({
+            cwd: submoduleWorkingDirectory,
+            sha1: submoduleShaResult.previousSha,
+            sha2: submoduleShaResult.currentSha,
+            diff
+          }))
+        ) {
+          diff = '..'
+        }
+
         const submoduleRenamedFiles = await gitRenamedFiles({
           cwd: submoduleWorkingDirectory,
           sha1: submoduleShaResult.previousSha,
           sha2: submoduleShaResult.currentSha,
-          diff: diffResult.diff,
+          diff,
           oldNewSeparator: inputs.oldNewSeparator,
           isSubmodule: true,
           parentDir: submodulePath
@@ -133,11 +147,24 @@ export const getAllDiffFiles = async ({
       )
 
       if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+        let diff = '...'
+
+        if (
+          !(await canDiffCommits({
+            cwd: submoduleWorkingDirectory,
+            sha1: submoduleShaResult.previousSha,
+            sha2: submoduleShaResult.currentSha,
+            diff
+          }))
+        ) {
+          diff = '..'
+        }
+
         const submoduleFiles = await getAllChangedFiles({
           cwd: submoduleWorkingDirectory,
           sha1: submoduleShaResult.previousSha,
           sha2: submoduleShaResult.currentSha,
-          diff: diffResult.diff,
+          diff,
           isSubmodule: true,
           parentDir: submodulePath,
           outputRenamedFilesAsDeletedAndAdded
