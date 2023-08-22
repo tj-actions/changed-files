@@ -1656,12 +1656,12 @@ jobs:
       - name: Verify any_changed from source files on non windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/test.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') ||
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml')
           ) && runner.os != 'Windows'
         run: |
@@ -1674,12 +1674,12 @@ jobs:
       - name: Verify any_changed from source files on windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github\\workflows\\test.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test2\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test2\\test3\\test4\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') ||
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github\\workflows\\test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test2\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test2\\test3\\test4\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github\\workflows\\greetings.yml')
           ) && runner.os == 'Windows'
         run: |
@@ -1706,12 +1706,12 @@ jobs:
       - name: Verify any_modified from source files on non windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/test.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') ||
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml')
           ) && runner.os != 'Windows'
         run: |
@@ -1724,12 +1724,12 @@ jobs:
       - name: Verify any_modified from source files on windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github\\workflows\\test.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') ||
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github\\workflows\\test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github\\workflows\\greetings.yml')
           ) && runner.os == 'Windows'
         run: |
@@ -1756,12 +1756,12 @@ jobs:
       - name: Verify any_deleted from source files on non windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/test.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') ||
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/greetings.yml')
           ) && runner.os != 'Windows'
         run: |
@@ -1774,12 +1774,12 @@ jobs:
       - name: Verify any_deleted from source files on windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github\\workflows\\test.yml') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test2\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') ||
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') ||
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github\\workflows\\test.yml') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test2\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') &&
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github\\workflows\\greetings.yml')
           ) && runner.os == 'Windows'
         run: |
@@ -1809,11 +1809,11 @@ jobs:
       - name: Verify any_changed files comma separator from source files on non windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '.github/workflows/test.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') ||
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt')
           ) && runner.os == 'Windows'
         run: |
@@ -1826,11 +1826,11 @@ jobs:
       - name: Verify any_changed files comma separator from source files on windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '.github\\workflows\\test.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test2\\test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test2\\test3\\test4\\test.txt') ||
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '.github\\workflows\\test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test2\\test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test2\\test3\\test4\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt')
           ) && runner.os == 'Windows'
         run: |
@@ -1843,11 +1843,11 @@ jobs:
       - name: Verify any_modified files comma separator from source files on non windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github/workflows/test.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') ||
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt')
           ) && runner.os == 'Windows'
         run: |
@@ -1860,11 +1860,11 @@ jobs:
       - name: Verify any_modified files comma separator from source files on windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github\\workflows\\test.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') ||
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github\\workflows\\test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt')
           ) && runner.os == 'Windows'
         run: |
@@ -1877,11 +1877,11 @@ jobs:
       - name: Verify any_deleted files with comma separator from source files on non windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github/workflows/test.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') ||
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github/workflows/test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt')
           ) && runner.os == 'Windows'
         run: |
@@ -1894,11 +1894,11 @@ jobs:
       - name: Verify any_deleted files with comma separator from source files on windows platform
         if: |
           (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github\\workflows\\test.yml') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test.txt') ||
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') ||
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github\\workflows\\test.yml') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test.txt') &&
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt')
           ) && runner.os == 'Windows'
         run: |
