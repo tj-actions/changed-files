@@ -39,15 +39,6 @@ export const normalizeSeparators = (p: string): string => {
 }
 
 /**
- * Normalize file path separators to '/' on all platforms
- * @param p - file path
- * @returns file path with normalized separators
- */
-const normalizePath = (p: string): string => {
-  return p.replace(/\\/g, '/')
-}
-
-/**
  * Trims unnecessary trailing slash from file path
  * @param p - file path
  * @returns file path without unnecessary trailing slash
@@ -365,7 +356,7 @@ export const getSubmodulePath = async ({
   return stdout
     .trim()
     .split('\n')
-    .map((line: string) => normalizePath(line.trim().split(' ')[1]))
+    .map((line: string) => normalizeSeparators(line.trim().split(' ')[1]))
 }
 
 /**
@@ -478,13 +469,15 @@ export const gitRenamedFiles = async ({
       core.debug(`Renamed file: ${line}`)
       const [, oldPath, newPath] = line.split('\t')
       if (isSubmodule) {
-        return `${normalizePath(
+        return `${normalizeSeparators(
           path.join(parentDir, oldPath)
-        )}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`
+        )}${oldNewSeparator}${normalizeSeparators(
+          path.join(parentDir, newPath)
+        )}`
       }
-      return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(
-        newPath
-      )}`
+      return `${normalizeSeparators(
+        oldPath
+      )}${oldNewSeparator}${normalizeSeparators(newPath)}`
     })
 }
 
@@ -564,11 +557,11 @@ export const getAllChangedFiles = async ({
   for (const line of lines) {
     const [changeType, filePath, newPath = ''] = line.split('\t')
     const normalizedFilePath = isSubmodule
-      ? normalizePath(path.join(parentDir, filePath))
-      : normalizePath(filePath)
+      ? normalizeSeparators(path.join(parentDir, filePath))
+      : normalizeSeparators(filePath)
     const normalizedNewPath = isSubmodule
-      ? normalizePath(path.join(parentDir, newPath))
-      : normalizePath(newPath)
+      ? normalizeSeparators(path.join(parentDir, newPath))
+      : normalizeSeparators(newPath)
 
     if (changeType.startsWith('R')) {
       if (outputRenamedFilesAsDeletedAndAdded) {
@@ -607,13 +600,14 @@ export const getFilteredChangedFiles = async ({
     [ChangeTypeEnum.Unknown]: []
   }
   const hasFilePatterns = filePatterns.length > 0
+  const isWin = isWindows()
 
   for (const changeType of Object.keys(allDiffFiles)) {
     const files = allDiffFiles[changeType as ChangeTypeEnum]
     if (hasFilePatterns) {
       changedFiles[changeType as ChangeTypeEnum] = mm(files, filePatterns, {
         dot: true,
-        windows: isWindows(),
+        windows: isWin,
         noext: true
       })
     } else {
@@ -873,7 +867,7 @@ export const getDirnameMaxDepth = ({
     return ''
   }
 
-  return normalizePath(output)
+  return normalizeSeparators(output)
 }
 
 export const jsonOutput = ({
@@ -888,6 +882,16 @@ export const jsonOutput = ({
   return shouldEscape ? result.replace(/"/g, '\\"') : result
 }
 
+export const getDirNamesIncludeFilesPattern = ({
+  inputs
+}: {
+  inputs: Inputs
+}): string[] => {
+  return inputs.dirNamesIncludeFiles
+    .split(inputs.dirNamesIncludeFilesSeparator)
+    .filter(Boolean)
+}
+
 export const getFilePatterns = async ({
   inputs,
   workingDirectory
@@ -897,7 +901,7 @@ export const getFilePatterns = async ({
 }): Promise<string[]> => {
   let filePatterns = inputs.files
     .split(inputs.filesSeparator)
-    .filter(p => p !== '')
+    .filter(Boolean)
     .join('\n')
 
   if (inputs.filesFromSourceFile !== '') {

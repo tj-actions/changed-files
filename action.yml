@@ -112,6 +112,14 @@ inputs:
     description: "Exclude the current directory represented by `.` from the output when `dir_names` is set to `true`."
     required: false
     default: "false"
+  dir_names_include_files:
+    description: "Include files in the output when `dir_names` is set to `true`. **NOTE:** This returns only the matching files and also the directory names."
+    required: false
+    default: ""
+  dir_names_include_files_separator:
+    description: "Separator used to split the `dir_names_include_files` input"
+    default: "\n"
+    required: false
   json:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs."
     required: false

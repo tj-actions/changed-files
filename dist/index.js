@@ -53,6 +53,7 @@ exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.g
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const flatten_1 = __importDefault(__nccwpck_require__(2394));
+const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
 const utils_1 = __nccwpck_require__(918);
 const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -150,20 +151,38 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
     return files;
 });
 exports.getAllDiffFiles = getAllDiffFiles;
+function* getFilePaths({ inputs, filePaths, dirNamesIncludeFilePatterns }) {
+    for (const filePath of filePaths) {
+        if (inputs.dirNames) {
+            if (dirNamesIncludeFilePatterns.length > 0) {
+                const isWin = (0, utils_1.isWindows)();
+                const matchOptions = { dot: true, windows: isWin, noext: true };
+                if (micromatch_1.default.isMatch(filePath, dirNamesIncludeFilePatterns, matchOptions)) {
+                    yield filePath;
+                }
+            }
+            yield (0, utils_1.getDirnameMaxDepth)({
+                relativePath: filePath,
+                dirNamesMaxDepth: inputs.dirNamesMaxDepth,
+                excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
+            });
+        }
+        else {
+            yield filePath;
+        }
+    }
+}
 function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
+    const dirNamesIncludeFilePatterns = (0, utils_1.getDirNamesIncludeFilesPattern)({ inputs });
+    core.debug(`Dir names include file patterns: ${JSON.stringify(dirNamesIncludeFilePatterns)}`);
     for (const changeType of changeTypes) {
-        const files = changedFiles[changeType] || [];
-        for (const filePath of files) {
-            if (inputs.dirNames) {
-                yield (0, utils_1.getDirnameMaxDepth)({
-                    relativePath: filePath,
-                    dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-                    excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
-                });
-            }
-            else {
-                yield filePath;
-            }
+        const filePaths = changedFiles[changeType] || [];
+        for (const filePath of getFilePaths({
+            inputs,
+            filePaths,
+            dirNamesIncludeFilePatterns
+        })) {
+            yield filePath;
         }
     }
 }
@@ -184,17 +203,15 @@ const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(
 });
 exports.getChangeTypeFiles = getChangeTypeFiles;
 function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
-    for (const filePath of (0, flatten_1.default)(Object.values(changedFiles))) {
-        if (inputs.dirNames) {
-            yield (0, utils_1.getDirnameMaxDepth)({
-                relativePath: filePath,
-                dirNamesMaxDepth: inputs.dirNamesMaxDepth,
-                excludeCurrentDir: inputs.dirNamesExcludeCurrentDir
-            });
-        }
-        else {
-            yield filePath;
-        }
+    const dirNamesIncludeFilePatterns = (0, utils_1.getDirNamesIncludeFilesPattern)({ inputs });
+    core.debug(`Dir names include file patterns: ${JSON.stringify(dirNamesIncludeFilePatterns)}`);
+    const filePaths = (0, flatten_1.default)(Object.values(changedFiles));
+    for (const filePath of getFilePaths({
+        inputs,
+        filePaths,
+        dirNamesIncludeFilePatterns
+    })) {
+        yield filePath;
     }
 }
 const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1216,6 +1233,13 @@ const getInputs = () => {
     const dirNamesExcludeCurrentDir = core.getBooleanInput('dir_names_exclude_current_dir', {
         required: false
     });
+    const dirNamesIncludeFiles = core.getInput('dir_names_include_files', {
+        required: false
+    });
+    const dirNamesIncludeFilesSeparator = core.getInput('dir_names_include_files_separator', {
+        required: false,
+        trimWhitespace: false
+    });
     const json = core.getBooleanInput('json', { required: false });
     const escapeJson = core.getBooleanInput('escape_json', { required: false });
     const fetchDepth = core.getInput('fetch_depth', { required: false });
@@ -1280,17 +1304,19 @@ const getInputs = () => {
         includeAllOldNewRenamedFiles,
         oldNewSeparator,
         oldNewFilesSeparator,
+        skipInitialFetch,
         // End Not Supported via REST API
         dirNames,
         dirNamesExcludeCurrentDir,
+        dirNamesIncludeFiles,
+        dirNamesIncludeFilesSeparator,
         json,
         escapeJson,
         writeOutputFiles,
         outputDir,
         outputRenamedFilesAsDeletedAndAdded,
         token,
-        apiUrl,
-        skipInitialFetch
+        apiUrl
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -1546,10 +1572,20 @@ function run() {
                 'baseSha',
                 'since',
                 'until',
+                'path',
+                'quotePath',
+                'diffRelative',
                 'sinceLastRemoteCommit',
                 'recoverDeletedFiles',
                 'recoverDeletedFilesToDestination',
-                'includeAllOldNewRenamedFiles'
+                'recoverFiles',
+                'recoverFilesSeparator',
+                'recoverFilesIgnore',
+                'recoverFilesIgnoreSeparator',
+                'includeAllOldNewRenamedFiles',
+                'oldNewSeparator',
+                'oldNewFilesSeparator',
+                'skipInitialFetch'
             ];
             for (const input of unsupportedInputs) {
                 if (inputs[input]) {
@@ -1650,7 +1686,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1685,14 +1721,6 @@ const normalizeSeparators = (p) => {
     return p.replace(/\/\/+/g, '/');
 };
 exports.normalizeSeparators = normalizeSeparators;
-/**
- * Normalize file path separators to '/' on all platforms
- * @param p - file path
- * @returns file path with normalized separators
- */
-const normalizePath = (p) => {
-    return p.replace(/\\/g, '/');
-};
 /**
  * Trims unnecessary trailing slash from file path
  * @param p - file path
@@ -1953,7 +1981,7 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     return stdout
         .trim()
         .split('\n')
-        .map((line) => normalizePath(line.trim().split(' ')[1]));
+        .map((line) => (0, exports.normalizeSeparators)(line.trim().split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 /**
@@ -2014,9 +2042,9 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
         if (isSubmodule) {
-            return `${normalizePath(path.join(parentDir, oldPath))}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`;
+            return `${(0, exports.normalizeSeparators)(path.join(parentDir, oldPath))}${oldNewSeparator}${(0, exports.normalizeSeparators)(path.join(parentDir, newPath))}`;
         }
-        return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(newPath)}`;
+        return `${(0, exports.normalizeSeparators)(oldPath)}${oldNewSeparator}${(0, exports.normalizeSeparators)(newPath)}`;
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
@@ -2067,11 +2095,11 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
     for (const line of lines) {
         const [changeType, filePath, newPath = ''] = line.split('\t');
         const normalizedFilePath = isSubmodule
-            ? normalizePath(path.join(parentDir, filePath))
-            : normalizePath(filePath);
+            ? (0, exports.normalizeSeparators)(path.join(parentDir, filePath))
+            : (0, exports.normalizeSeparators)(filePath);
         const normalizedNewPath = isSubmodule
-            ? normalizePath(path.join(parentDir, newPath))
-            : normalizePath(newPath);
+            ? (0, exports.normalizeSeparators)(path.join(parentDir, newPath))
+            : (0, exports.normalizeSeparators)(newPath);
         if (changeType.startsWith('R')) {
             if (outputRenamedFilesAsDeletedAndAdded) {
                 changedFiles[changedFiles_1.ChangeTypeEnum.Deleted].push(normalizedFilePath);
@@ -2105,12 +2133,13 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
         [changedFiles_1.ChangeTypeEnum.Unknown]: []
     };
     const hasFilePatterns = filePatterns.length > 0;
+    const isWin = (0, exports.isWindows)();
     for (const changeType of Object.keys(allDiffFiles)) {
         const files = allDiffFiles[changeType];
         if (hasFilePatterns) {
             changedFiles[changeType] = (0, micromatch_1.default)(files, filePatterns, {
                 dot: true,
-                windows: (0, exports.isWindows)(),
+                windows: isWin,
                 noext: true
             });
         }
@@ -2258,7 +2287,7 @@ const getDirnameMaxDepth = ({ relativePath, dirNamesMaxDepth, excludeCurrentDir 
     if (excludeCurrentDir && output === '.') {
         return '';
     }
-    return normalizePath(output);
+    return (0, exports.normalizeSeparators)(output);
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
 const jsonOutput = ({ value, shouldEscape }) => {
@@ -2266,10 +2295,16 @@ const jsonOutput = ({ value, shouldEscape }) => {
     return shouldEscape ? result.replace(/"/g, '\\"') : result;
 };
 exports.jsonOutput = jsonOutput;
+const getDirNamesIncludeFilesPattern = ({ inputs }) => {
+    return inputs.dirNamesIncludeFiles
+        .split(inputs.dirNamesIncludeFilesSeparator)
+        .filter(Boolean);
+};
+exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
 const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     let filePatterns = inputs.files
         .split(inputs.filesSeparator)
-        .filter(p => p !== '')
+        .filter(Boolean)
         .join('\n');
     if (inputs.filesFromSourceFile !== '') {
         const inputFilesFromSourceFile = inputs.filesFromSourceFile

@@ -11,8 +11,8 @@ import {
 import {setChangedFilesOutput} from './changedFilesOutput'
 import {
   DiffResult,
-  getSHAForPullRequestEvent,
-  getSHAForNonPullRequestEvent
+  getSHAForNonPullRequestEvent,
+  getSHAForPullRequestEvent
 } from './commitSha'
 import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
@@ -311,10 +311,20 @@ export async function run(): Promise<void> {
       'baseSha',
       'since',
       'until',
+      'path',
+      'quotePath',
+      'diffRelative',
       'sinceLastRemoteCommit',
       'recoverDeletedFiles',
       'recoverDeletedFilesToDestination',
-      'includeAllOldNewRenamedFiles'
+      'recoverFiles',
+      'recoverFilesSeparator',
+      'recoverFilesIgnore',
+      'recoverFilesIgnoreSeparator',
+      'includeAllOldNewRenamedFiles',
+      'oldNewSeparator',
+      'oldNewFilesSeparator',
+      'skipInitialFetch'
     ]
 
     for (const input of unsupportedInputs) {
