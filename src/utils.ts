@@ -967,7 +967,7 @@ export const getFilePatterns = async ({
     filePatterns = filePatterns.replace(/\r/g, '\n')
   }
 
-  core.debug(`file patterns: ${filePatterns}`)
+  core.debug(`Input file patterns: ${filePatterns}`)
 
   return filePatterns
     .trim()
