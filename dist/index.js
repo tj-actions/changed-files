@@ -2141,7 +2141,7 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
                 dot: true,
                 windows: isWin,
                 noext: true
-            });
+            }).map(exports.normalizeSeparators);
         }
         else {
             changedFiles[changeType] = files;
@@ -2352,16 +2352,15 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         .trim()
         .split('\n')
         .filter(Boolean)
-        .map(exports.normalizeSeparators)
         .map(pattern => {
-        if (pattern.endsWith(path.sep)) {
+        if (pattern.endsWith('/')) {
             return `${pattern}**`;
         }
         else {
-            const pathParts = pattern.split(path.sep);
+            const pathParts = pattern.split('/');
             const lastPart = pathParts[pathParts.length - 1];
             if (!lastPart.includes('.') && !lastPart.includes('*')) {
-                return `${pattern}${path.sep}**`;
+                return `${pattern}/**`;
             }
             else {
                 return pattern;
