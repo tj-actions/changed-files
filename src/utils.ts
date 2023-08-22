@@ -973,15 +973,14 @@ export const getFilePatterns = async ({
     .trim()
     .split('\n')
     .filter(Boolean)
-    .map(normalizeSeparators)
     .map(pattern => {
-      if (pattern.endsWith(path.sep)) {
+      if (pattern.endsWith('/')) {
         return `${pattern}**`
       } else {
-        const pathParts = pattern.split(path.sep)
+        const pathParts = pattern.split('/')
         const lastPart = pathParts[pathParts.length - 1]
         if (!lastPart.includes('.') && !lastPart.includes('*')) {
-          return `${pattern}${path.sep}**`
+          return `${pattern}/**`
         } else {
           return pattern
         }

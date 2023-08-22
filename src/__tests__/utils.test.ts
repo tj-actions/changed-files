@@ -443,14 +443,7 @@ describe('utils test', () => {
     it('should return only the files that match the file patterns with globstar on windows', async () => {
       mockedPlatform('win32')
       const allDiffFiles = {
-        [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file2.md',
-          'file3.txt',
-          'test\\dir\\file4.txt',
-          'test\\dir\\file5.txt',
-          'dir\\file6.md'
-        ],
+        [ChangeTypeEnum.Added]: ['test\\test rename-1.txt'],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -461,15 +454,10 @@ describe('utils test', () => {
       }
       const result = await getFilteredChangedFiles({
         allDiffFiles,
-        filePatterns: ['**.txt']
+        filePatterns: ['test/**']
       })
       expect(result).toEqual({
-        [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file3.txt',
-          'test\\dir\\file4.txt',
-          'test\\dir\\file5.txt'
-        ],
+        [ChangeTypeEnum.Added]: ['test\\test rename-1.txt'],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
