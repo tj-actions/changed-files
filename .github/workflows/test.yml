@@ -1523,7 +1523,16 @@ jobs:
         shell:
           bash
       - name: Verify any_modified files comma separator on non windows platform
-        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github/workflows/test.yml')"
+        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-pipe.outputs.any_modified }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_modified }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_modified files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-pipe.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_modified }})"
@@ -1540,11 +1549,11 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_modified files comma separator on windows platform
-        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+      - name: Verify any_deleted files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.deleted_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
         run: |
-          if [[ "${{ steps.changed-files-specific-pipe.outputs.any_modified }}" != "false" ]]; then
-            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_modified }})"
+          if [[ "${{ steps.changed-files-specific-pipe.outputs.any_deleted }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_deleted }})"
             exit 1
           fi
         shell:
