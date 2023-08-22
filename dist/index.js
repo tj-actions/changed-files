@@ -2216,7 +2216,7 @@ const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(v
 });
 exports.verifyCommitSha = verifyCommitSha;
 const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-version:refname'], {
+    const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-creatordate'], {
         cwd,
         silent: !core.isDebug()
     });

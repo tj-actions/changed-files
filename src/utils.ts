@@ -739,7 +739,7 @@ export const getPreviousGitTag = async ({
 }): Promise<{tag: string; sha: string}> => {
   const {stdout} = await exec.getExecOutput(
     'git',
-    ['tag', '--sort=-version:refname'],
+    ['tag', '--sort=-creatordate'],
     {
       cwd,
       silent: !core.isDebug()
