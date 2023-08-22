@@ -194,6 +194,15 @@ describe('utils test', () => {
       expect(actualOutput).toEqual(expectedOutput)
     })
 
+    // Tests that forward slashes are normalized on Windows
+    it('test mixed slashes windows', () => {
+      mockedPlatform('win32')
+      const input = 'path/to/file'
+      const expectedOutput = 'path\\to\\file'
+      const actualOutput = normalizeSeparators(input)
+      expect(actualOutput).toEqual(expectedOutput)
+    })
+
     // Tests that mixed slashes are normalized on Windows
     it('test mixed slashes windows', () => {
       mockedPlatform('win32')
