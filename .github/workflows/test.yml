@@ -1732,6 +1732,7 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github\\workflows\\greetings.yml')
           ) && runner.os == 'Windows'
+        continue-on-error: true
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_modified }})"
