@@ -113,7 +113,7 @@ inputs:
     required: false
     default: "false"
   dir_names_include_files:
-    description: "Include files in the output when `dir_names` is set to `true`."
+    description: "Include files in the output when `dir_names` is set to `true`. **NOTE:** This returns only the matching files and also the directory names."
     required: false
     default: ""
   dir_names_include_files_separator:
