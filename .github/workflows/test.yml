@@ -1684,6 +1684,8 @@ jobs:
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_changed }})"
             exit 1
           fi
+        shell:
+          bash
       - name: Check if a excluded file is not included in any_modified on non windows platform
         if: "contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
