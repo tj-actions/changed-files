@@ -609,7 +609,7 @@ export const getFilteredChangedFiles = async ({
         dot: true,
         windows: isWin,
         noext: true
-      })
+      }).map(normalizeSeparators)
     } else {
       changedFiles[changeType as ChangeTypeEnum] = files
     }
