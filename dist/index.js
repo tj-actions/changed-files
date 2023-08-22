@@ -2347,7 +2347,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         filePatterns = filePatterns.replace(/\r\n/g, '\n');
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
-    core.debug(`file patterns: ${filePatterns}`);
+    core.debug(`Input file patterns: ${filePatterns}`);
     return filePatterns
         .trim()
         .split('\n')
