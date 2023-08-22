@@ -157,8 +157,8 @@ function* getFilePaths({ inputs, filePaths, dirNamesIncludeFilePatterns }) {
             if (dirNamesIncludeFilePatterns.length > 0) {
                 const isWin = (0, utils_1.isWindows)();
                 const matchOptions = { dot: true, windows: isWin, noext: true };
-                for (const matchedFilePath of (0, micromatch_1.default)(filePaths, dirNamesIncludeFilePatterns, matchOptions)) {
-                    yield matchedFilePath;
+                if (micromatch_1.default.isMatch(filePath, dirNamesIncludeFilePatterns, matchOptions)) {
+                    yield filePath;
                 }
             }
             yield (0, utils_1.getDirnameMaxDepth)({
@@ -1722,14 +1722,6 @@ const normalizeSeparators = (p) => {
 };
 exports.normalizeSeparators = normalizeSeparators;
 /**
- * Normalize file path separators to '/' on all platforms
- * @param p - file path
- * @returns file path with normalized separators
- */
-const normalizePath = (p) => {
-    return p.replace(/\\/g, '/');
-};
-/**
  * Trims unnecessary trailing slash from file path
  * @param p - file path
  * @returns file path without unnecessary trailing slash
@@ -1989,7 +1981,7 @@ const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
     return stdout
         .trim()
         .split('\n')
-        .map((line) => normalizePath(line.trim().split(' ')[1]));
+        .map((line) => (0, exports.normalizeSeparators)(line.trim().split(' ')[1]));
 });
 exports.getSubmodulePath = getSubmodulePath;
 /**
@@ -2050,9 +2042,9 @@ const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule =
         core.debug(`Renamed file: ${line}`);
         const [, oldPath, newPath] = line.split('\t');
         if (isSubmodule) {
-            return `${normalizePath(path.join(parentDir, oldPath))}${oldNewSeparator}${normalizePath(path.join(parentDir, newPath))}`;
+            return `${(0, exports.normalizeSeparators)(path.join(parentDir, oldPath))}${oldNewSeparator}${(0, exports.normalizeSeparators)(path.join(parentDir, newPath))}`;
         }
-        return `${normalizePath(oldPath)}${oldNewSeparator}${normalizePath(newPath)}`;
+        return `${(0, exports.normalizeSeparators)(oldPath)}${oldNewSeparator}${(0, exports.normalizeSeparators)(newPath)}`;
     });
 });
 exports.gitRenamedFiles = gitRenamedFiles;
@@ -2103,11 +2095,11 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
     for (const line of lines) {
         const [changeType, filePath, newPath = ''] = line.split('\t');
         const normalizedFilePath = isSubmodule
-            ? normalizePath(path.join(parentDir, filePath))
-            : normalizePath(filePath);
+            ? (0, exports.normalizeSeparators)(path.join(parentDir, filePath))
+            : (0, exports.normalizeSeparators)(filePath);
         const normalizedNewPath = isSubmodule
-            ? normalizePath(path.join(parentDir, newPath))
-            : normalizePath(newPath);
+            ? (0, exports.normalizeSeparators)(path.join(parentDir, newPath))
+            : (0, exports.normalizeSeparators)(newPath);
         if (changeType.startsWith('R')) {
             if (outputRenamedFilesAsDeletedAndAdded) {
                 changedFiles[changedFiles_1.ChangeTypeEnum.Deleted].push(normalizedFilePath);
@@ -2295,7 +2287,7 @@ const getDirnameMaxDepth = ({ relativePath, dirNamesMaxDepth, excludeCurrentDir 
     if (excludeCurrentDir && output === '.') {
         return '';
     }
-    return normalizePath(output);
+    return (0, exports.normalizeSeparators)(output);
 };
 exports.getDirnameMaxDepth = getDirnameMaxDepth;
 const jsonOutput = ({ value, shouldEscape }) => {

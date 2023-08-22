@@ -172,13 +172,8 @@ function* getFilePaths({
       if (dirNamesIncludeFilePatterns.length > 0) {
         const isWin = isWindows()
         const matchOptions = {dot: true, windows: isWin, noext: true}
-
-        for (const matchedFilePath of mm(
-          filePaths,
-          dirNamesIncludeFilePatterns,
-          matchOptions
-        )) {
-          yield matchedFilePath
+        if (mm.isMatch(filePath, dirNamesIncludeFilePatterns, matchOptions)) {
+          yield filePath
         }
       }
       yield getDirnameMaxDepth({
