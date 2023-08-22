@@ -34,9 +34,6 @@ jobs:
   shellcheck:
     name: Run shellcheck
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
 
     steps:
       - name: Checkout branch
@@ -46,9 +43,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     outputs:
       files_changed: ${{ steps.changed_files.outputs.files_changed }}
     steps:
@@ -126,9 +120,6 @@ jobs:
   test-multiple-repositories:
     name: Test with multiple repositories
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     steps:
@@ -204,9 +195,6 @@ jobs:
     name: Test changed-files using since and until
     needs: build
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
 
     steps:
@@ -264,9 +252,6 @@ jobs:
   test-similar-base-and-commit-sha:
     name: Test changed-files similar base and commit sha
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
 
@@ -305,9 +290,6 @@ jobs:
   test-unset-github-output-env:
     name: Test unset GITHUB_OUTPUT env
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
 
@@ -378,9 +360,6 @@ jobs:
   test-pull-request-head-ref:
     name: Test changed-files with pull request head ref
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
 
@@ -408,9 +387,6 @@ jobs:
   test-pull-request-without-persist-credentials:
     name: Test changed-files with pull request without persist credentials
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     strategy:
@@ -445,9 +421,6 @@ jobs:
   test-non-existent-base-sha:
     name: Test changed-files non existent base sha
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
 
@@ -502,9 +475,6 @@ jobs:
   test-non-existent-sha:
     name: Test changed-files non existent sha
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
 
@@ -559,9 +529,6 @@ jobs:
   test-rest-api:
     name: Test changed-files with REST API
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
@@ -594,9 +561,6 @@ jobs:
   test-submodules:
     name: Test changed-files with submodule
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     strategy:
@@ -640,9 +604,6 @@ jobs:
   test-yaml:
     name: Test changed-files with yaml
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     strategy:
@@ -695,9 +656,6 @@ jobs:
   test-recover-deleted-file:
     name: Test changed-files recover deleted file
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     strategy:
@@ -852,9 +810,6 @@ jobs:
   test:
     name: Test changed-files
     runs-on: ${{ matrix.platform }}
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-      cancel-in-progress: true
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     strategy:
