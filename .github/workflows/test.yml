@@ -1034,7 +1034,7 @@ jobs:
         shell:
           bash
       - name: Check dir_names output on windows platform
-        if: "!contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test\\test rename-1.txt') || !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test') && runner.os == 'Windows'"
+        if: "(!contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test\\test rename-1.txt') || !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test')) && runner.os == 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test\\test rename-1.txt) and (test) got (${{ steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files }})"
           exit 1
