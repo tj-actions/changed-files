@@ -82,7 +82,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
                     sha2: submoduleShaResult.currentSha,
                     diff
                 }))) {
-                    core.warning(`Set 'fetch_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`);
+                    core.warning(`Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`);
                     diff = '..';
                 }
                 const submoduleRenamedFiles = yield (0, utils_1.gitRenamedFiles)({
@@ -147,7 +147,7 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
                     sha2: submoduleShaResult.currentSha,
                     diff
                 }))) {
-                    core.warning(`Set 'fetch_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`);
+                    core.warning(`Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`);
                     diff = '..';
                 }
                 const submoduleFiles = yield (0, utils_1.getAllChangedFiles)({
@@ -1320,7 +1320,7 @@ const getInputs = () => {
     const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
         required: false
     });
-    const fetchSubmoduleHistory = core.getBooleanInput('fetch_submodule_history', {
+    const fetchSubmoduleHistory = core.getBooleanInput('fetch_additional_submodule_history', {
         required: false
     });
     const inputs = {
