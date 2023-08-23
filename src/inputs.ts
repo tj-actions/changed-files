@@ -34,6 +34,7 @@ export type Inputs = {
   json: boolean
   escapeJson: boolean
   fetchDepth?: number
+  fetchSubmoduleHistory?: boolean
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
   outputDir: string
@@ -189,6 +190,12 @@ export const getInputs = (): Inputs => {
   const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
     required: false
   })
+  const fetchSubmoduleHistory = core.getBooleanInput(
+    'fetch_submodule_history',
+    {
+      required: false
+    }
+  )
 
   const inputs: Inputs = {
     files,
@@ -225,6 +232,7 @@ export const getInputs = (): Inputs => {
     oldNewSeparator,
     oldNewFilesSeparator,
     skipInitialFetch,
+    fetchSubmoduleHistory,
     // End Not Supported via REST API
     dirNames,
     dirNamesExcludeCurrentDir,
