@@ -1662,8 +1662,9 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml')
-          ) && runner.os != 'Windows'
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml') &&
+            runner.os != 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_changed }})"
@@ -1680,8 +1681,9 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test2\\test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test2\\test3\\test4\\test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github\\workflows\\greetings.yml')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github\\workflows\\greetings.yml') &&
+            runner.os == 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_changed }})"
@@ -1712,8 +1714,9 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml')
-          ) && runner.os != 'Windows'
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml') &&
+            runner.os != 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_modified }})"
@@ -1730,8 +1733,9 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github\\workflows\\greetings.yml')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github\\workflows\\greetings.yml') &&
+            runner.os == 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_modified }})"
@@ -1762,8 +1766,9 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/greetings.yml')
-          ) && runner.os != 'Windows'
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/greetings.yml') &&
+            runner.os != 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_deleted }})"
@@ -1780,8 +1785,9 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test2\\test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github\\workflows\\greetings.yml')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github\\workflows\\greetings.yml') &&
+            runner.os == 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-source-file.outputs.any_deleted }})"
@@ -1814,8 +1820,9 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt') &&
+            runner.os != 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }})"
@@ -1831,8 +1838,9 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test2\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test\\test2\\test3\\test4\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt') &&
+            runner.os == 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }})"
@@ -1848,8 +1856,9 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt') &&
+            runner.os != 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }})"
@@ -1865,8 +1874,9 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt') &&
+            runner.os == 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }})"
@@ -1882,8 +1892,9 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt') &&
+            runner.os != 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }})"
@@ -1899,8 +1910,9 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt')
-          ) && runner.os == 'Windows'
+            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt') &&
+            runner.os == 'Windows'
+          )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }})"
