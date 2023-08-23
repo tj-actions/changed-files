@@ -1590,19 +1590,12 @@ function run() {
                 'baseSha',
                 'since',
                 'until',
-                'path',
-                'quotePath',
-                'diffRelative',
                 'sinceLastRemoteCommit',
                 'recoverDeletedFiles',
                 'recoverDeletedFilesToDestination',
                 'recoverFiles',
-                'recoverFilesSeparator',
                 'recoverFilesIgnore',
-                'recoverFilesIgnoreSeparator',
                 'includeAllOldNewRenamedFiles',
-                'oldNewSeparator',
-                'oldNewFilesSeparator',
                 'skipInitialFetch'
             ];
             for (const input of unsupportedInputs) {
