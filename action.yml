@@ -136,7 +136,7 @@ inputs:
     description: "Skip the initial fetch to improve performance for shallow repositories. **NOTE**: This could lead to errors with missing history and the intended use is limited to when you've fetched the history necessary to perform the diff."
     required: false
     default: "false"
-  fetch_submodule_history:
+  fetch_additional_submodule_history:
     description: "Fetch additional history for submodules."
     required: false
     default: "false"

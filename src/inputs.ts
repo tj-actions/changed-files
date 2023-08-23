@@ -191,7 +191,7 @@ export const getInputs = (): Inputs => {
     required: false
   })
   const fetchSubmoduleHistory = core.getBooleanInput(
-    'fetch_submodule_history',
+    'fetch_additional_submodule_history',
     {
       required: false
     }
