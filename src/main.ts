@@ -317,7 +317,8 @@ export async function run(): Promise<void> {
       'recoverFiles',
       'recoverFilesIgnore',
       'includeAllOldNewRenamedFiles',
-      'skipInitialFetch'
+      'skipInitialFetch',
+      'fetchSubmoduleHistory'
     ]
 
     for (const input of unsupportedInputs) {
