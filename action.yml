@@ -136,6 +136,10 @@ inputs:
     description: "Skip the initial fetch to improve performance for shallow repositories. **NOTE**: This could lead to errors with missing history and the intended use is limited to when you've fetched the history necessary to perform the diff."
     required: false
     default: "false"
+  fetch_additional_submodule_history:
+    description: "Fetch additional history for submodules."
+    required: false
+    default: "false"
   since_last_remote_commit:
     description: "Use the last commit on the remote branch as the `base_sha`. Defaults to the last non-merge commit on the target branch for pull request events and the previous remote commit of the current branch for push events."
     required: false
