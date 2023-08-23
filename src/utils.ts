@@ -609,7 +609,7 @@ export const getFilteredChangedFiles = async ({
         dot: true,
         windows: isWin,
         noext: true
-      })
+      }).map(normalizeSeparators)
     } else {
       changedFiles[changeType as ChangeTypeEnum] = files
     }
@@ -967,7 +967,7 @@ export const getFilePatterns = async ({
     filePatterns = filePatterns.replace(/\r/g, '\n')
   }
 
-  core.debug(`file patterns: ${filePatterns}`)
+  core.debug(`Input file patterns: ${filePatterns}`)
 
   return filePatterns
     .trim()
@@ -977,10 +977,10 @@ export const getFilePatterns = async ({
       if (pattern.endsWith('/')) {
         return `${pattern}**`
       } else {
-        const pathParts = pattern.split(path.sep)
+        const pathParts = pattern.split('/')
         const lastPart = pathParts[pathParts.length - 1]
-        if (!lastPart.includes('.')) {
-          return `${pattern}${path.sep}**`
+        if (!lastPart.includes('.') && !lastPart.includes('*')) {
+          return `${pattern}/**`
         } else {
           return pattern
         }

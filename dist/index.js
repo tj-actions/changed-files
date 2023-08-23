@@ -2141,7 +2141,7 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
                 dot: true,
                 windows: isWin,
                 noext: true
-            });
+            }).map(exports.normalizeSeparators);
         }
         else {
             changedFiles[changeType] = files;
@@ -2347,7 +2347,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         filePatterns = filePatterns.replace(/\r\n/g, '\n');
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
-    core.debug(`file patterns: ${filePatterns}`);
+    core.debug(`Input file patterns: ${filePatterns}`);
     return filePatterns
         .trim()
         .split('\n')
@@ -2357,10 +2357,10 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
             return `${pattern}**`;
         }
         else {
-            const pathParts = pattern.split(path.sep);
+            const pathParts = pattern.split('/');
             const lastPart = pathParts[pathParts.length - 1];
-            if (!lastPart.includes('.')) {
-                return `${pattern}${path.sep}**`;
+            if (!lastPart.includes('.') && !lastPart.includes('*')) {
+                return `${pattern}/**`;
             }
             else {
                 return pattern;

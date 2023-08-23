@@ -816,7 +816,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, macos-latest, macos-11] # TODO: Fix the test for windows adding the correct path separator and use windows-2022, windows-latest
+        platform: [ubuntu-latest, macos-latest, windows-latest]
         fetch-depth: [0, 1, 2]
 
     steps:
@@ -933,10 +933,17 @@ jobs:
           echo '${{ toJSON(steps.changed-files-dir-names-max-depth.outputs) }}'
         shell:
           bash
-      - name: Check dir_names output
-        if: "!contains(steps.changed-files-dir-names-max-depth.outputs.all_changed_files, 'test/test2/test3')"
+      - name: Check dir_names output on non windows platform
+        if: "!contains(steps.changed-files-dir-names-max-depth.outputs.all_changed_files, 'test/test2/test3') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test2/test3) got (${{ steps.changed-files-dir-names-max-depth.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check dir_names output on windows platform
+        if: "!contains(steps.changed-files-dir-names-max-depth.outputs.all_changed_files, 'test\\test2\\test3') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test2\\test3) got (${{ steps.changed-files-dir-names-max-depth.outputs.all_changed_files }})"
           exit 1
         shell:
           bash
@@ -1019,10 +1026,25 @@ jobs:
           echo '${{ toJSON(steps.changed-files-dir-names-specific-include-files.outputs) }}'
         shell:
           bash
-      - name: Check dir_names output
-        if: "!contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test/test rename-1.txt') || !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test')"
+      - name: Check dir_names output on non windows platform
+        if: |
+          (
+            !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test/test rename-1.txt') || 
+            !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test')
+          ) && runner.os != 'Windows'
         run: |
           echo "Invalid output: Expected to include (test/test rename-1.txt) and (test) got (${{ steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check dir_names output on windows platform
+        if: |
+          (
+            !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test\\test rename-1.txt') ||
+            !contains(steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files, 'test')
+          ) && runner.os == 'Windows'
+        run: |
+          echo "Invalid output: Expected to include (test\\test rename-1.txt) and (test) got (${{ steps.changed-files-dir-names-specific-include-files.outputs.all_changed_files }})"
           exit 1
         shell:
           bash
@@ -1123,17 +1145,31 @@ jobs:
           echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-1.outputs) }}'
         shell:
           bash
-      - name: Check all_old_new_renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files, 'test/test rename 1.txt,test/test rename-1.txt')"
+      - name: Check all_old_new_renamed_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files, 'test/test rename 1.txt,test/test rename-1.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename 1.txt,test/test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files }})"
           exit 1
         shell:
           bash
-      - name: Check the renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.renamed_files, 'test/test rename-1.txt')"
+      - name: Check all_old_new_renamed_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files, 'test\\test rename 1.txt,test\\test rename-1.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename 1.txt,test\\test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check the renamed_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.renamed_files, 'test/test rename-1.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check the renamed_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-1.outputs.renamed_files, 'test\\test rename-1.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename-1.txt) got (${{ steps.changed-files-all-old-new-renamed-files-1.outputs.renamed_files }})"
           exit 1
         shell:
           bash
@@ -1150,17 +1186,31 @@ jobs:
           echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-2.outputs) }}'
         shell:
           bash
-      - name: Check all_old_new_renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt')"
+      - name: Check all_old_new_renamed_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files }})"
           exit 1
         shell:
           bash
-      - name: Check the renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.renamed_files, 'test/test rename-2.txt')"
+      - name: Check all_old_new_renamed_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files, 'test\\test rename 2.txt,test\\test rename-2.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check the renamed_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.renamed_files, 'test/test rename-2.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check the renamed_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2.outputs.renamed_files, 'test\\test rename-2.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2.outputs.renamed_files }})"
           exit 1
         shell:
           bash
@@ -1178,24 +1228,45 @@ jobs:
           echo '${{ toJSON(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs) }}'
         shell:
           bash
-      - name: Check all_old_new_renamed_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt')"
+      - name: Check all_old_new_renamed_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files, 'test/test rename 2.txt,test/test rename-2.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename 2.txt test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files }})"
           exit 1
         shell:
           bash
-      - name: Check deleted_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.deleted_files, 'test/test rename 2.txt')"
+      - name: Check all_old_new_renamed_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files, 'test\\test rename 2.txt,test\\test rename-2.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename 2.txt test\\test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.all_old_new_renamed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check deleted_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.deleted_files, 'test/test rename 2.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename 2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.deleted_files }})"
           exit 1
         shell:
           bash
-      - name: Check added_files output
-        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.added_files, 'test/test rename-2.txt')"
+      - name: Check deleted_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.deleted_files, 'test\\test rename 2.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename 2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check added_files output on non windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.added_files, 'test/test rename-2.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected to include (test/test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.added_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check added_files output on windows platform
+        if: "!contains(steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.added_files, 'test\\test rename-2.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected to not include (test\\test rename-2.txt) got (${{ steps.changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added.outputs.added_files }})"
           exit 1
         shell:
           bash
@@ -1214,15 +1285,22 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific.outputs) }}'
         shell:
           bash
-      - name: Check if a excluded file is not included in any_changed
-        if: "contains(steps.changed-files-specific.outputs.all_changed_files, 'test/test/test.txt')"
+      - name: Check if a excluded file is not included in any_changed on non windows platform
+        if: "contains(steps.changed-files-specific.outputs.all_changed_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific.outputs.all_changed_files }})"
           exit 1
         shell:
           bash
-      - name: Verify any_changed for specific files
-        if: "!contains(steps.changed-files-specific.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_changed_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific.outputs.all_changed_files, 'test/test.txt')"
+      - name: Check if a excluded file is not included in any_changed on windows platform
+        if: "contains(steps.changed-files-specific.outputs.all_changed_files, 'test\\test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Verify any_changed for specific files on non windows platform
+        if: "!contains(steps.changed-files-specific.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_changed_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific.outputs.all_changed_files, 'test/test.txt') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
@@ -1230,15 +1308,31 @@ jobs:
           fi
         shell:
           bash
-      - name: Check if a excluded file is not included in any_modified
-        if: "contains(steps.changed-files-specific.outputs.all_modified_files, 'test/test/test.txt')"
+      - name: Verify any_changed for specific files on windows platform
+        if: "!contains(steps.changed-files-specific.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_changed_files, '.github\\workflows\\test.yml') && !contains(steps.changed-files-specific.outputs.all_changed_files, 'test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Check if a excluded file is not included in any_modified on non windows platform
+        if: "contains(steps.changed-files-specific.outputs.all_modified_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific.outputs.all_modified_files }})"
           exit 1
         shell:
           bash
-      - name: Verify any_modified for specific files
-        if: "!contains(steps.changed-files-specific.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, 'test/test.txt')"
+      - name: Check if a excluded file is not included in any_modified on windows platform
+        if: "contains(steps.changed-files-specific.outputs.all_modified_files, 'test\\test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific.outputs.all_modified_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Verify any_modified for specific files on non windows platform
+        if: "!contains(steps.changed-files-specific.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, 'test/test.txt') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_modified }})"
@@ -1246,15 +1340,40 @@ jobs:
           fi
         shell:
           bash
-      - name: Check if a excluded file is not included in any_deleted
-        if: "contains(steps.changed-files-specific.outputs.deleted_files, 'test/test/test.txt')"
+      - name: Verify any_modified for specific files on windows platform
+        if: "!contains(steps.changed-files-specific.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, '.github\\workflows\\test.yml') && !contains(steps.changed-files-specific.outputs.all_modified_files, 'test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_modified }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_modified }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Check if a excluded file is not included in any_deleted on non windows platform
+        if: "contains(steps.changed-files-specific.outputs.deleted_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific.outputs.deleted_files }})"
           exit 1
         shell:
           bash
-      - name: Verify any_deleted for specific files
-        if: "!contains(steps.changed-files-specific.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.deleted_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific.outputs.deleted_files, 'test/test.txt')"
+      - name: Check if a excluded file is not included in any_deleted on windows platform
+        if: "contains(steps.changed-files-specific.outputs.deleted_files, 'test\\test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Verify any_deleted for specific files on non windows platform
+        if: "!contains(steps.changed-files-specific.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.deleted_files, '.github/workflows/test.yml') && !contains(steps.changed-files-specific.outputs.deleted_files, 'test/test.txt') && runner.os != 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific.outputs.any_deleted }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_deleted }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted for specific files on windows platform
+        if: "!contains(steps.changed-files-specific.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific.outputs.deleted_files, '.github\\workflows\\test.yml') && !contains(steps.changed-files-specific.outputs.deleted_files, 'test\\test.txt') && runner.os == 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific.outputs.any_deleted }})"
@@ -1318,8 +1437,8 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific-comma.outputs) }}'
         shell:
           bash
-      - name: Verify any_changed files comma separator
-        if: "!contains(steps.changed-files-specific-comma.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_changed_files, '.github/workflows/test.yml')"
+      - name: Verify any_changed files comma separator on non windows platform
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_changed_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-comma.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma.outputs.any_changed }})"
@@ -1327,8 +1446,17 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_modified files comma separator
-        if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml')"
+      - name: Verify any_changed files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_changed_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-comma.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_modified files comma separator on non windows platform
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-comma.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma.outputs.any_modified }})"
@@ -1336,8 +1464,26 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_deleted files comma separator
-        if: "!contains(steps.changed-files-specific-comma.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.deleted_files, '.github/workflows/test.yml')"
+      - name: Verify any_modified files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-comma.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.all_modified_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-comma.outputs.any_modified }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma.outputs.any_modified }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted files comma separator on non windows platform
+        if: "!contains(steps.changed-files-specific-comma.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.deleted_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-comma.outputs.any_deleted }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma.outputs.any_deleted }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-comma.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-comma.outputs.deleted_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-comma.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma.outputs.any_deleted }})"
@@ -1358,8 +1504,8 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific-pipe.outputs) }}'
         shell:
           bash
-      - name: Verify any_changed files comma separator
-        if: "!contains(steps.changed-files-specific-pipe.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_changed_files, '.github/workflows/test.yml')"
+      - name: Verify any_changed files comma separator on non windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_changed_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-pipe.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_changed }})"
@@ -1367,8 +1513,17 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_modified files comma separator
-        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github/workflows/test.yml')"
+      - name: Verify any_changed files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_changed_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-pipe.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_modified files comma separator on non windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-pipe.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_modified }})"
@@ -1376,8 +1531,26 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_deleted files comma separator
-        if: "!contains(steps.changed-files-specific-pipe.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.deleted_files, '.github/workflows/test.yml')"
+      - name: Verify any_modified files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.all_modified_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-pipe.outputs.any_modified }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_modified }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted files comma separator on non windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.deleted_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-pipe.outputs.any_deleted }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_deleted }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted files comma separator on windows platform
+        if: "!contains(steps.changed-files-specific-pipe.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-pipe.outputs.deleted_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-pipe.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-pipe.outputs.any_deleted }})"
@@ -1398,8 +1571,8 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific-forward-slash.outputs) }}'
         shell:
           bash
-      - name: Verify any_changed files forward slash separator
-        if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, '.github/workflows/test.yml')"
+      - name: Verify any_changed files forward slash separator on non windows platform
+        if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_changed }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_changed }})"
@@ -1407,8 +1580,17 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_modified files forward slash separator
-        if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, '.github/workflows/test.yml')"
+      - name: Verify any_changed files forward slash separator on windows platform
+        if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_changed_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_changed }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_changed }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_modified files forward slash separator on non windows platform
+        if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_modified }})"
@@ -1416,8 +1598,26 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_deleted files forward slash separator
-        if: "!contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, '.github/workflows/test.yml')"
+      - name: Verify any_modified files forward slash separator on windows platform
+        if: "!contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.all_modified_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_modified }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_modified }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted files forward slash separator on non windows platform
+        if: "!contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, '.github/workflows/test.yml') && runner.os != 'Windows'"
+        run: |
+          if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_deleted }}" != "false" ]]; then
+            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_deleted }})"
+            exit 1
+          fi
+        shell:
+          bash
+      - name: Verify any_deleted files forward slash separator on windows platform
+        if: "!contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, 'action.yml') && !contains(steps.changed-files-specific-forward-slash.outputs.deleted_files, '.github\\workflows\\test.yml') && runner.os == 'Windows'"
         run: |
           if [[ "${{ steps.changed-files-specific-forward-slash.outputs.any_deleted }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-forward-slash.outputs.any_deleted }})"
@@ -1434,14 +1634,26 @@ jobs:
             test/changed-files-list.txt
           files: |
             **/workflows/greetings.yml
-      - name: Check if a excluded file is not included in any_changed
-        if: contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test/test.txt')
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-specific-source-file.outputs) }}'
+        shell:
+          bash
+      - name: Check if a excluded file is not included in any_changed on non windows platform
+        if: "contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific-source-file.outputs.all_changed_files }})"
           exit 1
         shell:
           bash
-      - name: Verify any_changed from source files
+      - name: Check if a excluded file is not included in any_changed on windows platform
+        if: "contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test\\test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific-source-file.outputs.all_changed_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Verify any_changed from source files on non windows platform
         if: |
           (
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'action.yml') &&
@@ -1450,7 +1662,8 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml')
+            !contains(steps.changed-files-specific-source-file.outputs.all_changed_files, '.github/workflows/greetings.yml') &&
+            runner.os != 'Windows'
           )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_changed }}" != "false" ]]; then
@@ -1459,14 +1672,21 @@ jobs:
           fi
         shell:
           bash
-      - name: Check if a excluded file is not included in any_modified
-        if: contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test/test.txt')
+      - name: Check if a excluded file is not included in any_modified on non windows platform
+        if: "contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific-source-file.outputs.all_modified_files }})"
           exit 1
         shell:
           bash
-      - name: Verify any_modified from source files
+      - name: Check if a excluded file is not included in any_modified on windows platform
+        if: "contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test\\test\\test.txt') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific-source-file.outputs.all_modified_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Verify any_modified from source files on non windows platform
         if: |
           (
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'action.yml') &&
@@ -1475,7 +1695,8 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml')
+            !contains(steps.changed-files-specific-source-file.outputs.all_modified_files, '.github/workflows/greetings.yml') &&
+            runner.os != 'Windows'
           )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_modified }}" != "false" ]]; then
@@ -1484,14 +1705,21 @@ jobs:
           fi
         shell:
           bash
-      - name: Check if a excluded file is not included in any_deleted
-        if: contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test/test.txt')
+      - name: Check if a excluded file is not included in any_deleted on non windows platform
+        if: "contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific-source-file.outputs.deleted_files }})"
           exit 1
         shell:
           bash
-      - name: Verify any_deleted from source files
+      - name: Check if a excluded file is not included in any_deleted on windows platform
+        if: contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test\\test\\test.txt')
+        run: |
+          echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific-source-file.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Verify any_deleted from source files on non windows platform
         if: |
           (
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'action.yml') &&
@@ -1500,7 +1728,8 @@ jobs:
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
             !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '[test new].txt') &&
-            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/greetings.yml')
+            !contains(steps.changed-files-specific-source-file.outputs.deleted_files, '.github/workflows/greetings.yml') &&
+            runner.os != 'Windows'
           )
         run: |
           if [[ "${{ steps.changed-files-specific-source-file.outputs.any_deleted }}" != "false" ]]; then
@@ -1526,7 +1755,7 @@ jobs:
           echo '${{ toJSON(steps.changed-files-specific-comma-source-file.outputs) }}'
         shell:
           bash
-      - name: Verify any_changed files comma separator
+      - name: Verify any_changed files comma separator from source files on non windows platform
         if: |
           (
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'action.yml') &&
@@ -1534,7 +1763,8 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, 'test/test2/test3/test4/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt')
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_changed_files, '[test new].txt') &&
+            runner.os != 'Windows'
           )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_changed }}" != "false" ]]; then
@@ -1543,7 +1773,7 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_modified files comma separator
+      - name: Verify any_modified files comma separator from source files on non windows platform
         if: |
           (
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') &&
@@ -1551,28 +1781,12 @@ jobs:
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test.txt') &&
             !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test/test2/test3/test4/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt')
+            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt') &&
+            runner.os != 'Windows'
           )
         run: |
           if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }}" != "false" ]]; then
             echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }})"
-            exit 1
-          fi
-        shell:
-          bash
-      - name: Verify any_deleted files with comma separator
-        if: |
-          (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github/workflows/test.yml') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test/test2/test3/test4/test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt')
-          )
-        run: |
-          if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }}" != "false" ]]; then
-            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }})"
             exit 1
           fi
         shell:
