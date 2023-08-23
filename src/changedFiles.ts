@@ -66,7 +66,7 @@ export const getRenamedFiles = async ({
           }))
         ) {
           core.warning(
-            `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
+            `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}, Note you can control the fetch depth using 'fetch_depth' input`
           )
           diff = '..'
         }
@@ -161,7 +161,7 @@ export const getAllDiffFiles = async ({
           }))
         ) {
           core.warning(
-            `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
+            `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}, Note you can control the fetch depth using 'fetch_depth' input`
           )
           diff = '..'
         }
