@@ -15,3 +15,7 @@ updates:
   open-pull-requests-limit: 10
   labels:
     - "merge when passing"
+- package-ecosystem: gitsubmodule
+  directory: /
+  schedule:
+    interval: daily
