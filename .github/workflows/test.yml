@@ -82,7 +82,6 @@ jobs:
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v16
         id: changed_files
-        if: github.event_name == 'pull_request'
         with:
           files: |
             src
