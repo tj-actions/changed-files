@@ -1,5 +1,30 @@
 # Changelog
 
+# [38.1.0](https://github.com/tj-actions/changed-files/compare/v38.0.0...v38.1.0) - (2023-08-23)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for fetching additional history for submodules ([#1476](https://github.com/tj-actions/changed-files/issues/1476)) ([5693615](https://github.com/tj-actions/changed-files/commit/569361586a6cff9491312916c5e703a443417e81))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1477](https://github.com/tj-actions/changed-files/issues/1477))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([e4e7694](https://github.com/tj-actions/changed-files/commit/e4e76943d643113dcf1458aecb541063cbdc63fd))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump test/demo from `e168fac` to `f0065d7` ([#1481](https://github.com/tj-actions/changed-files/issues/1481)) ([1c26215](https://github.com/tj-actions/changed-files/commit/1c26215f3fbd51eba03bc199e5cbabdfc3584ce3))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 20.5.3 to 20.5.4 ([#1480](https://github.com/tj-actions/changed-files/issues/1480)) ([7b1e154](https://github.com/tj-actions/changed-files/commit/7b1e1540e27d3397053816b2bcf36f17cfc6cf2f))  - (dependabot[bot])
+- Move submodule update to dependabot and remove unused workflow ([#1478](https://github.com/tj-actions/changed-files/issues/1478)) ([02010ed](https://github.com/tj-actions/changed-files/commit/02010edac36d80b90e96e94e505a9e34a67f7b89))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([7852182](https://github.com/tj-actions/changed-files/commit/785218258b790e5191c8655f483824c7e8c226da))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v38 ([#1474](https://github.com/tj-actions/changed-files/issues/1474))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([0b45bc6](https://github.com/tj-actions/changed-files/commit/0b45bc64c29a84aea65c944b5a06b6c75844dfaa))  - (tj-actions[bot])
+
 # [38.0.0](https://github.com/tj-actions/changed-files/compare/v37.6.1...v38.0.0) - (2023-08-23)
 
 ## <!-- 0 -->🚀 Features
