@@ -93,56 +93,70 @@ export const getSHAForNonPullRequestEvent = async (
   const currentBranch = targetBranch
   let initialCommit = false
 
-  if (isShallow && !inputs.skipInitialFetch) {
-    core.info('Repository is shallow, fetching more history...')
+  if (!inputs.skipInitialFetch) {
+    if (isShallow) {
+      core.info('Repository is shallow, fetching more history...')
 
-    if (isTag) {
-      let sourceBranch = ''
+      if (isTag) {
+        let sourceBranch = ''
 
-      if (github.context.payload.base_ref) {
-        sourceBranch = github.context.payload.base_ref.replace(
-          'refs/heads/',
-          ''
-        )
-      } else if (github.context.payload.release?.target_commitish) {
-        sourceBranch = github.context.payload.release?.target_commitish
+        if (github.context.payload.base_ref) {
+          sourceBranch = github.context.payload.base_ref.replace(
+            'refs/heads/',
+            ''
+          )
+        } else if (github.context.payload.release?.target_commitish) {
+          sourceBranch = github.context.payload.release?.target_commitish
+        }
+
+        await gitFetch({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`,
+            'origin',
+            `+refs/heads/${sourceBranch}:refs/remotes/origin/${sourceBranch}`
+          ]
+        })
+      } else {
+        await gitFetch({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`,
+            'origin',
+            `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
+          ]
+        })
       }
 
-      await gitFetch({
-        cwd: workingDirectory,
-        args: [
-          ...gitFetchExtraArgs,
-          '-u',
-          '--progress',
-          `--deepen=${inputs.fetchDepth}`,
-          'origin',
-          `+refs/heads/${sourceBranch}:refs/remotes/origin/${sourceBranch}`
-        ]
-      })
+      if (hasSubmodule) {
+        await gitFetchSubmodules({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`
+          ]
+        })
+      }
     } else {
-      await gitFetch({
-        cwd: workingDirectory,
-        args: [
-          ...gitFetchExtraArgs,
-          '-u',
-          '--progress',
-          `--deepen=${inputs.fetchDepth}`,
-          'origin',
-          `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
-        ]
-      })
-    }
-
-    if (hasSubmodule) {
-      await gitFetchSubmodules({
-        cwd: workingDirectory,
-        args: [
-          ...gitFetchExtraArgs,
-          '-u',
-          '--progress',
-          `--deepen=${inputs.fetchDepth}`
-        ]
-      })
+      if (hasSubmodule && inputs.fetchSubmoduleHistory) {
+        await gitFetchSubmodules({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`
+          ]
+        })
+      }
     }
   }
 
@@ -288,55 +302,68 @@ export const getSHAForPullRequestEvent = async (
     targetBranch = currentBranch
   }
 
-  if (isShallow && !inputs.skipInitialFetch) {
+  if (!inputs.skipInitialFetch) {
     core.info('Repository is shallow, fetching more history...')
-
-    let prFetchExitCode = await gitFetch({
-      cwd: workingDirectory,
-      args: [
-        ...gitFetchExtraArgs,
-        '-u',
-        '--progress',
-        'origin',
-        `pull/${github.context.payload.pull_request?.number}/head:${currentBranch}`
-      ]
-    })
-
-    if (prFetchExitCode !== 0) {
-      prFetchExitCode = await gitFetch({
+    if (isShallow) {
+      let prFetchExitCode = await gitFetch({
         cwd: workingDirectory,
         args: [
           ...gitFetchExtraArgs,
           '-u',
           '--progress',
-          `--deepen=${inputs.fetchDepth}`,
           'origin',
-          `+refs/heads/${currentBranch}*:refs/remotes/origin/${currentBranch}*`
-        ]
-      })
-    }
-
-    if (prFetchExitCode !== 0) {
-      throw new Error(
-        'Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage'
-      )
-    }
-
-    if (!inputs.sinceLastRemoteCommit) {
-      core.debug('Fetching target branch...')
-      await gitFetch({
-        cwd: workingDirectory,
-        args: [
-          ...gitFetchExtraArgs,
-          '-u',
-          '--progress',
-          `--deepen=${inputs.fetchDepth}`,
-          'origin',
-          `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
+          `pull/${github.context.payload.pull_request?.number}/head:${currentBranch}`
         ]
       })
 
-      if (hasSubmodule) {
+      if (prFetchExitCode !== 0) {
+        prFetchExitCode = await gitFetch({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`,
+            'origin',
+            `+refs/heads/${currentBranch}*:refs/remotes/origin/${currentBranch}*`
+          ]
+        })
+      }
+
+      if (prFetchExitCode !== 0) {
+        throw new Error(
+          'Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage'
+        )
+      }
+
+      if (!inputs.sinceLastRemoteCommit) {
+        core.debug('Fetching target branch...')
+        await gitFetch({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`,
+            'origin',
+            `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
+          ]
+        })
+
+        if (hasSubmodule) {
+          await gitFetchSubmodules({
+            cwd: workingDirectory,
+            args: [
+              ...gitFetchExtraArgs,
+              '-u',
+              '--progress',
+              `--deepen=${inputs.fetchDepth}`
+            ]
+          })
+        }
+      }
+    } else {
+      if (hasSubmodule && inputs.fetchSubmoduleHistory) {
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
