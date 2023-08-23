@@ -1,5 +1,42 @@
 # Changelog
 
+# [38.0.0](https://github.com/tj-actions/changed-files/compare/v37.6.1...v38.0.0) - (2023-08-23)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for including matching changed files when dir_names is set to true ([#1464](https://github.com/tj-actions/changed-files/issues/1464)) ([8789204](https://github.com/tj-actions/changed-files/commit/8789204f9747de46e322edc26ccef589722b5d12))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error getting diff for submodules ([#1473](https://github.com/tj-actions/changed-files/issues/1473)) ([17f3fec](https://github.com/tj-actions/changed-files/commit/17f3fec1edef0c3916d59cbcee1585fcd457e456))  - (Tonye Jack)
+- Bug with locating the previous tag ([#1470](https://github.com/tj-actions/changed-files/issues/1470)) ([fc63326](https://github.com/tj-actions/changed-files/commit/fc633265449c7430ee5634b1c673247b313ef8cf))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1466](https://github.com/tj-actions/changed-files/issues/1466))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([e8f1278](https://github.com/tj-actions/changed-files/commit/e8f12786b4779b5208c8e0593863215f52c804e0))  - (tj-actions[bot])
+- Update README.md ([f8b4039](https://github.com/tj-actions/changed-files/commit/f8b4039d9628a18c5e26b11a098230dd037e299e))  - (Tonye Jack)
+- Update README.md ([0e8eddf](https://github.com/tj-actions/changed-files/commit/0e8eddfd8c525e4d8522d7de71af8ad5e4290b90))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update test ([#1469](https://github.com/tj-actions/changed-files/issues/1469)) ([52dbf3e](https://github.com/tj-actions/changed-files/commit/52dbf3e3cf799a1324a9c148c64948abbf8c3fa6))  - (Tonye Jack)
+- **deps:** Update dependency @types/jest to v29.5.4 ([#1472](https://github.com/tj-actions/changed-files/issues/1472)) ([0a814e4](https://github.com/tj-actions/changed-files/commit/0a814e4372753d6beb4a9ec8f4166aea312f679a))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.5.3 ([#1467](https://github.com/tj-actions/changed-files/issues/1467)) ([18bacaa](https://github.com/tj-actions/changed-files/commit/18bacaab15227e761b04fb4097648318590be71a))  - (renovate[bot])
+- Update .eslintrc.json ([#1465](https://github.com/tj-actions/changed-files/issues/1465)) ([819fb64](https://github.com/tj-actions/changed-files/commit/819fb645201f8693c48ca1158b4069d0c7cec64d))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v6.4.1 ([#1463](https://github.com/tj-actions/changed-files/issues/1463)) ([31003b4](https://github.com/tj-actions/changed-files/commit/31003b45e6faa01151aeb2508de21d895b9024d8))  - (renovate[bot])
+- **deps:** Update dependency jest to v29.6.3 ([#1462](https://github.com/tj-actions/changed-files/issues/1462)) ([1f04b16](https://github.com/tj-actions/changed-files/commit/1f04b16682ff06e18be316b672337f43ebd8f768))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#1461](https://github.com/tj-actions/changed-files/issues/1461)) ([0a8b04e](https://github.com/tj-actions/changed-files/commit/0a8b04e3e345eae4a8aa28fb46959c1509197ee5))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.5.1 ([#1460](https://github.com/tj-actions/changed-files/issues/1460)) ([6da496e](https://github.com/tj-actions/changed-files/commit/6da496e2f92930ffc11735db0b53e4e2027e9e26))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v3.8.1 ([#1459](https://github.com/tj-actions/changed-files/issues/1459)) ([68d38a3](https://github.com/tj-actions/changed-files/commit/68d38a3f163ab827c733c45c9f23d607401a34ce))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v37.6.1 ([#1458](https://github.com/tj-actions/changed-files/issues/1458))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([3645cf9](https://github.com/tj-actions/changed-files/commit/3645cf9fc374b6e501b12888142f2aabc6b3cbf9))  - (tj-actions[bot])
+
 # [37.6.1](https://github.com/tj-actions/changed-files/compare/v37.6.0...v37.6.1) - (2023-08-15)
 
 ## <!-- 26 -->🔄 Update
