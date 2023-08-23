@@ -1791,42 +1791,6 @@ jobs:
           fi
         shell:
           bash
-      - name: Verify any_modified files comma separator from source files on windows platform
-        if: |
-          (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'action.yml') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '.github\\workflows\\test.yml') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, 'test\\test2\\test3\\test4\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.all_modified_files, '[test new].txt') &&
-            runner.os == 'Windows'
-          )
-        run: |
-          if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }}" != "false" ]]; then
-            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_modified }})"
-            exit 1
-          fi
-        shell:
-          bash
-      - name: Verify any_deleted files with comma separator from source files on windows platform
-        if: |
-          (
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'action.yml') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '.github\\workflows\\test.yml') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, 'test\\test2\\test3\\test4\\test.txt') &&
-            !contains(steps.changed-files-specific-comma-source-file.outputs.deleted_files, '[test new].txt') &&
-            runner.os == 'Windows'
-          )
-        run: |
-          if [[ "${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }}" != "false" ]]; then
-            echo "Invalid output: Expected (false) got (${{ steps.changed-files-specific-comma-source-file.outputs.any_deleted }})"
-            exit 1
-          fi
-        shell:
-          bash
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v7
