@@ -75,11 +75,20 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
             });
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+                let diff = '...';
+                if (!(yield (0, utils_1.canDiffCommits)({
+                    cwd: submoduleWorkingDirectory,
+                    sha1: submoduleShaResult.previousSha,
+                    sha2: submoduleShaResult.currentSha,
+                    diff
+                }))) {
+                    diff = '..';
+                }
                 const submoduleRenamedFiles = yield (0, utils_1.gitRenamedFiles)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
-                    diff: diffResult.diff,
+                    diff,
                     oldNewSeparator: inputs.oldNewSeparator,
                     isSubmodule: true,
                     parentDir: submodulePath
@@ -130,11 +139,20 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
             });
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+                let diff = '...';
+                if (!(yield (0, utils_1.canDiffCommits)({
+                    cwd: submoduleWorkingDirectory,
+                    sha1: submoduleShaResult.previousSha,
+                    sha2: submoduleShaResult.currentSha,
+                    diff
+                }))) {
+                    diff = '..';
+                }
                 const submoduleFiles = yield (0, utils_1.getAllChangedFiles)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
-                    diff: diffResult.diff,
+                    diff,
                     isSubmodule: true,
                     parentDir: submodulePath,
                     outputRenamedFilesAsDeletedAndAdded
