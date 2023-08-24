@@ -301,9 +301,9 @@
     "@babel/helper-plugin-utils" "^7.22.5"
 
 "@babel/runtime@^7.20.7":
-  version "7.22.10"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.10.tgz#ae3e9631fd947cb7e3610d3e9d8fef5f76696682"
-  integrity sha512-21t/fkKLMZI4pqP2wlmsQAWnYW1PDyKyyUV4vCi+B25ydmdaYTKXPwCj0BzSUnZf4seIiYvSA3jcZ3gdsMFkLQ==
+  version "7.22.11"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.11.tgz#7a9ba3bbe406ad6f9e8dd4da2ece453eb23a77a4"
+  integrity sha512-ee7jVNlWN09+KftVOu9n7S8gQzD/Z6hN/I8VBRXW4P1+Xe7kJGXMwu8vds4aGIMHZnNbdpSWCfZZtinytpcAvA==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -473,13 +473,6 @@
     "@jest/types" "^29.6.3"
     "@types/node" "*"
     jest-mock "^29.6.3"
-
-"@jest/expect-utils@^29.6.3":
-  version "29.6.3"
-  resolved "https://registry.yarnpkg.com/@jest/expect-utils/-/expect-utils-29.6.3.tgz#5ef1a9689fdaa348da837c8be8d1219f56940ea3"
-  integrity sha512-nvOEW4YoqRKD9HBJ9OJ6przvIvP9qilp5nAn1462P5ZlL/MM9SgPEZFyjTGPfs7QkocdUsJa6KjHhyRn4ueItA==
-  dependencies:
-    jest-get-type "^29.6.3"
 
 "@jest/expect-utils@^29.6.4":
   version "29.6.4"
@@ -1696,9 +1689,9 @@ doctrine@^3.0.0:
     esutils "^2.0.2"
 
 electron-to-chromium@^1.4.477:
-  version "1.4.500"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.500.tgz#7dd05fdfbe02ed34b9f6099cfe01407b473d5af7"
-  integrity sha512-P38NO8eOuWOKY1sQk5yE0crNtrjgjJj6r3NrbIKtG18KzCHmHE2Bt+aQA7/y0w3uYsHWxDa6icOohzjLJ4vJ4A==
+  version "1.4.501"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.501.tgz#05e97f61d109dc7a5ab246a81bb3fb892edfe954"
+  integrity sha512-NCF5hZUg73MEP0guvIM+BjPs9W07UeAuc5XCNqRZZTKJxLjE0ZS/Zo5UsV8bbs2y/jeKRPFPzdWdBfOGEZTXKg==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -2098,18 +2091,7 @@ exit@^0.1.2:
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
   integrity sha512-Zk/eNKV2zbjpKzrsQ+n1G6poVbErQxJ0LBOJXaKZ1EViLzH+hrLu9cdXI4zw9dBQJslwBEpbQ2P1oS7nDxs6jQ==
 
-expect@^29.0.0:
-  version "29.6.3"
-  resolved "https://registry.yarnpkg.com/expect/-/expect-29.6.3.tgz#e74b57c35a81fd93ece6b570e371309c53dc4f54"
-  integrity sha512-x1vY4LlEMWUYVZQrFi4ZANXFwqYbJ/JNQspLVvzhW2BNY28aNcXMQH6imBbt+RBf5sVRTodYHXtSP/TLEU0Dxw==
-  dependencies:
-    "@jest/expect-utils" "^29.6.3"
-    jest-get-type "^29.6.3"
-    jest-matcher-utils "^29.6.3"
-    jest-message-util "^29.6.3"
-    jest-util "^29.6.3"
-
-expect@^29.6.4:
+expect@^29.0.0, expect@^29.6.4:
   version "29.6.4"
   resolved "https://registry.yarnpkg.com/expect/-/expect-29.6.4.tgz#a6e6f66d4613717859b2fe3da98a739437b6f4b8"
   integrity sha512-F2W2UyQ8XYyftHT57dtfg8Ue3X5qLgm2sSug0ivvLRH/VKNRL/pDxg/TH7zVzbQB0tu80clNFy6LU7OS/VSEKA==
@@ -2784,16 +2766,6 @@ jest-config@^29.6.4:
     slash "^3.0.0"
     strip-json-comments "^3.1.1"
 
-jest-diff@^29.6.3:
-  version "29.6.3"
-  resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-29.6.3.tgz#365c6b037ea8e67d2f2af68bc018fc18d44311f0"
-  integrity sha512-3sw+AdWnwH9sSNohMRKA7JiYUJSRr/WS6+sEFfBuhxU5V5GlEVKfvUn8JuMHE0wqKowemR1C2aHy8VtXbaV8dQ==
-  dependencies:
-    chalk "^4.0.0"
-    diff-sequences "^29.6.3"
-    jest-get-type "^29.6.3"
-    pretty-format "^29.6.3"
-
 jest-diff@^29.6.4:
   version "29.6.4"
   resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-29.6.4.tgz#85aaa6c92a79ae8cd9a54ebae8d5b6d9a513314a"
@@ -2863,16 +2835,6 @@ jest-leak-detector@^29.6.3:
   resolved "https://registry.yarnpkg.com/jest-leak-detector/-/jest-leak-detector-29.6.3.tgz#b9661bc3aec8874e59aff361fa0c6d7cd507ea01"
   integrity sha512-0kfbESIHXYdhAdpLsW7xdwmYhLf1BRu4AA118/OxFm0Ho1b2RcTmO4oF6aAMaxpxdxnJ3zve2rgwzNBD4Zbm7Q==
   dependencies:
-    jest-get-type "^29.6.3"
-    pretty-format "^29.6.3"
-
-jest-matcher-utils@^29.6.3:
-  version "29.6.3"
-  resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-29.6.3.tgz#a7574092b635d96a38fa0a22d015fb596b9c2efc"
-  integrity sha512-6ZrMYINZdwduSt5Xu18/n49O1IgXdjsfG7NEZaQws9k69eTKWKcVbJBw/MZsjOZe2sSyJFmuzh8042XWwl54Zg==
-  dependencies:
-    chalk "^4.0.0"
-    jest-diff "^29.6.3"
     jest-get-type "^29.6.3"
     pretty-format "^29.6.3"
 
@@ -3317,9 +3279,9 @@ natural-compare@^1.4.0:
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
 node-fetch@^2.6.7:
-  version "2.6.13"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.13.tgz#a20acbbec73c2e09f9007de5cda17104122e0010"
-  integrity sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
+  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
   dependencies:
     whatwg-url "^5.0.0"
 
