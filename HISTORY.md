@@ -1,5 +1,49 @@
 # Changelog
 
+# [38.1.1](https://github.com/tj-actions/changed-files/compare/v38.1.0...v38.1.1) - (2023-08-25)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([c0d418d](https://github.com/tj-actions/changed-files/commit/c0d418d2f41e21e92203a1022c4606ef77aa6bc2))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1493](https://github.com/tj-actions/changed-files/issues/1493))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([b7f1b73](https://github.com/tj-actions/changed-files/commit/b7f1b7347fea1df67230801b66081fe3cba7dc69))  - (tj-actions[bot])
+- Update README.md ([fc4a224](https://github.com/tj-actions/changed-files/commit/fc4a224c47dadefa07dc096ed0ff953c0bd17144))  - (Tonye Jack)
+- Updated .github/FUNDING.yml ([8e62bee](https://github.com/tj-actions/changed-files/commit/8e62bee92f800ef13879d41004367f912f016c85))  - (Tonye Jack)
+- Updated .github/FUNDING.yml ([02ce009](https://github.com/tj-actions/changed-files/commit/02ce009f4243cd05f1381c43c6a1d48f68a3b485))  - (Tonye Jack)
+- Updated README.md ([#1486](https://github.com/tj-actions/changed-files/issues/1486))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([88a8df6](https://github.com/tj-actions/changed-files/commit/88a8df65a2f24314ca8833c27ec427ffe6809039))  - (tj-actions[bot])
+- Updated README.md ([#1485](https://github.com/tj-actions/changed-files/issues/1485))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([5c42e98](https://github.com/tj-actions/changed-files/commit/5c42e98b8fe904db676293fa7156514c905af8c4))  - (tj-actions[bot])
+- Updated README.md ([#1483](https://github.com/tj-actions/changed-files/issues/1483))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([088d89c](https://github.com/tj-actions/changed-files/commit/088d89c918a1e7d236520ec4e7daea1d959d41e5))  - (tj-actions[bot])
+- Update update-readme.yml ([8299ae0](https://github.com/tj-actions/changed-files/commit/8299ae07ec237ebe1c58a4cc49b9c1e064d927fa))  - (Tonye Jack)
+- Update update-readme.yml ([fd8ad0b](https://github.com/tj-actions/changed-files/commit/fd8ad0b93433d4d8c80427eb93ae5e78b8a1ce7c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump test/demo from `f0065d7` to `8bbc726` ([#1492](https://github.com/tj-actions/changed-files/issues/1492)) ([b86b505](https://github.com/tj-actions/changed-files/commit/b86b5055c618b14573c5d8f6d7198309ea0828ac))  - (dependabot[bot])
+- **deps:** Lock file maintenance ([2cd8943](https://github.com/tj-actions/changed-files/commit/2cd89433debfbbf5e77c95d38dac646ff3a76ebc))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.5.6 ([6cb2857](https://github.com/tj-actions/changed-files/commit/6cb2857ef0a3296d70201f34aa4ca530deb48e38))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.2.2 ([716bc48](https://github.com/tj-actions/changed-files/commit/716bc48e21c1367a2c750432fff2cc1dd8fe4ead))  - (renovate[bot])
+- **deps:** Update dependency jest to v29.6.4 ([6afd248](https://github.com/tj-actions/changed-files/commit/6afd248b1827a2f7943482875140b770f36cc4e8))  - (renovate[bot])
+- **deps:** Update tj-actions/auto-doc action to v3 ([#1484](https://github.com/tj-actions/changed-files/issues/1484)) ([fd5abe1](https://github.com/tj-actions/changed-files/commit/fd5abe1ac5fb8d024051c757ad9bf1fc6b767e6c))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v38.1.0 ([#1482](https://github.com/tj-actions/changed-files/issues/1482))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2fc6aa8](https://github.com/tj-actions/changed-files/commit/2fc6aa80df596875e0f74f1df939e72b7627e867))  - (tj-actions[bot])
+
 # [38.1.0](https://github.com/tj-actions/changed-files/compare/v38.0.0...v38.1.0) - (2023-08-23)
 
 ## <!-- 0 -->🚀 Features
