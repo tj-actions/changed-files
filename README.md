@@ -31,6 +31,8 @@ Effortlessly track all changed files and directories relative to a target branch
 *   [Versioning](#versioning)
 *   [Examples](#examples)
 *   [Real-world usage](#real-world-usage)
+    *   [Open source projects](#open-source-projects)
+    *   [Scalability Example](#scalability-example)
 *   [Known Limitation](#known-limitation)
 *   [Migration guide](#migration-guide)
 *   [Credits](#credits)
@@ -911,16 +913,13 @@ See [inputs](#inputs) for more information.
 
 *   [nhost: uses tj-actions/changed-files to automate testing based on changes detected](https://github.com/nhost/nhost/blob/main/.github/workflows/ci.yaml#L44-L48)
 
-*   [qmk_firmware uses tj-actions/changed-files to run linters](https://github.com/qmk/qmk_firmware/blob/7a737235ffd49c32d2c5561e8fe53fd96baa7f96/.github/workflows/lint.yml#L30)
+*   [qmk\_firmware uses tj-actions/changed-files to run linters](https://github.com/qmk/qmk_firmware/blob/7a737235ffd49c32d2c5561e8fe53fd96baa7f96/.github/workflows/lint.yml#L30)
 
 And many more...
-
 
 ### Scalability Example
 
 ![image](https://github.com/tj-actions/changed-files/assets/17484350/23767413-4c51-42fb-ab1c-39ef72c44904)
-
-
 
 ## Known Limitation
 
