@@ -82,11 +82,11 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
                     sha2: submoduleShaResult.currentSha,
                     diff
                 }))) {
-                    let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`;
+                    let message = `Unable to use three dot diff for: ${submodulePath} submodule. Falling back to two dot diff. You can set 'fetch_additional_submodule_history: true' to fetch additional submodule history in order to use three dot diff`;
                     if (inputs.fetchSubmoduleHistory) {
                         message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`;
                     }
-                    core.warning(message);
+                    core.info(message);
                     diff = '..';
                 }
                 const submoduleRenamedFiles = yield (0, utils_1.gitRenamedFiles)({
