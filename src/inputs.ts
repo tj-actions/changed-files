@@ -34,7 +34,7 @@ export type Inputs = {
   json: boolean
   escapeJson: boolean
   fetchDepth?: number
-  fetchSubmoduleHistory?: boolean
+  fetchSubmoduleHistory: boolean
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
   outputDir: string
