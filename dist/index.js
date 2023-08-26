@@ -82,7 +82,11 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
                     sha2: submoduleShaResult.currentSha,
                     diff
                 }))) {
-                    core.warning(`Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}, Note you can control the fetch depth using 'fetch_depth' input`);
+                    let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`;
+                    if (inputs.fetchSubmoduleHistory) {
+                        message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`;
+                    }
+                    core.warning(message);
                     diff = '..';
                 }
                 const submoduleRenamedFiles = yield (0, utils_1.gitRenamedFiles)({
@@ -121,7 +125,7 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchSubmoduleHistory }) => __awaiter(void 0, void 0, void 0, function* () {
     const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -147,7 +151,11 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
                     sha2: submoduleShaResult.currentSha,
                     diff
                 }))) {
-                    core.warning(`Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}, Note you can control the fetch depth using 'fetch_depth' input`);
+                    let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`;
+                    if (fetchSubmoduleHistory) {
+                        message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`;
+                    }
+                    core.warning(message);
                     diff = '..';
                 }
                 const submoduleFiles = yield (0, utils_1.getAllChangedFiles)({
@@ -1532,7 +1540,8 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
         hasSubmodule,
         diffResult,
         submodulePaths,
-        outputRenamedFilesAsDeletedAndAdded
+        outputRenamedFilesAsDeletedAndAdded,
+        fetchSubmoduleHistory: inputs.fetchSubmoduleHistory
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
