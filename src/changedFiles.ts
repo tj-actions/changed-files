@@ -65,9 +65,11 @@ export const getRenamedFiles = async ({
             diff
           }))
         ) {
-          core.warning(
-            `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}, Note you can control the fetch depth using 'fetch_depth' input`
-          )
+          let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
+          if (inputs.fetchSubmoduleHistory) {
+            message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`
+          }
+          core.warning(message)
           diff = '..'
         }
 
