@@ -1,5 +1,22 @@
 # Changelog
 
+# [38.1.2](https://github.com/tj-actions/changed-files/compare/v38.1.1...v38.1.2) - (2023-08-26)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update warning message ([#1500](https://github.com/tj-actions/changed-files/issues/1500)) ([2f8b802](https://github.com/tj-actions/changed-files/commit/2f8b80270f04e421b28efb2abaccef4fce4815b6))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([d01e38a](https://github.com/tj-actions/changed-files/commit/d01e38ae60f5527562be5c2d2bee11d666a25759))  - (renovate[bot])
+- Update submodule ([#1498](https://github.com/tj-actions/changed-files/issues/1498)) ([eed6844](https://github.com/tj-actions/changed-files/commit/eed6844f8b8930b86537b173c0c545d73fdf2177))  - (Tonye Jack)
+- Update warning message ([#1497](https://github.com/tj-actions/changed-files/issues/1497)) ([f6e73eb](https://github.com/tj-actions/changed-files/commit/f6e73eb5b610c261657b2de25ec64c4252069608))  - (Tonye Jack)
+- **deps:** Update dependency eslint to v8.48.0 ([34c9fcc](https://github.com/tj-actions/changed-files/commit/34c9fcc96ac0a5d0be0519ed91e3f625c9b8ad09))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v38.1.1 ([#1495](https://github.com/tj-actions/changed-files/issues/1495))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([3034ed7](https://github.com/tj-actions/changed-files/commit/3034ed7851a1bae2de6ae8f20e9c9890917b859a))  - (tj-actions[bot])
+
 # [38.1.1](https://github.com/tj-actions/changed-files/compare/v38.1.0...v38.1.1) - (2023-08-25)
 
 ## <!-- 16 -->➕ Add
