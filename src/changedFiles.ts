@@ -118,13 +118,15 @@ export const getAllDiffFiles = async ({
   hasSubmodule,
   diffResult,
   submodulePaths,
-  outputRenamedFilesAsDeletedAndAdded
+  outputRenamedFilesAsDeletedAndAdded,
+  fetchSubmoduleHistory
 }: {
   workingDirectory: string
   hasSubmodule: boolean
   diffResult: DiffResult
   submodulePaths: string[]
   outputRenamedFilesAsDeletedAndAdded: boolean
+  fetchSubmoduleHistory: boolean
 }): Promise<ChangedFiles> => {
   const files = await getAllChangedFiles({
     cwd: workingDirectory,
@@ -160,9 +162,11 @@ export const getAllDiffFiles = async ({
             diff
           }))
         ) {
-          core.warning(
-            `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}, Note you can control the fetch depth using 'fetch_depth' input`
-          )
+          let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
+          if (fetchSubmoduleHistory) {
+            message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`
+          }
+          core.warning(message)
           diff = '..'
         }
 
