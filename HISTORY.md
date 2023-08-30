@@ -1,5 +1,49 @@
 # Changelog
 
+# [38.2.0](https://github.com/tj-actions/changed-files/compare/v38.1.3...v38.2.0) - (2023-08-30)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for failing on error ([#1511](https://github.com/tj-actions/changed-files/issues/1511)) ([f1b3c2f](https://github.com/tj-actions/changed-files/commit/f1b3c2fa8b5692e972e331fdd79882d38273972c))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency yaml to v2.3.2 ([7555f14](https://github.com/tj-actions/changed-files/commit/7555f14f918691d9063483ad675c79b69b47adcd))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([b1c183b](https://github.com/tj-actions/changed-files/commit/b1c183b83c74c3f32fb9bb133284a41b10553736))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1514](https://github.com/tj-actions/changed-files/issues/1514))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([50f6234](https://github.com/tj-actions/changed-files/commit/50f623482f13ff783ea3495d9c9a106d8f17d2ff))  - (tj-actions[bot])
+- Update README.md ([2e0f79f](https://github.com/tj-actions/changed-files/commit/2e0f79f8b6a541bee4a978276043a311172d0dc2))  - (Tonye Jack)
+- Updated README.md ([#1513](https://github.com/tj-actions/changed-files/issues/1513))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([308cb3d](https://github.com/tj-actions/changed-files/commit/308cb3daf981b614d1eb8f01ba365f9d478fb50d))  - (tj-actions[bot])
+- Updated README.md ([#1510](https://github.com/tj-actions/changed-files/issues/1510))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2f6d66a](https://github.com/tj-actions/changed-files/commit/2f6d66af9db64309ccb993e5969f61d180c9d5ff))  - (tj-actions[bot])
+- Update README.md ([ef21b84](https://github.com/tj-actions/changed-files/commit/ef21b845077a6a12523c59bee84fab2847a3c6ed))  - (Tonye Jack)
+- Update README.md ([c9dd672](https://github.com/tj-actions/changed-files/commit/c9dd6721cf288da7c7c5d06f78cb27e66d7d8279))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/uuid to v9.0.3 ([#1512](https://github.com/tj-actions/changed-files/issues/1512)) ([0fc9663](https://github.com/tj-actions/changed-files/commit/0fc9663aa70243d87319dbd32fd926344d18d38f))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.0.3 ([4285197](https://github.com/tj-actions/changed-files/commit/428519788bc9daeb52f4031e6be46b6a8b42d57a))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v4.10.0 ([522df62](https://github.com/tj-actions/changed-files/commit/522df62704d7d3a82510f5b1af9bcac3e8c95a60))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.5.0 ([d35b677](https://github.com/tj-actions/changed-files/commit/d35b677f4bef732191226506c4e785f7dfea2cd0))  - (renovate[bot])
+- **deps:** Lock file maintenance ([bc2a793](https://github.com/tj-actions/changed-files/commit/bc2a7930225604ad9877b568ec5bb044d0b1f59c))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v38.1.3 ([#1503](https://github.com/tj-actions/changed-files/issues/1503))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([a40e52b](https://github.com/tj-actions/changed-files/commit/a40e52b504ccee766d2304f1b5ff1aeba55a832e))  - (tj-actions[bot])
+
 # [38.1.3](https://github.com/tj-actions/changed-files/compare/v38.1.2...v38.1.3) - (2023-08-26)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
