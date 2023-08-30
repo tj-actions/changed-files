@@ -191,7 +191,9 @@ const getChangedFilesFromLocalGit = async ({
     diffResult,
     submodulePaths,
     outputRenamedFilesAsDeletedAndAdded,
-    fetchSubmoduleHistory: inputs.fetchSubmoduleHistory
+    fetchSubmoduleHistory: inputs.fetchSubmoduleHistory,
+    failOnInitialDiffError: inputs.failOnInitialDiffError,
+    failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError
   })
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')

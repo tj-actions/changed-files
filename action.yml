@@ -188,6 +188,14 @@ inputs:
     description: "Github API URL."
     required: false
     default: ${{ github.api_url }}
+  fail_on_initial_diff_error:
+    description: "Fail when the initial diff fails."
+    required: false
+    default: "false"
+  fail_on_submodule_diff_error:
+    description: "Fail when the submodule diff fails."
+    required: false
+    default: "false"
 
 outputs:
   added_files:
