@@ -21,7 +21,7 @@ Effortlessly track all changed files and directories relative to a target branch
 
 *   [Features 🚀](#features-)
 *   [Usage 💻](#usage-)
-    *   [On `pull_request` ➕](#on-pull_request-)
+    *   [On `pull_request` 🔀](#on-pull_request-)
         *   [Using local .git history 📁](#using-local-git-history-)
         *   [Using Github's API :octocat:](#using-githubs-api-octocat)
     *   [On `push` ⬆️](#on-push-️)
