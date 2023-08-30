@@ -490,6 +490,8 @@ export const gitRenamedFiles = async ({
  * @param isSubmodule - is the repo a submodule
  * @param parentDir - parent directory of the submodule
  * @param outputRenamedFilesAsDeletedAndAdded - output renamed files as deleted and added
+ * @param failOnInitialDiffError - fail if the initial diff fails
+ * @param failOnSubmoduleDiffError - fail if the submodule diff fails
  */
 export const getAllChangedFiles = async ({
   cwd,
@@ -498,7 +500,9 @@ export const getAllChangedFiles = async ({
   diff,
   isSubmodule = false,
   parentDir = '',
-  outputRenamedFilesAsDeletedAndAdded = false
+  outputRenamedFilesAsDeletedAndAdded = false,
+  failOnInitialDiffError = false,
+  failOnSubmoduleDiffError = false
 }: {
   cwd: string
   sha1: string
@@ -507,6 +511,8 @@ export const getAllChangedFiles = async ({
   isSubmodule?: boolean
   parentDir?: string
   outputRenamedFilesAsDeletedAndAdded?: boolean
+  failOnInitialDiffError?: boolean
+  failOnSubmoduleDiffError?: boolean
 }): Promise<ChangedFiles> => {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(
     'git',
@@ -532,6 +538,18 @@ export const getAllChangedFiles = async ({
     [ChangeTypeEnum.TypeChanged]: [],
     [ChangeTypeEnum.Unmerged]: [],
     [ChangeTypeEnum.Unknown]: []
+  }
+
+  if (exitCode !== 0) {
+    if (failOnInitialDiffError && !isSubmodule) {
+      throw new Error(
+        `Failed to get changed files between: ${sha1}${diff}${sha2}: ${stderr}`
+      )
+    } else if (failOnSubmoduleDiffError && isSubmodule) {
+      throw new Error(
+        `Failed to get changed files for submodule between: ${sha1}${diff}${sha2}: ${stderr}`
+      )
+    }
   }
 
   if (exitCode !== 0) {
