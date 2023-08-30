@@ -27,7 +27,7 @@ Effortlessly track all changed files and directories relative to a target branch
     *   [On `push`](#on-push)
 *   [Useful Acronyms](#useful-acronyms)
 *   [Outputs](#outputs)
-*   [Inputs](#inputs)
+*   [Inputs ⚙️](#inputs)
 *   [Versioning](#versioning)
 *   [Examples](#examples)
 *   [Real-world usage](#real-world-usage)
@@ -39,7 +39,7 @@ Effortlessly track all changed files and directories relative to a target branch
 *   [Report Bugs](#report-bugs)
 *   [Contributors ✨](#contributors-)
 
-## Features
+## Features 🚀
 
 *   Fast execution, averaging 0-10 seconds.
 *   Leverages either [Github's REST API](https://docs.github.com/en/rest/reference/repos#list-commits) or [Git's native diff](https://git-scm.com/docs/git-diff) to determine changed files.
@@ -74,7 +74,7 @@ Effortlessly track all changed files and directories relative to a target branch
 
 And many more...
 
-## Usage
+## Usage 💻
 
 > **Warning**
 >
@@ -88,7 +88,7 @@ Visit the [discussions for more information](https://github.com/tj-actions/chang
 
 ### On `pull_request`
 
-#### Using local .git history
+#### Using local .git history 📁
 
 ```yaml
 name: CI
@@ -170,7 +170,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 ```
 
-#### Using Github's API
+#### Using Github's API :octocat:
 
 ```yaml
 name: CI
@@ -287,7 +287,7 @@ Support this project with a :star:
 
 [buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png
 
-## Useful Acronyms
+## Useful Acronyms 🧮
 
 |  Acronym  |   Meaning    |
 |:---------:|:------------:|
@@ -304,7 +304,7 @@ Support this project with a :star:
 >
 > *   When using `files_yaml*` inputs ensure all outputs are prefixed by the key `test_{...}` e.g. `test_added_files`, `test_any_changed`
 
-## Outputs
+## Outputs 📤
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
@@ -349,7 +349,7 @@ Support this project with a :star:
 
 <!-- AUTO-DOC-OUTPUT:END -->
 
-## Inputs
+## Inputs ⚙️
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
@@ -405,7 +405,7 @@ Support this project with a :star:
 
 <!-- AUTO-DOC-INPUT:END -->
 
-## Versioning
+## Versioning 🏷️
 
 This GitHub Action follows the principles of [Semantic Versioning](https://semver.org) for versioning releases.
 
@@ -417,7 +417,7 @@ The format of the version string is as follows:
 
 *   patch: indicates bug fixes or other small changes that are backward compatible.
 
-## Examples
+## Examples 📄
 
 <details>
 <summary>Get all changed files in the current branch</summary>
@@ -893,9 +893,9 @@ See [inputs](#inputs) for more information.
 
 </details>
 
-## Real-world usage
+## Real-world usage 🌐
 
-### Open source projects
+### Open source projects 📦
 
 *   [vitejs/vite: uses tj-actions/changed-files to automate testing](https://github.com/vitejs/vite/blob/8da04227d6f818a8ad9efc0056101968037c2e36/.github/workflows/ci.yml#L61)
 
@@ -917,11 +917,11 @@ See [inputs](#inputs) for more information.
 
 And many more...
 
-### Scalability Example
+### Scalability Example 📈
 
 ![image](https://github.com/tj-actions/changed-files/assets/17484350/23767413-4c51-42fb-ab1c-39ef72c44904)
 
-## Known Limitation
+## Known Limitation ⚠️
 
 > **Warning**
 >
@@ -930,7 +930,7 @@ And many more...
 >
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
 
-## Migration guide
+## Migration guide 🔄
 
 With the switch from using grep's Extended regex to match files to the natively supported workflow glob pattern matching syntax introduced in [v13](https://github.com/tj-actions/changed-files/releases/tag/v13) you'll need to modify patterns used to match `files`.
 
@@ -950,7 +950,7 @@ With the switch from using grep's Extended regex to match files to the natively 
 
 *   Free software: [MIT license](LICENSE)
 
-## Credits
+## Credits 👏
 
 This package was created with [cookiecutter-action](https://github.com/tj-actions/cookiecutter-action).
 
@@ -961,7 +961,7 @@ This package was created with [cookiecutter-action](https://github.com/tj-action
 *   [tj-actions/demo3](https://github.com/tj-actions/demo3)
 *   [tj-actions/release-tagger](https://github.com/tj-actions/release-tagger)
 
-## Report Bugs
+## Report Bugs 🐛
 
 Report bugs at https://github.com/tj-actions/changed-files/issues.
 
