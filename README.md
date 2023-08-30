@@ -86,7 +86,7 @@ And many more...
 
 Visit the [discussions for more information](https://github.com/tj-actions/changed-files/discussions) or [create a new discussion](https://github.com/tj-actions/changed-files/discussions/new/choose) for usage-related questions.
 
-### On `pull_request`
+### On `pull_request` ➕
 
 #### Using local .git history 📁
 
@@ -207,7 +207,7 @@ jobs:
           done
 ```
 
-### On `push`
+### On `push` ⬆️
 
 ```yaml
 name: CI
