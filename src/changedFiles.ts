@@ -121,7 +121,9 @@ export const getAllDiffFiles = async ({
   diffResult,
   submodulePaths,
   outputRenamedFilesAsDeletedAndAdded,
-  fetchSubmoduleHistory
+  fetchSubmoduleHistory,
+  failOnInitialDiffError,
+  failOnSubmoduleDiffError
 }: {
   workingDirectory: string
   hasSubmodule: boolean
@@ -129,13 +131,16 @@ export const getAllDiffFiles = async ({
   submodulePaths: string[]
   outputRenamedFilesAsDeletedAndAdded: boolean
   fetchSubmoduleHistory: boolean
+  failOnInitialDiffError: boolean
+  failOnSubmoduleDiffError: boolean
 }): Promise<ChangedFiles> => {
   const files = await getAllChangedFiles({
     cwd: workingDirectory,
     sha1: diffResult.previousSha,
     sha2: diffResult.currentSha,
     diff: diffResult.diff,
-    outputRenamedFilesAsDeletedAndAdded
+    outputRenamedFilesAsDeletedAndAdded,
+    failOnInitialDiffError
   })
 
   if (hasSubmodule) {
@@ -179,7 +184,8 @@ export const getAllDiffFiles = async ({
           diff,
           isSubmodule: true,
           parentDir: submodulePath,
-          outputRenamedFilesAsDeletedAndAdded
+          outputRenamedFilesAsDeletedAndAdded,
+          failOnSubmoduleDiffError
         })
 
         for (const changeType of Object.keys(

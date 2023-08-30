@@ -125,13 +125,14 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchSubmoduleHistory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) => __awaiter(void 0, void 0, void 0, function* () {
     const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
         sha2: diffResult.currentSha,
         diff: diffResult.diff,
-        outputRenamedFilesAsDeletedAndAdded
+        outputRenamedFilesAsDeletedAndAdded,
+        failOnInitialDiffError
     });
     if (hasSubmodule) {
         for (const submodulePath of submodulePaths) {
@@ -165,7 +166,8 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
                     diff,
                     isSubmodule: true,
                     parentDir: submodulePath,
-                    outputRenamedFilesAsDeletedAndAdded
+                    outputRenamedFilesAsDeletedAndAdded,
+                    failOnSubmoduleDiffError
                 });
                 for (const changeType of Object.keys(submoduleFiles)) {
                     if (!files[changeType]) {
@@ -1331,6 +1333,12 @@ const getInputs = () => {
     const fetchSubmoduleHistory = core.getBooleanInput('fetch_additional_submodule_history', {
         required: false
     });
+    const failOnInitialDiffError = core.getBooleanInput('fail_on_initial_diff_error', {
+        required: false
+    });
+    const failOnSubmoduleDiffError = core.getBooleanInput('fail_on_submodule_diff_error', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1346,6 +1354,8 @@ const getInputs = () => {
         filesIgnoreYaml,
         filesIgnoreYamlFromSourceFile,
         filesIgnoreYamlFromSourceFileSeparator,
+        failOnInitialDiffError,
+        failOnSubmoduleDiffError,
         separator,
         // Not Supported via REST API
         sha,
@@ -1541,7 +1551,9 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
         diffResult,
         submodulePaths,
         outputRenamedFilesAsDeletedAndAdded,
-        fetchSubmoduleHistory: inputs.fetchSubmoduleHistory
+        fetchSubmoduleHistory: inputs.fetchSubmoduleHistory,
+        failOnInitialDiffError: inputs.failOnInitialDiffError,
+        failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
@@ -2114,8 +2126,10 @@ exports.gitRenamedFiles = gitRenamedFiles;
  * @param isSubmodule - is the repo a submodule
  * @param parentDir - parent directory of the submodule
  * @param outputRenamedFilesAsDeletedAndAdded - output renamed files as deleted and added
+ * @param failOnInitialDiffError - fail if the initial diff fails
+ * @param failOnSubmoduleDiffError - fail if the submodule diff fails
  */
-const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false, failOnInitialDiffError = false, failOnSubmoduleDiffError = false }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
         '--name-status',
@@ -2137,6 +2151,14 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
         [changedFiles_1.ChangeTypeEnum.Unmerged]: [],
         [changedFiles_1.ChangeTypeEnum.Unknown]: []
     };
+    if (exitCode !== 0) {
+        if (failOnInitialDiffError && !isSubmodule) {
+            throw new Error(`Failed to get changed files between: ${sha1}${diff}${sha2}: ${stderr}`);
+        }
+        else if (failOnSubmoduleDiffError && isSubmodule) {
+            throw new Error(`Failed to get changed files for submodule between: ${sha1}${diff}${sha2}: ${stderr}`);
+        }
+    }
     if (exitCode !== 0) {
         if (isSubmodule) {
             core.warning(stderr ||

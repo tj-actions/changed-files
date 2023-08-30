@@ -48,6 +48,8 @@ export type Inputs = {
   token: string
   apiUrl: string
   skipInitialFetch: boolean
+  failOnInitialDiffError: boolean
+  failOnSubmoduleDiffError: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -196,6 +198,18 @@ export const getInputs = (): Inputs => {
       required: false
     }
   )
+  const failOnInitialDiffError = core.getBooleanInput(
+    'fail_on_initial_diff_error',
+    {
+      required: false
+    }
+  )
+  const failOnSubmoduleDiffError = core.getBooleanInput(
+    'fail_on_submodule_diff_error',
+    {
+      required: false
+    }
+  )
 
   const inputs: Inputs = {
     files,
@@ -212,6 +226,8 @@ export const getInputs = (): Inputs => {
     filesIgnoreYaml,
     filesIgnoreYamlFromSourceFile,
     filesIgnoreYamlFromSourceFileSeparator,
+    failOnInitialDiffError,
+    failOnSubmoduleDiffError,
     separator,
     // Not Supported via REST API
     sha,
