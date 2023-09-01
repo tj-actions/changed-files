@@ -997,7 +997,7 @@ export const getFilePatterns = async ({
       } else {
         const pathParts = pattern.split('/')
         const lastPart = pathParts[pathParts.length - 1]
-        if (!lastPart.includes('.') && !lastPart.includes('*')) {
+        if (!lastPart.includes('.')) {
           return `${pattern}/**`
         } else {
           return pattern
