@@ -1037,7 +1037,13 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 (previousSha &&
                     (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
                         0)) {
-                core.warning('Unable to locate the remote branch head sha. Falling back to the previous commit in the local history.');
+                if (github.context.payload.action &&
+                    github.context.payload.action === 'synchronize') {
+                    core.warning('Unable to locate the remote branch head sha. Falling back to the previous commit in the local history.');
+                }
+                else {
+                    core.info(`Unable to locate the remote branch head sha for ${github.context.eventName} (${github.context.payload.action}) events. Falling back to the previous commit in the local history.`);
+                }
                 previousSha = yield (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
