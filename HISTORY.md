@@ -1,5 +1,37 @@
 # Changelog
 
+# [38.2.1](https://github.com/tj-actions/changed-files/compare/v38.2.0...v38.2.1) - (2023-09-01)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug matching patterns ([#1520](https://github.com/tj-actions/changed-files/issues/1520)) ([8476756](https://github.com/tj-actions/changed-files/commit/8476756ae3363aa4c10685f8804636de76aee77c))  - (Tonye Jack)
+
+## <!-- 17 -->➖ Remove
+
+- Deleted .github/ISSUE_TEMPLATE/feature_request.yaml ([4fac98a](https://github.com/tj-actions/changed-files/commit/4fac98a65655335ee89759e4c87d265b0114e15c))  - (Tonye Jack)
+- Deleted .github/ISSUE_TEMPLATE/bug_report.yaml ([bed56b2](https://github.com/tj-actions/changed-files/commit/bed56b29b814ce968175396abd67152a01b3a722))  - (Tonye Jack)
+- Delete FUNDING.yml ([c3ceccf](https://github.com/tj-actions/changed-files/commit/c3ceccf9bce227317f59ed99512b300e0aa6c2ae))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update bug_report.yaml ([2338e28](https://github.com/tj-actions/changed-files/commit/2338e28eefcb81d8c25c7e6ca50543f53f60446b))  - (Tonye Jack)
+- Update bug_report.yaml ([d4eb53d](https://github.com/tj-actions/changed-files/commit/d4eb53db66ce407e266022c530dec9703cdffd3d))  - (Tonye Jack)
+- Update bug_report.yaml ([8f777bb](https://github.com/tj-actions/changed-files/commit/8f777bbc0dbc0dfc6994d2c93114bfb970d95e61))  - (Tonye Jack)
+- Update bug_report.yaml ([7d256b9](https://github.com/tj-actions/changed-files/commit/7d256b941a1ffb4dea0a5f3b7a3a34b6fe962e4c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update warning message ([#1521](https://github.com/tj-actions/changed-files/issues/1521)) ([2f7246c](https://github.com/tj-actions/changed-files/commit/2f7246cb26e8bb6709b6cbfc1fec7febfe82e96a))  - (Tonye Jack)
+- **deps:** Bump test/demo from `8bbc726` to `5dfac2e` ([#1518](https://github.com/tj-actions/changed-files/issues/1518)) ([d90c240](https://github.com/tj-actions/changed-files/commit/d90c240f2ad4ec04d8f0f48e5ac290ad96ebe850))  - (dependabot[bot])
+- **deps:** Lock file maintenance ([3be651e](https://github.com/tj-actions/changed-files/commit/3be651e99d3d4eae395694f6c6f3b9d18457f6c8))  - (renovate[bot])
+- **deps:** Lock file maintenance ([c899288](https://github.com/tj-actions/changed-files/commit/c89928824ff66dd05ee32708cd6228b6d65c9405))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v38.2.0 ([#1515](https://github.com/tj-actions/changed-files/issues/1515))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([047f654](https://github.com/tj-actions/changed-files/commit/047f65464639f7d9b9efefea74419be4c0b50b5f))  - (tj-actions[bot])
+
 # [38.2.0](https://github.com/tj-actions/changed-files/compare/v38.1.3...v38.2.0) - (2023-08-30)
 
 ## <!-- 0 -->🚀 Features
