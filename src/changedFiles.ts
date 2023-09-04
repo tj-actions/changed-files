@@ -268,13 +268,15 @@ export const getChangeTypeFiles = async ({
   inputs: Inputs
   changedFiles: ChangedFiles
   changeTypes: ChangeTypeEnum[]
-}): Promise<{paths: string; count: string}> => {
+}): Promise<{paths: string[] | string; count: string}> => {
   const files = [
     ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))
   ].filter(Boolean)
 
+  const paths = inputs.json ? files : files.join(inputs.separator)
+
   return {
-    paths: files.join(inputs.separator),
+    paths,
     count: files.length.toString()
   }
 }
