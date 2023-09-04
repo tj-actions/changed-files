@@ -312,20 +312,15 @@ export const getAllChangeTypeFiles = async ({
 }: {
   inputs: Inputs
   changedFiles: ChangedFiles
-}): Promise<{paths: string; count: string}> => {
+}): Promise<{paths: string[] | string; count: string}> => {
   const files = [
     ...new Set(getAllChangeTypeFilesGenerator({inputs, changedFiles}))
   ].filter(Boolean)
 
-  if (inputs.json) {
-    return {
-      paths: jsonOutput({value: files, shouldEscape: inputs.escapeJson}),
-      count: files.length.toString()
-    }
-  }
+  const paths = inputs.json ? files : files.join(inputs.separator)
 
   return {
-    paths: files.join(inputs.separator),
+    paths,
     count: files.length.toString()
   }
 }
