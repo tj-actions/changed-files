@@ -34,7 +34,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('added_files', outputPrefix),
     value: addedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
   await setOutput({
     key: getOutputKey('added_files_count', outputPrefix),
@@ -51,7 +52,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('copied_files', outputPrefix),
     value: copiedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -69,7 +71,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('modified_files', outputPrefix),
     value: modifiedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -87,7 +90,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('renamed_files', outputPrefix),
     value: renamedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -105,7 +109,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('type_changed_files', outputPrefix),
     value: typeChangedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -123,7 +128,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('unmerged_files', outputPrefix),
     value: unmergedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -141,7 +147,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('unknown_files', outputPrefix),
     value: unknownFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -162,7 +169,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('all_changed_and_modified_files', outputPrefix),
     value: allChangedAndModifiedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -185,7 +193,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('all_changed_files', outputPrefix),
     value: allChangedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -233,7 +242,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('other_changed_files', outputPrefix),
     value: otherChangedFiles.join(inputs.separator),
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -257,7 +267,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('all_modified_files', outputPrefix),
     value: allModifiedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -305,7 +316,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('other_modified_files', outputPrefix),
     value: otherModifiedFiles.join(inputs.separator),
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -323,7 +335,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('deleted_files', outputPrefix),
     value: deletedFiles.paths,
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({
@@ -364,7 +377,8 @@ export const setChangedFilesOutput = async ({
   await setOutput({
     key: getOutputKey('other_deleted_files', outputPrefix),
     value: otherDeletedFiles.join(inputs.separator),
-    inputs
+    inputs,
+    shouldEscape: inputs.escapeJson
   })
 
   await setOutput({

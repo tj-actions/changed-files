@@ -273,13 +273,6 @@ export const getChangeTypeFiles = async ({
     ...new Set(getChangeTypeFilesGenerator({inputs, changedFiles, changeTypes}))
   ].filter(Boolean)
 
-  if (inputs.json) {
-    return {
-      paths: jsonOutput({value: files, shouldEscape: inputs.escapeJson}),
-      count: files.length.toString()
-    }
-  }
-
   return {
     paths: files.join(inputs.separator),
     count: files.length.toString()

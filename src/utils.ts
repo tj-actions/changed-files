@@ -892,7 +892,7 @@ export const jsonOutput = ({
   value,
   shouldEscape
 }: {
-  value: string | string[]
+  value: string | string[] | boolean
   shouldEscape: boolean
 }): string => {
   const result = JSON.stringify(value)
@@ -1226,13 +1226,21 @@ export const getRecoverFilePatterns = ({
 export const setOutput = async ({
   key,
   value,
-  inputs
+  inputs,
+  shouldEscape = false
 }: {
   key: string
-  value: string | boolean
+  value: string | string[] | boolean
   inputs: Inputs
+  shouldEscape?: boolean
 }): Promise<void> => {
-  const cleanedValue = value.toString().trim()
+  let cleanedValue
+  if (inputs.json) {
+    cleanedValue = jsonOutput({value, shouldEscape})
+  } else {
+    cleanedValue = value.toString().trim()
+  }
+
   core.setOutput(key, cleanedValue)
 
   if (inputs.writeOutputFiles) {
