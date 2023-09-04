@@ -26,6 +26,7 @@ jobs:
         id: sync-release-package-version
         with:
           pattern: '"version": "'
+          strip_prefix: "v"
           paths: |
             package.json
       - name: Run git-cliff
