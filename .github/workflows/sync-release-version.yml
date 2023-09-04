@@ -21,6 +21,13 @@ jobs:
           only_major: true
           paths: |
             README.md
+      - name: Sync release package version.
+        uses: tj-actions/sync-release-version@v13
+        id: sync-release-package-version
+        with:
+          pattern: '"version": "'
+          paths: |
+            package.json
       - name: Run git-cliff
         uses: tj-actions/git-cliff@v1
       - name: Create Pull Request
