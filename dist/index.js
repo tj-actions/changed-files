@@ -220,8 +220,9 @@ const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(
     const files = [
         ...new Set(getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }))
     ].filter(Boolean);
+    const paths = inputs.json ? files : files.join(inputs.separator);
     return {
-        paths: files.join(inputs.separator),
+        paths,
         count: files.length.toString()
     };
 });
@@ -366,6 +367,9 @@ const changedFiles_1 = __nccwpck_require__(7358);
 const utils_1 = __nccwpck_require__(918);
 const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
+};
+const getArrayFromPaths = (paths, inputs) => {
+    return Array.isArray(paths) ? paths : paths.split(inputs.separator);
 };
 const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
@@ -541,9 +545,9 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
         ]
     });
     core.debug(`All other changed files: ${JSON.stringify(allOtherChangedFiles)}`);
-    const otherChangedFiles = allOtherChangedFiles.paths
-        .split(inputs.separator)
-        .filter((filePath) => !allChangedFiles.paths.split(inputs.separator).includes(filePath));
+    const allOtherChangedFilesPaths = getArrayFromPaths(allOtherChangedFiles.paths, inputs);
+    const allChangedFilesPaths = getArrayFromPaths(allChangedFiles.paths, inputs);
+    const otherChangedFiles = allOtherChangedFilesPaths.filter((filePath) => !allChangedFilesPaths.includes(filePath));
     const onlyChanged = otherChangedFiles.length === 0 &&
         allChangedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -602,9 +606,9 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
             changedFiles_1.ChangeTypeEnum.Deleted
         ]
     });
-    const otherModifiedFiles = allOtherModifiedFiles.paths
-        .split(inputs.separator)
-        .filter((filePath) => !allModifiedFiles.paths.split(inputs.separator).includes(filePath));
+    const allOtherModifiedFilesPaths = getArrayFromPaths(allOtherModifiedFiles.paths, inputs);
+    const allModifiedFilesPaths = getArrayFromPaths(allModifiedFiles.paths, inputs);
+    const otherModifiedFiles = allOtherModifiedFilesPaths.filter((filePath) => !allModifiedFilesPaths.includes(filePath));
     const onlyModified = otherModifiedFiles.length === 0 &&
         allModifiedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -651,9 +655,9 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
         changedFiles: allDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
     });
-    const otherDeletedFiles = allOtherDeletedFiles.paths
-        .split(inputs.separator)
-        .filter(filePath => !deletedFiles.paths.split(inputs.separator).includes(filePath));
+    const allOtherDeletedFilesPaths = getArrayFromPaths(allOtherDeletedFiles.paths, inputs);
+    const deletedFilesPaths = getArrayFromPaths(deletedFiles.paths, inputs);
+    const otherDeletedFiles = allOtherDeletedFilesPaths.filter(filePath => !deletedFilesPaths.includes(filePath));
     const onlyDeleted = otherDeletedFiles.length === 0 &&
         deletedFiles.paths.length > 0 &&
         filePatterns.length > 0;
