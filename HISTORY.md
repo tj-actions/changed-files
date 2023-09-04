@@ -1,5 +1,28 @@
 # Changelog
 
+# [38.2.2](https://github.com/tj-actions/changed-files/compare/v38.2.1...v38.2.2) - (2023-09-04)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with outputs when json is set to true ([#1531](https://github.com/tj-actions/changed-files/issues/1531)) ([8d335b7](https://github.com/tj-actions/changed-files/commit/8d335b7b7dd078ea984daff751cca794ed2e3f55))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([1aee362](https://github.com/tj-actions/changed-files/commit/1aee3621b1c10305ee778298fcf32324684e5448))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.6.0 ([fd460fa](https://github.com/tj-actions/changed-files/commit/fd460fa3ba5a11b8fde158a65d59d764c344878e))  - (renovate[bot])
+- **deps:** Update actions/checkout action to v4 ([#1527](https://github.com/tj-actions/changed-files/issues/1527)) ([5b84ed2](https://github.com/tj-actions/changed-files/commit/5b84ed26a3cc4c8a3f72c23739e361226a1c3773))  - (renovate[bot])
+- **deps:** Lock file maintenance ([e03c026](https://github.com/tj-actions/changed-files/commit/e03c026bf43272cfd653bdebb67d53eefa7e381c))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.5.9 ([5704310](https://github.com/tj-actions/changed-files/commit/5704310356f399321c158190d53b4862c1adcdcd))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.5.8 ([c922361](https://github.com/tj-actions/changed-files/commit/c922361eb2e5315d71b2b0ce26a3ce1919ae0725))  - (renovate[bot])
+- **deps:** Lock file maintenance ([79d644d](https://github.com/tj-actions/changed-files/commit/79d644d1a2bc9ca4316052da1b06e73cde530d09))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v38.2.1 ([#1523](https://github.com/tj-actions/changed-files/issues/1523))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([48576e6](https://github.com/tj-actions/changed-files/commit/48576e65843bb9b05d25cac69fe8b1c142a9485a))  - (tj-actions[bot])
+
 # [38.2.1](https://github.com/tj-actions/changed-files/compare/v38.2.0...v38.2.1) - (2023-09-01)
 
 ## <!-- 1 -->🐛 Bug Fixes
