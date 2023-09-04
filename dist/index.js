@@ -584,7 +584,9 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
     });
     yield (0, utils_1.setOutput)({
         key: getOutputKey('other_changed_files', outputPrefix),
-        value: otherChangedFiles.join(inputs.separator),
+        value: inputs.json
+            ? otherChangedFiles
+            : otherChangedFiles.join(inputs.separator),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json,
@@ -655,7 +657,9 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
     });
     yield (0, utils_1.setOutput)({
         key: getOutputKey('other_modified_files', outputPrefix),
-        value: otherModifiedFiles.join(inputs.separator),
+        value: inputs.json
+            ? otherModifiedFiles
+            : otherModifiedFiles.join(inputs.separator),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json,
@@ -714,7 +718,9 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
     });
     yield (0, utils_1.setOutput)({
         key: getOutputKey('other_deleted_files', outputPrefix),
-        value: otherDeletedFiles.join(inputs.separator),
+        value: inputs.json
+            ? otherDeletedFiles
+            : otherDeletedFiles.join(inputs.separator),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json,
