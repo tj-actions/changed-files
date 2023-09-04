@@ -1226,16 +1226,20 @@ export const getRecoverFilePatterns = ({
 export const setOutput = async ({
   key,
   value,
-  inputs,
+  writeOutputFiles,
+  outputDir,
+  json,
   shouldEscape = false
 }: {
   key: string
   value: string | string[] | boolean
-  inputs: Inputs
   shouldEscape?: boolean
+  writeOutputFiles: boolean
+  outputDir: string
+  json: boolean
 }): Promise<void> => {
   let cleanedValue
-  if (inputs.json) {
+  if (json) {
     cleanedValue = jsonOutput({value, shouldEscape})
   } else {
     cleanedValue = value.toString().trim()
@@ -1243,9 +1247,8 @@ export const setOutput = async ({
 
   core.setOutput(key, cleanedValue)
 
-  if (inputs.writeOutputFiles) {
-    const outputDir = inputs.outputDir
-    const extension = inputs.json ? 'json' : 'txt'
+  if (writeOutputFiles) {
+    const extension = json ? 'json' : 'txt'
     const outputFilePath = path.join(outputDir, `${key}.${extension}`)
 
     if (!(await exists(outputDir))) {
