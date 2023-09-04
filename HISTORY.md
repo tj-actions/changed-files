@@ -1,5 +1,23 @@
 # Changelog
 
+# [39.0.0](https://github.com/tj-actions/changed-files/compare/v38.2.2...v39.0.0) - (2023-09-04)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([632c84d](https://github.com/tj-actions/changed-files/commit/632c84dcca8d5cbc35825d0cddfd0c2870886adc))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([d68a666](https://github.com/tj-actions/changed-files/commit/d68a6666bebcffa866de06e2468374eda79f6187))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Nodejs to v20 ([#1535](https://github.com/tj-actions/changed-files/issues/1535)) ([48566bb](https://github.com/tj-actions/changed-files/commit/48566bbcc22ceb7c5809ebdd27377309f2c3de8c))  - (Tonye Jack)
+- Upgraded to v38.2.2 ([#1533](https://github.com/tj-actions/changed-files/issues/1533))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([07660d5](https://github.com/tj-actions/changed-files/commit/07660d51a9f53df8dfaa952899fe3170cc8d7a1d))  - (tj-actions[bot])
+
 # [38.2.2](https://github.com/tj-actions/changed-files/compare/v38.2.1...v38.2.2) - (2023-09-04)
 
 ## <!-- 1 -->🐛 Bug Fixes
