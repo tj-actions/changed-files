@@ -1049,30 +1049,30 @@ jobs:
           exit 1
         shell:
           bash
-      - name: Run changed-files with unknown path and dir_names_include_files with specific files
-        id: changed-files-unknown-path-specific-include-files
+      - name: Run changed-files with dir_names for specific files and an unmatched path
+        id: changed-files-dir-names-specific-unmatched-path
         uses: ./
         with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
           dir_names: true
-          dir_names_include_files: unknown/*.txt
           files: unknown/**
           json: true
       - name: Show output
         run: |
-          echo '${{ toJSON(steps.changed-files-unknown-path-specific-include-files.outputs) }}'
+          echo '${{ toJSON(steps.changed-files-dir-names-specific-unmatched-path.outputs) }}'
         shell:
           bash
       - name: Check dir_names output
         if: |
           (
-            steps.changed-files-unknown-path-specific-include-files.outputs.all_changed_files != '[]' ||
-            steps.changed-files-unknown-path-specific-include-files.outputs.any_changed == 'true'
+            steps.changed-files-dir-names-specific-unmatched-path.outputs.all_changed_files != '[]' ||
+            steps.changed-files-dir-names-specific-unmatched-path.outputs.any_changed == 'true' ||
+            steps.changed-files-dir-names-specific-unmatched-path.outputs.all_changed_files_count != '0'
           )
         run: |
-          echo "Invalid output: Expected empty array and any_changed to be false got (${{ steps.changed-files-unknown-path-specific-include-files.outputs.all_changed_files }}) and (${{ steps.changed-files-unknown-path-specific-include-files.outputs.any_changed }})"
+          echo "Invalid output: Expected empty array and any_changed to be false got (${{ steps.changed-files-dir-names-specific-unmatched-path.outputs.all_changed_files }}) and (${{ steps.changed-files-dir-names-specific-unmatched-path.outputs.any_changed }})"
           exit 1
         shell:
           bash
