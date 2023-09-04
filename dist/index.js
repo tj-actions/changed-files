@@ -243,14 +243,9 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
     const files = [
         ...new Set(getAllChangeTypeFilesGenerator({ inputs, changedFiles }))
     ].filter(Boolean);
-    if (inputs.json) {
-        return {
-            paths: (0, utils_1.jsonOutput)({ value: files, shouldEscape: inputs.escapeJson }),
-            count: files.length.toString()
-        };
-    }
+    const paths = inputs.json ? files : files.join(inputs.separator);
     return {
-        paths: files.join(inputs.separator),
+        paths,
         count: files.length.toString()
     };
 });
