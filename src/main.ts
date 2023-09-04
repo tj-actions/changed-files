@@ -236,12 +236,16 @@ const getChangedFilesFromLocalGit = async ({
     await setOutput({
       key: 'all_old_new_renamed_files',
       value: allOldNewRenamedFiles.paths,
-      inputs
+      writeOutputFiles: inputs.writeOutputFiles,
+      outputDir: inputs.outputDir,
+      json: inputs.json
     })
     await setOutput({
       key: 'all_old_new_renamed_files_count',
       value: allOldNewRenamedFiles.count,
-      inputs
+      writeOutputFiles: inputs.writeOutputFiles,
+      outputDir: inputs.outputDir,
+      json: inputs.json
     })
     core.info('All Done!')
     core.endGroup()
