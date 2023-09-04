@@ -1228,15 +1228,15 @@ export const setOutput = async ({
   value,
   writeOutputFiles,
   outputDir,
-  json,
+  json = false,
   shouldEscape = false
 }: {
   key: string
   value: string | string[] | boolean
-  shouldEscape?: boolean
   writeOutputFiles: boolean
   outputDir: string
-  json: boolean
+  json?: boolean
+  shouldEscape?: boolean
 }): Promise<void> => {
   let cleanedValue
   if (json) {
