@@ -303,9 +303,7 @@ Support this project with a :star:
 > **Warning**
 >
 > *   When using `files_yaml*` inputs ensure all outputs are prefixed by the key `test_{...}` e.g. `test_added_files`, `test_any_changed`
-> *   All keys must start with a letter or _ and contain only alphanumeric characters, -, or _.
-
-
+> *   All keys must start with a letter or \_ and contain only alphanumeric characters, -, or \_.
 
 ## Outputs 📤
 
