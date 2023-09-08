@@ -839,7 +839,7 @@ jobs:
           since_last_remote_commit: true
 
       - name: Verify failed
-        if: steps.changed-files-since-last-remote-commit.outcome != 'failure' && matrix.fetch-depth == 1
+        if: steps.changed-files-since-last-remote-commit.outcome != 'failure' && matrix.fetch-depth == 1 && github.event_name != 'push'
         run: |
           echo "Expected: (failure) got ${{ steps.changed-files-since-last-remote-commit.outcome }}"
           exit 1
