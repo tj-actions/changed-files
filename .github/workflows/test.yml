@@ -821,7 +821,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
-#          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
           fetch-depth: ${{ matrix.fetch-depth }}
