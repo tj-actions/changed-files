@@ -427,7 +427,7 @@ export const getSHAForPullRequestEvent = async (
           github.context.payload.action === 'synchronize'
         ) {
           throw Error(
-            'Unable to locate the previous commit in the local history. Please ensure to [checkout pull request HEAD commit instead of merge commit](https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit)'
+            'Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit)'
           )
         } else {
           core.info(
