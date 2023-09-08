@@ -833,9 +833,22 @@ jobs:
 
       - name: Run changed-files with since_last_remote_commit
         id: changed-files-since-last-remote-commit
+        continue-on-error: true
         uses: ./
         with:
           since_last_remote_commit: true
+
+      - name: Verify failed
+        if: steps.changed-files-since-last-remote-commit.outcome != 'failure' && matrix.fetch-depth == 1
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files-since-last-remote-commit.outcome }}"
+          exit 1
+
+      - name: Verify succeeded
+        if: steps.changed-files-since-last-remote-commit.outcome != 'success' && matrix.fetch-depth != 1
+        run: |
+          echo "Expected: (success) got ${{ steps.changed-files-since-last-remote-commit.outcome }}"
+          exit 1
 
       - name: Show output
         run: |
