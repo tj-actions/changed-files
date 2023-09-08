@@ -383,6 +383,18 @@ jobs:
         shell:
           bash
 
+      - name: Run changed-files with since_last_remote_commit
+        id: changed-files-since-last-remote-commit
+        uses: ./
+        with:
+          since_last_remote_commit: true
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-since-last-remote-commit.outputs) }}'
+        shell:
+          bash
+
   test-pull-request-without-persist-credentials:
     name: Test changed-files with pull request without persist credentials
     runs-on: ubuntu-latest
