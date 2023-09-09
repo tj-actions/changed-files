@@ -1102,8 +1102,11 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             previousSha = github.context.payload.before;
             if (!previousSha ||
                 (previousSha &&
-                    (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
-                        0)) {
+                    (yield (0, utils_1.verifyCommitSha)({
+                        sha: previousSha,
+                        cwd: workingDirectory,
+                        showAsErrorMessage: false
+                    })) !== 0)) {
                 core.info(`Unable to locate the previous commit in the local history for ${github.context.eventName} (${github.context.payload.action}) event. Falling back to the previous commit in the local history.`);
                 previousSha = yield (0, utils_1.getParentSha)({
                     cwd: workingDirectory
