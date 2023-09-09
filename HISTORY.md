@@ -1,5 +1,44 @@
 # Changelog
 
+# [39.0.1](https://github.com/tj-actions/changed-files/compare/v39.0.0...v39.0.1) - (2023-09-09)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug returning empty output for pull request close event ([#1556](https://github.com/tj-actions/changed-files/issues/1556)) ([246636f](https://github.com/tj-actions/changed-files/commit/246636f5fa148b5ad8e65ca4c57b18af3123e5f6))  - (Tonye Jack)
+- Raise error when the previous sha cannot be determined and since_last_remote_commit is true ([#1554](https://github.com/tj-actions/changed-files/issues/1554)) ([523e8b6](https://github.com/tj-actions/changed-files/commit/523e8b6f11215082522b8e62c274b358f64422fa))  - (Tonye Jack)
+- Raise errors when unable to locate the previous commit in local history ([#1551](https://github.com/tj-actions/changed-files/issues/1551)) ([796ac2d](https://github.com/tj-actions/changed-files/commit/796ac2d08f9344cd0602d9bfe4a0393cdfda6ff7))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([fe0fb71](https://github.com/tj-actions/changed-files/commit/fe0fb71961c75e134247bf312ee383e33bc06156))  - (Tonye Jack)
+- Update README.md ([e60a7a9](https://github.com/tj-actions/changed-files/commit/e60a7a9173bef6e97132058dd044b946b197f9b6))  - (Tonye Jack)
+- Updated README.md ([#1548](https://github.com/tj-actions/changed-files/issues/1548))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([534262e](https://github.com/tj-actions/changed-files/commit/534262e0b262de5c56969bb66d47df047cba50ff))  - (tj-actions[bot])
+- Updated README.md ([#1546](https://github.com/tj-actions/changed-files/issues/1546))
+
+Co-authored-by: renovate[bot] <renovate[bot]@users.noreply.github.com> ([89cb9ea](https://github.com/tj-actions/changed-files/commit/89cb9ea919269ab73a63fbafb7aed58174e5e411))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update check ([#1555](https://github.com/tj-actions/changed-files/issues/1555)) ([81bb5d8](https://github.com/tj-actions/changed-files/commit/81bb5d895445a08f2e12fa348b88cd6aea2e94c4))  - (Tonye Jack)
+- **deps:** Update dependency eslint to v8.49.0 ([4a0a3c4](https://github.com/tj-actions/changed-files/commit/4a0a3c4aa538c8f49477d4306b29b349031685d8))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.6.0 ([9dfd3f6](https://github.com/tj-actions/changed-files/commit/9dfd3f686b90dc76c07e414be407ec7d43bf9e7f))  - (renovate[bot])
+- Update docs to site example ([#1547](https://github.com/tj-actions/changed-files/issues/1547)) ([673189f](https://github.com/tj-actions/changed-files/commit/673189f77bde91f43ac9301ef8ebcc4ce105358e))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([7113206](https://github.com/tj-actions/changed-files/commit/711320618723bac63c2926a9710f091acbbe736e))  - (renovate[bot])
+- Add warning on valid output keys ([#1544](https://github.com/tj-actions/changed-files/issues/1544)) ([926a3fd](https://github.com/tj-actions/changed-files/commit/926a3fd7779d0f54baac89dbb55d6302825ae6f9))  - (Tonye Jack)
+- **deps:** Update reviewdog/action-shellcheck action to v1.19 ([de23f62](https://github.com/tj-actions/changed-files/commit/de23f62d1eecad9116a04783c7f26d8885f0733b))  - (renovate[bot])
+- **deps:** Update dependency @vercel/ncc to ^0.38.0 ([afbabc4](https://github.com/tj-actions/changed-files/commit/afbabc4364fff08a6b98f3d686abae4217a7123f))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v21 ([#1539](https://github.com/tj-actions/changed-files/issues/1539)) ([eda0811](https://github.com/tj-actions/changed-files/commit/eda0811ed2364c6ea09da7989ab0e572f2f5fd61))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.198 ([bda67fc](https://github.com/tj-actions/changed-files/commit/bda67fc879fa09a72253e0ed6b5cffeac9f14f44))  - (renovate[bot])
+- Update sync-release-version.yml ([#1537](https://github.com/tj-actions/changed-files/issues/1537)) ([5a5d398](https://github.com/tj-actions/changed-files/commit/5a5d398e5fb9b4d2776feb62de64e396ecb74de8))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39 ([#1536](https://github.com/tj-actions/changed-files/issues/1536))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([f699bde](https://github.com/tj-actions/changed-files/commit/f699bde5ad428fbc4281b9ca6865153f4b1e7a55))  - (tj-actions[bot])
+
 # [39.0.0](https://github.com/tj-actions/changed-files/compare/v38.2.2...v39.0.0) - (2023-09-04)
 
 ## <!-- 26 -->🔄 Update
