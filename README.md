@@ -709,7 +709,7 @@ jobs:
       - name: Run step if any file(s) in the .github folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
-          echo "One or more files in the .github folder has changed."
+          echo "One or more files in the .github folder has been changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 ...
 ```
