@@ -998,7 +998,7 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
 });
 exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
 const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
-    var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
+    var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
     let targetBranch = (_m = (_l = github.context.payload.pull_request) === null || _l === void 0 ? void 0 : _l.base) === null || _m === void 0 ? void 0 : _m.ref;
     const currentBranch = (_p = (_o = github.context.payload.pull_request) === null || _o === void 0 ? void 0 : _o.head) === null || _p === void 0 ? void 0 : _p.ref;
     if (inputs.sinceLastRemoteCommit) {
@@ -1135,12 +1135,17 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         else {
-            previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
-                cwd: workingDirectory,
-                branch: targetBranch
-            });
-            if (!previousSha) {
+            if (github.context.payload.action === 'closed') {
                 previousSha = (_w = (_v = github.context.payload.pull_request) === null || _v === void 0 ? void 0 : _v.base) === null || _w === void 0 ? void 0 : _w.sha;
+            }
+            else {
+                previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
+                    cwd: workingDirectory,
+                    branch: targetBranch
+                });
+                if (!previousSha) {
+                    previousSha = (_y = (_x = github.context.payload.pull_request) === null || _x === void 0 ? void 0 : _x.base) === null || _y === void 0 ? void 0 : _y.sha;
+                }
             }
             if (isShallow) {
                 if (!(yield (0, utils_1.canDiffCommits)({
@@ -1177,7 +1182,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         if (!previousSha || previousSha === currentSha) {
-            previousSha = (_y = (_x = github.context.payload.pull_request) === null || _x === void 0 ? void 0 : _x.base) === null || _y === void 0 ? void 0 : _y.sha;
+            previousSha = (_0 = (_z = github.context.payload.pull_request) === null || _z === void 0 ? void 0 : _z.base) === null || _0 === void 0 ? void 0 : _0.sha;
         }
     }
     if (!(yield (0, utils_1.canDiffCommits)({

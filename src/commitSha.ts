@@ -465,13 +465,17 @@ export const getSHAForPullRequestEvent = async (
         }
       }
     } else {
-      previousSha = await getRemoteBranchHeadSha({
-        cwd: workingDirectory,
-        branch: targetBranch
-      })
-
-      if (!previousSha) {
+      if (github.context.payload.action === 'closed') {
         previousSha = github.context.payload.pull_request?.base?.sha
+      } else {
+        previousSha = await getRemoteBranchHeadSha({
+          cwd: workingDirectory,
+          branch: targetBranch
+        })
+
+        if (!previousSha) {
+          previousSha = github.context.payload.pull_request?.base?.sha
+        }
       }
 
       if (isShallow) {
