@@ -1114,11 +1114,22 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                 if (github.context.payload.action &&
                     github.context.payload.action === 'synchronize' &&
                     previousSha &&
-                    (yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory })) !==
-                        0) {
+                    (!previousSha ||
+                        (previousSha &&
+                            (yield (0, utils_1.verifyCommitSha)({
+                                sha: previousSha,
+                                cwd: workingDirectory,
+                                showAsErrorMessage: false
+                            })) !== 0))) {
                     throw new Error('Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit');
                 }
-                if (!previousSha) {
+                if (!previousSha ||
+                    (previousSha &&
+                        (yield (0, utils_1.verifyCommitSha)({
+                            sha: previousSha,
+                            cwd: workingDirectory,
+                            showAsErrorMessage: false
+                        })) !== 0)) {
                     throw new Error('Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit');
                 }
             }
