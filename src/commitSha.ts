@@ -419,8 +419,11 @@ export const getSHAForPullRequestEvent = async (
       if (
         !previousSha ||
         (previousSha &&
-          (await verifyCommitSha({sha: previousSha, cwd: workingDirectory})) !==
-            0)
+          (await verifyCommitSha({
+            sha: previousSha,
+            cwd: workingDirectory,
+            showAsErrorMessage: false
+          })) !== 0)
       ) {
         core.info(
           `Unable to locate the previous commit in the local history for ${github.context.eventName} (${github.context.payload.action}) event. Falling back to the previous commit in the local history.`
