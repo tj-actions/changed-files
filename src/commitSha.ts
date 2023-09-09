@@ -422,25 +422,29 @@ export const getSHAForPullRequestEvent = async (
           (await verifyCommitSha({sha: previousSha, cwd: workingDirectory})) !==
             0)
       ) {
-        if (
-          github.context.payload.action &&
-          github.context.payload.action === 'synchronize'
-        ) {
-          throw new Error(
-            'Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit)'
-          )
-        } else {
-          core.info(
-            `Unable to locate the remote branch head sha for ${github.context.eventName} (${github.context.payload.action}) events. Falling back to the previous commit in the local history.`
-          )
-        }
+        core.info(
+          `Unable to locate the previous commit in the local history for ${github.context.eventName} (${github.context.payload.action}) event. Falling back to the previous commit in the local history.`
+        )
+
         previousSha = await getParentSha({
           cwd: workingDirectory
         })
 
+        if (
+          github.context.payload.action &&
+          github.context.payload.action === 'synchronize' &&
+          previousSha &&
+          (await verifyCommitSha({sha: previousSha, cwd: workingDirectory})) !==
+            0
+        ) {
+          throw new Error(
+            'Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit'
+          )
+        }
+
         if (!previousSha) {
           throw new Error(
-            'Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit)'
+            'Unable to locate the previous commit in the local history. Please ensure to checkout pull request HEAD commit instead of the merge commit. See: https://github.com/actions/checkout/blob/main/README.md#checkout-pull-request-head-commit-instead-of-merge-commit'
           )
         }
       }
