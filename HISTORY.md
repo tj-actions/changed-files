@@ -1,5 +1,28 @@
 # Changelog
 
+# [39.0.2](https://github.com/tj-actions/changed-files/compare/v39.0.1...v39.0.2) - (2023-09-11)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @actions/core to v1.10.1 ([7e3122d](https://github.com/tj-actions/changed-files/commit/7e3122dc950f53aecf77675b13eb8549fc50702d))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([dc40835](https://github.com/tj-actions/changed-files/commit/dc40835d4da682fdd0d708a18736c67f61dd30bd))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v6.7.0 ([6ee9cdc](https://github.com/tj-actions/changed-files/commit/6ee9cdc5816333acda68e01cf12eedc619e28316))  - (renovate[bot])
+- **deps:** Lock file maintenance ([0734795](https://github.com/tj-actions/changed-files/commit/073479583b8aa435de99bca59cf0f1d7c9ca60f1))  - (renovate[bot])
+- **deps:** Lock file maintenance ([d76ddee](https://github.com/tj-actions/changed-files/commit/d76ddeeeaafef4ed076ba691b79b2ce022583e29))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.0.1 ([#1557](https://github.com/tj-actions/changed-files/issues/1557))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([7cdc56d](https://github.com/tj-actions/changed-files/commit/7cdc56dd7a1e035be75e46b4023543b68e58a0ac))  - (tj-actions[bot])
+
 # [39.0.1](https://github.com/tj-actions/changed-files/compare/v39.0.0...v39.0.1) - (2023-09-09)
 
 ## <!-- 1 -->🐛 Bug Fixes
