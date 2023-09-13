@@ -255,7 +255,6 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
-      # Example 1
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v39
@@ -267,11 +266,6 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-
-      # Example 2: See above
-      ...
-
-      # Example 3: See above
       ...
 ```
 
