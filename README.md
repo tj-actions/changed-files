@@ -69,8 +69,8 @@ Effortlessly track all changed files and directories relative to a target branch
         *   Supports brace expansion.
         *   Supports negation.
     *   Uses [YAML](https://yaml.org/) syntax for specifying patterns.
-        *   Supports [YAML anchors & aliases](https://www.educative.io/blog/advanced-yaml-syntax-cheatsheet#anchors).
-        *   Supports [YAML multi-line strings](https://learnxinyminutes.com/docs/yaml/).
+        *   Supports [YAML anchors & aliases](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml#L8-L12).
+        *   Supports [YAML multi-line strings](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml#L13-L16).
 
 And many more...
 
