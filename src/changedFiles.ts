@@ -4,6 +4,7 @@ import type {RestEndpointMethodTypes} from '@octokit/rest'
 import flatten from 'lodash/flatten'
 import mm from 'micromatch'
 import * as path from 'path'
+import {setChangedFilesOutput} from './changedFilesOutput'
 
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
@@ -12,11 +13,78 @@ import {
   getAllChangedFiles,
   getDirnameMaxDepth,
   getDirNamesIncludeFilesPattern,
+  getFilteredChangedFiles,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
   isWindows,
   jsonOutput
 } from './utils'
+
+export const processChangedFiles = async ({
+  filePatterns,
+  allDiffFiles,
+  inputs,
+  yamlFilePatterns
+}: {
+  filePatterns: string[]
+  allDiffFiles: ChangedFiles
+  inputs: Inputs
+  yamlFilePatterns: Record<string, string[]>
+}): Promise<void> => {
+  if (filePatterns.length > 0) {
+    core.startGroup('changed-files-patterns')
+    const allFilteredDiffFiles = await getFilteredChangedFiles({
+      allDiffFiles,
+      filePatterns
+    })
+    core.debug(
+      `All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`
+    )
+    await setChangedFilesOutput({
+      allDiffFiles,
+      allFilteredDiffFiles,
+      inputs,
+      filePatterns
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+
+  if (Object.keys(yamlFilePatterns).length > 0) {
+    for (const key of Object.keys(yamlFilePatterns)) {
+      core.startGroup(`changed-files-yaml-${key}`)
+      const allFilteredDiffFiles = await getFilteredChangedFiles({
+        allDiffFiles,
+        filePatterns: yamlFilePatterns[key]
+      })
+      core.debug(
+        `All filtered diff files for ${key}: ${JSON.stringify(
+          allFilteredDiffFiles
+        )}`
+      )
+      await setChangedFilesOutput({
+        allDiffFiles,
+        allFilteredDiffFiles,
+        inputs,
+        filePatterns: yamlFilePatterns[key],
+        outputPrefix: key
+      })
+      core.info('All Done!')
+      core.endGroup()
+    }
+  }
+
+  if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
+    core.startGroup('changed-files-all')
+    await setChangedFilesOutput({
+      allDiffFiles,
+      allFilteredDiffFiles: allDiffFiles,
+      inputs
+    })
+    core.info('All Done!')
+    core.endGroup()
+  }
+}
 
 export const getRenamedFiles = async ({
   inputs,
