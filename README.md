@@ -87,6 +87,7 @@ And many more...
 Visit the [discussions for more information](https://github.com/tj-actions/changed-files/discussions) or [create a new discussion](https://github.com/tj-actions/changed-files/discussions/new/choose) for usage-related questions.
 
 ### On `pull_request` 🔀
+Detect changes to all files in a Pull request relative to the target branch.
 
 #### Using local .git history 📁
 
@@ -208,6 +209,7 @@ jobs:
 ```
 
 ### On `push` ⬆️
+Detect changes to files made since the last pushed commit.
 
 ```yaml
 name: CI
