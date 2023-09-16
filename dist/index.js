@@ -49,13 +49,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = void 0;
+exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = exports.processChangedFiles = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const flatten_1 = __importDefault(__nccwpck_require__(2394));
 const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
+const changedFilesOutput_1 = __nccwpck_require__(8930);
 const utils_1 = __nccwpck_require__(918);
+const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+    if (filePatterns.length > 0) {
+        core.startGroup('changed-files-patterns');
+        const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+            allDiffFiles,
+            filePatterns
+        });
+        core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
+        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+            allDiffFiles,
+            allFilteredDiffFiles,
+            inputs,
+            filePatterns
+        });
+        core.info('All Done!');
+        core.endGroup();
+    }
+    if (Object.keys(yamlFilePatterns).length > 0) {
+        for (const key of Object.keys(yamlFilePatterns)) {
+            core.startGroup(`changed-files-yaml-${key}`);
+            const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+                allDiffFiles,
+                filePatterns: yamlFilePatterns[key]
+            });
+            core.debug(`All filtered diff files for ${key}: ${JSON.stringify(allFilteredDiffFiles)}`);
+            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+                allDiffFiles,
+                allFilteredDiffFiles,
+                inputs,
+                filePatterns: yamlFilePatterns[key],
+                outputPrefix: key
+            });
+            core.info('All Done!');
+            core.endGroup();
+        }
+    }
+    if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
+        core.startGroup('changed-files-all');
+        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+            allDiffFiles,
+            allFilteredDiffFiles: allDiffFiles,
+            inputs
+        });
+        core.info('All Done!');
+        core.endGroup();
+    }
+});
+exports.processChangedFiles = processChangedFiles;
 const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
@@ -1541,59 +1590,11 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const changedFiles_1 = __nccwpck_require__(7358);
-const changedFilesOutput_1 = __nccwpck_require__(8930);
 const commitSha_1 = __nccwpck_require__(8613);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
-const changedFilesOutput = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
-    if (filePatterns.length > 0) {
-        core.startGroup('changed-files-patterns');
-        const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
-            allDiffFiles,
-            filePatterns
-        });
-        core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
-            allFilteredDiffFiles,
-            inputs,
-            filePatterns
-        });
-        core.info('All Done!');
-        core.endGroup();
-    }
-    if (Object.keys(yamlFilePatterns).length > 0) {
-        for (const key of Object.keys(yamlFilePatterns)) {
-            core.startGroup(`changed-files-yaml-${key}`);
-            const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
-                allDiffFiles,
-                filePatterns: yamlFilePatterns[key]
-            });
-            core.debug(`All filtered diff files for ${key}: ${JSON.stringify(allFilteredDiffFiles)}`);
-            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-                allDiffFiles,
-                allFilteredDiffFiles,
-                inputs,
-                filePatterns: yamlFilePatterns[key],
-                outputPrefix: key
-            });
-            core.info('All Done!');
-            core.endGroup();
-        }
-    }
-    if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
-        core.startGroup('changed-files-all');
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
-            allDiffFiles,
-            allFilteredDiffFiles: allDiffFiles,
-            inputs
-        });
-        core.info('All Done!');
-        core.endGroup();
-    }
-});
-const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     yield (0, utils_1.verifyMinimumGitVersion)();
     let quotePathValue = 'on';
@@ -1664,7 +1665,7 @@ const getChangedFilesFromLocalGit = ({ inputs, env, workingDirectory, filePatter
             sha: diffResult.previousSha
         });
     }
-    yield changedFilesOutput({
+    yield (0, changedFiles_1.processChangedFiles)({
         filePatterns,
         allDiffFiles,
         inputs,
@@ -1704,7 +1705,7 @@ const getChangedFilesFromRESTAPI = ({ inputs, filePatterns, yamlFilePatterns }) 
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
-    yield changedFilesOutput({
+    yield (0, changedFiles_1.processChangedFiles)({
         filePatterns,
         allDiffFiles,
         inputs,
@@ -1769,7 +1770,7 @@ function run() {
                 return;
             }
             core.info('Using local .git directory');
-            yield getChangedFilesFromLocalGit({
+            yield getChangedFilesFromLocalGitHistory({
                 inputs,
                 env,
                 workingDirectory,
