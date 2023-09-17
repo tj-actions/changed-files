@@ -5,7 +5,6 @@ import flatten from 'lodash/flatten'
 import mm from 'micromatch'
 import * as path from 'path'
 import {setChangedFilesOutput} from './changedFilesOutput'
-
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 import {
