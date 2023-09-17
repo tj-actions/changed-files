@@ -9,7 +9,6 @@ import * as path from 'path'
 import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
-
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
