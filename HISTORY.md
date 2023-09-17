@@ -1,5 +1,38 @@
 # Changelog
 
+# [39.0.3](https://github.com/tj-actions/changed-files/compare/v39.0.2...v39.0.3) - (2023-09-17)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1570](https://github.com/tj-actions/changed-files/issues/1570))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([e8e6614](https://github.com/tj-actions/changed-files/commit/e8e66147790920052eb3032cb5a62c70572bae22))  - (tj-actions[bot])
+- Update README.md ([ad4b06d](https://github.com/tj-actions/changed-files/commit/ad4b06d99998aabe50aa36b86f0867357026a7e2))  - (Tonye Jack)
+- Update README.md ([b1a34eb](https://github.com/tj-actions/changed-files/commit/b1a34eb336292345947ec693f02ef5fb59954683))  - (Tonye Jack)
+- Updated README.md ([#1566](https://github.com/tj-actions/changed-files/issues/1566))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([690bef6](https://github.com/tj-actions/changed-files/commit/690bef673ae8df0db1deff98f4c33c8f651ce3b9))  - (tj-actions[bot])
+- Update README.md ([bb3b39c](https://github.com/tj-actions/changed-files/commit/bb3b39cd33dab0e736e0f00b67222c3edaaea664))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Cleanup imports ([#1576](https://github.com/tj-actions/changed-files/issues/1576)) ([76c4d81](https://github.com/tj-actions/changed-files/commit/76c4d81a6acd339b55bd7407a016981c853eb702))  - (Tonye Jack)
+- Refactor function ([#1572](https://github.com/tj-actions/changed-files/issues/1572)) ([d8904df](https://github.com/tj-actions/changed-files/commit/d8904df6c55e24ee0b072a93387f64ab19b03302))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.6.2 ([662c03e](https://github.com/tj-actions/changed-files/commit/662c03ea61a144e0bb71991d27928fe08897109f))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.4.0 ([c8b7da7](https://github.com/tj-actions/changed-files/commit/c8b7da7226d05c69f882473d9bc05af8475f28fc))  - (renovate[bot])
+- **deps:** Update dependency @types/jest to v29.5.5 ([249c169](https://github.com/tj-actions/changed-files/commit/249c1698c5b04bfa024f0af7fa876952cc638660))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.6.1 ([17352b2](https://github.com/tj-actions/changed-files/commit/17352b21768e018a02c594a8c7b151d0002e5d73))  - (renovate[bot])
+- Update README.md ([#1569](https://github.com/tj-actions/changed-files/issues/1569)) ([d9a6ccb](https://github.com/tj-actions/changed-files/commit/d9a6ccb099927ca383d6bf06d0d44e3a4cc03dd9))  - (Tonye Jack)
+- **deps:** Update dependency @types/uuid to v9.0.4 ([090eb05](https://github.com/tj-actions/changed-files/commit/090eb05f17c92a8e9b30d65ca4abe71ea35d8671))  - (renovate[bot])
+- Update input description ([#1565](https://github.com/tj-actions/changed-files/issues/1565)) ([fb8d2c9](https://github.com/tj-actions/changed-files/commit/fb8d2c9c29d888bc338bd0b5cd23a78f8fd04baa))  - (Tonye Jack)
+- **deps:** Update dependency jest to v29.7.0 ([001f562](https://github.com/tj-actions/changed-files/commit/001f56257c66815ba8267ded5207cc6feeb3c4fd))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.0.2 ([#1563](https://github.com/tj-actions/changed-files/issues/1563))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([57245a9](https://github.com/tj-actions/changed-files/commit/57245a97217e7a73240a81d75f5b3f4d9dc7fb04))  - (tj-actions[bot])
+
 # [39.0.2](https://github.com/tj-actions/changed-files/compare/v39.0.1...v39.0.2) - (2023-09-11)
 
 ## <!-- 1 -->🐛 Bug Fixes
