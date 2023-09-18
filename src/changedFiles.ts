@@ -4,7 +4,7 @@ import type {RestEndpointMethodTypes} from '@octokit/rest'
 import flatten from 'lodash/flatten'
 import mm from 'micromatch'
 import * as path from 'path'
-import {setChangedFilesOutput} from './changedFilesOutput'
+import {setOutputsAndGetModifiedAndChangedFilesStatus} from './changedFilesOutput'
 import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 import {
@@ -16,7 +16,8 @@ import {
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
   isWindows,
-  jsonOutput
+  jsonOutput,
+  setOutput
 } from './utils'
 
 export const processChangedFiles = async ({
@@ -39,7 +40,7 @@ export const processChangedFiles = async ({
     core.debug(
       `All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`
     )
-    await setChangedFilesOutput({
+    await setOutputsAndGetModifiedAndChangedFilesStatus({
       allDiffFiles,
       allFilteredDiffFiles,
       inputs,
@@ -48,6 +49,9 @@ export const processChangedFiles = async ({
     core.info('All Done!')
     core.endGroup()
   }
+
+  const modifiedKeys: string[] = []
+  const changedKeys: string[] = []
 
   if (Object.keys(yamlFilePatterns).length > 0) {
     for (const key of Object.keys(yamlFilePatterns)) {
@@ -61,21 +65,49 @@ export const processChangedFiles = async ({
           allFilteredDiffFiles
         )}`
       )
-      await setChangedFilesOutput({
-        allDiffFiles,
-        allFilteredDiffFiles,
-        inputs,
-        filePatterns: yamlFilePatterns[key],
-        outputPrefix: key
-      })
+      const {anyChanged, anyModified} =
+        await setOutputsAndGetModifiedAndChangedFilesStatus({
+          allDiffFiles,
+          allFilteredDiffFiles,
+          inputs,
+          filePatterns: yamlFilePatterns[key],
+          outputPrefix: key
+        })
+      if (anyModified) {
+        modifiedKeys.push(key)
+      }
+      if (anyChanged) {
+        changedKeys.push(key)
+      }
+
       core.info('All Done!')
       core.endGroup()
+    }
+
+    if (modifiedKeys.length > 0) {
+      await setOutput({
+        key: 'modified_keys',
+        value: modifiedKeys.join(inputs.separator),
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json
+      })
+    }
+
+    if (changedKeys.length > 0) {
+      await setOutput({
+        key: 'changed_keys',
+        value: changedKeys.join(inputs.separator),
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json
+      })
     }
   }
 
   if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
     core.startGroup('changed-files-all')
-    await setChangedFilesOutput({
+    await setOutputsAndGetModifiedAndChangedFilesStatus({
       allDiffFiles,
       allFilteredDiffFiles: allDiffFiles,
       inputs
