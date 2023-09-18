@@ -1,5 +1,28 @@
 # Changelog
 
+# [39.1.0](https://github.com/tj-actions/changed-files/compare/v39.0.3...v39.1.0) - (2023-09-18)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for returning YAML keys for paths that have changed ([#1581](https://github.com/tj-actions/changed-files/issues/1581)) ([5db7b57](https://github.com/tj-actions/changed-files/commit/5db7b578d50867ab5781bf9d867e7650b5b39fc4))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1582](https://github.com/tj-actions/changed-files/issues/1582))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([8e79ba7](https://github.com/tj-actions/changed-files/commit/8e79ba7ab9fee9984275219aeb2c8db47bcb8a2d))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v6.7.2 ([a17e8c5](https://github.com/tj-actions/changed-files/commit/a17e8c5252f6c9982b161714c528708a7f445479))  - (renovate[bot])
+- **deps:** Lock file maintenance ([d1e9506](https://github.com/tj-actions/changed-files/commit/d1e9506b19d9c3a4053191d616b1ac09de1dfa55))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.0.3 ([#1577](https://github.com/tj-actions/changed-files/issues/1577))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([1fdfe09](https://github.com/tj-actions/changed-files/commit/1fdfe0928a9a55323f0d333ecf6ccfca8c6d73c9))  - (tj-actions[bot])
+
 # [39.0.3](https://github.com/tj-actions/changed-files/compare/v39.0.2...v39.0.3) - (2023-09-17)
 
 ## <!-- 26 -->🔄 Update
