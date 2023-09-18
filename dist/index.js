@@ -65,7 +65,7 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
             filePatterns
         });
         core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+        yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
             allDiffFiles,
             allFilteredDiffFiles,
             inputs,
@@ -74,6 +74,8 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
         core.info('All Done!');
         core.endGroup();
     }
+    const modifiedKeys = [];
+    const changedKeys = [];
     if (Object.keys(yamlFilePatterns).length > 0) {
         for (const key of Object.keys(yamlFilePatterns)) {
             core.startGroup(`changed-files-yaml-${key}`);
@@ -82,20 +84,44 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
                 filePatterns: yamlFilePatterns[key]
             });
             core.debug(`All filtered diff files for ${key}: ${JSON.stringify(allFilteredDiffFiles)}`);
-            yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+            const { anyChanged, anyModified } = yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
                 allDiffFiles,
                 allFilteredDiffFiles,
                 inputs,
                 filePatterns: yamlFilePatterns[key],
                 outputPrefix: key
             });
+            if (anyModified) {
+                modifiedKeys.push(key);
+            }
+            if (anyChanged) {
+                changedKeys.push(key);
+            }
             core.info('All Done!');
             core.endGroup();
+        }
+        if (modifiedKeys.length > 0) {
+            yield (0, utils_1.setOutput)({
+                key: 'modified_keys',
+                value: modifiedKeys.join(inputs.separator),
+                writeOutputFiles: inputs.writeOutputFiles,
+                outputDir: inputs.outputDir,
+                json: inputs.json
+            });
+        }
+        if (changedKeys.length > 0) {
+            yield (0, utils_1.setOutput)({
+                key: 'changed_keys',
+                value: changedKeys.join(inputs.separator),
+                writeOutputFiles: inputs.writeOutputFiles,
+                outputDir: inputs.outputDir,
+                json: inputs.json
+            });
         }
     }
     if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
         core.startGroup('changed-files-all');
-        yield (0, changedFilesOutput_1.setChangedFilesOutput)({
+        yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
             allDiffFiles,
             allFilteredDiffFiles: allDiffFiles,
             inputs
@@ -405,7 +431,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setChangedFilesOutput = void 0;
+exports.setOutputsAndGetModifiedAndChangedFilesStatus = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const changedFiles_1 = __nccwpck_require__(7358);
 const utils_1 = __nccwpck_require__(918);
@@ -415,7 +441,7 @@ const getOutputKey = (key, outputPrefix) => {
 const getArrayFromPaths = (paths, inputs) => {
     return Array.isArray(paths) ? paths : paths.split(inputs.separator);
 };
-const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -781,8 +807,12 @@ const setChangedFilesOutput = ({ allDiffFiles, allFilteredDiffFiles, inputs, fil
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
+    return {
+        anyModified: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
+        anyChanged: allChangedFiles.paths.length > 0 && filePatterns.length > 0
+    };
 });
-exports.setChangedFilesOutput = setChangedFilesOutput;
+exports.setOutputsAndGetModifiedAndChangedFilesStatus = setOutputsAndGetModifiedAndChangedFilesStatus;
 
 
 /***/ }),
