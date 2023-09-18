@@ -50,7 +50,6 @@ export const processChangedFiles = async ({
     core.endGroup()
   }
 
-
   if (Object.keys(yamlFilePatterns).length > 0) {
     const modifiedKeys: string[] = []
     const changedKeys: string[] = []
