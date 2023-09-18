@@ -50,10 +50,10 @@ export const processChangedFiles = async ({
     core.endGroup()
   }
 
-  const modifiedKeys: string[] = []
-  const changedKeys: string[] = []
-
   if (Object.keys(yamlFilePatterns).length > 0) {
+    const modifiedKeys: string[] = []
+    const changedKeys: string[] = []
+
     for (const key of Object.keys(yamlFilePatterns)) {
       core.startGroup(`changed-files-yaml-${key}`)
       const allFilteredDiffFiles = await getFilteredChangedFiles({

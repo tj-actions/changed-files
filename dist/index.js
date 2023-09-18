@@ -74,9 +74,9 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
         core.info('All Done!');
         core.endGroup();
     }
-    const modifiedKeys = [];
-    const changedKeys = [];
     if (Object.keys(yamlFilePatterns).length > 0) {
+        const modifiedKeys = [];
+        const changedKeys = [];
         for (const key of Object.keys(yamlFilePatterns)) {
             core.startGroup(`changed-files-yaml-${key}`);
             const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
