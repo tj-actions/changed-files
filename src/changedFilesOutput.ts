@@ -19,7 +19,7 @@ const getArrayFromPaths = (
   return Array.isArray(paths) ? paths : paths.split(inputs.separator)
 }
 
-export const setChangedFilesOutput = async ({
+export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
   allDiffFiles,
   allFilteredDiffFiles,
   inputs,
@@ -31,7 +31,7 @@ export const setChangedFilesOutput = async ({
   inputs: Inputs
   filePatterns?: string[]
   outputPrefix?: string
-}): Promise<void> => {
+}): Promise<{anyModified: boolean; anyChanged: boolean}> => {
   const addedFiles = await getChangeTypeFiles({
     inputs,
     changedFiles: allFilteredDiffFiles,
@@ -474,4 +474,9 @@ export const setChangedFilesOutput = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir
   })
+
+  return {
+    anyModified: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
+    anyChanged: allChangedFiles.paths.length > 0 && filePatterns.length > 0
+  }
 }

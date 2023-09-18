@@ -765,6 +765,12 @@ jobs:
           echo "Expected: (test/test deleted.txt) got ${{ steps.changed-files-recover-deleted-files-with-files-yaml.outputs.test_deleted_files }}"
           exit 1
 
+      - name: Verify that the modified_keys is correct
+        if: "!contains(steps.changed-files-recover-deleted-files-with-files-yaml.outputs.modified_keys, 'test')"
+        run: |
+          echo "Expected: (test) got ${{ steps.changed-files-recover-deleted-files-with-files-yaml.outputs.modified_keys }}"
+          exit 1
+
       - name: Verify that test/test deleted.txt is restored
         run: |
           if [ ! -f "test/test deleted.txt" ]; then
