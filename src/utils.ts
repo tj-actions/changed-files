@@ -1222,6 +1222,31 @@ export const getRecoverFilePatterns = ({
   return filePatterns.filter(Boolean)
 }
 
+export const getOutputKey = (key: string, outputPrefix: string): string => {
+  return outputPrefix ? `${outputPrefix}_${key}` : key
+}
+
+export const setArrayOutput = async ({
+  key,
+  inputs,
+  value,
+  outputPrefix
+}: {
+  key: string
+  inputs: Inputs
+  value: string[]
+  outputPrefix?: string
+}): Promise<void> => {
+  await setOutput({
+    key: outputPrefix ? getOutputKey(key, outputPrefix) : key,
+    value: inputs.json ? value : value.join(inputs.separator),
+    writeOutputFiles: inputs.writeOutputFiles,
+    outputDir: inputs.outputDir,
+    json: inputs.json,
+    shouldEscape: inputs.escapeJson
+  })
+}
+
 export const setOutput = async ({
   key,
   value,

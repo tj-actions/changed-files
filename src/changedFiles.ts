@@ -17,6 +17,7 @@ import {
   gitSubmoduleDiffSHA,
   isWindows,
   jsonOutput,
+  setArrayOutput,
   setOutput
 } from './utils'
 
@@ -86,25 +87,19 @@ export const processChangedFiles = async ({
 
     if (modifiedKeys.length > 0) {
       core.debug(`All modifiedKeys: ${JSON.stringify(modifiedKeys)}`)
-      await setOutput({
+      await setArrayOutput({
         key: 'modified_keys',
-        value: inputs.json ? modifiedKeys : modifiedKeys.join(inputs.separator),
-        writeOutputFiles: inputs.writeOutputFiles,
-        outputDir: inputs.outputDir,
-        json: inputs.json,
-        shouldEscape: inputs.escapeJson
+        inputs,
+        value: modifiedKeys
       })
     }
 
     if (changedKeys.length > 0) {
       core.debug(`All changedKeys: ${JSON.stringify(changedKeys)}`)
-      await setOutput({
+      await setArrayOutput({
         key: 'changed_keys',
-        value: inputs.json ? changedKeys : changedKeys.join(inputs.separator),
-        writeOutputFiles: inputs.writeOutputFiles,
-        outputDir: inputs.outputDir,
-        json: inputs.json,
-        shouldEscape: inputs.escapeJson
+        inputs,
+        value: changedKeys
       })
     }
   }

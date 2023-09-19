@@ -6,11 +6,7 @@ import {
   getChangeTypeFiles
 } from './changedFiles'
 import {Inputs} from './inputs'
-import {setOutput} from './utils'
-
-const getOutputKey = (key: string, outputPrefix: string): string => {
-  return outputPrefix ? `${outputPrefix}_${key}` : key
-}
+import {getOutputKey, setArrayOutput, setOutput} from './utils'
 
 const getArrayFromPaths = (
   paths: string | string[],
@@ -283,15 +279,11 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     json: inputs.json
   })
 
-  await setOutput({
-    key: getOutputKey('other_changed_files', outputPrefix),
-    value: inputs.json
-      ? otherChangedFiles
-      : otherChangedFiles.join(inputs.separator),
-    writeOutputFiles: inputs.writeOutputFiles,
-    outputDir: inputs.outputDir,
-    json: inputs.json,
-    shouldEscape: inputs.escapeJson
+  await setArrayOutput({
+    key: 'other_changed_files',
+    inputs,
+    value: otherChangedFiles,
+    outputPrefix
   })
 
   await setOutput({
@@ -376,15 +368,11 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     json: inputs.json
   })
 
-  await setOutput({
-    key: getOutputKey('other_modified_files', outputPrefix),
-    value: inputs.json
-      ? otherModifiedFiles
-      : otherModifiedFiles.join(inputs.separator),
-    writeOutputFiles: inputs.writeOutputFiles,
-    outputDir: inputs.outputDir,
-    json: inputs.json,
-    shouldEscape: inputs.escapeJson
+  await setArrayOutput({
+    key: 'other_modified_files',
+    inputs,
+    value: otherModifiedFiles,
+    outputPrefix
   })
 
   await setOutput({
@@ -457,15 +445,11 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     json: inputs.json
   })
 
-  await setOutput({
-    key: getOutputKey('other_deleted_files', outputPrefix),
-    value: inputs.json
-      ? otherDeletedFiles
-      : otherDeletedFiles.join(inputs.separator),
-    writeOutputFiles: inputs.writeOutputFiles,
-    outputDir: inputs.outputDir,
-    json: inputs.json,
-    shouldEscape: inputs.escapeJson
+  await setArrayOutput({
+    key: 'other_deleted_files',
+    inputs,
+    value: otherDeletedFiles,
+    outputPrefix
   })
 
   await setOutput({
