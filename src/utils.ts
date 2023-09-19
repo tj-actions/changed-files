@@ -1237,6 +1237,7 @@ export const setArrayOutput = async ({
   value: string[]
   outputPrefix?: string
 }): Promise<void> => {
+  core.debug(`${key}: ${JSON.stringify(value)}`)
   await setOutput({
     key: outputPrefix ? getOutputKey(key, outputPrefix) : key,
     value: inputs.json ? value : value.join(inputs.separator),
