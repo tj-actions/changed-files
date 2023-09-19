@@ -101,21 +101,25 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
             core.endGroup();
         }
         if (modifiedKeys.length > 0) {
+            core.debug(`All modifiedKeys: ${JSON.stringify(modifiedKeys)}`);
             yield (0, utils_1.setOutput)({
                 key: 'modified_keys',
-                value: modifiedKeys.join(inputs.separator),
+                value: inputs.json ? modifiedKeys : modifiedKeys.join(inputs.separator),
                 writeOutputFiles: inputs.writeOutputFiles,
                 outputDir: inputs.outputDir,
-                json: inputs.json
+                json: inputs.json,
+                shouldEscape: inputs.escapeJson
             });
         }
         if (changedKeys.length > 0) {
+            core.debug(`All changedKeys: ${JSON.stringify(changedKeys)}`);
             yield (0, utils_1.setOutput)({
                 key: 'changed_keys',
-                value: changedKeys.join(inputs.separator),
+                value: inputs.json ? changedKeys : changedKeys.join(inputs.separator),
                 writeOutputFiles: inputs.writeOutputFiles,
                 outputDir: inputs.outputDir,
-                json: inputs.json
+                json: inputs.json,
+                shouldEscape: inputs.escapeJson
             });
         }
     }
