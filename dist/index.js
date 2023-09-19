@@ -101,25 +101,17 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
             core.endGroup();
         }
         if (modifiedKeys.length > 0) {
-            core.debug(`All modifiedKeys: ${JSON.stringify(modifiedKeys)}`);
-            yield (0, utils_1.setOutput)({
+            yield (0, utils_1.setArrayOutput)({
                 key: 'modified_keys',
-                value: inputs.json ? modifiedKeys : modifiedKeys.join(inputs.separator),
-                writeOutputFiles: inputs.writeOutputFiles,
-                outputDir: inputs.outputDir,
-                json: inputs.json,
-                shouldEscape: inputs.escapeJson
+                inputs,
+                value: modifiedKeys
             });
         }
         if (changedKeys.length > 0) {
-            core.debug(`All changedKeys: ${JSON.stringify(changedKeys)}`);
-            yield (0, utils_1.setOutput)({
+            yield (0, utils_1.setArrayOutput)({
                 key: 'changed_keys',
-                value: inputs.json ? changedKeys : changedKeys.join(inputs.separator),
-                writeOutputFiles: inputs.writeOutputFiles,
-                outputDir: inputs.outputDir,
-                json: inputs.json,
-                shouldEscape: inputs.escapeJson
+                inputs,
+                value: changedKeys
             });
         }
     }
@@ -439,9 +431,6 @@ exports.setOutputsAndGetModifiedAndChangedFilesStatus = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const changedFiles_1 = __nccwpck_require__(7358);
 const utils_1 = __nccwpck_require__(918);
-const getOutputKey = (key, outputPrefix) => {
-    return outputPrefix ? `${outputPrefix}_${key}` : key;
-};
 const getArrayFromPaths = (paths, inputs) => {
     return Array.isArray(paths) ? paths : paths.split(inputs.separator);
 };
@@ -453,7 +442,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Added files: ${JSON.stringify(addedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('added_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('added_files', outputPrefix),
         value: addedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -461,7 +450,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('added_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('added_files_count', outputPrefix),
         value: addedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -473,7 +462,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Copied files: ${JSON.stringify(copiedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('copied_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('copied_files', outputPrefix),
         value: copiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -481,7 +470,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('copied_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('copied_files_count', outputPrefix),
         value: copiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -493,7 +482,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Modified files: ${JSON.stringify(modifiedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('modified_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('modified_files', outputPrefix),
         value: modifiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -501,7 +490,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('modified_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('modified_files_count', outputPrefix),
         value: modifiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -513,7 +502,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Renamed files: ${JSON.stringify(renamedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('renamed_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('renamed_files', outputPrefix),
         value: renamedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -521,7 +510,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('renamed_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('renamed_files_count', outputPrefix),
         value: renamedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -533,7 +522,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Type changed files: ${JSON.stringify(typeChangedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('type_changed_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('type_changed_files', outputPrefix),
         value: typeChangedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -541,7 +530,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('type_changed_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('type_changed_files_count', outputPrefix),
         value: typeChangedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -553,7 +542,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Unmerged files: ${JSON.stringify(unmergedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('unmerged_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('unmerged_files', outputPrefix),
         value: unmergedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -561,7 +550,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('unmerged_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('unmerged_files_count', outputPrefix),
         value: unmergedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -573,7 +562,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Unknown files: ${JSON.stringify(unknownFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('unknown_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('unknown_files', outputPrefix),
         value: unknownFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -581,7 +570,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('unknown_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('unknown_files_count', outputPrefix),
         value: unknownFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -592,7 +581,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`All changed and modified files: ${JSON.stringify(allChangedAndModifiedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('all_changed_and_modified_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('all_changed_and_modified_files', outputPrefix),
         value: allChangedAndModifiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -600,7 +589,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('all_changed_and_modified_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('all_changed_and_modified_files_count', outputPrefix),
         value: allChangedAndModifiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -617,7 +606,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`All changed files: ${JSON.stringify(allChangedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('all_changed_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('all_changed_files', outputPrefix),
         value: allChangedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -625,13 +614,13 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('all_changed_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('all_changed_files_count', outputPrefix),
         value: allChangedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('any_changed', outputPrefix),
+        key: (0, utils_1.getOutputKey)('any_changed', outputPrefix),
         value: allChangedFiles.paths.length > 0 && filePatterns.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -655,24 +644,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         allChangedFiles.paths.length > 0 &&
         filePatterns.length > 0;
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('only_changed', outputPrefix),
+        key: (0, utils_1.getOutputKey)('only_changed', outputPrefix),
         value: onlyChanged,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    yield (0, utils_1.setOutput)({
-        key: getOutputKey('other_changed_files', outputPrefix),
-        value: inputs.json
-            ? otherChangedFiles
-            : otherChangedFiles.join(inputs.separator),
-        writeOutputFiles: inputs.writeOutputFiles,
-        outputDir: inputs.outputDir,
-        json: inputs.json,
-        shouldEscape: inputs.escapeJson
+    yield (0, utils_1.setArrayOutput)({
+        key: 'other_changed_files',
+        inputs,
+        value: otherChangedFiles,
+        outputPrefix
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('other_changed_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('other_changed_files_count', outputPrefix),
         value: otherChangedFiles.length.toString(),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -690,7 +675,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`All modified files: ${JSON.stringify(allModifiedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('all_modified_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('all_modified_files', outputPrefix),
         value: allModifiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -698,13 +683,13 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('all_modified_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('all_modified_files_count', outputPrefix),
         value: allModifiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('any_modified', outputPrefix),
+        key: (0, utils_1.getOutputKey)('any_modified', outputPrefix),
         value: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -728,24 +713,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         allModifiedFiles.paths.length > 0 &&
         filePatterns.length > 0;
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('only_modified', outputPrefix),
+        key: (0, utils_1.getOutputKey)('only_modified', outputPrefix),
         value: onlyModified,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    yield (0, utils_1.setOutput)({
-        key: getOutputKey('other_modified_files', outputPrefix),
-        value: inputs.json
-            ? otherModifiedFiles
-            : otherModifiedFiles.join(inputs.separator),
-        writeOutputFiles: inputs.writeOutputFiles,
-        outputDir: inputs.outputDir,
-        json: inputs.json,
-        shouldEscape: inputs.escapeJson
+    yield (0, utils_1.setArrayOutput)({
+        key: 'other_modified_files',
+        inputs,
+        value: otherModifiedFiles,
+        outputPrefix
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('other_modified_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('other_modified_files_count', outputPrefix),
         value: otherModifiedFiles.length.toString(),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -757,7 +738,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     core.debug(`Deleted files: ${JSON.stringify(deletedFiles)}`);
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('deleted_files', outputPrefix),
+        key: (0, utils_1.getOutputKey)('deleted_files', outputPrefix),
         value: deletedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -765,13 +746,13 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         shouldEscape: inputs.escapeJson
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('deleted_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('deleted_files_count', outputPrefix),
         value: deletedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('any_deleted', outputPrefix),
+        key: (0, utils_1.getOutputKey)('any_deleted', outputPrefix),
         value: deletedFiles.paths.length > 0 && filePatterns.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
@@ -789,24 +770,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         deletedFiles.paths.length > 0 &&
         filePatterns.length > 0;
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('only_deleted', outputPrefix),
+        key: (0, utils_1.getOutputKey)('only_deleted', outputPrefix),
         value: onlyDeleted,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    yield (0, utils_1.setOutput)({
-        key: getOutputKey('other_deleted_files', outputPrefix),
-        value: inputs.json
-            ? otherDeletedFiles
-            : otherDeletedFiles.join(inputs.separator),
-        writeOutputFiles: inputs.writeOutputFiles,
-        outputDir: inputs.outputDir,
-        json: inputs.json,
-        shouldEscape: inputs.escapeJson
+    yield (0, utils_1.setArrayOutput)({
+        key: 'other_deleted_files',
+        inputs,
+        value: otherDeletedFiles,
+        outputPrefix
     });
     yield (0, utils_1.setOutput)({
-        key: getOutputKey('other_deleted_files_count', outputPrefix),
+        key: (0, utils_1.getOutputKey)('other_deleted_files_count', outputPrefix),
         value: otherDeletedFiles.length.toString(),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
@@ -1886,7 +1863,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2707,6 +2684,22 @@ const getRecoverFilePatterns = ({ inputs }) => {
     return filePatterns.filter(Boolean);
 };
 exports.getRecoverFilePatterns = getRecoverFilePatterns;
+const getOutputKey = (key, outputPrefix) => {
+    return outputPrefix ? `${outputPrefix}_${key}` : key;
+};
+exports.getOutputKey = getOutputKey;
+const setArrayOutput = ({ key, inputs, value, outputPrefix }) => __awaiter(void 0, void 0, void 0, function* () {
+    core.debug(`${key}: ${JSON.stringify(value)}`);
+    yield (0, exports.setOutput)({
+        key: outputPrefix ? (0, exports.getOutputKey)(key, outputPrefix) : key,
+        value: inputs.json ? value : value.join(inputs.separator),
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json,
+        shouldEscape: inputs.escapeJson
+    });
+});
+exports.setArrayOutput = setArrayOutput;
 const setOutput = ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false }) => __awaiter(void 0, void 0, void 0, function* () {
     let cleanedValue;
     if (json) {
