@@ -1,5 +1,35 @@
 # Changelog
 
+# [39.1.1](https://github.com/tj-actions/changed-files/compare/v39.1.0...v39.1.1) - (2023-09-19)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Changed_keys and modified_keys output to handle json and escape_json inputs ([#1585](https://github.com/tj-actions/changed-files/issues/1585)) ([951140b](https://github.com/tj-actions/changed-files/commit/951140b94a6a58dd2c62d7fb0b4d73898c79b196))  - (Arthur)
+- Error with test ([#1589](https://github.com/tj-actions/changed-files/issues/1589)) ([dbf0700](https://github.com/tj-actions/changed-files/commit/dbf0700c7ac336b1ceed2ac8fe1b02d4cd3ac84f))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update test.yml ([a21a533](https://github.com/tj-actions/changed-files/commit/a21a533a0c244a27daac02f9dc6fcf8aeb996154))  - (Tonye Jack)
+- Updated README.md ([#1588](https://github.com/tj-actions/changed-files/issues/1588))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([dacbaeb](https://github.com/tj-actions/changed-files/commit/dacbaebcaf9428d083702ffa9b449bac799dd2c3))  - (tj-actions[bot])
+
+## <!-- 3 -->📚 Documentation
+
+- Add V0lantis as a contributor for bug ([#1587](https://github.com/tj-actions/changed-files/issues/1587)) ([36ab2fe](https://github.com/tj-actions/changed-files/commit/36ab2fe9c2c58212caac6853d9b8e205a4d5c84b))  - (allcontributors[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Add codacy config ([#1590](https://github.com/tj-actions/changed-files/issues/1590)) ([eeb169a](https://github.com/tj-actions/changed-files/commit/eeb169a9f925d0d92ff3dea3ac356ff0d5f288a8))  - (Tonye Jack)
+- Update test.yml ([#1586](https://github.com/tj-actions/changed-files/issues/1586)) ([7e3a4ba](https://github.com/tj-actions/changed-files/commit/7e3a4bac80a0d6fdd60b44fea0dc5fa781ca8177))  - (Tonye Jack)
+- Move variable declaration ([#1584](https://github.com/tj-actions/changed-files/issues/1584)) ([dcbe980](https://github.com/tj-actions/changed-files/commit/dcbe9805f4bb9e5128d8c802e2517943b4c09aa0))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.1.0 ([#1583](https://github.com/tj-actions/changed-files/issues/1583))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([fd73c12](https://github.com/tj-actions/changed-files/commit/fd73c1248c8bebea8b243083223002698432c2a0))  - (tj-actions[bot])
+
 # [39.1.0](https://github.com/tj-actions/changed-files/compare/v39.0.3...v39.1.0) - (2023-09-18)
 
 ## <!-- 0 -->🚀 Features
