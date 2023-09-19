@@ -86,7 +86,7 @@ export const processChangedFiles = async ({
     }
 
     if (modifiedKeys.length > 0) {
-      core.debug(`All modifiedKeys: ${JSON.stringify(modifiedKeys)}`)
+      core.debug(`modified keys: ${JSON.stringify(modifiedKeys)}`)
       await setArrayOutput({
         key: 'modified_keys',
         inputs,
@@ -95,7 +95,7 @@ export const processChangedFiles = async ({
     }
 
     if (changedKeys.length > 0) {
-      core.debug(`All changedKeys: ${JSON.stringify(changedKeys)}`)
+      core.debug(`changed keys: ${JSON.stringify(changedKeys)}`)
       await setArrayOutput({
         key: 'changed_keys',
         inputs,
