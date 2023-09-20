@@ -1261,6 +1261,8 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         sha2: currentSha,
         diff
     }))) {
+        core.warning('If this pull request is from a forked repository, please set the checkout action `repository` input to the same repository as the pull request.');
+        core.warning('This can be done by setting actions/checkout `repository` to ${{ github.event.pull_request.head.repo.full_name }}');
         throw new Error(`Unable to determine a difference between ${previousSha}${diff}${currentSha}`);
     }
     if (previousSha === currentSha) {
