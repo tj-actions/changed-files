@@ -1,5 +1,18 @@
 # Changelog
 
+# [39.1.2](https://github.com/tj-actions/changed-files/compare/v39.1.1...v39.1.2) - (2023-09-20)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Add warrning message to diff error ([#1593](https://github.com/tj-actions/changed-files/issues/1593)) ([4196030](https://github.com/tj-actions/changed-files/commit/41960309398d165631f08c5df47a11147e14712b))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.6.3 ([bbe7960](https://github.com/tj-actions/changed-files/commit/bbe796033ec7cd22e0e20315c172c13048fc437c))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.1.1 ([#1591](https://github.com/tj-actions/changed-files/issues/1591))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([159562d](https://github.com/tj-actions/changed-files/commit/159562dc02e645a8a858fca8e12f289e65d30fa5))  - (tj-actions[bot])
+
 # [39.1.1](https://github.com/tj-actions/changed-files/compare/v39.1.0...v39.1.1) - (2023-09-19)
 
 ## <!-- 1 -->🐛 Bug Fixes
