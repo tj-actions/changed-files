@@ -747,15 +747,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     if (inputs.dirNamesDeletedFilesIncludeOnlyDeletedDirs &&
         inputs.dirNames &&
         workingDirectory) {
-        const deletedFilesPaths = [];
+        const newDeletedFilesPaths = [];
         for (const deletedPath of getArrayFromPaths(deletedFiles.paths, inputs)) {
             if (!(yield (0, utils_1.exists)(path_1.default.join(workingDirectory, deletedPath)))) {
-                deletedFilesPaths.push(deletedPath);
+                newDeletedFilesPaths.push(deletedPath);
             }
         }
-        deletedFiles.paths = deletedFilesPaths;
-        deletedFiles.count = deletedFilesPaths.length.toString();
+        deletedFiles.paths = inputs.json
+            ? newDeletedFilesPaths
+            : newDeletedFilesPaths.join(inputs.separator);
+        deletedFiles.count = newDeletedFilesPaths.length.toString();
     }
+    const deletedFilesPaths = getArrayFromPaths(deletedFiles.paths, inputs);
+    const deletedFilesCount = deletedFilesPaths.length.toString();
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files', outputPrefix),
         value: deletedFiles.paths,
@@ -766,13 +770,13 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
     });
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files_count', outputPrefix),
-        value: deletedFiles.count,
+        value: deletedFilesCount,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_deleted', outputPrefix),
-        value: deletedFiles.paths.length > 0 && filePatterns.length > 0,
+        value: deletedFilesPaths.length > 0 && filePatterns.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
@@ -783,7 +787,6 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
     });
     const allOtherDeletedFilesPaths = getArrayFromPaths(allOtherDeletedFiles.paths, inputs);
-    const deletedFilesPaths = getArrayFromPaths(deletedFiles.paths, inputs);
     const otherDeletedFiles = allOtherDeletedFilesPaths.filter(filePath => !deletedFilesPaths.includes(filePath));
     const onlyDeleted = otherDeletedFiles.length === 0 &&
         deletedFiles.paths.length > 0 &&
