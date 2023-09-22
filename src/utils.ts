@@ -234,36 +234,6 @@ export const updateGitGlobalConfig = async ({
 }
 
 /**
- * Get tracked git directories
- * @param cwd - working directory
- */
-export const getGitTrackedDirectories = async ({
-  cwd
-}: {
-  cwd: string
-}): Promise<string[]> => {
-  const {exitCode, stdout, stderr} = await exec.getExecOutput(
-    'git',
-    ['ls-tree', '-d', '-r', '--name-only', 'HEAD'],
-    {
-      cwd,
-      ignoreReturnCode: true,
-      silent: !core.isDebug()
-    }
-  )
-
-  if (exitCode !== 0) {
-    core.warning(stderr || "Couldn't list tracked directories")
-    return []
-  }
-
-  return stdout
-    .trim()
-    .split('\n')
-    .map((line: string) => normalizeSeparators(line.trim()))
-}
-
-/**
  * Checks if a git repository is shallow
  * @param cwd - working directory
  * @returns repository is shallow
