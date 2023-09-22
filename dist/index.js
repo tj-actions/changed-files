@@ -1891,7 +1891,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.getGitTrackedDirectories = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2108,26 +2108,6 @@ const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, voi
     }
 });
 exports.updateGitGlobalConfig = updateGitGlobalConfig;
-/**
- * Get tracked git directories
- * @param cwd - working directory
- */
-const getGitTrackedDirectories = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['ls-tree', '-d', '-r', '--name-only', 'HEAD'], {
-        cwd,
-        ignoreReturnCode: true,
-        silent: !core.isDebug()
-    });
-    if (exitCode !== 0) {
-        core.warning(stderr || "Couldn't list tracked directories");
-        return [];
-    }
-    return stdout
-        .trim()
-        .split('\n')
-        .map((line) => (0, exports.normalizeSeparators)(line.trim()));
-});
-exports.getGitTrackedDirectories = getGitTrackedDirectories;
 /**
  * Checks if a git repository is shallow
  * @param cwd - working directory
