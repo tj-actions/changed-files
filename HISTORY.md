@@ -1,5 +1,87 @@
 # Changelog
 
+# [39.2.0](https://github.com/tj-actions/changed-files/compare/v39.1.2...v39.2.0) - (2023-09-22)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for restricting the deleted files output to only deleted directories ([e6ce728](https://github.com/tj-actions/changed-files/commit/e6ce728d79e6c15a69a0eea43b1968c2f9da2e8b))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Fixed test for windows
+ ([e94da5a](https://github.com/tj-actions/changed-files/commit/e94da5a065ad8dc8e519802967e6e6ccea3f5e87))  - (Tonye Jack)
+- Fixed the test
+ ([a721d00](https://github.com/tj-actions/changed-files/commit/a721d001dd7be793f80500eb3f60ea9db0743864))  - (Tonye Jack)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([8af3110](https://github.com/tj-actions/changed-files/commit/8af3110d4dfd8c1cc180fee0f14bcf402b598fb0))  - (GitHub Action)
+- Added a test files
+ ([920856c](https://github.com/tj-actions/changed-files/commit/920856cfdd4b4be17810e34b197596397473adf6))  - (Tonye Jack)
+- Added missing changes and modified dist assets.
+ ([8296c33](https://github.com/tj-actions/changed-files/commit/8296c33fd0180e60f8f7231f51d246bed82abf1f))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([2398551](https://github.com/tj-actions/changed-files/commit/23985514152c809eeea6e96f26c98b66dc77befa))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([ff65504](https://github.com/tj-actions/changed-files/commit/ff65504325c3dc10f03100fd228c04eeca7cca3a))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([2325baa](https://github.com/tj-actions/changed-files/commit/2325baada3477c4ca5bd25dce29d88b1efdf9f01))  - (GitHub Action)
+
+## <!-- 17 -->➖ Remove
+
+- Deleted the test3 directory
+ ([cd1e384](https://github.com/tj-actions/changed-files/commit/cd1e384723e4d1a184568182ac2b27c53ebf017f))  - (Tonye Jack)
+- Deleted a single test file
+ ([a52f862](https://github.com/tj-actions/changed-files/commit/a52f8621d26d5d9f54b80f74bda2d9eedff94693))  - (Tonye Jack)
+- Removed unused code
+ ([c98e6d2](https://github.com/tj-actions/changed-files/commit/c98e6d20fc234e1f4b0047cd43af2a37f8f38f44))  - (Tonye Jack)
+- Removed unused code
+ ([060b3b9](https://github.com/tj-actions/changed-files/commit/060b3b9b039f423591f1c790691e6d4ddabb1f5e))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1602](https://github.com/tj-actions/changed-files/issues/1602))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([8238a41](https://github.com/tj-actions/changed-files/commit/8238a4103220c636f2dad328ead8a7c8dbe316a3))  - (tj-actions[bot])
+- Update test
+ ([d2486b4](https://github.com/tj-actions/changed-files/commit/d2486b470f2ea6ffb0bc55a779968d797a2e3009))  - (Tonye Jack)
+- Updated test
+ ([e7fd9e5](https://github.com/tj-actions/changed-files/commit/e7fd9e59a4c7d9b50cd73b32576bf580517e7f60))  - (Tonye Jack)
+- Updated debug message
+ ([62a23f8](https://github.com/tj-actions/changed-files/commit/62a23f82b163be6455968457151fa0094ec92a63))  - (Tonye Jack)
+- Update test
+ ([ef42e5a](https://github.com/tj-actions/changed-files/commit/ef42e5ad18862ebf72e51cda14a38bf220407805))  - (Tonye Jack)
+- Updated the test
+ ([08906b3](https://github.com/tj-actions/changed-files/commit/08906b32548b7ccb4431cbf73cce16bf70b8746c))  - (Tonye Jack)
+- Updated description
+ ([cd35eac](https://github.com/tj-actions/changed-files/commit/cd35eace2271604e450d83d35cf4a157796a89a9))  - (Tonye Jack)
+- Updated use of deletedFilesPaths
+ ([543c1a2](https://github.com/tj-actions/changed-files/commit/543c1a25c6c1b4906734af8e1a90d01291c87a55))  - (Tonye Jack)
+- Updated action.yml
+ ([1be4200](https://github.com/tj-actions/changed-files/commit/1be42003d742f660cf76cb29b6a1f0d85706f646))  - (Tonye Jack)
+- Update README.md ([0b947ed](https://github.com/tj-actions/changed-files/commit/0b947ed818f8a396b19a263544998ab92a863b98))  - (Tonye Jack)
+- Update README.md ([e8dbf6d](https://github.com/tj-actions/changed-files/commit/e8dbf6d67071d288495f592937fe3bdbea3570f4))  - (Tonye Jack)
+
+## <!-- 30 -->📝 Other
+
+- PR [#1601](https://github.com/tj-actions/changed-files/pull/1601): ([aaf4339](https://github.com/tj-actions/changed-files/commit/aaf4339aa1cd7bd2fbe6d869601e3c52baac24ca))  - (Tonye Jack)
+- Merge branch 'main' into feat/add-support-for-restricting-the-deleted-files-output-to-only-deleted-directories ([e3cc088](https://github.com/tj-actions/changed-files/commit/e3cc088a9606acc8b7a64528de485e4ae1f868ec))  - (repo-ranger[bot])
+- Merge 62a23f82b163be6455968457151fa0094ec92a63 into 0b947ed818f8a396b19a263544998ab92a863b98
+ ([a351a30](https://github.com/tj-actions/changed-files/commit/a351a301d2a539ab0e3949e7d8ba1aa8fe7fc145))  - (Tonye Jack)
+- Merge c98e6d20fc234e1f4b0047cd43af2a37f8f38f44 into 0b947ed818f8a396b19a263544998ab92a863b98
+ ([0ad71b9](https://github.com/tj-actions/changed-files/commit/0ad71b9855cfe37f7e68ded4ce5fd215ed87e96e))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update actions/checkout digest to 8ade135 ([72d7089](https://github.com/tj-actions/changed-files/commit/72d7089b7241aaa6c60dc39e8336f9aef5ebd1da))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.1.2 ([#1594](https://github.com/tj-actions/changed-files/issues/1594))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([41c232a](https://github.com/tj-actions/changed-files/commit/41c232aad8c4c6c99852ca5363e8cb2dc76e7c8e))  - (tj-actions[bot])
+
 # [39.1.2](https://github.com/tj-actions/changed-files/compare/v39.1.1...v39.1.2) - (2023-09-20)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
