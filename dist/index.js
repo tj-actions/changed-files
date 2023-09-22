@@ -749,7 +749,10 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         workingDirectory) {
         const newDeletedFilesPaths = [];
         for (const deletedPath of getArrayFromPaths(deletedFiles.paths, inputs)) {
-            if (!(yield (0, utils_1.exists)(path_1.default.join(workingDirectory, deletedPath)))) {
+            const dirPath = path_1.default.join(workingDirectory, deletedPath);
+            core.debug(`Checking if directory exists: ${dirPath}`);
+            if (!(yield (0, utils_1.exists)(dirPath))) {
+                core.debug(`Directory not found: ${dirPath}`);
                 newDeletedFilesPaths.push(deletedPath);
             }
         }
@@ -757,6 +760,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
             ? newDeletedFilesPaths
             : newDeletedFilesPaths.join(inputs.separator);
         deletedFiles.count = newDeletedFilesPaths.length.toString();
+        core.debug(`New deleted files: ${JSON.stringify(deletedFiles)}`);
     }
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files', outputPrefix),
