@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import path from 'path'
 import {
   ChangedFiles,
   ChangeTypeEnum,
@@ -6,7 +7,7 @@ import {
   getChangeTypeFiles
 } from './changedFiles'
 import {Inputs} from './inputs'
-import {getOutputKey, setArrayOutput, setOutput} from './utils'
+import {getOutputKey, setArrayOutput, setOutput, exists} from './utils'
 
 const getArrayFromPaths = (
   paths: string | string[],
@@ -20,13 +21,15 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
   allFilteredDiffFiles,
   inputs,
   filePatterns = [],
-  outputPrefix = ''
+  outputPrefix = '',
+  workingDirectory
 }: {
   allDiffFiles: ChangedFiles
   allFilteredDiffFiles: ChangedFiles
   inputs: Inputs
   filePatterns?: string[]
   outputPrefix?: string
+  workingDirectory?: string
 }): Promise<{anyModified: boolean; anyChanged: boolean}> => {
   const addedFiles = await getChangeTypeFiles({
     inputs,
@@ -388,6 +391,24 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changeTypes: [ChangeTypeEnum.Deleted]
   })
   core.debug(`Deleted files: ${JSON.stringify(deletedFiles)}`)
+
+  if (
+    inputs.dirNamesDeletedFilesIncludeOnlyDeletedDirs &&
+    inputs.dirNames &&
+    workingDirectory
+  ) {
+    const newDeletedFilesPaths: string[] = []
+    for (const deletedPath of getArrayFromPaths(deletedFiles.paths, inputs)) {
+      if (!(await exists(path.join(workingDirectory, deletedPath)))) {
+        newDeletedFilesPaths.push(deletedPath)
+      }
+    }
+    deletedFiles.paths = inputs.json
+      ? newDeletedFilesPaths
+      : newDeletedFilesPaths.join(inputs.separator)
+    deletedFiles.count = newDeletedFilesPaths.length.toString()
+  }
+
   await setOutput({
     key: getOutputKey('deleted_files', outputPrefix),
     value: deletedFiles.paths,

@@ -57,7 +57,7 @@ const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
 const changedFilesOutput_1 = __nccwpck_require__(8930);
 const utils_1 = __nccwpck_require__(918);
-const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     if (filePatterns.length > 0) {
         core.startGroup('changed-files-patterns');
         const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
@@ -69,7 +69,8 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
             allDiffFiles,
             allFilteredDiffFiles,
             inputs,
-            filePatterns
+            filePatterns,
+            workingDirectory
         });
         core.info('All Done!');
         core.endGroup();
@@ -89,7 +90,8 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
                 allFilteredDiffFiles,
                 inputs,
                 filePatterns: yamlFilePatterns[key],
-                outputPrefix: key
+                outputPrefix: key,
+                workingDirectory
             });
             if (anyModified) {
                 modifiedKeys.push(key);
@@ -120,7 +122,8 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
         yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
             allDiffFiles,
             allFilteredDiffFiles: allDiffFiles,
-            inputs
+            inputs,
+            workingDirectory
         });
         core.info('All Done!');
         core.endGroup();
@@ -426,15 +429,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setOutputsAndGetModifiedAndChangedFilesStatus = void 0;
 const core = __importStar(__nccwpck_require__(2186));
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const changedFiles_1 = __nccwpck_require__(7358);
 const utils_1 = __nccwpck_require__(918);
 const getArrayFromPaths = (paths, inputs) => {
     return Array.isArray(paths) ? paths : paths.split(inputs.separator);
 };
-const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '', workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -737,6 +744,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilter
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
     });
     core.debug(`Deleted files: ${JSON.stringify(deletedFiles)}`);
+    if (inputs.dirNamesDeletedFilesIncludeOnlyDeletedDirs &&
+        inputs.dirNames &&
+        workingDirectory) {
+        const newDeletedFilesPaths = [];
+        for (const deletedPath of getArrayFromPaths(deletedFiles.paths, inputs)) {
+            if (!(yield (0, utils_1.exists)(path_1.default.join(workingDirectory, deletedPath)))) {
+                newDeletedFilesPaths.push(deletedPath);
+            }
+        }
+        deletedFiles.paths = inputs.json
+            ? newDeletedFilesPaths
+            : newDeletedFilesPaths.join(inputs.separator);
+        deletedFiles.count = newDeletedFilesPaths.length.toString();
+    }
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files', outputPrefix),
         value: deletedFiles.paths,
@@ -1493,6 +1514,9 @@ const getInputs = () => {
     const failOnSubmoduleDiffError = core.getBooleanInput('fail_on_submodule_diff_error', {
         required: false
     });
+    const dirNamesDeletedFilesIncludeOnlyDeletedDirs = core.getBooleanInput('dir_names_deleted_files_include_only_deleted_dirs', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1536,6 +1560,7 @@ const getInputs = () => {
         dirNamesExcludeCurrentDir,
         dirNamesIncludeFiles,
         dirNamesIncludeFilesSeparator,
+        dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         json,
         escapeJson,
         writeOutputFiles,
@@ -1682,7 +1707,8 @@ const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, fil
         filePatterns,
         allDiffFiles,
         inputs,
-        yamlFilePatterns
+        yamlFilePatterns,
+        workingDirectory
     });
     if (inputs.includeAllOldNewRenamedFiles) {
         core.startGroup('changed-files-all-old-new-renamed-files');
@@ -1865,7 +1891,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.getGitTrackedDirectories = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -1991,6 +2017,7 @@ const exists = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
         return false;
     }
 });
+exports.exists = exists;
 /**
  * Generates lines of a file as an async iterable iterator
  * @param filePath - path of file to read
@@ -2081,6 +2108,26 @@ const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, voi
     }
 });
 exports.updateGitGlobalConfig = updateGitGlobalConfig;
+/**
+ * Get tracked git directories
+ * @param cwd - working directory
+ */
+const getGitTrackedDirectories = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['ls-tree', '-d', '-r', '--name-only', 'HEAD'], {
+        cwd,
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+    });
+    if (exitCode !== 0) {
+        core.warning(stderr || "Couldn't list tracked directories");
+        return [];
+    }
+    return stdout
+        .trim()
+        .split('\n')
+        .map((line) => (0, exports.normalizeSeparators)(line.trim()));
+});
+exports.getGitTrackedDirectories = getGitTrackedDirectories;
 /**
  * Checks if a git repository is shallow
  * @param cwd - working directory
@@ -2562,7 +2609,7 @@ const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excluded
     const filePatterns = {};
     let source = '';
     if (filePath) {
-        if (!(yield exists(filePath))) {
+        if (!(yield (0, exports.exists)(filePath))) {
             core.error(`File does not exist: ${filePath}`);
             throw new Error(`File does not exist: ${filePath}`);
         }
@@ -2714,7 +2761,7 @@ const setOutput = ({ key, value, writeOutputFiles, outputDir, json = false, shou
     if (writeOutputFiles) {
         const extension = json ? 'json' : 'txt';
         const outputFilePath = path.join(outputDir, `${key}.${extension}`);
-        if (!(yield exists(outputDir))) {
+        if (!(yield (0, exports.exists)(outputDir))) {
             yield fs_1.promises.mkdir(outputDir, { recursive: true });
         }
         yield fs_1.promises.writeFile(outputFilePath, cleanedValue.replace(/\\"/g, '"'));
@@ -2753,7 +2800,7 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
             filePath: deletedFile,
             sha
         });
-        if (!(yield exists(path.dirname(target)))) {
+        if (!(yield (0, exports.exists)(path.dirname(target)))) {
             yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
         }
         yield fs_1.promises.writeFile(target, deletedFileContents);

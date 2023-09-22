@@ -24,12 +24,14 @@ export const processChangedFiles = async ({
   filePatterns,
   allDiffFiles,
   inputs,
-  yamlFilePatterns
+  yamlFilePatterns,
+  workingDirectory
 }: {
   filePatterns: string[]
   allDiffFiles: ChangedFiles
   inputs: Inputs
   yamlFilePatterns: Record<string, string[]>
+  workingDirectory?: string
 }): Promise<void> => {
   if (filePatterns.length > 0) {
     core.startGroup('changed-files-patterns')
@@ -44,7 +46,8 @@ export const processChangedFiles = async ({
       allDiffFiles,
       allFilteredDiffFiles,
       inputs,
-      filePatterns
+      filePatterns,
+      workingDirectory
     })
     core.info('All Done!')
     core.endGroup()
@@ -71,7 +74,8 @@ export const processChangedFiles = async ({
           allFilteredDiffFiles,
           inputs,
           filePatterns: yamlFilePatterns[key],
-          outputPrefix: key
+          outputPrefix: key,
+          workingDirectory
         })
       if (anyModified) {
         modifiedKeys.push(key)
@@ -106,7 +110,8 @@ export const processChangedFiles = async ({
     await setOutputsAndGetModifiedAndChangedFilesStatus({
       allDiffFiles,
       allFilteredDiffFiles: allDiffFiles,
-      inputs
+      inputs,
+      workingDirectory
     })
     core.info('All Done!')
     core.endGroup()
