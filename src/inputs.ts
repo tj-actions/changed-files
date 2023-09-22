@@ -31,6 +31,7 @@ export type Inputs = {
   dirNamesExcludeCurrentDir: boolean
   dirNamesIncludeFiles: string
   dirNamesIncludeFilesSeparator: string
+  dirNamesDeletedFilesIncludeOnlyDeletedDirs: boolean
   json: boolean
   escapeJson: boolean
   fetchDepth?: number
@@ -210,6 +211,12 @@ export const getInputs = (): Inputs => {
       required: false
     }
   )
+  const dirNamesDeletedFilesIncludeOnlyDeletedDirs = core.getBooleanInput(
+    'dir_names_deleted_files_include_only_deleted_dirs',
+    {
+      required: false
+    }
+  )
 
   const inputs: Inputs = {
     files,
@@ -254,6 +261,7 @@ export const getInputs = (): Inputs => {
     dirNamesExcludeCurrentDir,
     dirNamesIncludeFiles,
     dirNamesIncludeFilesSeparator,
+    dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     json,
     escapeJson,
     writeOutputFiles,
