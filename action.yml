@@ -120,6 +120,10 @@ inputs:
     description: "Separator used to split the `dir_names_include_files` input"
     default: "\n"
     required: false
+  dir_names_deleted_files_include_only_deleted_dirs:
+    description: "Include only deleted directories in the `deleted_files` output when `dir_names` is set to `true`."
+    required: false
+    default: "false"
   json:
     description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml)"
     required: false
