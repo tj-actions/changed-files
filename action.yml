@@ -121,7 +121,7 @@ inputs:
     default: "\n"
     required: false
   dir_names_deleted_files_include_only_deleted_dirs:
-    description: "Include only deleted directories in the `deleted_files` output when `dir_names` is set to `true`."
+    description: "Include only directories that have been deleted as opposed to directory names of files that have been deleted in the `deleted_files` output when `dir_names` is set to `true`."
     required: false
     default: "false"
   json:
