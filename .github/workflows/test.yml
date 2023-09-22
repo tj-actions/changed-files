@@ -821,16 +821,16 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
-          ref: 920856cf
+          ref: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
-          fetch-depth: 3
+          fetch-depth: 2
       - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with a single file deleted withing the test directory
         id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-single-file
         uses: ./
         with:
-          base_sha: 920856cf
-          sha: a52f8621
+          base_sha: 920856cfdd4b4be17810e34b197596397473adf6
+          sha: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           dir_names: true
           dir_names_deleted_files_include_only_deleted_dirs: true
       - name: Show output
@@ -854,16 +854,16 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
-          ref: 920856cf
+          ref: cd1e384723e4d1a184568182ac2b27c53ebf017f
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
-          fetch-depth: 3
+          fetch-depth: 2
       - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with the test directory deleted
         id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory
         uses: ./
         with:
-          base_sha: 920856cf
-          sha: cd1e384
+          base_sha: a52f8621d26d5d9f54b80f74bda2d9eedff94693
+          sha: cd1e384723e4d1a184568182ac2b27c53ebf017f
           dir_names: true
           dir_names_deleted_files_include_only_deleted_dirs: true
       - name: Show output
