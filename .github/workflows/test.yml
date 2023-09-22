@@ -1055,6 +1055,55 @@ jobs:
           exit 1
         shell:
           bash
+      - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with a single file deleted withing the test directory
+        id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-single-file
+        uses: ./
+        with:
+          base_sha: 920856cf
+          sha: a52f8621
+          fetch_depth: 60000
+          dir_names: true
+          dir_names_deleted_files_include_only_deleted_dirs: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-single-file.outputs) }}'
+        shell:
+          bash
+      - name: Check deleted_files output
+        if: steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-single-file.outputs.deleted_files != ''
+        run: |
+          echo "Invalid output: Expected '' got (${{ steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-single-file.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with the test directory deleted
+        id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory
+        uses: ./
+        with:
+          base_sha: 920856cf
+          sha: cd1e384
+          fetch_depth: 60000
+          dir_names: true
+          dir_names_deleted_files_include_only_deleted_dirs: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs) }}'
+        shell:
+          bash
+      - name: Check deleted_files output on non windows platform
+        if: steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs.deleted_files != 'test/test3' && runner.os != 'Windows'
+        run: |
+          echo "Invalid output: Expected (test/test3) got (${{ steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check deleted_files output on windows platform
+        if: steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs.deleted_files != 'test\\test3' && runner.os == 'Windows'
+        run: |
+          echo "Invalid output: Expected (test\\test3) got (${{ steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
       - name: Run changed-files with dir_names and dir_names_include_files with specific files
         id: changed-files-dir-names-specific-include-files
         uses: ./
