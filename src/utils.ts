@@ -139,7 +139,7 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
  * @param filePath - path to check
  * @returns path exists
  */
-const exists = async (filePath: string): Promise<boolean> => {
+export const exists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath)
     return true
