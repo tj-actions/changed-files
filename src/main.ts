@@ -152,7 +152,8 @@ const getChangedFilesFromLocalGitHistory = async ({
     filePatterns,
     allDiffFiles,
     inputs,
-    yamlFilePatterns
+    yamlFilePatterns,
+    workingDirectory
   })
 
   if (inputs.includeAllOldNewRenamedFiles) {
