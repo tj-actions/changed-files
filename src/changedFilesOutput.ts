@@ -409,12 +409,6 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     deletedFiles.count = newDeletedFilesPaths.length.toString()
   }
 
-  const deletedFilesPaths: string[] = getArrayFromPaths(
-    deletedFiles.paths,
-    inputs
-  )
-  const deletedFilesCount = deletedFilesPaths.length.toString()
-
   await setOutput({
     key: getOutputKey('deleted_files', outputPrefix),
     value: deletedFiles.paths,
@@ -426,14 +420,14 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
 
   await setOutput({
     key: getOutputKey('deleted_files_count', outputPrefix),
-    value: deletedFilesCount,
+    value: deletedFiles.count,
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir
   })
 
   await setOutput({
     key: getOutputKey('any_deleted', outputPrefix),
-    value: deletedFilesPaths.length > 0 && filePatterns.length > 0,
+    value: deletedFiles.paths.length > 0 && filePatterns.length > 0,
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json
@@ -447,6 +441,11 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
 
   const allOtherDeletedFilesPaths: string[] = getArrayFromPaths(
     allOtherDeletedFiles.paths,
+    inputs
+  )
+
+  const deletedFilesPaths: string[] = getArrayFromPaths(
+    deletedFiles.paths,
     inputs
   )
 
