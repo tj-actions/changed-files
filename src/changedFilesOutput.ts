@@ -399,7 +399,10 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
   ) {
     const newDeletedFilesPaths: string[] = []
     for (const deletedPath of getArrayFromPaths(deletedFiles.paths, inputs)) {
-      if (!(await exists(path.join(workingDirectory, deletedPath)))) {
+      const dirPath = path.join(workingDirectory, deletedPath)
+      core.debug(`Checking if directory exists: ${dirPath}`)
+      if (!(await exists(dirPath))) {
+        core.debug(`Directory not found: ${dirPath}`)
         newDeletedFilesPaths.push(deletedPath)
       }
     }
@@ -407,6 +410,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
       ? newDeletedFilesPaths
       : newDeletedFilesPaths.join(inputs.separator)
     deletedFiles.count = newDeletedFilesPaths.length.toString()
+    core.debug(`New deleted files: ${JSON.stringify(deletedFiles)}`)
   }
 
   await setOutput({
