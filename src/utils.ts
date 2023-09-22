@@ -139,7 +139,7 @@ export const verifyMinimumGitVersion = async (): Promise<void> => {
  * @param filePath - path to check
  * @returns path exists
  */
-const exists = async (filePath: string): Promise<boolean> => {
+export const exists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath)
     return true
@@ -231,6 +231,36 @@ export const updateGitGlobalConfig = async ({
   if (exitCode !== 0 || stderr) {
     core.warning(stderr || `Couldn't update git global config ${name}`)
   }
+}
+
+/**
+ * Get tracked git directories
+ * @param cwd - working directory
+ */
+export const getGitTrackedDirectories = async ({
+  cwd
+}: {
+  cwd: string
+}): Promise<string[]> => {
+  const {exitCode, stdout, stderr} = await exec.getExecOutput(
+    'git',
+    ['ls-tree', '-d', '-r', '--name-only', 'HEAD'],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
+
+  if (exitCode !== 0) {
+    core.warning(stderr || "Couldn't list tracked directories")
+    return []
+  }
+
+  return stdout
+    .trim()
+    .split('\n')
+    .map((line: string) => normalizeSeparators(line.trim()))
 }
 
 /**
