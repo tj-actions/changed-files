@@ -1423,14 +1423,14 @@ jobs:
           fi
         shell:
           bash
-      - name: Check if a excluded file is not included in any_deleted on non windows platform
+      - name: Check if an excluded file is included in deleted_files output on non windows platform
         if: "contains(steps.changed-files-specific.outputs.deleted_files, 'test/test/test.txt') && runner.os != 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test/test/test.txt) got (${{ steps.changed-files-specific.outputs.deleted_files }})"
           exit 1
         shell:
           bash
-      - name: Check if a excluded file is not included in any_deleted on windows platform
+      - name: Check if an excluded file is included in deleted_files output on windows platform
         if: "contains(steps.changed-files-specific.outputs.deleted_files, 'test\\test\\test.txt') && runner.os == 'Windows'"
         run: |
           echo "Invalid output: Expected not to include (test\\test\\test.txt) got (${{ steps.changed-files-specific.outputs.deleted_files }})"
