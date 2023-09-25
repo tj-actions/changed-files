@@ -17,6 +17,13 @@
 
 Effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root using this GitHub action.
 
+> **Warning**
+>
+> *   This action only detects files that have changed in a pull request, pushed commit and other events, for detecting pending uncommited changes generated during the workflow execution.
+>
+>     See: https://github.com/tj-actions/verify-changed-files
+
+
 ## Table of contents
 
 *   [Features 🚀](#features-)
