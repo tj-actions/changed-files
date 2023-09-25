@@ -256,12 +256,12 @@ export const getInputs = (): Inputs => {
     oldNewFilesSeparator,
     skipInitialFetch,
     fetchSubmoduleHistory,
+    dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     // End Not Supported via REST API
     dirNames,
     dirNamesExcludeCurrentDir,
     dirNamesIncludeFiles,
     dirNamesIncludeFilesSeparator,
-    dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     json,
     escapeJson,
     writeOutputFiles,
