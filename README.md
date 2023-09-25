@@ -23,7 +23,6 @@ Effortlessly track all changed files and directories relative to a target branch
 >
 >     See: https://github.com/tj-actions/verify-changed-files
 
-
 ## Table of contents
 
 *   [Features 🚀](#features-)
