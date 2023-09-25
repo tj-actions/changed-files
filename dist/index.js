@@ -1559,12 +1559,12 @@ const getInputs = () => {
         oldNewFilesSeparator,
         skipInitialFetch,
         fetchSubmoduleHistory,
+        dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         // End Not Supported via REST API
         dirNames,
         dirNamesExcludeCurrentDir,
         dirNamesIncludeFiles,
         dirNamesIncludeFilesSeparator,
-        dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         json,
         escapeJson,
         writeOutputFiles,
@@ -1794,7 +1794,8 @@ function run() {
                 'recoverFilesIgnore',
                 'includeAllOldNewRenamedFiles',
                 'skipInitialFetch',
-                'fetchSubmoduleHistory'
+                'fetchSubmoduleHistory',
+                'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
             ];
             for (const input of unsupportedInputs) {
                 if (inputs[input]) {

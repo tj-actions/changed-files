@@ -258,7 +258,8 @@ export async function run(): Promise<void> {
       'recoverFilesIgnore',
       'includeAllOldNewRenamedFiles',
       'skipInitialFetch',
-      'fetchSubmoduleHistory'
+      'fetchSubmoduleHistory',
+      'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
     ]
 
     for (const input of unsupportedInputs) {
