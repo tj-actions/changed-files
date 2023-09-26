@@ -19,9 +19,9 @@ Effortlessly track all changed files and directories relative to a target branch
 
 > **Warning**
 >
-> *   This action only detects files that have changed in a pull request, pushed commit and other events, for detecting pending uncommitted changes generated during the workflow execution.
+> *   This action solely identifies files that have undergone changes within the context of events such as `pull_request*`, `push`, and more. However, it doesn't detect pending uncommitted changes created during the workflow execution.
 >
->     See: https://github.com/tj-actions/verify-changed-files
+>     See: https://github.com/tj-actions/verify-changed-files instead
 
 ## Table of contents
 
