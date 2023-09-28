@@ -279,7 +279,7 @@ jobs:
       ...
 ```
 
-To access more examples, navigate to the [Examples](#examples) section.
+To access more examples, navigate to the [Examples](#examples-) section.
 
 If you feel generous and want to show some extra appreciation:
 
