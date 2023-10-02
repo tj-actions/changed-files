@@ -5,6 +5,7 @@ import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
+  getCurrentBranchName,
   getHeadSha,
   getParentSha,
   getPreviousGitTag,
@@ -89,7 +90,10 @@ export const getSHAForNonPullRequestEvent = async (
   gitFetchExtraArgs: string[],
   isTag: boolean
 ): Promise<DiffResult> => {
-  let targetBranch = env.GITHUB_REF_NAME
+  let targetBranch =
+    (await getCurrentBranchName({
+      cwd: workingDirectory
+    })) || env.GITHUB_REF_NAME
   const currentBranch = targetBranch
   let initialCommit = false
 
