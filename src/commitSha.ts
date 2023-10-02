@@ -5,6 +5,7 @@ import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
+  getCurrentBranchName,
   getHeadSha,
   getParentSha,
   getPreviousGitTag,
@@ -90,7 +91,7 @@ export const getSHAForNonPullRequestEvent = async (
   isTag: boolean
 ): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_REF_NAME
-  const currentBranch = targetBranch
+  let currentBranch = targetBranch
   let initialCommit = false
 
   if (!inputs.skipInitialFetch) {
@@ -163,6 +164,16 @@ export const getSHAForNonPullRequestEvent = async (
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
+  const currentBranchName = await getCurrentBranchName({cwd: workingDirectory})
+
+  if (
+    currentBranchName &&
+    currentBranchName !== 'HEAD' &&
+    (currentBranchName !== targetBranch || currentBranchName !== currentBranch)
+  ) {
+    targetBranch = currentBranchName
+    currentBranch = currentBranchName
+  }
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
