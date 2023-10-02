@@ -914,10 +914,8 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
 });
 const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
     var _h, _j, _k;
-    let targetBranch = (yield (0, utils_1.getCurrentBranchName)({
-        cwd: workingDirectory
-    })) || env.GITHUB_REF_NAME;
-    const currentBranch = targetBranch;
+    let targetBranch = env.GITHUB_REF_NAME;
+    let currentBranch = targetBranch;
     let initialCommit = false;
     if (!inputs.skipInitialFetch) {
         if (isShallow) {
@@ -984,6 +982,13 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
     const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     const diff = '..';
+    const currentBranchName = yield (0, utils_1.getCurrentBranchName)({ cwd: workingDirectory });
+    if (currentBranchName &&
+        currentBranchName !== 'HEAD' &&
+        (currentBranchName !== targetBranch || currentBranchName !== currentBranch)) {
+        targetBranch = currentBranchName;
+        currentBranch = currentBranchName;
+    }
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
