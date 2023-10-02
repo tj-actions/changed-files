@@ -696,6 +696,30 @@ export const getRemoteBranchHeadSha = async ({
   return stdout.trim()
 }
 
+export const getBranchNameFromSha = async ({
+  sha,
+  cwd
+}: {
+  sha: string
+  cwd: string
+}): Promise<string> => {
+  const {exitCode, stdout} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', '--abbrev-ref', sha],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
+
+  if (exitCode !== 0) {
+    return ''
+  }
+
+  return stdout.trim()
+}
+
 export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
   const {stdout, exitCode} = await exec.getExecOutput(
     'git',

@@ -5,6 +5,7 @@ import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
+  getBranchNameFromSha,
   getHeadSha,
   getParentSha,
   getPreviousGitTag,
@@ -90,7 +91,7 @@ export const getSHAForNonPullRequestEvent = async (
   isTag: boolean
 ): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_REF_NAME
-  const currentBranch = targetBranch
+  let currentBranch = targetBranch
   let initialCommit = false
 
   if (!inputs.skipInitialFetch) {
@@ -163,6 +164,21 @@ export const getSHAForNonPullRequestEvent = async (
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
+
+  if (currentSha) {
+    currentBranch =
+      (await getBranchNameFromSha({
+        cwd: workingDirectory,
+        sha: currentSha
+      })) || currentBranch
+  }
+  if (previousSha) {
+    targetBranch =
+      (await getBranchNameFromSha({
+        cwd: workingDirectory,
+        sha: previousSha
+      })) || targetBranch
+  }
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
@@ -264,6 +280,14 @@ export const getSHAForNonPullRequestEvent = async (
 
   await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
   core.debug(`Previous SHA: ${previousSha}`)
+
+  if (previousSha) {
+    targetBranch =
+      (await getBranchNameFromSha({
+        cwd: workingDirectory,
+        sha: previousSha
+      })) || targetBranch
+  }
 
   core.debug(`Target branch: ${targetBranch}`)
   core.debug(`Current branch: ${currentBranch}`)
