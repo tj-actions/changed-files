@@ -915,7 +915,7 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
 const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
     var _h, _j, _k;
     let targetBranch = env.GITHUB_REF_NAME;
-    const currentBranch = targetBranch;
+    let currentBranch = targetBranch;
     let initialCommit = false;
     if (!inputs.skipInitialFetch) {
         if (isShallow) {
@@ -982,6 +982,13 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
     const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
     let previousSha = inputs.baseSha;
     const diff = '..';
+    const currentBranchName = yield (0, utils_1.getCurrentBranchName)({ cwd: workingDirectory });
+    if (currentBranchName &&
+        currentBranchName !== 'HEAD' &&
+        (currentBranchName !== targetBranch || currentBranchName !== currentBranch)) {
+        targetBranch = currentBranchName;
+        currentBranch = currentBranchName;
+    }
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
@@ -1896,7 +1903,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2404,6 +2411,18 @@ const getRemoteBranchHeadSha = ({ cwd, branch }) => __awaiter(void 0, void 0, vo
     return stdout.trim();
 });
 exports.getRemoteBranchHeadSha = getRemoteBranchHeadSha;
+const getCurrentBranchName = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+        cwd,
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+    });
+    if (exitCode !== 0) {
+        return '';
+    }
+    return stdout.trim();
+});
+exports.getCurrentBranchName = getCurrentBranchName;
 const getParentSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
         cwd,
