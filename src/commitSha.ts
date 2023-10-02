@@ -90,11 +90,8 @@ export const getSHAForNonPullRequestEvent = async (
   gitFetchExtraArgs: string[],
   isTag: boolean
 ): Promise<DiffResult> => {
-  let targetBranch =
-    (await getCurrentBranchName({
-      cwd: workingDirectory
-    })) || env.GITHUB_REF_NAME
-  const currentBranch = targetBranch
+  let targetBranch = env.GITHUB_REF_NAME
+  let currentBranch = targetBranch
   let initialCommit = false
 
   if (!inputs.skipInitialFetch) {
@@ -167,6 +164,16 @@ export const getSHAForNonPullRequestEvent = async (
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
   let previousSha = inputs.baseSha
   const diff = '..'
+  const currentBranchName = await getCurrentBranchName({cwd: workingDirectory})
+
+  if (
+    currentBranchName &&
+    currentBranchName !== 'HEAD' &&
+    (currentBranchName !== targetBranch || currentBranchName !== currentBranch)
+  ) {
+    targetBranch = currentBranchName
+    currentBranch = currentBranchName
+  }
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
