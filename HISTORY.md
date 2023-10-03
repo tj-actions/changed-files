@@ -1,5 +1,57 @@
 # Changelog
 
+# [39.2.1](https://github.com/tj-actions/changed-files/compare/v39.2.0...v39.2.1) - (2023-10-03)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Incorrect branch name for issue_comment event ([#1625](https://github.com/tj-actions/changed-files/issues/1625)) ([3415b43](https://github.com/tj-actions/changed-files/commit/3415b437807016c147990325ffd1c445deaa7a1d))  - (Tonye Jack)
+- **deps:** Update dependency @octokit/rest to v20.0.2 ([2ba385a](https://github.com/tj-actions/changed-files/commit/2ba385a5e1d21dc4d37a2baf55e780a7fd57139c))  - (renovate[bot])
+
+## <!-- 26 -->🔄 Update
+
+- Update issue-comment-test.yml ([344b35f](https://github.com/tj-actions/changed-files/commit/344b35fc53a62a8550dc9715607c49a8777f16a1))  - (Tonye Jack)
+- Update README.md ([e061de5](https://github.com/tj-actions/changed-files/commit/e061de58dad56050b79935b5cf2dcad74159fb83))  - (Tonye Jack)
+- Update README.md ([2d7c109](https://github.com/tj-actions/changed-files/commit/2d7c10954b8d1cbd6384cb940c06c4478c53837d))  - (Tonye Jack)
+- Update README.md ([6e74c9d](https://github.com/tj-actions/changed-files/commit/6e74c9dbbb6ba09bce97da82f2262807d6abbfa5))  - (Tonye Jack)
+- Updated README.md ([#1612](https://github.com/tj-actions/changed-files/issues/1612))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([cf03855](https://github.com/tj-actions/changed-files/commit/cf03855076201be8cde507cce3b8bd4e9f7abe95))  - (tj-actions[bot])
+- Update README.md ([877b5ce](https://github.com/tj-actions/changed-files/commit/877b5ce98c3a0133d7ac80b7e2cae6cc8f961841))  - (Tonye Jack)
+- Updated README.md ([#1606](https://github.com/tj-actions/changed-files/issues/1606))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([dac82b0](https://github.com/tj-actions/changed-files/commit/dac82b0e155183344880244ed092cd3b06663426))  - (tj-actions[bot])
+- Update README.md ([4595c4c](https://github.com/tj-actions/changed-files/commit/4595c4c56bb7ca1edba1f155a344153539b2b2f8))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Clean up test ([#1627](https://github.com/tj-actions/changed-files/issues/1627)) ([db153ba](https://github.com/tj-actions/changed-files/commit/db153baf731265ad02cd490b07f470e2d55e3345))  - (Tonye Jack)
+- Update issue-comment-test.yml ([f318653](https://github.com/tj-actions/changed-files/commit/f318653745f7ab6557649e6f96c71a5faccacb6b))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.8.2 ([15f38d6](https://github.com/tj-actions/changed-files/commit/15f38d6693283446115e78f7b3076608c1c67d02))  - (renovate[bot])
+- Create issue-comment-test.yml ([#1624](https://github.com/tj-actions/changed-files/issues/1624)) ([2160c8e](https://github.com/tj-actions/changed-files/commit/2160c8e998e23cb0a2cee38e4f030a743d61af29))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v6.7.4 ([39084f9](https://github.com/tj-actions/changed-files/commit/39084f937ae8cc423a895ef8507e6620b1b7983b))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.8.0 ([22a6a7d](https://github.com/tj-actions/changed-files/commit/22a6a7dedc674501315625e1db94ce3fdbfdf386))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.4.2 ([8f93691](https://github.com/tj-actions/changed-files/commit/8f93691a81d6c978bc304711c46597e7dbbc25d4))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.7.2 ([c5c7d81](https://github.com/tj-actions/changed-files/commit/c5c7d8163f10b0dde64364d83cafb8de357b75eb))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.7.1 ([6f90eec](https://github.com/tj-actions/changed-files/commit/6f90eecfe82139f386adf4623cc24103cde40c3f))  - (renovate[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.3 ([4daaa81](https://github.com/tj-actions/changed-files/commit/4daaa8171de72e3250f45fc86d12a60d1dd47158))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v4.10.1 ([cbff914](https://github.com/tj-actions/changed-files/commit/cbff9146e3997d34c4e754583c25435257541e58))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.7.0 ([44827f3](https://github.com/tj-actions/changed-files/commit/44827f39da2d74aeb9462a58b09a6be660878d4e))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.7.3 ([7d9358a](https://github.com/tj-actions/changed-files/commit/7d9358afc150cebfe3b5bd5741b21885ef30bf86))  - (renovate[bot])
+- Updated list of unsupported inputs when using REST API ([#1611](https://github.com/tj-actions/changed-files/issues/1611)) ([428220b](https://github.com/tj-actions/changed-files/commit/428220b7f403d741a0c919da5b37293e1fc2b492))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.6.5 ([914e022](https://github.com/tj-actions/changed-files/commit/914e0223cf25b0dcee06b9dddf0e5e8c2f13ea63))  - (renovate[bot])
+- **deps:** Lock file maintenance ([b79cd45](https://github.com/tj-actions/changed-files/commit/b79cd45602e1ab93c5766c4055e658d83bd4f7a3))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.6.4 ([19107de](https://github.com/tj-actions/changed-files/commit/19107de46c6b36f05bae9188237357904b070361))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.199 ([29dd1b9](https://github.com/tj-actions/changed-files/commit/29dd1b9c76732acc349df06e11ac2cf359137642))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.50.0 ([39000e5](https://github.com/tj-actions/changed-files/commit/39000e536b5446b6d4d0558ba3467384265331a0))  - (renovate[bot])
+- **deps:** Lock file maintenance ([9053f9e](https://github.com/tj-actions/changed-files/commit/9053f9ea110082a134adc566dc32ece555fc4125))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.2.0 ([#1604](https://github.com/tj-actions/changed-files/issues/1604))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([181ee9b](https://github.com/tj-actions/changed-files/commit/181ee9b66b9d14bd0c5ae6b99fefb64b91800887))  - (tj-actions[bot])
+
 # [39.2.0](https://github.com/tj-actions/changed-files/compare/v39.1.2...v39.2.0) - (2023-09-22)
 
 ## <!-- 0 -->🚀 Features
