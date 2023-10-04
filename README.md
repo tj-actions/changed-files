@@ -119,6 +119,21 @@ jobs:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
       # Example 1
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v39
+        
+        # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
+        # with:
+        #   since_last_remote_commit: true 
+
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+      # Example 2
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
         uses: tj-actions/changed-files@v39
@@ -147,21 +162,6 @@ jobs:
         run: |
           echo "One or more doc file(s) has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}"
-
-      # Example 2
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v39
-        
-        # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
-        # with:
-        #   since_last_remote_commit: true 
-
-      - name: List all changed files
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
 
       # Example 3
       - name: Get changed files in the docs folder
