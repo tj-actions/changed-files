@@ -17,7 +17,7 @@
 
 Effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root using this GitHub action.
 
-> **Warning**
+> **Note**
 >
 > *   This action solely identifies files that have undergone changes within the context of events such as `pull_request*`, `push`, and more. However, it doesn't detect pending uncommitted changes created during the workflow execution.
 >
@@ -82,7 +82,7 @@ And many more...
 
 ## Usage 💻
 
-> **Warning**
+> **Important**
 >
 > *   For `push` events: When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set [`fetch-depth`](https://github.com/actions/checkout#usage) to either `0` or `2`, depending on your use case.
 > *   For mono repositories where pulling all branch history might not be desired, you can still use the default [`fetch-depth`](https://github.com/actions/checkout#usage), which is set to `1` for `pull_request` events.
@@ -931,9 +931,9 @@ And many more...
 
 ![image](https://github.com/tj-actions/changed-files/assets/17484350/23767413-4c51-42fb-ab1c-39ef72c44904)
 
-## Known Limitation ⚠️
+## Important Notice ⚠️
 
-> **Warning**
+> **Important**
 >
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent any hidden issues.
