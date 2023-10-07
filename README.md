@@ -39,7 +39,7 @@ Effortlessly track all changed files and directories relative to a target branch
 *   [Real-world usage 🌐](#real-world-usage-)
     *   [Open source projects 📦](#open-source-projects-)
     *   [Scalability Example 📈](#scalability-example-)
-*   [Known Limitation ⚠️](#known-limitation-️)
+*   [Important Notice ⚠️](#important-notice-️)
 *   [Migration guide 🔄](#migration-guide-)
 *   [Credits 👏](#credits-)
 *   [Report Bugs 🐛](#report-bugs-)
