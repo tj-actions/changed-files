@@ -1,5 +1,41 @@
 # Changelog
 
+# [39.2.2](https://github.com/tj-actions/changed-files/compare/v39.2.1...v39.2.2) - (2023-10-11)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @actions/github to v6 ([#1636](https://github.com/tj-actions/changed-files/issues/1636)) ([1d9d8f4](https://github.com/tj-actions/changed-files/commit/1d9d8f4a769e0e15ef6d9657ceb4c64b4f79444a))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([408093d](https://github.com/tj-actions/changed-files/commit/408093d9ff9c134c33b974e0722ce06b9d6e8263))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([49e754c](https://github.com/tj-actions/changed-files/commit/49e754c81d45331f68e6691ca91590e12f0bf105))  - (Tonye Jack)
+- Updated README.md ([#1632](https://github.com/tj-actions/changed-files/issues/1632))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([5742169](https://github.com/tj-actions/changed-files/commit/57421690e0ad0aaa68f8a7de7cdcec0ac85f4471))  - (tj-actions[bot])
+- Update README.md ([1c14cc7](https://github.com/tj-actions/changed-files/commit/1c14cc7ff31c36290d78b6beedcbfdd8eb6c1ad6))  - (Tonye Jack)
+- Update README.md ([6cd5b66](https://github.com/tj-actions/changed-files/commit/6cd5b661017dec80808b3d6fe58017f11898979c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([a8fcc78](https://github.com/tj-actions/changed-files/commit/a8fcc78511f2e612fe60b52f342af99c9bfc53e8))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.0.1 ([3b9406e](https://github.com/tj-actions/changed-files/commit/3b9406ef8235796a97765ef91c44294ef70175a1))  - (renovate[bot])
+- **deps:** Update nrwl/nx-set-shas action to v4 ([#1635](https://github.com/tj-actions/changed-files/issues/1635)) ([6777efe](https://github.com/tj-actions/changed-files/commit/6777efe3caaf110650443295dcfe44b6001c2803))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.7.5 ([2b4a057](https://github.com/tj-actions/changed-files/commit/2b4a057e157f0c14d0bc6ee271924108cbe99aaf))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.8.4 ([1e88b75](https://github.com/tj-actions/changed-files/commit/1e88b750d46079ab0916821bfba40c1890fc9064))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.8.3 ([54864d4](https://github.com/tj-actions/changed-files/commit/54864d4c3b647ac620a1bcbc02d2e82dea105902))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.51.0 ([8f6e85f](https://github.com/tj-actions/changed-files/commit/8f6e85fcdfa6c88613a3c33e6d6b1f9ef44c68e9))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.2.1 ([#1628](https://github.com/tj-actions/changed-files/issues/1628))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([3729bf2](https://github.com/tj-actions/changed-files/commit/3729bf289f532adbcb2e7b4d887b770c9fa2add8))  - (tj-actions[bot])
+
 # [39.2.1](https://github.com/tj-actions/changed-files/compare/v39.2.0...v39.2.1) - (2023-10-03)
 
 ## <!-- 1 -->🐛 Bug Fixes
