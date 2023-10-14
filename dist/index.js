@@ -8764,7 +8764,7 @@ __export(dist_src_exports, {
 module.exports = __toCommonJS(dist_src_exports);
 
 // pkg/dist-src/version.js
-var VERSION = "10.0.0";
+var VERSION = "10.0.1";
 
 // pkg/dist-src/generated/endpoints.js
 var Endpoints = {
@@ -10647,11 +10647,41 @@ for (const [scope, endpoints] of Object.entries(endpoints_default)) {
   }
 }
 var handler = {
+  has({ scope }, methodName) {
+    return endpointMethodsMap.get(scope).has(methodName);
+  },
+  getOwnPropertyDescriptor(target, methodName) {
+    return {
+      value: this.get(target, methodName),
+      // ensures method is in the cache
+      configurable: true,
+      writable: true,
+      enumerable: true
+    };
+  },
+  defineProperty(target, methodName, descriptor) {
+    Object.defineProperty(target.cache, methodName, descriptor);
+    return true;
+  },
+  deleteProperty(target, methodName) {
+    delete target.cache[methodName];
+    return true;
+  },
+  ownKeys({ scope }) {
+    return [...endpointMethodsMap.get(scope).keys()];
+  },
+  set(target, methodName, value) {
+    return target.cache[methodName] = value;
+  },
   get({ octokit, scope, cache }, methodName) {
     if (cache[methodName]) {
       return cache[methodName];
     }
-    const { decorations, endpointDefaults } = endpointMethodsMap.get(scope).get(methodName);
+    const method = endpointMethodsMap.get(scope).get(methodName);
+    if (!method) {
+      return void 0;
+    }
+    const { endpointDefaults, decorations } = method;
     if (decorations) {
       cache[methodName] = decorate(
         octokit,
@@ -44988,6 +45018,10 @@ async function httpRedirectFetch (fetchParams, response) {
   if (!sameOrigin(requestCurrentURL(request), locationURL)) {
     // https://fetch.spec.whatwg.org/#cors-non-wildcard-request-header-name
     request.headersList.delete('authorization')
+
+    // "Cookie" and "Host" are forbidden request-headers, which undici doesn't implement.
+    request.headersList.delete('cookie')
+    request.headersList.delete('host')
   }
 
   // 14. If request’s body is non-null, then set request’s body to the first return
@@ -45132,7 +45166,7 @@ async function httpNetworkOrCacheFetch (
   //    user agents should append `User-Agent`/default `User-Agent` value to
   //    httpRequest’s header list.
   if (!httpRequest.headersList.contains('user-agent')) {
-    httpRequest.headersList.append('user-agent', __filename.endsWith('index.js') ? 'undici' : 'node')
+    httpRequest.headersList.append('user-agent', typeof esbuildDetection === 'undefined' ? 'undici' : 'node')
   }
 
   //    15. If httpRequest’s cache mode is "default" and httpRequest’s header
