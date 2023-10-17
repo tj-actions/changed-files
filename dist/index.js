@@ -2599,7 +2599,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         else {
             const pathParts = pattern.split('/');
             const lastPart = pathParts[pathParts.length - 1];
-            if (!lastPart.includes('.')) {
+            if (!lastPart.includes('.') && !lastPart.endsWith('*')) {
                 return `${pattern}/**`;
             }
             else {
