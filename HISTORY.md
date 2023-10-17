@@ -1,5 +1,33 @@
 # Changelog
 
+# [39.2.3](https://github.com/tj-actions/changed-files/compare/v39.2.2...v39.2.3) - (2023-10-17)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug returning files with matched patterns ([#1648](https://github.com/tj-actions/changed-files/issues/1648)) ([95690f9](https://github.com/tj-actions/changed-files/commit/95690f9ece77c1740f4a55b7f1de9023ed6b1f87))  - (Tonye Jack)
+- **deps:** Update dependency yaml to v2.3.3 ([4422568](https://github.com/tj-actions/changed-files/commit/44225688bb4d3bee3a2c2b89b075da711f6439ca))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([2a10bef](https://github.com/tj-actions/changed-files/commit/2a10bef1b42044172f2e64d40beeb8fbad792438))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([a82ffc6](https://github.com/tj-actions/changed-files/commit/a82ffc67b399a2313a161e829a13cfe4136efd12))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v6.8.0 ([9726642](https://github.com/tj-actions/changed-files/commit/97266423dbbb3fef38257a9049a722278bf9103c))  - (renovate[bot])
+- **deps:** Lock file maintenance ([af4b210](https://github.com/tj-actions/changed-files/commit/af4b21011169361c41b203dfabf25f57ff17bc59))  - (renovate[bot])
+- **deps:** Lock file maintenance ([5c45808](https://github.com/tj-actions/changed-files/commit/5c45808ea0d7a3f029ef6465447cd0f23cae87ed))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.8.6 ([f144a9e](https://github.com/tj-actions/changed-files/commit/f144a9e6da20c676d410b6485f4dbb6b2390f3dd))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.8.5 ([d08f64a](https://github.com/tj-actions/changed-files/commit/d08f64adf6f0e48966fc28a25a79e772b7d3804e))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.2.2 ([#1639](https://github.com/tj-actions/changed-files/issues/1639))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2d0db8b](https://github.com/tj-actions/changed-files/commit/2d0db8be9ec241024f06a541c605733d4b325794))  - (tj-actions[bot])
+
 # [39.2.2](https://github.com/tj-actions/changed-files/compare/v39.2.1...v39.2.2) - (2023-10-11)
 
 ## <!-- 1 -->🐛 Bug Fixes
