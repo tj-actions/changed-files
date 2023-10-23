@@ -1,5 +1,35 @@
 # Changelog
 
+# [39.2.4](https://github.com/tj-actions/changed-files/compare/v39.2.3...v39.2.4) - (2023-10-23)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([28cf220](https://github.com/tj-actions/changed-files/commit/28cf22057fdc9b7c9328d0b5884e8c45b9316b22))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([40e81cc](https://github.com/tj-actions/changed-files/commit/40e81cc72b38d108b2ba0fb7c01296a426dc775a))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v6.9.0 ([fea790c](https://github.com/tj-actions/changed-files/commit/fea790cb660e33aef4bdf07304e28fedd77dfa13))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v4 ([#1662](https://github.com/tj-actions/changed-files/issues/1662)) ([794c26f](https://github.com/tj-actions/changed-files/commit/794c26fb9f1f00d846ee83388f7b31ce2f6512da))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v3.8.2 ([0f6525c](https://github.com/tj-actions/changed-files/commit/0f6525cd7da1375f0db035f17af23c36e1fb7782))  - (renovate[bot])
+- **deps:** Lock file maintenance ([faedee1](https://github.com/tj-actions/changed-files/commit/faedee1163969ecb7501e1ecc85c15a3bc64108a))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.4.3 ([4a7ca97](https://github.com/tj-actions/changed-files/commit/4a7ca97de0b5d33f2e5300bf1dc53444286c3275))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.52.0 ([cef68ee](https://github.com/tj-actions/changed-files/commit/cef68eee2ecab71f0d41f1da5ca539689caba074))  - (renovate[bot])
+- **deps:** Update dependency @vercel/ncc to v0.38.1 ([4d1f5be](https://github.com/tj-actions/changed-files/commit/4d1f5becef0a3eeedf05179e1d76c3ed49210249))  - (renovate[bot])
+- **deps:** Update dependency @types/uuid to v9.0.6 ([c82b7e2](https://github.com/tj-actions/changed-files/commit/c82b7e29920127a41f9a25b2dab101e63e14627c))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.8.7 ([02eb5a7](https://github.com/tj-actions/changed-files/commit/02eb5a78aa173b07efe5bce41f9ecf0029cecde2))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.200 ([2cee40e](https://github.com/tj-actions/changed-files/commit/2cee40ea9342da5bc5bb29c6af09d2ea35e216fe))  - (renovate[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.4 ([5b02f7c](https://github.com/tj-actions/changed-files/commit/5b02f7c186bcb4d1f31582f2c3be28d5cc794ff2))  - (renovate[bot])
+- **deps:** Update dependency @types/jest to v29.5.6 ([2e7f228](https://github.com/tj-actions/changed-files/commit/2e7f228016e92a06ac5a941a38f2ddb297ba9c99))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.2.3 ([#1649](https://github.com/tj-actions/changed-files/issues/1649))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([8a78ebb](https://github.com/tj-actions/changed-files/commit/8a78ebb29fc795a2f216667dd5597a98e45e9085))  - (tj-actions[bot])
+
 # [39.2.3](https://github.com/tj-actions/changed-files/compare/v39.2.2...v39.2.3) - (2023-10-17)
 
 ## <!-- 1 -->🐛 Bug Fixes
