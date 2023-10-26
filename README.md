@@ -88,6 +88,7 @@ And many more...
 > *   For mono repositories where pulling all branch history might not be desired, you can still use the default [`fetch-depth`](https://github.com/actions/checkout#usage), which is set to `1` for `pull_request` events.
 > *   Avoid using single or double quotes for multiline inputs, as the value is already a string separated by a newline character. See [Examples](#examples) for more information.
 > *   If [`fetch-depth`](https://github.com/actions/checkout#usage) isn't set to `0`, ensure that [`persist-credentials`](https://github.com/actions/checkout#usage) is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage).
+> *   For matching all files and folders under a directory you'll need to use `dir_name/**`
 
 Visit the [discussions for more information](https://github.com/tj-actions/changed-files/discussions) or [create a new discussion](https://github.com/tj-actions/changed-files/discussions/new/choose) for usage-related questions.
 
@@ -167,7 +168,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v39
         with:
-          files: docs/*.{js,html}  # Alternatively using: `docs/**` or `docs`
+          files: docs/*.{js,html}  # Alternatively using: `docs/**`
           files_ignore: docs/static.js
 
       - name: Run step if any file(s) in the docs folder change
@@ -553,7 +554,7 @@ See [outputs](#outputs) for a list of all available outputs.
           *.sh
           *.png
           !*.md
-          test_directory
+          test_directory/**
           **/*.sql
 ...
 ```
@@ -576,7 +577,7 @@ See [inputs](#inputs) for more information.
           *.sh
           *.png
           !*.md
-          test_directory
+          test_directory/**
           **/*.sql
 
     - name: Run step if any of the listed files above change
