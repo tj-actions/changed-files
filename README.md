@@ -244,6 +244,8 @@ on:
 #
 #  merge_group:
 #
+#  issue_comment:
+#
 # ...and many more
 
 
