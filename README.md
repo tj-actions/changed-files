@@ -577,7 +577,7 @@ See [inputs](#inputs) for more information.
           *.sh
           *.png
           !*.md
-          test_directory/++
+          test_directory/**
           **/*.sql
 
     - name: Run step if any of the listed files above change
