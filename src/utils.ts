@@ -1012,19 +1012,6 @@ export const getFilePatterns = async ({
     .trim()
     .split('\n')
     .filter(Boolean)
-    .map(pattern => {
-      if (pattern.endsWith('/')) {
-        return `${pattern}**`
-      } else {
-        const pathParts = pattern.split('/')
-        const lastPart = pathParts[pathParts.length - 1]
-        if (!lastPart.includes('.') && !lastPart.endsWith('*')) {
-          return `${pattern}/**`
-        } else {
-          return pattern
-        }
-      }
-    })
 }
 
 // Example YAML input:
