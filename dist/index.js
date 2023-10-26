@@ -2588,25 +2588,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
     core.debug(`Input file patterns: ${filePatterns}`);
-    return filePatterns
-        .trim()
-        .split('\n')
-        .filter(Boolean)
-        .map(pattern => {
-        if (pattern.endsWith('/')) {
-            return `${pattern}**`;
-        }
-        else {
-            const pathParts = pattern.split('/');
-            const lastPart = pathParts[pathParts.length - 1];
-            if (!lastPart.includes('.') && !lastPart.endsWith('*')) {
-                return `${pattern}/**`;
-            }
-            else {
-                return pattern;
-            }
-        }
-    });
+    return filePatterns.trim().split('\n').filter(Boolean);
 });
 exports.getFilePatterns = getFilePatterns;
 const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
