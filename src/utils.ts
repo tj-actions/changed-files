@@ -1008,10 +1008,7 @@ export const getFilePatterns = async ({
 
   core.debug(`Input file patterns: ${filePatterns}`)
 
-  return filePatterns
-    .trim()
-    .split('\n')
-    .filter(Boolean)
+  return filePatterns.trim().split('\n').filter(Boolean)
 }
 
 // Example YAML input:
