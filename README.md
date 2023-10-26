@@ -167,7 +167,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v39
         with:
-          files: docs/*.{js,html}  # Alternatively using: `docs/**` or `docs`
+          files: docs/*.{js,html}  # Alternatively using: `docs/**`
           files_ignore: docs/static.js
 
       - name: Run step if any file(s) in the docs folder change
@@ -553,7 +553,7 @@ See [outputs](#outputs) for a list of all available outputs.
           *.sh
           *.png
           !*.md
-          test_directory
+          test_directory/**
           **/*.sql
 ...
 ```
@@ -576,7 +576,7 @@ See [inputs](#inputs) for more information.
           *.sh
           *.png
           !*.md
-          test_directory
+          test_directory/++
           **/*.sql
 
     - name: Run step if any of the listed files above change
