@@ -1,5 +1,38 @@
 # Changelog
 
+# [40.0.0](https://github.com/tj-actions/changed-files/compare/v39.2.4...v40.0.0) - (2023-10-26)
+
+## <!-- 13 -->📦 Bumps
+
+- Bump @types/node from 20.8.7 to 20.8.8 ([#1666](https://github.com/tj-actions/changed-files/issues/1666))
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([955cdc8](https://github.com/tj-actions/changed-files/commit/955cdc8d81246052a366a9a1c4e570774fe2b1c6))  - (dependabot[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([af292f1](https://github.com/tj-actions/changed-files/commit/af292f1e845a0377b596972698a8598734eb2796))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([e48cacb](https://github.com/tj-actions/changed-files/commit/e48cacbca52c259aaa62f428dd90bc4e374a8cda))  - (GitHub Action)
+
+## <!-- 17 -->➖ Remove
+
+- Appending globstar pattern for directories to prevent bugs with path matching ([#1670](https://github.com/tj-actions/changed-files/issues/1670)) ([3ce5a29](https://github.com/tj-actions/changed-files/commit/3ce5a2970f30e3278949b12f08ed68f90cc8e482))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([2ddcb04](https://github.com/tj-actions/changed-files/commit/2ddcb04986856a468e97e777e87741f528cbad2b))  - (renovate[bot])
+- Update test.yml ([d898dd0](https://github.com/tj-actions/changed-files/commit/d898dd09e4531bdc144c5149b2d4de056819d8a4))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.8.9 ([0e08afd](https://github.com/tj-actions/changed-files/commit/0e08afd95d354d7dfa67484142cc153c96b816df))  - (renovate[bot])
+- **deps:** Lock file maintenance ([5aee572](https://github.com/tj-actions/changed-files/commit/5aee57257118b7f1a34194ed31f5faf4d56a1b04))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v39.2.4 ([#1664](https://github.com/tj-actions/changed-files/issues/1664))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([c83cb31](https://github.com/tj-actions/changed-files/commit/c83cb31f5b2aea1959056c29027ee2b838d88747))  - (tj-actions[bot])
+
 # [39.2.4](https://github.com/tj-actions/changed-files/compare/v39.2.3...v39.2.4) - (2023-10-23)
 
 ## <!-- 16 -->➕ Add
