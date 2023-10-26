@@ -92,7 +92,7 @@ And many more...
 
 Visit the [discussions for more information](https://github.com/tj-actions/changed-files/discussions) or [create a new discussion](https://github.com/tj-actions/changed-files/discussions/new/choose) for usage-related questions.
 
-### On `pull_request` 🔀
+### On [`pull_request`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) 🔀
 
 Detect changes to all files in a Pull request relative to the target branch or since the last pushed commit.
 
@@ -215,7 +215,7 @@ jobs:
           done
 ```
 
-### On `push` ⬆️
+### On [`push`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push) ⬆️
 
 Detect changes to files made since the last pushed commit.
 
@@ -226,28 +226,6 @@ on:
   push:
     branches:
       - main
-
-# -------------------------------
-#  Optionally run on other events
-# -------------------------------
-#  schedule:
-#     - cron: '0 0 * * *'
-#
-#  release:
-#    types: [...]
-#
-#  workflow_dispatch:
-#
-#  push:
-#    tags:
-#      - '**'
-#
-#  merge_group:
-#
-#  issue_comment:
-#
-# ...and many more
-
 
 jobs:
   # -------------------------------------------------------------
@@ -280,6 +258,15 @@ jobs:
           done
       ...
 ```
+
+### Other supported events :electron:
+
+- [schedule](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
+- [release](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release)
+- [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)
+- [merge_group](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#merge_group)
+- [issue_comment](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#issue_comment)
+- ...and many more 
 
 To access more examples, navigate to the [Examples](#examples-) section.
 
