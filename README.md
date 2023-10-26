@@ -31,6 +31,7 @@ Effortlessly track all changed files and directories relative to a target branch
         *   [Using local .git history 📁](#using-local-git-history-)
         *   [Using Github's API :octocat:](#using-githubs-api-octocat)
     *   [On `push` ⬆️](#on-push-️)
+    *   [Other supported events :electron:](#other-supported-events-electron)
 *   [Useful Acronyms 🧮](#useful-acronyms-)
 *   [Outputs 📤](#outputs-)
 *   [Inputs ⚙️](#inputs-️)
@@ -261,12 +262,12 @@ jobs:
 
 ### Other supported events :electron:
 
-- [schedule](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
-- [release](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release)
-- [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)
-- [merge_group](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#merge_group)
-- [issue_comment](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#issue_comment)
-- ...and many more 
+*   [schedule](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
+*   [release](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release)
+*   [workflow\_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)
+*   [merge\_group](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#merge_group)
+*   [issue\_comment](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#issue_comment)
+*   ...and many more
 
 To access more examples, navigate to the [Examples](#examples-) section.
 
