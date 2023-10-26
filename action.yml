@@ -76,10 +76,10 @@ inputs:
     default: "\n"
     required: false
   sha:
-    description: "Specify a different commit SHA used for comparing changes"
+    description: "Specify a different commit SHA or branch used for comparing changes"
     required: false
   base_sha:
-    description: "Specify a different base commit SHA used for comparing changes"
+    description: "Specify a different base commit SHA or branch used for comparing changes"
     required: false
   since:
     description: "Get changed files for commits whose timestamp is older than the given time."
