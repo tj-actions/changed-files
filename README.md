@@ -91,7 +91,6 @@ And many more...
 > *   **Credentials Persistence**: If [`fetch-depth`](https://github.com/actions/checkout#usage) is not set to 0, make sure to set [`persist-credentials`](https://github.com/actions/checkout#usage)  to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage).
 > *   **Matching Files and Folders**: To match all files and folders under a directory, this requires a globstar pattern e.g. `dir_name/**` which matches any number of subdirectories and files.
 
-
 Visit the [discussions for more information](https://github.com/tj-actions/changed-files/discussions) or [create a new discussion](https://github.com/tj-actions/changed-files/discussions/new/choose) for usage-related questions.
 
 ### On [`pull_request`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) 🔀
