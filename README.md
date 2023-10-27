@@ -85,11 +85,12 @@ And many more...
 
 > **Important**
 >
-> *   For `push` events: When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set [`fetch-depth`](https://github.com/actions/checkout#usage) to either `0` or `2`, depending on your use case.
-> *   For mono repositories where pulling all branch history might not be desired, you can still use the default [`fetch-depth`](https://github.com/actions/checkout#usage), which is set to `1` for `pull_request` events.
-> *   Avoid using single or double quotes for multiline inputs, as the value is already a string separated by a newline character. See [Examples](#examples) for more information.
-> *   If [`fetch-depth`](https://github.com/actions/checkout#usage) isn't set to `0`, ensure that [`persist-credentials`](https://github.com/actions/checkout#usage) is set to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage).
-> *   For matching all files and folders under a directory you'll need to use `dir_name/**`
+> *   **Push Events**: When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set [`fetch-depth`](https://github.com/actions/checkout#usage) to either `0` or `2`, depending on your use case.
+> *   **Mono Repositories**: If you don't want to pull all branch history, you can use the default [`actions/checkout`](https://github.com/actions/checkout#usage)'s [`fetch-depth`](https://github.com/actions/checkout#usage) of `1` for [`pull_request`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) events.
+> *   **Quoting Multiline Inputs**: Avoid using single or double quotes for multiline inputs. The value is already a string separated by a newline character. Refer to the [Examples](#examples-) section for more information.
+> *   **Credentials Persistence**: If [`fetch-depth`](https://github.com/actions/checkout#usage) is not set to 0, make sure to set [`persist-credentials`](https://github.com/actions/checkout#usage)  to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage).
+> *   **Matching Files and Folders**: To match all files and folders under a directory, this requires a globstar pattern e.g. `dir_name/**` which matches any number of subdirectories and files.
+
 
 Visit the [discussions for more information](https://github.com/tj-actions/changed-files/discussions) or [create a new discussion](https://github.com/tj-actions/changed-files/discussions/new/choose) for usage-related questions.
 
