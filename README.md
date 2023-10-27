@@ -86,7 +86,7 @@ And many more...
 > **Important**
 >
 > *   **Push Events**: When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set [`fetch-depth`](https://github.com/actions/checkout#usage) to either `0` or `2`, depending on your use case.
-> *   **Mono Repositories**: If you don't want to pull all branch history, you can use the default [`actions/checkout`](https://github.com/actions/checkout#usage)'s [`fetch-depth`](https://github.com/actions/checkout#usage) of `1` for [`pull_request`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) events.
+> *   **Mono Repositories**: To avoid pulling the entire branch history, you can utilize the default [`actions/checkout`](https://github.com/actions/checkout#usage)'s [`fetch-depth`](https://github.com/actions/checkout#usage) of `1` for [`pull_request`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) events.
 > *   **Quoting Multiline Inputs**: Avoid using single or double quotes for multiline inputs. The value is already a string separated by a newline character. Refer to the [Examples](#examples-) section for more information.
 > *   **Credentials Persistence**: If [`fetch-depth`](https://github.com/actions/checkout#usage) is not set to 0, make sure to set [`persist-credentials`](https://github.com/actions/checkout#usage)  to `true` when configuring [`actions/checkout`](https://github.com/actions/checkout#usage).
 > *   **Matching Files and Folders**: To match all files and folders under a directory, this requires a globstar pattern e.g. `dir_name/**` which matches any number of subdirectories and files.
