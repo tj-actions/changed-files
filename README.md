@@ -135,6 +135,21 @@ jobs:
           done
 
       # Example 2
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+             **/*.md
+        # Avoid using single or double quotes for multiline patterns
+
+      - name: List all changed files markdown files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+      # Example 3
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
         uses: tj-actions/changed-files@v40
