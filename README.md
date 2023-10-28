@@ -135,8 +135,8 @@ jobs:
           done
 
       # Example 2
-      - name: Get changed files
-        id: changed-files
+      - name: Get all changed markdown files
+        id: changed-markdown-files
         uses: tj-actions/changed-files@v40
         with:
           files: |
@@ -145,7 +145,7 @@ jobs:
 
       - name: List all changed files markdown files
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
 
