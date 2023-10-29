@@ -140,7 +140,7 @@ jobs:
         uses: tj-actions/changed-files@v40
         with:
           files: |
-             **/*.md
+             **.md
         # Avoid using single or double quotes for multiline patterns
 
       - name: List all changed files markdown files
@@ -156,7 +156,7 @@ jobs:
         with:
           files_yaml: |
             doc:
-              - '**/*.md'
+              - '**.md'
               - docs/**
               - README.md
             test:
