@@ -2542,20 +2542,7 @@ const getDirNamesIncludeFilesPattern = ({ inputs }) => {
 };
 exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
 const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    let filePatterns = inputs.files
-        .split(inputs.filesSeparator)
-        .filter(Boolean)
-        .join('\n');
-    if (inputs.filesFromSourceFile !== '') {
-        const inputFilesFromSourceFile = inputs.filesFromSourceFile
-            .split(inputs.filesFromSourceFileSeparator)
-            .filter(p => p !== '')
-            .map(p => path.join(workingDirectory, p));
-        core.debug(`files from source file: ${inputFilesFromSourceFile}`);
-        const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
-        core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
-        filePatterns = filePatterns.concat('\n', filesFromSourceFiles);
-    }
+    let filePatterns = '';
     if (inputs.filesIgnore) {
         const filesIgnorePatterns = inputs.filesIgnore
             .split(inputs.filesIgnoreSeparator)
@@ -2582,6 +2569,19 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         })).join('\n');
         core.debug(`files ignore from source files patterns: ${filesIgnoreFromSourceFiles}`);
         filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles);
+    }
+    if (inputs.files) {
+        filePatterns = filePatterns.concat('\n', inputs.files.split(inputs.filesSeparator).filter(Boolean).join('\n'));
+    }
+    if (inputs.filesFromSourceFile !== '') {
+        const inputFilesFromSourceFile = inputs.filesFromSourceFile
+            .split(inputs.filesFromSourceFileSeparator)
+            .filter(p => p !== '')
+            .map(p => path.join(workingDirectory, p));
+        core.debug(`files from source file: ${inputFilesFromSourceFile}`);
+        const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
+        core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
+        filePatterns = filePatterns.concat('\n', filesFromSourceFiles);
     }
     if ((0, exports.isWindows)()) {
         filePatterns = filePatterns.replace(/\r\n/g, '\n');
