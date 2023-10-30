@@ -938,27 +938,7 @@ export const getFilePatterns = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string[]> => {
-  let filePatterns = inputs.files
-    .split(inputs.filesSeparator)
-    .filter(Boolean)
-    .join('\n')
-
-  if (inputs.filesFromSourceFile !== '') {
-    const inputFilesFromSourceFile = inputs.filesFromSourceFile
-      .split(inputs.filesFromSourceFileSeparator)
-      .filter(p => p !== '')
-      .map(p => path.join(workingDirectory, p))
-
-    core.debug(`files from source file: ${inputFilesFromSourceFile}`)
-
-    const filesFromSourceFiles = (
-      await getFilesFromSourceFile({filePaths: inputFilesFromSourceFile})
-    ).join('\n')
-
-    core.debug(`files from source files patterns: ${filesFromSourceFiles}`)
-
-    filePatterns = filePatterns.concat('\n', filesFromSourceFiles)
-  }
+  let filePatterns = ''
 
   if (inputs.filesIgnore) {
     const filesIgnorePatterns = inputs.filesIgnore
@@ -999,6 +979,30 @@ export const getFilePatterns = async ({
     )
 
     filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles)
+  }
+
+  if (inputs.files) {
+    filePatterns = filePatterns.concat(
+      '\n',
+      inputs.files.split(inputs.filesSeparator).filter(Boolean).join('\n')
+    )
+  }
+
+  if (inputs.filesFromSourceFile !== '') {
+    const inputFilesFromSourceFile = inputs.filesFromSourceFile
+      .split(inputs.filesFromSourceFileSeparator)
+      .filter(p => p !== '')
+      .map(p => path.join(workingDirectory, p))
+
+    core.debug(`files from source file: ${inputFilesFromSourceFile}`)
+
+    const filesFromSourceFiles = (
+      await getFilesFromSourceFile({filePaths: inputFilesFromSourceFile})
+    ).join('\n')
+
+    core.debug(`files from source files patterns: ${filesFromSourceFiles}`)
+
+    filePatterns = filePatterns.concat('\n', filesFromSourceFiles)
   }
 
   if (isWindows()) {
