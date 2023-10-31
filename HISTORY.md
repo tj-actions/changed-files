@@ -1,5 +1,21 @@
 # Changelog
 
+# [40.0.2](https://github.com/tj-actions/changed-files/compare/v40.0.1...v40.0.2) - (2023-10-31)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Order of file patterns ([#1688](https://github.com/tj-actions/changed-files/issues/1688)) ([4052680](https://github.com/tj-actions/changed-files/commit/40526807ee1e208a1a8c1bbe6bd2d1b044ef6368))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.8.10 ([a59bf8f](https://github.com/tj-actions/changed-files/commit/a59bf8ffcfcfdd831463eff511b55a7123a04aca))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.0.1 ([#1686](https://github.com/tj-actions/changed-files/issues/1686))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([6821899](https://github.com/tj-actions/changed-files/commit/68218997649ac879f47639455e9669b94750b50f))  - (tj-actions[bot])
+
 # [40.0.1](https://github.com/tj-actions/changed-files/compare/v40.0.0...v40.0.1) - (2023-10-30)
 
 ## <!-- 1 -->🐛 Bug Fixes
