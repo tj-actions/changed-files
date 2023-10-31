@@ -1,5 +1,56 @@
 # Changelog
 
+# [40.0.1](https://github.com/tj-actions/changed-files/compare/v40.0.0...v40.0.1) - (2023-10-30)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with order in which the files and files ignore patterns are combined ([#1684](https://github.com/tj-actions/changed-files/issues/1684)) ([7549e1e](https://github.com/tj-actions/changed-files/commit/7549e1e4b967bf5f827b32249ec181ba542de0f9))  - (Tonye Jack)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([905fcf7](https://github.com/tj-actions/changed-files/commit/905fcf74f4150b8b22f004a92bec5b19fb317419))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([85073ea](https://github.com/tj-actions/changed-files/commit/85073ea010ba5b57f37c14644d27dfb8a3d0de0a))  - (Tonye Jack)
+- Update README.md ([e622bd9](https://github.com/tj-actions/changed-files/commit/e622bd9227b3f21e2558a1ce4a648c4fb004fded))  - (Tonye Jack)
+- Update README.md ([003b42e](https://github.com/tj-actions/changed-files/commit/003b42ec7f4e3777746f3e170bfc1ec0cdd4c7a2))  - (Tonye Jack)
+- Update README.md ([0a5a862](https://github.com/tj-actions/changed-files/commit/0a5a86287477b9fcb4280d5141902816c2b86e46))  - (Tonye Jack)
+- Updated README.md ([#1678](https://github.com/tj-actions/changed-files/issues/1678))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([1864dc5](https://github.com/tj-actions/changed-files/commit/1864dc5311069c2319e40ddda20ebf24336dcba9))  - (tj-actions[bot])
+- Update action.yml ([1be6574](https://github.com/tj-actions/changed-files/commit/1be6574035556e1f982a4378491409b8daecec9a))  - (Tonye Jack)
+- Updated README.md ([#1677](https://github.com/tj-actions/changed-files/issues/1677))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([51bc7ab](https://github.com/tj-actions/changed-files/commit/51bc7ab1452b8422fc78f6bdda196b87881d0b1c))  - (tj-actions[bot])
+- Update README.md ([b49b468](https://github.com/tj-actions/changed-files/commit/b49b468c28d456fb7e7a75328e46efa820c4ff68))  - (Tonye Jack)
+- Update README.md ([8055b31](https://github.com/tj-actions/changed-files/commit/8055b31e957360a13988a323449bde618630f601))  - (Tonye Jack)
+- Updated README.md ([#1675](https://github.com/tj-actions/changed-files/issues/1675))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([d1f3041](https://github.com/tj-actions/changed-files/commit/d1f3041043a609731d86adbad78ca7a3b61dad33))  - (tj-actions[bot])
+- Update README.md ([d0064d8](https://github.com/tj-actions/changed-files/commit/d0064d854901a65f6b91787bd76dbadda53ebf83))  - (Tonye Jack)
+- Update README.md ([4270b9f](https://github.com/tj-actions/changed-files/commit/4270b9fd4b274ad12e0952979e8f32178abfaa06))  - (Tonye Jack)
+- Updated README.md ([#1673](https://github.com/tj-actions/changed-files/issues/1673))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([cd07d32](https://github.com/tj-actions/changed-files/commit/cd07d32e580fc8203249c9a435df3395a5edfd1b))  - (tj-actions[bot])
+- Update action.yml ([33ddc07](https://github.com/tj-actions/changed-files/commit/33ddc07d8b23cf31a8f614111160c5cc320f8f3d))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/jest to v29.5.7 ([bfc49f4](https://github.com/tj-actions/changed-files/commit/bfc49f4cff6934aa236c171f9bcbf1dd6b1ef438))  - (renovate[bot])
+- **deps:** Update dependency @typescript-eslint/eslint-plugin to v6.9.1 ([2fc653d](https://github.com/tj-actions/changed-files/commit/2fc653d87dc9507b87b24805ab59d23f7d3be7e5))  - (renovate[bot])
+- **deps:** Update dependency @typescript-eslint/parser to v6.9.1 ([273a7c1](https://github.com/tj-actions/changed-files/commit/273a7c1641fcdbffd00e804734185c2d99950485))  - (renovate[bot])
+- **deps:** Lock file maintenance ([229fe31](https://github.com/tj-actions/changed-files/commit/229fe310d2b3917af799b70b7b77fbed41df4961))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.6.0 ([c371c6f](https://github.com/tj-actions/changed-files/commit/c371c6f055f523227ed33447a1a6fbd9d4d47aeb))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.5.0 ([7448ec4](https://github.com/tj-actions/changed-files/commit/7448ec4f69ea819a3e647c5f057ba092aafb91f8))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40 ([#1672](https://github.com/tj-actions/changed-files/issues/1672))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([1c7fbab](https://github.com/tj-actions/changed-files/commit/1c7fbaba144b87b134cd6c2c351477722fef4396))  - (tj-actions[bot])
+
 # [40.0.0](https://github.com/tj-actions/changed-files/compare/v39.2.4...v40.0.0) - (2023-10-26)
 
 ## <!-- 13 -->📦 Bumps
