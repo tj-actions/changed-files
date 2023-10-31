@@ -1010,9 +1010,18 @@ export const getFilePatterns = async ({
     filePatterns = filePatterns.replace(/\r/g, '\n')
   }
 
-  core.debug(`Input file patterns: ${filePatterns}`)
+  const filePatternsArray = filePatterns.trim().split('\n').filter(Boolean)
 
-  return filePatterns.trim().split('\n').filter(Boolean)
+  // Reorder file patterns '**' should come before '!**/*.txt' and then the rest 'dir/**/*.txt'
+  if (filePatternsArray.includes('**')) {
+    filePatternsArray.sort((a, b) => {
+      return a === '**' ? -1 : b === '**' ? 1 : 0
+    })
+  }
+
+  core.debug(`Input file patterns: \n${filePatternsArray.join('\n')}`)
+
+  return filePatternsArray
 }
 
 // Example YAML input:
