@@ -2587,8 +2587,15 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
         filePatterns = filePatterns.replace(/\r\n/g, '\n');
         filePatterns = filePatterns.replace(/\r/g, '\n');
     }
-    core.debug(`Input file patterns: ${filePatterns}`);
-    return filePatterns.trim().split('\n').filter(Boolean);
+    const filePatternsArray = filePatterns.trim().split('\n').filter(Boolean);
+    // Reorder file patterns '**' should come before '!**/*.txt' and then the rest 'dir/**/*.txt'
+    if (filePatternsArray.includes('**')) {
+        filePatternsArray.sort((a, b) => {
+            return a === '**' ? -1 : b === '**' ? 1 : 0;
+        });
+    }
+    core.debug(`Input file patterns: \n${filePatternsArray.join('\n')}`);
+    return filePatternsArray;
 });
 exports.getFilePatterns = getFilePatterns;
 const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
