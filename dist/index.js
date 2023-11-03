@@ -2546,12 +2546,12 @@ const getDirNamesIncludeFilesPattern = ({ inputs }) => {
 };
 exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
 const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    let outputFilePatterns = [];
+    let cleanedFilePatterns = [];
     if (inputs.files) {
         const filesPatterns = inputs.files
             .split(inputs.filesSeparator)
             .filter(Boolean);
-        outputFilePatterns.push(...filesPatterns);
+        cleanedFilePatterns.push(...filesPatterns);
         core.debug(`files patterns: ${filesPatterns.join('\n')}`);
     }
     if (inputs.filesFromSourceFile !== '') {
@@ -2564,7 +2564,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
             filePaths: inputFilesFromSourceFile
         });
         core.debug(`files from source files patterns: ${filesFromSourceFiles.join('\n')}`);
-        outputFilePatterns.push(...filesFromSourceFiles);
+        cleanedFilePatterns.push(...filesFromSourceFiles);
     }
     if (inputs.filesIgnore) {
         const filesIgnorePatterns = inputs.filesIgnore
@@ -2577,7 +2577,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
             return p;
         });
         core.debug(`files ignore patterns: ${filesIgnorePatterns.join('\n')}`);
-        outputFilePatterns.push(...filesIgnorePatterns);
+        cleanedFilePatterns.push(...filesIgnorePatterns);
     }
     if (inputs.filesIgnoreFromSourceFile) {
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
@@ -2590,24 +2590,24 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
             excludedFiles: true
         });
         core.debug(`files ignore from source files patterns: ${filesIgnoreFromSourceFiles.join('\n')}`);
-        outputFilePatterns.push(...filesIgnoreFromSourceFiles);
+        cleanedFilePatterns.push(...filesIgnoreFromSourceFiles);
     }
     if (inputs.negationPatternsFirst) {
-        outputFilePatterns.sort((a, b) => {
+        cleanedFilePatterns.sort((a, b) => {
             return a.startsWith('!') ? -1 : b.startsWith('!') ? 1 : 0;
         });
     }
     // Reorder file patterns '**' should come first
-    if (outputFilePatterns.includes('**')) {
-        outputFilePatterns.sort((a, b) => {
+    if (cleanedFilePatterns.includes('**')) {
+        cleanedFilePatterns.sort((a, b) => {
             return a === '**' ? -1 : b === '**' ? 1 : 0;
         });
     }
     if ((0, exports.isWindows)()) {
-        outputFilePatterns = outputFilePatterns.map(pattern => pattern.replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
+        cleanedFilePatterns = cleanedFilePatterns.map(pattern => pattern.replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
     }
-    core.debug(`Input file patterns: \n${outputFilePatterns.join('\n')}`);
-    return outputFilePatterns;
+    core.debug(`Input file patterns: \n${cleanedFilePatterns.join('\n')}`);
+    return cleanedFilePatterns;
 });
 exports.getFilePatterns = getFilePatterns;
 const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
