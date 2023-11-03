@@ -938,14 +938,14 @@ export const getFilePatterns = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string[]> => {
-  let outputFilePatterns: string[] = []
+  let cleanedFilePatterns: string[] = []
 
   if (inputs.files) {
     const filesPatterns = inputs.files
       .split(inputs.filesSeparator)
       .filter(Boolean)
 
-    outputFilePatterns.push(...filesPatterns)
+    cleanedFilePatterns.push(...filesPatterns)
 
     core.debug(`files patterns: ${filesPatterns.join('\n')}`)
   }
@@ -966,7 +966,7 @@ export const getFilePatterns = async ({
       `files from source files patterns: ${filesFromSourceFiles.join('\n')}`
     )
 
-    outputFilePatterns.push(...filesFromSourceFiles)
+    cleanedFilePatterns.push(...filesFromSourceFiles)
   }
 
   if (inputs.filesIgnore) {
@@ -982,7 +982,7 @@ export const getFilePatterns = async ({
 
     core.debug(`files ignore patterns: ${filesIgnorePatterns.join('\n')}`)
 
-    outputFilePatterns.push(...filesIgnorePatterns)
+    cleanedFilePatterns.push(...filesIgnorePatterns)
   }
 
   if (inputs.filesIgnoreFromSourceFile) {
@@ -1006,31 +1006,31 @@ export const getFilePatterns = async ({
       )}`
     )
 
-    outputFilePatterns.push(...filesIgnoreFromSourceFiles)
+    cleanedFilePatterns.push(...filesIgnoreFromSourceFiles)
   }
 
   if (inputs.negationPatternsFirst) {
-    outputFilePatterns.sort((a, b) => {
+    cleanedFilePatterns.sort((a, b) => {
       return a.startsWith('!') ? -1 : b.startsWith('!') ? 1 : 0
     })
   }
 
   // Reorder file patterns '**' should come first
-  if (outputFilePatterns.includes('**')) {
-    outputFilePatterns.sort((a, b) => {
+  if (cleanedFilePatterns.includes('**')) {
+    cleanedFilePatterns.sort((a, b) => {
       return a === '**' ? -1 : b === '**' ? 1 : 0
     })
   }
 
   if (isWindows()) {
-    outputFilePatterns = outputFilePatterns.map(pattern =>
+    cleanedFilePatterns = cleanedFilePatterns.map(pattern =>
       pattern.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
     )
   }
 
-  core.debug(`Input file patterns: \n${outputFilePatterns.join('\n')}`)
+  core.debug(`Input file patterns: \n${cleanedFilePatterns.join('\n')}`)
 
-  return outputFilePatterns
+  return cleanedFilePatterns
 }
 
 // Example YAML input:
