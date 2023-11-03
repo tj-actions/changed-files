@@ -2557,7 +2557,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     if (inputs.filesFromSourceFile !== '') {
         const inputFilesFromSourceFile = inputs.filesFromSourceFile
             .split(inputs.filesFromSourceFileSeparator)
-            .filter(p => p !== '')
+            .filter(Boolean)
             .map(p => path.join(workingDirectory, p));
         core.debug(`files from source file: ${inputFilesFromSourceFile}`);
         const filesFromSourceFiles = yield getFilesFromSourceFile({
@@ -2569,7 +2569,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     if (inputs.filesIgnore) {
         const filesIgnorePatterns = inputs.filesIgnore
             .split(inputs.filesIgnoreSeparator)
-            .filter(p => p !== '')
+            .filter(Boolean)
             .map(p => {
             if (!p.startsWith('!')) {
                 p = `!${p}`;
@@ -2582,7 +2582,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     if (inputs.filesIgnoreFromSourceFile) {
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
             .split(inputs.filesIgnoreFromSourceFileSeparator)
-            .filter(p => p !== '')
+            .filter(Boolean)
             .map(p => path.join(workingDirectory, p));
         core.debug(`files ignore from source file: ${inputFilesIgnoreFromSourceFile}`);
         const filesIgnoreFromSourceFiles = yield getFilesFromSourceFile({
