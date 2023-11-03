@@ -938,90 +938,99 @@ export const getFilePatterns = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string[]> => {
-  let filePatterns = ''
+  let cleanedFilePatterns: string[] = []
+
+  if (inputs.files) {
+    const filesPatterns = inputs.files
+      .split(inputs.filesSeparator)
+      .filter(Boolean)
+
+    cleanedFilePatterns.push(...filesPatterns)
+
+    core.debug(`files patterns: ${filesPatterns.join('\n')}`)
+  }
+
+  if (inputs.filesFromSourceFile !== '') {
+    const inputFilesFromSourceFile = inputs.filesFromSourceFile
+      .split(inputs.filesFromSourceFileSeparator)
+      .filter(Boolean)
+      .map(p => path.join(workingDirectory, p))
+
+    core.debug(`files from source file: ${inputFilesFromSourceFile}`)
+
+    const filesFromSourceFiles = await getFilesFromSourceFile({
+      filePaths: inputFilesFromSourceFile
+    })
+
+    core.debug(
+      `files from source files patterns: ${filesFromSourceFiles.join('\n')}`
+    )
+
+    cleanedFilePatterns.push(...filesFromSourceFiles)
+  }
 
   if (inputs.filesIgnore) {
     const filesIgnorePatterns = inputs.filesIgnore
       .split(inputs.filesIgnoreSeparator)
-      .filter(p => p !== '')
+      .filter(Boolean)
       .map(p => {
         if (!p.startsWith('!')) {
           p = `!${p}`
         }
         return p
       })
-      .join('\n')
 
-    core.debug(`files ignore patterns: ${filesIgnorePatterns}`)
+    core.debug(`files ignore patterns: ${filesIgnorePatterns.join('\n')}`)
 
-    filePatterns = filePatterns.concat('\n', filesIgnorePatterns)
+    cleanedFilePatterns.push(...filesIgnorePatterns)
   }
 
   if (inputs.filesIgnoreFromSourceFile) {
     const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
       .split(inputs.filesIgnoreFromSourceFileSeparator)
-      .filter(p => p !== '')
+      .filter(Boolean)
       .map(p => path.join(workingDirectory, p))
 
     core.debug(
       `files ignore from source file: ${inputFilesIgnoreFromSourceFile}`
     )
 
-    const filesIgnoreFromSourceFiles = (
-      await getFilesFromSourceFile({
-        filePaths: inputFilesIgnoreFromSourceFile,
-        excludedFiles: true
-      })
-    ).join('\n')
+    const filesIgnoreFromSourceFiles = await getFilesFromSourceFile({
+      filePaths: inputFilesIgnoreFromSourceFile,
+      excludedFiles: true
+    })
 
     core.debug(
-      `files ignore from source files patterns: ${filesIgnoreFromSourceFiles}`
+      `files ignore from source files patterns: ${filesIgnoreFromSourceFiles.join(
+        '\n'
+      )}`
     )
 
-    filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles)
+    cleanedFilePatterns.push(...filesIgnoreFromSourceFiles)
   }
 
-  if (inputs.files) {
-    filePatterns = filePatterns.concat(
-      '\n',
-      inputs.files.split(inputs.filesSeparator).filter(Boolean).join('\n')
-    )
+  if (inputs.negationPatternsFirst) {
+    cleanedFilePatterns.sort((a, b) => {
+      return a.startsWith('!') ? -1 : b.startsWith('!') ? 1 : 0
+    })
   }
 
-  if (inputs.filesFromSourceFile !== '') {
-    const inputFilesFromSourceFile = inputs.filesFromSourceFile
-      .split(inputs.filesFromSourceFileSeparator)
-      .filter(p => p !== '')
-      .map(p => path.join(workingDirectory, p))
-
-    core.debug(`files from source file: ${inputFilesFromSourceFile}`)
-
-    const filesFromSourceFiles = (
-      await getFilesFromSourceFile({filePaths: inputFilesFromSourceFile})
-    ).join('\n')
-
-    core.debug(`files from source files patterns: ${filesFromSourceFiles}`)
-
-    filePatterns = filePatterns.concat('\n', filesFromSourceFiles)
-  }
-
-  if (isWindows()) {
-    filePatterns = filePatterns.replace(/\r\n/g, '\n')
-    filePatterns = filePatterns.replace(/\r/g, '\n')
-  }
-
-  const filePatternsArray = filePatterns.trim().split('\n').filter(Boolean)
-
-  // Reorder file patterns '**' should come before '!**/*.txt' and then the rest 'dir/**/*.txt'
-  if (filePatternsArray.includes('**')) {
-    filePatternsArray.sort((a, b) => {
+  // Reorder file patterns '**' should come first
+  if (cleanedFilePatterns.includes('**')) {
+    cleanedFilePatterns.sort((a, b) => {
       return a === '**' ? -1 : b === '**' ? 1 : 0
     })
   }
 
-  core.debug(`Input file patterns: \n${filePatternsArray.join('\n')}`)
+  if (isWindows()) {
+    cleanedFilePatterns = cleanedFilePatterns.map(pattern =>
+      pattern.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+    )
+  }
 
-  return filePatternsArray
+  core.debug(`Input file patterns: \n${cleanedFilePatterns.join('\n')}`)
+
+  return cleanedFilePatterns
 }
 
 // Example YAML input:

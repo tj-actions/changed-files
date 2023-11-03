@@ -1528,6 +1528,9 @@ const getInputs = () => {
     const dirNamesDeletedFilesIncludeOnlyDeletedDirs = core.getBooleanInput('dir_names_deleted_files_include_only_deleted_dirs', {
         required: false
     });
+    const negationPatternsFirst = core.getBooleanInput('negation_patterns_first', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1578,7 +1581,8 @@ const getInputs = () => {
         outputDir,
         outputRenamedFilesAsDeletedAndAdded,
         token,
-        apiUrl
+        apiUrl,
+        negationPatternsFirst
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -2542,60 +2546,68 @@ const getDirNamesIncludeFilesPattern = ({ inputs }) => {
 };
 exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
 const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    let filePatterns = '';
+    let outputFilePatterns = [];
+    if (inputs.files) {
+        const filesPatterns = inputs.files
+            .split(inputs.filesSeparator)
+            .filter(Boolean);
+        outputFilePatterns.push(...filesPatterns);
+        core.debug(`files patterns: ${filesPatterns.join('\n')}`);
+    }
+    if (inputs.filesFromSourceFile !== '') {
+        const inputFilesFromSourceFile = inputs.filesFromSourceFile
+            .split(inputs.filesFromSourceFileSeparator)
+            .filter(Boolean)
+            .map(p => path.join(workingDirectory, p));
+        core.debug(`files from source file: ${inputFilesFromSourceFile}`);
+        const filesFromSourceFiles = yield getFilesFromSourceFile({
+            filePaths: inputFilesFromSourceFile
+        });
+        core.debug(`files from source files patterns: ${filesFromSourceFiles.join('\n')}`);
+        outputFilePatterns.push(...filesFromSourceFiles);
+    }
     if (inputs.filesIgnore) {
         const filesIgnorePatterns = inputs.filesIgnore
             .split(inputs.filesIgnoreSeparator)
-            .filter(p => p !== '')
+            .filter(Boolean)
             .map(p => {
             if (!p.startsWith('!')) {
                 p = `!${p}`;
             }
             return p;
-        })
-            .join('\n');
-        core.debug(`files ignore patterns: ${filesIgnorePatterns}`);
-        filePatterns = filePatterns.concat('\n', filesIgnorePatterns);
+        });
+        core.debug(`files ignore patterns: ${filesIgnorePatterns.join('\n')}`);
+        outputFilePatterns.push(...filesIgnorePatterns);
     }
     if (inputs.filesIgnoreFromSourceFile) {
         const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
             .split(inputs.filesIgnoreFromSourceFileSeparator)
-            .filter(p => p !== '')
+            .filter(Boolean)
             .map(p => path.join(workingDirectory, p));
         core.debug(`files ignore from source file: ${inputFilesIgnoreFromSourceFile}`);
-        const filesIgnoreFromSourceFiles = (yield getFilesFromSourceFile({
+        const filesIgnoreFromSourceFiles = yield getFilesFromSourceFile({
             filePaths: inputFilesIgnoreFromSourceFile,
             excludedFiles: true
-        })).join('\n');
-        core.debug(`files ignore from source files patterns: ${filesIgnoreFromSourceFiles}`);
-        filePatterns = filePatterns.concat('\n', filesIgnoreFromSourceFiles);
+        });
+        core.debug(`files ignore from source files patterns: ${filesIgnoreFromSourceFiles.join('\n')}`);
+        outputFilePatterns.push(...filesIgnoreFromSourceFiles);
     }
-    if (inputs.files) {
-        filePatterns = filePatterns.concat('\n', inputs.files.split(inputs.filesSeparator).filter(Boolean).join('\n'));
+    if (inputs.negationPatternsFirst) {
+        outputFilePatterns.sort((a, b) => {
+            return a.startsWith('!') ? -1 : b.startsWith('!') ? 1 : 0;
+        });
     }
-    if (inputs.filesFromSourceFile !== '') {
-        const inputFilesFromSourceFile = inputs.filesFromSourceFile
-            .split(inputs.filesFromSourceFileSeparator)
-            .filter(p => p !== '')
-            .map(p => path.join(workingDirectory, p));
-        core.debug(`files from source file: ${inputFilesFromSourceFile}`);
-        const filesFromSourceFiles = (yield getFilesFromSourceFile({ filePaths: inputFilesFromSourceFile })).join('\n');
-        core.debug(`files from source files patterns: ${filesFromSourceFiles}`);
-        filePatterns = filePatterns.concat('\n', filesFromSourceFiles);
-    }
-    if ((0, exports.isWindows)()) {
-        filePatterns = filePatterns.replace(/\r\n/g, '\n');
-        filePatterns = filePatterns.replace(/\r/g, '\n');
-    }
-    const filePatternsArray = filePatterns.trim().split('\n').filter(Boolean);
-    // Reorder file patterns '**' should come before '!**/*.txt' and then the rest 'dir/**/*.txt'
-    if (filePatternsArray.includes('**')) {
-        filePatternsArray.sort((a, b) => {
+    // Reorder file patterns '**' should come first
+    if (outputFilePatterns.includes('**')) {
+        outputFilePatterns.sort((a, b) => {
             return a === '**' ? -1 : b === '**' ? 1 : 0;
         });
     }
-    core.debug(`Input file patterns: \n${filePatternsArray.join('\n')}`);
-    return filePatternsArray;
+    if ((0, exports.isWindows)()) {
+        outputFilePatterns = outputFilePatterns.map(pattern => pattern.replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
+    }
+    core.debug(`Input file patterns: \n${outputFilePatterns.join('\n')}`);
+    return outputFilePatterns;
 });
 exports.getFilePatterns = getFilePatterns;
 const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
