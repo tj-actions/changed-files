@@ -51,6 +51,7 @@ export type Inputs = {
   skipInitialFetch: boolean
   failOnInitialDiffError: boolean
   failOnSubmoduleDiffError: boolean
+  negationPatternsFirst: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -218,6 +219,13 @@ export const getInputs = (): Inputs => {
     }
   )
 
+  const negationPatternsFirst = core.getBooleanInput(
+    'negation_patterns_first',
+    {
+      required: false
+    }
+  )
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -268,7 +276,8 @@ export const getInputs = (): Inputs => {
     outputDir,
     outputRenamedFilesAsDeletedAndAdded,
     token,
-    apiUrl
+    apiUrl,
+    negationPatternsFirst
   }
 
   if (fetchDepth) {
