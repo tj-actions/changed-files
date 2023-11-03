@@ -1,5 +1,32 @@
 # Changelog
 
+# [40.1.0](https://github.com/tj-actions/changed-files/compare/v40.0.2...v40.1.0) - (2023-11-03)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for controlling the pattern order ([#1693](https://github.com/tj-actions/changed-files/issues/1693)) ([892553a](https://github.com/tj-actions/changed-files/commit/892553a4576166fd647dbd90ffa4b589f563572b))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency yaml to v2.3.4 ([c300d15](https://github.com/tj-actions/changed-files/commit/c300d15daea754419fb9f133c53d821f0f6c17ea))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([50a9cc9](https://github.com/tj-actions/changed-files/commit/50a9cc9b7b170bd6aaf4fb94db5da1c223606572))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1694](https://github.com/tj-actions/changed-files/issues/1694))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([18c8a4e](https://github.com/tj-actions/changed-files/commit/18c8a4ecebe93d32ed8a88e1d0c098f5f68c221b))  - (tj-actions[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.0.2 ([#1689](https://github.com/tj-actions/changed-files/issues/1689))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([c076064](https://github.com/tj-actions/changed-files/commit/c07606463672e7c623bc2801b4002bd645aed1f2))  - (tj-actions[bot])
+
 # [40.0.2](https://github.com/tj-actions/changed-files/compare/v40.0.1...v40.0.2) - (2023-10-31)
 
 ## <!-- 1 -->🐛 Bug Fixes
