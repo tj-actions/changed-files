@@ -953,7 +953,7 @@ export const getFilePatterns = async ({
   if (inputs.filesFromSourceFile !== '') {
     const inputFilesFromSourceFile = inputs.filesFromSourceFile
       .split(inputs.filesFromSourceFileSeparator)
-      .filter(p => p !== '')
+      .filter(Boolean)
       .map(p => path.join(workingDirectory, p))
 
     core.debug(`files from source file: ${inputFilesFromSourceFile}`)
@@ -972,7 +972,7 @@ export const getFilePatterns = async ({
   if (inputs.filesIgnore) {
     const filesIgnorePatterns = inputs.filesIgnore
       .split(inputs.filesIgnoreSeparator)
-      .filter(p => p !== '')
+      .filter(Boolean)
       .map(p => {
         if (!p.startsWith('!')) {
           p = `!${p}`
@@ -988,7 +988,7 @@ export const getFilePatterns = async ({
   if (inputs.filesIgnoreFromSourceFile) {
     const inputFilesIgnoreFromSourceFile = inputs.filesIgnoreFromSourceFile
       .split(inputs.filesIgnoreFromSourceFileSeparator)
-      .filter(p => p !== '')
+      .filter(Boolean)
       .map(p => path.join(workingDirectory, p))
 
     core.debug(
