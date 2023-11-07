@@ -831,9 +831,9 @@
     "@babel/types" "^7.20.7"
 
 "@types/braces@*":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/braces/-/braces-3.0.3.tgz#f0518dba08c636b4753e0e8744e44dbb50b8f273"
-  integrity sha512-8pfphQ0Gtn58PJ+pWB9LsZGz8Q6FTTvc4egkqGT9K1lp4fVF/HeX3d6w/YEkHt/9Luv1r2i+HekuwhAm8UX6/A==
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/braces/-/braces-3.0.4.tgz#403488dc1c8d0db288270d3bbf0ce5f9c45678b4"
+  integrity sha512-0WR3b8eaISjEW7RpZnclONaLFDf7buaowRHdqLp4vLj54AsSAYWfh3DRbfiYJY9XDxMgx1B4sE1Afw2PGpuHOA==
 
 "@types/graceful-fs@^4.1.3":
   version "4.1.8"
@@ -890,9 +890,9 @@
   integrity sha512-YI/M/4HRImtNf3pJgbF+W6FrXovqj+T+/HpENLTooK9PnkacBsDpeP3IpHab40CClUfhNmdM2WTNP2sa2dni5Q==
 
 "@types/micromatch@^4.0.2":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.4.tgz#775c32e6ca3933652c8ce7567bd51662db9a20ef"
-  integrity sha512-ZeDgs/tFSdUqkAZmgdnu5enRwFXJ+nIF4TxK5ENw6x0bvfcgMD1H3GnTS+fIkBUcvijQNF7ZOa2tuOtOaEjt3w==
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.5.tgz#a88fb878f7f7e7e1909c1db50f97acfede6b4d85"
+  integrity sha512-B1o0zVdb9GsbKT4Fucy3oeG9G1qy/TOHrYM+NsEPazT+ktsGXOJSb1+Bg9hP7BH14Bv4dd5m7r+FohwXkY/39A==
   dependencies:
     "@types/braces" "*"
 
