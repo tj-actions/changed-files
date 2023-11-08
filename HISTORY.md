@@ -1,5 +1,29 @@
 # Changelog
 
+# [40.1.1](https://github.com/tj-actions/changed-files/compare/v40.1.0...v40.1.1) - (2023-11-08)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([e981e53](https://github.com/tj-actions/changed-files/commit/e981e53b7faf4d2fbf8e077b7eec07ef0f7fa221))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.9.0 ([25ef392](https://github.com/tj-actions/changed-files/commit/25ef3926d147cd02fc7e931c1ef50772bbb0d25d))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.201 ([4d33bd5](https://github.com/tj-actions/changed-files/commit/4d33bd5f9cd03b7df1e544c3426cb9e63c52791e))  - (renovate[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.5 ([f25e472](https://github.com/tj-actions/changed-files/commit/f25e47258b32eef5d87030d4f6eb9e20cd7349b0))  - (renovate[bot])
+- **deps:** Update dependency @types/uuid to v9.0.7 ([a3c4ccb](https://github.com/tj-actions/changed-files/commit/a3c4ccbde013ddc2eb4c788b5a7162fa72a1ad9b))  - (renovate[bot])
+- **deps:** Update dependency @types/jest to v29.5.8 ([b114534](https://github.com/tj-actions/changed-files/commit/b11453410196db60f4c2f6b84ae222a41ed17300))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.10.0 ([303f064](https://github.com/tj-actions/changed-files/commit/303f064ba95d994742bfb189d37d5d0632a80222))  - (renovate[bot])
+- **deps:** Lock file maintenance ([d850ef9](https://github.com/tj-actions/changed-files/commit/d850ef91f77568044a20bbf67b57d1b74934f716))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.53.0 ([8701b58](https://github.com/tj-actions/changed-files/commit/8701b586f31d75024fe0fcb5eaddd30a7f4c0605))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.1.0 ([#1695](https://github.com/tj-actions/changed-files/issues/1695))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([9b1ba9a](https://github.com/tj-actions/changed-files/commit/9b1ba9a603ec6c53c7a4610ddf3e14bde70ab0ea))  - (tj-actions[bot])
+
 # [40.1.0](https://github.com/tj-actions/changed-files/compare/v40.0.2...v40.1.0) - (2023-11-03)
 
 ## <!-- 0 -->🚀 Features
