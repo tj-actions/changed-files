@@ -379,7 +379,7 @@ Support this project with a :star:
 
     # Exclude changes outside the current directory and show path 
     # names relative to it. **NOTE:** This requires you to 
-    # specify the top level directory via the `path` input. 
+    # specify the top-level directory via the `path` input. 
     # Default: true
     diff_relative: ''
 
@@ -437,7 +437,7 @@ Support this project with a :star:
     fetch_depth: ''
 
     # File and directory patterns used to detect changes (Defaults to the entire repo if unset) 
-    # **NOTE:** Multiline file/directory patterns should not include quotes. 
+    # NOTE: Multiline file/directory patterns should not include quotes. 
     files: ''
 
     # Source file(s) used to populate the `files` input.
@@ -469,7 +469,8 @@ Support this project with a :star:
     # to ignore changes 
     files_ignore_yaml: ''
 
-    # Source file(s) used to populate the `files_ignore_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)
+    # Source file(s) used to populate the `files_ignore_yaml` input. Example: 
+    # https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml 
     files_ignore_yaml_from_source_file: ''
 
     # Separator used to split the `files_ignore_yaml_from_source_file` input
@@ -486,7 +487,8 @@ Support this project with a :star:
     # to detect changes 
     files_yaml: ''
 
-    # Source file(s) used to populate the `files_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)
+    # Source file(s) used to populate the `files_yaml` input. Example: 
+    # https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml 
     files_yaml_from_source_file: ''
 
     # Separator used to split the `files_yaml_from_source_file` input
@@ -495,12 +497,13 @@ Support this project with a :star:
     files_yaml_from_source_file_separator: ''
 
     # Include `all_old_new_renamed_files` output. Note this can generate a large 
-    # output See: [#501](https://github.com/tj-actions/changed-files/issues/501). 
+    # output See: #501. 
     # Default: false
     include_all_old_new_renamed_files: ''
 
     # Output list of changed files in a JSON formatted 
-    # string which can be used for matrix jobs. [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml) 
+    # string which can be used for matrix jobs. Example: 
+    # https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml 
     # Default: false
     json: ''
 
@@ -530,8 +533,8 @@ Support this project with a :star:
     # Default: .
     path: ''
 
-    # Use non-ascii characters to match files and output the 
-    # filenames completely verbatim by setting this to `false` 
+    # Use non ASCII characters to match files and output 
+    # the filenames completely verbatim by setting this to `false` 
     # Default: true
     quotepath: ''
 
@@ -584,13 +587,13 @@ Support this project with a :star:
     since_last_remote_commit: ''
 
     # Skip the initial fetch to improve performance for shallow 
-    # repositories. **NOTE**: This could lead to errors with missing 
+    # repositories. NOTE: This could lead to errors with missing 
     # history and the intended use is limited to when 
     # you've fetched the history necessary to perform the diff. 
     # Default: false
     skip_initial_fetch: ''
 
-    # Github token used to fetch changed files from Github's 
+    # GitHub token used to fetch changed files from Github's 
     # API. 
     # Default: ${{ github.token }}
     token: ''
