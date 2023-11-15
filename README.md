@@ -378,12 +378,12 @@ Support this project with a :star:
     base_sha: ''
 
     # Exclude changes outside the current directory and show path 
-    # names relative to it. **NOTE:** This requires you to 
+    # names relative to it. NOTE: This requires you to 
     # specify the top-level directory via the `path` input. 
     # Default: `"true"`
     diff_relative: ''
 
-    # Output unique changed directories instead of filenames. **NOTE:** This 
+    # Output unique changed directories instead of filenames. NOTE: This 
     # returns `.` for changed files located in the current 
     # working directory which defaults to `$GITHUB_WORKSPACE`. 
     # Default: `"false"`
@@ -402,7 +402,7 @@ Support this project with a :star:
     dir_names_exclude_current_dir: ''
 
     # File and directory patterns to include in the output 
-    # when `dir_names` is set to `true`. **NOTE:** This returns 
+    # when `dir_names` is set to `true`. NOTE: This returns 
     # only the matching files and also the directory names. 
     dir_names_include_files: ''
 
@@ -430,7 +430,7 @@ Support this project with a :star:
     # Default: `"false"`
     fetch_additional_submodule_history: ''
 
-    # Depth of additional branch history fetched. **NOTE**: This can 
+    # Depth of additional branch history fetched. NOTE: This can 
     # be adjusted to resolve errors with insufficient history. 
     # Default: `"50"`
     fetch_depth: ''
@@ -500,7 +500,7 @@ Support this project with a :star:
     # Default: `"false"`
     json: ''
 
-    # Apply the negation patterns first. **NOTE:** This affects how 
+    # Apply the negation patterns first. NOTE: This affects how 
     # changed files are matched. 
     # Default: `"false"`
     negation_patterns_first: ''
@@ -526,8 +526,8 @@ Support this project with a :star:
     # Default: `"."`
     path: ''
 
-    # Use non ASCII characters to match files and output 
-    # the filenames completely verbatim by setting this to `false` 
+    # Use non-ASCII characters to match files and output the 
+    # filenames completely verbatim by setting this to `false` 
     # Default: `"true"`
     quotepath: ''
 
@@ -594,7 +594,7 @@ Support this project with a :star:
     until: ''
 
     # Write outputs to the `output_dir` defaults to `.github/outputs` folder. 
-    # **NOTE:** This creates a `.txt` file by default and 
+    # NOTE: This creates a `.txt` file by default and 
     # a `.json` file if `json` is set to `true`. 
     # Default: `"false"`
     write_output_files: ''
