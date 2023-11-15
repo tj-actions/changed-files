@@ -8,7 +8,7 @@ inputs:
     required: false
     default: " "
   include_all_old_new_renamed_files:
-    description: "Include `all_old_new_renamed_files` output. Note this can generate a large output See: [#501](https://github.com/tj-actions/changed-files/issues/501)."
+    description: "Include `all_old_new_renamed_files` output. Note this can generate a large output See: #501."
     required: false
     default: "false"
   old_new_separator:
@@ -28,7 +28,9 @@ inputs:
     default: "\n"
     required: false
   files:
-    description: "File and directory patterns used to detect changes (Defaults to the entire repo if unset) **NOTE:** Multiline file/directory patterns should not include quotes."
+    description: |
+      File and directory patterns used to detect changes (Defaults to the entire repo if unset)
+      NOTE: Multiline file/directory patterns should not include quotes.
     required: false
     default: ""
   files_separator:
@@ -40,7 +42,7 @@ inputs:
     required: false
     default: ""
   files_yaml_from_source_file:
-    description: "Source file(s) used to populate the `files_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)"
+    description: "Source file(s) used to populate the `files_yaml` input. Example: https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml"
     required: false
     default: ""
   files_yaml_from_source_file_separator:
@@ -52,7 +54,7 @@ inputs:
     required: false
     default: ""
   files_ignore_yaml_from_source_file:
-    description: "Source file(s) used to populate the `files_ignore_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)"
+    description: "Source file(s) used to populate the `files_ignore_yaml` input. Example: https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml"
     required: false
     default: ""
   files_ignore_yaml_from_source_file_separator:
@@ -94,11 +96,11 @@ inputs:
     required: false
     default: "."
   quotepath:
-    description: "Use non-ascii characters to match files and output the filenames completely verbatim by setting this to `false`"
+    description: "Use non ASCII characters to match files and output the filenames completely verbatim by setting this to `false`"
     default: "true"
     required: false
   diff_relative:
-    description: "Exclude changes outside the current directory and show path names relative to it. **NOTE:** This requires you to specify the top level directory via the `path` input."
+    description: "Exclude changes outside the current directory and show path names relative to it. **NOTE:** This requires you to specify the top-level directory via the `path` input."
     required: false
     default: "true"
   dir_names:
@@ -125,7 +127,7 @@ inputs:
     required: false
     default: "false"
   json:
-    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml)"
+    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml"
     required: false
     default: "false"
   escape_json:
@@ -137,7 +139,9 @@ inputs:
     required: false
     default: "50"
   skip_initial_fetch:
-    description: "Skip the initial fetch to improve performance for shallow repositories. **NOTE**: This could lead to errors with missing history and the intended use is limited to when you've fetched the history necessary to perform the diff."
+    description: |
+      Skip the initial fetch to improve performance for shallow repositories. 
+      NOTE: This could lead to errors with missing history and the intended use is limited to when you've fetched the history necessary to perform the diff.
     required: false
     default: "false"
   fetch_additional_submodule_history:
@@ -169,7 +173,10 @@ inputs:
     required: false
     default: ""
   recover_files:
-    description: "File and directory patterns used to recover deleted files, defaults to the patterns provided via the `files`, `files_from_source_file`, `files_ignore` and `files_ignore_from_source_file` inputs or all deleted files if no patterns are provided."
+    description: |
+      File and directory patterns used to recover deleted files,
+      defaults to the patterns provided via the `files`, `files_from_source_file`, `files_ignore` and `files_ignore_from_source_file` inputs 
+      or all deleted files if no patterns are provided.
     required: false
     default: ""
   recover_files_separator:
@@ -185,7 +192,7 @@ inputs:
     default: "\n"
     required: false
   token:
-    description: "Github token used to fetch changed files from Github's API."
+    description: "GitHub token used to fetch changed files from Github's API."
     required: false
     default: ${{ github.token }}
   api_url:
