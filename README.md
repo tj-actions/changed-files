@@ -365,59 +365,247 @@ Support this project with a :star:
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-|                                                                                        INPUT                                                                                        |  TYPE  | REQUIRED |          DEFAULT          |                                                                                                                                 DESCRIPTION                                                                                                                                  |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|----------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|                                                                <a name="input_api_url"></a>[api\_url](#input_api_url)                                                                | string |  false   | `"${{ github.api_url }}"` |                                                                                                                               Github API URL.                                                                                                                                |
-|                                                              <a name="input_base_sha"></a>[base\_sha](#input_base_sha)                                                               | string |  false   |                           |                                                                                              Specify a different base commit <br>SHA or branch used for <br>comparing changes                                                                                                |
-|                                                       <a name="input_diff_relative"></a>[diff\_relative](#input_diff_relative)                                                       | string |  false   |         `"true"`          |                                         Exclude changes outside the current <br>directory and show path names <br>relative to it. **NOTE:** This <br>requires you to specify the <br>top level directory via the <br>`path` input.                                           |
-|                                                             <a name="input_dir_names"></a>[dir\_names](#input_dir_names)                                                             | string |  false   |         `"false"`         |                                    Output unique changed directories instead <br>of filenames. **NOTE:** This returns <br>`.` for changed files located <br>in the current working directory <br>which defaults to `$GITHUB_WORKSPACE`.                                      |
-| <a name="input_dir_names_deleted_files_include_only_deleted_dirs"></a>[dir\_names\_deleted\_files\_include\_only\_deleted\_dirs](#input_dir_names_deleted_files_include_only_deleted_dirs) | string |  false   |         `"false"`         |                                     Include only directories that have <br>been deleted as opposed to <br>directory names of files that <br>have been deleted in the <br>`deleted_files` output when `dir_names` is <br>set to `true`.                                       |
-|                               <a name="input_dir_names_exclude_current_dir"></a>[dir\_names\_exclude\_current\_dir](#input_dir_names_exclude_current_dir)                               | string |  false   |         `"false"`         |                                                                               Exclude the current directory represented <br>by `.` from the output <br>when `dir_names` is set to <br>`true`.                                                                                |
-|                                        <a name="input_dir_names_include_files"></a>[dir\_names\_include\_files](#input_dir_names_include_files)                                        | string |  false   |                           |                                          File and directory patterns to <br>include in the output when <br>`dir_names` is set to `true`. <br>**NOTE:** This returns only the <br>matching files and also the <br>directory names.                                            |
-|                         <a name="input_dir_names_include_files_separator"></a>[dir\_names\_include\_files\_separator](#input_dir_names_include_files_separator)                         | string |  false   |          `"\n"`           |                                                                                                       Separator used to split the <br>`dir_names_include_files` input                                                                                                        |
-|                                              <a name="input_dir_names_max_depth"></a>[dir\_names\_max\_depth](#input_dir_names_max_depth)                                              | string |  false   |                           |                                                                        Limit the directory output to <br>a maximum depth e.g `test/test1/test2` <br>with max depth of `2` <br>returns `test/test1`.                                                                          |
-|                                                          <a name="input_escape_json"></a>[escape\_json](#input_escape_json)                                                          | string |  false   |         `"true"`          |                                                                                                                             Escape JSON output.                                                                                                                              |
-|                                   <a name="input_fail_on_initial_diff_error"></a>[fail\_on\_initial\_diff\_error](#input_fail_on_initial_diff_error)                                    | string |  false   |         `"false"`         |                                                                                                                    Fail when the initial diff <br>fails.                                                                                                                     |
-|                                <a name="input_fail_on_submodule_diff_error"></a>[fail\_on\_submodule\_diff\_error](#input_fail_on_submodule_diff_error)                                 | string |  false   |         `"false"`         |                                                                                                                   Fail when the submodule diff <br>fails.                                                                                                                    |
-|                       <a name="input_fetch_additional_submodule_history"></a>[fetch\_additional\_submodule\_history](#input_fetch_additional_submodule_history)                        | string |  false   |         `"false"`         |                                                                                                                   Fetch additional history for submodules.                                                                                                                   |
-|                                                          <a name="input_fetch_depth"></a>[fetch\_depth](#input_fetch_depth)                                                          | string |  false   |          `"50"`           |                                                                     Depth of additional branch history <br>fetched. **NOTE**: This can be <br>adjusted to resolve errors with <br>insufficient history.                                                                      |
-|                                                                   <a name="input_files"></a>[files](#input_files)                                                                   | string |  false   |                           |                                                File and directory patterns used <br>to detect changes (Defaults to the entire repo if unset) **NOTE:** <br>Multiline file/directory patterns should not <br>include quotes.                                                  |
-|                                         <a name="input_files_from_source_file"></a>[files\_from\_source\_file](#input_files_from_source_file)                                          | string |  false   |                           |                                                                                                           Source file(s) used to populate <br>the `files` input.                                                                                                             |
-|                          <a name="input_files_from_source_file_separator"></a>[files\_from\_source\_file\_separator](#input_files_from_source_file_separator)                           | string |  false   |          `"\n"`           |                                                                                                       Separator used to split the <br>`files_from_source_file` input                                                                                                         |
-|                                                        <a name="input_files_ignore"></a>[files\_ignore](#input_files_ignore)                                                         | string |  false   |                           |                                                                               Ignore changes to these file(s) <br>**NOTE:** Multiline file/directory patterns should <br>not include quotes.                                                                                 |
-|                               <a name="input_files_ignore_from_source_file"></a>[files\_ignore\_from\_source\_file](#input_files_ignore_from_source_file)                               | string |  false   |                           |                                                                                                        Source file(s) used to populate <br>the `files_ignore` input                                                                                                          |
-|                <a name="input_files_ignore_from_source_file_separator"></a>[files\_ignore\_from\_source\_file\_separator](#input_files_ignore_from_source_file_separator)                | string |  false   |          `"\n"`           |                                                                                                    Separator used to split the <br>`files_ignore_from_source_file` input                                                                                                     |
-|                                         <a name="input_files_ignore_separator"></a>[files\_ignore\_separator](#input_files_ignore_separator)                                          | string |  false   |          `"\n"`           |                                                                                                            Separator used to split the <br>`files_ignore` input                                                                                                              |
-|                                                 <a name="input_files_ignore_yaml"></a>[files\_ignore\_yaml](#input_files_ignore_yaml)                                                 | string |  false   |                           |                                                                                                    YAML used to define a <br>set of file patterns to <br>ignore changes                                                                                                      |
-|                       <a name="input_files_ignore_yaml_from_source_file"></a>[files\_ignore\_yaml\_from\_source\_file](#input_files_ignore_yaml_from_source_file)                        | string |  false   |                           |                                                         Source file(s) used to populate <br>the `files_ignore_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)                                                           |
-|        <a name="input_files_ignore_yaml_from_source_file_separator"></a>[files\_ignore\_yaml\_from\_source\_file\_separator](#input_files_ignore_yaml_from_source_file_separator)         | string |  false   |          `"\n"`           |                                                                                                 Separator used to split the <br>`files_ignore_yaml_from_source_file` input                                                                                                   |
-|                                                    <a name="input_files_separator"></a>[files\_separator](#input_files_separator)                                                    | string |  false   |          `"\n"`           |                                                                                                                Separator used to split the <br>`files` input                                                                                                                 |
-|                                                           <a name="input_files_yaml"></a>[files\_yaml](#input_files_yaml)                                                            | string |  false   |                           |                                                                                                    YAML used to define a <br>set of file patterns to <br>detect changes                                                                                                      |
-|                                  <a name="input_files_yaml_from_source_file"></a>[files\_yaml\_from\_source\_file](#input_files_yaml_from_source_file)                                  | string |  false   |                           |                                                             Source file(s) used to populate <br>the `files_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)                                                              |
-|                   <a name="input_files_yaml_from_source_file_separator"></a>[files\_yaml\_from\_source\_file\_separator](#input_files_yaml_from_source_file_separator)                   | string |  false   |          `"\n"`           |                                                                                                     Separator used to split the <br>`files_yaml_from_source_file` input                                                                                                      |
-|                         <a name="input_include_all_old_new_renamed_files"></a>[include\_all\_old\_new\_renamed\_files](#input_include_all_old_new_renamed_files)                         | string |  false   |         `"false"`         |                                                       Include `all_old_new_renamed_files` output. Note this <br>can generate a large output <br>See: [#501](https://github.com/tj-actions/changed-files/issues/501).                                                         |
-|                                                                    <a name="input_json"></a>[json](#input_json)                                                                     | string |  false   |         `"false"`         |                                  Output list of changed files <br>in a JSON formatted string <br>which can be used for <br>matrix jobs. [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml)                                   |
-|                                        <a name="input_negation_patterns_first"></a>[negation\_patterns\_first](#input_negation_patterns_first)                                        | string |  false   |         `"false"`         |                                                                                      Apply the negation patterns first. <br>**NOTE:** This affects how changed <br>files are matched.                                                                                        |
-|                                        <a name="input_old_new_files_separator"></a>[old\_new\_files\_separator](#input_old_new_files_separator)                                        | string |  false   |           `" "`           |                                                                                                         Split character for old and <br>new renamed filename pairs.                                                                                                          |
-|                                                 <a name="input_old_new_separator"></a>[old\_new\_separator](#input_old_new_separator)                                                 | string |  false   |           `","`           |                                                                                                             Split character for old and <br>new filename pairs.                                                                                                              |
-|                                                           <a name="input_output_dir"></a>[output\_dir](#input_output_dir)                                                            | string |  false   |    `".github/outputs"`    |                                                                                                                       Directory to store output files.                                                                                                                       |
-|             <a name="input_output_renamed_files_as_deleted_and_added"></a>[output\_renamed\_files\_as\_deleted\_and\_added](#input_output_renamed_files_as_deleted_and_added)             | string |  false   |         `"false"`         |                                                                                                            Output renamed files as deleted <br>and added files.                                                                                                              |
-|                                                                    <a name="input_path"></a>[path](#input_path)                                                                     | string |  false   |           `"."`           |                                                                                               Specify a relative path under <br>`$GITHUB_WORKSPACE` to locate the repository.                                                                                                |
-|                                                             <a name="input_quotepath"></a>[quotepath](#input_quotepath)                                                             | string |  false   |         `"true"`          |                                                                         Use non-ascii characters to match <br>files and output the filenames <br>completely verbatim by setting this <br>to `false`                                                                          |
-|                                           <a name="input_recover_deleted_files"></a>[recover\_deleted\_files](#input_recover_deleted_files)                                           | string |  false   |         `"false"`         |                                                                                                                            Recover deleted files.                                                                                                                            |
-|                    <a name="input_recover_deleted_files_to_destination"></a>[recover\_deleted\_files\_to\_destination](#input_recover_deleted_files_to_destination)                     | string |  false   |                           |                                                                                      Recover deleted files to a <br>new destination directory, defaults to <br>the original location.                                                                                        |
-|                                                       <a name="input_recover_files"></a>[recover\_files](#input_recover_files)                                                       | string |  false   |                           | File and directory patterns used <br>to recover deleted files, defaults <br>to the patterns provided via <br>the `files`, `files_from_source_file`, `files_ignore` and <br>`files_ignore_from_source_file` inputs or all deleted <br>files if no patterns are <br>provided.  |
-|                                            <a name="input_recover_files_ignore"></a>[recover\_files\_ignore](#input_recover_files_ignore)                                             | string |  false   |                           |                                                                                                  File and directory patterns to <br>ignore when recovering deleted files.                                                                                                    |
-|                             <a name="input_recover_files_ignore_separator"></a>[recover\_files\_ignore\_separator](#input_recover_files_ignore_separator)                              | string |  false   |          `"\n"`           |                                                                                                        Separator used to split the <br>`recover_files_ignore` input                                                                                                          |
-|                                        <a name="input_recover_files_separator"></a>[recover\_files\_separator](#input_recover_files_separator)                                        | string |  false   |          `"\n"`           |                                                                                                            Separator used to split the <br>`recover_files` input                                                                                                             |
-|                                                             <a name="input_separator"></a>[separator](#input_separator)                                                             | string |  false   |           `" "`           |                                                                                                                      Split character for output strings                                                                                                                      |
-|                                                                      <a name="input_sha"></a>[sha](#input_sha)                                                                      | string |  false   |                           |                                                                                                 Specify a different commit SHA <br>or branch used for comparing <br>changes                                                                                                  |
-|                                                                   <a name="input_since"></a>[since](#input_since)                                                                   | string |  false   |                           |                                                                                             Get changed files for commits <br>whose timestamp is older than <br>the given time.                                                                                              |
-|                                      <a name="input_since_last_remote_commit"></a>[since\_last\_remote\_commit](#input_since_last_remote_commit)                                       | string |  false   |         `"false"`         |              Use the last commit on <br>the remote branch as the <br>`base_sha`. Defaults to the last <br>non-merge commit on the target <br>branch for pull request events <br>and the previous remote commit <br>of the current branch for <br>push events.                |
-|                                               <a name="input_skip_initial_fetch"></a>[skip\_initial\_fetch](#input_skip_initial_fetch)                                                | string |  false   |         `"false"`         |       Skip the initial fetch to <br>improve performance for shallow repositories. <br>**NOTE**: This could lead to <br>errors with missing history and <br>the intended use is limited <br>to when you've fetched the <br>history necessary to perform the <br>diff.         |
-|                                                                   <a name="input_token"></a>[token](#input_token)                                                                   | string |  false   |  `"${{ github.token }}"`  |                                                                                                       Github token used to fetch <br>changed files from Github's API.                                                                                                        |
-|                                                                   <a name="input_until"></a>[until](#input_until)                                                                   | string |  false   |                           |                                                                                            Get changed files for commits <br>whose timestamp is earlier than <br>the given time.                                                                                             |
-|                                               <a name="input_write_output_files"></a>[write\_output\_files](#input_write_output_files)                                                | string |  false   |         `"false"`         |                                         Write outputs to the `output_dir` <br>defaults to `.github/outputs` folder. **NOTE:** <br>This creates a `.txt` file <br>by default and a `.json` <br>file if `json` is set <br>to `true`.                                           |
+```yaml
+- uses: tj-actions/changed-files@v40
+  id: changed-files
+  with:
+    # Github API URL.
+    # Default: ${{ github.api_url }}
+    api_url: ''
+
+    # Specify a different base commit SHA or branch used 
+    # for comparing changes 
+    base_sha: ''
+
+    # Exclude changes outside the current directory and show path 
+    # names relative to it. **NOTE:** This requires you to 
+    # specify the top level directory via the `path` input. 
+    # Default: true
+    diff_relative: ''
+
+    # Output unique changed directories instead of filenames. **NOTE:** This 
+    # returns `.` for changed files located in the current 
+    # working directory which defaults to `$GITHUB_WORKSPACE`. 
+    # Default: false
+    dir_names: ''
+
+    # Include only directories that have been deleted as opposed 
+    # to directory names of files that have been deleted 
+    # in the `deleted_files` output when `dir_names` is set to 
+    # `true`. 
+    # Default: false
+    dir_names_deleted_files_include_only_deleted_dirs: ''
+
+    # Exclude the current directory represented by `.` from the 
+    # output when `dir_names` is set to `true`. 
+    # Default: false
+    dir_names_exclude_current_dir: ''
+
+    # File and directory patterns to include in the output 
+    # when `dir_names` is set to `true`. **NOTE:** This returns 
+    # only the matching files and also the directory names. 
+    dir_names_include_files: ''
+
+    # Separator used to split the `dir_names_include_files` input
+    # Default: 
+
+    dir_names_include_files_separator: ''
+
+    # Limit the directory output to a maximum depth e.g 
+    # `test/test1/test2` with max depth of `2` returns `test/test1`. 
+    dir_names_max_depth: ''
+
+    # Escape JSON output.
+    # Default: true
+    escape_json: ''
+
+    # Fail when the initial diff fails.
+    # Default: false
+    fail_on_initial_diff_error: ''
+
+    # Fail when the submodule diff fails.
+    # Default: false
+    fail_on_submodule_diff_error: ''
+
+    # Fetch additional history for submodules.
+    # Default: false
+    fetch_additional_submodule_history: ''
+
+    # Depth of additional branch history fetched. **NOTE**: This can 
+    # be adjusted to resolve errors with insufficient history. 
+    # Default: 50
+    fetch_depth: ''
+
+    # File and directory patterns used to detect changes (Defaults to the entire repo if unset) 
+    # **NOTE:** Multiline file/directory patterns should not include quotes. 
+    files: ''
+
+    # Source file(s) used to populate the `files` input.
+    files_from_source_file: ''
+
+    # Separator used to split the `files_from_source_file` input
+    # Default: 
+
+    files_from_source_file_separator: ''
+
+    # Ignore changes to these file(s) **NOTE:** Multiline file/directory patterns 
+    # should not include quotes. 
+    files_ignore: ''
+
+    # Source file(s) used to populate the `files_ignore` input
+    files_ignore_from_source_file: ''
+
+    # Separator used to split the `files_ignore_from_source_file` input
+    # Default: 
+
+    files_ignore_from_source_file_separator: ''
+
+    # Separator used to split the `files_ignore` input
+    # Default: 
+
+    files_ignore_separator: ''
+
+    # YAML used to define a set of file patterns 
+    # to ignore changes 
+    files_ignore_yaml: ''
+
+    # Source file(s) used to populate the `files_ignore_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)
+    files_ignore_yaml_from_source_file: ''
+
+    # Separator used to split the `files_ignore_yaml_from_source_file` input
+    # Default: 
+
+    files_ignore_yaml_from_source_file_separator: ''
+
+    # Separator used to split the `files` input
+    # Default: 
+
+    files_separator: ''
+
+    # YAML used to define a set of file patterns 
+    # to detect changes 
+    files_yaml: ''
+
+    # Source file(s) used to populate the `files_yaml` input. [Example](https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml)
+    files_yaml_from_source_file: ''
+
+    # Separator used to split the `files_yaml_from_source_file` input
+    # Default: 
+
+    files_yaml_from_source_file_separator: ''
+
+    # Include `all_old_new_renamed_files` output. Note this can generate a large 
+    # output See: [#501](https://github.com/tj-actions/changed-files/issues/501). 
+    # Default: false
+    include_all_old_new_renamed_files: ''
+
+    # Output list of changed files in a JSON formatted 
+    # string which can be used for matrix jobs. [Example](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml) 
+    # Default: false
+    json: ''
+
+    # Apply the negation patterns first. **NOTE:** This affects how 
+    # changed files are matched. 
+    # Default: false
+    negation_patterns_first: ''
+
+    # Split character for old and new renamed filename pairs.
+    # Default:  
+    old_new_files_separator: ''
+
+    # Split character for old and new filename pairs.
+    # Default: ,
+    old_new_separator: ''
+
+    # Directory to store output files.
+    # Default: .github/outputs
+    output_dir: ''
+
+    # Output renamed files as deleted and added files.
+    # Default: false
+    output_renamed_files_as_deleted_and_added: ''
+
+    # Specify a relative path under `$GITHUB_WORKSPACE` to locate the 
+    # repository. 
+    # Default: .
+    path: ''
+
+    # Use non-ascii characters to match files and output the 
+    # filenames completely verbatim by setting this to `false` 
+    # Default: true
+    quotepath: ''
+
+    # Recover deleted files.
+    # Default: false
+    recover_deleted_files: ''
+
+    # Recover deleted files to a new destination directory, defaults 
+    # to the original location. 
+    recover_deleted_files_to_destination: ''
+
+    # File and directory patterns used to recover deleted files, 
+    # defaults to the patterns provided via the `files`, `files_from_source_file`, 
+    # `files_ignore` and `files_ignore_from_source_file` inputs or all deleted files if 
+    # no patterns are provided. 
+    recover_files: ''
+
+    # File and directory patterns to ignore when recovering deleted 
+    # files. 
+    recover_files_ignore: ''
+
+    # Separator used to split the `recover_files_ignore` input
+    # Default: 
+
+    recover_files_ignore_separator: ''
+
+    # Separator used to split the `recover_files` input
+    # Default: 
+
+    recover_files_separator: ''
+
+    # Split character for output strings
+    # Default:  
+    separator: ''
+
+    # Specify a different commit SHA or branch used for 
+    # comparing changes 
+    sha: ''
+
+    # Get changed files for commits whose timestamp is older 
+    # than the given time. 
+    since: ''
+
+    # Use the last commit on the remote branch as 
+    # the `base_sha`. Defaults to the last non-merge commit on 
+    # the target branch for pull request events and the 
+    # previous remote commit of the current branch for push 
+    # events. 
+    # Default: false
+    since_last_remote_commit: ''
+
+    # Skip the initial fetch to improve performance for shallow 
+    # repositories. **NOTE**: This could lead to errors with missing 
+    # history and the intended use is limited to when 
+    # you've fetched the history necessary to perform the diff. 
+    # Default: false
+    skip_initial_fetch: ''
+
+    # Github token used to fetch changed files from Github's 
+    # API. 
+    # Default: ${{ github.token }}
+    token: ''
+
+    # Get changed files for commits whose timestamp is earlier 
+    # than the given time. 
+    until: ''
+
+    # Write outputs to the `output_dir` defaults to `.github/outputs` folder. 
+    # **NOTE:** This creates a `.txt` file by default and 
+    # a `.json` file if `json` is set to `true`. 
+    # Default: false
+    write_output_files: ''
+
+```
 
 <!-- AUTO-DOC-INPUT:END -->
 
