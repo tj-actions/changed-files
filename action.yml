@@ -62,7 +62,7 @@ inputs:
     default: "\n"
     required: false
   files_ignore:
-    description: "Ignore changes to these file(s) **NOTE:** Multiline file/directory patterns should not include quotes."
+    description: "Ignore changes to these file(s) NOTE: Multiline file/directory patterns should not include quotes."
     required: false
     default: ""
   files_ignore_separator:
