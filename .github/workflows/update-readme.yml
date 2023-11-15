@@ -15,6 +15,9 @@ jobs:
 
       - name: Run auto-doc
         uses: tj-actions/auto-doc@v3
+        with:
+          use_code_blocks: true
+          use_major_version: true
 
       - name: Run remark
         uses: tj-actions/remark@v3
