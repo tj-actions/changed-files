@@ -96,16 +96,16 @@ inputs:
     required: false
     default: "."
   quotepath:
-    description: "Use non ASCII characters to match files and output the filenames completely verbatim by setting this to `false`"
+    description: "Use non-ASCII characters to match files and output the filenames completely verbatim by setting this to `false`"
     default: "true"
     required: false
   diff_relative:
-    description: "Exclude changes outside the current directory and show path names relative to it. **NOTE:** This requires you to specify the top-level directory via the `path` input."
+    description: "Exclude changes outside the current directory and show path names relative to it. NOTE: This requires you to specify the top-level directory via the `path` input."
     required: false
     default: "true"
   dir_names:
     default: "false"
-    description: "Output unique changed directories instead of filenames. **NOTE:** This returns `.` for changed files located in the current working directory which defaults to `$GITHUB_WORKSPACE`."
+    description: "Output unique changed directories instead of filenames. NOTE: This returns `.` for changed files located in the current working directory which defaults to `$GITHUB_WORKSPACE`."
     required: false
   dir_names_max_depth:
     description: "Limit the directory output to a maximum depth e.g `test/test1/test2` with max depth of `2` returns `test/test1`."
@@ -115,7 +115,7 @@ inputs:
     required: false
     default: "false"
   dir_names_include_files:
-    description: "File and directory patterns to include in the output when `dir_names` is set to `true`. **NOTE:** This returns only the matching files and also the directory names."
+    description: "File and directory patterns to include in the output when `dir_names` is set to `true`. NOTE: This returns only the matching files and also the directory names."
     required: false
     default: ""
   dir_names_include_files_separator:
@@ -135,7 +135,7 @@ inputs:
     required: false
     default: "true"
   fetch_depth:
-    description: "Depth of additional branch history fetched. **NOTE**: This can be adjusted to resolve errors with insufficient history."
+    description: "Depth of additional branch history fetched. NOTE: This can be adjusted to resolve errors with insufficient history."
     required: false
     default: "50"
   skip_initial_fetch:
@@ -153,7 +153,7 @@ inputs:
     required: false
     default: "false"
   write_output_files:
-    description: "Write outputs to the `output_dir` defaults to `.github/outputs` folder. **NOTE:** This creates a `.txt` file by default and a `.json` file if `json` is set to `true`."
+    description: "Write outputs to the `output_dir` defaults to `.github/outputs` folder. NOTE: This creates a `.txt` file by default and a `.json` file if `json` is set to `true`."
     required: false
     default: "false"
   output_dir:
@@ -208,7 +208,7 @@ inputs:
     required: false
     default: "false"
   negation_patterns_first:
-    description: "Apply the negation patterns first. **NOTE:** This affects how changed files are matched."
+    description: "Apply the negation patterns first. NOTE: This affects how changed files are matched."
     required: false
     default: "false"
 
