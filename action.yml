@@ -29,7 +29,7 @@ inputs:
     required: false
   files:
     description: |
-      File and directory patterns used to detect changes (Defaults to the entire repo if unset)
+      File and directory patterns used to detect changes (Defaults to the entire repo if unset).
       NOTE: Multiline file/directory patterns should not include quotes.
     required: false
     default: ""
@@ -62,7 +62,7 @@ inputs:
     default: "\n"
     required: false
   files_ignore:
-    description: "Ignore changes to these file(s) NOTE: Multiline file/directory patterns should not include quotes."
+    description: "Ignore changes to these file(s). NOTE: Multiline file/directory patterns should not include quotes."
     required: false
     default: ""
   files_ignore_separator:
