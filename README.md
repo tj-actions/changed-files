@@ -370,22 +370,26 @@ Support this project with a :star:
   id: changed-files
   with:
     # Github API URL.
+    # Type: string
     # Default: "${{ github.api_url }}"
     api_url: ''
 
     # Specify a different base commit SHA or branch used 
     # for comparing changes 
+    # Type: string
     base_sha: ''
 
     # Exclude changes outside the current directory and show path 
     # names relative to it. NOTE: This requires you to 
     # specify the top-level directory via the `path` input. 
+    # Type: boolean
     # Default: "true"
     diff_relative: ''
 
     # Output unique changed directories instead of filenames. NOTE: This 
     # returns `.` for changed files located in the current 
     # working directory which defaults to `$GITHUB_WORKSPACE`. 
+    # Type: boolean
     # Default: "false"
     dir_names: ''
 
@@ -393,180 +397,222 @@ Support this project with a :star:
     # to directory names of files that have been deleted 
     # in the `deleted_files` output when `dir_names` is set to 
     # `true`. 
+    # Type: boolean
     # Default: "false"
     dir_names_deleted_files_include_only_deleted_dirs: ''
 
     # Exclude the current directory represented by `.` from the 
     # output when `dir_names` is set to `true`. 
+    # Type: boolean
     # Default: "false"
     dir_names_exclude_current_dir: ''
 
     # File and directory patterns to include in the output 
     # when `dir_names` is set to `true`. NOTE: This returns 
     # only the matching files and also the directory names. 
+    # Type: string
     dir_names_include_files: ''
 
     # Separator used to split the `dir_names_include_files` input
+    # Type: string
     # Default: "\n"
     dir_names_include_files_separator: ''
 
     # Limit the directory output to a maximum depth e.g 
     # `test/test1/test2` with max depth of `2` returns `test/test1`. 
+    # Type: string
     dir_names_max_depth: ''
 
     # Escape JSON output.
+    # Type: boolean
     # Default: "true"
     escape_json: ''
 
     # Fail when the initial diff fails.
+    # Type: boolean
     # Default: "false"
     fail_on_initial_diff_error: ''
 
     # Fail when the submodule diff fails.
+    # Type: boolean
     # Default: "false"
     fail_on_submodule_diff_error: ''
 
     # Fetch additional history for submodules.
+    # Type: boolean
     # Default: "false"
     fetch_additional_submodule_history: ''
 
     # Depth of additional branch history fetched. NOTE: This can 
     # be adjusted to resolve errors with insufficient history. 
+    # Type: string
     # Default: "50"
     fetch_depth: ''
 
     # File and directory patterns used to detect changes (Defaults to the entire repo if unset). 
     # NOTE: Multiline file/directory patterns should not include quotes. 
+    # Type: string
     files: ''
 
     # Source file(s) used to populate the `files` input.
+    # Type: string
     files_from_source_file: ''
 
     # Separator used to split the `files_from_source_file` input
+    # Type: string
     # Default: "\n"
     files_from_source_file_separator: ''
 
     # Ignore changes to these file(s). NOTE: Multiline file/directory patterns 
     # should not include quotes. 
+    # Type: string
     files_ignore: ''
 
     # Source file(s) used to populate the `files_ignore` input
+    # Type: string
     files_ignore_from_source_file: ''
 
     # Separator used to split the `files_ignore_from_source_file` input
+    # Type: string
     # Default: "\n"
     files_ignore_from_source_file_separator: ''
 
     # Separator used to split the `files_ignore` input
+    # Type: string
     # Default: "\n"
     files_ignore_separator: ''
 
     # YAML used to define a set of file patterns 
     # to ignore changes 
+    # Type: string
     files_ignore_yaml: ''
 
     # Source file(s) used to populate the `files_ignore_yaml` input. Example: 
     # https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml 
+    # Type: string
     files_ignore_yaml_from_source_file: ''
 
     # Separator used to split the `files_ignore_yaml_from_source_file` input
+    # Type: string
     # Default: "\n"
     files_ignore_yaml_from_source_file_separator: ''
 
     # Separator used to split the `files` input
+    # Type: string
     # Default: "\n"
     files_separator: ''
 
     # YAML used to define a set of file patterns 
     # to detect changes 
+    # Type: string
     files_yaml: ''
 
     # Source file(s) used to populate the `files_yaml` input. Example: 
     # https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml 
+    # Type: string
     files_yaml_from_source_file: ''
 
     # Separator used to split the `files_yaml_from_source_file` input
+    # Type: string
     # Default: "\n"
     files_yaml_from_source_file_separator: ''
 
     # Include `all_old_new_renamed_files` output. Note this can generate a large 
     # output See: #501. 
+    # Type: boolean
     # Default: "false"
     include_all_old_new_renamed_files: ''
 
     # Output list of changed files in a JSON formatted 
     # string which can be used for matrix jobs. Example: 
     # https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml 
+    # Type: boolean
     # Default: "false"
     json: ''
 
     # Apply the negation patterns first. NOTE: This affects how 
     # changed files are matched. 
+    # Type: boolean
     # Default: "false"
     negation_patterns_first: ''
 
     # Split character for old and new renamed filename pairs.
+    # Type: string
     # Default: " "
     old_new_files_separator: ''
 
     # Split character for old and new filename pairs.
+    # Type: string
     # Default: ","
     old_new_separator: ''
 
     # Directory to store output files.
+    # Type: string
     # Default: ".github/outputs"
     output_dir: ''
 
     # Output renamed files as deleted and added files.
+    # Type: boolean
     # Default: "false"
     output_renamed_files_as_deleted_and_added: ''
 
     # Specify a relative path under `$GITHUB_WORKSPACE` to locate the 
     # repository. 
+    # Type: string
     # Default: "."
     path: ''
 
     # Use non-ASCII characters to match files and output the 
     # filenames completely verbatim by setting this to `false` 
+    # Type: boolean
     # Default: "true"
     quotepath: ''
 
     # Recover deleted files.
+    # Type: boolean
     # Default: "false"
     recover_deleted_files: ''
 
     # Recover deleted files to a new destination directory, defaults 
     # to the original location. 
+    # Type: string
     recover_deleted_files_to_destination: ''
 
     # File and directory patterns used to recover deleted files, 
     # defaults to the patterns provided via the `files`, `files_from_source_file`, 
     # `files_ignore` and `files_ignore_from_source_file` inputs or all deleted files if 
     # no patterns are provided. 
+    # Type: string
     recover_files: ''
 
     # File and directory patterns to ignore when recovering deleted 
     # files. 
+    # Type: string
     recover_files_ignore: ''
 
     # Separator used to split the `recover_files_ignore` input
+    # Type: string
     # Default: "\n"
     recover_files_ignore_separator: ''
 
     # Separator used to split the `recover_files` input
+    # Type: string
     # Default: "\n"
     recover_files_separator: ''
 
     # Split character for output strings
+    # Type: string
     # Default: " "
     separator: ''
 
     # Specify a different commit SHA or branch used for 
     # comparing changes 
+    # Type: string
     sha: ''
 
     # Get changed files for commits whose timestamp is older 
     # than the given time. 
+    # Type: string
     since: ''
 
     # Use the last commit on the remote branch as 
@@ -574,6 +620,7 @@ Support this project with a :star:
     # the target branch for pull request events and the 
     # previous remote commit of the current branch for push 
     # events. 
+    # Type: boolean
     # Default: "false"
     since_last_remote_commit: ''
 
@@ -581,21 +628,25 @@ Support this project with a :star:
     # repositories. NOTE: This could lead to errors with missing 
     # history and the intended use is limited to when 
     # you've fetched the history necessary to perform the diff. 
+    # Type: boolean
     # Default: "false"
     skip_initial_fetch: ''
 
     # GitHub token used to fetch changed files from Github's 
     # API. 
+    # Type: string
     # Default: "${{ github.token }}"
     token: ''
 
     # Get changed files for commits whose timestamp is earlier 
     # than the given time. 
+    # Type: string
     until: ''
 
     # Write outputs to the `output_dir` defaults to `.github/outputs` folder. 
     # NOTE: This creates a `.txt` file by default and 
     # a `.json` file if `json` is set to `true`. 
+    # Type: boolean
     # Default: "false"
     write_output_files: ''
 
