@@ -458,7 +458,7 @@ Support this project with a :star:
     # Type: string
     files_from_source_file: ''
 
-    # Separator used to split the `files_from_source_file` input
+    # Separator used to split the `files_from_source_file` input.
     # Type: string
     # Default: "\n"
     files_from_source_file_separator: ''
@@ -600,7 +600,7 @@ Support this project with a :star:
     # Default: "\n"
     recover_files_separator: ''
 
-    # Split character for output strings
+    # Split character for output strings.
     # Type: string
     # Default: " "
     separator: ''
