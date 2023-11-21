@@ -880,14 +880,14 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/lodash@^4.14.195":
-  version "4.14.201"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.201.tgz#76f47cb63124e806824b6c18463daf3e1d480239"
-  integrity sha512-y9euML0cim1JrykNxADLfaG0FgD1g/yTHwUs/Jg9ZIU7WKj2/4IW9Lbb1WZbvck78W/lfGXFfe+u2EGfIJXdLQ==
+  version "4.14.202"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.202.tgz#f09dbd2fb082d507178b2f2a5c7e74bd72ff98f8"
+  integrity sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==
 
 "@types/micromatch@^4.0.2":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.5.tgz#a88fb878f7f7e7e1909c1db50f97acfede6b4d85"
-  integrity sha512-B1o0zVdb9GsbKT4Fucy3oeG9G1qy/TOHrYM+NsEPazT+ktsGXOJSb1+Bg9hP7BH14Bv4dd5m7r+FohwXkY/39A==
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@types/micromatch/-/micromatch-4.0.6.tgz#340535c2b90098ace8fc5e7eaec8562deedb4f2f"
+  integrity sha512-2eulCHWqjEpk9/vyic4tBhI8a9qQEl6DaK2n/sF7TweX9YESlypgKyhXMDGt4DAOy/jhLPvVrZc8pTDAMsplJA==
   dependencies:
     "@types/braces" "*"
 
