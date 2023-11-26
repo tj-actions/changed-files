@@ -290,7 +290,11 @@ jobs:
     name: Test using branch names for base_sha and sha inputs
     runs-on: ubuntu-latest
     needs: build
-    if: needs.build.outputs.files_changed != 'true'
+    if: |
+      ( 
+        github.event_name == 'push' || 
+        github.event_name == 'pull_request'
+      ) && needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
