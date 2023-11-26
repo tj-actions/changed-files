@@ -776,6 +776,10 @@ export const verifyCommitSha = async ({
 // Return the commit sha as is e,g 1234567890abcdef1234567890abcdef -> 1234567890abcdef1234567890abcdef
 export const cleanShaInput = async (sha: string): Promise<string> => {
   // Check if the input is a valid commit sha
+  if (!sha) {
+    return sha
+  }
+  // Check if the input is a valid commit sha
   const {stdout, exitCode} = await exec.getExecOutput(
     'git',
     ['rev-parse', '--verify', sha],
