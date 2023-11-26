@@ -5,7 +5,6 @@ import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
-  cleanShaInput,
   getCurrentBranchName,
   getHeadSha,
   getParentSha,
@@ -24,7 +23,7 @@ const getCurrentSHA = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
-  let currentSha = await cleanShaInput(inputs.sha)
+  let currentSha = inputs.sha
   core.debug('Getting current SHA...')
 
   if (inputs.until) {
@@ -163,7 +162,7 @@ export const getSHAForNonPullRequestEvent = async (
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
-  let previousSha = await cleanShaInput(inputs.baseSha)
+  let previousSha = inputs.baseSha
   const diff = '..'
   const currentBranchName = await getCurrentBranchName({cwd: workingDirectory})
 
@@ -391,7 +390,7 @@ export const getSHAForPullRequestEvent = async (
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
-  let previousSha = await cleanShaInput(inputs.baseSha)
+  let previousSha = inputs.baseSha
   let diff = '...'
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
