@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-import {cleanShaInput} from './utils'
 
 export type Inputs = {
   files: string
