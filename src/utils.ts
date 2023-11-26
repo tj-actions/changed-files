@@ -771,6 +771,40 @@ export const verifyCommitSha = async ({
   return exitCode
 }
 
+// Clean the sha from the input which could be a branch name or a commit sha
+// Convert the branch name to a commit sha if needed e.g main -> (get the HEAD sha of main) and return it
+// Return the commit sha as is e,g 1234567890abcdef1234567890abcdef -> 1234567890abcdef1234567890abcdef
+export const cleanShaInput = async (sha: string): Promise<string> => {
+  // Check if the input is a valid commit sha
+  const {stdout, exitCode} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', '--verify', sha],
+    {
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
+
+  if (exitCode !== 0) {
+    // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
+    const {stdout: stdout2, exitCode: exitCode2} = await exec.getExecOutput(
+      'git',
+      ['rev-parse', '--verify', `refs/heads/${sha}`],
+      {
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+      }
+    )
+
+    if (exitCode2 !== 0) {
+      throw new Error(`Unable to locate the commit sha: ${sha}`)
+    }
+
+    return stdout2.trim()
+  }
+
+  return stdout.trim()
+}
 export const getPreviousGitTag = async ({
   cwd
 }: {
