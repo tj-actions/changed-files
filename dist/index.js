@@ -867,7 +867,7 @@ const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
 const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g;
-    let currentSha = inputs.sha;
+    let currentSha = yield (0, utils_1.cleanShaInput)(inputs.sha);
     core.debug('Getting current SHA...');
     if (inputs.until) {
         core.debug(`Getting base SHA for '${inputs.until}'...`);
@@ -980,7 +980,7 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
         }
     }
     const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
-    let previousSha = inputs.baseSha;
+    let previousSha = yield (0, utils_1.cleanShaInput)(inputs.baseSha);
     const diff = '..';
     const currentBranchName = yield (0, utils_1.getCurrentBranchName)({ cwd: workingDirectory });
     if (currentBranchName &&
@@ -1167,7 +1167,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         core.info('Completed fetching more history.');
     }
     const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
-    let previousSha = inputs.baseSha;
+    let previousSha = yield (0, utils_1.cleanShaInput)(inputs.baseSha);
     let diff = '...';
     if (previousSha && currentSha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
@@ -1908,7 +1908,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2460,6 +2460,41 @@ const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(v
     return exitCode;
 });
 exports.verifyCommitSha = verifyCommitSha;
+/**
+ * Clean the sha from the input which could be a branch name or a commit sha.
+ *
+ * If the input is a valid commit sha, return it as is.
+ *
+ * If the input is a branch name, get the HEAD sha of that branch and return it.
+ *
+ * @param sha The input string, which could be a branch name or a commit sha.
+ * @returns The cleaned SHA string.
+ * @throws Error If the input is not a valid commit sha or a branch name.
+ */
+const cleanShaInput = (sha) => __awaiter(void 0, void 0, void 0, function* () {
+    // Check if the input is a valid commit sha
+    if (!sha) {
+        return sha;
+    }
+    // Check if the input is a valid commit sha
+    const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-parse', '--verify', sha], {
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+    });
+    if (exitCode !== 0) {
+        // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
+        const { stdout: stdout2, exitCode: exitCode2 } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `refs/heads/${sha}`], {
+            ignoreReturnCode: true,
+            silent: !core.isDebug()
+        });
+        if (exitCode2 !== 0) {
+            throw new Error(`Unable to locate the commit sha: ${sha}`);
+        }
+        return stdout2.trim();
+    }
+    return stdout.trim();
+});
+exports.cleanShaInput = cleanShaInput;
 const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-creatordate'], {
         cwd,
