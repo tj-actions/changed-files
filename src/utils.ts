@@ -771,9 +771,17 @@ export const verifyCommitSha = async ({
   return exitCode
 }
 
-// Clean the sha from the input which could be a branch name or a commit sha
-// Convert the branch name to a commit sha if needed e.g main -> (get the HEAD sha of main) and return it
-// Return the commit sha as is e,g 1234567890abcdef1234567890abcdef -> 1234567890abcdef1234567890abcdef
+/**
+ * Clean the sha from the input which could be a branch name or a commit sha.
+ *
+ * If the input is a valid commit sha, return it as is.
+ *
+ * If the input is a branch name, get the HEAD sha of that branch and return it.
+ *
+ * @param sha The input string, which could be a branch name or a commit sha.
+ * @returns The cleaned SHA string.
+ * @throws Error If the input is not a valid commit sha or a branch name.
+ */
 export const cleanShaInput = async (sha: string): Promise<string> => {
   // Check if the input is a valid commit sha
   if (!sha) {
