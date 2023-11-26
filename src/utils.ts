@@ -801,7 +801,7 @@ export const cleanShaInput = async (sha: string): Promise<string> => {
     // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
     const {stdout: stdout2, exitCode: exitCode2} = await exec.getExecOutput(
       'git',
-      ['rev-parse', '--verify', `refs/heads/${sha}`],
+      ['rev-parse', '--verify', `refs/remotes/origin/${sha}`],
       {
         ignoreReturnCode: true,
         silent: !core.isDebug()
