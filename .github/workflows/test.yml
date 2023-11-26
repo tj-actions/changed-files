@@ -286,11 +286,15 @@ jobs:
         shell:
           bash
 
-  test-unset-github-output-env:
-    name: Test unset GITHUB_OUTPUT env
+  test-using-branch-names-for-base-sha-and-sha-inputs:
+    name: Test using branch names for base_sha and sha inputs
     runs-on: ubuntu-latest
     needs: build
-    if: needs.build.outputs.files_changed != 'true'
+    if: |
+      ( 
+        github.event_name == 'push' || 
+        github.event_name == 'pull_request'
+      ) && needs.build.outputs.files_changed != 'true'
 
     steps:
       - name: Checkout branch
@@ -304,12 +308,11 @@ jobs:
         with:
           name: build-assets
 
-      - name: Run changed-files with unset GITHUB_OUTPUT env
+      - name: Run changed-files with main as the base_sha
         id: changed-files
-        continue-on-error: true
         uses: ./
-        env:
-          GITHUB_OUTPUT: ""
+        with:
+          base_sha: main
 
       - name: Show output
         run: |
