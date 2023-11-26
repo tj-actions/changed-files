@@ -2483,7 +2483,7 @@ const cleanShaInput = (sha) => __awaiter(void 0, void 0, void 0, function* () {
     });
     if (exitCode !== 0) {
         // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
-        const { stdout: stdout2, exitCode: exitCode2 } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `refs/heads/${sha}`], {
+        const { stdout: stdout2, exitCode: exitCode2 } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `refs/remotes/origin/${sha}`], {
             ignoreReturnCode: true,
             silent: !core.isDebug()
         });
