@@ -184,28 +184,6 @@ export const getSHAForNonPullRequestEvent = async (
     currentBranch = currentBranchName
   }
 
-  if (previousSha && currentSha && currentBranch && targetBranch) {
-    if (previousSha === currentSha) {
-      core.error(
-        `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
-      )
-      core.error(
-        `Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`
-      )
-      throw new Error('Similar commit hashes detected.')
-    }
-
-    core.debug(`Previous SHA: ${previousSha}`)
-
-    return {
-      previousSha,
-      currentSha,
-      currentBranch,
-      targetBranch,
-      diff
-    }
-  }
-
   if (!previousSha || previousSha === currentSha) {
     core.debug('Getting previous SHA...')
     if (inputs.since) {
@@ -404,28 +382,6 @@ export const getSHAForPullRequestEvent = async (
     token: inputs.token
   })
   let diff = '...'
-
-  if (previousSha && currentSha && currentBranch && targetBranch) {
-    if (previousSha === currentSha) {
-      core.error(
-        `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
-      )
-      core.error(
-        `Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`
-      )
-      throw new Error('Similar commit hashes detected.')
-    }
-
-    core.debug(`Previous SHA: ${previousSha}`)
-
-    return {
-      previousSha,
-      currentSha,
-      currentBranch,
-      targetBranch,
-      diff
-    }
-  }
 
   if (
     !github.context.payload.pull_request?.base?.ref ||
