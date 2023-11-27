@@ -997,7 +997,7 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
         targetBranch = currentBranchName;
         currentBranch = currentBranchName;
     }
-    if (previousSha && currentSha && currentBranch && targetBranch) {
+    if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
             core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
@@ -1180,7 +1180,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         token: inputs.token
     });
     let diff = '...';
-    if (previousSha && currentSha && currentBranch && targetBranch) {
+    if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
             core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
