@@ -1,5 +1,110 @@
 # Changelog
 
+# [40.2.0](https://github.com/tj-actions/changed-files/compare/v40.1.1...v40.2.0) - (2023-11-27)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for passing branch name to the base_sha and sha inputs ([#1742](https://github.com/tj-actions/changed-files/issues/1742)) ([2139fa1](https://github.com/tj-actions/changed-files/commit/2139fa1b6f71f22bf7d9f21e4aebc3aba987e05e))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Prevent similar commit hashes error when using the branch name ([#1745](https://github.com/tj-actions/changed-files/issues/1745)) ([da093c1](https://github.com/tj-actions/changed-files/commit/da093c1609db0edd0a037ce9664e135f74bf30d9))  - (Tonye Jack)
+- Prevent similar commit hashes error when using the branch name ([#1744](https://github.com/tj-actions/changed-files/issues/1744)) ([c634be9](https://github.com/tj-actions/changed-files/commit/c634be959b924afb7d2f4809d6e309859e191975))  - (Tonye Jack)
+
+## <!-- 13 -->📦 Bumps
+
+- Bump @types/node from 20.9.3 to 20.9.4 ([#1732](https://github.com/tj-actions/changed-files/issues/1732))
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([066e72a](https://github.com/tj-actions/changed-files/commit/066e72a5fb4e82931d493f931f84b5df8cab22d0))  - (dependabot[bot])
+- Bump @types/jest from 29.5.8 to 29.5.9 ([#1726](https://github.com/tj-actions/changed-files/issues/1726))
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com>
+ ([c23e564](https://github.com/tj-actions/changed-files/commit/c23e564e671f2f3230a34a588eb3b55f7d60faed))  - (dependabot[bot])
+- Bump @types/micromatch from 4.0.5 to 4.0.6 ([#1727](https://github.com/tj-actions/changed-files/issues/1727))
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com>
+ ([c008025](https://github.com/tj-actions/changed-files/commit/c0080255e3e88e03415d2753b4d4c1f341183f79))  - (dependabot[bot])
+- Bump @types/lodash from 4.14.201 to 4.14.202 ([#1728](https://github.com/tj-actions/changed-files/issues/1728))
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([3a3d3a2](https://github.com/tj-actions/changed-files/commit/3a3d3a2b86e4d416e80a80f115c07915be7d3460))  - (dependabot[bot])
+- Bump @types/node from 20.9.2 to 20.9.3 ([#1725](https://github.com/tj-actions/changed-files/issues/1725))
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([4da6e32](https://github.com/tj-actions/changed-files/commit/4da6e32cfea3c23f1a8d70337b3cb1307fe74702))  - (dependabot[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([607d5dd](https://github.com/tj-actions/changed-files/commit/607d5ddbbfd4921680b18a439387657412549259))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([7f1c4cb](https://github.com/tj-actions/changed-files/commit/7f1c4cb6db07d6473fae667073c46ef6e2abc5e7))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([1cf54bb](https://github.com/tj-actions/changed-files/commit/1cf54bb5d30a33a40efca5e00884096dd1f49cf9))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([d8d3669](https://github.com/tj-actions/changed-files/commit/d8d3669cb396f0081313a19b34a25ad989ba5abb))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([6784c9e](https://github.com/tj-actions/changed-files/commit/6784c9e1eeb301520aa26a6f786c3a8a1e742786))  - (Tonye Jack)
+- Update greetings.yml ([90f2c0c](https://github.com/tj-actions/changed-files/commit/90f2c0c1b1177f4c5813bf893c3c5e2ce4baca93))  - (Tonye Jack)
+- Updated README.md ([#1722](https://github.com/tj-actions/changed-files/issues/1722))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([f7779a6](https://github.com/tj-actions/changed-files/commit/f7779a6302b8b7cf930b2b7e34213c4b68e3ed2d))  - (tj-actions[bot])
+- Updated README.md ([#1721](https://github.com/tj-actions/changed-files/issues/1721))
+
+Co-authored-by: renovate[bot] <renovate[bot]@users.noreply.github.com> ([6d07b6e](https://github.com/tj-actions/changed-files/commit/6d07b6ee5902a442f4fee4603a23ba9f735b1ca0))  - (tj-actions[bot])
+- Updated README.md ([#1714](https://github.com/tj-actions/changed-files/issues/1714))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([97825a1](https://github.com/tj-actions/changed-files/commit/97825a1994aabf99e2c01837273ba1716a2fac73))  - (tj-actions[bot])
+- Updated README.md ([#1713](https://github.com/tj-actions/changed-files/issues/1713))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2a9f067](https://github.com/tj-actions/changed-files/commit/2a9f067522563ebf5445c15c1480753821f99354))  - (tj-actions[bot])
+- Updated README.md ([#1712](https://github.com/tj-actions/changed-files/issues/1712))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([b082611](https://github.com/tj-actions/changed-files/commit/b082611680535c989a8f91fb644fb1984d01415d))  - (tj-actions[bot])
+- Updated README.md ([#1711](https://github.com/tj-actions/changed-files/issues/1711))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([90a4f2a](https://github.com/tj-actions/changed-files/commit/90a4f2a3269003cd5351020e24ad59586c97e2af))  - (tj-actions[bot])
+- Updated README.md ([#1710](https://github.com/tj-actions/changed-files/issues/1710))
+
+Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([b20ce84](https://github.com/tj-actions/changed-files/commit/b20ce84763512903636c6bc5e95092a7f35bac61))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([d588360](https://github.com/tj-actions/changed-files/commit/d588360bfe7e5ce0b2ad1ca0f56443a105eb1cc3))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.10.0 ([0d6e9b7](https://github.com/tj-actions/changed-files/commit/0d6e9b71966503cd14182330532c722316e450bc))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.9.5 ([8f90cc1](https://github.com/tj-actions/changed-files/commit/8f90cc165ad22c68ab50623b2e5d8397eeb90ec7))  - (renovate[bot])
+- **deps:** Update dependency @types/jest to v29.5.10 ([75758bc](https://github.com/tj-actions/changed-files/commit/75758bc65f2f009213bf6f74451bff1200005d00))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.14.202 ([79ef9d3](https://github.com/tj-actions/changed-files/commit/79ef9d3feebded8f767c62aa3ee76368dc028195))  - (renovate[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.6 ([da4597e](https://github.com/tj-actions/changed-files/commit/da4597ee22010cde29dcbf422eb2a9480136c3ae))  - (renovate[bot])
+- **deps:** Update dependency @types/jest to v29.5.9 ([9f4ec1c](https://github.com/tj-actions/changed-files/commit/9f4ec1c14f0dc5c2f3053c27efba3a63781efb0b))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.3.2 ([939fbca](https://github.com/tj-actions/changed-files/commit/939fbca781a0004fbe7aa648fb6656046a8df71b))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.12.0 ([9ba175a](https://github.com/tj-actions/changed-files/commit/9ba175ae245f8a261d7f4acf3ccfaf0a60d32302))  - (renovate[bot])
+- Simplify matrix example workflow ([#1719](https://github.com/tj-actions/changed-files/issues/1719)) ([05bdc91](https://github.com/tj-actions/changed-files/commit/05bdc91228c589841621aee130aa6033579687de))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([21b4a4b](https://github.com/tj-actions/changed-files/commit/21b4a4bc7b1834f22f8fe7f17a425e984017ea5f))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.9.2 ([658f397](https://github.com/tj-actions/changed-files/commit/658f39729762255a3e3166fd20c16573fb1738ee))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.54.0 ([38a0c32](https://github.com/tj-actions/changed-files/commit/38a0c329bb00b10f18e61d5f23349fbd1576c08e))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.9.1 ([b0be21b](https://github.com/tj-actions/changed-files/commit/b0be21b8dfdb45d0b2b92528ce89d727f4bdb89d))  - (renovate[bot])
+- Update action.yml ([13189f9](https://github.com/tj-actions/changed-files/commit/13189f9e5209c0bd05c1c253e226dbf548695424))  - (Tonye Jack)
+- Update action inputs description ([ad01f6f](https://github.com/tj-actions/changed-files/commit/ad01f6fdbaf0f959888aeeb6684856397af589d1))  - (Tonye Jack)
+- Update input description ([a36c479](https://github.com/tj-actions/changed-files/commit/a36c479373da160c2cee10435cf68a4e93e6e68d))  - (Tonye Jack)
+- Update input description ([41ff1f2](https://github.com/tj-actions/changed-files/commit/41ff1f224927a20a43124b4d729c696c18771677))  - (Tonye Jack)
+- Update update-readme.yml ([#1709](https://github.com/tj-actions/changed-files/issues/1709)) ([875213d](https://github.com/tj-actions/changed-files/commit/875213d4a94e0703cea7109c43ef111b94f1062d))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v6.11.0 ([71b5765](https://github.com/tj-actions/changed-files/commit/71b57652f02612b6f858d71ddf7115487ad51882))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.1.0 ([834b862](https://github.com/tj-actions/changed-files/commit/834b86247ec0d15224902d58f5531c78be2e3fc5))  - (renovate[bot])
+- **deps:** Lock file maintenance ([940b170](https://github.com/tj-actions/changed-files/commit/940b170a31d813bc7b88d3816a643b25b66c1342))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.1.1 ([#1704](https://github.com/tj-actions/changed-files/issues/1704))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([55b93d0](https://github.com/tj-actions/changed-files/commit/55b93d07342c1bd89af9693bfb44faff42ebcd9e))  - (tj-actions[bot])
+
 # [40.1.1](https://github.com/tj-actions/changed-files/compare/v40.1.0...v40.1.1) - (2023-11-08)
 
 ## <!-- 16 -->➕ Add
