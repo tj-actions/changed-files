@@ -1012,7 +1012,7 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
             diff
         };
     }
-    if (!previousSha) {
+    if (!previousSha || previousSha === currentSha) {
         core.debug('Getting previous SHA...');
         if (inputs.since) {
             core.debug(`Getting base SHA for '${inputs.since}'...`);
@@ -1199,7 +1199,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         ((_u = (_t = github.context.payload.head) === null || _t === void 0 ? void 0 : _t.repo) === null || _u === void 0 ? void 0 : _u.fork) === 'true') {
         diff = '..';
     }
-    if (!previousSha) {
+    if (!previousSha || previousSha === currentSha) {
         if (inputs.sinceLastRemoteCommit) {
             previousSha = github.context.payload.before;
             if (!previousSha ||
