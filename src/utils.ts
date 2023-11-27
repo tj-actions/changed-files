@@ -780,13 +780,19 @@ export const verifyCommitSha = async ({
  * If the input is a branch name, get the HEAD sha of that branch and return it.
  *
  * @param sha The input string, which could be a branch name or a commit sha.
+ * @param cwd The working directory.
  * @param token The GitHub token.
  * @returns The cleaned SHA string.
  */
-export const cleanShaInput = async (
-  sha: string,
+export const cleanShaInput = async ({
+  sha,
+  cwd,
+  token
+}: {
+  sha: string
+  cwd: string
   token: string
-): Promise<string> => {
+}): Promise<string> => {
   // Check if the input is a valid commit sha
   if (!sha) {
     return sha
@@ -794,8 +800,9 @@ export const cleanShaInput = async (
   // Check if the input is a valid commit sha
   const {stdout, exitCode} = await exec.getExecOutput(
     'git',
-    ['rev-parse', '--verify', sha],
+    ['rev-parse', '--verify', `${sha}^{commit}`],
     {
+      cwd,
       ignoreReturnCode: true,
       silent: !core.isDebug()
     }
