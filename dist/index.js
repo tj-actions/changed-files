@@ -280,7 +280,7 @@ function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
     const dirNamesIncludeFilePatterns = (0, utils_1.getDirNamesIncludeFilesPattern)({ inputs });
     core.debug(`Dir names include file patterns: ${JSON.stringify(dirNamesIncludeFilePatterns)}`);
     for (const changeType of changeTypes) {
-        const filePaths = changedFiles[changeType] || [];
+        const filePaths = changedFiles[changeType].map(item => item.path) || [];
         for (const filePath of getFilePaths({
             inputs,
             filePaths,
@@ -307,7 +307,7 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
     const filePaths = (0, flatten_1.default)(Object.values(changedFiles));
     for (const filePath of getFilePaths({
         inputs,
-        filePaths,
+        filePaths: filePaths.map(item => item.path),
         dirNamesIncludeFilePatterns
     })) {
         yield filePath;
@@ -366,15 +366,21 @@ const getChangedFilesFromGithubAPI = ({ inputs }) => __awaiter(void 0, void 0, v
             const changeType = statusMap[item.status] || ChangeTypeEnum.Unknown;
             if (changeType === ChangeTypeEnum.Renamed) {
                 if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-                    changedFiles[ChangeTypeEnum.Deleted].push(item.filename);
-                    changedFiles[ChangeTypeEnum.Added].push(item.filename);
+                    changedFiles[ChangeTypeEnum.Deleted].push({
+                        path: item.filename
+                    });
+                    changedFiles[ChangeTypeEnum.Added].push({
+                        path: item.filename
+                    });
                 }
                 else {
-                    changedFiles[ChangeTypeEnum.Renamed].push(item.filename);
+                    changedFiles[ChangeTypeEnum.Renamed].push({
+                        path: item.filename
+                    });
                 }
             }
             else {
-                changedFiles[changeType].push(item.filename);
+                changedFiles[changeType].push({ path: item.filename });
             }
         }
     }
@@ -1918,7 +1924,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.filterFilePatterns = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
@@ -2344,17 +2350,32 @@ const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parent
         const normalizedNewPath = isSubmodule
             ? (0, exports.normalizeSeparators)(path.join(parentDir, newPath))
             : (0, exports.normalizeSeparators)(newPath);
+        const submoduleInfo = isSubmodule
+            ? {
+                submodulePath: parentDir,
+                previousSha: sha1,
+                currentSha: sha2
+            }
+            : null;
+        const filePathInfo = {
+            path: normalizedFilePath,
+            submodule: submoduleInfo
+        };
+        const newPathInfo = {
+            path: normalizedNewPath,
+            submodule: submoduleInfo
+        };
         if (changeType.startsWith('R')) {
             if (outputRenamedFilesAsDeletedAndAdded) {
-                changedFiles[changedFiles_1.ChangeTypeEnum.Deleted].push(normalizedFilePath);
-                changedFiles[changedFiles_1.ChangeTypeEnum.Added].push(normalizedNewPath);
+                changedFiles[changedFiles_1.ChangeTypeEnum.Deleted].push(filePathInfo);
+                changedFiles[changedFiles_1.ChangeTypeEnum.Added].push(newPathInfo);
             }
             else {
-                changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(normalizedNewPath);
+                changedFiles[changedFiles_1.ChangeTypeEnum.Renamed].push(newPathInfo);
             }
         }
         else {
-            changedFiles[changeType].push(normalizedFilePath);
+            changedFiles[changeType].push(filePathInfo);
         }
     }
     return changedFiles;
@@ -2377,15 +2398,13 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
         [changedFiles_1.ChangeTypeEnum.Unknown]: []
     };
     const hasFilePatterns = filePatterns.length > 0;
-    const isWin = (0, exports.isWindows)();
     for (const changeType of Object.keys(allDiffFiles)) {
         const files = allDiffFiles[changeType];
         if (hasFilePatterns) {
-            changedFiles[changeType] = (0, micromatch_1.default)(files, filePatterns, {
-                dot: true,
-                windows: isWin,
-                noext: true
-            }).map(exports.normalizeSeparators);
+            changedFiles[changeType] = (0, exports.filterFilePatterns)({
+                files,
+                filePatterns
+            });
         }
         else {
             changedFiles[changeType] = files;
@@ -2832,26 +2851,49 @@ const getDeletedFileContents = ({ cwd, filePath, sha }) => __awaiter(void 0, voi
     }
     return stdout;
 });
+const filterFilePatterns = ({ files, filePatterns }) => {
+    return files.filter(item => {
+        const innerPaths = (0, micromatch_1.default)([item.path], filePatterns, {
+            dot: true,
+            windows: (0, exports.isWindows)(),
+            noext: true
+        }).map(exports.normalizeSeparators);
+        if (innerPaths.length !== 0) {
+            item.path = innerPaths[0];
+            return true;
+        }
+        return false;
+    });
+};
+exports.filterFilePatterns = filterFilePatterns;
 const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPatterns, sha }) => __awaiter(void 0, void 0, void 0, function* () {
     let recoverableDeletedFiles = deletedFiles;
     core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
     if (recoverPatterns.length > 0) {
-        recoverableDeletedFiles = (0, micromatch_1.default)(deletedFiles, recoverPatterns, {
-            dot: true,
-            windows: (0, exports.isWindows)(),
-            noext: true
+        recoverableDeletedFiles = (0, exports.filterFilePatterns)({
+            files: deletedFiles,
+            filePatterns: recoverPatterns
         });
-        core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles}`);
+        core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles.map(item => item.path)}`);
     }
     for (const deletedFile of recoverableDeletedFiles) {
-        let target = path.join(workingDirectory, deletedFile);
+        let target = path.join(workingDirectory, deletedFile.path);
         if (inputs.recoverDeletedFilesToDestination) {
-            target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
+            target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile.path);
         }
+        let deletedFileWorkingDirectory = workingDirectory;
+        let deletedFilePath = deletedFile.path;
+        let deletedFileSha = sha;
+        if (deletedFile.submodule !== null) {
+            deletedFileWorkingDirectory = path.join(workingDirectory, deletedFile.submodule.submodulePath);
+            deletedFilePath = path.relative(deletedFileWorkingDirectory, path.join(workingDirectory, deletedFile.path));
+            deletedFileSha = deletedFile.submodule.previousSha;
+        }
+        core.debug(`recovering file ${deletedFilePath} from within ${deletedFileWorkingDirectory} at ${deletedFileSha}`);
         const deletedFileContents = yield getDeletedFileContents({
-            cwd: workingDirectory,
-            filePath: deletedFile,
-            sha
+            cwd: deletedFileWorkingDirectory,
+            filePath: deletedFilePath,
+            sha: deletedFileSha
         });
         if (!(yield (0, exports.exists)(path.dirname(target)))) {
             yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });

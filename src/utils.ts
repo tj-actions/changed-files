@@ -9,7 +9,12 @@ import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
-import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
+import {
+  ChangedFiles,
+  ChangedFileInfo,
+  SubmoduleInfo,
+  ChangeTypeEnum
+} from './changedFiles'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -581,15 +586,30 @@ export const getAllChangedFiles = async ({
       ? normalizeSeparators(path.join(parentDir, newPath))
       : normalizeSeparators(newPath)
 
+    const submoduleInfo: SubmoduleInfo | null = isSubmodule
+      ? {
+          submodulePath: parentDir,
+          previousSha: sha1,
+          currentSha: sha2
+        }
+      : null
+    const filePathInfo: ChangedFileInfo = {
+      path: normalizedFilePath,
+      submodule: submoduleInfo
+    }
+    const newPathInfo: ChangedFileInfo = {
+      path: normalizedNewPath,
+      submodule: submoduleInfo
+    }
     if (changeType.startsWith('R')) {
       if (outputRenamedFilesAsDeletedAndAdded) {
-        changedFiles[ChangeTypeEnum.Deleted].push(normalizedFilePath)
-        changedFiles[ChangeTypeEnum.Added].push(normalizedNewPath)
+        changedFiles[ChangeTypeEnum.Deleted].push(filePathInfo)
+        changedFiles[ChangeTypeEnum.Added].push(newPathInfo)
       } else {
-        changedFiles[ChangeTypeEnum.Renamed].push(normalizedNewPath)
+        changedFiles[ChangeTypeEnum.Renamed].push(newPathInfo)
       }
     } else {
-      changedFiles[changeType as ChangeTypeEnum].push(normalizedFilePath)
+      changedFiles[changeType as ChangeTypeEnum].push(filePathInfo)
     }
   }
   return changedFiles
@@ -618,16 +638,14 @@ export const getFilteredChangedFiles = async ({
     [ChangeTypeEnum.Unknown]: []
   }
   const hasFilePatterns = filePatterns.length > 0
-  const isWin = isWindows()
 
   for (const changeType of Object.keys(allDiffFiles)) {
     const files = allDiffFiles[changeType as ChangeTypeEnum]
     if (hasFilePatterns) {
-      changedFiles[changeType as ChangeTypeEnum] = mm(files, filePatterns, {
-        dot: true,
-        windows: isWin,
-        noext: true
-      }).map(normalizeSeparators)
+      changedFiles[changeType as ChangeTypeEnum] = filterFilePatterns({
+        files,
+        filePatterns
+      })
     } else {
       changedFiles[changeType as ChangeTypeEnum] = files
     }
@@ -1390,6 +1408,27 @@ const getDeletedFileContents = async ({
   return stdout
 }
 
+export const filterFilePatterns = ({
+  files,
+  filePatterns
+}: {
+  files: ChangedFileInfo[]
+  filePatterns: string[]
+}): ChangedFileInfo[] => {
+  return files.filter(item => {
+    const innerPaths = mm([item.path], filePatterns, {
+      dot: true,
+      windows: isWindows(),
+      noext: true
+    }).map(normalizeSeparators)
+    if (innerPaths.length !== 0) {
+      item.path = innerPaths[0]
+      return true
+    }
+    return false
+  })
+}
+
 export const recoverDeletedFiles = async ({
   inputs,
   workingDirectory,
@@ -1399,7 +1438,7 @@ export const recoverDeletedFiles = async ({
 }: {
   inputs: Inputs
   workingDirectory: string
-  deletedFiles: string[]
+  deletedFiles: ChangedFileInfo[]
   recoverPatterns: string[]
   sha: string
 }): Promise<void> => {
@@ -1407,29 +1446,50 @@ export const recoverDeletedFiles = async ({
   core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`)
 
   if (recoverPatterns.length > 0) {
-    recoverableDeletedFiles = mm(deletedFiles, recoverPatterns, {
-      dot: true,
-      windows: isWindows(),
-      noext: true
+    recoverableDeletedFiles = filterFilePatterns({
+      files: deletedFiles,
+      filePatterns: recoverPatterns
     })
-    core.debug(`filtered recoverable deleted files: ${recoverableDeletedFiles}`)
+    core.debug(
+      `filtered recoverable deleted files: ${recoverableDeletedFiles.map(
+        item => item.path
+      )}`
+    )
   }
 
   for (const deletedFile of recoverableDeletedFiles) {
-    let target = path.join(workingDirectory, deletedFile)
+    let target = path.join(workingDirectory, deletedFile.path)
 
     if (inputs.recoverDeletedFilesToDestination) {
       target = path.join(
         workingDirectory,
         inputs.recoverDeletedFilesToDestination,
-        deletedFile
+        deletedFile.path
       )
     }
 
+    let deletedFileWorkingDirectory = workingDirectory
+    let deletedFilePath = deletedFile.path
+    let deletedFileSha = sha
+    if (deletedFile.submodule !== null) {
+      deletedFileWorkingDirectory = path.join(
+        workingDirectory,
+        deletedFile.submodule.submodulePath
+      )
+      deletedFilePath = path.relative(
+        deletedFileWorkingDirectory,
+        path.join(workingDirectory, deletedFile.path)
+      )
+      deletedFileSha = deletedFile.submodule.previousSha
+    }
+    core.debug(
+      `recovering file ${deletedFilePath} from within ${deletedFileWorkingDirectory} at ${deletedFileSha}`
+    )
+
     const deletedFileContents = await getDeletedFileContents({
-      cwd: workingDirectory,
-      filePath: deletedFile,
-      sha
+      cwd: deletedFileWorkingDirectory,
+      filePath: deletedFilePath,
+      sha: deletedFileSha
     })
 
     if (!(await exists(path.dirname(target)))) {

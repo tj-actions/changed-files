@@ -212,7 +212,18 @@ export enum ChangeTypeEnum {
 }
 
 export type ChangedFiles = {
-  [key in ChangeTypeEnum]: string[]
+  [key in ChangeTypeEnum]: ChangedFileInfo[]
+}
+
+export type ChangedFileInfo = {
+  path: string
+  submodule: SubmoduleInfo | null
+}
+
+export type SubmoduleInfo = {
+  submodulePath: string
+  previousSha: string
+  currentSha: string
 }
 
 export const getAllDiffFiles = async ({
@@ -349,7 +360,7 @@ function* getChangeTypeFilesGenerator({
   )
 
   for (const changeType of changeTypes) {
-    const filePaths = changedFiles[changeType] || []
+    const filePaths = changedFiles[changeType].map(item => item.path) || []
     for (const filePath of getFilePaths({
       inputs,
       filePaths,
@@ -399,7 +410,7 @@ function* getAllChangeTypeFilesGenerator({
 
   for (const filePath of getFilePaths({
     inputs,
-    filePaths,
+    filePaths: filePaths.map(item => item.path),
     dirNamesIncludeFilePatterns
   })) {
     yield filePath
@@ -475,13 +486,19 @@ export const getChangedFilesFromGithubAPI = async ({
 
     if (changeType === ChangeTypeEnum.Renamed) {
       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-        changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
-        changedFiles[ChangeTypeEnum.Added].push(item.filename)
+        changedFiles[ChangeTypeEnum.Deleted].push({
+          path: item.filename
+        } as ChangedFileInfo)
+        changedFiles[ChangeTypeEnum.Added].push({
+          path: item.filename
+        } as ChangedFileInfo)
       } else {
-        changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
+        changedFiles[ChangeTypeEnum.Renamed].push({
+          path: item.filename
+        } as ChangedFileInfo)
       }
     } else {
-      changedFiles[changeType].push(item.filename)
+      changedFiles[changeType].push({path: item.filename} as ChangedFileInfo)
     }
   }
 

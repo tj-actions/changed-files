@@ -1,4 +1,4 @@
-import {ChangeTypeEnum} from '../changedFiles'
+import {ChangeTypeEnum, ChangedFileInfo} from '../changedFiles'
 import {
   getDirname,
   getDirnameMaxDepth,
@@ -284,7 +284,7 @@ describe('utils test', () => {
     // Tests that the function returns allDiffFiles when filePatterns is empty
     it('should return allDiffFiles when filePatterns is empty', async () => {
       const allDiffFiles = {
-        [ChangeTypeEnum.Added]: ['file1.txt'],
+        [ChangeTypeEnum.Added]: [{path: 'file1.txt'} as ChangedFileInfo],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -331,12 +331,12 @@ describe('utils test', () => {
     it('should return only the files that match the file patterns', async () => {
       const allDiffFiles = {
         [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file2.md',
-          'file3.txt',
-          'test/dir/file4.txt',
-          'test/dir/file5.txt',
-          'dir/file6.md'
+          {path: 'file1.txt'} as ChangedFileInfo,
+          {path: 'file2.md'} as ChangedFileInfo,
+          {path: 'file3.txt'} as ChangedFileInfo,
+          {path: 'test/dir/file4.txt'} as ChangedFileInfo,
+          {path: 'test/dir/file5.txt'} as ChangedFileInfo,
+          {path: 'dir/file6.md'} as ChangedFileInfo
         ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
@@ -351,7 +351,7 @@ describe('utils test', () => {
         filePatterns: ['*.txt']
       })
       expect(result).toEqual({
-        [ChangeTypeEnum.Added]: ['file1.txt', 'file3.txt'],
+        [ChangeTypeEnum.Added]: [{path:'file1.txt'}, {path:'file3.txt'}],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -367,12 +367,12 @@ describe('utils test', () => {
       mockedPlatform('win32')
       const allDiffFiles = {
         [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file2.md',
-          'file3.txt',
-          'test\\dir\\file4.txt',
-          'test\\dir\\file5.txt',
-          'dir\\file6.md'
+          {path: 'file1.txt'} as ChangedFileInfo,
+          {path: 'file2.md'} as ChangedFileInfo,
+          {path: 'file3.txt'} as ChangedFileInfo,
+          {path: 'test\\dir\\file4.txt'} as ChangedFileInfo,
+          {path: 'test\\dir\\file5.txt'} as ChangedFileInfo,
+          {path: 'dir\\file6.md'} as ChangedFileInfo,
         ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
@@ -388,7 +388,7 @@ describe('utils test', () => {
       })
 
       expect(result).toEqual({
-        [ChangeTypeEnum.Added]: ['file1.txt', 'file3.txt'],
+        [ChangeTypeEnum.Added]: [{path:'file1.txt'}, {path:'file3.txt'}],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -403,12 +403,12 @@ describe('utils test', () => {
     it('should return only the files that match the file patterns with globstar', async () => {
       const allDiffFiles = {
         [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file2.md',
-          'file3.txt',
-          'test/dir/file4.txt',
-          'test/dir/file5.txt',
-          'dir/file6.md'
+          {path: 'file1.txt'} as ChangedFileInfo,
+          {path: 'file2.md'} as ChangedFileInfo,
+          {path: 'file3.txt'} as ChangedFileInfo,
+          {path: 'test/dir/file4.txt'} as ChangedFileInfo,
+          {path: 'test/dir/file5.txt'} as ChangedFileInfo,
+          {path: 'dir/file6.md'} as ChangedFileInfo,
         ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
@@ -424,10 +424,10 @@ describe('utils test', () => {
       })
       expect(result).toEqual({
         [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file3.txt',
-          'test/dir/file4.txt',
-          'test/dir/file5.txt'
+          {path:'file1.txt'},
+          {path:'file3.txt'},
+          {path:'test/dir/file4.txt'},
+          {path:'test/dir/file5.txt'},
         ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
@@ -443,7 +443,7 @@ describe('utils test', () => {
     it('should return only the files that match the file patterns with globstar on windows', async () => {
       mockedPlatform('win32')
       const allDiffFiles = {
-        [ChangeTypeEnum.Added]: ['test\\test rename-1.txt'],
+        [ChangeTypeEnum.Added]: [{path: 'test\\test rename-1.txt'} as ChangedFileInfo],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -457,7 +457,7 @@ describe('utils test', () => {
         filePatterns: ['test/**']
       })
       expect(result).toEqual({
-        [ChangeTypeEnum.Added]: ['test\\test rename-1.txt'],
+        [ChangeTypeEnum.Added]: [{path:'test\\test rename-1.txt'}],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -471,7 +471,11 @@ describe('utils test', () => {
     // Tests that the function returns an empty object when there are no files that match the file patterns
     it('should return an empty object when there are no files that match the file patterns', async () => {
       const allDiffFiles = {
-        [ChangeTypeEnum.Added]: ['file1.md', 'file2.md', 'file3.md'],
+        [ChangeTypeEnum.Added]: [
+          {path: 'file1.md'} as ChangedFileInfo,
+          {path: 'file2.md'} as ChangedFileInfo,
+          {path: 'file3.md'} as ChangedFileInfo,
+        ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -500,9 +504,9 @@ describe('utils test', () => {
     it('should handle file names with special characters', async () => {
       const allDiffFiles = {
         [ChangeTypeEnum.Added]: [
-          'file1.txt',
-          'file2 with spaces.txt',
-          'file3$$.txt'
+          {path: 'file1.txt'} as ChangedFileInfo,
+          {path: 'file2 with spaces.txt'} as ChangedFileInfo,
+          {path: 'file3$$.txt'} as ChangedFileInfo,
         ],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
@@ -517,7 +521,7 @@ describe('utils test', () => {
         filePatterns: ['file2*.txt']
       })
       expect(result).toEqual({
-        [ChangeTypeEnum.Added]: ['file2 with spaces.txt'],
+        [ChangeTypeEnum.Added]: [{path:'file2 with spaces.txt'}],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -531,7 +535,7 @@ describe('utils test', () => {
     // Tests that getFilteredChangedFiles correctly filters files using glob patterns
     it('should filter files using glob patterns', async () => {
       const allDiffFiles = {
-        [ChangeTypeEnum.Added]: ['test/migrations/test.sql'],
+        [ChangeTypeEnum.Added]: [{path: 'test/migrations/test.sql'} as ChangedFileInfo],
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [],
@@ -546,7 +550,7 @@ describe('utils test', () => {
         filePatterns
       })
       expect(filteredFiles[ChangeTypeEnum.Added]).toEqual([
-        'test/migrations/test.sql'
+        {path:'test/migrations/test.sql'}
       ])
     })
 
@@ -557,7 +561,7 @@ describe('utils test', () => {
         [ChangeTypeEnum.Copied]: [],
         [ChangeTypeEnum.Deleted]: [],
         [ChangeTypeEnum.Modified]: [
-          'assets/scripts/configure-minikube-linux.sh'
+          {path: 'assets/scripts/configure-minikube-linux.sh'} as ChangedFileInfo
         ],
         [ChangeTypeEnum.Renamed]: [],
         [ChangeTypeEnum.TypeChanged]: [],
