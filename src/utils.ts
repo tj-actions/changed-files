@@ -1,6 +1,7 @@
 /*global AsyncIterableIterator*/
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import * as github from '@actions/github'
 import {createReadStream, promises as fs} from 'fs'
 import {readFile} from 'fs/promises'
 import {flattenDeep} from 'lodash'
@@ -780,42 +781,30 @@ export const verifyCommitSha = async ({
  *
  * @param sha The input string, which could be a branch name or a commit sha.
  * @returns The cleaned SHA string.
- * @throws Error If the input is not a valid commit sha or a branch name.
  */
 export const cleanShaInput = async (sha: string): Promise<string> => {
-  // Check if the input is a valid commit sha
-  if (!sha) {
+  const octokit = github.getOctokit(core.getInput('github-token'))
+
+  try {
+    // Check if the input is a valid commit sha
+    await octokit.rest.git.getCommit({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      commit_sha: sha
+    })
+
+    // If it's a valid commit sha, return it as is
     return sha
-  }
-  // Check if the input is a valid commit sha
-  const {stdout, exitCode} = await exec.getExecOutput(
-    'git',
-    ['rev-parse', '--verify', sha],
-    {
-      ignoreReturnCode: true,
-      silent: !core.isDebug()
-    }
-  )
-
-  if (exitCode !== 0) {
+  } catch (error) {
     // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
-    const {stdout: stdout2, exitCode: exitCode2} = await exec.getExecOutput(
-      'git',
-      ['rev-parse', '--verify', `refs/heads/${sha}`],
-      {
-        ignoreReturnCode: true,
-        silent: !core.isDebug()
-      }
-    )
+    const {data: refData} = await octokit.rest.git.getRef({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ref: `heads/${sha}`
+    })
 
-    if (exitCode2 !== 0) {
-      throw new Error(`Unable to locate the commit sha: ${sha}`)
-    }
-
-    return stdout2.trim()
+    return refData.object.sha
   }
-
-  return stdout.trim()
 }
 export const getPreviousGitTag = async ({
   cwd
