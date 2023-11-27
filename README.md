@@ -1173,7 +1173,7 @@ And many more...
 
 ## Important Notice ⚠️
 
-> **Important** : :bangbang:
+> **Important** :bangbang:
 >
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent any hidden issues.
