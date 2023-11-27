@@ -206,7 +206,7 @@ export const getSHAForNonPullRequestEvent = async (
     }
   }
 
-  if (!previousSha) {
+  if (!previousSha || previousSha === currentSha) {
     core.debug('Getting previous SHA...')
     if (inputs.since) {
       core.debug(`Getting base SHA for '${inputs.since}'...`)
@@ -434,7 +434,7 @@ export const getSHAForPullRequestEvent = async (
     diff = '..'
   }
 
-  if (!previousSha) {
+  if (!previousSha || previousSha === currentSha) {
     if (inputs.sinceLastRemoteCommit) {
       previousSha = github.context.payload.before
 
