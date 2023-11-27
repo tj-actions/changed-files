@@ -997,6 +997,21 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
         targetBranch = currentBranchName;
         currentBranch = currentBranchName;
     }
+    if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
+        if (previousSha === currentSha) {
+            core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
+            core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+            throw new Error('Similar commit hashes detected.');
+        }
+        core.debug(`Previous SHA: ${previousSha}`);
+        return {
+            previousSha,
+            currentSha,
+            currentBranch,
+            targetBranch,
+            diff
+        };
+    }
     if (!previousSha || previousSha === currentSha) {
         core.debug('Getting previous SHA...');
         if (inputs.since) {
@@ -1165,6 +1180,21 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         token: inputs.token
     });
     let diff = '...';
+    if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
+        if (previousSha === currentSha) {
+            core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
+            core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
+            throw new Error('Similar commit hashes detected.');
+        }
+        core.debug(`Previous SHA: ${previousSha}`);
+        return {
+            previousSha,
+            currentSha,
+            currentBranch,
+            targetBranch,
+            diff
+        };
+    }
     if (!((_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.base) === null || _s === void 0 ? void 0 : _s.ref) ||
         ((_u = (_t = github.context.payload.head) === null || _t === void 0 ? void 0 : _t.repo) === null || _u === void 0 ? void 0 : _u.fork) === 'true') {
         diff = '..';
