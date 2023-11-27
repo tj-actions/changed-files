@@ -24,7 +24,7 @@ const getCurrentSHA = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
-  let currentSha = await cleanShaInput(inputs.sha)
+  let currentSha = await cleanShaInput(inputs.sha, inputs.token)
   core.debug('Getting current SHA...')
 
   if (inputs.until) {
@@ -163,7 +163,7 @@ export const getSHAForNonPullRequestEvent = async (
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
-  let previousSha = await cleanShaInput(inputs.baseSha)
+  let previousSha = await cleanShaInput(inputs.baseSha, inputs.token)
   const diff = '..'
   const currentBranchName = await getCurrentBranchName({cwd: workingDirectory})
 
@@ -391,7 +391,7 @@ export const getSHAForPullRequestEvent = async (
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
-  let previousSha = await cleanShaInput(inputs.baseSha)
+  let previousSha = await cleanShaInput(inputs.baseSha, inputs.token)
   let diff = '...'
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
