@@ -184,7 +184,7 @@ export const getSHAForNonPullRequestEvent = async (
     currentBranch = currentBranchName
   }
 
-  if (previousSha && currentSha && currentBranch && targetBranch) {
+  if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
       core.error(
         `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
@@ -405,7 +405,7 @@ export const getSHAForPullRequestEvent = async (
   })
   let diff = '...'
 
-  if (previousSha && currentSha && currentBranch && targetBranch) {
+  if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
       core.error(
         `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
