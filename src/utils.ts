@@ -1,6 +1,7 @@
 /*global AsyncIterableIterator*/
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import * as github from '@actions/github'
 import {createReadStream, promises as fs} from 'fs'
 import {readFile} from 'fs/promises'
 import {flattenDeep} from 'lodash'
@@ -771,6 +772,56 @@ export const verifyCommitSha = async ({
   return exitCode
 }
 
+/**
+ * Clean the sha from the input which could be a branch name or a commit sha.
+ *
+ * If the input is a valid commit sha, return it as is.
+ *
+ * If the input is a branch name, get the HEAD sha of that branch and return it.
+ *
+ * @param sha The input string, which could be a branch name or a commit sha.
+ * @param cwd The working directory.
+ * @param token The GitHub token.
+ * @returns The cleaned SHA string.
+ */
+export const cleanShaInput = async ({
+  sha,
+  cwd,
+  token
+}: {
+  sha: string
+  cwd: string
+  token: string
+}): Promise<string> => {
+  // Check if the input is a valid commit sha
+  if (!sha) {
+    return sha
+  }
+  // Check if the input is a valid commit sha
+  const {stdout, exitCode} = await exec.getExecOutput(
+    'git',
+    ['rev-parse', '--verify', `${sha}^{commit}`],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
+
+  if (exitCode !== 0) {
+    const octokit = github.getOctokit(token)
+    // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
+    const {data: refData} = await octokit.rest.git.getRef({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ref: `heads/${sha}`
+    })
+
+    return refData.object.sha
+  }
+
+  return stdout.trim()
+}
 export const getPreviousGitTag = async ({
   cwd
 }: {

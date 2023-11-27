@@ -5,6 +5,7 @@ import {Env} from './env'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
+  cleanShaInput,
   getCurrentBranchName,
   getHeadSha,
   getParentSha,
@@ -23,7 +24,11 @@ const getCurrentSHA = async ({
   inputs: Inputs
   workingDirectory: string
 }): Promise<string> => {
-  let currentSha = inputs.sha
+  let currentSha = await cleanShaInput({
+    sha: inputs.sha,
+    cwd: workingDirectory,
+    token: inputs.token
+  })
   core.debug('Getting current SHA...')
 
   if (inputs.until) {
@@ -162,7 +167,11 @@ export const getSHAForNonPullRequestEvent = async (
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
-  let previousSha = inputs.baseSha
+  let previousSha = await cleanShaInput({
+    sha: inputs.baseSha,
+    cwd: workingDirectory,
+    token: inputs.token
+  })
   const diff = '..'
   const currentBranchName = await getCurrentBranchName({cwd: workingDirectory})
 
@@ -186,7 +195,6 @@ export const getSHAForNonPullRequestEvent = async (
       throw new Error('Similar commit hashes detected.')
     }
 
-    await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
     core.debug(`Previous SHA: ${previousSha}`)
 
     return {
@@ -390,7 +398,11 @@ export const getSHAForPullRequestEvent = async (
   }
 
   const currentSha = await getCurrentSHA({inputs, workingDirectory})
-  let previousSha = inputs.baseSha
+  let previousSha = await cleanShaInput({
+    sha: inputs.baseSha,
+    cwd: workingDirectory,
+    token: inputs.token
+  })
   let diff = '...'
 
   if (previousSha && currentSha && currentBranch && targetBranch) {
@@ -404,7 +416,6 @@ export const getSHAForPullRequestEvent = async (
       throw new Error('Similar commit hashes detected.')
     }
 
-    await verifyCommitSha({sha: previousSha, cwd: workingDirectory})
     core.debug(`Previous SHA: ${previousSha}`)
 
     return {
