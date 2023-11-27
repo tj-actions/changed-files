@@ -17,7 +17,7 @@
 
 Effortlessly track all changed files and directories relative to a target branch, preceding commit or the last remote commit returning **relative paths** from the project root using this GitHub action.
 
-> **Note**
+> **Note** :exclamation:
 >
 > *   This action solely identifies files that have undergone changes within the context of events such as `pull_request*`, `push`, and more. However, it doesn't detect pending uncommitted changes created during the workflow execution.
 >
@@ -83,7 +83,7 @@ And many more...
 
 ## Usage 💻
 
-> **Important**
+> **Important** :bangbang:
 >
 > *   **Push Events**: When configuring [`actions/checkout`](https://github.com/actions/checkout#usage), make sure to set [`fetch-depth`](https://github.com/actions/checkout#usage) to either `0` or `2`, depending on your use case.
 > *   **Mono Repositories**: To avoid pulling the entire branch history, you can utilize the default [`actions/checkout`](https://github.com/actions/checkout#usage)'s [`fetch-depth`](https://github.com/actions/checkout#usage) of `1` for [`pull_request`](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) events.
@@ -309,7 +309,7 @@ Support this project with a :star:
 |     U     |   Unmerged   |
 |     X     |   Unknown    |
 
-> **Warning**
+> **Warning** 🚨
 >
 > *   When using `files_yaml*` inputs ensure all outputs are prefixed by the key `test_{...}` e.g. `test_added_files`, `test_any_changed`
 > *   All keys must start with a letter or \_ and contain only alphanumeric characters, -, or \_.
@@ -1172,7 +1172,7 @@ And many more...
 
 ## Important Notice ⚠️
 
-> **Important**
+> **Important** : :bangbang:
 >
 > *   Spaces in file names can introduce bugs when using bash loops. See: [#216](https://github.com/tj-actions/changed-files/issues/216)
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent any hidden issues.
