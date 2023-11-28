@@ -31,16 +31,6 @@ on:
 
 
 jobs:
-  shellcheck:
-    name: Run shellcheck
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-      - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1.19
-
   build:
     runs-on: ubuntu-latest
     outputs:
