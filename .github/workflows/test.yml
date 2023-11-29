@@ -649,8 +649,7 @@ jobs:
         with:
           files_yaml: |
             test:
-              - test/**.txt
-              - test/**.md
+              - .github/workflows/test.yml
           json: true
           write_output_files: true
 
