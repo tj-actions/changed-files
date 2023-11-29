@@ -662,7 +662,7 @@ jobs:
       - name: Show all_changed_files output and list .github/outputs
         run: |
           echo '${{ toJSON(steps.changed-files-json-write-output-files.outputs.test_all_changed_files) }}'
-          ls -al .github/outputs
+          cat .github/outputs/test_all_changed_files.json
         shell:
           bash
 
