@@ -643,6 +643,29 @@ jobs:
         shell:
           bash
 
+      - name: Run changed-files with files_yaml, json and write_output_files
+        id: changed-files-json-write-output-files
+        uses: ./
+        with:
+          files_yaml: |
+            test:
+              - .github/workflows/test.yml
+          json: true
+          write_output_files: true
+
+      - name: Show all outputs
+        run: |
+          echo "${{ toJSON(steps.changed-files-json-write-output-files.outputs) }}"
+        shell:
+          bash
+
+      - name: Show all_changed_files output and list .github/outputs
+        run: |
+          echo '${{ toJSON(steps.changed-files-json-write-output-files.outputs.test_all_changed_files) }}'
+          cat .github/outputs/test_all_changed_files.json
+        shell:
+          bash
+
   test-recover-deleted-file:
     name: Test changed-files recover deleted file
     runs-on: ubuntu-latest
