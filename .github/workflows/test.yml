@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - "**"
-  pull_request_review:
-     types: [edited, dismissed, submitted]
   pull_request:
     types:
       - assigned
