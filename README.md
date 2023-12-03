@@ -609,7 +609,7 @@ Support this project with a :star:
 |     U     |   Unmerged   |
 |     X     |   Unknown    |
 
-## Outputs
+## Outputs 📤
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
