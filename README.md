@@ -654,7 +654,7 @@ Support this project with a :star:
 |                                  <a name="output_unmerged_files"></a>[unmerged\_files](#output_unmerged_files)                                  | string |                                                                                                                                     Returns only files that are <br>Unmerged (U).                                                                                                                                       |
 |                         <a name="output_unmerged_files_count"></a>[unmerged\_files\_count](#output_unmerged_files_count)                         | string |                                                                                                                                         Returns the number of `unmerged_files`                                                                                                                                          |
 
-<!-- AUTO-DOC-OUTPUT:END --> 📤
+<!-- AUTO-DOC-OUTPUT:END -->
 
 ## Versioning 🏷️
 
