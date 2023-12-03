@@ -34,7 +34,7 @@ Effortlessly track all changed files and directories relative to a target branch
     *   [Other supported events :electron:](#other-supported-events-electron)
 *   [Inputs ⚙️](#inputs-️)
 *   [Useful Acronyms 🧮](#useful-acronyms-)
-*   [Outputs](#outputs)
+*   [Outputs 📤](#outputs-)
 *   [Versioning 🏷️](#versioning-️)
 *   [Examples 📄](#examples-)
 *   [Real-world usage 🌐](#real-world-usage-)
