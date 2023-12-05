@@ -8,10 +8,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "lint": "eslint **/*.ts --max-warnings 0",
-    "lint:fix": "eslint --fix src/**/*.ts",
+    "format": "prettier --write src/*.ts src/**/*.ts",
+    "format-check": "prettier --check src/*.ts src/**/*.ts",
+    "lint": "eslint src/*.ts src/**/*.ts --max-warnings 0",
+    "lint:fix": "eslint --fix src/*.ts src/**/*.ts",
     "package": "ncc build lib/main.js --source-map --license licenses.txt",
     "test": "jest --coverage",
     "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
