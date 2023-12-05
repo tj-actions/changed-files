@@ -139,11 +139,12 @@ jobs:
         id: changed-markdown-files
         uses: tj-actions/changed-files@v40
         with:
+          # Avoid using single or double quotes for multiline patterns
           files: |
              **.md
-        # Avoid using single or double quotes for multiline patterns
 
       - name: List all changed files markdown files
+        if: steps.changed-markdown-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "$file was changed"
