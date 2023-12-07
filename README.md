@@ -609,9 +609,9 @@ Support this project with a :star:
 
 > \[!IMPORTANT]
 >
-> * When using `files_yaml*` inputs, it's important to prefix all outputs with the key to ensure that the correct ouput values are accessible.
+> * When using `files_yaml*` inputs, it's important to prefix all outputs with the key to ensure that the correct outputs are accessible.
 >
->   For example, if you use `test` as the key, you can access output values like `added_files`, `any_changed`, and so on by prefixing them with the key `test_added_files` or `test_any_changed` etc.
+>   For example, if you use `test` as the key, you can access outputs like `added_files`, `any_changed`, and so on by prefixing them with the key `test_added_files` or `test_any_changed` etc.
 
 
 ## Outputs 📤
