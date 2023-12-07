@@ -603,15 +603,17 @@ Support this project with a :star:
 |     U     |   Unmerged   |
 |     X     |   Unknown    |
 
-> \[!WARNING]
->
-> *   All keys must start with a letter or `_` and contain only alphanumeric characters, `-`, or `_`.
 
 > \[!IMPORTANT]
 >
-> *   When using `files_yaml*` inputs, it's important to prefix all outputs with the key to ensure that the correct outputs are accessible.
+> *   When using `files_yaml*` inputs:
+>     *   All keys must start with a letter or `_` and contain only alphanumeric characters, `-`, or `_`.
+>         For example, `test` or `test_key` or `tesT-key` are all valid.
+> 
+>     *   it's important to prefix all outputs with the key to ensure that the correct outputs are accessible.
 >
->     For example, if you use `test` as the key, you can access outputs like `added_files`, `any_changed`, and so on by prefixing them with the key `test_added_files` or `test_any_changed` etc.
+>         For example, if you use `test` as the key, you can access outputs like `added_files`, `any_changed`, and so on by prefixing them with the key `test_added_files` or `test_any_changed` etc.
+>     
 
 ## Outputs 📤
 
