@@ -297,13 +297,6 @@ Support this project with a :star:
 
 [buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png
 
-> \[!WARNING]
->
-> *   When using `files_yaml*` inputs ensure all outputs are prefixed by the key `test_{...}` e.g. `test_added_files`, `test_any_changed`
-> *   All keys must start with a letter or \_ and contain only alphanumeric characters, -, or \_.
-
-<!-- AUTO-DOC-OUTPUT:END -->
-
 ## Inputs ⚙️
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
@@ -609,6 +602,17 @@ Support this project with a :star:
 |     T     | Type changed |
 |     U     |   Unmerged   |
 |     X     |   Unknown    |
+
+> \[!WARNING]
+>
+> *   All keys must start with a letter or `_` and contain only alphanumeric characters, `-`, or `_`.
+
+> \[!IMPORTANT]
+>
+> * When using `files_yaml*` inputs, it's important to prefix all outputs with the key to ensure that the correct context values are accessible.
+>
+>   For example, if you use `test` as the key, you can access output values like `added_files`, `any_changed`, and so on by prefixing them with the key `test_added_files` or `test_any_changed` etc.
+
 
 ## Outputs 📤
 
