@@ -24,7 +24,7 @@ on:
       - auto_merge_enabled
       - auto_merge_disabled
     branches:
-      - main
+      - "**"
 
 jobs:
   build:
@@ -822,6 +822,36 @@ jobs:
             exit 1
           else
             cat "deleted_files/test/test deleted.txt"
+          fi
+
+      - name: Run changed-files with recover_deleted_files for an expected git submodule file
+        id: changed-files-recover-deleted-files-within-submodule
+        uses: ./
+        with:
+          base_sha: "3be651e99d3d4eae395694f6c6f3b9d18457f6c8"
+          sha: "d90c240f2ad4ec04d8f0f48e5ac290ad96ebe850"
+          recover_deleted_files: true
+          fetch_depth: 60000
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-recover-deleted-files-within-submodule.outputs) }}"
+        shell:
+          bash
+
+      - name: Verify deleted files
+        if: steps.changed-files-recover-deleted-files-within-submodule.outputs.deleted_files != 'test/demo/.github/FUNDING.yml'
+        run: |
+          echo "Expected: (test/demo/.github/FUNDING.yml) got ${{ steps.changed-files-recover-deleted-files-within-submodule.outputs.deleted_files }}"
+          exit 1
+      - name: Verify that test/demo/.github/FUNDING.yml is restored
+        run: |
+          if [ ! -f "test/demo/.github/FUNDING.yml" ]; then
+            echo "Expected: (test/demo/.github/FUNDING.yml) to exist"
+            exit 1
+          else
+            cat "test/demo/.github/FUNDING.yml"
+            rm "test/demo/.github/FUNDING.yml"
           fi
 
   test-dir-names-deleted-files-include-only-deleted-dirs-single-file:

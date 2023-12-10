@@ -10,6 +10,7 @@ import * as path from 'path'
 import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
+import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -1395,13 +1396,17 @@ export const recoverDeletedFiles = async ({
   workingDirectory,
   deletedFiles,
   recoverPatterns,
-  sha
+  diffResult,
+  hasSubmodule,
+  submodulePaths
 }: {
   inputs: Inputs
   workingDirectory: string
   deletedFiles: string[]
   recoverPatterns: string[]
-  sha: string
+  diffResult: DiffResult
+  hasSubmodule: boolean
+  submodulePaths: string[]
 }): Promise<void> => {
   let recoverableDeletedFiles = deletedFiles
   core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`)
@@ -1426,16 +1431,55 @@ export const recoverDeletedFiles = async ({
       )
     }
 
-    const deletedFileContents = await getDeletedFileContents({
-      cwd: workingDirectory,
-      filePath: deletedFile,
-      sha
-    })
+    let deletedFileContents: string
+
+    const submodulePath = submodulePaths.find(p => deletedFile.startsWith(p))
+
+    if (hasSubmodule && submodulePath) {
+      const submoduleShaResult = await gitSubmoduleDiffSHA({
+        cwd: workingDirectory,
+        parentSha1: diffResult.previousSha,
+        parentSha2: diffResult.currentSha,
+        submodulePath,
+        diff: diffResult.diff
+      })
+
+      if (submoduleShaResult.previousSha) {
+        core.debug(
+          `recovering deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`
+        )
+        deletedFileContents = await getDeletedFileContents({
+          cwd: path.join(workingDirectory, submodulePath),
+          // E.g. submodulePath = test/demo and deletedFile = test/demo/.github/README.md => filePath => .github/README.md
+          filePath: deletedFile.replace(submodulePath, '').substring(1),
+          sha: submoduleShaResult.previousSha
+        })
+      } else {
+        core.warning(
+          `Unable to recover deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`
+        )
+        continue
+      }
+    } else {
+      core.debug(
+        `recovering deleted file "${deletedFile}" from ${diffResult.previousSha}`
+      )
+      deletedFileContents = await getDeletedFileContents({
+        cwd: workingDirectory,
+        filePath: deletedFile,
+        sha: diffResult.previousSha
+      })
+    }
+
+    core.debug(`recovered deleted file "${deletedFile}"`)
 
     if (!(await exists(path.dirname(target)))) {
+      core.debug(`creating directory "${path.dirname(target)}"`)
       await fs.mkdir(path.dirname(target), {recursive: true})
     }
+    core.debug(`writing file "${target}"`)
     await fs.writeFile(target, deletedFileContents)
+    core.debug(`wrote file "${target}"`)
   }
 }
 
