@@ -10,6 +10,7 @@ import * as path from 'path'
 import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
+import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -1395,13 +1396,17 @@ export const recoverDeletedFiles = async ({
   workingDirectory,
   deletedFiles,
   recoverPatterns,
-  sha
+  diffResult,
+  hasSubmodule,
+  submodulePaths
 }: {
   inputs: Inputs
   workingDirectory: string
   deletedFiles: string[]
   recoverPatterns: string[]
-  sha: string
+  diffResult: DiffResult
+  hasSubmodule: boolean
+  submodulePaths: string[]
 }): Promise<void> => {
   let recoverableDeletedFiles = deletedFiles
   core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`)
@@ -1426,8 +1431,30 @@ export const recoverDeletedFiles = async ({
       )
     }
 
+    let sha = diffResult.previousSha
+    let currentWorkingDirectory = workingDirectory
+
+    const submodulePath = submodulePaths.find(sMP => {
+      return deletedFile.startsWith(sMP)
+    })
+
+    if (hasSubmodule && submodulePath) {
+      currentWorkingDirectory = path.join(workingDirectory, submodulePath)
+      const submoduleShaResult = await gitSubmoduleDiffSHA({
+        cwd: workingDirectory,
+        parentSha1: diffResult.previousSha,
+        parentSha2: diffResult.currentSha,
+        submodulePath,
+        diff: diffResult.diff
+      })
+
+      if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+        sha = submoduleShaResult.previousSha
+      }
+    }
+
     const deletedFileContents = await getDeletedFileContents({
-      cwd: workingDirectory,
+      cwd: currentWorkingDirectory,
       filePath: deletedFile,
       sha
     })
