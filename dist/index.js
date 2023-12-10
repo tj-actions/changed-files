@@ -1725,7 +1725,9 @@ const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, fil
             workingDirectory,
             deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
             recoverPatterns,
-            sha: diffResult.previousSha
+            diffResult,
+            hasSubmodule,
+            submodulePaths
         });
     }
     yield (0, changedFiles_1.processChangedFiles)({
@@ -2832,7 +2834,7 @@ const getDeletedFileContents = ({ cwd, filePath, sha }) => __awaiter(void 0, voi
     }
     return stdout;
 });
-const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPatterns, sha }) => __awaiter(void 0, void 0, void 0, function* () {
+const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, hasSubmodule, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
     let recoverableDeletedFiles = deletedFiles;
     core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
     if (recoverPatterns.length > 0) {
@@ -2848,15 +2850,48 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
         if (inputs.recoverDeletedFilesToDestination) {
             target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
         }
-        const deletedFileContents = yield getDeletedFileContents({
-            cwd: workingDirectory,
-            filePath: deletedFile,
-            sha
+        let deletedFileContents;
+        const submodulePath = submodulePaths.find(sMP => {
+            return deletedFile.startsWith(sMP);
         });
+        if (hasSubmodule && submodulePath) {
+            const submoduleShaResult = yield (0, exports.gitSubmoduleDiffSHA)({
+                cwd: workingDirectory,
+                parentSha1: diffResult.previousSha,
+                parentSha2: diffResult.currentSha,
+                submodulePath,
+                diff: diffResult.diff
+            });
+            if (submoduleShaResult.previousSha) {
+                core.debug(`recovering deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`);
+                deletedFileContents = yield getDeletedFileContents({
+                    cwd: path.join(workingDirectory, submodulePath),
+                    // E.g. submodulePath = test/demo and deletedFile = test/demo/.github/README.md => filePath => .github/README.md
+                    filePath: deletedFile.replace(submodulePath, '').substring(1),
+                    sha: submoduleShaResult.previousSha
+                });
+            }
+            else {
+                core.warning(`Unable to recover deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`);
+                continue;
+            }
+        }
+        else {
+            core.debug(`recovering deleted file "${deletedFile}" from ${diffResult.previousSha}`);
+            deletedFileContents = yield getDeletedFileContents({
+                cwd: workingDirectory,
+                filePath: deletedFile,
+                sha: diffResult.previousSha
+            });
+        }
+        core.debug(`recovered deleted file "${deletedFile}"`);
         if (!(yield (0, exports.exists)(path.dirname(target)))) {
+            core.debug(`creating directory "${path.dirname(target)}"`);
             yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
         }
+        core.debug(`writing file "${target}"`);
         yield fs_1.promises.writeFile(target, deletedFileContents);
+        core.debug(`wrote file "${target}"`);
     }
 });
 exports.recoverDeletedFiles = recoverDeletedFiles;
