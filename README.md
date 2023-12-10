@@ -51,7 +51,7 @@ Effortlessly track all changed files and directories relative to a target branch
 *   Fast execution, averaging 0-10 seconds.
 *   Leverages either [Github's REST API](https://docs.github.com/en/rest/reference/repos#list-commits) or [Git's native diff](https://git-scm.com/docs/git-diff) to determine changed files.
 *   Facilitates easy debugging.
-*   Scales to handle large repositories.
+*   Scales to handle large/mono repositories.
 *   Supports Git submodules.
 *   Supports [merge queues](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue) for pull requests.
 *   Generates escaped [JSON output for running matrix jobs](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml) based on changed files.
@@ -60,7 +60,7 @@ Effortlessly track all changed files and directories relative to a target branch
     *   Optionally excludes the current directory.
 *   Writes outputs to a designated `.txt` or `.json` file for further processing.
 *   Restores deleted files to their previous location or a newly specified location.
-*   Supports Monorepos by fetching a fixed number of commits.
+*   Supports fetching a fixed number of commits which improves performance.
 *   Compatible with all platforms (Linux, MacOS, Windows).
 *   Supports [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners).
 *   Supports [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server).
