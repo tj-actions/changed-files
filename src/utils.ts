@@ -1431,15 +1431,13 @@ export const recoverDeletedFiles = async ({
       )
     }
 
-    let sha = diffResult.previousSha
-    let currentWorkingDirectory = workingDirectory
+    let deletedFileContents: string
 
     const submodulePath = submodulePaths.find(sMP => {
       return deletedFile.startsWith(sMP)
     })
 
     if (hasSubmodule && submodulePath) {
-      currentWorkingDirectory = path.join(workingDirectory, submodulePath)
       const submoduleShaResult = await gitSubmoduleDiffSHA({
         cwd: workingDirectory,
         parentSha1: diffResult.previousSha,
@@ -1448,21 +1446,41 @@ export const recoverDeletedFiles = async ({
         diff: diffResult.diff
       })
 
-      if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
-        sha = submoduleShaResult.previousSha
+      if (submoduleShaResult.previousSha) {
+        core.debug(
+          `recovering deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`
+        )
+        deletedFileContents = await getDeletedFileContents({
+          cwd: path.join(workingDirectory, submodulePath),
+          filePath: deletedFile.replace(submodulePath, ''),
+          sha: submoduleShaResult.previousSha
+        })
+      } else {
+        core.warning(
+          `Unable to recover deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`
+        )
+        continue
       }
+    } else {
+      core.debug(
+        `recovering deleted file "${deletedFile}" from ${diffResult.previousSha}`
+      )
+      deletedFileContents = await getDeletedFileContents({
+        cwd: workingDirectory,
+        filePath: deletedFile,
+        sha: diffResult.previousSha
+      })
     }
 
-    const deletedFileContents = await getDeletedFileContents({
-      cwd: currentWorkingDirectory,
-      filePath: deletedFile,
-      sha
-    })
+    core.debug(`recovered deleted file "${deletedFile}"`)
 
     if (!(await exists(path.dirname(target)))) {
+      core.debug(`creating directory "${path.dirname(target)}"`)
       await fs.mkdir(path.dirname(target), {recursive: true})
     }
+    core.debug(`writing file "${target}"`)
     await fs.writeFile(target, deletedFileContents)
+    core.debug(`wrote file "${target}"`)
   }
 }
 

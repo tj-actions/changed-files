@@ -2850,13 +2850,11 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
         if (inputs.recoverDeletedFilesToDestination) {
             target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
         }
-        let sha = diffResult.previousSha;
-        let currentWorkingDirectory = workingDirectory;
+        let deletedFileContents;
         const submodulePath = submodulePaths.find(sMP => {
             return deletedFile.startsWith(sMP);
         });
         if (hasSubmodule && submodulePath) {
-            currentWorkingDirectory = path.join(workingDirectory, submodulePath);
             const submoduleShaResult = yield (0, exports.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: diffResult.previousSha,
@@ -2864,15 +2862,25 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
                 submodulePath,
                 diff: diffResult.diff
             });
-            if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
-                sha = submoduleShaResult.previousSha;
+            if (submoduleShaResult.previousSha) {
+                deletedFileContents = yield getDeletedFileContents({
+                    cwd: path.join(workingDirectory, submodulePath),
+                    filePath: deletedFile.replace(submodulePath, ''),
+                    sha: submoduleShaResult.previousSha
+                });
+            }
+            else {
+                core.warning(`Unable to recover deleted file "${deletedFile}" from submodule ${submodulePath} between ${diffResult.previousSha} and ${diffResult.currentSha}`);
+                continue;
             }
         }
-        const deletedFileContents = yield getDeletedFileContents({
-            cwd: currentWorkingDirectory,
-            filePath: deletedFile,
-            sha
-        });
+        else {
+            deletedFileContents = yield getDeletedFileContents({
+                cwd: workingDirectory,
+                filePath: deletedFile,
+                sha: diffResult.previousSha
+            });
+        }
         if (!(yield (0, exports.exists)(path.dirname(target)))) {
             yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
         }
@@ -6495,7 +6503,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(5030);
 
 // pkg/dist-src/version.js
-var VERSION = "9.0.4";
+var VERSION = "9.0.3";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -6614,13 +6622,10 @@ function extractUrlVariableNames(url) {
 
 // pkg/dist-src/util/omit.js
 function omit(object, keysToOmit) {
-  const result = { __proto__: null };
-  for (const key of Object.keys(object)) {
-    if (keysToOmit.indexOf(key) === -1) {
-      result[key] = object[key];
-    }
-  }
-  return result;
+  return Object.keys(object).filter((option) => !keysToOmit.includes(option)).reduce((obj, key) => {
+    obj[key] = object[key];
+    return obj;
+  }, {});
 }
 
 // pkg/dist-src/util/url-template.js
@@ -7434,7 +7439,7 @@ __export(dist_src_exports, {
 module.exports = __toCommonJS(dist_src_exports);
 
 // pkg/dist-src/version.js
-var VERSION = "10.2.0";
+var VERSION = "10.1.5";
 
 // pkg/dist-src/generated/endpoints.js
 var Endpoints = {
@@ -33057,7 +33062,6 @@ function request (opts, callback) {
 }
 
 module.exports = request
-module.exports.RequestHandler = RequestHandler
 
 
 /***/ }),
@@ -33604,7 +33608,7 @@ module.exports = class BodyReadable extends Readable {
       this
         .on('close', function () {
           signalListenerCleanup()
-          if (signal && signal.aborted) {
+          if (signal?.aborted) {
             reject(signal.reason || Object.assign(new Error('The operation was aborted'), { name: 'AbortError' }))
           } else {
             resolve(null)
@@ -34998,13 +35002,13 @@ module.exports = {
 /***/ }),
 
 /***/ 9174:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module) => {
 
 "use strict";
 
 
 module.exports = {
-  kConstruct: (__nccwpck_require__(2785).kConstruct)
+  kConstruct: Symbol('constructable')
 }
 
 
@@ -35990,9 +35994,11 @@ class Parser {
       socket[kReset] = true
     }
 
-    const pause = request.onHeaders(statusCode, headers, this.resume, statusText) === false
-
-    if (request.aborted) {
+    let pause
+    try {
+      pause = request.onHeaders(statusCode, headers, this.resume, statusText) === false
+    } catch (err) {
+      util.destroy(socket, err)
       return -1
     }
 
@@ -36039,8 +36045,13 @@ class Parser {
 
     this.bytesRead += buf.length
 
-    if (request.onData(buf) === false) {
-      return constants.ERROR.PAUSED
+    try {
+      if (request.onData(buf) === false) {
+        return constants.ERROR.PAUSED
+      }
+    } catch (err) {
+      util.destroy(socket, err)
+      return -1
     }
   }
 
@@ -36081,7 +36092,11 @@ class Parser {
       return -1
     }
 
-    request.onComplete(headers)
+    try {
+      request.onComplete(headers)
+    } catch (err) {
+      errorRequest(client, request, err)
+    }
 
     client[kQueue][client[kRunningIdx]++] = null
 
@@ -36867,17 +36882,13 @@ function writeH2 (client, session, request) {
   })
 
   stream.on('data', (chunk) => {
-    if (request.onData(chunk) === false) {
-      stream.pause()
-    }
+    if (request.onData(chunk) === false) stream.pause()
   })
 
   stream.once('close', () => {
     h2State.openStreams -= 1
     // TODO(HTTP/2): unref only if current streams count is 0
-    if (h2State.openStreams === 0) {
-      session.unref()
-    }
+    if (h2State.openStreams === 0) session.unref()
   })
 
   stream.once('error', function (err) {
@@ -38920,11 +38931,7 @@ class Request {
 
   onBodySent (chunk) {
     if (this[kHandler].onBodySent) {
-      try {
-        return this[kHandler].onBodySent(chunk)
-      } catch (err) {
-        this.abort(err)
-      }
+      return this[kHandler].onBodySent(chunk)
     }
   }
 
@@ -38934,11 +38941,7 @@ class Request {
     }
 
     if (this[kHandler].onRequestSent) {
-      try {
-        return this[kHandler].onRequestSent()
-      } catch (err) {
-        this.abort(err)
-      }
+      return this[kHandler].onRequestSent()
     }
   }
 
@@ -38962,23 +38965,14 @@ class Request {
       channels.headers.publish({ request: this, response: { statusCode, headers, statusText } })
     }
 
-    try {
-      return this[kHandler].onHeaders(statusCode, headers, resume, statusText)
-    } catch (err) {
-      this.abort(err)
-    }
+    return this[kHandler].onHeaders(statusCode, headers, resume, statusText)
   }
 
   onData (chunk) {
     assert(!this.aborted)
     assert(!this.completed)
 
-    try {
-      return this[kHandler].onData(chunk)
-    } catch (err) {
-      this.abort(err)
-      return false
-    }
+    return this[kHandler].onData(chunk)
   }
 
   onUpgrade (statusCode, headers, socket) {
@@ -38997,13 +38991,7 @@ class Request {
     if (channels.trailers.hasSubscribers) {
       channels.trailers.publish({ request: this, trailers })
     }
-
-    try {
-      return this[kHandler].onComplete(trailers)
-    } catch (err) {
-      // TODO (fix): This might be a bad idea?
-      this.onError(err)
-    }
+    return this[kHandler].onComplete(trailers)
   }
 
   onError (error) {
@@ -39017,7 +39005,6 @@ class Request {
       return
     }
     this.aborted = true
-
     return this[kHandler].onError(error)
   }
 
@@ -39255,8 +39242,7 @@ module.exports = {
   kHTTP1BuildRequest: Symbol('http1 build request'),
   kHTTP2CopyHeaders: Symbol('http2 copy headers'),
   kHTTPConnVersion: Symbol('http connection version'),
-  kRetryHandlerDefaultRetry: Symbol('retry agent default retry'),
-  kConstruct: Symbol('constructable')
+  kRetryHandlerDefaultRetry: Symbol('retry agent default retry')
 }
 
 
@@ -40904,14 +40890,17 @@ function dataURLProcessor (dataURL) {
  * @param {boolean} excludeFragment
  */
 function URLSerializer (url, excludeFragment = false) {
+  const href = url.href
+
   if (!excludeFragment) {
-    return url.href
+    return href
   }
 
-  const href = url.href
-  const hashLength = url.hash.length
-
-  return hashLength === 0 ? href : href.substring(0, href.length - hashLength)
+  const hash = href.lastIndexOf('#')
+  if (hash === -1) {
+    return href
+  }
+  return href.slice(0, hash)
 }
 
 // https://infra.spec.whatwg.org/#collect-a-sequence-of-code-points
@@ -42095,7 +42084,7 @@ module.exports = {
 
 
 
-const { kHeadersList, kConstruct } = __nccwpck_require__(2785)
+const { kHeadersList } = __nccwpck_require__(2785)
 const { kGuard } = __nccwpck_require__(5861)
 const { kEnumerableProperty } = __nccwpck_require__(3983)
 const {
@@ -42333,9 +42322,6 @@ class HeadersList {
 // https://fetch.spec.whatwg.org/#headers-class
 class Headers {
   constructor (init = undefined) {
-    if (init === kConstruct) {
-      return
-    }
     this[kHeadersList] = new HeadersList()
 
     // The new Headers(init) constructor steps are:
@@ -42976,7 +42962,7 @@ function finalizeAndReportTiming (response, initiatorType = 'other') {
   }
 
   // 8. If response’s timing allow passed flag is not set, then:
-  if (!response.timingAllowPassed) {
+  if (!timingInfo.timingAllowPassed) {
     //  1. Set timingInfo to a the result of creating an opaque timing info for timingInfo.
     timingInfo = createOpaqueTimingInfo({
       startTime: timingInfo.startTime
@@ -44853,8 +44839,7 @@ const {
   isValidHTTPToken,
   sameOrigin,
   normalizeMethod,
-  makePolicyContainer,
-  normalizeMethodRecord
+  makePolicyContainer
 } = __nccwpck_require__(2538)
 const {
   forbiddenMethodsSet,
@@ -44871,12 +44856,13 @@ const { kHeaders, kSignal, kState, kGuard, kRealm } = __nccwpck_require__(5861)
 const { webidl } = __nccwpck_require__(1744)
 const { getGlobalOrigin } = __nccwpck_require__(1246)
 const { URLSerializer } = __nccwpck_require__(685)
-const { kHeadersList, kConstruct } = __nccwpck_require__(2785)
+const { kHeadersList } = __nccwpck_require__(2785)
 const assert = __nccwpck_require__(9491)
 const { getMaxListeners, setMaxListeners, getEventListeners, defaultMaxListeners } = __nccwpck_require__(2361)
 
 let TransformStream = globalThis.TransformStream
 
+const kInit = Symbol('init')
 const kAbortController = Symbol('abortController')
 
 const requestFinalizer = new FinalizationRegistry(({ signal, abort }) => {
@@ -44887,7 +44873,7 @@ const requestFinalizer = new FinalizationRegistry(({ signal, abort }) => {
 class Request {
   // https://fetch.spec.whatwg.org/#dom-request
   constructor (input, init = {}) {
-    if (input === kConstruct) {
+    if (input === kInit) {
       return
     }
 
@@ -45026,10 +45012,8 @@ class Request {
       urlList: [...request.urlList]
     })
 
-    const initHasKey = Object.keys(init).length !== 0
-
     // 13. If init is not empty, then:
-    if (initHasKey) {
+    if (Object.keys(init).length > 0) {
       // 1. If request’s mode is "navigate", then set it to "same-origin".
       if (request.mode === 'navigate') {
         request.mode = 'same-origin'
@@ -45144,7 +45128,7 @@ class Request {
     }
 
     // 23. If init["integrity"] exists, then set request’s integrity metadata to it.
-    if (init.integrity != null) {
+    if (init.integrity !== undefined && init.integrity != null) {
       request.integrity = String(init.integrity)
     }
 
@@ -45160,16 +45144,16 @@ class Request {
 
       // 2. If method is not a method or method is a forbidden method, then
       // throw a TypeError.
-      if (!isValidHTTPToken(method)) {
-        throw new TypeError(`'${method}' is not a valid HTTP method.`)
+      if (!isValidHTTPToken(init.method)) {
+        throw new TypeError(`'${init.method}' is not a valid HTTP method.`)
       }
 
       if (forbiddenMethodsSet.has(method.toUpperCase())) {
-        throw new TypeError(`'${method}' HTTP method is unsupported.`)
+        throw new TypeError(`'${init.method}' HTTP method is unsupported.`)
       }
 
       // 3. Normalize method.
-      method = normalizeMethodRecord[method] ?? normalizeMethod(method)
+      method = normalizeMethod(init.method)
 
       // 4. Set request’s method to method.
       request.method = method
@@ -45240,7 +45224,7 @@ class Request {
     // 30. Set this’s headers to a new Headers object with this’s relevant
     // Realm, whose header list is request’s header list and guard is
     // "request".
-    this[kHeaders] = new Headers(kConstruct)
+    this[kHeaders] = new Headers()
     this[kHeaders][kHeadersList] = request.headersList
     this[kHeaders][kGuard] = 'request'
     this[kHeaders][kRealm] = this[kRealm]
@@ -45260,25 +45244,25 @@ class Request {
     }
 
     // 32. If init is not empty, then:
-    if (initHasKey) {
-      /** @type {HeadersList} */
-      const headersList = this[kHeaders][kHeadersList]
+    if (Object.keys(init).length !== 0) {
       // 1. Let headers be a copy of this’s headers and its associated header
       // list.
+      let headers = new Headers(this[kHeaders])
+
       // 2. If init["headers"] exists, then set headers to init["headers"].
-      const headers = init.headers !== undefined ? init.headers : new HeadersList(headersList)
+      if (init.headers !== undefined) {
+        headers = init.headers
+      }
 
       // 3. Empty this’s headers’s header list.
-      headersList.clear()
+      this[kHeaders][kHeadersList].clear()
 
       // 4. If headers is a Headers object, then for each header in its header
       // list, append header’s name/header’s value to this’s headers.
-      if (headers instanceof HeadersList) {
+      if (headers.constructor.name === 'Headers') {
         for (const [key, val] of headers) {
-          headersList.append(key, val)
+          this[kHeaders].append(key, val)
         }
-        // Note: Copy the `set-cookie` meta-data.
-        headersList.cookies = headers.cookies
       } else {
         // 5. Otherwise, fill this’s headers with headers.
         fillHeaders(this[kHeaders], headers)
@@ -45567,10 +45551,10 @@ class Request {
 
     // 3. Let clonedRequestObject be the result of creating a Request object,
     // given clonedRequest, this’s headers’s guard, and this’s relevant Realm.
-    const clonedRequestObject = new Request(kConstruct)
+    const clonedRequestObject = new Request(kInit)
     clonedRequestObject[kState] = clonedRequest
     clonedRequestObject[kRealm] = this[kRealm]
-    clonedRequestObject[kHeaders] = new Headers(kConstruct)
+    clonedRequestObject[kHeaders] = new Headers()
     clonedRequestObject[kHeaders][kHeadersList] = clonedRequest.headersList
     clonedRequestObject[kHeaders][kGuard] = this[kHeaders][kGuard]
     clonedRequestObject[kHeaders][kRealm] = this[kHeaders][kRealm]
@@ -45820,7 +45804,7 @@ const { webidl } = __nccwpck_require__(1744)
 const { FormData } = __nccwpck_require__(2015)
 const { getGlobalOrigin } = __nccwpck_require__(1246)
 const { URLSerializer } = __nccwpck_require__(685)
-const { kHeadersList, kConstruct } = __nccwpck_require__(2785)
+const { kHeadersList } = __nccwpck_require__(2785)
 const assert = __nccwpck_require__(9491)
 const { types } = __nccwpck_require__(3837)
 
@@ -45941,7 +45925,7 @@ class Response {
     // 2. Set this’s headers to a new Headers object with this’s relevant
     // Realm, whose header list is this’s response’s header list and guard
     // is "response".
-    this[kHeaders] = new Headers(kConstruct)
+    this[kHeaders] = new Headers()
     this[kHeaders][kGuard] = 'response'
     this[kHeaders][kHeadersList] = this[kState].headersList
     this[kHeaders][kRealm] = this[kRealm]
@@ -46311,7 +46295,11 @@ webidl.converters.XMLHttpRequestBodyInit = function (V) {
     return webidl.converters.Blob(V, { strict: false })
   }
 
-  if (types.isArrayBuffer(V) || types.isTypedArray(V) || types.isDataView(V)) {
+  if (
+    types.isAnyArrayBuffer(V) ||
+    types.isTypedArray(V) ||
+    types.isDataView(V)
+  ) {
     return webidl.converters.BufferSource(V)
   }
 
@@ -47092,30 +47080,11 @@ function isCancelled (fetchParams) {
     fetchParams.controller.state === 'terminated'
 }
 
-const normalizeMethodRecord = {
-  delete: 'DELETE',
-  DELETE: 'DELETE',
-  get: 'GET',
-  GET: 'GET',
-  head: 'HEAD',
-  HEAD: 'HEAD',
-  options: 'OPTIONS',
-  OPTIONS: 'OPTIONS',
-  post: 'POST',
-  POST: 'POST',
-  put: 'PUT',
-  PUT: 'PUT'
-}
-
-// Note: object prototypes should not be able to be referenced. e.g. `Object#hasOwnProperty`.
-Object.setPrototypeOf(normalizeMethodRecord, null)
-
-/**
- * @see https://fetch.spec.whatwg.org/#concept-method-normalize
- * @param {string} method
- */
+// https://fetch.spec.whatwg.org/#concept-method-normalize
 function normalizeMethod (method) {
-  return normalizeMethodRecord[method.toLowerCase()] ?? method
+  return /^(DELETE|GET|HEAD|OPTIONS|POST|PUT)$/i.test(method)
+    ? method.toUpperCase()
+    : method
 }
 
 // https://infra.spec.whatwg.org/#serialize-a-javascript-value-to-a-json-string
@@ -47460,8 +47429,7 @@ module.exports = {
   urlIsLocal,
   urlHasHttpsScheme,
   urlIsHttpHttpsScheme,
-  readAllBytes,
-  normalizeMethodRecord
+  readAllBytes
 }
 
 
@@ -49585,7 +49553,7 @@ module.exports = RedirectHandler
 /***/ 2286:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const assert = __nccwpck_require__(9491)
+const assert = __nccwpck_require__(8061)
 
 const { kRetryHandlerDefaultRetry } = __nccwpck_require__(2785)
 const { RequestRetryError } = __nccwpck_require__(8045)
@@ -49682,7 +49650,7 @@ class RetryHandler {
   }
 
   onBodySent (chunk) {
-    if (this.handler.onBodySent) return this.handler.onBodySent(chunk)
+    return this.handler.onBodySent(chunk)
   }
 
   static [kRetryHandlerDefaultRetry] (err, { state, opts }, cb) {
@@ -51845,9 +51813,6 @@ class ProxyAgent extends DispatcherBase {
     this[kProxyTls] = opts.proxyTls
     this[kProxyHeaders] = opts.headers || {}
 
-    const resolvedUrl = new URL(opts.uri)
-    const { origin, port, host, username, password } = resolvedUrl
-
     if (opts.auth && opts.token) {
       throw new InvalidArgumentError('opts.auth cannot be used in combination with opts.token')
     } else if (opts.auth) {
@@ -51855,9 +51820,10 @@ class ProxyAgent extends DispatcherBase {
       this[kProxyHeaders]['proxy-authorization'] = `Basic ${opts.auth}`
     } else if (opts.token) {
       this[kProxyHeaders]['proxy-authorization'] = opts.token
-    } else if (username && password) {
-      this[kProxyHeaders]['proxy-authorization'] = `Basic ${Buffer.from(`${decodeURIComponent(username)}:${decodeURIComponent(password)}`).toString('base64')}`
     }
+
+    const resolvedUrl = new URL(opts.uri)
+    const { origin, port, host } = resolvedUrl
 
     const connect = buildConnector({ ...opts.proxyTls })
     this[kConnectEndpoint] = buildConnector({ ...opts.requestTls })
@@ -51882,7 +51848,7 @@ class ProxyAgent extends DispatcherBase {
           })
           if (statusCode !== 200) {
             socket.on('error', () => {}).destroy()
-            callback(new RequestAbortedError(`Proxy response (${statusCode}) !== 200 when HTTP Tunneling`))
+            callback(new RequestAbortedError('Proxy response !== 200 when HTTP Tunneling'))
           }
           if (opts.protocol !== 'https:') {
             callback(null, socket)
@@ -54876,6 +54842,14 @@ module.exports = require("https");
 
 "use strict";
 module.exports = require("net");
+
+/***/ }),
+
+/***/ 8061:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:assert");
 
 /***/ }),
 
