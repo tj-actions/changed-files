@@ -1433,9 +1433,7 @@ export const recoverDeletedFiles = async ({
 
     let deletedFileContents: string
 
-    const submodulePath = submodulePaths.find(sMP => {
-      return deletedFile.startsWith(sMP)
-    })
+    const submodulePath = submodulePaths.find(p => deletedFile.startsWith(p))
 
     if (hasSubmodule && submodulePath) {
       const submoduleShaResult = await gitSubmoduleDiffSHA({
