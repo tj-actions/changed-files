@@ -9,7 +9,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -1264,6 +1264,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/cfernhout"><img src="https://avatars.githubusercontent.com/u/22294606?v=4?s=100" width="100px;" alt="Chiel Fernhout"/><br /><sub><b>Chiel Fernhout</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=cfernhout" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/albertoperdomo2"><img src="https://avatars.githubusercontent.com/u/62241095?v=4?s=100" width="100px;" alt="Alberto Perdomo"/><br /><sub><b>Alberto Perdomo</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=albertoperdomo2" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://arthurvolant.com"><img src="https://avatars.githubusercontent.com/u/37664438?v=4?s=100" width="100px;" alt="Arthur"/><br /><sub><b>Arthur</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/issues?q=author%3AV0lantis" title="Bug reports">🐛</a> <a href="https://github.com/tj-actions/changed-files/commits?author=V0lantis" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rodrigorfk"><img src="https://avatars.githubusercontent.com/u/1995033?v=4?s=100" width="100px;" alt="Rodrigo Fior Kuntzer"/><br /><sub><b>Rodrigo Fior Kuntzer</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=rodrigorfk" title="Code">💻</a> <a href="https://github.com/tj-actions/changed-files/commits?author=rodrigorfk" title="Tests">⚠️</a> <a href="https://github.com/tj-actions/changed-files/issues?q=author%3Arodrigorfk" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
