@@ -1452,7 +1452,8 @@ export const recoverDeletedFiles = async ({
         )
         deletedFileContents = await getDeletedFileContents({
           cwd: path.join(workingDirectory, submodulePath),
-          filePath: deletedFile.replace(submodulePath, ''),
+          // E.g. submodulePath = test/demo and deletedFile = test/demo/.github/README.md => filePath => .github/README.md
+          filePath: deletedFile.replace(submodulePath, '').substring(1),
           sha: submoduleShaResult.previousSha
         })
       } else {
