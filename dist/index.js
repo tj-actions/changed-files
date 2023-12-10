@@ -2851,9 +2851,7 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
             target = path.join(workingDirectory, inputs.recoverDeletedFilesToDestination, deletedFile);
         }
         let deletedFileContents;
-        const submodulePath = submodulePaths.find(sMP => {
-            return deletedFile.startsWith(sMP);
-        });
+        const submodulePath = submodulePaths.find(p => deletedFile.startsWith(p));
         if (hasSubmodule && submodulePath) {
             const submoduleShaResult = yield (0, exports.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
