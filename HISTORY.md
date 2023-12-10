@@ -1,5 +1,53 @@
 # Changelog
 
+# [40.2.2](https://github.com/tj-actions/changed-files/compare/v40.2.1...v40.2.2) - (2023-12-10)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug recovering deleted files for submodules ([#1784](https://github.com/tj-actions/changed-files/issues/1784)) ([9454999](https://github.com/tj-actions/changed-files/commit/94549999469dbfa032becf298d95c87a14c34394))  - (Tonye Jack)
+
+## <!-- 17 -->➖ Remove
+
+- Deleted .github/workflows/auto-approve.yml ([a661767](https://github.com/tj-actions/changed-files/commit/a66176714d5d018bc975bf0246c427135def756c))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1786](https://github.com/tj-actions/changed-files/issues/1786))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([7611ff3](https://github.com/tj-actions/changed-files/commit/7611ff348df4d0d46887198cda7203e6fc5ffa80))  - (tj-actions[bot])
+- Update README.md ([c116f52](https://github.com/tj-actions/changed-files/commit/c116f52a1566bda08e9782a74c333a21270cf952))  - (Tonye Jack)
+- Updated README.md ([#1779](https://github.com/tj-actions/changed-files/issues/1779))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([0b0b642](https://github.com/tj-actions/changed-files/commit/0b0b6429e1c5a0bc3f85230a0e1f6df2cba44600))  - (tj-actions[bot])
+- Update README.md ([f732c37](https://github.com/tj-actions/changed-files/commit/f732c371a41ace2af86e5cb2e4f7b0254e4a63e5))  - (Tonye Jack)
+- Updated README.md ([#1778](https://github.com/tj-actions/changed-files/issues/1778))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([04c0045](https://github.com/tj-actions/changed-files/commit/04c00459a27a4e6651f4b0fa3d3a4bc500480109))  - (tj-actions[bot])
+- Update README.md ([5cee511](https://github.com/tj-actions/changed-files/commit/5cee511ba525ad1e92208283322b32120a033b48))  - (Tonye Jack)
+- Update README.md ([399525a](https://github.com/tj-actions/changed-files/commit/399525a994a54fef4ac0ef55192e3d2e30dc0587))  - (Tonye Jack)
+- Update README.md ([c075bd2](https://github.com/tj-actions/changed-files/commit/c075bd27195652f012b60452cd3026891de29306))  - (Tonye Jack)
+- Update README.md ([2918913](https://github.com/tj-actions/changed-files/commit/29189133419ced6b335e576b1e1f7a9e8061fdd8))  - (Tonye Jack)
+
+## <!-- 3 -->📚 Documentation
+
+- Add rodrigorfk as a contributor for code, test, and bug ([#1785](https://github.com/tj-actions/changed-files/issues/1785)) ([187cf1e](https://github.com/tj-actions/changed-files/commit/187cf1e88cc94e5b5243c6eefcc550510b7894a8))  - (allcontributors[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump tj-actions/branch-names from 7 to 8 ([#1782](https://github.com/tj-actions/changed-files/issues/1782)) ([e1e532c](https://github.com/tj-actions/changed-files/commit/e1e532cff0353cb6a98b0bce6ff00b7e7d2cc320))  - (dependabot[bot])
+- **deps:** Update dependency @types/node to v20.10.4 ([dfecec4](https://github.com/tj-actions/changed-files/commit/dfecec4fb70c945750762cdad7026ee55d8a205f))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.3.3 ([208b83f](https://github.com/tj-actions/changed-files/commit/208b83f29576c33f31be8846aadbf644242f2b2f))  - (renovate[bot])
+- **deps-dev:** Bump @types/jest from 29.5.10 to 29.5.11 ([#1775](https://github.com/tj-actions/changed-files/issues/1775)) ([ccb109a](https://github.com/tj-actions/changed-files/commit/ccb109a58449e62280c2ecefb65010f90fbd0e4f))  - (dependabot[bot])
+- Update package.json ([#1774](https://github.com/tj-actions/changed-files/issues/1774)) ([95642a1](https://github.com/tj-actions/changed-files/commit/95642a1ebb79474d514126dd282092c68a08b01b))  - (Tonye Jack)
+- Create SECURITY.md ([#1773](https://github.com/tj-actions/changed-files/issues/1773)) ([726e06f](https://github.com/tj-actions/changed-files/commit/726e06f8efc4737fd4c48080f40a21b4305cafab))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v6.13.2 ([d96fe5d](https://github.com/tj-actions/changed-files/commit/d96fe5d9975371a6b58e65d0a309ad49d70e378e))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.2.1 ([#1771](https://github.com/tj-actions/changed-files/issues/1771))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([4ae611e](https://github.com/tj-actions/changed-files/commit/4ae611e5c56a1c7f3c356adf173f9f11fcca0376))  - (tj-actions[bot])
+
 # [40.2.1](https://github.com/tj-actions/changed-files/compare/v40.2.0...v40.2.1) - (2023-12-04)
 
 ## <!-- 16 -->➕ Add
