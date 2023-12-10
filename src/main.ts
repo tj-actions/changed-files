@@ -144,7 +144,9 @@ const getChangedFilesFromLocalGitHistory = async ({
       workingDirectory,
       deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
       recoverPatterns,
-      sha: diffResult.previousSha
+      diffResult,
+      hasSubmodule,
+      submodulePaths
     })
   }
 
