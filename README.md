@@ -297,6 +297,12 @@ Support this project with a :star:
 
 [buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png
 
+> \[!IMPORTANT]
+>
+> *   When using `files_yaml*` inputs:
+>     *   All keys must start with a letter or `_` and contain only alphanumeric characters, `-`, or `_`.
+>         For example, `test` or `test_key` or `tesT-key` are all valid.
+
 ## Inputs ⚙️
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
@@ -606,10 +612,7 @@ Support this project with a :star:
 > \[!IMPORTANT]
 >
 > *   When using `files_yaml*` inputs:
->     *   All keys must start with a letter or `_` and contain only alphanumeric characters, `-`, or `_`.
->         For example, `test` or `test_key` or `tesT-key` are all valid.
->
->     *   it's important to prefix all outputs with the key to ensure that the correct outputs are accessible.
+>     *   it's required to prefix all outputs with the key to ensure that the correct outputs are accessible.
 >
 >         For example, if you use `test` as the key, you can access outputs like `added_files`, `any_changed`, and so on by prefixing them with the key `test_added_files` or `test_any_changed` etc.
 
