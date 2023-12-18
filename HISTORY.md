@@ -1,5 +1,36 @@
 # Changelog
 
+# [40.2.3](https://github.com/tj-actions/changed-files/compare/v40.2.2...v40.2.3) - (2023-12-18)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([af2816c](https://github.com/tj-actions/changed-files/commit/af2816c65436325c50621100d67f6e853cd1b0f1))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([35da2a2](https://github.com/tj-actions/changed-files/commit/35da2a2e0191eb945214321cc664869c14bb417d))  - (Tonye Jack)
+- Update README.md ([e7023fa](https://github.com/tj-actions/changed-files/commit/e7023fa1da70371f80732e85962d42429dbb753f))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update actions/setup-node action to v4.0.1 ([56284d8](https://github.com/tj-actions/changed-files/commit/56284d80811fb5963a972b438f2870f175e5b7c8))  - (renovate[bot])
+- **deps:** Lock file maintenance ([35ad678](https://github.com/tj-actions/changed-files/commit/35ad6787f51ccf58acdbbb0fa3a218043189e04a))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.10.5 ([ca0db0e](https://github.com/tj-actions/changed-files/commit/ca0db0ea03dfadeb55abbfe75f0f2a409c2b63a2))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.56.0 ([03fcd0b](https://github.com/tj-actions/changed-files/commit/03fcd0b3bbebef7d94f2dd168773ff4cfe07e4a8))  - (renovate[bot])
+- **deps:** Lock file maintenance ([2329d9f](https://github.com/tj-actions/changed-files/commit/2329d9fb48d2d2dec879a4880f6a786dabc3b600))  - (renovate[bot])
+- **deps:** Update actions/download-artifact action to v4 ([#1793](https://github.com/tj-actions/changed-files/issues/1793)) ([154ca89](https://github.com/tj-actions/changed-files/commit/154ca89d2ee4f46393b1d62a52384c81606c56c1))  - (renovate[bot])
+- **deps:** Update github/codeql-action action to v3 ([#1792](https://github.com/tj-actions/changed-files/issues/1792)) ([449352f](https://github.com/tj-actions/changed-files/commit/449352f10e90ac442b572b634237087e2deb2650))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.14.0 ([7c18263](https://github.com/tj-actions/changed-files/commit/7c1826332f68b8fda7e96b7897dda706c8c7ade8))  - (renovate[bot])
+- **deps:** Lock file maintenance ([88be287](https://github.com/tj-actions/changed-files/commit/88be287f562aea237fd7361d4c2af5c75bc4d9aa))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.1.1 ([5513a5e](https://github.com/tj-actions/changed-files/commit/5513a5e205776f7ce167db86c93107b21826247e))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.2.2 ([#1787](https://github.com/tj-actions/changed-files/issues/1787))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([46550b6](https://github.com/tj-actions/changed-files/commit/46550b6fd9d874e06d58f846c7f42cc7b84e4aba))  - (tj-actions[bot])
+
 # [40.2.2](https://github.com/tj-actions/changed-files/compare/v40.2.1...v40.2.2) - (2023-12-10)
 
 ## <!-- 1 -->🐛 Bug Fixes
