@@ -43,7 +43,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
   await setOutput({
     key: getOutputKey('added_files_count', outputPrefix),
@@ -64,7 +65,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -86,7 +88,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -108,7 +111,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -130,7 +134,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -152,7 +157,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -174,7 +180,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -199,7 +206,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -226,7 +234,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -314,7 +323,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({
@@ -419,7 +429,8 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 
   await setOutput({

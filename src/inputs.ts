@@ -34,6 +34,7 @@ export type Inputs = {
   dirNamesDeletedFilesIncludeOnlyDeletedDirs: boolean
   json: boolean
   escapeJson: boolean
+  safeOutput: boolean
   fetchDepth?: number
   fetchSubmoduleHistory: boolean
   sinceLastRemoteCommit: boolean
@@ -154,6 +155,7 @@ export const getInputs = (): Inputs => {
   )
   const json = core.getBooleanInput('json', {required: false})
   const escapeJson = core.getBooleanInput('escape_json', {required: false})
+  const safeOutput = core.getBooleanInput('safe_output', {required: false})
   const fetchDepth = core.getInput('fetch_depth', {required: false})
   const sinceLastRemoteCommit = core.getBooleanInput(
     'since_last_remote_commit',
@@ -272,6 +274,7 @@ export const getInputs = (): Inputs => {
     dirNamesIncludeFilesSeparator,
     json,
     escapeJson,
+    safeOutput,
     writeOutputFiles,
     outputDir,
     outputRenamedFilesAsDeletedAndAdded,

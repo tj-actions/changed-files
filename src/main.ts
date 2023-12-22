@@ -173,7 +173,8 @@ const getChangedFilesFromLocalGitHistory = async ({
       value: allOldNewRenamedFiles.paths,
       writeOutputFiles: inputs.writeOutputFiles,
       outputDir: inputs.outputDir,
-      json: inputs.json
+      json: inputs.json,
+      safeOutput: inputs.safeOutput
     })
     await setOutput({
       key: 'all_old_new_renamed_files_count',

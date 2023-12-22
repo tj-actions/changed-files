@@ -1324,7 +1324,8 @@ export const setArrayOutput = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json,
-    shouldEscape: inputs.escapeJson
+    shouldEscape: inputs.escapeJson,
+    safeOutput: inputs.safeOutput
   })
 }
 
@@ -1334,7 +1335,8 @@ export const setOutput = async ({
   writeOutputFiles,
   outputDir,
   json = false,
-  shouldEscape = false
+  shouldEscape = false,
+  safeOutput = false
 }: {
   key: string
   value: string | string[] | boolean
@@ -1342,12 +1344,18 @@ export const setOutput = async ({
   outputDir: string
   json?: boolean
   shouldEscape?: boolean
+  safeOutput?: boolean
 }): Promise<void> => {
   let cleanedValue
   if (json) {
     cleanedValue = jsonOutput({value, shouldEscape})
   } else {
     cleanedValue = value.toString().trim()
+  }
+
+  // if safeOutput is true, escape special characters for bash shell
+  if (safeOutput) {
+    cleanedValue = cleanedValue.replace(/[$()`|&;]/g, '\\$&')
   }
 
   core.setOutput(key, cleanedValue)

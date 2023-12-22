@@ -123,14 +123,19 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v40
+        with:
+          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
         
         # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
         # with:
         #   since_last_remote_commit: true 
 
       - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
           done
 
@@ -139,14 +144,18 @@ jobs:
         id: changed-markdown-files
         uses: tj-actions/changed-files@v40
         with:
+          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
           # Avoid using single or double quotes for multiline patterns
           files: |
              **.md
 
       - name: List all changed files markdown files
         if: steps.changed-markdown-files.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: |-
+            ${{ steps.changed-markdown-files.outputs.all_changed_files }}
         run: |
-          for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
+          for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
           done
 
@@ -155,6 +164,7 @@ jobs:
         id: changed-files-yaml
         uses: tj-actions/changed-files@v40
         with:
+          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
           files_yaml: |
             doc:
               - '**.md'
@@ -170,29 +180,39 @@ jobs:
       - name: Run step if test file(s) change
         # NOTE: Ensure all outputs are prefixed by the same key used above e.g. `test_(...)` | `doc_(...)` | `src_(...)` when trying to access the `any_changed` output.
         if: steps.changed-files-yaml.outputs.test_any_changed == 'true'  
+        env:
+          TEST_ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files-yaml.outputs.test_all_changed_files }}
         run: |
           echo "One or more test file(s) has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.test_all_changed_files }}"
+          echo "List all the files that have changed: $TEST_ALL_CHANGED_FILES"
       
       - name: Run step if doc file(s) change
         if: steps.changed-files-yaml.outputs.doc_any_changed == 'true'
+        env:
+          DOC_ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}
         run: |
           echo "One or more doc file(s) has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}"
+          echo "List all the files that have changed: $DOC_ALL_CHANGED_FILES"
 
       # Example 3
       - name: Get changed files in the docs folder
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
+          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
           files: docs/*.{js,html}  # Alternatively using: `docs/**`
           files_ignore: docs/static.js
 
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files-specific.outputs.all_changed_files }}
         run: |
           echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+          echo "List all the files that have changed: $ALL_CHANGED_FILES"
 ```
 
 #### Using Github's API :octocat:
@@ -224,10 +244,15 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v40
+        with:
+          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
 
       - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
           done
 ```
@@ -265,12 +290,17 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v40
+        with:
+          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
 
       # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
 
       - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
           done
       ...
@@ -715,10 +745,15 @@ See [inputs](#inputs) for more information.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v40
+      with:
+        safe_output: false
 
     - name: List all added files
+      env:
+        ADDED_FILES: |-
+          ${{ steps.changed-files.outputs.added_files }}
       run: |
-        for file in ${{ steps.changed-files.outputs.added_files }}; do
+        for file in "$ADDED_FILES"; do
           echo "$file was added"
         done
 ...
@@ -736,6 +771,8 @@ See [outputs](#outputs) for a list of all available outputs.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v40
+      with:
+        safe_output: false
 
     - name: Run a step if my-file.txt was modified
       if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
@@ -756,8 +793,9 @@ See [outputs](#outputs) for a list of all available outputs.
 
    - name: Get changed files and write the outputs to a Txt file
      id: changed-files-write-output-files-txt
-     uses: ./
+     uses: tj-actions/changed-files@v40
      with:
+       safe_output: false
        write_output_files: true
 
    - name: Verify the contents of the .github/outputs/added_files.txt file
@@ -775,8 +813,9 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
    - name: Get changed files and write the outputs to a JSON file
      id: changed-files-write-output-files-json
-     uses: ./
+     uses: tj-actions/changed-files@v40
      with:
+       safe_output: false
        json: true
        write_output_files: true
 
@@ -820,6 +859,7 @@ See [inputs](#inputs) for more information.
       id: changed-files-specific
       uses: tj-actions/changed-files@v40
       with:
+        safe_output: false
         files: |
           my-file.txt
           *.sh
@@ -840,15 +880,21 @@ See [inputs](#inputs) for more information.
 
     - name: Run step if any of the listed files above is deleted
       if: steps.changed-files-specific.outputs.any_deleted == 'true'
+      env:
+        DELETED_FILES: |-
+          ${{ steps.changed-files-specific.outputs.deleted_files }}
       run: |
-        for file in ${{ steps.changed-files-specific.outputs.deleted_files }}; do
+        for file in "$DELETED_FILES"; do
           echo "$file was deleted"
         done
 
     - name: Run step if all listed files above have been deleted
       if: steps.changed-files-specific.outputs.only_deleted == 'true'
+      env:
+        DELETED_FILES: |-
+          ${{ steps.changed-files-specific.outputs.deleted_files }}
       run: |
-        for file in ${{ steps.changed-files-specific.outputs.deleted_files }}; do
+        for file in "$DELETED_FILES"; do
           echo "$file was deleted"
         done
 ...
@@ -958,14 +1004,18 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
+          safe_output: false
           base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
           files: .github/**
 
       - name: Run step if any file(s) in the .github folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: |-
+            ${{ steps.changed-files-specific.outputs.all_changed_files }}
         run: |
           echo "One or more files in the .github folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+          echo "List all the files that have changed: $ALL_CHANGED_FILES"
 ...
 ```
 
@@ -988,11 +1038,15 @@ See [inputs](#inputs) for more information.
       id: changed-files-for-dir1
       uses: tj-actions/changed-files@v40
       with:
+        safe_output: false
         path: dir1
 
     - name: List all added files in dir1
+      env:
+        ADDED_FILES: |-
+          ${{ steps.changed-files-for-dir1.outputs.added_files }}
       run: |
-        for file in ${{ steps.changed-files-for-dir1.outputs.added_files }}; do
+        for file in "$ADDED_FILES"; do
           echo "$file was added"
         done
 ...
@@ -1015,7 +1069,7 @@ See [inputs](#inputs) for more information.
 
     - name: Run changed-files with quotepath disabled for a specified list of file(s)
       id: changed-files-quotepath-specific
-      uses: ./
+      uses: tj-actions/changed-files@v40
       with:
         files: test/test-è.txt
         quotepath: "false"

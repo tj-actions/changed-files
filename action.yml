@@ -134,6 +134,10 @@ inputs:
     description: "Escape JSON output."
     required: false
     default: "true"
+  safe_output:
+    description: "Apply sanitization to output filenames before being set as output."
+    required: false
+    default: "true"
   fetch_depth:
     description: "Depth of additional branch history fetched. NOTE: This can be adjusted to resolve errors with insufficient history."
     required: false
