@@ -1,5 +1,62 @@
 # Changelog
 
+# [41.0.0](https://github.com/tj-actions/changed-files/compare/v40.2.3...v41.0.0) - (2023-12-23)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update safe output regex and the docs ([#1805](https://github.com/tj-actions/changed-files/issues/1805)) ([ff2f6e6](https://github.com/tj-actions/changed-files/commit/ff2f6e6b91913a7be42be1b5917330fe442f2ede))  - (tj-actions[bot])
+
+## <!-- 11 -->⏪ Reverts
+
+- Revert "chore(deps): update actions/download-artifact action to v4" ([#1806](https://github.com/tj-actions/changed-files/issues/1806))
+
+ ([4f573fe](https://github.com/tj-actions/changed-files/commit/4f573fed06c9abb5da4c72f75c1c320718114ff7))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([6e79d6e](https://github.com/tj-actions/changed-files/commit/6e79d6e3dbe48946636c2939c80ff5c84ff7f9fe))  - (Tonye Jack)
+- Update README.md ([d13ac19](https://github.com/tj-actions/changed-files/commit/d13ac1942fb3c1d7d32017915bb082cebe8a272a))  - (Tonye Jack)
+- Update README.md ([bb89f97](https://github.com/tj-actions/changed-files/commit/bb89f97963be96b39e1a303e64d5b91a1af4c340))  - (Tonye Jack)
+- Updated README.md ([#1810](https://github.com/tj-actions/changed-files/issues/1810))
+
+Co-authored-by: renovate[bot] <renovate[bot]@users.noreply.github.com> ([1864078](https://github.com/tj-actions/changed-files/commit/1864078d0afadf68ba489e671ecc09fefe8b70ab))  - (tj-actions[bot])
+- Update README.md ([#1808](https://github.com/tj-actions/changed-files/issues/1808))
+
+ ([47371c5](https://github.com/tj-actions/changed-files/commit/47371c50e97c089212d9eb92ca26c8453224e78e))  - (Tonye Jack)
+
+## <!-- 30 -->📝 Other
+
+- Merge pull request from GHSA-mcph-m25j-8j63
+
+* feat: add `safe_output` input enabled by default
+
+* fix: migrate README to safe uses of interpolation
+
+* fix: README `uses` typo
+
+* fix: README examples to account for newlines
+
+* fix: README examples missing `safe_output`
+
+* fix: remove sanitization of `'`
+
+* fix: also sanitize `|&;` ([0102c07](https://github.com/tj-actions/changed-files/commit/0102c07446a3cad972f4afcbd0ee4dbc4b6d2d1b))  - (Jorge)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([f495a03](https://github.com/tj-actions/changed-files/commit/f495a0321d3fffa62da2573adf70b77d5eb2f57a))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.1.1 ([089842a](https://github.com/tj-actions/changed-files/commit/089842a7a899531f61a45ef6ea69c485e1d62dbe))  - (renovate[bot])
+- **deps:** Lock file maintenance ([787db06](https://github.com/tj-actions/changed-files/commit/787db0612e783421667a00319cf394b649682c4c))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.1.0 ([4ef6b56](https://github.com/tj-actions/changed-files/commit/4ef6b56482141a958bd3efb05520e4df9ecf4147))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.15.0 ([c9ae347](https://github.com/tj-actions/changed-files/commit/c9ae347dbba64d95d83f36a0568e0e25a688dd1f))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v40.2.3 ([#1800](https://github.com/tj-actions/changed-files/issues/1800))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([f9480db](https://github.com/tj-actions/changed-files/commit/f9480db177263c95588c5d9dae7c78f97d39242a))  - (tj-actions[bot])
+
 # [40.2.3](https://github.com/tj-actions/changed-files/compare/v40.2.2...v40.2.3) - (2023-12-18)
 
 ## <!-- 16 -->➕ Add
