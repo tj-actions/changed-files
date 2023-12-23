@@ -572,6 +572,12 @@ Support this project with a :star:
     # Default: "\n"
     recover_files_separator: ''
 
+    # Apply sanitization to output filenames before being set as 
+    # output. 
+    # Type: boolean
+    # Default: "true"
+    safe_output: ''
+
     # Split character for output strings.
     # Type: string
     # Default: " "
