@@ -233,13 +233,10 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v40
-        with:
-          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
 
       - name: List all changed files
         env:
-          ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
@@ -279,15 +276,11 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v40
-        with:
-          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
-
       # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
 
       - name: List all changed files
         env:
-          ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
