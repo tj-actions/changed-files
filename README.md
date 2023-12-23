@@ -709,6 +709,29 @@ The format of the version string is as follows:
 </details>
 
 <details>
+<summary>Get all changed files without escaping unsafe filename characters</summary>
+
+```yaml
+...
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v40
+      with:
+        safe_output: false # set to false because we are using an environment variable to store the output and avoid command injection.
+
+    - name: List all added files
+      env:
+        ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
+      run: |
+        for file in "$ADDED_FILES"; do
+          echo "$file was added"
+        done
+...
+```
+
+</details>
+
+<details>
 <summary>Get all changed files and use a comma separator</summary>
 
 ```yaml
@@ -733,13 +756,10 @@ See [inputs](#inputs) for more information.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v40
-      with:
-        safe_output: false
 
     - name: List all added files
       env:
-        ADDED_FILES: |-
-          ${{ steps.changed-files.outputs.added_files }}
+        ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
       run: |
         for file in "$ADDED_FILES"; do
           echo "$file was added"
@@ -759,8 +779,6 @@ See [outputs](#outputs) for a list of all available outputs.
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v40
-      with:
-        safe_output: false
 
     - name: Run a step if my-file.txt was modified
       if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
@@ -783,7 +801,6 @@ See [outputs](#outputs) for a list of all available outputs.
      id: changed-files-write-output-files-txt
      uses: tj-actions/changed-files@v40
      with:
-       safe_output: false
        write_output_files: true
 
    - name: Verify the contents of the .github/outputs/added_files.txt file
@@ -803,7 +820,6 @@ See [outputs](#outputs) for a list of all available outputs.
      id: changed-files-write-output-files-json
      uses: tj-actions/changed-files@v40
      with:
-       safe_output: false
        json: true
        write_output_files: true
 
@@ -847,7 +863,6 @@ See [inputs](#inputs) for more information.
       id: changed-files-specific
       uses: tj-actions/changed-files@v40
       with:
-        safe_output: false
         files: |
           my-file.txt
           *.sh
@@ -869,8 +884,7 @@ See [inputs](#inputs) for more information.
     - name: Run step if any of the listed files above is deleted
       if: steps.changed-files-specific.outputs.any_deleted == 'true'
       env:
-        DELETED_FILES: |-
-          ${{ steps.changed-files-specific.outputs.deleted_files }}
+        DELETED_FILES: ${{ steps.changed-files-specific.outputs.deleted_files }}
       run: |
         for file in "$DELETED_FILES"; do
           echo "$file was deleted"
@@ -879,8 +893,7 @@ See [inputs](#inputs) for more information.
     - name: Run step if all listed files above have been deleted
       if: steps.changed-files-specific.outputs.only_deleted == 'true'
       env:
-        DELETED_FILES: |-
-          ${{ steps.changed-files-specific.outputs.deleted_files }}
+        DELETED_FILES: ${{ steps.changed-files-specific.outputs.deleted_files }}
       run: |
         for file in "$DELETED_FILES"; do
           echo "$file was deleted"
@@ -992,15 +1005,13 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
-          safe_output: false
           base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
           files: .github/**
 
       - name: Run step if any file(s) in the .github folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         env:
-          ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files-specific.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files-specific.outputs.all_changed_files }}
         run: |
           echo "One or more files in the .github folder has changed."
           echo "List all the files that have changed: $ALL_CHANGED_FILES"
@@ -1026,7 +1037,6 @@ See [inputs](#inputs) for more information.
       id: changed-files-for-dir1
       uses: tj-actions/changed-files@v40
       with:
-        safe_output: false
         path: dir1
 
     - name: List all added files in dir1
