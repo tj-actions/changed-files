@@ -123,17 +123,13 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v40
-        with:
-          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
-        
         # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
         # with:
         #   since_last_remote_commit: true 
 
       - name: List all changed files
         env:
-          ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
@@ -144,7 +140,6 @@ jobs:
         id: changed-markdown-files
         uses: tj-actions/changed-files@v40
         with:
-          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
           # Avoid using single or double quotes for multiline patterns
           files: |
              **.md
@@ -152,8 +147,7 @@ jobs:
       - name: List all changed files markdown files
         if: steps.changed-markdown-files.outputs.any_changed == 'true'
         env:
-          ALL_CHANGED_FILES: |-
-            ${{ steps.changed-markdown-files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-markdown-files.outputs.all_changed_files }}
         run: |
           for file in "$ALL_CHANGED_FILES"; do
             echo "$file was changed"
@@ -164,7 +158,6 @@ jobs:
         id: changed-files-yaml
         uses: tj-actions/changed-files@v40
         with:
-          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
           files_yaml: |
             doc:
               - '**.md'
@@ -181,8 +174,7 @@ jobs:
         # NOTE: Ensure all outputs are prefixed by the same key used above e.g. `test_(...)` | `doc_(...)` | `src_(...)` when trying to access the `any_changed` output.
         if: steps.changed-files-yaml.outputs.test_any_changed == 'true'  
         env:
-          TEST_ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files-yaml.outputs.test_all_changed_files }}
+          TEST_ALL_CHANGED_FILES: ${{ steps.changed-files-yaml.outputs.test_all_changed_files }}
         run: |
           echo "One or more test file(s) has changed."
           echo "List all the files that have changed: $TEST_ALL_CHANGED_FILES"
@@ -190,8 +182,7 @@ jobs:
       - name: Run step if doc file(s) change
         if: steps.changed-files-yaml.outputs.doc_any_changed == 'true'
         env:
-          DOC_ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}
+          DOC_ALL_CHANGED_FILES: ${{ steps.changed-files-yaml.outputs.doc_all_changed_files }}
         run: |
           echo "One or more doc file(s) has changed."
           echo "List all the files that have changed: $DOC_ALL_CHANGED_FILES"
@@ -201,15 +192,13 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
-          safe_output: false # true by default, set to false because we are using an environment variable to store the output and avoid command injection.
           files: docs/*.{js,html}  # Alternatively using: `docs/**`
           files_ignore: docs/static.js
 
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         env:
-          ALL_CHANGED_FILES: |-
-            ${{ steps.changed-files-specific.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files-specific.outputs.all_changed_files }}
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: $ALL_CHANGED_FILES"
