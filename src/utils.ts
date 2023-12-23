@@ -1355,7 +1355,10 @@ export const setOutput = async ({
 
   // if safeOutput is true, escape special characters for bash shell
   if (safeOutput) {
-    cleanedValue = cleanedValue.replace(/[$()`|&;]/g, '\\$&')
+    cleanedValue = cleanedValue.replace(
+      /[^\x20-\x7E]|[/\\:*?"<>|;`$()&!]/g,
+      '\\$&'
+    )
   }
 
   core.setOutput(key, cleanedValue)
