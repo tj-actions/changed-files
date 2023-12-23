@@ -2829,7 +2829,7 @@ const setOutput = ({ key, value, writeOutputFiles, outputDir, json = false, shou
     }
     // if safeOutput is true, escape special characters for bash shell
     if (safeOutput) {
-        cleanedValue = cleanedValue.replace(/[^\x20-\x7E]|[/\\:*?"<>|;`$()&!]/g, '\\$&');
+        cleanedValue = cleanedValue.replace(/[^\x20-\x7E]|[:*?"<>|;`$()&!]/g, '\\$&');
     }
     core.setOutput(key, cleanedValue);
     if (writeOutputFiles) {
