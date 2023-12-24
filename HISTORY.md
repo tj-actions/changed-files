@@ -1,5 +1,21 @@
 # Changelog
 
+# [41.0.1](https://github.com/tj-actions/changed-files/compare/v41.0.0...v41.0.1) - (2023-12-24)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update characters escaped by safe output ([#1815](https://github.com/tj-actions/changed-files/issues/1815)) ([716b1e1](https://github.com/tj-actions/changed-files/commit/716b1e13042866565e00e85fd4ec490e186c4a2f))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency eslint-plugin-prettier to v5.1.2 ([7aaf10d](https://github.com/tj-actions/changed-files/commit/7aaf10d9eef19e8a2432a967b88124171152caaf))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v41 ([#1811](https://github.com/tj-actions/changed-files/issues/1811))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([cc08e17](https://github.com/tj-actions/changed-files/commit/cc08e170f4447237bcaf8acaacfa615b9cb86612))  - (tj-actions[bot])
+
 # [41.0.0](https://github.com/tj-actions/changed-files/compare/v40.2.3...v41.0.0) - (2023-12-23)
 
 ## <!-- 1 -->🐛 Bug Fixes
