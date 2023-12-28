@@ -162,7 +162,6 @@ jobs:
             doc:
               - '**.md'
               - docs/**
-              - README.md
             test:
               - test/**
               - '!test/**.md'
