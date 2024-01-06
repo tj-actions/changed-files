@@ -1,3 +1,4 @@
+name: Workflow Run Exmaple
 on:
   workflow_run:
     workflows: [Test changed-files]
