@@ -1847,7 +1847,8 @@ function run() {
         }
         else {
             if (!hasGitDirectory) {
-                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action");
+                core.info(`Running on a ${github.context.eventName} event...`);
+                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action. If you intend to use Github's REST API note that only pull_request* events are supported.");
                 return;
             }
             core.info('Using local .git directory');
