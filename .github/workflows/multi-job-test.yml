@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   changed-files:
-    name: "Get changed files using Github's REST API"
+    name: Get changed files
     runs-on: ubuntu-latest
     outputs:
       all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
