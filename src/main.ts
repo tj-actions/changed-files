@@ -279,8 +279,9 @@ export async function run(): Promise<void> {
     })
   } else {
     if (!hasGitDirectory) {
+      core.info(`Running on a ${github.context.eventName} event...`)
       core.setFailed(
-        "Can't find local .git directory. Please run actions/checkout before this action"
+        "Can't find local .git directory. Please run actions/checkout before this action. If you intend to use Github's REST API note that only pull_request* events are supported."
       )
       return
     }
