@@ -8,6 +8,9 @@ on:
     branches:
       - "**"
 
+permissions:
+  contents: read
+
 jobs:
   changed-files:
     name: "Get changed files using Github's REST API"
