@@ -247,6 +247,7 @@ export async function run(): Promise<void> {
     core.setFailed(
       "Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API."
     )
+    return
   }
 
   if (
