@@ -247,7 +247,7 @@ export async function run(): Promise<void> {
     core.setFailed(
       "Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API."
     )
-    return
+    process.exit(1)
   }
 
   if (
@@ -297,7 +297,7 @@ export async function run(): Promise<void> {
       core.setFailed(
         "Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported."
       )
-      return
+      process.exit(1)
     }
 
     core.info('Using local .git directory')
