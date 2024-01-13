@@ -53,6 +53,7 @@ export type Inputs = {
   failOnInitialDiffError: boolean
   failOnSubmoduleDiffError: boolean
   negationPatternsFirst: boolean
+  useRestApi: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -228,6 +229,10 @@ export const getInputs = (): Inputs => {
     }
   )
 
+  const useRestApi = core.getBooleanInput('use_rest_api', {
+    required: false
+  })
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -280,7 +285,8 @@ export const getInputs = (): Inputs => {
     outputRenamedFilesAsDeletedAndAdded,
     token,
     apiUrl,
-    negationPatternsFirst
+    negationPatternsFirst,
+    useRestApi
   }
 
   if (fetchDepth) {

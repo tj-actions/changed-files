@@ -203,6 +203,10 @@ inputs:
     description: "Github API URL."
     required: false
     default: ${{ github.api_url }}
+  use_rest_api:
+    description: "Force the use of Github's REST API even when a local copy of the repository exists"
+    required: false
+    default: "false"
   fail_on_initial_diff_error:
     description: "Fail when the initial diff fails."
     required: false
