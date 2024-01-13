@@ -4,6 +4,9 @@ on:
     workflows: [Matrix Test]
     types: [completed]
 
+permissions:
+  contents: read
+
 jobs:
   on-success:
     runs-on: ubuntu-latest
