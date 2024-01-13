@@ -602,6 +602,12 @@ Support this project with a :star:
     # Type: string
     until: ''
 
+    # Force the use of Github's REST API even when 
+    # a local copy of the repository exists 
+    # Type: boolean
+    # Default: "false"
+    use_rest_api: ''
+
     # Write outputs to the `output_dir` defaults to `.github/outputs` folder. 
     # NOTE: This creates a `.txt` file by default and 
     # a `.json` file if `json` is set to `true`. 
