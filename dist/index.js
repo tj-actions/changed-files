@@ -1553,6 +1553,9 @@ const getInputs = () => {
     const negationPatternsFirst = core.getBooleanInput('negation_patterns_first', {
         required: false
     });
+    const useRestApi = core.getBooleanInput('use_rest_api', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1605,7 +1608,8 @@ const getInputs = () => {
         outputRenamedFilesAsDeletedAndAdded,
         token,
         apiUrl,
-        negationPatternsFirst
+        negationPatternsFirst,
+        useRestApi
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -1793,7 +1797,7 @@ const getChangedFilesFromRESTAPI = ({ inputs, filePatterns, yamlFilePatterns }) 
     });
 });
 function run() {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         core.startGroup('changed-files');
         const env = yield (0, env_1.getEnv)();
@@ -1815,21 +1819,32 @@ function run() {
             workingDirectory
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+        if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
+            core.setFailed("Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API.");
+            process.exit(1);
+        }
         if (inputs.token &&
-            ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) &&
-            !hasGitDirectory) {
+            ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
+            (!hasGitDirectory || inputs.useRestApi)) {
             core.info("Using GitHub's REST API to get changed files");
             const unsupportedInputs = [
                 'sha',
                 'baseSha',
                 'since',
                 'until',
+                'path',
+                'quotePath',
+                'diffRelative',
                 'sinceLastRemoteCommit',
                 'recoverDeletedFiles',
                 'recoverDeletedFilesToDestination',
                 'recoverFiles',
+                'recoverFilesSeparator',
                 'recoverFilesIgnore',
+                'recoverFilesIgnoreSeparator',
                 'includeAllOldNewRenamedFiles',
+                'oldNewSeparator',
+                'oldNewFilesSeparator',
                 'skipInitialFetch',
                 'fetchSubmoduleHistory',
                 'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
@@ -1848,8 +1863,8 @@ function run() {
         else {
             if (!hasGitDirectory) {
                 core.info(`Running on a ${github.context.eventName} event...`);
-                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action. If you intend to use Github's REST API note that only pull_request* events are supported.");
-                return;
+                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.");
+                process.exit(1);
             }
             core.info('Using local .git directory');
             yield getChangedFilesFromLocalGitHistory({

@@ -243,10 +243,16 @@ export async function run(): Promise<void> {
   })
   core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
+  if (inputs.useRestApi && !github.context.payload.pull_request?.number) {
+    throw new Error(
+      "Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API."
+    )
+  }
+
   if (
     inputs.token &&
     github.context.payload.pull_request?.number &&
-    !hasGitDirectory
+    (!hasGitDirectory || inputs.useRestApi)
   ) {
     core.info("Using GitHub's REST API to get changed files")
     const unsupportedInputs: (keyof Inputs)[] = [
@@ -254,12 +260,19 @@ export async function run(): Promise<void> {
       'baseSha',
       'since',
       'until',
+      'path',
+      'quotePath',
+      'diffRelative',
       'sinceLastRemoteCommit',
       'recoverDeletedFiles',
       'recoverDeletedFilesToDestination',
       'recoverFiles',
+      'recoverFilesSeparator',
       'recoverFilesIgnore',
+      'recoverFilesIgnoreSeparator',
       'includeAllOldNewRenamedFiles',
+      'oldNewSeparator',
+      'oldNewFilesSeparator',
       'skipInitialFetch',
       'fetchSubmoduleHistory',
       'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
@@ -280,10 +293,9 @@ export async function run(): Promise<void> {
   } else {
     if (!hasGitDirectory) {
       core.info(`Running on a ${github.context.eventName} event...`)
-      core.setFailed(
-        "Can't find local .git directory. Please run actions/checkout before this action. If you intend to use Github's REST API note that only pull_request* events are supported."
+      throw new Error(
+        "Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported."
       )
-      return
     }
 
     core.info('Using local .git directory')
@@ -302,5 +314,6 @@ if (!process.env.TESTING) {
   // eslint-disable-next-line github/no-then
   run().catch(e => {
     core.setFailed(e.message || e)
+    process.exit(1)
   })
 }
