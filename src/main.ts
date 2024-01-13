@@ -243,6 +243,12 @@ export async function run(): Promise<void> {
   })
   core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
+  if (inputs.useRestApi && !github.context.payload.pull_request?.number) {
+    core.setFailed(
+      "Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API."
+    )
+  }
+
   if (
     inputs.token &&
     github.context.payload.pull_request?.number &&
