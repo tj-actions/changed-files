@@ -3,14 +3,14 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import * as github from '@actions/github'
 import {createReadStream, promises as fs} from 'fs'
-import {readFile} from 'fs/promises'
-import {flattenDeep} from 'lodash'
+import {flattenDeep, snakeCase} from 'lodash'
 import mm from 'micromatch'
 import * as path from 'path'
 import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 import {DiffResult} from './commitSha'
+import {UNSUPPORTED_REST_API_INPUTS} from './constants'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -285,6 +285,7 @@ export const submoduleExists = async ({
  * Fetches the git repository
  * @param args - arguments for fetch command
  * @param cwd - working directory
+ * @returns exit code
  */
 export const gitFetch = async ({
   args,
@@ -333,6 +334,7 @@ export const gitFetchSubmodules = async ({
 /**
  * Retrieves all the submodule paths
  * @param cwd - working directory
+ * @returns submodule paths
  */
 export const getSubmodulePath = async ({
   cwd
@@ -367,6 +369,7 @@ export const getSubmodulePath = async ({
  * @param parentSha2 - parent commit sha
  * @param submodulePath - path of submodule
  * @param diff - diff type between parent commits (`..` or `...`)
+ * @returns commit sha of submodule
  */
 export const gitSubmoduleDiffSHA = async ({
   cwd,
@@ -1128,7 +1131,7 @@ const getYamlFilePatternsFromContents = async ({
       throw new Error(`File does not exist: ${filePath}`)
     }
 
-    source = await readFile(filePath, 'utf8')
+    source = await fs.readFile(filePath, 'utf8')
   } else {
     source = content
   }
@@ -1491,6 +1494,12 @@ export const recoverDeletedFiles = async ({
   }
 }
 
+/**
+ * Determines whether the specified working directory has a local Git directory.
+ *
+ * @param workingDirectory - The path of the working directory.
+ * @returns A boolean value indicating whether the working directory has a local Git directory.
+ */
 export const hasLocalGitDirectory = async ({
   workingDirectory
 }: {
@@ -1499,4 +1508,58 @@ export const hasLocalGitDirectory = async ({
   return await isInsideWorkTree({
     cwd: workingDirectory
   })
+}
+
+/**
+ * Warns about unsupported inputs when using the REST API.
+ *
+ * @param actionPath - The path to the action file.
+ * @param inputs - The inputs object.
+ */
+export const warnUnsupportedRESTAPIInputs = async ({
+  actionPath,
+  inputs
+}: {
+  actionPath: string
+  inputs: Inputs
+}): Promise<void> => {
+  const actionContents = await fs.readFile(actionPath, 'utf8')
+  const actionYaml = parseDocument(actionContents, {schema: 'failsafe'})
+
+  if (actionYaml.errors.length > 0) {
+    throw new Error(
+      `YAML errors in ${actionPath}: ${actionYaml.errors.join(', ')}`
+    )
+  }
+
+  if (actionYaml.warnings.length > 0) {
+    throw new Error(
+      `YAML warnings in ${actionPath}: ${actionYaml.warnings.join(', ')}`
+    )
+  }
+
+  const action = actionYaml.toJS() as {
+    inputs: {
+      [key: string]: {description: string; required: boolean; default: string}
+    }
+  }
+
+  const actionInputs = action.inputs
+
+  for (const key of UNSUPPORTED_REST_API_INPUTS) {
+    const inputKey = snakeCase(key) as keyof Inputs
+
+    const defaultValue = Object.hasOwnProperty.call(
+      actionInputs[inputKey],
+      'default'
+    )
+      ? actionInputs[inputKey].default.toString()
+      : ''
+
+    if (defaultValue !== inputs[key]?.toString()) {
+      core.warning(
+        `Input "${inputKey}" is not supported when using GitHub's REST API to get changed files`
+      )
+    }
+  }
 }
