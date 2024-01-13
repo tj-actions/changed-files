@@ -1,5 +1,58 @@
 # Changelog
 
+# [41.1.0](https://github.com/tj-actions/changed-files/compare/v41.0.1...v41.1.0) - (2024-01-13)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for forcing the use of GitHub’s REST API ([#1849](https://github.com/tj-actions/changed-files/issues/1849)) ([0ca1c07](https://github.com/tj-actions/changed-files/commit/0ca1c07b47b66abe421382a891da70a506e60e8a))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Permission with release workflow ([#1851](https://github.com/tj-actions/changed-files/issues/1851)) ([8e0194b](https://github.com/tj-actions/changed-files/commit/8e0194b29bc4bb6dd2338b6b7b915c56c2df6f58))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1850](https://github.com/tj-actions/changed-files/issues/1850))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([3649d28](https://github.com/tj-actions/changed-files/commit/3649d2842d46e7cc679c204d917887f7821cf08a))  - (tj-actions[bot])
+- Updated README.md ([#1830](https://github.com/tj-actions/changed-files/issues/1830))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([3fbf5fb](https://github.com/tj-actions/changed-files/commit/3fbf5fb588c7e1fdbc140668150a2b725984c6ed))  - (tj-actions[bot])
+- Update README.md ([9523067](https://github.com/tj-actions/changed-files/commit/95230678db8c15d57cd678fbcd2a7e87e83ac1e1))  - (Tonye Jack)
+- Update README.md ([032add1](https://github.com/tj-actions/changed-files/commit/032add13e8e88878dc3238258baee58dcb4a528a))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update top level workflow permissions ([#1848](https://github.com/tj-actions/changed-files/issues/1848)) ([a57f4dc](https://github.com/tj-actions/changed-files/commit/a57f4dcc814fa55691c9ee5fc6e07c7487cb69f1))  - (Tonye Jack)
+- **deps:** Update dependency prettier to v3.2.1 ([9c39b0b](https://github.com/tj-actions/changed-files/commit/9c39b0b6e9d3a1e534a35da2e6142c8b1d0204b3))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.6.3 ([8b141f3](https://github.com/tj-actions/changed-files/commit/8b141f390680a108c54963421dbc9ed587516859))  - (renovate[bot])
+- Create multi-job-test.yml ([#1843](https://github.com/tj-actions/changed-files/issues/1843)) ([17e07d8](https://github.com/tj-actions/changed-files/commit/17e07d8bc032c41929a28e4ac0180f5fd41e62e8))  - (Tonye Jack)
+- Update warning message ([#1845](https://github.com/tj-actions/changed-files/issues/1845)) ([13fa1c0](https://github.com/tj-actions/changed-files/commit/13fa1c06fc72cd769f43877df4deb2fcef0070bf))  - (Tonye Jack)
+- **deps:** Update dependency prettier to v3.2.0 ([0deb29d](https://github.com/tj-actions/changed-files/commit/0deb29d192a79307172c8ca2af53b9163e1f2dce))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.0 ([28267ee](https://github.com/tj-actions/changed-files/commit/28267ee8b7e9d0a1510577b3da5c95991e566f8d))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.6.2 ([094d344](https://github.com/tj-actions/changed-files/commit/094d3441f851cdd60b3184c559065cff58998103))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.1.3 ([aeec36b](https://github.com/tj-actions/changed-files/commit/aeec36b0354dca21f43136a2a5be79815ad013b9))  - (renovate[bot])
+- **deps-dev:** Bump @types/node from 20.10.7 to 20.10.8 ([#1836](https://github.com/tj-actions/changed-files/issues/1836)) ([2d0270c](https://github.com/tj-actions/changed-files/commit/2d0270c489bf57145dd4a63d0a5fcf35a7147bc3))  - (dependabot[bot])
+- **deps:** Update typescript-eslint monorepo to v6.18.1 ([0e0adfa](https://github.com/tj-actions/changed-files/commit/0e0adfa0d3cc3663f8db2d833bbec96034e98250))  - (renovate[bot])
+- Update jest.config.js ([#1834](https://github.com/tj-actions/changed-files/issues/1834)) ([5313e6b](https://github.com/tj-actions/changed-files/commit/5313e6bbe36db02444adb6db8803c3fb020fbeef))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([54789be](https://github.com/tj-actions/changed-files/commit/54789be3a182749c98b3750327225ef16ae72b85))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.10.7 ([1675238](https://github.com/tj-actions/changed-files/commit/1675238cfd53ec058721786adb67a77f56f46987))  - (renovate[bot])
+- Create workflow-run-test.yml ([#1828](https://github.com/tj-actions/changed-files/issues/1828)) ([fdccafb](https://github.com/tj-actions/changed-files/commit/fdccafbb6e5c278dc3360f8a44f7c2878206751f))  - (Tonye Jack)
+- **deps:** Update typescript-eslint monorepo to v6.18.0 ([0e8d796](https://github.com/tj-actions/changed-files/commit/0e8d796ee02804f613950c68e90685e43f22c9d5))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v27.6.1 ([0c6f2ac](https://github.com/tj-actions/changed-files/commit/0c6f2ac4885216b1830ecbcc3573209980c97716))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.17.0 ([1db97ad](https://github.com/tj-actions/changed-files/commit/1db97adba438afdc3741c78fd02aa2ac621332b0))  - (renovate[bot])
+- **deps:** Lock file maintenance ([fb8f6db](https://github.com/tj-actions/changed-files/commit/fb8f6db383582a9d4ee2fadc1601db53b2fe1c2b))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.10.6 ([efd7ece](https://github.com/tj-actions/changed-files/commit/efd7ecef11e1ce94fc5121243c09ad2be618d175))  - (renovate[bot])
+- **deps:** Update tj-actions/verify-changed-files action to v17 ([#1820](https://github.com/tj-actions/changed-files/issues/1820)) ([4f8e12c](https://github.com/tj-actions/changed-files/commit/4f8e12c0984394b03e7c4015292f8f644e2e5426))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.16.0 ([0f0747e](https://github.com/tj-actions/changed-files/commit/0f0747e79dd8b1e79730cb9aeb9adbc1d45b79da))  - (renovate[bot])
+- Update matrix-test.yml ([#1814](https://github.com/tj-actions/changed-files/issues/1814)) ([0c2a758](https://github.com/tj-actions/changed-files/commit/0c2a758b81c9fe6c9dc0b17f46d87e68707e8054))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v41.0.1 ([#1816](https://github.com/tj-actions/changed-files/issues/1816))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([1b6d7b6](https://github.com/tj-actions/changed-files/commit/1b6d7b6fb62c81ae85b9114bbb15ebeb21c2833d))  - (tj-actions[bot])
+
 # [41.0.1](https://github.com/tj-actions/changed-files/compare/v41.0.0...v41.0.1) - (2023-12-24)
 
 ## <!-- 1 -->🐛 Bug Fixes
