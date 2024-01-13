@@ -246,7 +246,7 @@ export async function run(): Promise<void> {
   if (
     inputs.token &&
     github.context.payload.pull_request?.number &&
-    !hasGitDirectory
+    (!hasGitDirectory || inputs.useRestApi)
   ) {
     core.info("Using GitHub's REST API to get changed files")
     const unsupportedInputs: (keyof Inputs)[] = [
@@ -281,7 +281,7 @@ export async function run(): Promise<void> {
     if (!hasGitDirectory) {
       core.info(`Running on a ${github.context.eventName} event...`)
       core.setFailed(
-        "Can't find local .git directory. Please run actions/checkout before this action. If you intend to use Github's REST API note that only pull_request* events are supported."
+        "Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported."
       )
       return
     }
