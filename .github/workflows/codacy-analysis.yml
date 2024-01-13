@@ -18,7 +18,9 @@ on:
     - cron: '15 16 * * 2'
 
 permissions:
-   contents: read
+  actions: read
+  contents: read
+  security-events: write
 
 jobs:
   codacy-security-scan:
