@@ -8,9 +8,6 @@
 
 name: Codacy Security Scan
 
-permissions:
-   contents: read
-
 on:
   push:
     branches: [ main ]
@@ -19,6 +16,9 @@ on:
     branches: [ main ]
   schedule:
     - cron: '15 16 * * 2'
+
+permissions:
+   contents: read
 
 jobs:
   codacy-security-scan:
