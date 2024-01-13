@@ -10,7 +10,7 @@ import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 import {DiffResult} from './commitSha'
-import {UNSUPPORTED_REST_API_INPUTS} from './constants'
+import {UNSUPPORTED_REST_API_INPUTS} from './constant'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
