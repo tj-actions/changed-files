@@ -2,6 +2,7 @@ name: Update release version
 
 permissions:
    contents: read
+   pull-requests: write
 
 on:
   release:
