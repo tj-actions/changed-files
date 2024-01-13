@@ -1820,7 +1820,7 @@ function run() {
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
-            throw new Error("Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API.");
+            throw new Error("Only pull_request* events are supported when using GitHub's REST API.");
         }
         if (inputs.token &&
             ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
