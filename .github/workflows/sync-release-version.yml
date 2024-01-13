@@ -1,4 +1,9 @@
-name: Update release version.
+name: Update release version
+
+permissions:
+   contents: read
+   pull-requests: write
+
 on:
   release:
     types: [published]

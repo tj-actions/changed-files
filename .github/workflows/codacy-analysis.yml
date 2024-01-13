@@ -17,6 +17,11 @@ on:
   schedule:
     - cron: '15 16 * * 2'
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
 jobs:
   codacy-security-scan:
     # Cancel other workflows that are running for the same branch
