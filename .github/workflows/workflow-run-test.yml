@@ -1,4 +1,4 @@
-name: Workflow Run Exmaple
+name: Workflow Run Example
 on:
   workflow_run:
     workflows: [Matrix Test]

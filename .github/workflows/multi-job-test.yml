@@ -50,7 +50,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        continue-on-error: ${{ github.event_name -= 'push' }}
+        continue-on-error: ${{ github.event_name == 'push' }}
         uses: ./
         with:
           use_rest_api: true
