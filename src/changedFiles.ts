@@ -166,7 +166,7 @@ export const getRenamedFiles = async ({
           }))
         ) {
           let message = `Unable to use three dot diff for: ${submodulePath} submodule. Falling back to two dot diff. You can set 'fetch_additional_submodule_history: true' to fetch additional submodule history in order to use three dot diff`
-          if (inputs.fetchSubmoduleHistory) {
+          if (inputs.fetchAdditionalSubmoduleHistory) {
             message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`
           }
           core.info(message)
@@ -221,7 +221,7 @@ export const getAllDiffFiles = async ({
   diffResult,
   submodulePaths,
   outputRenamedFilesAsDeletedAndAdded,
-  fetchSubmoduleHistory,
+  fetchAdditionalSubmoduleHistory,
   failOnInitialDiffError,
   failOnSubmoduleDiffError
 }: {
@@ -230,7 +230,7 @@ export const getAllDiffFiles = async ({
   diffResult: DiffResult
   submodulePaths: string[]
   outputRenamedFilesAsDeletedAndAdded: boolean
-  fetchSubmoduleHistory: boolean
+  fetchAdditionalSubmoduleHistory: boolean
   failOnInitialDiffError: boolean
   failOnSubmoduleDiffError: boolean
 }): Promise<ChangedFiles> => {
@@ -270,7 +270,7 @@ export const getAllDiffFiles = async ({
           }))
         ) {
           let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
-          if (fetchSubmoduleHistory) {
+          if (fetchAdditionalSubmoduleHistory) {
             message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`
           }
           core.warning(message)

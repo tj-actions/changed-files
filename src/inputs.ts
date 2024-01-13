@@ -24,7 +24,7 @@ export type Inputs = {
   since: string
   until: string
   path: string
-  quotePath: boolean
+  quotepath: boolean
   diffRelative: boolean
   dirNames: boolean
   dirNamesMaxDepth?: number
@@ -36,7 +36,7 @@ export type Inputs = {
   escapeJson: boolean
   safeOutput: boolean
   fetchDepth?: number
-  fetchSubmoduleHistory: boolean
+  fetchAdditionalSubmoduleHistory: boolean
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
   outputDir: string
@@ -132,7 +132,7 @@ export const getInputs = (): Inputs => {
   const since = core.getInput('since', {required: false})
   const until = core.getInput('until', {required: false})
   const path = core.getInput('path', {required: false})
-  const quotePath = core.getBooleanInput('quotepath', {required: false})
+  const quotepath = core.getBooleanInput('quotepath', {required: false})
   const diffRelative = core.getBooleanInput('diff_relative', {required: false})
   const dirNames = core.getBooleanInput('dir_names', {required: false})
   const dirNamesMaxDepth = core.getInput('dir_names_max_depth', {
@@ -197,7 +197,7 @@ export const getInputs = (): Inputs => {
   const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
     required: false
   })
-  const fetchSubmoduleHistory = core.getBooleanInput(
+  const fetchAdditionalSubmoduleHistory = core.getBooleanInput(
     'fetch_additional_submodule_history',
     {
       required: false
@@ -257,7 +257,7 @@ export const getInputs = (): Inputs => {
     since,
     until,
     path,
-    quotePath,
+    quotepath,
     diffRelative,
     sinceLastRemoteCommit,
     recoverDeletedFiles,
@@ -270,7 +270,7 @@ export const getInputs = (): Inputs => {
     oldNewSeparator,
     oldNewFilesSeparator,
     skipInitialFetch,
-    fetchSubmoduleHistory,
+    fetchAdditionalSubmoduleHistory,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     // End Not Supported via REST API
     dirNames,

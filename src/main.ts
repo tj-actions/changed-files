@@ -26,7 +26,8 @@ import {
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
-  verifyMinimumGitVersion
+  verifyMinimumGitVersion,
+  warnUnsupportedRESTAPIInputs
 } from './utils'
 
 const getChangedFilesFromLocalGitHistory = async ({
@@ -44,15 +45,15 @@ const getChangedFilesFromLocalGitHistory = async ({
 }): Promise<void> => {
   await verifyMinimumGitVersion()
 
-  let quotePathValue = 'on'
+  let quotepathValue = 'on'
 
-  if (!inputs.quotePath) {
-    quotePathValue = 'off'
+  if (!inputs.quotepath) {
+    quotepathValue = 'off'
   }
 
   await updateGitGlobalConfig({
     name: 'core.quotepath',
-    value: quotePathValue
+    value: quotepathValue
   })
 
   if (inputs.diffRelative) {
@@ -123,7 +124,7 @@ const getChangedFilesFromLocalGitHistory = async ({
     diffResult,
     submodulePaths,
     outputRenamedFilesAsDeletedAndAdded,
-    fetchSubmoduleHistory: inputs.fetchSubmoduleHistory,
+    fetchAdditionalSubmoduleHistory: inputs.fetchAdditionalSubmoduleHistory,
     failOnInitialDiffError: inputs.failOnInitialDiffError,
     failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError
   })
@@ -255,35 +256,11 @@ export async function run(): Promise<void> {
     (!hasGitDirectory || inputs.useRestApi)
   ) {
     core.info("Using GitHub's REST API to get changed files")
-    const unsupportedInputs: (keyof Inputs)[] = [
-      'sha',
-      'baseSha',
-      'since',
-      'until',
-      'path',
-      'quotePath',
-      'diffRelative',
-      'sinceLastRemoteCommit',
-      'recoverDeletedFiles',
-      'recoverDeletedFilesToDestination',
-      'recoverFiles',
-      'recoverFilesSeparator',
-      'recoverFilesIgnore',
-      'recoverFilesIgnoreSeparator',
-      'includeAllOldNewRenamedFiles',
-      'oldNewSeparator',
-      'oldNewFilesSeparator',
-      'skipInitialFetch',
-      'fetchSubmoduleHistory',
-      'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
-    ]
-
-    for (const input of unsupportedInputs) {
-      if (inputs[input]) {
-        core.warning(
-          `Input "${input}" is not supported when using GitHub's REST API to get changed files`
-        )
-      }
+    if (process.env.GITHUB_ACTION_PATH) {
+      await warnUnsupportedRESTAPIInputs({
+        actionPath: process.env.GITHUB_ACTION_PATH,
+        inputs
+      })
     }
     await getChangedFilesFromRESTAPI({
       inputs,

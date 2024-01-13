@@ -152,7 +152,7 @@ export const getSHAForNonPullRequestEvent = async (
         })
       }
     } else {
-      if (hasSubmodule && inputs.fetchSubmoduleHistory) {
+      if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
@@ -382,7 +382,7 @@ export const getSHAForPullRequestEvent = async (
         }
       }
     } else {
-      if (hasSubmodule && inputs.fetchSubmoduleHistory) {
+      if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
