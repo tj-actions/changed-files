@@ -244,10 +244,9 @@ export async function run(): Promise<void> {
   core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
   if (inputs.useRestApi && !github.context.payload.pull_request?.number) {
-    core.setFailed(
+    throw new Error(
       "Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API."
     )
-    process.exit(1)
   }
 
   if (
@@ -294,10 +293,9 @@ export async function run(): Promise<void> {
   } else {
     if (!hasGitDirectory) {
       core.info(`Running on a ${github.context.eventName} event...`)
-      core.setFailed(
+      throw new Error(
         "Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported."
       )
-      process.exit(1)
     }
 
     core.info('Using local .git directory')
@@ -316,5 +314,6 @@ if (!process.env.TESTING) {
   // eslint-disable-next-line github/no-then
   run().catch(e => {
     core.setFailed(e.message || e)
+    process.exit(1)
   })
 }
