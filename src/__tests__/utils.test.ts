@@ -583,7 +583,7 @@ describe('utils test', () => {
   })
 
   describe('warnUnsupportedRESTAPIInputs', () => {
-    // Warns about unsupported inputs when using the REST API and all inputs are supported.
+    // Warns about unsupported inputs when using the REST API.
     it('should warn about unsupported inputs when all inputs are supported', async () => {
       const inputs: Inputs = {
         files: '',
