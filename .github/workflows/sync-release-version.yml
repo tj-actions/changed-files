@@ -1,7 +1,7 @@
 name: Update release version
 
 permissions:
-   contents: read
+   contents: write
    pull-requests: write
 
 on:
