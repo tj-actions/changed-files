@@ -1,12 +1,18 @@
+import * as core from '@actions/core'
+import {promises as fs} from 'fs'
+import path from 'path'
 import {ChangeTypeEnum} from '../changedFiles'
+import {Inputs} from '../inputs'
 import {
   getDirname,
   getDirnameMaxDepth,
   getFilteredChangedFiles,
-  normalizeSeparators
+  normalizeSeparators,
+  warnUnsupportedRESTAPIInputs
 } from '../utils'
 
 const originalPlatform = process.platform
+const ACTION_PATH = path.resolve(__dirname, '..', '..', 'action.yml')
 
 function mockedPlatform(platform: string): void {
   Object.defineProperty(process, 'platform', {
@@ -573,6 +579,162 @@ describe('utils test', () => {
         filePatterns
       })
       expect(filteredFiles[ChangeTypeEnum.Modified]).toEqual([])
+    })
+  })
+
+  describe('warnUnsupportedRESTAPIInputs', () => {
+    // Warns about unsupported inputs when using the REST API.
+    it('should warn about unsupported inputs when all inputs are supported', async () => {
+      const inputs: Inputs = {
+        files: '',
+        filesSeparator: '\n',
+        filesFromSourceFile: '',
+        filesFromSourceFileSeparator: '\n',
+        filesYaml: '',
+        filesYamlFromSourceFile: '',
+        filesYamlFromSourceFileSeparator: '\n',
+        filesIgnore: '',
+        filesIgnoreSeparator: '\n',
+        filesIgnoreFromSourceFile: '',
+        filesIgnoreFromSourceFileSeparator: '\n',
+        filesIgnoreYaml: '',
+        filesIgnoreYamlFromSourceFile: '',
+        filesIgnoreYamlFromSourceFileSeparator: '\n',
+        separator: ' ',
+        includeAllOldNewRenamedFiles: false,
+        oldNewSeparator: ',',
+        oldNewFilesSeparator: ' ',
+        sha: '1313123',
+        baseSha: '',
+        since: '',
+        until: '',
+        path: '.',
+        quotepath: true,
+        diffRelative: true,
+        dirNames: false,
+        dirNamesMaxDepth: undefined,
+        dirNamesExcludeCurrentDir: false,
+        dirNamesIncludeFiles: '',
+        dirNamesIncludeFilesSeparator: '\n',
+        dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
+        json: false,
+        escapeJson: true,
+        safeOutput: true,
+        fetchDepth: 50,
+        fetchAdditionalSubmoduleHistory: false,
+        sinceLastRemoteCommit: false,
+        writeOutputFiles: false,
+        outputDir: '.github/outputs',
+        outputRenamedFilesAsDeletedAndAdded: false,
+        recoverDeletedFiles: false,
+        recoverDeletedFilesToDestination: '',
+        recoverFiles: '',
+        recoverFilesSeparator: '\n',
+        recoverFilesIgnore: '',
+        recoverFilesIgnoreSeparator: '\n',
+        token: '${{ github.token }}',
+        apiUrl: '${{ github.api_url }}',
+        skipInitialFetch: false,
+        failOnInitialDiffError: false,
+        failOnSubmoduleDiffError: false,
+        negationPatternsFirst: false,
+        useRestApi: false
+      }
+
+      const coreWarningSpy = jest.spyOn(core, 'warning')
+
+      await warnUnsupportedRESTAPIInputs({
+        actionPath: ACTION_PATH,
+        inputs
+      })
+
+      expect(coreWarningSpy).toHaveBeenCalledWith(
+        'Input "sha" is not supported when using GitHub\'s REST API to get changed files'
+      )
+    })
+
+    // Throws an error if there are YAML errors in the action file.
+    it('should throw an error if there are YAML errors in the action file', async () => {
+      const actionPath = './path/to/action.yml'
+      const inputs: Inputs = {
+        files: '',
+        filesSeparator: '\n',
+        filesFromSourceFile: '',
+        filesFromSourceFileSeparator: '\n',
+        filesYaml: '',
+        filesYamlFromSourceFile: '',
+        filesYamlFromSourceFileSeparator: '\n',
+        filesIgnore: '',
+        filesIgnoreSeparator: '\n',
+        filesIgnoreFromSourceFile: '',
+        filesIgnoreFromSourceFileSeparator: '\n',
+        filesIgnoreYaml: '',
+        filesIgnoreYamlFromSourceFile: '',
+        filesIgnoreYamlFromSourceFileSeparator: '\n',
+        separator: ' ',
+        includeAllOldNewRenamedFiles: false,
+        oldNewSeparator: ',',
+        oldNewFilesSeparator: ' ',
+        sha: '1313123',
+        baseSha: '',
+        since: '',
+        until: '',
+        path: '.',
+        quotepath: true,
+        diffRelative: true,
+        dirNames: false,
+        dirNamesMaxDepth: undefined,
+        dirNamesExcludeCurrentDir: false,
+        dirNamesIncludeFiles: '',
+        dirNamesIncludeFilesSeparator: '\n',
+        dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
+        json: false,
+        escapeJson: true,
+        safeOutput: true,
+        fetchDepth: 50,
+        fetchAdditionalSubmoduleHistory: false,
+        sinceLastRemoteCommit: false,
+        writeOutputFiles: false,
+        outputDir: '.github/outputs',
+        outputRenamedFilesAsDeletedAndAdded: false,
+        recoverDeletedFiles: false,
+        recoverDeletedFilesToDestination: '',
+        recoverFiles: '',
+        recoverFilesSeparator: '\n',
+        recoverFilesIgnore: '',
+        recoverFilesIgnoreSeparator: '\n',
+        token: '${{ github.token }}',
+        apiUrl: '${{ github.api_url }}',
+        skipInitialFetch: false,
+        failOnInitialDiffError: false,
+        failOnSubmoduleDiffError: false,
+        negationPatternsFirst: false,
+        useRestApi: false
+      }
+
+      // Mocking readFile to return action file contents with errors
+      jest.spyOn(fs, 'readFile').mockResolvedValue(`
+        inputs:
+          files:
+            description: Files
+            required: true
+            default: ""
+          sha:
+            description: SHA
+            required: true
+            default: abc123
+          token:
+            description: Token
+            required: true
+            default: my-token
+        warnings:
+          | Invalid input value`)
+
+      await expect(
+        warnUnsupportedRESTAPIInputs({actionPath, inputs})
+      ).rejects.toThrow(
+        /YAML errors in .\/path\/to\/action.yml: YAMLParseError: Not a YAML token: Invalid input value at line 16, column 13:/
+      )
     })
   })
 })

@@ -157,7 +157,7 @@ const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, s
                     diff
                 }))) {
                     let message = `Unable to use three dot diff for: ${submodulePath} submodule. Falling back to two dot diff. You can set 'fetch_additional_submodule_history: true' to fetch additional submodule history in order to use three dot diff`;
-                    if (inputs.fetchSubmoduleHistory) {
+                    if (inputs.fetchAdditionalSubmoduleHistory) {
                         message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`;
                     }
                     core.info(message);
@@ -199,7 +199,7 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) => __awaiter(void 0, void 0, void 0, function* () {
     const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -227,7 +227,7 @@ const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodule
                     diff
                 }))) {
                     let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`;
-                    if (fetchSubmoduleHistory) {
+                    if (fetchAdditionalSubmoduleHistory) {
                         message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`;
                     }
                     core.warning(message);
@@ -981,7 +981,7 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
             }
         }
         else {
-            if (hasSubmodule && inputs.fetchSubmoduleHistory) {
+            if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
                 yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
@@ -1170,7 +1170,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         else {
-            if (hasSubmodule && inputs.fetchSubmoduleHistory) {
+            if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
                 yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
@@ -1352,6 +1352,39 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 
 /***/ }),
 
+/***/ 2363:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UNSUPPORTED_REST_API_INPUTS = void 0;
+exports.UNSUPPORTED_REST_API_INPUTS = [
+    'sha',
+    'baseSha',
+    'since',
+    'until',
+    'path',
+    'quotepath',
+    'diffRelative',
+    'sinceLastRemoteCommit',
+    'recoverDeletedFiles',
+    'recoverDeletedFilesToDestination',
+    'recoverFiles',
+    'recoverFilesSeparator',
+    'recoverFilesIgnore',
+    'recoverFilesIgnoreSeparator',
+    'includeAllOldNewRenamedFiles',
+    'oldNewSeparator',
+    'oldNewFilesSeparator',
+    'skipInitialFetch',
+    'fetchAdditionalSubmoduleHistory',
+    'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
+];
+
+
+/***/ }),
+
 /***/ 9763:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -1491,7 +1524,7 @@ const getInputs = () => {
     const since = core.getInput('since', { required: false });
     const until = core.getInput('until', { required: false });
     const path = core.getInput('path', { required: false });
-    const quotePath = core.getBooleanInput('quotepath', { required: false });
+    const quotepath = core.getBooleanInput('quotepath', { required: false });
     const diffRelative = core.getBooleanInput('diff_relative', { required: false });
     const dirNames = core.getBooleanInput('dir_names', { required: false });
     const dirNamesMaxDepth = core.getInput('dir_names_max_depth', {
@@ -1538,7 +1571,7 @@ const getInputs = () => {
     const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
         required: false
     });
-    const fetchSubmoduleHistory = core.getBooleanInput('fetch_additional_submodule_history', {
+    const fetchAdditionalSubmoduleHistory = core.getBooleanInput('fetch_additional_submodule_history', {
         required: false
     });
     const failOnInitialDiffError = core.getBooleanInput('fail_on_initial_diff_error', {
@@ -1580,7 +1613,7 @@ const getInputs = () => {
         since,
         until,
         path,
-        quotePath,
+        quotepath,
         diffRelative,
         sinceLastRemoteCommit,
         recoverDeletedFiles,
@@ -1593,7 +1626,7 @@ const getInputs = () => {
         oldNewSeparator,
         oldNewFilesSeparator,
         skipInitialFetch,
-        fetchSubmoduleHistory,
+        fetchAdditionalSubmoduleHistory,
         dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         // End Not Supported via REST API
         dirNames,
@@ -1677,13 +1710,13 @@ const utils_1 = __nccwpck_require__(918);
 const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     yield (0, utils_1.verifyMinimumGitVersion)();
-    let quotePathValue = 'on';
-    if (!inputs.quotePath) {
-        quotePathValue = 'off';
+    let quotepathValue = 'on';
+    if (!inputs.quotepath) {
+        quotepathValue = 'off';
     }
     yield (0, utils_1.updateGitGlobalConfig)({
         name: 'core.quotepath',
-        value: quotePathValue
+        value: quotepathValue
     });
     if (inputs.diffRelative) {
         yield (0, utils_1.updateGitGlobalConfig)({
@@ -1724,7 +1757,7 @@ const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, fil
         diffResult,
         submodulePaths,
         outputRenamedFilesAsDeletedAndAdded,
-        fetchSubmoduleHistory: inputs.fetchSubmoduleHistory,
+        fetchAdditionalSubmoduleHistory: inputs.fetchAdditionalSubmoduleHistory,
         failOnInitialDiffError: inputs.failOnInitialDiffError,
         failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError
     });
@@ -1826,32 +1859,11 @@ function run() {
             ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
             (!hasGitDirectory || inputs.useRestApi)) {
             core.info("Using GitHub's REST API to get changed files");
-            const unsupportedInputs = [
-                'sha',
-                'baseSha',
-                'since',
-                'until',
-                'path',
-                'quotePath',
-                'diffRelative',
-                'sinceLastRemoteCommit',
-                'recoverDeletedFiles',
-                'recoverDeletedFilesToDestination',
-                'recoverFiles',
-                'recoverFilesSeparator',
-                'recoverFilesIgnore',
-                'recoverFilesIgnoreSeparator',
-                'includeAllOldNewRenamedFiles',
-                'oldNewSeparator',
-                'oldNewFilesSeparator',
-                'skipInitialFetch',
-                'fetchSubmoduleHistory',
-                'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
-            ];
-            for (const input of unsupportedInputs) {
-                if (inputs[input]) {
-                    core.warning(`Input "${input}" is not supported when using GitHub's REST API to get changed files`);
-                }
+            if (process.env.GITHUB_ACTION_PATH) {
+                yield (0, utils_1.warnUnsupportedRESTAPIInputs)({
+                    actionPath: process.env.GITHUB_ACTION_PATH,
+                    inputs
+                });
             }
             yield getChangedFilesFromRESTAPI({
                 inputs,
@@ -1949,19 +1961,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.warnUnsupportedRESTAPIInputs = exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const github = __importStar(__nccwpck_require__(5438));
 const fs_1 = __nccwpck_require__(7147);
-const promises_1 = __nccwpck_require__(3292);
 const lodash_1 = __nccwpck_require__(250);
 const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
 const readline_1 = __nccwpck_require__(4521);
 const yaml_1 = __nccwpck_require__(4083);
 const changedFiles_1 = __nccwpck_require__(7358);
+const constant_1 = __nccwpck_require__(2363);
 const MINIMUM_GIT_VERSION = '2.18.0';
 const isWindows = () => {
     return process.platform === 'win32';
@@ -2202,6 +2214,7 @@ exports.submoduleExists = submoduleExists;
  * Fetches the git repository
  * @param args - arguments for fetch command
  * @param cwd - working directory
+ * @returns exit code
  */
 const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
@@ -2232,6 +2245,7 @@ exports.gitFetchSubmodules = gitFetchSubmodules;
 /**
  * Retrieves all the submodule paths
  * @param cwd - working directory
+ * @returns submodule paths
  */
 const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
@@ -2256,6 +2270,7 @@ exports.getSubmodulePath = getSubmodulePath;
  * @param parentSha2 - parent commit sha
  * @param submodulePath - path of submodule
  * @param diff - diff type between parent commits (`..` or `...`)
+ * @returns commit sha of submodule
  */
 const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
     var _h, _j, _k, _l;
@@ -2697,7 +2712,7 @@ const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excluded
             core.error(`File does not exist: ${filePath}`);
             throw new Error(`File does not exist: ${filePath}`);
         }
-        source = yield (0, promises_1.readFile)(filePath, 'utf8');
+        source = yield fs_1.promises.readFile(filePath, 'utf8');
     }
     else {
         source = content;
@@ -2927,12 +2942,47 @@ const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPa
     }
 });
 exports.recoverDeletedFiles = recoverDeletedFiles;
+/**
+ * Determines whether the specified working directory has a local Git directory.
+ *
+ * @param workingDirectory - The path of the working directory.
+ * @returns A boolean value indicating whether the working directory has a local Git directory.
+ */
 const hasLocalGitDirectory = ({ workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield (0, exports.isInsideWorkTree)({
         cwd: workingDirectory
     });
 });
 exports.hasLocalGitDirectory = hasLocalGitDirectory;
+/**
+ * Warns about unsupported inputs when using the REST API.
+ *
+ * @param actionPath - The path to the action file.
+ * @param inputs - The inputs object.
+ */
+const warnUnsupportedRESTAPIInputs = ({ actionPath, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
+    var _m;
+    const actionContents = yield fs_1.promises.readFile(actionPath, 'utf8');
+    const actionYaml = (0, yaml_1.parseDocument)(actionContents, { schema: 'failsafe' });
+    if (actionYaml.errors.length > 0) {
+        throw new Error(`YAML errors in ${actionPath}: ${actionYaml.errors.join(', ')}`);
+    }
+    if (actionYaml.warnings.length > 0) {
+        throw new Error(`YAML warnings in ${actionPath}: ${actionYaml.warnings.join(', ')}`);
+    }
+    const action = actionYaml.toJS();
+    const actionInputs = action.inputs;
+    for (const key of constant_1.UNSUPPORTED_REST_API_INPUTS) {
+        const inputKey = (0, lodash_1.snakeCase)(key);
+        const defaultValue = Object.hasOwnProperty.call(actionInputs[inputKey], 'default')
+            ? actionInputs[inputKey].default.toString()
+            : '';
+        if (defaultValue !== ((_m = inputs[key]) === null || _m === void 0 ? void 0 : _m.toString())) {
+            core.warning(`Input "${inputKey}" is not supported when using GitHub's REST API to get changed files`);
+        }
+    }
+});
+exports.warnUnsupportedRESTAPIInputs = warnUnsupportedRESTAPIInputs;
 
 
 /***/ }),
@@ -54883,14 +54933,6 @@ module.exports = require("events");
 
 "use strict";
 module.exports = require("fs");
-
-/***/ }),
-
-/***/ 3292:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs/promises");
 
 /***/ }),
 
