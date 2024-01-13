@@ -1352,7 +1352,7 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 
 /***/ }),
 
-/***/ 5105:
+/***/ 2363:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -1973,7 +1973,7 @@ const path = __importStar(__nccwpck_require__(1017));
 const readline_1 = __nccwpck_require__(4521);
 const yaml_1 = __nccwpck_require__(4083);
 const changedFiles_1 = __nccwpck_require__(7358);
-const constants_1 = __nccwpck_require__(5105);
+const constant_1 = __nccwpck_require__(2363);
 const MINIMUM_GIT_VERSION = '2.18.0';
 const isWindows = () => {
     return process.platform === 'win32';
@@ -2972,7 +2972,7 @@ const warnUnsupportedRESTAPIInputs = ({ actionPath, inputs }) => __awaiter(void 
     }
     const action = actionYaml.toJS();
     const actionInputs = action.inputs;
-    for (const key of constants_1.UNSUPPORTED_REST_API_INPUTS) {
+    for (const key of constant_1.UNSUPPORTED_REST_API_INPUTS) {
         const inputKey = (0, lodash_1.snakeCase)(key);
         const defaultValue = Object.hasOwnProperty.call(actionInputs[inputKey], 'default')
             ? actionInputs[inputKey].default.toString()
