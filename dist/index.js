@@ -1797,7 +1797,7 @@ const getChangedFilesFromRESTAPI = ({ inputs, filePatterns, yamlFilePatterns }) 
     });
 });
 function run() {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         core.startGroup('changed-files');
         const env = yield (0, env_1.getEnv)();
@@ -1819,8 +1819,11 @@ function run() {
             workingDirectory
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+        if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
+            core.setFailed("Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API.");
+        }
         if (inputs.token &&
-            ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) &&
+            ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
             (!hasGitDirectory || inputs.useRestApi)) {
             core.info("Using GitHub's REST API to get changed files");
             const unsupportedInputs = [
