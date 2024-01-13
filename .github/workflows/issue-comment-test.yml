@@ -1,4 +1,8 @@
 name: Issue Comment Test
+
+permissions:
+   contents: read
+
 on:
   issue_comment:
 
