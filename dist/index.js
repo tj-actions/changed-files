@@ -1820,8 +1820,7 @@ function run() {
         });
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
-            core.setFailed("Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API.");
-            process.exit(1);
+            throw new Error("Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API.");
         }
         if (inputs.token &&
             ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
@@ -1863,8 +1862,7 @@ function run() {
         else {
             if (!hasGitDirectory) {
                 core.info(`Running on a ${github.context.eventName} event...`);
-                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.");
-                process.exit(1);
+                throw new Error("Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.");
             }
             core.info('Using local .git directory');
             yield getChangedFilesFromLocalGitHistory({
@@ -1883,6 +1881,7 @@ if (!process.env.TESTING) {
     // eslint-disable-next-line github/no-then
     run().catch(e => {
         core.setFailed(e.message || e);
+        process.exit(1);
     });
 }
 
