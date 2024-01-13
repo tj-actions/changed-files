@@ -1,4 +1,8 @@
-name: Update release version.
+name: Update release version
+
+permissions:
+   contents: read
+
 on:
   release:
     types: [published]
