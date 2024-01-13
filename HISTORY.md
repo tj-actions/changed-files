@@ -1,5 +1,17 @@
 # Changelog
 
+# [41.1.1](https://github.com/tj-actions/changed-files/compare/v41.1.0...v41.1.1) - (2024-01-13)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with inaccurate warnings ([#1853](https://github.com/tj-actions/changed-files/issues/1853)) ([62f4729](https://github.com/tj-actions/changed-files/commit/62f4729b5df35e6e0e01265fa70a82ccaf196b4b))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v41.1.0 ([#1852](https://github.com/tj-actions/changed-files/issues/1852))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([e0579ab](https://github.com/tj-actions/changed-files/commit/e0579abf95abec8042468976c7822e6867542199))  - (tj-actions[bot])
+
 # [41.1.0](https://github.com/tj-actions/changed-files/compare/v41.0.1...v41.1.0) - (2024-01-13)
 
 ## <!-- 0 -->🚀 Features
