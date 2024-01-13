@@ -1553,6 +1553,9 @@ const getInputs = () => {
     const negationPatternsFirst = core.getBooleanInput('negation_patterns_first', {
         required: false
     });
+    const useRestApi = core.getBooleanInput('use_rest_api', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1605,7 +1608,8 @@ const getInputs = () => {
         outputRenamedFilesAsDeletedAndAdded,
         token,
         apiUrl,
-        negationPatternsFirst
+        negationPatternsFirst,
+        useRestApi
     };
     if (fetchDepth) {
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
@@ -1817,7 +1821,7 @@ function run() {
         core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
         if (inputs.token &&
             ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) &&
-            !hasGitDirectory) {
+            (!hasGitDirectory || inputs.useRestApi)) {
             core.info("Using GitHub's REST API to get changed files");
             const unsupportedInputs = [
                 'sha',
@@ -1848,7 +1852,7 @@ function run() {
         else {
             if (!hasGitDirectory) {
                 core.info(`Running on a ${github.context.eventName} event...`);
-                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action. If you intend to use Github's REST API note that only pull_request* events are supported.");
+                core.setFailed("Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.");
                 return;
             }
             core.info('Using local .git directory');
