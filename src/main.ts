@@ -245,7 +245,7 @@ export async function run(): Promise<void> {
 
   if (inputs.useRestApi && !github.context.payload.pull_request?.number) {
     throw new Error(
-      "Can't find pull request number. Only pull_request* events are supported when using GitHub's REST API."
+      "Only pull_request* events are supported when using GitHub's REST API."
     )
   }
 
