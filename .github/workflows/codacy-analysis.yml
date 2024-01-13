@@ -8,6 +8,9 @@
 
 name: Codacy Security Scan
 
+permissions:
+   contents: read
+
 on:
   push:
     branches: [ main ]
