@@ -141,7 +141,7 @@ inputs:
   fetch_depth:
     description: "Depth of additional branch history fetched. NOTE: This can be adjusted to resolve errors with insufficient history."
     required: false
-    default: "50"
+    default: "25"
   skip_initial_fetch:
     description: |
       Skip the initial fetch to improve performance for shallow repositories. 
