@@ -225,7 +225,7 @@ export async function run(): Promise<void> {
 
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
-    inputs.path
+    inputs.useRestApi ? '.' : inputs.path
   )
   core.debug(`Working directory: ${workingDirectory}`)
 
@@ -271,7 +271,7 @@ export async function run(): Promise<void> {
     if (!hasGitDirectory) {
       core.info(`Running on a ${github.context.eventName} event...`)
       throw new Error(
-        "Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported."
+        `Can't find local .git in ${workingDirectory} directory. Please run actions/checkout before this action (Make sure the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.`
       )
     }
 
