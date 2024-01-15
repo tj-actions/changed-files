@@ -1838,7 +1838,7 @@ function run() {
         const inputs = (0, inputs_1.getInputs)();
         core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
         core.debug(`Github Context: ${JSON.stringify(github.context, null, 2)}`);
-        const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.path);
+        const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.useRestApi ? '.' : inputs.path);
         core.debug(`Working directory: ${workingDirectory}`);
         const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
         core.debug(`Has git directory: ${hasGitDirectory}`);
@@ -1874,7 +1874,7 @@ function run() {
         else {
             if (!hasGitDirectory) {
                 core.info(`Running on a ${github.context.eventName} event...`);
-                throw new Error("Can't find local .git directory. Please run actions/checkout before this action (Make sure the path specified in the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.");
+                throw new Error(`Can't find local .git in ${workingDirectory} directory. Please run actions/checkout before this action (Make sure the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.`);
             }
             core.info('Using local .git directory');
             yield getChangedFilesFromLocalGitHistory({
