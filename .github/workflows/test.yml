@@ -732,7 +732,7 @@ jobs:
           files: |
             test/**
           recover_deleted_files: true
-          fetch_depth: 60000
+          # fetch_depth: 60000
 
       - name: Show output
         run: |
