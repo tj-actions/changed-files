@@ -699,7 +699,7 @@ jobs:
           base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
           sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           recover_deleted_files: true
-          fetch_depth: 60000
+          # fetch_depth: 60000
 
       - name: Show output
         run: |
@@ -767,7 +767,7 @@ jobs:
               - test/**.txt
               - test/**.md
           recover_deleted_files: true
-          fetch_depth: 60000
+          # fetch_depth: 60000
 
       - name: Show output
         run: |
@@ -805,7 +805,7 @@ jobs:
           sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           recover_deleted_files: true
           recover_deleted_files_to_destination: "deleted_files"
-          fetch_depth: 60000
+          # fetch_depth: 60000
 
       - name: Show output
         run: |
@@ -835,7 +835,7 @@ jobs:
           base_sha: "3be651e99d3d4eae395694f6c6f3b9d18457f6c8"
           sha: "d90c240f2ad4ec04d8f0f48e5ac290ad96ebe850"
           recover_deleted_files: true
-          fetch_depth: 60000
+          # fetch_depth: 60000
 
       - name: Show output
         run: |
