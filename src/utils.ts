@@ -1520,7 +1520,7 @@ export const warnUnsupportedRESTAPIInputs = async ({
 }: {
   inputs: Inputs
 }): Promise<void> => {
-  const actionInputs = {};
+  const actionInputs = {}
   for (const key of UNSUPPORTED_REST_API_INPUTS) {
     const inputKey = snakeCase(key) as keyof Input
 
