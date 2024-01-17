@@ -1,5 +1,34 @@
 # Changelog
 
+# [41.1.2](https://github.com/tj-actions/changed-files/compare/v41.1.1...v41.1.2) - (2024-01-17)
+
+## <!-- 0 -->🚀 Features
+
+- Enhance error handling and working directory resolution ([#1859](https://github.com/tj-actions/changed-files/issues/1859)) ([a60bf37](https://github.com/tj-actions/changed-files/commit/a60bf3759e069549b60c8da1284ec83e0398a1a4))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug with incorrect action path ([#1866](https://github.com/tj-actions/changed-files/issues/1866)) ([3f81899](https://github.com/tj-actions/changed-files/commit/3f8189989ba6fd9b3b9593ffe650236b3f1fcb55))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.11.5 ([cbda684](https://github.com/tj-actions/changed-files/commit/cbda684547adc8c052d50711417fa61b428a9f88))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.2.3 ([67a1f54](https://github.com/tj-actions/changed-files/commit/67a1f54f6f5ec7ee87c57eb7876a7d6dfdcc59a1))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v22 ([#1864](https://github.com/tj-actions/changed-files/issues/1864)) ([99248a4](https://github.com/tj-actions/changed-files/commit/99248a443855d73284abf52520f897dba851b914))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.4 ([8787431](https://github.com/tj-actions/changed-files/commit/878743189ba0ba42d467a736923b07102f0e348c))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.3 ([98d1d84](https://github.com/tj-actions/changed-files/commit/98d1d84e2f7a404c425df4e44dceb74a03920ac8))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.19.0 ([bc46e4c](https://github.com/tj-actions/changed-files/commit/bc46e4c4222c3926a70378d183f0b387d3a9e9a8))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.2 ([fba4067](https://github.com/tj-actions/changed-files/commit/fba40673489d49e860c15a444c134d887ead1f3a))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.1 ([e4b8674](https://github.com/tj-actions/changed-files/commit/e4b86747326bc58eb230d62188ebdd66b73721a9))  - (renovate[bot])
+- **deps:** Lock file maintenance ([bc2b5ae](https://github.com/tj-actions/changed-files/commit/bc2b5aef20add66cbe21d1093f0f1d37a353d376))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.2.2 ([63c36a5](https://github.com/tj-actions/changed-files/commit/63c36a563a30544b4c03a8426277dca4b00e4fd1))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v41.1.1 ([#1854](https://github.com/tj-actions/changed-files/issues/1854))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([44b7750](https://github.com/tj-actions/changed-files/commit/44b77505fe3f2c6d0a76f72a4ef512e7c2ba0b6a))  - (tj-actions[bot])
+
 # [41.1.1](https://github.com/tj-actions/changed-files/compare/v41.1.0...v41.1.1) - (2024-01-13)
 
 ## <!-- 1 -->🐛 Bug Fixes
