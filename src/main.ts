@@ -257,10 +257,7 @@ export async function run(): Promise<void> {
   ) {
     core.info("Using GitHub's REST API to get changed files")
     if (process.env.GITHUB_ACTION_PATH) {
-      await warnUnsupportedRESTAPIInputs({
-        actionPath: path.join(process.env.GITHUB_ACTION_PATH, 'action.yml'),
-        inputs
-      })
+      await warnUnsupportedRESTAPIInputs({ inputs })
     }
     await getChangedFilesFromRESTAPI({
       inputs,
