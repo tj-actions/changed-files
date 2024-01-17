@@ -10,7 +10,7 @@ import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 import {DiffResult} from './commitSha'
-import {UNSUPPORTED_REST_API_INPUTS} from './constant'
+import {ACTION_INPUT_DEFAULTS, UNSUPPORTED_REST_API_INPUTS} from './constant'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -1520,15 +1520,14 @@ export const warnUnsupportedRESTAPIInputs = async ({
 }: {
   inputs: Inputs
 }): Promise<void> => {
-  const actionInputs = {}
   for (const key of UNSUPPORTED_REST_API_INPUTS) {
     const inputKey = snakeCase(key) as keyof Inputs
 
     const defaultValue = Object.hasOwnProperty.call(
-      actionInputs[inputKey],
-      'default'
+      ACTION_INPUT_DEFAULTS,
+      inputKey
     )
-      ? actionInputs[inputKey].default.toString()
+      ? ACTION_INPUT_DEFAULTS[inputKey]?.toString()
       : ''
 
     if (defaultValue !== inputs[key]?.toString()) {
