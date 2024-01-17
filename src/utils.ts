@@ -1513,41 +1513,16 @@ export const hasLocalGitDirectory = async ({
 /**
  * Warns about unsupported inputs when using the REST API.
  *
- * @param actionPath - The path to the action file.
  * @param inputs - The inputs object.
  */
 export const warnUnsupportedRESTAPIInputs = async ({
-  actionPath,
   inputs
 }: {
-  actionPath: string
   inputs: Inputs
 }): Promise<void> => {
-  const actionContents = await fs.readFile(actionPath, 'utf8')
-  const actionYaml = parseDocument(actionContents, {schema: 'failsafe'})
-
-  if (actionYaml.errors.length > 0) {
-    throw new Error(
-      `YAML errors in ${actionPath}: ${actionYaml.errors.join(', ')}`
-    )
-  }
-
-  if (actionYaml.warnings.length > 0) {
-    throw new Error(
-      `YAML warnings in ${actionPath}: ${actionYaml.warnings.join(', ')}`
-    )
-  }
-
-  const action = actionYaml.toJS() as {
-    inputs: {
-      [key: string]: {description: string; required: boolean; default: string}
-    }
-  }
-
-  const actionInputs = action.inputs
-
+  const actionInputs = {};
   for (const key of UNSUPPORTED_REST_API_INPUTS) {
-    const inputKey = snakeCase(key) as keyof Inputs
+    const inputKey = snakeCase(key) as keyof Input
 
     const defaultValue = Object.hasOwnProperty.call(
       actionInputs[inputKey],
