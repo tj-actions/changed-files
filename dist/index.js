@@ -1861,7 +1861,7 @@ function run() {
             core.info("Using GitHub's REST API to get changed files");
             if (process.env.GITHUB_ACTION_PATH) {
                 yield (0, utils_1.warnUnsupportedRESTAPIInputs)({
-                    actionPath: process.env.GITHUB_ACTION_PATH,
+                    actionPath: path_1.default.join(process.env.GITHUB_ACTION_PATH, 'action.yml'),
                     inputs
                 });
             }
