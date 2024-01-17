@@ -10,7 +10,7 @@ import {createInterface} from 'readline'
 import {parseDocument} from 'yaml'
 import {ChangedFiles, ChangeTypeEnum} from './changedFiles'
 import {DiffResult} from './commitSha'
-import {ACTION_INPUT_DEFAULTS, UNSUPPORTED_REST_API_INPUTS} from './constant'
+import {UNSUPPORTED_REST_API_INPUTS} from './constant'
 import {Inputs} from './inputs'
 
 const MINIMUM_GIT_VERSION = '2.18.0'
@@ -1520,17 +1520,17 @@ export const warnUnsupportedRESTAPIInputs = async ({
 }: {
   inputs: Inputs
 }): Promise<void> => {
-  for (const key of UNSUPPORTED_REST_API_INPUTS) {
+  for (const key of Object.keys(UNSUPPORTED_REST_API_INPUTS)) {
     const inputKey = snakeCase(key) as keyof Inputs
 
     const defaultValue = Object.hasOwnProperty.call(
-      ACTION_INPUT_DEFAULTS,
+      UNSUPPORTED_REST_API_INPUTS,
       inputKey
     )
-      ? ACTION_INPUT_DEFAULTS[inputKey]?.toString()
+      ? UNSUPPORTED_REST_API_INPUTS[inputKey]?.toString()
       : ''
 
-    if (defaultValue !== inputs[key]?.toString()) {
+    if (defaultValue !== inputs[key as keyof Inputs]?.toString()) {
       core.warning(
         `Input "${inputKey}" is not supported when using GitHub's REST API to get changed files`
       )

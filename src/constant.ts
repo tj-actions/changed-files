@@ -1,29 +1,6 @@
 import {Inputs} from './inputs'
 
-export const UNSUPPORTED_REST_API_INPUTS: (keyof Inputs)[] = [
-  'sha',
-  'baseSha',
-  'since',
-  'until',
-  'path',
-  'quotepath',
-  'diffRelative',
-  'sinceLastRemoteCommit',
-  'recoverDeletedFiles',
-  'recoverDeletedFilesToDestination',
-  'recoverFiles',
-  'recoverFilesSeparator',
-  'recoverFilesIgnore',
-  'recoverFilesIgnoreSeparator',
-  'includeAllOldNewRenamedFiles',
-  'oldNewSeparator',
-  'oldNewFilesSeparator',
-  'skipInitialFetch',
-  'fetchAdditionalSubmoduleHistory',
-  'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
-]
-
-export const ACTION_INPUT_DEFAULTS: Partial<Inputs> = {
+export const UNSUPPORTED_REST_API_INPUTS: Partial<Inputs> = {
   sha: '',
   baseSha: '',
   since: '',
