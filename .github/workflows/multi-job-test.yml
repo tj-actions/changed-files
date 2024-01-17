@@ -48,25 +48,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - shell: sh
-        env:
-          GITHUB_ACTION_REF_EXP: ${{ github.action_ref }}
-          GITHUB_ACTION_REPOSITORY_EXP: ${{ github.action_repository }}
-          GITHUB_ACTION_PATH_EXP: ${{ github.action_path }}
-          GITHUB_ACTION_EXP: ${{ github.action }}
-        run: |
-          echo "github.action_ref = ${{ github.action_ref }}"
-          echo "GITHUB_ACTION_REF_EXP = $GITHUB_ACTION_REF_EXP"
-          echo "GITHUB_ACTION_REF = $GITHUB_ACTION_REF"
-          echo "github.action_repository = ${{ github.action_repository }}"
-          echo "GITHUB_ACTION_REPOSITORY_EXP = $GITHUB_ACTION_REPOSITORY_EXP"
-          echo "GITHUB_ACTION_REPOSITORY = $GITHUB_ACTION_REPOSITORY"
-          echo "github.action_path = ${{ github.action_path }}"
-          echo "GITHUB_ACTION_PATH_EXP = $GITHUB_ACTION_PATH_EXP"
-          echo "GITHUB_ACTION_PATH = $GITHUB_ACTION_PATH"          
-          echo "github.action = ${{ github.action }}"
-          echo "GITHUB_ACTION_EXP = $GITHUB_ACTION_EXP"
-          echo "GITHUB_ACTION = $GITHUB_ACTION"
       - name: Get changed files
         id: changed-files
         continue-on-error: ${{ github.event_name == 'push' }}
