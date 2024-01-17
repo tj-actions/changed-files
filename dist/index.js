@@ -1859,9 +1859,7 @@ function run() {
             ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
             (!hasGitDirectory || inputs.useRestApi)) {
             core.info("Using GitHub's REST API to get changed files");
-            if (process.env.GITHUB_ACTION_PATH) {
-                yield (0, utils_1.warnUnsupportedRESTAPIInputs)({ inputs });
-            }
+            yield (0, utils_1.warnUnsupportedRESTAPIInputs)({ inputs });
             yield getChangedFilesFromRESTAPI({
                 inputs,
                 filePatterns,
