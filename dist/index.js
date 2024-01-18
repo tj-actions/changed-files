@@ -1359,28 +1359,28 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UNSUPPORTED_REST_API_INPUTS = void 0;
-exports.UNSUPPORTED_REST_API_INPUTS = [
-    'sha',
-    'baseSha',
-    'since',
-    'until',
-    'path',
-    'quotepath',
-    'diffRelative',
-    'sinceLastRemoteCommit',
-    'recoverDeletedFiles',
-    'recoverDeletedFilesToDestination',
-    'recoverFiles',
-    'recoverFilesSeparator',
-    'recoverFilesIgnore',
-    'recoverFilesIgnoreSeparator',
-    'includeAllOldNewRenamedFiles',
-    'oldNewSeparator',
-    'oldNewFilesSeparator',
-    'skipInitialFetch',
-    'fetchAdditionalSubmoduleHistory',
-    'dirNamesDeletedFilesIncludeOnlyDeletedDirs'
-];
+exports.UNSUPPORTED_REST_API_INPUTS = {
+    sha: '',
+    baseSha: '',
+    since: '',
+    until: '',
+    path: '.',
+    quotepath: true,
+    diffRelative: true,
+    sinceLastRemoteCommit: false,
+    recoverDeletedFiles: false,
+    recoverDeletedFilesToDestination: '',
+    recoverFiles: '',
+    recoverFilesSeparator: '\n',
+    recoverFilesIgnore: '',
+    recoverFilesIgnoreSeparator: '\n',
+    includeAllOldNewRenamedFiles: false,
+    oldNewSeparator: ',',
+    oldNewFilesSeparator: ' ',
+    skipInitialFetch: false,
+    fetchAdditionalSubmoduleHistory: false,
+    dirNamesDeletedFilesIncludeOnlyDeletedDirs: false
+};
 
 
 /***/ }),
@@ -1859,12 +1859,7 @@ function run() {
             ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
             (!hasGitDirectory || inputs.useRestApi)) {
             core.info("Using GitHub's REST API to get changed files");
-            if (process.env.GITHUB_ACTION_PATH) {
-                yield (0, utils_1.warnUnsupportedRESTAPIInputs)({
-                    actionPath: path_1.default.join(process.env.GITHUB_ACTION_PATH, 'action.yml'),
-                    inputs
-                });
-            }
+            yield (0, utils_1.warnUnsupportedRESTAPIInputs)({ inputs });
             yield getChangedFilesFromRESTAPI({
                 inputs,
                 filePatterns,
@@ -2957,27 +2952,16 @@ exports.hasLocalGitDirectory = hasLocalGitDirectory;
 /**
  * Warns about unsupported inputs when using the REST API.
  *
- * @param actionPath - The path to the action file.
  * @param inputs - The inputs object.
  */
-const warnUnsupportedRESTAPIInputs = ({ actionPath, inputs }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _m;
-    const actionContents = yield fs_1.promises.readFile(actionPath, 'utf8');
-    const actionYaml = (0, yaml_1.parseDocument)(actionContents, { schema: 'failsafe' });
-    if (actionYaml.errors.length > 0) {
-        throw new Error(`YAML errors in ${actionPath}: ${actionYaml.errors.join(', ')}`);
-    }
-    if (actionYaml.warnings.length > 0) {
-        throw new Error(`YAML warnings in ${actionPath}: ${actionYaml.warnings.join(', ')}`);
-    }
-    const action = actionYaml.toJS();
-    const actionInputs = action.inputs;
-    for (const key of constant_1.UNSUPPORTED_REST_API_INPUTS) {
+const warnUnsupportedRESTAPIInputs = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
+    var _m, _o;
+    for (const key of Object.keys(constant_1.UNSUPPORTED_REST_API_INPUTS)) {
         const inputKey = (0, lodash_1.snakeCase)(key);
-        const defaultValue = Object.hasOwnProperty.call(actionInputs[inputKey], 'default')
-            ? actionInputs[inputKey].default.toString()
+        const defaultValue = Object.hasOwnProperty.call(constant_1.UNSUPPORTED_REST_API_INPUTS, inputKey)
+            ? (_m = constant_1.UNSUPPORTED_REST_API_INPUTS[inputKey]) === null || _m === void 0 ? void 0 : _m.toString()
             : '';
-        if (defaultValue !== ((_m = inputs[key]) === null || _m === void 0 ? void 0 : _m.toString())) {
+        if (defaultValue !== ((_o = inputs[key]) === null || _o === void 0 ? void 0 : _o.toString())) {
             core.warning(`Input "${inputKey}" is not supported when using GitHub's REST API to get changed files`);
         }
     }
