@@ -1426,7 +1426,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getEnv = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
-    core.debug(`Process Env: ${JSON.stringify(process.env, null, 2)}`);
+    core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`);
     return {
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
