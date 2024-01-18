@@ -2105,15 +2105,14 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
             for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a; _d = true) {
                 _c = rl_1_1.value;
                 _d = false;
-                const line = _c;
+                let line = _c;
                 if (!line.startsWith('#') && line !== '') {
                     if (excludedFiles) {
-                        if (line.startsWith('!')) {
-                            yield yield __await(line);
+                        line = line.startsWith('!') ? line : `!${line}`;
+                        if (line.endsWith(path.sep)) {
+                            line = `${line}${path.sep}**`;
                         }
-                        else {
-                            yield yield __await(`!${line}`);
-                        }
+                        yield yield __await(line);
                     }
                     else {
                         yield yield __await(line);
@@ -2662,6 +2661,9 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
             .map(p => {
             if (!p.startsWith('!')) {
                 p = `!${p}`;
+            }
+            if (p.endsWith(path.sep)) {
+                p = `${p}${path.sep}**`;
             }
             return p;
         });
