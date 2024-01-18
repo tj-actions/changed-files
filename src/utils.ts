@@ -171,14 +171,14 @@ async function* lineOfFileGenerator({
     input: fileStream,
     crlfDelay: Infinity
   })
-  for await (const line of rl) {
+  for await (let line of rl) {
     if (!line.startsWith('#') && line !== '') {
       if (excludedFiles) {
-        if (line.startsWith('!')) {
-          yield line
-        } else {
-          yield `!${line}`
+        line = line.startsWith('!') ? line : `!${line}`
+        if (line.endsWith(path.sep)) {
+          line = `${line}${path.sep}**`
         }
+        yield line
       } else {
         yield line
       }
@@ -1031,6 +1031,9 @@ export const getFilePatterns = async ({
       .map(p => {
         if (!p.startsWith('!')) {
           p = `!${p}`
+        }
+        if (p.endsWith(path.sep)) {
+          p = `${p}${path.sep}**`
         }
         return p
       })
