@@ -1,6 +1,6 @@
 import {Inputs} from './inputs'
 
-export const UNSUPPORTED_REST_API_INPUTS: Partial<Inputs> = {
+export const DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS: Partial<Inputs> = {
   sha: '',
   baseSha: '',
   since: '',

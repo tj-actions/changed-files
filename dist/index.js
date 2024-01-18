@@ -1358,8 +1358,8 @@ exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UNSUPPORTED_REST_API_INPUTS = void 0;
-exports.UNSUPPORTED_REST_API_INPUTS = {
+exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = void 0;
+exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
     sha: '',
     baseSha: '',
     since: '',
@@ -2956,9 +2956,9 @@ exports.hasLocalGitDirectory = hasLocalGitDirectory;
  */
 const warnUnsupportedRESTAPIInputs = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
     var _m, _o;
-    for (const key of Object.keys(constant_1.UNSUPPORTED_REST_API_INPUTS)) {
-        const defaultValue = Object.hasOwnProperty.call(constant_1.UNSUPPORTED_REST_API_INPUTS, key)
-            ? (_m = constant_1.UNSUPPORTED_REST_API_INPUTS[key]) === null || _m === void 0 ? void 0 : _m.toString()
+    for (const key of Object.keys(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS)) {
+        const defaultValue = Object.hasOwnProperty.call(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS, key)
+            ? (_m = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _m === void 0 ? void 0 : _m.toString()
             : '';
         if (defaultValue !== ((_o = inputs[key]) === null || _o === void 0 ? void 0 : _o.toString())) {
             core.warning(`Input "${(0, lodash_1.snakeCase)(key)}" is not supported when using GitHub's REST API to get changed files`);
