@@ -1521,18 +1521,18 @@ export const warnUnsupportedRESTAPIInputs = async ({
   inputs: Inputs
 }): Promise<void> => {
   for (const key of Object.keys(UNSUPPORTED_REST_API_INPUTS)) {
-    const inputKey = snakeCase(key) as keyof Inputs
-
     const defaultValue = Object.hasOwnProperty.call(
       UNSUPPORTED_REST_API_INPUTS,
-      inputKey
+      key
     )
-      ? UNSUPPORTED_REST_API_INPUTS[inputKey]?.toString()
+      ? UNSUPPORTED_REST_API_INPUTS[key as keyof Inputs]?.toString()
       : ''
 
     if (defaultValue !== inputs[key as keyof Inputs]?.toString()) {
       core.warning(
-        `Input "${inputKey}" is not supported when using GitHub's REST API to get changed files`
+        `Input "${snakeCase(
+          key
+        )}" is not supported when using GitHub's REST API to get changed files`
       )
     }
   }
