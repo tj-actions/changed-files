@@ -2105,17 +2105,17 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
             for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a; _d = true) {
                 _c = rl_1_1.value;
                 _d = false;
-                const line = _c;
+                let line = _c;
                 if (!line.startsWith('#') && line !== '') {
                     if (excludedFiles) {
-                        if (line.startsWith('!')) {
-                            yield yield __await(line);
+                        line = line.startsWith('!') ? line : `!${line}`;
+                        if (line.endsWith(path.sep)) {
+                            line = `${line}**`;
                         }
-                        else {
-                            yield yield __await(`!${line}`);
-                        }
+                        yield yield __await(line);
                     }
                     else {
+                        line = line.endsWith(path.sep) ? `${line}**` : line;
                         yield yield __await(line);
                     }
                 }
@@ -2639,6 +2639,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     if (inputs.files) {
         const filesPatterns = inputs.files
             .split(inputs.filesSeparator)
+            .map(p => (p.endsWith(path.sep) ? `${p}**` : p))
             .filter(Boolean);
         cleanedFilePatterns.push(...filesPatterns);
         core.debug(`files patterns: ${filesPatterns.join('\n')}`);
@@ -2660,8 +2661,9 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
             .split(inputs.filesIgnoreSeparator)
             .filter(Boolean)
             .map(p => {
-            if (!p.startsWith('!')) {
-                p = `!${p}`;
+            p = p.startsWith('!') ? p : `!${p}`;
+            if (p.endsWith(path.sep)) {
+                p = `${p}**`;
             }
             return p;
         });
