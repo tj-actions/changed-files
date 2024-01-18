@@ -1513,52 +1513,26 @@ export const hasLocalGitDirectory = async ({
 /**
  * Warns about unsupported inputs when using the REST API.
  *
- * @param actionPath - The path to the action file.
  * @param inputs - The inputs object.
  */
 export const warnUnsupportedRESTAPIInputs = async ({
-  actionPath,
   inputs
 }: {
-  actionPath: string
   inputs: Inputs
 }): Promise<void> => {
-  const actionContents = await fs.readFile(actionPath, 'utf8')
-  const actionYaml = parseDocument(actionContents, {schema: 'failsafe'})
-
-  if (actionYaml.errors.length > 0) {
-    throw new Error(
-      `YAML errors in ${actionPath}: ${actionYaml.errors.join(', ')}`
-    )
-  }
-
-  if (actionYaml.warnings.length > 0) {
-    throw new Error(
-      `YAML warnings in ${actionPath}: ${actionYaml.warnings.join(', ')}`
-    )
-  }
-
-  const action = actionYaml.toJS() as {
-    inputs: {
-      [key: string]: {description: string; required: boolean; default: string}
-    }
-  }
-
-  const actionInputs = action.inputs
-
-  for (const key of UNSUPPORTED_REST_API_INPUTS) {
-    const inputKey = snakeCase(key) as keyof Inputs
-
+  for (const key of Object.keys(UNSUPPORTED_REST_API_INPUTS)) {
     const defaultValue = Object.hasOwnProperty.call(
-      actionInputs[inputKey],
-      'default'
+      UNSUPPORTED_REST_API_INPUTS,
+      key
     )
-      ? actionInputs[inputKey].default.toString()
+      ? UNSUPPORTED_REST_API_INPUTS[key as keyof Inputs]?.toString()
       : ''
 
-    if (defaultValue !== inputs[key]?.toString()) {
+    if (defaultValue !== inputs[key as keyof Inputs]?.toString()) {
       core.warning(
-        `Input "${inputKey}" is not supported when using GitHub's REST API to get changed files`
+        `Input "${snakeCase(
+          key
+        )}" is not supported when using GitHub's REST API to get changed files`
       )
     }
   }
