@@ -171,15 +171,16 @@ async function* lineOfFileGenerator({
     input: fileStream,
     crlfDelay: Infinity
   })
-  for await (const line of rl) {
+  for await (let line of rl) {
     if (!line.startsWith('#') && line !== '') {
       if (excludedFiles) {
-        if (line.startsWith('!')) {
-          yield line
-        } else {
-          yield `!${line}`
+        line = line.startsWith('!') ? line : `!${line}`
+        if (line.endsWith(path.sep)) {
+          line = `${line}**`
         }
+        yield line
       } else {
+        line = line.endsWith(path.sep) ? `${line}**` : line
         yield line
       }
     }
@@ -998,6 +999,7 @@ export const getFilePatterns = async ({
   if (inputs.files) {
     const filesPatterns = inputs.files
       .split(inputs.filesSeparator)
+      .map(p => (p.endsWith(path.sep) ? `${p}**` : p))
       .filter(Boolean)
 
     cleanedFilePatterns.push(...filesPatterns)
@@ -1029,8 +1031,9 @@ export const getFilePatterns = async ({
       .split(inputs.filesIgnoreSeparator)
       .filter(Boolean)
       .map(p => {
-        if (!p.startsWith('!')) {
-          p = `!${p}`
+        p = p.startsWith('!') ? p : `!${p}`
+        if (p.endsWith(path.sep)) {
+          p = `${p}**`
         }
         return p
       })
