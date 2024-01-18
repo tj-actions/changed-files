@@ -54,7 +54,6 @@ jobs:
         uses: ./
         with:
           use_rest_api: true
-          sha: 1232
       - name: List all changed files
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
 

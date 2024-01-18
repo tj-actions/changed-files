@@ -647,6 +647,8 @@ describe('utils test', () => {
       expect(coreWarningSpy).toHaveBeenCalledWith(
         'Input "sha" is not supported when using GitHub\'s REST API to get changed files'
       )
+
+      expect(coreWarningSpy).toHaveBeenCalledTimes(1)
     })
   })
 })
