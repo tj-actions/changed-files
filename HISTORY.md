@@ -1,5 +1,29 @@
 # Changelog
 
+# [42.0.0](https://github.com/tj-actions/changed-files/compare/v41.1.2...v42.0.0) - (2024-01-18)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for include/exclude all nested files when a directory is specified and ends with a slash ([#1873](https://github.com/tj-actions/changed-files/issues/1873)) ([ae82ed4](https://github.com/tj-actions/changed-files/commit/ae82ed4ae04587b665efad2f206578aa6f0e8539))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update input warning ([#1870](https://github.com/tj-actions/changed-files/issues/1870)) ([6c9dcea](https://github.com/tj-actions/changed-files/commit/6c9dcea4432fd0eb2f3e07c9149eab2807ce44b2))  - (Tonye Jack)
+
+## <!-- 18 -->📝 Rename
+
+- Unsupported REST API inputs constant name ([#1872](https://github.com/tj-actions/changed-files/issues/1872)) ([cbd5907](https://github.com/tj-actions/changed-files/commit/cbd59070e8276b539ecdfa0f2316db7b1599ea0f))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency prettier to v3.2.4 ([79b060d](https://github.com/tj-actions/changed-files/commit/79b060d4450764e6b54a73696c2d99134757db95))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v41.1.2 ([#1869](https://github.com/tj-actions/changed-files/issues/1869))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([434b67e](https://github.com/tj-actions/changed-files/commit/434b67ebc3051662cf28de12b8a7adb77aea522a))  - (tj-actions[bot])
+
 # [41.1.2](https://github.com/tj-actions/changed-files/compare/v41.1.1...v41.1.2) - (2024-01-17)
 
 ## <!-- 0 -->🚀 Features
