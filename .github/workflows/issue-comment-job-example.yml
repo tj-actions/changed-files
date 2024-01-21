@@ -1,4 +1,4 @@
-name: Issue Comment Test
+name: Issue Comment Job Example
 
 permissions:
    contents: read

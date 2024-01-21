@@ -1,4 +1,4 @@
-name: Multi Job Test
+name: Multi Job Example
 
 permissions:
    contents: read
