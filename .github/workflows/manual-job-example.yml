@@ -1,11 +1,10 @@
-name: Manual Test
+name: Manual Job Example
 
 permissions:
    contents: read
 
 on:
   workflow_dispatch:
-
 
 jobs:
   test:
