@@ -1,5 +1,35 @@
 # Changelog
 
+# [42.0.1](https://github.com/tj-actions/changed-files/compare/v42.0.0...v42.0.1) - (2024-01-24)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([ea024b2](https://github.com/tj-actions/changed-files/commit/ea024b2d7f80389ba16e7084b20265cb7dfe230f))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([3af07c2](https://github.com/tj-actions/changed-files/commit/3af07c2040da68166f613248bd8e9cd28fb581e3))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update env.ts ([3680129](https://github.com/tj-actions/changed-files/commit/3680129aa2971333ef3d148024520cdc5327a6b7))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.11.6 ([ac21d93](https://github.com/tj-actions/changed-files/commit/ac21d93904fb48e7f76ce4bd2a4d197f67e34abe))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v6.19.1 ([a4637ea](https://github.com/tj-actions/changed-files/commit/a4637ea6e7d9a502f6edb845b6c65086c5bce55f))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.1.2 ([fd9998c](https://github.com/tj-actions/changed-files/commit/fd9998cf5fcac4b0fff205a58ec694bf596169c8))  - (renovate[bot])
+- **deps:** Lock file maintenance ([db4e584](https://github.com/tj-actions/changed-files/commit/db4e5848448e4b540e7e7dcbdc7aab3c88bfcf47))  - (renovate[bot])
+- Rename example worflows from test to example ([#1878](https://github.com/tj-actions/changed-files/issues/1878)) ([c6543c4](https://github.com/tj-actions/changed-files/commit/c6543c497aea61c2263b735dece03b23383441f0))  - (Tonye Jack)
+- Update README.md ([#1877](https://github.com/tj-actions/changed-files/issues/1877)) ([88f9f3e](https://github.com/tj-actions/changed-files/commit/88f9f3efbb5a8fe2acff4139babc1d6aeafa5e72))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([5d866cb](https://github.com/tj-actions/changed-files/commit/5d866cbe77002ed91912202826ed253b808a9133))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v23 ([#1875](https://github.com/tj-actions/changed-files/issues/1875)) ([346f237](https://github.com/tj-actions/changed-files/commit/346f237a1734287fa772ee254047beecabcdbdf2))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42 ([#1874](https://github.com/tj-actions/changed-files/issues/1874))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([c037f1e](https://github.com/tj-actions/changed-files/commit/c037f1e7c56c7884b2d7d24c36cd8a0bc2c20687))  - (tj-actions[bot])
+
 # [42.0.0](https://github.com/tj-actions/changed-files/compare/v41.1.2...v42.0.0) - (2024-01-18)
 
 ## <!-- 0 -->🚀 Features
