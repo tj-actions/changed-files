@@ -264,9 +264,8 @@ export async function run(): Promise<void> {
     })
   } else {
     if (!hasGitDirectory) {
-      core.info(`Running on a ${github.context.eventName} event...`)
       throw new Error(
-        `Can't find local .git in ${workingDirectory} directory. Please run actions/checkout before this action (Make sure the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.`
+        `Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`
       )
     }
 
