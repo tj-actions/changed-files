@@ -574,13 +574,14 @@ jobs:
 
       - name: Run changed-files with non existing repository
         id: changed-files
+        continue-on-error: true
         uses: ./dir1
 
-      - name: Show output
+      - name: Verify failed
+        if: steps.changed-files.outcome != 'failure'
         run: |
-          echo '${{ toJSON(steps.changed-files.outputs) }}'
-        shell:
-          bash
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
 
   test-submodules:
     name: Test changed-files with submodule
