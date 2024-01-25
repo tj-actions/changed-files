@@ -681,7 +681,7 @@ export const isInsideWorkTree = async ({
   )
 
   if (stdout.trim() !== 'true') {
-    core.warning(
+    core.debug(
       `The current working directory is not inside a git repository: ${cwd}`
     )
   }
