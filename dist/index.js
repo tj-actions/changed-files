@@ -2457,7 +2457,7 @@ const isInsideWorkTree = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
         silent: !core.isDebug()
     });
     if (stdout.trim() !== 'true') {
-        core.warning(`The current working directory is not inside a git repository: ${cwd}`);
+        core.debug(`The current working directory is not inside a git repository: ${cwd}`);
     }
     return stdout.trim() === 'true';
 });
