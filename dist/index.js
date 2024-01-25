@@ -1868,8 +1868,7 @@ function run() {
         }
         else {
             if (!hasGitDirectory) {
-                core.info(`Running on a ${github.context.eventName} event...`);
-                throw new Error(`Can't find local .git in ${workingDirectory} directory. Please run actions/checkout before this action (Make sure the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.`);
+                throw new Error(`Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`);
             }
             core.info('Using local .git directory');
             yield getChangedFilesFromLocalGitHistory({
@@ -2457,6 +2456,9 @@ const isInsideWorkTree = ({ cwd }) => __awaiter(void 0, void 0, void 0, function
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
+    if (stdout.trim() !== 'true') {
+        core.warning(`The current working directory is not inside a git repository: ${cwd}`);
+    }
     return stdout.trim() === 'true';
 });
 exports.isInsideWorkTree = isInsideWorkTree;
