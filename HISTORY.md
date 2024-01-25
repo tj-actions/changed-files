@@ -1,5 +1,17 @@
 # Changelog
 
+# [42.0.2](https://github.com/tj-actions/changed-files/compare/v42.0.1...v42.0.2) - (2024-01-25)
+
+## <!-- 0 -->🚀 Features
+
+- Enhance error handling for non-git directories ([#1885](https://github.com/tj-actions/changed-files/issues/1885)) ([90a06d6](https://github.com/tj-actions/changed-files/commit/90a06d6ba9543371ab4df8eeca0be07ca6054959))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42.0.1 ([#1884](https://github.com/tj-actions/changed-files/issues/1884))
+
+Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([2cb2c92](https://github.com/tj-actions/changed-files/commit/2cb2c9234e9dc3b8eaac2ababc3f355e80e47963))  - (tj-actions[bot])
+
 # [42.0.1](https://github.com/tj-actions/changed-files/compare/v42.0.0...v42.0.1) - (2024-01-24)
 
 ## <!-- 16 -->➕ Add
