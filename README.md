@@ -54,7 +54,7 @@ Effortlessly track all changed files and directories relative to a target branch
 *   Scales to handle large/mono repositories.
 *   Supports Git submodules.
 *   Supports [merge queues](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue) for pull requests.
-*   Generates escaped [JSON output for running matrix jobs](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml) based on changed files.
+*   Generates escaped [JSON output for running matrix jobs](https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml) based on changed files.
 *   Lists changed directories.
     *   Limits matching changed directories to a specified maximum depth.
     *   Optionally excludes the current directory.
@@ -478,7 +478,7 @@ Support this project with a :star:
 
     # Output list of changed files in a JSON formatted 
     # string which can be used for matrix jobs. Example: 
-    # https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml 
+    # https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml 
     # Type: boolean
     # Default: "false"
     json: ''
