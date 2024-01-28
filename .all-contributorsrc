@@ -208,6 +208,15 @@
         "test",
         "bug"
       ]
+    },
+    {
+      "login": "levenleven",
+      "name": "Aleksey Levenstein",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6463364?v=4",
+      "profile": "https://github.com/levenleven",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
