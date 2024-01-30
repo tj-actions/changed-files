@@ -883,9 +883,9 @@
     "@types/braces" "*"
 
 "@types/node@*", "@types/node@^20.3.2":
-  version "20.11.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.11.tgz#6dbe0e5a94b94bb23bf56fca26be3ade2a714efd"
-  integrity sha512-PlJCXfb57Jrman0H1BxO2+Q7qwih2Mwk7T6Gvixj+SK4mqs4RWOGMMoP6p/LFa3UrP2CZOO6ai6otd7J/TB6Ug==
+  version "20.11.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.12.tgz#1121e03005516671bd30b4f9cc6b86284291af87"
+  integrity sha512-N/Az9BkJ6IWCJ3GeKea/vMQLfV37ci1fApx2x5UQvfa0N5OTjR/c17hEkt6Q0LSF6XSF7hcgrd/DOobibskPNw==
   dependencies:
     undici-types "~5.26.4"
 
