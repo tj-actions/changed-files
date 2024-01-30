@@ -243,6 +243,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout branch
@@ -285,6 +287,8 @@ jobs:
         github.event_name == 'push' || 
         github.event_name == 'pull_request'
       ) && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout branch
@@ -315,6 +319,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     strategy:
       fail-fast: false
@@ -354,6 +360,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout branch
@@ -381,6 +389,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -415,7 +425,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
-
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -469,7 +480,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
-
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -556,7 +568,7 @@ jobs:
     needs: build
     if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
-      pull-requests: read
+      contents: read
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v4
@@ -588,6 +600,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read 
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -631,6 +645,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -706,6 +722,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -896,6 +914,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -929,6 +949,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -970,6 +992,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -1020,6 +1044,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
