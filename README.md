@@ -131,7 +131,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 
@@ -149,7 +149,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-markdown-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 
@@ -237,7 +237,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 ```
@@ -281,7 +281,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
       ...
