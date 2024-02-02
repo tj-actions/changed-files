@@ -8,9 +8,7 @@
 [![Update release version.](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## changed-files
@@ -1293,11 +1291,8 @@ If you are reporting a bug, please include:
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
 <!-- prettier-ignore-start -->
-
 <!-- markdownlint-disable -->
-
 <table>
   <tbody>
     <tr>
@@ -1330,12 +1325,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/rodrigorfk"><img src="https://avatars.githubusercontent.com/u/1995033?v=4?s=100" width="100px;" alt="Rodrigo Fior Kuntzer"/><br /><sub><b>Rodrigo Fior Kuntzer</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=rodrigorfk" title="Code">💻</a> <a href="https://github.com/tj-actions/changed-files/commits?author=rodrigorfk" title="Tests">⚠️</a> <a href="https://github.com/tj-actions/changed-files/issues?q=author%3Arodrigorfk" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/levenleven"><img src="https://avatars.githubusercontent.com/u/6463364?v=4?s=100" width="100px;" alt="Aleksey Levenstein"/><br /><sub><b>Aleksey Levenstein</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=levenleven" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dan-hill2802"><img src="https://avatars.githubusercontent.com/u/5046322?v=4?s=100" width="100px;" alt="Daniel Hill"/><br /><sub><b>Daniel Hill</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=dan-hill2802" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
 
 <!-- markdownlint-restore -->
-
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
