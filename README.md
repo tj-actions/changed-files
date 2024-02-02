@@ -129,7 +129,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 
@@ -147,7 +147,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-markdown-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 
@@ -235,7 +235,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 ```
@@ -279,7 +279,7 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
+          for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
       ...
@@ -726,7 +726,7 @@ The format of the version string is as follows:
       env:
         ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
       run: |
-        for file in "$ADDED_FILES"; do
+        for file in ${ADDED_FILES}; do
           echo "$file was added"
         done
 ...
@@ -764,7 +764,7 @@ See [inputs](#inputs) for more information.
       env:
         ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
       run: |
-        for file in "$ADDED_FILES"; do
+        for file in ${ADDED_FILES}; do
           echo "$file was added"
         done
 ...
@@ -889,7 +889,7 @@ See [inputs](#inputs) for more information.
       env:
         DELETED_FILES: ${{ steps.changed-files-specific.outputs.deleted_files }}
       run: |
-        for file in "$DELETED_FILES"; do
+        for file in ${DELETED_FILES}; do
           echo "$file was deleted"
         done
 
@@ -898,7 +898,7 @@ See [inputs](#inputs) for more information.
       env:
         DELETED_FILES: ${{ steps.changed-files-specific.outputs.deleted_files }}
       run: |
-        for file in "$DELETED_FILES"; do
+        for file in ${DELETED_FILES}; do
           echo "$file was deleted"
         done
 ...
@@ -1047,7 +1047,7 @@ See [inputs](#inputs) for more information.
         ADDED_FILES: |-
           ${{ steps.changed-files-for-dir1.outputs.added_files }}
       run: |
-        for file in "$ADDED_FILES"; do
+        for file in ${ADDED_FILES}; do
           echo "$file was added"
         done
 ...
