@@ -119,7 +119,9 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
+      # -----------------------------------------------------------------------------------------------------------
       # Example 1
+      # -----------------------------------------------------------------------------------------------------------
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v42
@@ -135,7 +137,9 @@ jobs:
             echo "$file was changed"
           done
 
+      # -----------------------------------------------------------------------------------------------------------
       # Example 2
+      # -----------------------------------------------------------------------------------------------------------
       - name: Get all changed markdown files
         id: changed-markdown-files
         uses: tj-actions/changed-files@v42
@@ -153,7 +157,9 @@ jobs:
             echo "$file was changed"
           done
 
+      # -----------------------------------------------------------------------------------------------------------
       # Example 3
+      # -----------------------------------------------------------------------------------------------------------
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
         uses: tj-actions/changed-files@v42
@@ -186,7 +192,9 @@ jobs:
           echo "One or more doc file(s) has changed."
           echo "List all the files that have changed: $DOC_ALL_CHANGED_FILES"
 
-      # Example 3
+      # -----------------------------------------------------------------------------------------------------------
+      # Example 4
+      # -----------------------------------------------------------------------------------------------------------
       - name: Get changed files in the docs folder
         id: changed-files-specific
         uses: tj-actions/changed-files@v42
