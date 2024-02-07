@@ -127,7 +127,7 @@ inputs:
     required: false
     default: "false"
   json:
-    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml"
+    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml"
     required: false
     default: "false"
   escape_json:

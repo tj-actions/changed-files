@@ -487,7 +487,7 @@ Support this project with a :star:
 
     # Output list of changed files in a JSON formatted 
     # string which can be used for matrix jobs. Example: 
-    # https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml 
+    # https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml 
     # Type: boolean
     # Default: "false"
     json: ''
