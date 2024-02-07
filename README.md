@@ -1016,11 +1016,16 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v42
 
+      - name: List changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          echo "List all the files that have changed: $ALL_CHANGED_FILES"
+
       - name: Get changed files in the .github folder
         id: changed-files-specific
         uses: tj-actions/changed-files@v42
         with:
-          base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
           files: .github/**
 
       - name: Run step if any file(s) in the .github folder change
