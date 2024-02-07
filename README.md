@@ -300,6 +300,7 @@ jobs:
 *   [schedule](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
 *   [release](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release)
 *   [workflow\_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)
+*   [workflow\_run](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run)
 *   [merge\_group](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#merge_group)
 *   [issue\_comment](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#issue_comment)
 *   ...and many more
