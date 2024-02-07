@@ -1016,11 +1016,11 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v42
 
-      - name: Show output
+      - name: List changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo '${{ toJSON(steps.changed-files.outputs) }}'
-        shell:
-          bash
+          echo "List all the files that have changed: $ALL_CHANGED_FILES"
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
@@ -1030,9 +1030,11 @@ jobs:
 
       - name: Run step if any file(s) in the .github folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files-specific.outputs.all_changed_files }}
         run: |
           echo "One or more files in the .github folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+          echo "List all the files that have changed: $ALL_CHANGED_FILES"
 ...
 ```
 
