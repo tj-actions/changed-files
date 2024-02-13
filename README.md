@@ -1233,7 +1233,7 @@ See [inputs](#inputs) for more information.
 
 *   [coder/code-server: uses tj-actions/changed-files to automate detecting changes and run steps based on the outcome](https://github.com/coder/code-server/blob/c32a31d802f679846876b8ad9aacff6cf7b5361d/.github/workflows/build.yaml#L48)
 
-*   [tldr-pages/tldr: uses tj-actions/changed-files to automate detecting spelling errors](https://github.com/tldr-pages/tldr/blob/main/.github/workflows/codespell.yml#L14)
+*   [tldr-pages/tldr: uses tj-actions/changed-files to automate detecting spelling errors](https://github.com/tldr-pages/tldr/blob/c1b714c55cb0048037b79a681a10d7f3ddb0164c/.github/workflows/codespell.yml#L18-L26)
 
 *   [nodejs/docker-node: uses tj-actions/changed-files to generate matrix jobs based on changes detected](https://github.com/nodejs/docker-node/blob/3c4fa6daf06a4786d202f2f610351837806a0380/.github/workflows/build-test.yml#L29)
 
@@ -1241,7 +1241,7 @@ See [inputs](#inputs) for more information.
 
 *   [aws-doc-sdk-examples: uses tj-actions/changed-files to automate testing](https://github.com/awsdocs/aws-doc-sdk-examples/blob/2393723ef6b0cad9502f4852f5c72f7be58ca89d/.github/workflows/javascript.yml#L22)
 
-*   [nhost: uses tj-actions/changed-files to automate testing based on changes detected](https://github.com/nhost/nhost/blob/main/.github/workflows/ci.yaml#L44-L48)
+*   [nhost: uses tj-actions/changed-files to automate testing based on changes detected](https://github.com/nhost/nhost/blob/71a8ce444618a8ac4d660518172fba4883c4014b/.github/workflows/ci.yaml#L44-L48)
 
 *   [qmk\_firmware uses tj-actions/changed-files to run linters](https://github.com/qmk/qmk_firmware/blob/7a737235ffd49c32d2c5561e8fe53fd96baa7f96/.github/workflows/lint.yml#L30)
 
