@@ -429,7 +429,7 @@ export const getSHAForPullRequestEvent = async (
 
   if (
     !github.context.payload.pull_request?.base?.ref ||
-    github.context.payload.head?.repo?.fork === 'true'
+    github.context.payload.pull_request?.head?.repo?.fork === true
   ) {
     diff = '..'
   }
