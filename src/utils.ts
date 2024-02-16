@@ -908,7 +908,7 @@ export const canDiffCommits = async ({
   } else {
     const {exitCode, stderr} = await exec.getExecOutput(
       'git',
-      ['diff', '--quiet', sha1, sha2],
+      ['diff', '--no-patch', sha1, sha2],
       {
         cwd,
         ignoreReturnCode: true,
