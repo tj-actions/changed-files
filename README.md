@@ -8,9 +8,7 @@
 [![Update release version.](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-26-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## changed-files
@@ -1308,11 +1306,8 @@ If you are reporting a bug, please include:
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
 <!-- prettier-ignore-start -->
-
 <!-- markdownlint-disable -->
-
 <table>
   <tbody>
     <tr>
@@ -1347,12 +1342,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/levenleven"><img src="https://avatars.githubusercontent.com/u/6463364?v=4?s=100" width="100px;" alt="Aleksey Levenstein"/><br /><sub><b>Aleksey Levenstein</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=levenleven" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dan-hill2802"><img src="https://avatars.githubusercontent.com/u/5046322?v=4?s=100" width="100px;" alt="Daniel Hill"/><br /><sub><b>Daniel Hill</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=dan-hill2802" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://keisukeyamashita.com"><img src="https://avatars.githubusercontent.com/u/23056537?v=4?s=100" width="100px;" alt="KeisukeYamashita"/><br /><sub><b>KeisukeYamashita</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=KeisukeYamashita" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/codesculpture"><img src="https://avatars.githubusercontent.com/u/63452117?v=4?s=100" width="100px;" alt="Aravind"/><br /><sub><b>Aravind</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=codesculpture" title="Code">💻</a> <a href="https://github.com/tj-actions/changed-files/issues?q=author%3Acodesculpture" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
 
 <!-- markdownlint-restore -->
-
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->

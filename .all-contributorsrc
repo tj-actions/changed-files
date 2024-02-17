@@ -235,6 +235,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "codesculpture",
+      "name": "Aravind",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63452117?v=4",
+      "profile": "https://github.com/codesculpture",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
