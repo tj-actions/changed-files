@@ -5,6 +5,7 @@ export type Env = {
   GITHUB_REF: string
   GITHUB_WORKSPACE: string
 }
+
 export const getEnv = async (): Promise<Env> => {
   core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`)
 
