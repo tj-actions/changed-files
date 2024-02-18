@@ -593,10 +593,10 @@ Support this project with a :star:
     # Default: "false"
     since_last_remote_commit: ''
 
-    # Skip the initial fetch to improve performance for shallow 
-    # repositories. NOTE: This could lead to errors with missing 
-    # history and the intended use is limited to when 
-    # you've fetched the history necessary to perform the diff. 
+    # Skip initially fetching additional history to improve performance for 
+    # shallow repositories. NOTE: This could lead to errors with 
+    # missing history. It's intended to be used when you've 
+    # fetched all necessary history to perform the diff. 
     # Type: boolean
     # Default: "false"
     skip_initial_fetch: ''
