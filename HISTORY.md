@@ -1,5 +1,18 @@
 # Changelog
 
+# [42.0.4](https://github.com/tj-actions/changed-files/compare/v42.0.3...v42.0.4) - (2024-02-18)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update formatting and add missing dist changes ([#1940](https://github.com/tj-actions/changed-files/issues/1940)) ([3f54ebb](https://github.com/tj-actions/changed-files/commit/3f54ebb830831fc121d3263c1857cfbdc310cdb9))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42.0.3 ([#1939](https://github.com/tj-actions/changed-files/issues/1939))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com>
+Co-authored-by: GitHub Action <action@github.com> ([6f070cf](https://github.com/tj-actions/changed-files/commit/6f070cff38ff6dd3af1da87b6c8cdbcb8045e544))  - (tj-actions[bot])
+
 # [42.0.3](https://github.com/tj-actions/changed-files/compare/v42.0.2...v42.0.3) - (2024-02-17)
 
 ## <!-- 1 -->🐛 Bug Fixes
