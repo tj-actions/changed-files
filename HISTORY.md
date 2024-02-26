@@ -1,5 +1,44 @@
 # Changelog
 
+# [42.0.5](https://github.com/tj-actions/changed-files/compare/v42.0.4...v42.0.5) - (2024-02-26)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency yaml to v2.4.0 ([2a2a5b6](https://github.com/tj-actions/changed-files/commit/2a2a5b6b9c6db0cfcd525935dad0f332588dbcdf))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([31c4d15](https://github.com/tj-actions/changed-files/commit/31c4d150e63ef47fc38cf81c39ceb5229d86e767))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([9d447b9](https://github.com/tj-actions/changed-files/commit/9d447b99599b62c3df2a8a45af769db7f81fd34f))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([c2039de](https://github.com/tj-actions/changed-files/commit/c2039de114db9c5a087669f8e5a08ccebf8ba7e5))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([bb7502b](https://github.com/tj-actions/changed-files/commit/bb7502bd153c279403ec0adfe53e7d29572b8e6d))  - (Tonye Jack)
+- Updated README.md ([#1943](https://github.com/tj-actions/changed-files/issues/1943))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([9ef20a6](https://github.com/tj-actions/changed-files/commit/9ef20a69dd248e1c8052154fbc71e92eb22534f7))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([800a282](https://github.com/tj-actions/changed-files/commit/800a2825992141ddde1a8bca8ad394cec34d3188))  - (renovate[bot])
+- Update README.md ([#1952](https://github.com/tj-actions/changed-files/issues/1952)) ([d8dcc13](https://github.com/tj-actions/changed-files/commit/d8dcc13244f746e6e87d0c8e1d9e1fece4d92b1b))  - (Tonye Jack)
+- **deps:** Update dependency eslint to v8.57.0 ([639ce0e](https://github.com/tj-actions/changed-files/commit/639ce0e105d24840145eb1f8376b3e76c9a3a8cb))  - (renovate[bot])
+- **deps:** Lock file maintenance ([83bfc72](https://github.com/tj-actions/changed-files/commit/83bfc72efa888541b87858084210b0da1a075ab0))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.20 ([879c838](https://github.com/tj-actions/changed-files/commit/879c8388c87e3dd4b82550f3ac3feb339b5be371))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.0.2 ([5c5539c](https://github.com/tj-actions/changed-files/commit/5c5539ced911e7611502cefecf9a4738733a6bfe))  - (renovate[bot])
+- **deps:** Lock file maintenance ([0cbc9bc](https://github.com/tj-actions/changed-files/commit/0cbc9bc448d680c63e6fa4a96b40194d963e4257))  - (renovate[bot])
+- Update action.yml ([#1942](https://github.com/tj-actions/changed-files/issues/1942)) ([a617853](https://github.com/tj-actions/changed-files/commit/a617853c0f8e2e999a506ad8f26424a2aac2175e))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42.0.4 ([#1941](https://github.com/tj-actions/changed-files/issues/1941))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([5c1bceb](https://github.com/tj-actions/changed-files/commit/5c1bceb76c87f3f3f9c362eb74228d3d9512ff5c))  - (tj-actions[bot])
+
 # [42.0.4](https://github.com/tj-actions/changed-files/compare/v42.0.3...v42.0.4) - (2024-02-18)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
