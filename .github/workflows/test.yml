@@ -590,7 +590,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files
-        uses: tj-actions/changed-files@v42
+        uses: ./
         with:
           path: .github
           json: true
