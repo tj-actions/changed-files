@@ -1,5 +1,31 @@
 # Changelog
 
+# [42.0.7](https://github.com/tj-actions/changed-files/compare/v42.0.6...v42.0.7) - (2024-03-07)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([7fc073d](https://github.com/tj-actions/changed-files/commit/7fc073d92265804a8d4e4982b637dee053daf6c5))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([ea042d8](https://github.com/tj-actions/changed-files/commit/ea042d8095a33fa94ad9d96bc929ea8810d43730))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([a65c2f2](https://github.com/tj-actions/changed-files/commit/a65c2f2100bbf5456ab3003d2f2f8694a766ca15))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Lock file maintenance ([7e4bfc2](https://github.com/tj-actions/changed-files/commit/7e4bfc2f1fa97a8c535ef93b2d1639d23f0ab0dc))  - (renovate[bot])
+- Add test for detecting changed-files in a nested directory ([#1972](https://github.com/tj-actions/changed-files/issues/1972)) ([ef3a7f5](https://github.com/tj-actions/changed-files/commit/ef3a7f51d62496589f0de8e46e5e60a39d45364b))  - (Tonye Jack)
+- **deps:** Update dependency typescript to v5.4.2 ([8293f8c](https://github.com/tj-actions/changed-files/commit/8293f8c984e14294df9f3eb755952f415c0a2f72))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.25 ([0ff732e](https://github.com/tj-actions/changed-files/commit/0ff732eeb3b7415f6f56c1dba85b003012e800a1))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42.0.6 ([#1968](https://github.com/tj-actions/changed-files/issues/1968))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([8df6fc2](https://github.com/tj-actions/changed-files/commit/8df6fc260f394ebf7993aad987f0cae9147d94b8))  - (tj-actions[bot])
+
 # [42.0.6](https://github.com/tj-actions/changed-files/compare/v42.0.5...v42.0.6) - (2024-03-06)
 
 ## <!-- 1 -->🐛 Bug Fixes
