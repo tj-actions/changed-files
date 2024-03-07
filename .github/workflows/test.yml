@@ -567,6 +567,43 @@ jobs:
         shell:
           bash
 
+  test-dir-names-nested-folder:
+    name: Test changed-files with dir-names in a nested folder
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          submodules: true
+          fetch-depth: 0
+
+      - name: Download build assets
+        uses: actions/download-artifact@v4
+        with:
+          name: build-assets
+          path: dist
+
+      - name: Get changed files in the .github folder
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          path: .github
+          json: true
+          escape_json: false
+          dir_names: true
+          dir_names_exclude_current_dir: true
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
+
   test-non-existing-repository:
     name: Test changed-files with non existing repository
     runs-on: ubuntu-latest
