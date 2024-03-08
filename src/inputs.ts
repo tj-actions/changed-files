@@ -158,7 +158,6 @@ export const getInputs = (): Inputs => {
   let escapeJson = core.getBooleanInput('escape_json', {required: false})
   const matrix = core.getBooleanInput('matrix', {required: false})
 
-  // Alias for running in a matrix jobs
   if (matrix) {
     json = true
     escapeJson = false
