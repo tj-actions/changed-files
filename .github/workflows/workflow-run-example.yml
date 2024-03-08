@@ -1,7 +1,7 @@
 name: Workflow Run Example
 on:
   workflow_run:
-    workflows: [Matrix Test]
+    workflows: [Matrix Example]
     types: [completed]
 
 permissions:
@@ -12,9 +12,30 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - run: echo 'The triggering workflow passed'
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: ./
+
+      - name: Echo list of changed files on success
+        run: |
+          echo "Changed files on success:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
+
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-      - run: echo 'The triggering workflow failed'
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: ./
+
+      - name: Echo list of changed files on failure
+        run: |
+          echo "Changed files on failure:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"

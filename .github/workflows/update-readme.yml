@@ -27,7 +27,7 @@ jobs:
         uses: tj-actions/remark@v3
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v17
+        uses: tj-actions/verify-changed-files@v19
         id: verify_changed_files
         with:
           files: |
@@ -41,7 +41,7 @@ jobs:
 
       - name: Create Pull Request
         if: failure()
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           base: "main"
           labels: "merge when passing"

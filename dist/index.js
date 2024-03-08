@@ -57,7 +57,7 @@ const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const path = __importStar(__nccwpck_require__(1017));
 const changedFilesOutput_1 = __nccwpck_require__(8930);
 const utils_1 = __nccwpck_require__(918);
-const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns, workingDirectory }) {
     if (filePatterns.length > 0) {
         core.startGroup('changed-files-patterns');
         const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
@@ -130,7 +130,7 @@ const processChangedFiles = ({ filePatterns, allDiffFiles, inputs, yamlFilePatte
     }
 });
 exports.processChangedFiles = processChangedFiles;
-const getRenamedFiles = ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
+const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -199,7 +199,7 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) {
     const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -290,7 +290,7 @@ function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
         }
     }
 }
-const getChangeTypeFiles = ({ inputs, changedFiles, changeTypes }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangeTypeFiles = (_d) => __awaiter(void 0, [_d], void 0, function* ({ inputs, changedFiles, changeTypes }) {
     const files = [
         ...new Set(getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }))
     ].filter(Boolean);
@@ -313,7 +313,7 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
         yield filePath;
     }
 }
-const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllChangeTypeFiles = (_e) => __awaiter(void 0, [_e], void 0, function* ({ inputs, changedFiles }) {
     const files = [
         ...new Set(getAllChangeTypeFilesGenerator({ inputs, changedFiles }))
     ].filter(Boolean);
@@ -324,9 +324,9 @@ const getAllChangeTypeFiles = ({ inputs, changedFiles }) => __awaiter(void 0, vo
     };
 });
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
-const getChangedFilesFromGithubAPI = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, e_1, _b, _c;
-    var _d;
+const getChangedFilesFromGithubAPI = (_f) => __awaiter(void 0, [_f], void 0, function* ({ inputs }) {
+    var _g, e_1, _h, _j;
+    var _k;
     const octokit = github.getOctokit(inputs.token, {
         baseUrl: inputs.apiUrl
     });
@@ -344,7 +344,7 @@ const getChangedFilesFromGithubAPI = ({ inputs }) => __awaiter(void 0, void 0, v
     const options = octokit.rest.pulls.listFiles.endpoint.merge({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        pull_number: (_d = github.context.payload.pull_request) === null || _d === void 0 ? void 0 : _d.number,
+        pull_number: (_k = github.context.payload.pull_request) === null || _k === void 0 ? void 0 : _k.number,
         per_page: 100
     });
     const paginatedResponse = yield octokit.paginate(options);
@@ -359,10 +359,10 @@ const getChangedFilesFromGithubAPI = ({ inputs }) => __awaiter(void 0, void 0, v
         unchanged: ChangeTypeEnum.Unmerged
     };
     try {
-        for (var _e = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _a = paginatedResponse_1_1.done, !_a; _e = true) {
-            _c = paginatedResponse_1_1.value;
-            _e = false;
-            const item = _c;
+        for (var _l = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _g = paginatedResponse_1_1.done, !_g; _l = true) {
+            _j = paginatedResponse_1_1.value;
+            _l = false;
+            const item = _j;
             const changeType = statusMap[item.status] || ChangeTypeEnum.Unknown;
             if (changeType === ChangeTypeEnum.Renamed) {
                 if (inputs.outputRenamedFilesAsDeletedAndAdded) {
@@ -381,7 +381,7 @@ const getChangedFilesFromGithubAPI = ({ inputs }) => __awaiter(void 0, void 0, v
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (!_e && !_a && (_b = paginatedResponse_1.return)) yield _b.call(paginatedResponse_1);
+            if (!_l && !_g && (_h = paginatedResponse_1.return)) yield _h.call(paginatedResponse_1);
         }
         finally { if (e_1) throw e_1.error; }
     }
@@ -441,7 +441,7 @@ const utils_1 = __nccwpck_require__(918);
 const getArrayFromPaths = (paths, inputs) => {
     return Array.isArray(paths) ? paths : paths.split(inputs.separator);
 };
-const setOutputsAndGetModifiedAndChangedFilesStatus = ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '', workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, [_a], void 0, function* ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '', workingDirectory }) {
     const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
@@ -876,8 +876,8 @@ exports.getSHAForPullRequestEvent = exports.getSHAForNonPullRequestEvent = void 
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
-const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f, _g;
+const getCurrentSHA = (_a) => __awaiter(void 0, [_a], void 0, function* ({ inputs, workingDirectory }) {
+    var _b, _c, _d, _e, _f, _g, _h;
     let currentSha = yield (0, utils_1.cleanShaInput)({
         sha: inputs.sha,
         cwd: workingDirectory,
@@ -907,16 +907,16 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
     }
     else {
         if (!currentSha) {
-            if (((_b = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha) &&
+            if (((_c = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head) === null || _c === void 0 ? void 0 : _c.sha) &&
                 (yield (0, utils_1.verifyCommitSha)({
-                    sha: (_d = (_c = github.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.sha,
+                    sha: (_e = (_d = github.context.payload.pull_request) === null || _d === void 0 ? void 0 : _d.head) === null || _e === void 0 ? void 0 : _e.sha,
                     cwd: workingDirectory,
                     showAsErrorMessage: false
                 })) === 0) {
-                currentSha = (_f = (_e = github.context.payload.pull_request) === null || _e === void 0 ? void 0 : _e.head) === null || _f === void 0 ? void 0 : _f.sha;
+                currentSha = (_g = (_f = github.context.payload.pull_request) === null || _f === void 0 ? void 0 : _f.head) === null || _g === void 0 ? void 0 : _g.sha;
             }
             else if (github.context.eventName === 'merge_group') {
-                currentSha = (_g = github.context.payload.merge_group) === null || _g === void 0 ? void 0 : _g.head_sha;
+                currentSha = (_h = github.context.payload.merge_group) === null || _h === void 0 ? void 0 : _h.head_sha;
             }
             else {
                 currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
@@ -928,7 +928,7 @@ const getCurrentSHA = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0
     return currentSha;
 });
 const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag) => __awaiter(void 0, void 0, void 0, function* () {
-    var _h, _j, _k;
+    var _j, _k, _l;
     let targetBranch = env.GITHUB_REF_NAME;
     let currentBranch = targetBranch;
     let initialCommit = false;
@@ -940,8 +940,8 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
                 if (github.context.payload.base_ref) {
                     sourceBranch = github.context.payload.base_ref.replace('refs/heads/', '');
                 }
-                else if ((_h = github.context.payload.release) === null || _h === void 0 ? void 0 : _h.target_commitish) {
-                    sourceBranch = (_j = github.context.payload.release) === null || _j === void 0 ? void 0 : _j.target_commitish;
+                else if ((_j = github.context.payload.release) === null || _j === void 0 ? void 0 : _j.target_commitish) {
+                    sourceBranch = (_k = github.context.payload.release) === null || _k === void 0 ? void 0 : _k.target_commitish;
                 }
                 yield (0, utils_1.gitFetch)({
                     cwd: workingDirectory,
@@ -1051,7 +1051,7 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
         else {
             if (github.context.eventName === 'merge_group') {
                 core.debug('Getting previous SHA for merge group...');
-                previousSha = (_k = github.context.payload.merge_group) === null || _k === void 0 ? void 0 : _k.base_sha;
+                previousSha = (_l = github.context.payload.merge_group) === null || _l === void 0 ? void 0 : _l.base_sha;
             }
             else {
                 core.debug('Getting previous SHA for last remote commit...');
@@ -1108,9 +1108,9 @@ const getSHAForNonPullRequestEvent = (inputs, env, workingDirectory, isShallow, 
 });
 exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
 const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs) => __awaiter(void 0, void 0, void 0, function* () {
-    var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
-    let targetBranch = (_m = (_l = github.context.payload.pull_request) === null || _l === void 0 ? void 0 : _l.base) === null || _m === void 0 ? void 0 : _m.ref;
-    const currentBranch = (_p = (_o = github.context.payload.pull_request) === null || _o === void 0 ? void 0 : _o.head) === null || _p === void 0 ? void 0 : _p.ref;
+    var _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2;
+    let targetBranch = (_o = (_m = github.context.payload.pull_request) === null || _m === void 0 ? void 0 : _m.base) === null || _o === void 0 ? void 0 : _o.ref;
+    const currentBranch = (_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.head) === null || _q === void 0 ? void 0 : _q.ref;
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
@@ -1124,7 +1124,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                     '-u',
                     '--progress',
                     'origin',
-                    `pull/${(_q = github.context.payload.pull_request) === null || _q === void 0 ? void 0 : _q.number}/head:${currentBranch}`
+                    `pull/${(_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.number}/head:${currentBranch}`
                 ]
             });
             if (prFetchExitCode !== 0) {
@@ -1206,8 +1206,8 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             diff
         };
     }
-    if (!((_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.base) === null || _s === void 0 ? void 0 : _s.ref) ||
-        ((_u = (_t = github.context.payload.head) === null || _t === void 0 ? void 0 : _t.repo) === null || _u === void 0 ? void 0 : _u.fork) === 'true') {
+    if (!((_t = (_s = github.context.payload.pull_request) === null || _s === void 0 ? void 0 : _s.base) === null || _t === void 0 ? void 0 : _t.ref) ||
+        ((_w = (_v = (_u = github.context.payload.pull_request) === null || _u === void 0 ? void 0 : _u.head) === null || _v === void 0 ? void 0 : _v.repo) === null || _w === void 0 ? void 0 : _w.fork) === true) {
         diff = '..';
     }
     if (!previousSha || previousSha === currentSha) {
@@ -1249,7 +1249,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
         }
         else {
             if (github.context.payload.action === 'closed') {
-                previousSha = (_w = (_v = github.context.payload.pull_request) === null || _v === void 0 ? void 0 : _v.base) === null || _w === void 0 ? void 0 : _w.sha;
+                previousSha = (_y = (_x = github.context.payload.pull_request) === null || _x === void 0 ? void 0 : _x.base) === null || _y === void 0 ? void 0 : _y.sha;
             }
             else {
                 previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
@@ -1257,7 +1257,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
                     branch: targetBranch
                 });
                 if (!previousSha) {
-                    previousSha = (_y = (_x = github.context.payload.pull_request) === null || _x === void 0 ? void 0 : _x.base) === null || _y === void 0 ? void 0 : _y.sha;
+                    previousSha = (_0 = (_z = github.context.payload.pull_request) === null || _z === void 0 ? void 0 : _z.base) === null || _0 === void 0 ? void 0 : _0.sha;
                 }
             }
             if (isShallow) {
@@ -1295,7 +1295,7 @@ const getSHAForPullRequestEvent = (inputs, env, workingDirectory, isShallow, has
             }
         }
         if (!previousSha || previousSha === currentSha) {
-            previousSha = (_0 = (_z = github.context.payload.pull_request) === null || _z === void 0 ? void 0 : _z.base) === null || _0 === void 0 ? void 0 : _0.sha;
+            previousSha = (_2 = (_1 = github.context.payload.pull_request) === null || _1 === void 0 ? void 0 : _1.base) === null || _2 === void 0 ? void 0 : _2.sha;
         }
     }
     if (!(yield (0, utils_1.canDiffCommits)({
@@ -1707,8 +1707,8 @@ const commitSha_1 = __nccwpck_require__(8613);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
-const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c;
+const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 0, function* ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) {
+    var _b, _c, _d;
     yield (0, utils_1.verifyMinimumGitVersion)();
     let quotepathValue = 'on';
     if (!inputs.quotepath) {
@@ -1727,7 +1727,7 @@ const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, fil
     const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
     const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
     let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules'];
-    const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
+    const isTag = (_b = env.GITHUB_REF) === null || _b === void 0 ? void 0 : _b.startsWith('refs/tags/');
     const outputRenamedFilesAsDeletedAndAdded = inputs.outputRenamedFilesAsDeletedAndAdded;
     let submodulePaths = [];
     if (hasSubmodule) {
@@ -1737,7 +1737,7 @@ const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, fil
         gitFetchExtraArgs = ['--prune', '--no-recurse-submodules'];
     }
     let diffResult;
-    if (!((_c = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.base) === null || _c === void 0 ? void 0 : _c.ref)) {
+    if (!((_d = (_c = github.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.base) === null || _d === void 0 ? void 0 : _d.ref)) {
         core.info(`Running on a ${github.context.eventName || 'push'} event...`);
         diffResult = yield (0, commitSha_1.getSHAForNonPullRequestEvent)(inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag);
     }
@@ -1816,7 +1816,7 @@ const getChangedFilesFromLocalGitHistory = ({ inputs, env, workingDirectory, fil
         core.endGroup();
     }
 });
-const getChangedFilesFromRESTAPI = ({ inputs, filePatterns, yamlFilePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+const getChangedFilesFromRESTAPI = (_e) => __awaiter(void 0, [_e], void 0, function* ({ inputs, filePatterns, yamlFilePatterns }) {
     const allDiffFiles = yield (0, changedFiles_1.getChangedFilesFromGithubAPI)({
         inputs
     });
@@ -1830,8 +1830,8 @@ const getChangedFilesFromRESTAPI = ({ inputs, filePatterns, yamlFilePatterns }) 
     });
 });
 function run() {
-    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
         core.startGroup('changed-files');
         const env = yield (0, env_1.getEnv)();
         core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
@@ -1868,8 +1868,7 @@ function run() {
         }
         else {
             if (!hasGitDirectory) {
-                core.info(`Running on a ${github.context.eventName} event...`);
-                throw new Error(`Can't find local .git in ${workingDirectory} directory. Please run actions/checkout before this action (Make sure the 'path' input is correct). If you intend to use Github's REST API note that only pull_request* events are supported.`);
+                throw new Error(`Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`);
             }
             core.info('Using local .git directory');
             yield getChangedFilesFromLocalGitHistory({
@@ -2089,9 +2088,9 @@ exports.exists = exists;
  * @param filePath - path of file to read
  * @param excludedFiles - whether to exclude files
  */
-function lineOfFileGenerator({ filePath, excludedFiles }) {
-    return __asyncGenerator(this, arguments, function* lineOfFileGenerator_1() {
-        var _a, e_1, _b, _c;
+function lineOfFileGenerator(_a) {
+    return __asyncGenerator(this, arguments, function* lineOfFileGenerator_1({ filePath, excludedFiles }) {
+        var _b, e_1, _c, _d;
         const fileStream = (0, fs_1.createReadStream)(filePath);
         /* istanbul ignore next */
         fileStream.on('error', error => {
@@ -2102,10 +2101,10 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
             crlfDelay: Infinity
         });
         try {
-            for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _a = rl_1_1.done, !_a; _d = true) {
-                _c = rl_1_1.value;
-                _d = false;
-                let line = _c;
+            for (var _e = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _b = rl_1_1.done, !_b; _e = true) {
+                _d = rl_1_1.value;
+                _e = false;
+                let line = _d;
                 if (!line.startsWith('#') && line !== '') {
                     if (excludedFiles) {
                         line = line.startsWith('!') ? line : `!${line}`;
@@ -2124,7 +2123,7 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (!_d && !_a && (_b = rl_1.return)) yield __await(_b.call(rl_1));
+                if (!_e && !_b && (_c = rl_1.return)) yield __await(_c.call(rl_1));
             }
             finally { if (e_1) throw e_1.error; }
         }
@@ -2135,22 +2134,22 @@ function lineOfFileGenerator({ filePath, excludedFiles }) {
  * @param filePaths - paths of files to read
  * @param excludedFiles - whether to exclude the file patterns
  */
-const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, e_2, _c, _d;
+const getFilesFromSourceFile = (_b) => __awaiter(void 0, [_b], void 0, function* ({ filePaths, excludedFiles = false }) {
+    var _c, e_2, _d, _e;
     const lines = [];
     for (const filePath of filePaths) {
         try {
-            for (var _e = true, _f = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _g; _g = yield _f.next(), _b = _g.done, !_b; _e = true) {
-                _d = _g.value;
-                _e = false;
-                const line = _d;
+            for (var _f = true, _g = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _h; _h = yield _g.next(), _c = _h.done, !_c; _f = true) {
+                _e = _h.value;
+                _f = false;
+                const line = _e;
                 lines.push(line);
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (!_e && !_b && (_c = _f.return)) yield _c.call(_f);
+                if (!_f && !_c && (_d = _g.return)) yield _d.call(_g);
             }
             finally { if (e_2) throw e_2.error; }
         }
@@ -2163,7 +2162,7 @@ const getFilesFromSourceFile = ({ filePaths, excludedFiles = false }) => __await
  * @param value - value of config
  * @throws Couldn't update git global config
  */
-const updateGitGlobalConfig = ({ name, value }) => __awaiter(void 0, void 0, void 0, function* () {
+const updateGitGlobalConfig = (_j) => __awaiter(void 0, [_j], void 0, function* ({ name, value }) {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['config', '--global', name, value], {
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2179,7 +2178,7 @@ exports.updateGitGlobalConfig = updateGitGlobalConfig;
  * @param cwd - working directory
  * @returns repository is shallow
  */
-const isRepoShallow = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const isRepoShallow = (_k) => __awaiter(void 0, [_k], void 0, function* ({ cwd }) {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
         silent: !core.isDebug()
@@ -2192,7 +2191,7 @@ exports.isRepoShallow = isRepoShallow;
  * @param cwd - working directory
  * @returns submodule exists
  */
-const submoduleExists = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const submoduleExists = (_l) => __awaiter(void 0, [_l], void 0, function* ({ cwd }) {
     const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
@@ -2211,7 +2210,7 @@ exports.submoduleExists = submoduleExists;
  * @param cwd - working directory
  * @returns exit code
  */
-const gitFetch = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitFetch = (_m) => __awaiter(void 0, [_m], void 0, function* ({ args, cwd }) {
     const { exitCode } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
@@ -2225,7 +2224,7 @@ exports.gitFetch = gitFetch;
  * @param args - arguments for fetch command
  * @param cwd - working directory
  */
-const gitFetchSubmodules = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitFetchSubmodules = (_o) => __awaiter(void 0, [_o], void 0, function* ({ args, cwd }) {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
@@ -2242,7 +2241,7 @@ exports.gitFetchSubmodules = gitFetchSubmodules;
  * @param cwd - working directory
  * @returns submodule paths
  */
-const getSubmodulePath = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const getSubmodulePath = (_p) => __awaiter(void 0, [_p], void 0, function* ({ cwd }) {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
@@ -2267,17 +2266,17 @@ exports.getSubmodulePath = getSubmodulePath;
  * @param diff - diff type between parent commits (`..` or `...`)
  * @returns commit sha of submodule
  */
-const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _h, _j, _k, _l;
+const gitSubmoduleDiffSHA = (_q) => __awaiter(void 0, [_q], void 0, function* ({ cwd, parentSha1, parentSha2, submodulePath, diff }) {
+    var _r, _s, _t, _u;
     const { stdout } = yield exec.getExecOutput('git', ['diff', `${parentSha1}${diff}${parentSha2}`, '--', submodulePath], {
         cwd,
         silent: !core.isDebug()
     });
     const subprojectCommitPreRegex = /^(?<preCommit>-)Subproject commit (?<commitHash>.+)$/m;
     const subprojectCommitCurRegex = /^(?<curCommit>\+)Subproject commit (?<commitHash>.+)$/m;
-    const previousSha = ((_j = (_h = subprojectCommitPreRegex.exec(stdout)) === null || _h === void 0 ? void 0 : _h.groups) === null || _j === void 0 ? void 0 : _j.commitHash) ||
+    const previousSha = ((_s = (_r = subprojectCommitPreRegex.exec(stdout)) === null || _r === void 0 ? void 0 : _r.groups) === null || _s === void 0 ? void 0 : _s.commitHash) ||
         '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
-    const currentSha = (_l = (_k = subprojectCommitCurRegex.exec(stdout)) === null || _k === void 0 ? void 0 : _k.groups) === null || _l === void 0 ? void 0 : _l.commitHash;
+    const currentSha = (_u = (_t = subprojectCommitCurRegex.exec(stdout)) === null || _t === void 0 ? void 0 : _t.groups) === null || _u === void 0 ? void 0 : _u.commitHash;
     if (currentSha) {
         return { previousSha, currentSha };
     }
@@ -2285,7 +2284,7 @@ const gitSubmoduleDiffSHA = ({ cwd, parentSha1, parentSha2, submodulePath, diff 
     return {};
 });
 exports.gitSubmoduleDiffSHA = gitSubmoduleDiffSHA;
-const gitRenamedFiles = ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false, parentDir = '' }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitRenamedFiles = (_v) => __awaiter(void 0, [_v], void 0, function* ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false, parentDir = '' }) {
     const { exitCode, stderr, stdout } = yield exec.getExecOutput('git', [
         'diff',
         '--name-status',
@@ -2335,7 +2334,7 @@ exports.gitRenamedFiles = gitRenamedFiles;
  * @param failOnInitialDiffError - fail if the initial diff fails
  * @param failOnSubmoduleDiffError - fail if the submodule diff fails
  */
-const getAllChangedFiles = ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false, failOnInitialDiffError = false, failOnSubmoduleDiffError = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllChangedFiles = (_w) => __awaiter(void 0, [_w], void 0, function* ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false, failOnInitialDiffError = false, failOnSubmoduleDiffError = false }) {
     const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
         'diff',
         '--name-status',
@@ -2406,7 +2405,7 @@ exports.getAllChangedFiles = getAllChangedFiles;
  * @param allDiffFiles - all the changed files
  * @param filePatterns - file patterns to filter by
  */
-const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(void 0, void 0, void 0, function* () {
+const getFilteredChangedFiles = (_x) => __awaiter(void 0, [_x], void 0, function* ({ allDiffFiles, filePatterns }) {
     const changedFiles = {
         [changedFiles_1.ChangeTypeEnum.Added]: [],
         [changedFiles_1.ChangeTypeEnum.Copied]: [],
@@ -2435,7 +2434,7 @@ const getFilteredChangedFiles = ({ allDiffFiles, filePatterns }) => __awaiter(vo
     return changedFiles;
 });
 exports.getFilteredChangedFiles = getFilteredChangedFiles;
-const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const gitLog = (_y) => __awaiter(void 0, [_y], void 0, function* ({ args, cwd }) {
     const { stdout } = yield exec.getExecOutput('git', ['log', ...args], {
         cwd,
         silent: !core.isDebug()
@@ -2443,7 +2442,7 @@ const gitLog = ({ args, cwd }) => __awaiter(void 0, void 0, void 0, function* ()
     return stdout.trim();
 });
 exports.gitLog = gitLog;
-const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const getHeadSha = (_z) => __awaiter(void 0, [_z], void 0, function* ({ cwd }) {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
         cwd,
         silent: !core.isDebug()
@@ -2451,16 +2450,19 @@ const getHeadSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
     return stdout.trim();
 });
 exports.getHeadSha = getHeadSha;
-const isInsideWorkTree = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const isInsideWorkTree = (_0) => __awaiter(void 0, [_0], void 0, function* ({ cwd }) {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-inside-work-tree'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
+    if (stdout.trim() !== 'true') {
+        core.debug(`The current working directory is not inside a git repository: ${cwd}`);
+    }
     return stdout.trim() === 'true';
 });
 exports.isInsideWorkTree = isInsideWorkTree;
-const getRemoteBranchHeadSha = ({ cwd, branch }) => __awaiter(void 0, void 0, void 0, function* () {
+const getRemoteBranchHeadSha = (_1) => __awaiter(void 0, [_1], void 0, function* ({ cwd, branch }) {
     const { stdout } = yield exec.getExecOutput('git', ['rev-parse', `origin/${branch}`], {
         cwd,
         silent: !core.isDebug()
@@ -2468,7 +2470,7 @@ const getRemoteBranchHeadSha = ({ cwd, branch }) => __awaiter(void 0, void 0, vo
     return stdout.trim();
 });
 exports.getRemoteBranchHeadSha = getRemoteBranchHeadSha;
-const getCurrentBranchName = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const getCurrentBranchName = (_2) => __awaiter(void 0, [_2], void 0, function* ({ cwd }) {
     const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
         cwd,
         ignoreReturnCode: true,
@@ -2480,7 +2482,7 @@ const getCurrentBranchName = ({ cwd }) => __awaiter(void 0, void 0, void 0, func
     return stdout.trim();
 });
 exports.getCurrentBranchName = getCurrentBranchName;
-const getParentSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const getParentSha = (_3) => __awaiter(void 0, [_3], void 0, function* ({ cwd }) {
     const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
         cwd,
         ignoreReturnCode: true,
@@ -2492,7 +2494,7 @@ const getParentSha = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* ()
     return stdout.trim();
 });
 exports.getParentSha = getParentSha;
-const verifyCommitSha = ({ sha, cwd, showAsErrorMessage = true }) => __awaiter(void 0, void 0, void 0, function* () {
+const verifyCommitSha = (_4) => __awaiter(void 0, [_4], void 0, function* ({ sha, cwd, showAsErrorMessage = true }) {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
         ignoreReturnCode: true,
@@ -2524,7 +2526,7 @@ exports.verifyCommitSha = verifyCommitSha;
  * @param token The GitHub token.
  * @returns The cleaned SHA string.
  */
-const cleanShaInput = ({ sha, cwd, token }) => __awaiter(void 0, void 0, void 0, function* () {
+const cleanShaInput = (_5) => __awaiter(void 0, [_5], void 0, function* ({ sha, cwd, token }) {
     // Check if the input is a valid commit sha
     if (!sha) {
         return sha;
@@ -2548,7 +2550,7 @@ const cleanShaInput = ({ sha, cwd, token }) => __awaiter(void 0, void 0, void 0,
     return stdout.trim();
 });
 exports.cleanShaInput = cleanShaInput;
-const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, function* () {
+const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ cwd }) {
     const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-creatordate'], {
         cwd,
         silent: !core.isDebug()
@@ -2567,7 +2569,7 @@ const getPreviousGitTag = ({ cwd }) => __awaiter(void 0, void 0, void 0, functio
     return { tag: previousTag, sha };
 });
 exports.getPreviousGitTag = getPreviousGitTag;
-const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, void 0, function* () {
+const canDiffCommits = (_7) => __awaiter(void 0, [_7], void 0, function* ({ cwd, sha1, sha2, diff }) {
     if (diff === '...') {
         const mergeBase = yield getMergeBase(cwd, sha1, sha2);
         if (!mergeBase) {
@@ -2586,7 +2588,7 @@ const canDiffCommits = ({ cwd, sha1, sha2, diff }) => __awaiter(void 0, void 0, 
         return true;
     }
     else {
-        const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--quiet', sha1, sha2], {
+        const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--no-patch', sha1, sha2], {
             cwd,
             ignoreReturnCode: true,
             silent: !core.isDebug()
@@ -2634,7 +2636,7 @@ const getDirNamesIncludeFilesPattern = ({ inputs }) => {
         .filter(Boolean);
 };
 exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
-const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getFilePatterns = (_8) => __awaiter(void 0, [_8], void 0, function* ({ inputs, workingDirectory }) {
     let cleanedFilePatterns = [];
     if (inputs.files) {
         const filesPatterns = inputs.files
@@ -2701,7 +2703,7 @@ const getFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void
     return cleanedFilePatterns;
 });
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excludedFiles = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const getYamlFilePatternsFromContents = (_9) => __awaiter(void 0, [_9], void 0, function* ({ content = '', filePath = '', excludedFiles = false }) {
     const filePatterns = {};
     let source = '';
     if (filePath) {
@@ -2758,7 +2760,7 @@ const getYamlFilePatternsFromContents = ({ content = '', filePath = '', excluded
     }
     return filePatterns;
 });
-const getYamlFilePatterns = ({ inputs, workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const getYamlFilePatterns = (_10) => __awaiter(void 0, [_10], void 0, function* ({ inputs, workingDirectory }) {
     let filePatterns = {};
     if (inputs.filesYaml) {
         filePatterns = Object.assign({}, (yield getYamlFilePatternsFromContents({ content: inputs.filesYaml })));
@@ -2833,7 +2835,7 @@ const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
 exports.getOutputKey = getOutputKey;
-const setArrayOutput = ({ key, inputs, value, outputPrefix }) => __awaiter(void 0, void 0, void 0, function* () {
+const setArrayOutput = (_11) => __awaiter(void 0, [_11], void 0, function* ({ key, inputs, value, outputPrefix }) {
     core.debug(`${key}: ${JSON.stringify(value)}`);
     yield (0, exports.setOutput)({
         key: outputPrefix ? (0, exports.getOutputKey)(key, outputPrefix) : key,
@@ -2846,7 +2848,7 @@ const setArrayOutput = ({ key, inputs, value, outputPrefix }) => __awaiter(void 
     });
 });
 exports.setArrayOutput = setArrayOutput;
-const setOutput = ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) => __awaiter(void 0, void 0, void 0, function* () {
+const setOutput = (_12) => __awaiter(void 0, [_12], void 0, function* ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) {
     let cleanedValue;
     if (json) {
         cleanedValue = (0, exports.jsonOutput)({ value, shouldEscape });
@@ -2869,7 +2871,7 @@ const setOutput = ({ key, value, writeOutputFiles, outputDir, json = false, shou
     }
 });
 exports.setOutput = setOutput;
-const getDeletedFileContents = ({ cwd, filePath, sha }) => __awaiter(void 0, void 0, void 0, function* () {
+const getDeletedFileContents = (_13) => __awaiter(void 0, [_13], void 0, function* ({ cwd, filePath, sha }) {
     const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['show', `${sha}:${filePath}`], {
         cwd,
         silent: !core.isDebug(),
@@ -2880,7 +2882,7 @@ const getDeletedFileContents = ({ cwd, filePath, sha }) => __awaiter(void 0, voi
     }
     return stdout;
 });
-const recoverDeletedFiles = ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, hasSubmodule, submodulePaths }) => __awaiter(void 0, void 0, void 0, function* () {
+const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, hasSubmodule, submodulePaths }) {
     let recoverableDeletedFiles = deletedFiles;
     core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
     if (recoverPatterns.length > 0) {
@@ -2945,7 +2947,7 @@ exports.recoverDeletedFiles = recoverDeletedFiles;
  * @param workingDirectory - The path of the working directory.
  * @returns A boolean value indicating whether the working directory has a local Git directory.
  */
-const hasLocalGitDirectory = ({ workingDirectory }) => __awaiter(void 0, void 0, void 0, function* () {
+const hasLocalGitDirectory = (_15) => __awaiter(void 0, [_15], void 0, function* ({ workingDirectory }) {
     return yield (0, exports.isInsideWorkTree)({
         cwd: workingDirectory
     });
@@ -2956,13 +2958,13 @@ exports.hasLocalGitDirectory = hasLocalGitDirectory;
  *
  * @param inputs - The inputs object.
  */
-const warnUnsupportedRESTAPIInputs = ({ inputs }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _m, _o;
+const warnUnsupportedRESTAPIInputs = (_16) => __awaiter(void 0, [_16], void 0, function* ({ inputs }) {
+    var _17, _18;
     for (const key of Object.keys(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS)) {
         const defaultValue = Object.hasOwnProperty.call(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS, key)
-            ? (_m = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _m === void 0 ? void 0 : _m.toString()
+            ? (_17 = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _17 === void 0 ? void 0 : _17.toString()
             : '';
-        if (defaultValue !== ((_o = inputs[key]) === null || _o === void 0 ? void 0 : _o.toString())) {
+        if (defaultValue !== ((_18 = inputs[key]) === null || _18 === void 0 ? void 0 : _18.toString())) {
             core.warning(`Input "${(0, lodash_1.snakeCase)(key)}" is not supported when using GitHub's REST API to get changed files`);
         }
     }
@@ -5549,7 +5551,7 @@ class HttpClient {
         if (this._keepAlive && useProxy) {
             agent = this._proxyAgent;
         }
-        if (this._keepAlive && !useProxy) {
+        if (!useProxy) {
             agent = this._agent;
         }
         // if agent is already assigned use that agent.
@@ -5581,15 +5583,11 @@ class HttpClient {
             agent = tunnelAgent(agentOptions);
             this._proxyAgent = agent;
         }
-        // if reusing agent across request and tunneling agent isn't assigned create a new agent
-        if (this._keepAlive && !agent) {
+        // if tunneling agent isn't assigned create a new agent
+        if (!agent) {
             const options = { keepAlive: this._keepAlive, maxSockets };
             agent = usingSsl ? new https.Agent(options) : new http.Agent(options);
             this._agent = agent;
-        }
-        // if not using private agent and tunnel agent isn't setup then use global agent
-        if (!agent) {
-            agent = usingSsl ? https.globalAgent : http.globalAgent;
         }
         if (usingSsl && this._ignoreSslError) {
             // we don't want to set NODE_TLS_REJECT_UNAUTHORIZED=0 since that will affect request for entire process
@@ -7119,7 +7117,7 @@ __export(dist_src_exports, {
 module.exports = __toCommonJS(dist_src_exports);
 
 // pkg/dist-src/version.js
-var VERSION = "9.1.5";
+var VERSION = "9.2.1";
 
 // pkg/dist-src/normalize-paginated-list-response.js
 function normalizePaginatedListResponse(response) {
@@ -7280,6 +7278,8 @@ var paginatingEndpoints = [
   "GET /orgs/{org}/members/{username}/codespaces",
   "GET /orgs/{org}/migrations",
   "GET /orgs/{org}/migrations/{migration_id}/repositories",
+  "GET /orgs/{org}/organization-roles/{role_id}/teams",
+  "GET /orgs/{org}/organization-roles/{role_id}/users",
   "GET /orgs/{org}/outside_collaborators",
   "GET /orgs/{org}/packages",
   "GET /orgs/{org}/packages/{package_type}/{package_name}/versions",
@@ -7516,7 +7516,7 @@ __export(dist_src_exports, {
 module.exports = __toCommonJS(dist_src_exports);
 
 // pkg/dist-src/version.js
-var VERSION = "10.2.0";
+var VERSION = "10.4.1";
 
 // pkg/dist-src/generated/endpoints.js
 var Endpoints = {
@@ -7643,6 +7643,9 @@ var Endpoints = {
       "GET /repos/{owner}/{repo}/actions/permissions/selected-actions"
     ],
     getArtifact: ["GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}"],
+    getCustomOidcSubClaimForRepo: [
+      "GET /repos/{owner}/{repo}/actions/oidc/customization/sub"
+    ],
     getEnvironmentPublicKey: [
       "GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key"
     ],
@@ -7795,6 +7798,9 @@ var Endpoints = {
     setCustomLabelsForSelfHostedRunnerForRepo: [
       "PUT /repos/{owner}/{repo}/actions/runners/{runner_id}/labels"
     ],
+    setCustomOidcSubClaimForRepo: [
+      "PUT /repos/{owner}/{repo}/actions/oidc/customization/sub"
+    ],
     setGithubActionsDefaultWorkflowPermissionsOrganization: [
       "PUT /orgs/{org}/actions/permissions/workflow"
     ],
@@ -7864,6 +7870,7 @@ var Endpoints = {
     listWatchersForRepo: ["GET /repos/{owner}/{repo}/subscribers"],
     markNotificationsAsRead: ["PUT /notifications"],
     markRepoNotificationsAsRead: ["PUT /repos/{owner}/{repo}/notifications"],
+    markThreadAsDone: ["DELETE /notifications/threads/{thread_id}"],
     markThreadAsRead: ["PATCH /notifications/threads/{thread_id}"],
     setRepoSubscription: ["PUT /repos/{owner}/{repo}/subscription"],
     setThreadSubscription: [
@@ -8140,10 +8147,10 @@ var Endpoints = {
     updateForAuthenticatedUser: ["PATCH /user/codespaces/{codespace_name}"]
   },
   copilot: {
-    addCopilotForBusinessSeatsForTeams: [
+    addCopilotSeatsForTeams: [
       "POST /orgs/{org}/copilot/billing/selected_teams"
     ],
-    addCopilotForBusinessSeatsForUsers: [
+    addCopilotSeatsForUsers: [
       "POST /orgs/{org}/copilot/billing/selected_users"
     ],
     cancelCopilotSeatAssignmentForTeams: [
@@ -8456,9 +8463,23 @@ var Endpoints = {
       }
     ]
   },
+  oidc: {
+    getOidcCustomSubTemplateForOrg: [
+      "GET /orgs/{org}/actions/oidc/customization/sub"
+    ],
+    updateOidcCustomSubTemplateForOrg: [
+      "PUT /orgs/{org}/actions/oidc/customization/sub"
+    ]
+  },
   orgs: {
     addSecurityManagerTeam: [
       "PUT /orgs/{org}/security-managers/teams/{team_slug}"
+    ],
+    assignTeamToOrgRole: [
+      "PUT /orgs/{org}/organization-roles/teams/{team_slug}/{role_id}"
+    ],
+    assignUserToOrgRole: [
+      "PUT /orgs/{org}/organization-roles/users/{username}/{role_id}"
     ],
     blockUser: ["PUT /orgs/{org}/blocks/{username}"],
     cancelInvitation: ["DELETE /orgs/{org}/invitations/{invitation_id}"],
@@ -8468,6 +8489,7 @@ var Endpoints = {
     convertMemberToOutsideCollaborator: [
       "PUT /orgs/{org}/outside_collaborators/{username}"
     ],
+    createCustomOrganizationRole: ["POST /orgs/{org}/organization-roles"],
     createInvitation: ["POST /orgs/{org}/invitations"],
     createOrUpdateCustomProperties: ["PATCH /orgs/{org}/properties/schema"],
     createOrUpdateCustomPropertiesValuesForRepos: [
@@ -8478,6 +8500,9 @@ var Endpoints = {
     ],
     createWebhook: ["POST /orgs/{org}/hooks"],
     delete: ["DELETE /orgs/{org}"],
+    deleteCustomOrganizationRole: [
+      "DELETE /orgs/{org}/organization-roles/{role_id}"
+    ],
     deleteWebhook: ["DELETE /orgs/{org}/hooks/{hook_id}"],
     enableOrDisableSecurityProductOnAllOrgRepos: [
       "POST /orgs/{org}/{security_product}/{enablement}"
@@ -8489,6 +8514,7 @@ var Endpoints = {
     ],
     getMembershipForAuthenticatedUser: ["GET /user/memberships/orgs/{org}"],
     getMembershipForUser: ["GET /orgs/{org}/memberships/{username}"],
+    getOrgRole: ["GET /orgs/{org}/organization-roles/{role_id}"],
     getWebhook: ["GET /orgs/{org}/hooks/{hook_id}"],
     getWebhookConfigForOrg: ["GET /orgs/{org}/hooks/{hook_id}/config"],
     getWebhookDelivery: [
@@ -8504,6 +8530,12 @@ var Endpoints = {
     listInvitationTeams: ["GET /orgs/{org}/invitations/{invitation_id}/teams"],
     listMembers: ["GET /orgs/{org}/members"],
     listMembershipsForAuthenticatedUser: ["GET /user/memberships/orgs"],
+    listOrgRoleTeams: ["GET /orgs/{org}/organization-roles/{role_id}/teams"],
+    listOrgRoleUsers: ["GET /orgs/{org}/organization-roles/{role_id}/users"],
+    listOrgRoles: ["GET /orgs/{org}/organization-roles"],
+    listOrganizationFineGrainedPermissions: [
+      "GET /orgs/{org}/organization-fine-grained-permissions"
+    ],
     listOutsideCollaborators: ["GET /orgs/{org}/outside_collaborators"],
     listPatGrantRepositories: [
       "GET /orgs/{org}/personal-access-tokens/{pat_id}/repositories"
@@ -8518,6 +8550,9 @@ var Endpoints = {
     listSecurityManagerTeams: ["GET /orgs/{org}/security-managers"],
     listWebhookDeliveries: ["GET /orgs/{org}/hooks/{hook_id}/deliveries"],
     listWebhooks: ["GET /orgs/{org}/hooks"],
+    patchCustomOrganizationRole: [
+      "PATCH /orgs/{org}/organization-roles/{role_id}"
+    ],
     pingWebhook: ["POST /orgs/{org}/hooks/{hook_id}/pings"],
     redeliverWebhookDelivery: [
       "POST /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts"
@@ -8541,6 +8576,18 @@ var Endpoints = {
     ],
     reviewPatGrantRequestsInBulk: [
       "POST /orgs/{org}/personal-access-token-requests"
+    ],
+    revokeAllOrgRolesTeam: [
+      "DELETE /orgs/{org}/organization-roles/teams/{team_slug}"
+    ],
+    revokeAllOrgRolesUser: [
+      "DELETE /orgs/{org}/organization-roles/users/{username}"
+    ],
+    revokeOrgRoleTeam: [
+      "DELETE /orgs/{org}/organization-roles/teams/{team_slug}/{role_id}"
+    ],
+    revokeOrgRoleUser: [
+      "DELETE /orgs/{org}/organization-roles/users/{username}/{role_id}"
     ],
     setMembershipForUser: ["PUT /orgs/{org}/memberships/{username}"],
     setPublicMembershipForAuthenticatedUser: [
@@ -8832,6 +8879,9 @@ var Endpoints = {
       {},
       { mapToData: "users" }
     ],
+    cancelPagesDeployment: [
+      "POST /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}/cancel"
+    ],
     checkAutomatedSecurityFixes: [
       "GET /repos/{owner}/{repo}/automated-security-fixes"
     ],
@@ -8867,12 +8917,15 @@ var Endpoints = {
     createForAuthenticatedUser: ["POST /user/repos"],
     createFork: ["POST /repos/{owner}/{repo}/forks"],
     createInOrg: ["POST /orgs/{org}/repos"],
+    createOrUpdateCustomPropertiesValues: [
+      "PATCH /repos/{owner}/{repo}/properties/values"
+    ],
     createOrUpdateEnvironment: [
       "PUT /repos/{owner}/{repo}/environments/{environment_name}"
     ],
     createOrUpdateFileContents: ["PUT /repos/{owner}/{repo}/contents/{path}"],
     createOrgRuleset: ["POST /orgs/{org}/rulesets"],
-    createPagesDeployment: ["POST /repos/{owner}/{repo}/pages/deployment"],
+    createPagesDeployment: ["POST /repos/{owner}/{repo}/pages/deployments"],
     createPagesSite: ["POST /repos/{owner}/{repo}/pages"],
     createRelease: ["POST /repos/{owner}/{repo}/releases"],
     createRepoRuleset: ["POST /repos/{owner}/{repo}/rulesets"],
@@ -9025,6 +9078,9 @@ var Endpoints = {
     getOrgRulesets: ["GET /orgs/{org}/rulesets"],
     getPages: ["GET /repos/{owner}/{repo}/pages"],
     getPagesBuild: ["GET /repos/{owner}/{repo}/pages/builds/{build_id}"],
+    getPagesDeployment: [
+      "GET /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}"
+    ],
     getPagesHealthCheck: ["GET /repos/{owner}/{repo}/pages/health"],
     getParticipationStats: ["GET /repos/{owner}/{repo}/stats/participation"],
     getPullRequestReviewProtection: [
@@ -9235,6 +9291,9 @@ var Endpoints = {
     ]
   },
   securityAdvisories: {
+    createFork: [
+      "POST /repos/{owner}/{repo}/security-advisories/{ghsa_id}/forks"
+    ],
     createPrivateVulnerabilityReport: [
       "POST /repos/{owner}/{repo}/security-advisories/reports"
     ],
@@ -9726,7 +9785,7 @@ var import_endpoint = __nccwpck_require__(9440);
 var import_universal_user_agent = __nccwpck_require__(5030);
 
 // pkg/dist-src/version.js
-var VERSION = "8.1.6";
+var VERSION = "8.2.0";
 
 // pkg/dist-src/is-plain-object.js
 function isPlainObject(value) {
@@ -9870,11 +9929,17 @@ async function getResponseData(response) {
 function toErrorMessage(data) {
   if (typeof data === "string")
     return data;
+  let suffix;
+  if ("documentation_url" in data) {
+    suffix = ` - ${data.documentation_url}`;
+  } else {
+    suffix = "";
+  }
   if ("message" in data) {
     if (Array.isArray(data.errors)) {
-      return `${data.message}: ${data.errors.map(JSON.stringify).join(", ")}`;
+      return `${data.message}: ${data.errors.map(JSON.stringify).join(", ")}${suffix}`;
     }
-    return data.message;
+    return `${data.message}${suffix}`;
   }
   return `Unknown error: ${JSON.stringify(data)}`;
 }
@@ -43975,6 +44040,9 @@ function httpRedirectFetch (fetchParams, response) {
     // https://fetch.spec.whatwg.org/#cors-non-wildcard-request-header-name
     request.headersList.delete('authorization')
 
+    // https://fetch.spec.whatwg.org/#authentication-entries
+    request.headersList.delete('proxy-authorization', true)
+
     // "Cookie" and "Host" are forbidden request-headers, which undici doesn't implement.
     request.headersList.delete('cookie')
     request.headersList.delete('host')
@@ -55181,7 +55249,7 @@ Dicer.prototype._write = function (data, encoding, cb) {
   if (this._headerFirst && this._isPreamble) {
     if (!this._part) {
       this._part = new PartStream(this._partOpts)
-      if (this._events.preamble) { this.emit('preamble', this._part) } else { this._ignore() }
+      if (this.listenerCount('preamble') !== 0) { this.emit('preamble', this._part) } else { this._ignore() }
     }
     const r = this._hparser.push(data)
     if (!this._inHeader && r !== undefined && r < data.length) { data = data.slice(r) } else { return cb() }
@@ -55238,7 +55306,7 @@ Dicer.prototype._oninfo = function (isMatch, data, start, end) {
       }
     }
     if (this._dashes === 2) {
-      if ((start + i) < end && this._events.trailer) { this.emit('trailer', data.slice(start + i, end)) }
+      if ((start + i) < end && this.listenerCount('trailer') !== 0) { this.emit('trailer', data.slice(start + i, end)) }
       this.reset()
       this._finished = true
       // no more parts will be added
@@ -55256,7 +55324,13 @@ Dicer.prototype._oninfo = function (isMatch, data, start, end) {
     this._part._read = function (n) {
       self._unpause()
     }
-    if (this._isPreamble && this._events.preamble) { this.emit('preamble', this._part) } else if (this._isPreamble !== true && this._events.part) { this.emit('part', this._part) } else { this._ignore() }
+    if (this._isPreamble && this.listenerCount('preamble') !== 0) {
+      this.emit('preamble', this._part)
+    } else if (this._isPreamble !== true && this.listenerCount('part') !== 0) {
+      this.emit('part', this._part)
+    } else {
+      this._ignore()
+    }
     if (!this._isPreamble) { this._inHeader = true }
   }
   if (data && start < end && !this._ignoreData) {
@@ -55939,7 +56013,7 @@ function Multipart (boy, cfg) {
 
         ++nfiles
 
-        if (!boy._events.file) {
+        if (boy.listenerCount('file') === 0) {
           self.parser._ignore()
           return
         }
@@ -56468,7 +56542,7 @@ const decoders = {
     if (textDecoders.has(this.toString())) {
       try {
         return textDecoders.get(this).decode(data)
-      } catch (e) { }
+      } catch {}
     }
     return typeof data === 'string'
       ? data
@@ -58109,19 +58183,19 @@ function foldNewline(source, offset) {
     return { fold, offset };
 }
 const escapeCodes = {
-    '0': '\0',
-    a: '\x07',
-    b: '\b',
-    e: '\x1b',
-    f: '\f',
-    n: '\n',
-    r: '\r',
-    t: '\t',
-    v: '\v',
-    N: '\u0085',
-    _: '\u00a0',
-    L: '\u2028',
-    P: '\u2029',
+    '0': '\0', // null character
+    a: '\x07', // bell character
+    b: '\b', // backspace
+    e: '\x1b', // escape character
+    f: '\f', // form feed
+    n: '\n', // line feed
+    r: '\r', // carriage return
+    t: '\t', // horizontal tab
+    v: '\v', // vertical tab
+    N: '\u0085', // Unicode next line
+    _: '\u00a0', // Unicode non-breaking space
+    L: '\u2028', // Unicode line separator
+    P: '\u2029', // Unicode paragraph separator
     ' ': ' ',
     '"': '"',
     '/': '/',
@@ -62063,7 +62137,10 @@ class Parser {
                 return;
         }
         if (this.indent >= map.indent) {
-            const atNextItem = !this.onKeyLine && this.indent === map.indent && it.sep;
+            const atNextItem = !this.onKeyLine &&
+                this.indent === map.indent &&
+                it.sep &&
+                this.type !== 'seq-item-ind';
             // For empty nodes, assign newline-separated not indented empty tokens to following node
             let start = [];
             if (atNextItem && it.sep && !it.value) {
@@ -63108,7 +63185,7 @@ var Scalar = __nccwpck_require__(9338);
 var stringifyString = __nccwpck_require__(6226);
 
 const binary = {
-    identify: value => value instanceof Uint8Array,
+    identify: value => value instanceof Uint8Array, // Buffer inherits from Uint8Array
     default: false,
     tag: 'tag:yaml.org,2002:binary',
     /**
@@ -63828,7 +63905,7 @@ function foldFlowLines(text, indent, mode = 'flow', { indentAtStart, lineWidth =
     let escStart = -1;
     let escEnd = -1;
     if (mode === FOLD_BLOCK) {
-        i = consumeMoreIndentedLines(text, i);
+        i = consumeMoreIndentedLines(text, i, indent.length);
         if (i !== -1)
             end = i + endStep;
     }
@@ -63852,8 +63929,8 @@ function foldFlowLines(text, indent, mode = 'flow', { indentAtStart, lineWidth =
         }
         if (ch === '\n') {
             if (mode === FOLD_BLOCK)
-                i = consumeMoreIndentedLines(text, i);
-            end = i + endStep;
+                i = consumeMoreIndentedLines(text, i, indent.length);
+            end = i + indent.length + endStep;
             split = undefined;
         }
         else {
@@ -63921,15 +63998,24 @@ function foldFlowLines(text, indent, mode = 'flow', { indentAtStart, lineWidth =
  * Presumes `i + 1` is at the start of a line
  * @returns index of last newline in more-indented block
  */
-function consumeMoreIndentedLines(text, i) {
-    let ch = text[i + 1];
+function consumeMoreIndentedLines(text, i, indent) {
+    let end = i;
+    let start = i + 1;
+    let ch = text[start];
     while (ch === ' ' || ch === '\t') {
-        do {
-            ch = text[(i += 1)];
-        } while (ch && ch !== '\n');
-        ch = text[i + 1];
+        if (i < start + indent) {
+            ch = text[++i];
+        }
+        else {
+            do {
+                ch = text[++i];
+            } while (ch && ch !== '\n');
+            end = i;
+            start = i + 1;
+            ch = text[start];
+        }
     }
-    return i;
+    return end;
 }
 
 exports.FOLD_BLOCK = FOLD_BLOCK;
@@ -64081,7 +64167,6 @@ exports.stringify = stringify;
 "use strict";
 
 
-var Collection = __nccwpck_require__(3466);
 var identity = __nccwpck_require__(5589);
 var stringify = __nccwpck_require__(8409);
 var stringifyComment = __nccwpck_require__(5182);
@@ -64142,7 +64227,7 @@ function stringifyBlockCollection({ comment, items }, ctx, { blockItemPrefix, fl
         onChompKeep();
     return str;
 }
-function stringifyFlowCollection({ comment, items }, ctx, { flowChars, itemIndent, onComment }) {
+function stringifyFlowCollection({ items }, ctx, { flowChars, itemIndent }) {
     const { indent, indentStep, flowCollectionPadding: fcPadding, options: { commentString } } = ctx;
     itemIndent += indentStep;
     const itemCtx = Object.assign({}, ctx, {
@@ -64195,32 +64280,25 @@ function stringifyFlowCollection({ comment, items }, ctx, { flowChars, itemInden
         lines.push(str);
         linesAtValue = lines.length;
     }
-    let str;
     const { start, end } = flowChars;
     if (lines.length === 0) {
-        str = start + end;
+        return start + end;
     }
     else {
         if (!reqNewline) {
             const len = lines.reduce((sum, line) => sum + line.length + 2, 2);
-            reqNewline = len > Collection.Collection.maxFlowStringSingleLineLength;
+            reqNewline = ctx.options.lineWidth > 0 && len > ctx.options.lineWidth;
         }
         if (reqNewline) {
-            str = start;
+            let str = start;
             for (const line of lines)
                 str += line ? `\n${indentStep}${indent}${line}` : '\n';
-            str += `\n${indent}${end}`;
+            return `${str}\n${indent}${end}`;
         }
         else {
-            str = `${start}${fcPadding}${lines.join(' ')}${fcPadding}${end}`;
+            return `${start}${fcPadding}${lines.join(' ')}${fcPadding}${end}`;
         }
     }
-    if (comment) {
-        str += stringifyComment.lineComment(str, indent, commentString(comment));
-        if (onComment)
-            onComment();
-    }
-    return str;
 }
 function addCommentBefore({ indent, options: { commentString } }, lines, comment, chompKeep) {
     if (comment && chompKeep)

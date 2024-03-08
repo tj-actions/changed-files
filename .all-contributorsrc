@@ -208,6 +208,43 @@
         "test",
         "bug"
       ]
+    },
+    {
+      "login": "levenleven",
+      "name": "Aleksey Levenstein",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6463364?v=4",
+      "profile": "https://github.com/levenleven",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "dan-hill2802",
+      "name": "Daniel Hill",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5046322?v=4",
+      "profile": "https://github.com/dan-hill2802",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "KeisukeYamashita",
+      "name": "KeisukeYamashita",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23056537?v=4",
+      "profile": "https://keisukeyamashita.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "codesculpture",
+      "name": "Aravind",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63452117?v=4",
+      "profile": "https://github.com/codesculpture",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

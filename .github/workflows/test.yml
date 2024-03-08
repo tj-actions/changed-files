@@ -2,7 +2,6 @@ name: CI
 
 permissions:
   contents: read
-  pull-requests: write
 
 on:
   push:
@@ -35,6 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       files_changed: ${{ steps.changed_files.outputs.files_changed }}
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,7 +45,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.2
         with:
           cache: 'yarn'
           node-version: '20.x'
@@ -70,7 +72,7 @@ jobs:
           yarn all
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v17
+        uses: tj-actions/verify-changed-files@v19
         id: changed_files
         with:
           files: |
@@ -94,7 +96,7 @@ jobs:
           branch: ${{ github.head_ref }}
 
       - name: Upload build assets
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-assets
           path: dist
@@ -111,6 +113,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     steps:
       - name: Checkout into dir1
         uses: actions/checkout@v4
@@ -121,7 +125,7 @@ jobs:
           path: dir1
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
           path: dir1/dist
@@ -147,7 +151,7 @@ jobs:
           bash
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
           path: dir2/dist
@@ -185,7 +189,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
-
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -194,7 +199,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -243,6 +248,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout branch
@@ -252,7 +259,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -285,6 +292,8 @@ jobs:
         github.event_name == 'push' || 
         github.event_name == 'pull_request'
       ) && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout branch
@@ -294,7 +303,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -315,6 +324,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     strategy:
       fail-fast: false
@@ -331,7 +342,7 @@ jobs:
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -354,6 +365,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout branch
@@ -362,7 +375,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -381,6 +394,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -396,7 +411,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -415,13 +430,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
-
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -469,13 +485,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
-
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -535,7 +552,7 @@ jobs:
           path: dir1
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
           path: dir1/dist
@@ -550,11 +567,83 @@ jobs:
         shell:
           bash
 
+  test-dir-names-nested-folder:
+    name: Test changed-files with dir-names in a nested folder
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          submodules: true
+          fetch-depth: 0
+
+      - name: Download build assets
+        uses: actions/download-artifact@v4
+        with:
+          name: build-assets
+          path: dist
+
+      - name: Get changed files in the .github folder
+        id: changed-files
+        uses: ./
+        with:
+          path: .github
+          json: true
+          escape_json: false
+          dir_names: true
+          dir_names_exclude_current_dir: true
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files.outputs) }}"
+        shell:
+          bash
+
+  test-non-existing-repository:
+    name: Test changed-files with non existing repository
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout into dir1
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          submodules: true
+          fetch-depth: 0
+          path: dir1
+
+      - name: Download build assets
+        uses: actions/download-artifact@v4
+        with:
+          name: build-assets
+          path: dir1/dist
+
+      - name: Run changed-files with non existing repository
+        id: changed-files
+        continue-on-error: true
+        uses: ./dir1
+
+      - name: Verify failed
+        if: steps.changed-files.outcome != 'failure'
+        run: |
+          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          exit 1
+
   test-submodules:
     name: Test changed-files with submodule
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read 
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -570,7 +659,7 @@ jobs:
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -598,6 +687,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -613,7 +704,7 @@ jobs:
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -673,6 +764,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -688,7 +781,7 @@ jobs:
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -863,6 +956,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -896,6 +991,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -937,6 +1034,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -953,7 +1052,7 @@ jobs:
           fetch-depth: ${{ matrix.fetch-depth }}
   
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
 
@@ -987,6 +1086,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     needs: build
     if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -1002,7 +1103,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: ${{ matrix.fetch-depth }}
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-assets
       - name: Dump GitHub context
@@ -1017,7 +1118,7 @@ jobs:
           echo '${{ toJSON(steps.changed-files.outputs) }}'
         shell:
           bash
-      - name: Run changed-files with dir name
+      - name: Run changed-files with dir name pattern
         id: changed-files-dir-name
         uses: ./
         with:

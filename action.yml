@@ -127,7 +127,7 @@ inputs:
     required: false
     default: "false"
   json:
-    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-test.yml"
+    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml"
     required: false
     default: "false"
   escape_json:
@@ -144,8 +144,8 @@ inputs:
     default: "50"
   skip_initial_fetch:
     description: |
-      Skip the initial fetch to improve performance for shallow repositories. 
-      NOTE: This could lead to errors with missing history and the intended use is limited to when you've fetched the history necessary to perform the diff.
+      Skip initially fetching additional history to improve performance for shallow repositories.
+      NOTE: This could lead to errors with missing history. It's intended to be used when you've fetched all necessary history to perform the diff.
     required: false
     default: "false"
   fetch_additional_submodule_history:
@@ -270,9 +270,9 @@ outputs:
   all_changed_files_count:
     description: "Returns the number of `all_changed_files`"
   any_changed:
-    description: "Returns `true` when any of the filenames provided using the `files*` or `files_ignore*` inputs has changed. i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
+    description: "Returns `true` when any of the filenames provided using the `files*` or `files_ignore*` inputs have changed. i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
   only_changed:
-    description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs has changed. i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
+    description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs have changed. i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
   other_changed_files:
     description: "Returns all other changed files not listed in the files input i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
   other_changed_files_count:
