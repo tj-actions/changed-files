@@ -154,8 +154,16 @@ export const getInputs = (): Inputs => {
       trimWhitespace: false
     }
   )
-  const json = core.getBooleanInput('json', {required: false})
-  const escapeJson = core.getBooleanInput('escape_json', {required: false})
+  let json = core.getBooleanInput('json', {required: false})
+  let escapeJson = core.getBooleanInput('escape_json', {required: false})
+  const matrix = core.getBooleanInput('matrix', {required: false})
+
+  // Alias for running in a matrix jobs
+  if (matrix) {
+    json = true
+    escapeJson = false
+  }
+
   const safeOutput = core.getBooleanInput('safe_output', {required: false})
   const fetchDepth = core.getInput('fetch_depth', {required: false})
   const sinceLastRemoteCommit = core.getBooleanInput(
