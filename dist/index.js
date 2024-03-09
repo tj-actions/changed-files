@@ -1540,8 +1540,13 @@ const getInputs = () => {
         required: false,
         trimWhitespace: false
     });
-    const json = core.getBooleanInput('json', { required: false });
-    const escapeJson = core.getBooleanInput('escape_json', { required: false });
+    let json = core.getBooleanInput('json', { required: false });
+    let escapeJson = core.getBooleanInput('escape_json', { required: false });
+    const matrix = core.getBooleanInput('matrix', { required: false });
+    if (matrix) {
+        json = true;
+        escapeJson = false;
+    }
     const safeOutput = core.getBooleanInput('safe_output', { required: false });
     const fetchDepth = core.getInput('fetch_depth', { required: false });
     const sinceLastRemoteCommit = core.getBooleanInput('since_last_remote_commit', { required: false });
@@ -2457,7 +2462,7 @@ const isInsideWorkTree = (_0) => __awaiter(void 0, [_0], void 0, function* ({ cw
         silent: !core.isDebug()
     });
     if (stdout.trim() !== 'true') {
-        core.debug(`The current working directory is not inside a git repository: ${cwd}`);
+        core.warning(`The current working directory is not inside a git repository: ${cwd}`);
     }
     return stdout.trim() === 'true';
 });

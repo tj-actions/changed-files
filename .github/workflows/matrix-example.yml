@@ -24,8 +24,7 @@ jobs:
         id: changed-files
         uses: ./
         with:
-          json: true
-          escape_json: false
+          matrix: true
       - name: List all changed files
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
 
