@@ -1,5 +1,23 @@
 # Changelog
 
+# [42.1.0](https://github.com/tj-actions/changed-files/compare/v42.0.7...v42.1.0) - (2024-03-09)
+
+## <!-- 0 -->🚀 Features
+
+- Add matrix alias to simplify using outputs for matrix jobs ([#1975](https://github.com/tj-actions/changed-files/issues/1975)) ([008ba8c](https://github.com/tj-actions/changed-files/commit/008ba8ceec9f1757264e0512542d5ecab6d87ae6))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1976](https://github.com/tj-actions/changed-files/issues/1976))
+
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([aa08304](https://github.com/tj-actions/changed-files/commit/aa08304bd477b800d468db44fe10f6c61f7f7b11))  - (tj-actions[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42.0.7 ([#1974](https://github.com/tj-actions/changed-files/issues/1974))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([fe6c3ea](https://github.com/tj-actions/changed-files/commit/fe6c3ea0ca88f25e4ba51fa00c27bb5dd06cb08a))  - (tj-actions[bot])
+
 # [42.0.7](https://github.com/tj-actions/changed-files/compare/v42.0.6...v42.0.7) - (2024-03-07)
 
 ## <!-- 16 -->➕ Add
