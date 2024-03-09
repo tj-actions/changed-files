@@ -493,6 +493,13 @@ Support this project with a :star:
     # Default: "false"
     json: ''
 
+    # Output changed files in a format that can be 
+    # used for matrix jobs. Alias for setting inputs `json` 
+    # to `true` and `escape_json` to `false`. 
+    # Type: boolean
+    # Default: "false"
+    matrix: ''
+
     # Apply the negation patterns first. NOTE: This affects how 
     # changed files are matched. 
     # Type: boolean
