@@ -1,5 +1,33 @@
 # Changelog
 
+# [43.0.0](https://github.com/tj-actions/changed-files/compare/v42.1.0...v43.0.0) - (2024-03-13)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for returning true for `any_{changed, modified, deleted}` outputs when no patterns are specified ([#1988](https://github.com/tj-actions/changed-files/issues/1988)) ([a5cf6aa](https://github.com/tj-actions/changed-files/commit/a5cf6aa30cfbe1e0764d2aa5e9f42edb847b6d55))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#1989](https://github.com/tj-actions/changed-files/issues/1989))
+
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([77af4be](https://github.com/tj-actions/changed-files/commit/77af4bed286740ef1a6387dc4e4e4dec39f96054))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.11.27 ([15807c9](https://github.com/tj-actions/changed-files/commit/15807c9c84ec7ff092c52f2f9fecc600e81420f1))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v6.0.2 ([dc458cf](https://github.com/tj-actions/changed-files/commit/dc458cf7531fd39dcf942beb39ef6bdcaddc9715))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.0 ([92ca3ee](https://github.com/tj-actions/changed-files/commit/92ca3eebd01cb3fc4d88a4cbd10f344ea4a116d3))  - (renovate[bot])
+- **deps:** Update dependency @typescript-eslint/eslint-plugin to v7.2.0 ([f591d0c](https://github.com/tj-actions/changed-files/commit/f591d0c7f0b790ca8c139ce92ff4e8c238cb8940))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.26 ([3502336](https://github.com/tj-actions/changed-files/commit/35023362e2b0ff1cd9b970167a1603614e1ad854))  - (renovate[bot])
+- **deps:** Update dependency @typescript-eslint/parser to v7.2.0 ([e436cb6](https://github.com/tj-actions/changed-files/commit/e436cb6d85bcd4aecab64c542f2268998a1cdd2f))  - (renovate[bot])
+- **deps:** Lock file maintenance ([257d47d](https://github.com/tj-actions/changed-files/commit/257d47dfba22be3e0a17f6bad47ff07f7e76747c))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v42.1.0 ([#1977](https://github.com/tj-actions/changed-files/issues/1977))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([4918e11](https://github.com/tj-actions/changed-files/commit/4918e1183080b35a085c91c8abc9e6adc4de61a1))  - (tj-actions[bot])
+
 # [42.1.0](https://github.com/tj-actions/changed-files/compare/v42.0.7...v42.1.0) - (2024-03-09)
 
 ## <!-- 0 -->🚀 Features
