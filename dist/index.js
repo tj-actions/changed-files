@@ -637,7 +637,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
     });
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_changed', outputPrefix),
-        value: allChangedFiles.paths.length > 0 && filePatterns.length > 0,
+        value: allChangedFiles.paths.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
@@ -707,7 +707,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
     });
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_modified', outputPrefix),
-        value: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
+        value: allModifiedFiles.paths.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
@@ -789,7 +789,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
     });
     yield (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_deleted', outputPrefix),
-        value: deletedFiles.paths.length > 0 && filePatterns.length > 0,
+        value: deletedFiles.paths.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
@@ -825,8 +825,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         outputDir: inputs.outputDir
     });
     return {
-        anyModified: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
-        anyChanged: allChangedFiles.paths.length > 0 && filePatterns.length > 0
+        anyModified: allModifiedFiles.paths.length > 0,
+        anyChanged: allChangedFiles.paths.length > 0
     };
 });
 exports.setOutputsAndGetModifiedAndChangedFilesStatus = setOutputsAndGetModifiedAndChangedFilesStatus;

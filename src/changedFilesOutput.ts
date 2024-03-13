@@ -247,7 +247,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
 
   await setOutput({
     key: getOutputKey('any_changed', outputPrefix),
-    value: allChangedFiles.paths.length > 0 && filePatterns.length > 0,
+    value: allChangedFiles.paths.length > 0,
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json
@@ -336,7 +336,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
 
   await setOutput({
     key: getOutputKey('any_modified', outputPrefix),
-    value: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
+    value: allModifiedFiles.paths.length > 0,
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json
@@ -442,7 +442,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
 
   await setOutput({
     key: getOutputKey('any_deleted', outputPrefix),
-    value: deletedFiles.paths.length > 0 && filePatterns.length > 0,
+    value: deletedFiles.paths.length > 0,
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir,
     json: inputs.json
@@ -496,7 +496,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
   })
 
   return {
-    anyModified: allModifiedFiles.paths.length > 0 && filePatterns.length > 0,
-    anyChanged: allChangedFiles.paths.length > 0 && filePatterns.length > 0
+    anyModified: allModifiedFiles.paths.length > 0,
+    anyChanged: allChangedFiles.paths.length > 0
   }
 }
