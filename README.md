@@ -116,8 +116,6 @@ jobs:
     name: Test changed-files
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
       # -----------------------------------------------------------------------------------------------------------
       # Example 1
@@ -229,7 +227,7 @@ jobs:
     # NOTE:
     # - This is limited to pull_request* events and would raise an error for other events.
     # - A maximum of 3000 files can be returned.
-    # - For more flexibility and no limitations see "Using local .git history" above.
+    # - For more flexibility and no limitations see "Using local .git directory" above.
 
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
