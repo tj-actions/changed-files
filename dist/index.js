@@ -1650,6 +1650,7 @@ const getInputs = () => {
         useRestApi
     };
     if (fetchDepth) {
+        // Fallback to at least 2 if the fetch_depth is less than 2
         inputs.fetchDepth = Math.max(parseInt(fetchDepth, 10), 2);
     }
     if (dirNamesMaxDepth) {
