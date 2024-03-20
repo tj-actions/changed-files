@@ -2462,9 +2462,6 @@ const isInsideWorkTree = (_0) => __awaiter(void 0, [_0], void 0, function* ({ cw
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
-    if (stdout.trim() !== 'true') {
-        core.warning(`The current working directory is not inside a git repository: ${cwd}`);
-    }
     return stdout.trim() === 'true';
 });
 exports.isInsideWorkTree = isInsideWorkTree;
