@@ -1,5 +1,44 @@
 # Changelog
 
+# [43.0.1](https://github.com/tj-actions/changed-files/compare/v43.0.0...v43.0.1) - (2024-03-20)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Remove warning with detecting the local git repository when using Github's REST API ([#2002](https://github.com/tj-actions/changed-files/issues/2002)) ([077b23f](https://github.com/tj-actions/changed-files/commit/077b23f6a68d9322b1b4ed4d0c88791b30b314d8))  - (Tonye Jack)
+
+## <!-- 13 -->📦 Bumps
+
+- Bump @typescript-eslint/eslint-plugin from 7.3.0 to 7.3.1 ([#1995](https://github.com/tj-actions/changed-files/issues/1995))
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([5c6aa49](https://github.com/tj-actions/changed-files/commit/5c6aa4947834d6dd7af1de76ed0e000a8cbc0964))  - (dependabot[bot])
+- Bump @typescript-eslint/parser from 7.3.0 to 7.3.1 ([#1996](https://github.com/tj-actions/changed-files/issues/1996))
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([0320702](https://github.com/tj-actions/changed-files/commit/0320702dd5d94814f6c31f81f51dda71ff2d2afc))  - (dependabot[bot])
+
+## <!-- 26 -->🔄 Update
+
+- Update README.md ([2859a60](https://github.com/tj-actions/changed-files/commit/2859a60726ea6e36242029176333d2d37880bbc5))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency typescript to v5.4.3 ([20576b4](https://github.com/tj-actions/changed-files/commit/20576b4b9ed46d41e2d45a2256e5e2316dde6834))  - (renovate[bot])
+- Update inputs.ts adding comment about fetch_depth ([#2000](https://github.com/tj-actions/changed-files/issues/2000)) ([0276805](https://github.com/tj-actions/changed-files/commit/02768050b13fdd81ec63a329d99c63c70c0498d5))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v20.11.30 ([427adf4](https://github.com/tj-actions/changed-files/commit/427adf47f0f2cc0562d8ed340e6ada019719e4ed))  - (renovate[bot])
+- **deps:** Update dependency @typescript-eslint/eslint-plugin to v7.3.1 ([aa0b62a](https://github.com/tj-actions/changed-files/commit/aa0b62a2d0821235d320c725d8a3ac5eaa3d227a))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.29 ([3890368](https://github.com/tj-actions/changed-files/commit/38903688b4f76a85d37c033f85de20dc15cae06f))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.3.0 ([98a74d2](https://github.com/tj-actions/changed-files/commit/98a74d2cd69797eb746b5f87fc277dd48b6fecb7))  - (renovate[bot])
+- **deps:** Lock file maintenance ([068000d](https://github.com/tj-actions/changed-files/commit/068000d9c6712e4e03b15f450774548890556fc7))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.11.28 ([490ac39](https://github.com/tj-actions/changed-files/commit/490ac3999ea698495f8c32c2936450b9db118b2d))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v43 ([#1990](https://github.com/tj-actions/changed-files/issues/1990))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([d03038e](https://github.com/tj-actions/changed-files/commit/d03038e4e418521b091b356b50cff5d7be177c78))  - (tj-actions[bot])
+
 # [43.0.0](https://github.com/tj-actions/changed-files/compare/v42.1.0...v43.0.0) - (2024-03-13)
 
 ## <!-- 0 -->🚀 Features
