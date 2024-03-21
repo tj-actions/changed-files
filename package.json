@@ -1,6 +1,6 @@
 {
   "name": "@tj-actions/changed-files",
-  "version": "43.0.0",
+  "version": "43.0.1",
   "description": "Github action to retrieve all (added, copied, modified, deleted, renamed, type changed, unmerged, unknown) files and directories.",
   "main": "lib/main.js",
   "publishConfig": {
