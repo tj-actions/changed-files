@@ -2524,7 +2524,7 @@ const getParentSha = (_3) => __awaiter(void 0, [_3], void 0, function* ({ cwd })
 exports.getParentSha = getParentSha;
 const setForkRemote = (_4) => __awaiter(void 0, [_4], void 0, function* ({ cwd }) {
     var _5;
-    yield exec.getExecOutput('git', ['remote', 'set-url', 'fork', (_5 = github.context.payload.repository) === null || _5 === void 0 ? void 0 : _5.clone_url], {
+    yield exec.getExecOutput('git', ['remote', 'add', 'fork', (_5 = github.context.payload.repository) === null || _5 === void 0 ? void 0 : _5.clone_url], {
         cwd,
         silent: !core.isDebug()
     });
