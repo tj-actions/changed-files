@@ -320,7 +320,7 @@ Support this project with a :star:
 > *   When using `files_yaml*` inputs:
 >     *   All keys must start with a letter or `_` and contain only alphanumeric characters, `-`, or `_`.
 >
->         For example, `test` or `test_key` or `test-key` or `_test_key` are all valid.
+>         For example, `test` or `test_key` or `test-key` or `_test_key` are all valid choices.
 
 ## Inputs ⚙️
 
