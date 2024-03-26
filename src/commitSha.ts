@@ -86,15 +86,27 @@ export interface DiffResult {
   initialCommit?: boolean
 }
 
-export const getSHAForNonPullRequestEvent = async (
-  inputs: Inputs,
-  env: Env,
-  workingDirectory: string,
-  isShallow: boolean,
-  hasSubmodule: boolean,
-  gitFetchExtraArgs: string[],
+interface SHAForNonPullRequestEvent {
+  inputs: Inputs
+  env: Env
+  workingDirectory: string
+  isShallow: boolean
+  hasSubmodule: boolean
+  gitFetchExtraArgs: string[]
   isTag: boolean
-): Promise<DiffResult> => {
+  remoteName: string
+}
+
+export const getSHAForNonPullRequestEvent = async ({
+  inputs,
+  env,
+  workingDirectory,
+  isShallow,
+  hasSubmodule,
+  gitFetchExtraArgs,
+  isTag,
+  remoteName
+}: SHAForNonPullRequestEvent): Promise<DiffResult> => {
   let targetBranch = env.GITHUB_REF_NAME
   let currentBranch = targetBranch
   let initialCommit = false
@@ -122,8 +134,8 @@ export const getSHAForNonPullRequestEvent = async (
             '-u',
             '--progress',
             `--deepen=${inputs.fetchDepth}`,
-            'origin',
-            `+refs/heads/${sourceBranch}:refs/remotes/origin/${sourceBranch}`
+            remoteName,
+            `+refs/heads/${sourceBranch}:refs/remotes/${remoteName}/${sourceBranch}`
           ]
         })
       } else {
@@ -134,8 +146,8 @@ export const getSHAForNonPullRequestEvent = async (
             '-u',
             '--progress',
             `--deepen=${inputs.fetchDepth}`,
-            'origin',
-            `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
+            remoteName,
+            `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
           ]
         })
       }
@@ -307,14 +319,23 @@ export const getSHAForNonPullRequestEvent = async (
   }
 }
 
-export const getSHAForPullRequestEvent = async (
-  inputs: Inputs,
-  env: Env,
-  workingDirectory: string,
-  isShallow: boolean,
-  hasSubmodule: boolean,
+interface SHAForPullRequestEvent {
+  inputs: Inputs
+  workingDirectory: string
+  isShallow: boolean
+  hasSubmodule: boolean
   gitFetchExtraArgs: string[]
-): Promise<DiffResult> => {
+  remoteName: string
+}
+
+export const getSHAForPullRequestEvent = async ({
+  inputs,
+  workingDirectory,
+  isShallow,
+  hasSubmodule,
+  gitFetchExtraArgs,
+  remoteName
+}: SHAForPullRequestEvent): Promise<DiffResult> => {
   let targetBranch = github.context.payload.pull_request?.base?.ref
   const currentBranch = github.context.payload.pull_request?.head?.ref
   if (inputs.sinceLastRemoteCommit) {
@@ -330,7 +351,7 @@ export const getSHAForPullRequestEvent = async (
           ...gitFetchExtraArgs,
           '-u',
           '--progress',
-          'origin',
+          remoteName,
           `pull/${github.context.payload.pull_request?.number}/head:${currentBranch}`
         ]
       })
@@ -343,8 +364,8 @@ export const getSHAForPullRequestEvent = async (
             '-u',
             '--progress',
             `--deepen=${inputs.fetchDepth}`,
-            'origin',
-            `+refs/heads/${currentBranch}*:refs/remotes/origin/${currentBranch}*`
+            remoteName,
+            `+refs/heads/${currentBranch}*:refs/remotes/${remoteName}/${currentBranch}*`
           ]
         })
       }
@@ -364,8 +385,8 @@ export const getSHAForPullRequestEvent = async (
             '-u',
             '--progress',
             `--deepen=${inputs.fetchDepth}`,
-            'origin',
-            `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
+            remoteName,
+            `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
           ]
         })
 
@@ -427,10 +448,7 @@ export const getSHAForPullRequestEvent = async (
     }
   }
 
-  if (
-    !github.context.payload.pull_request?.base?.ref ||
-    github.context.payload.pull_request?.head?.repo?.fork === true
-  ) {
+  if (!github.context.payload.pull_request?.base?.ref) {
     diff = '..'
   }
 
@@ -492,7 +510,8 @@ export const getSHAForPullRequestEvent = async (
       } else {
         previousSha = await getRemoteBranchHeadSha({
           cwd: workingDirectory,
-          branch: targetBranch
+          branch: targetBranch,
+          remoteName
         })
 
         if (!previousSha) {
@@ -521,8 +540,8 @@ export const getSHAForPullRequestEvent = async (
                 '-u',
                 '--progress',
                 `--deepen=${inputs.fetchDepth}`,
-                'origin',
-                `+refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`
+                remoteName,
+                `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
               ]
             })
 
