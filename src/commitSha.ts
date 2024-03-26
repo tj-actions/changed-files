@@ -326,6 +326,7 @@ interface SHAForPullRequestEvent {
   hasSubmodule: boolean
   gitFetchExtraArgs: string[]
   remoteName: string
+  isFork: boolean
 }
 
 export const getSHAForPullRequestEvent = async ({
@@ -334,7 +335,8 @@ export const getSHAForPullRequestEvent = async ({
   isShallow,
   hasSubmodule,
   gitFetchExtraArgs,
-  remoteName
+  remoteName,
+  isFork
 }: SHAForPullRequestEvent): Promise<DiffResult> => {
   let targetBranch = github.context.payload.pull_request?.base?.ref
   const currentBranch = github.context.payload.pull_request?.head?.ref
@@ -505,7 +507,7 @@ export const getSHAForPullRequestEvent = async ({
         }
       }
     } else {
-      if (github.context.payload.action === 'closed') {
+      if (github.context.payload.action === 'closed' || isFork) {
         previousSha = github.context.payload.pull_request?.base?.sha
       } else {
         previousSha = await getRemoteBranchHeadSha({
