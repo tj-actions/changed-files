@@ -118,7 +118,8 @@ const getChangedFilesFromLocalGitHistory = async ({
       isShallow,
       hasSubmodule,
       gitFetchExtraArgs,
-      remoteName
+      remoteName,
+      isFork
     })
   }
 
