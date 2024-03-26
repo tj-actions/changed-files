@@ -294,7 +294,7 @@ outputs:
   only_deleted:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs have been deleted. (D)"
   other_deleted_files:
-    description: "Returns all other deleted files not listed in the files input i.e. *a  combination of all deleted files (D)*"
+    description: "Returns all other deleted files not listed in the files input i.e. a combination of all deleted files (D)"
   other_deleted_files_count:
     description: "Returns the number of `other_deleted_files`"
   modified_keys:
