@@ -1250,7 +1250,7 @@ See [inputs](#inputs) for more information.
 
 *   [qmk\_firmware uses tj-actions/changed-files to run linters](https://github.com/qmk/qmk_firmware/blob/7a737235ffd49c32d2c5561e8fe53fd96baa7f96/.github/workflows/lint.yml#L30)
 
-*   [argo-cd uses tj-actions/chnaged-files to detect changed frontend or backend files](https://github.com/argoproj/argo-cd/blob/5bc1850aa1d26301043be9f2fb825d88c80c111c/.github/workflows/ci-build.yaml#L33)
+*   [argo-cd uses tj-actions/changed-files to detect changed frontend or backend files](https://github.com/argoproj/argo-cd/blob/5bc1850aa1d26301043be9f2fb825d88c80c111c/.github/workflows/ci-build.yaml#L33)
 
 *   [argo-workflows uses tj-actions/changed-files to run specific jobs based on changes detected](https://github.com/argoproj/argo-workflows/blob/baef4856ff2603c76dbe277c825eaa3f9788fc91/.github/workflows/ci-build.yaml#L34)
 
