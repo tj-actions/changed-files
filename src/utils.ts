@@ -685,14 +685,16 @@ export const isInsideWorkTree = async ({
 
 export const getRemoteBranchHeadSha = async ({
   cwd,
-  branch
+  branch,
+  remoteName
 }: {
   cwd: string
   branch: string
+  remoteName: string
 }): Promise<string> => {
   const {stdout} = await exec.getExecOutput(
     'git',
-    ['rev-parse', `origin/${branch}`],
+    ['rev-parse', `${remoteName}/${branch}`],
     {
       cwd,
       silent: !core.isDebug()
@@ -740,6 +742,24 @@ export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
   }
 
   return stdout.trim()
+}
+
+export const setForkRemote = async ({cwd}: {cwd: string}): Promise<void> => {
+  if (github.context.payload.repository?.fork) {
+    await exec.getExecOutput(
+      'git',
+      [
+        'remote',
+        'set-url',
+        'fork',
+        github.context.payload.repository?.clone_url
+      ],
+      {
+        cwd,
+        silent: !core.isDebug()
+      }
+    )
+  }
 }
 
 export const verifyCommitSha = async ({

@@ -23,6 +23,7 @@ import {
   hasLocalGitDirectory,
   isRepoShallow,
   recoverDeletedFiles,
+  setForkRemote,
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
@@ -65,8 +66,15 @@ const getChangedFilesFromLocalGitHistory = async ({
 
   const isShallow = await isRepoShallow({cwd: workingDirectory})
   const hasSubmodule = await submoduleExists({cwd: workingDirectory})
-  let gitFetchExtraArgs = ['--no-tags', '--prune', '--recurse-submodules']
+  let gitFetchExtraArgs = ['--no-tags', '--prune']
+
+  if (hasSubmodule) {
+    gitFetchExtraArgs.push('--recurse-submodules')
+  }
+
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
+  const isFork = github.context.payload.pull_request?.head.repo.fork || false
+  let remoteName = 'origin'
   const outputRenamedFilesAsDeletedAndAdded =
     inputs.outputRenamedFilesAsDeletedAndAdded
   let submodulePaths: string[] = []
@@ -79,33 +87,39 @@ const getChangedFilesFromLocalGitHistory = async ({
     gitFetchExtraArgs = ['--prune', '--no-recurse-submodules']
   }
 
+  if (isFork) {
+    await setForkRemote({cwd: workingDirectory})
+    remoteName = 'fork'
+  }
+
   let diffResult: DiffResult
 
   if (!github.context.payload.pull_request?.base?.ref) {
     core.info(`Running on a ${github.context.eventName || 'push'} event...`)
-    diffResult = await getSHAForNonPullRequestEvent(
+    diffResult = await getSHAForNonPullRequestEvent({
       inputs,
       env,
       workingDirectory,
       isShallow,
       hasSubmodule,
       gitFetchExtraArgs,
-      isTag
-    )
+      isTag,
+      remoteName
+    })
   } else {
     core.info(
       `Running on a ${github.context.eventName || 'pull_request'} (${
         github.context.payload.action
       }) event...`
     )
-    diffResult = await getSHAForPullRequestEvent(
+    diffResult = await getSHAForPullRequestEvent({
       inputs,
-      env,
       workingDirectory,
       isShallow,
       hasSubmodule,
-      gitFetchExtraArgs
-    )
+      gitFetchExtraArgs,
+      remoteName
+    })
   }
 
   if (diffResult.initialCommit) {
