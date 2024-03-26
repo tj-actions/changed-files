@@ -745,21 +745,14 @@ export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
 }
 
 export const setForkRemote = async ({cwd}: {cwd: string}): Promise<void> => {
-  if (github.context.payload.repository?.fork) {
-    await exec.getExecOutput(
-      'git',
-      [
-        'remote',
-        'set-url',
-        'fork',
-        github.context.payload.repository?.clone_url
-      ],
-      {
-        cwd,
-        silent: !core.isDebug()
-      }
-    )
-  }
+  await exec.getExecOutput(
+    'git',
+    ['remote', 'set-url', 'fork', github.context.payload.repository?.clone_url],
+    {
+      cwd,
+      silent: !core.isDebug()
+    }
+  )
 }
 
 export const verifyCommitSha = async ({
