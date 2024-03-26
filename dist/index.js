@@ -1748,8 +1748,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
         gitFetchExtraArgs = ['--prune', '--no-recurse-submodules'];
     }
     if (isFork) {
-        yield (0, utils_1.setForkRemote)({ cwd: workingDirectory });
-        remoteName = 'fork';
+        remoteName = yield (0, utils_1.setForkRemote)({ cwd: workingDirectory });
     }
     let diffResult;
     if (!((_e = (_d = github.context.payload.pull_request) === null || _d === void 0 ? void 0 : _d.base) === null || _e === void 0 ? void 0 : _e.ref)) {
@@ -2523,12 +2522,30 @@ const getParentSha = (_3) => __awaiter(void 0, [_3], void 0, function* ({ cwd })
     return stdout.trim();
 });
 exports.getParentSha = getParentSha;
-const setForkRemote = (_4) => __awaiter(void 0, [_4], void 0, function* ({ cwd }) {
-    var _5;
-    yield exec.getExecOutput('git', ['remote', 'add', 'fork', (_5 = github.context.payload.repository) === null || _5 === void 0 ? void 0 : _5.clone_url], {
+const remoteExists = (cwd, remoteName) => __awaiter(void 0, void 0, void 0, function* () {
+    const { exitCode } = yield exec.getExecOutput('git', ['remote', 'get-url', remoteName], {
         cwd,
+        ignoreReturnCode: true,
         silent: !core.isDebug()
     });
+    return exitCode === 0;
+});
+const setForkRemote = (_4) => __awaiter(void 0, [_4], void 0, function* ({ cwd }) {
+    var _5;
+    const remoteName = 'changed-files-fork';
+    const remoteFound = yield remoteExists(cwd, remoteName);
+    if (!remoteFound) {
+        yield exec.getExecOutput('git', [
+            'remote',
+            'add',
+            remoteName,
+            (_5 = github.context.payload.repository) === null || _5 === void 0 ? void 0 : _5.clone_url
+        ], {
+            cwd,
+            silent: !core.isDebug()
+        });
+    }
+    return remoteName;
 });
 exports.setForkRemote = setForkRemote;
 const verifyCommitSha = (_6) => __awaiter(void 0, [_6], void 0, function* ({ sha, cwd, showAsErrorMessage = true }) {

@@ -88,8 +88,7 @@ const getChangedFilesFromLocalGitHistory = async ({
   }
 
   if (isFork) {
-    await setForkRemote({cwd: workingDirectory})
-    remoteName = 'fork'
+    remoteName = await setForkRemote({cwd: workingDirectory})
   }
 
   let diffResult: DiffResult
