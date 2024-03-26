@@ -744,47 +744,6 @@ export const getParentSha = async ({cwd}: {cwd: string}): Promise<string> => {
   return stdout.trim()
 }
 
-const remoteExists = async (
-  cwd: string,
-  remoteName: string
-): Promise<boolean> => {
-  const {exitCode} = await exec.getExecOutput(
-    'git',
-    ['remote', 'get-url', remoteName],
-    {
-      cwd,
-      ignoreReturnCode: true,
-      silent: !core.isDebug()
-    }
-  )
-
-  return exitCode === 0
-}
-
-export const setForkRemote = async ({cwd}: {cwd: string}): Promise<string> => {
-  const remoteName = 'changed-files-fork'
-
-  const remoteFound = await remoteExists(cwd, remoteName)
-
-  if (!remoteFound) {
-    await exec.getExecOutput(
-      'git',
-      [
-        'remote',
-        'add',
-        remoteName,
-        github.context.payload.repository?.clone_url
-      ],
-      {
-        cwd,
-        silent: !core.isDebug()
-      }
-    )
-  }
-
-  return remoteName
-}
-
 export const verifyCommitSha = async ({
   sha,
   cwd,
