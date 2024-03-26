@@ -262,7 +262,7 @@ outputs:
   unknown_files_count:
     description: "Returns the number of `unknown_files`"
   all_changed_and_modified_files:
-    description: "Returns all changed and modified files i.e. *a combination of (ACMRDTUX)*"
+    description: "Returns all changed and modified files i.e. a combination of (ACMRDTUX)"
   all_changed_and_modified_files_count:
     description: "Returns the number of `all_changed_and_modified_files`"
   all_changed_files:
@@ -286,7 +286,7 @@ outputs:
   only_modified:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs have been modified. (ACMRD)."
   other_modified_files:
-    description: "Returns all other modified files not listed in the files input i.e. *a combination of all added, copied, modified, and deleted files (ACMRD)*"
+    description: "Returns all other modified files not listed in the files input i.e. a combination of all added, copied, modified, and deleted files (ACMRD)"
   other_modified_files_count:
     description: "Returns the number of `other_modified_files`"
   any_deleted:
@@ -294,13 +294,13 @@ outputs:
   only_deleted:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs have been deleted. (D)"
   other_deleted_files:
-    description: "Returns all other deleted files not listed in the files input i.e. *a  combination of all deleted files (D)*"
+    description: "Returns all other deleted files not listed in the files input i.e. a combination of all deleted files (D)"
   other_deleted_files_count:
     description: "Returns the number of `other_deleted_files`"
   modified_keys:
-    description: "Returns all modified YAML keys when the `files_yaml` input is used. i.e. *key that contains any path that has either been added, copied, modified, and deleted (ACMRD)*"
+    description: "Returns all modified YAML keys when the `files_yaml` input is used. i.e. key that contains any path that has either been added, copied, modified, and deleted (ACMRD)"
   changed_keys:
-    description: "Returns all changed YAML keys when the `files_yaml` input is used. i.e. *key that contains any path that has either been added, copied, modified, and renamed (ACMR)*"
+    description: "Returns all changed YAML keys when the `files_yaml` input is used. i.e. key that contains any path that has either been added, copied, modified, and renamed (ACMR)"
 
 runs:
   using: 'node20'
