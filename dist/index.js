@@ -1107,7 +1107,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
     };
 });
 exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
-const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, function* ({ inputs, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, remoteName }) {
+const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, function* ({ inputs, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, remoteName, isFork }) {
     var _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1;
     let targetBranch = (_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.base) === null || _q === void 0 ? void 0 : _q.ref;
     const currentBranch = (_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.head) === null || _s === void 0 ? void 0 : _s.ref;
@@ -1247,7 +1247,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             }
         }
         else {
-            if (github.context.payload.action === 'closed') {
+            if (github.context.payload.action === 'closed' || isFork) {
                 previousSha = (_x = (_w = github.context.payload.pull_request) === null || _w === void 0 ? void 0 : _w.base) === null || _x === void 0 ? void 0 : _x.sha;
             }
             else {
@@ -1773,7 +1773,8 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             isShallow,
             hasSubmodule,
             gitFetchExtraArgs,
-            remoteName
+            remoteName,
+            isFork
         });
     }
     if (diffResult.initialCommit) {
