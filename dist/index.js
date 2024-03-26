@@ -2523,21 +2523,14 @@ const getParentSha = (_3) => __awaiter(void 0, [_3], void 0, function* ({ cwd })
 });
 exports.getParentSha = getParentSha;
 const setForkRemote = (_4) => __awaiter(void 0, [_4], void 0, function* ({ cwd }) {
-    var _5, _6;
-    if ((_5 = github.context.payload.repository) === null || _5 === void 0 ? void 0 : _5.fork) {
-        yield exec.getExecOutput('git', [
-            'remote',
-            'set-url',
-            'fork',
-            (_6 = github.context.payload.repository) === null || _6 === void 0 ? void 0 : _6.clone_url
-        ], {
-            cwd,
-            silent: !core.isDebug()
-        });
-    }
+    var _5;
+    yield exec.getExecOutput('git', ['remote', 'set-url', 'fork', (_5 = github.context.payload.repository) === null || _5 === void 0 ? void 0 : _5.clone_url], {
+        cwd,
+        silent: !core.isDebug()
+    });
 });
 exports.setForkRemote = setForkRemote;
-const verifyCommitSha = (_7) => __awaiter(void 0, [_7], void 0, function* ({ sha, cwd, showAsErrorMessage = true }) {
+const verifyCommitSha = (_6) => __awaiter(void 0, [_6], void 0, function* ({ sha, cwd, showAsErrorMessage = true }) {
     const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
         ignoreReturnCode: true,
@@ -2569,7 +2562,7 @@ exports.verifyCommitSha = verifyCommitSha;
  * @param token The GitHub token.
  * @returns The cleaned SHA string.
  */
-const cleanShaInput = (_8) => __awaiter(void 0, [_8], void 0, function* ({ sha, cwd, token }) {
+const cleanShaInput = (_7) => __awaiter(void 0, [_7], void 0, function* ({ sha, cwd, token }) {
     // Check if the input is a valid commit sha
     if (!sha) {
         return sha;
@@ -2593,7 +2586,7 @@ const cleanShaInput = (_8) => __awaiter(void 0, [_8], void 0, function* ({ sha, 
     return stdout.trim();
 });
 exports.cleanShaInput = cleanShaInput;
-const getPreviousGitTag = (_9) => __awaiter(void 0, [_9], void 0, function* ({ cwd }) {
+const getPreviousGitTag = (_8) => __awaiter(void 0, [_8], void 0, function* ({ cwd }) {
     const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-creatordate'], {
         cwd,
         silent: !core.isDebug()
@@ -2612,7 +2605,7 @@ const getPreviousGitTag = (_9) => __awaiter(void 0, [_9], void 0, function* ({ c
     return { tag: previousTag, sha };
 });
 exports.getPreviousGitTag = getPreviousGitTag;
-const canDiffCommits = (_10) => __awaiter(void 0, [_10], void 0, function* ({ cwd, sha1, sha2, diff }) {
+const canDiffCommits = (_9) => __awaiter(void 0, [_9], void 0, function* ({ cwd, sha1, sha2, diff }) {
     if (diff === '...') {
         const mergeBase = yield getMergeBase(cwd, sha1, sha2);
         if (!mergeBase) {
@@ -2679,7 +2672,7 @@ const getDirNamesIncludeFilesPattern = ({ inputs }) => {
         .filter(Boolean);
 };
 exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
-const getFilePatterns = (_11) => __awaiter(void 0, [_11], void 0, function* ({ inputs, workingDirectory }) {
+const getFilePatterns = (_10) => __awaiter(void 0, [_10], void 0, function* ({ inputs, workingDirectory }) {
     let cleanedFilePatterns = [];
     if (inputs.files) {
         const filesPatterns = inputs.files
@@ -2746,7 +2739,7 @@ const getFilePatterns = (_11) => __awaiter(void 0, [_11], void 0, function* ({ i
     return cleanedFilePatterns;
 });
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatternsFromContents = (_12) => __awaiter(void 0, [_12], void 0, function* ({ content = '', filePath = '', excludedFiles = false }) {
+const getYamlFilePatternsFromContents = (_11) => __awaiter(void 0, [_11], void 0, function* ({ content = '', filePath = '', excludedFiles = false }) {
     const filePatterns = {};
     let source = '';
     if (filePath) {
@@ -2803,7 +2796,7 @@ const getYamlFilePatternsFromContents = (_12) => __awaiter(void 0, [_12], void 0
     }
     return filePatterns;
 });
-const getYamlFilePatterns = (_13) => __awaiter(void 0, [_13], void 0, function* ({ inputs, workingDirectory }) {
+const getYamlFilePatterns = (_12) => __awaiter(void 0, [_12], void 0, function* ({ inputs, workingDirectory }) {
     let filePatterns = {};
     if (inputs.filesYaml) {
         filePatterns = Object.assign({}, (yield getYamlFilePatternsFromContents({ content: inputs.filesYaml })));
@@ -2878,7 +2871,7 @@ const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
 exports.getOutputKey = getOutputKey;
-const setArrayOutput = (_14) => __awaiter(void 0, [_14], void 0, function* ({ key, inputs, value, outputPrefix }) {
+const setArrayOutput = (_13) => __awaiter(void 0, [_13], void 0, function* ({ key, inputs, value, outputPrefix }) {
     core.debug(`${key}: ${JSON.stringify(value)}`);
     yield (0, exports.setOutput)({
         key: outputPrefix ? (0, exports.getOutputKey)(key, outputPrefix) : key,
@@ -2891,7 +2884,7 @@ const setArrayOutput = (_14) => __awaiter(void 0, [_14], void 0, function* ({ ke
     });
 });
 exports.setArrayOutput = setArrayOutput;
-const setOutput = (_15) => __awaiter(void 0, [_15], void 0, function* ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) {
+const setOutput = (_14) => __awaiter(void 0, [_14], void 0, function* ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) {
     let cleanedValue;
     if (json) {
         cleanedValue = (0, exports.jsonOutput)({ value, shouldEscape });
@@ -2914,7 +2907,7 @@ const setOutput = (_15) => __awaiter(void 0, [_15], void 0, function* ({ key, va
     }
 });
 exports.setOutput = setOutput;
-const getDeletedFileContents = (_16) => __awaiter(void 0, [_16], void 0, function* ({ cwd, filePath, sha }) {
+const getDeletedFileContents = (_15) => __awaiter(void 0, [_15], void 0, function* ({ cwd, filePath, sha }) {
     const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['show', `${sha}:${filePath}`], {
         cwd,
         silent: !core.isDebug(),
@@ -2925,7 +2918,7 @@ const getDeletedFileContents = (_16) => __awaiter(void 0, [_16], void 0, functio
     }
     return stdout;
 });
-const recoverDeletedFiles = (_17) => __awaiter(void 0, [_17], void 0, function* ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, hasSubmodule, submodulePaths }) {
+const recoverDeletedFiles = (_16) => __awaiter(void 0, [_16], void 0, function* ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, hasSubmodule, submodulePaths }) {
     let recoverableDeletedFiles = deletedFiles;
     core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
     if (recoverPatterns.length > 0) {
@@ -2990,7 +2983,7 @@ exports.recoverDeletedFiles = recoverDeletedFiles;
  * @param workingDirectory - The path of the working directory.
  * @returns A boolean value indicating whether the working directory has a local Git directory.
  */
-const hasLocalGitDirectory = (_18) => __awaiter(void 0, [_18], void 0, function* ({ workingDirectory }) {
+const hasLocalGitDirectory = (_17) => __awaiter(void 0, [_17], void 0, function* ({ workingDirectory }) {
     return yield (0, exports.isInsideWorkTree)({
         cwd: workingDirectory
     });
@@ -3001,13 +2994,13 @@ exports.hasLocalGitDirectory = hasLocalGitDirectory;
  *
  * @param inputs - The inputs object.
  */
-const warnUnsupportedRESTAPIInputs = (_19) => __awaiter(void 0, [_19], void 0, function* ({ inputs }) {
-    var _20, _21;
+const warnUnsupportedRESTAPIInputs = (_18) => __awaiter(void 0, [_18], void 0, function* ({ inputs }) {
+    var _19, _20;
     for (const key of Object.keys(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS)) {
         const defaultValue = Object.hasOwnProperty.call(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS, key)
-            ? (_20 = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _20 === void 0 ? void 0 : _20.toString()
+            ? (_19 = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _19 === void 0 ? void 0 : _19.toString()
             : '';
-        if (defaultValue !== ((_21 = inputs[key]) === null || _21 === void 0 ? void 0 : _21.toString())) {
+        if (defaultValue !== ((_20 = inputs[key]) === null || _20 === void 0 ? void 0 : _20.toString())) {
             core.warning(`Input "${(0, lodash_1.snakeCase)(key)}" is not supported when using GitHub's REST API to get changed files`);
         }
     }
