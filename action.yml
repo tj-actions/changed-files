@@ -262,7 +262,7 @@ outputs:
   unknown_files_count:
     description: "Returns the number of `unknown_files`"
   all_changed_and_modified_files:
-    description: "Returns all changed and modified files i.e. *a combination of (ACMRDTUX)*"
+    description: "Returns all changed and modified files i.e. a combination of (ACMRDTUX)"
   all_changed_and_modified_files_count:
     description: "Returns the number of `all_changed_and_modified_files`"
   all_changed_files:
