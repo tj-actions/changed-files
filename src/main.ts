@@ -23,7 +23,6 @@ import {
   hasLocalGitDirectory,
   isRepoShallow,
   recoverDeletedFiles,
-  setForkRemote,
   setOutput,
   submoduleExists,
   updateGitGlobalConfig,
@@ -73,8 +72,7 @@ const getChangedFilesFromLocalGitHistory = async ({
   }
 
   const isTag = env.GITHUB_REF?.startsWith('refs/tags/')
-  const isFork = github.context.payload.pull_request?.head.repo.fork || false
-  let remoteName = 'origin'
+  const remoteName = 'origin'
   const outputRenamedFilesAsDeletedAndAdded =
     inputs.outputRenamedFilesAsDeletedAndAdded
   let submodulePaths: string[] = []
@@ -85,10 +83,6 @@ const getChangedFilesFromLocalGitHistory = async ({
 
   if (isTag) {
     gitFetchExtraArgs = ['--prune', '--no-recurse-submodules']
-  }
-
-  if (isFork) {
-    remoteName = await setForkRemote({cwd: workingDirectory})
   }
 
   let diffResult: DiffResult
@@ -117,8 +111,7 @@ const getChangedFilesFromLocalGitHistory = async ({
       isShallow,
       hasSubmodule,
       gitFetchExtraArgs,
-      remoteName,
-      isFork
+      remoteName
     })
   }
 
