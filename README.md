@@ -1066,8 +1066,7 @@ See [inputs](#inputs) for more information.
 
     - name: List all added files in dir1
       env:
-        ADDED_FILES: |-
-          ${{ steps.changed-files-for-dir1.outputs.added_files }}
+        ADDED_FILES: ${{ steps.changed-files-for-dir1.outputs.added_files }}
       run: |
         for file in ${ADDED_FILES}; do
           echo "$file was added"
