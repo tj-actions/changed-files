@@ -266,7 +266,7 @@ outputs:
   all_changed_and_modified_files_count:
     description: "Returns the number of `all_changed_and_modified_files`"
   all_changed_files:
-    description: "Returns all changed files i.e. *a combination of all added, copied, modified and renamed files (ACMR)*"
+    description: "Returns all changed files i.e. a combination of all added, copied, modified and renamed files (ACMR)"
   all_changed_files_count:
     description: "Returns the number of `all_changed_files`"
   any_changed:
