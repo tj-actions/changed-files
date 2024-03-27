@@ -1,5 +1,45 @@
 # Changelog
 
+# [44.0.0](https://github.com/tj-actions/changed-files/compare/v43.0.1...v44.0.0) - (2024-03-27)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Ensure the fork remote doesn't exists before creating it ([#2012](https://github.com/tj-actions/changed-files/issues/2012)) ([4bbd49b](https://github.com/tj-actions/changed-files/commit/4bbd49b9986b1300b75e8efb5778350b750ae6c8))  - (Tonye Jack)
+- Update previos sha for forks ([#2011](https://github.com/tj-actions/changed-files/issues/2011)) ([f0e7702](https://github.com/tj-actions/changed-files/commit/f0e7702ccc35952acb83edeb7400b05c0a67e2be))  - (Tonye Jack)
+- Update to add the fork remote ([#2010](https://github.com/tj-actions/changed-files/issues/2010)) ([6354e6c](https://github.com/tj-actions/changed-files/commit/6354e6c5426d1e7c7a2d8a5887e26b535837958e))  - (Tonye Jack)
+- Check for setting remote urls for forks ([#2009](https://github.com/tj-actions/changed-files/issues/2009)) ([1176164](https://github.com/tj-actions/changed-files/commit/117616472fb771d9e030aa0c3741057ad520d9cf))  - (Tonye Jack)
+- Bug with prs from forks returning incorrect set of changed files ([#2007](https://github.com/tj-actions/changed-files/issues/2007)) ([4ff7936](https://github.com/tj-actions/changed-files/commit/4ff79362e5015d6d0c6c0050b3082c97a5b7e84a))  - (Tonye Jack)
+
+## <!-- 17 -->➖ Remove
+
+- Unused code ([#2014](https://github.com/tj-actions/changed-files/issues/2014)) ([90941b3](https://github.com/tj-actions/changed-files/commit/90941b398f6d8d3ade3e2b8f179d0c64f3679de6))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2016](https://github.com/tj-actions/changed-files/issues/2016))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([2d756ea](https://github.com/tj-actions/changed-files/commit/2d756ea4c53f7f6b397767d8723b3a10a9f35bf2))  - (tj-actions[bot])
+- Update README.md ([2d21bbb](https://github.com/tj-actions/changed-files/commit/2d21bbb405b3e0e15479b93c4d9989b4b780a266))  - (Tonye Jack)
+- Updated README.md ([#2013](https://github.com/tj-actions/changed-files/issues/2013))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([2ca8dc4](https://github.com/tj-actions/changed-files/commit/2ca8dc42f60aab6d0f54beb4e1bd63f15aa53632))  - (tj-actions[bot])
+- Update README.md ([4621617](https://github.com/tj-actions/changed-files/commit/4621617d4b568fe72798b05a512482442405549c))  - (tonyejack1)
+- Update README.md ([c6557ed](https://github.com/tj-actions/changed-files/commit/c6557ed000b9d1dbc0abcb5c2a7efc1ef3baa379))  - (Tonye Jack)
+- Update README.md ([0713a11](https://github.com/tj-actions/changed-files/commit/0713a11242c796d0e601c9ac8f009c2beed0d646))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update description of outputs removing asterisks ([#2015](https://github.com/tj-actions/changed-files/issues/2015)) ([ce497c3](https://github.com/tj-actions/changed-files/commit/ce497c39e9043c5dec72f4506445f6b5dbd1f027))  - (tonyejack1)
+- Update description of other_deleted_files output ([#2008](https://github.com/tj-actions/changed-files/issues/2008)) ([ee096d6](https://github.com/tj-actions/changed-files/commit/ee096d679e877096b9d6e42066f654e0d9d65b1a))  - (tonyejack1)
+- **deps:** Update typescript-eslint monorepo to v7.4.0 ([0647424](https://github.com/tj-actions/changed-files/commit/064742427d8106b59345e3fabb40031068c82c41))  - (renovate[bot])
+- **deps:** Lock file maintenance ([efe5e6c](https://github.com/tj-actions/changed-files/commit/efe5e6c7a415f33e8936dea8c45a8fe80be66a92))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v43.0.1 ([#2004](https://github.com/tj-actions/changed-files/issues/2004))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([01e9662](https://github.com/tj-actions/changed-files/commit/01e9662a12a71c5aea74e82ca1c58fa76a640c61))  - (tj-actions[bot])
+
 # [43.0.1](https://github.com/tj-actions/changed-files/compare/v43.0.0...v43.0.1) - (2024-03-20)
 
 ## <!-- 1 -->🐛 Bug Fixes
