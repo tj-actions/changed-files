@@ -274,11 +274,11 @@ outputs:
   only_changed:
     description: "Returns `true` when only files provided using the `files*` or `files_ignore*` inputs have changed. i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
   other_changed_files:
-    description: "Returns all other changed files not listed in the files input i.e. *includes a combination of all added, copied, modified and renamed files (ACMR)*."
+    description: "Returns all other changed files not listed in the files input i.e. includes a combination of all added, copied, modified and renamed files (ACMR)."
   other_changed_files_count:
     description: "Returns the number of `other_changed_files`"
   all_modified_files:
-    description: "Returns all changed files i.e. *a combination of all added, copied, modified, renamed and deleted files (ACMRD)*."
+    description: "Returns all changed files i.e. a combination of all added, copied, modified, renamed and deleted files (ACMRD)."
   all_modified_files_count:
     description: "Returns the number of `all_modified_files`"
   any_modified:
