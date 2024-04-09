@@ -1,5 +1,41 @@
 # Changelog
 
+# [44.0.1](https://github.com/tj-actions/changed-files/compare/v44.0.0...v44.0.1) - (2024-04-09)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @octokit/rest to v20.1.0 ([57d40e6](https://github.com/tj-actions/changed-files/commit/57d40e662d530daae769897d18bded8d3cf4263b))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([5f084a5](https://github.com/tj-actions/changed-files/commit/5f084a52a4aa792443ce2bbb4a91daa956a83c4f))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.12.7 ([635f118](https://github.com/tj-actions/changed-files/commit/635f118699dd888d737c15018cd30aff2e0274f8))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.6 ([634b615](https://github.com/tj-actions/changed-files/commit/634b61511ee053fabd2cfaaf72201ee2aba54a71))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.6.0 ([77fcf43](https://github.com/tj-actions/changed-files/commit/77fcf43160285ab257bfa4b0ef824674404bb585))  - (renovate[bot])
+- **deps:** Lock file maintenance ([ff2cb1b](https://github.com/tj-actions/changed-files/commit/ff2cb1b4f2d5b477f5e0720e406ebb59af963a5b))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.2.0 ([5d5da31](https://github.com/tj-actions/changed-files/commit/5d5da31340cc6c5ce75e99ca8e5436aeda1c111f))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.1.1 ([29bc0d3](https://github.com/tj-actions/changed-files/commit/29bc0d3fd93da8b4eae1bc7568d193b2092baf9c))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28 ([#2030](https://github.com/tj-actions/changed-files/issues/2030)) ([c9f9d57](https://github.com/tj-actions/changed-files/commit/c9f9d5784e44a3f04e2995c42e6ca15f7c41374b))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.5 ([a4fba01](https://github.com/tj-actions/changed-files/commit/a4fba0109cdb1460d2d6a345cbe68883a3efec47))  - (renovate[bot])
+- **deps:** Bump undici from 5.28.3 to 5.28.4 ([#2026](https://github.com/tj-actions/changed-files/issues/2026)) ([8a65461](https://github.com/tj-actions/changed-files/commit/8a6546164ab50b552bf37a71eb624e115731c3ee))  - (dependabot[bot])
+- **deps:** Update dependency typescript to v5.4.4 ([bad2eb6](https://github.com/tj-actions/changed-files/commit/bad2eb6859141c0628b71ff4ae0fa1a39a8cfd1a))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.4 ([b2dbd42](https://github.com/tj-actions/changed-files/commit/b2dbd4264a1b1ffc90b7b807d01e572eaf935f06))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.3 ([185549c](https://github.com/tj-actions/changed-files/commit/185549c022e131c14c82c9ddfd42ca3fc4a503c2))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.5.0 ([f853fd0](https://github.com/tj-actions/changed-files/commit/f853fd059210921daf74c68d70c6f77b2dd21f8c))  - (renovate[bot])
+- **deps:** Lock file maintenance ([cd3c6e6](https://github.com/tj-actions/changed-files/commit/cd3c6e6bbdabefdea4c7311299eacf440eefabaf))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.2 ([e5ce44a](https://github.com/tj-actions/changed-files/commit/e5ce44a30190a3af4c81b960587845596e2300ca))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v24 ([#2019](https://github.com/tj-actions/changed-files/issues/2019)) ([ccdcd17](https://github.com/tj-actions/changed-files/commit/ccdcd17ffd1350eb36c1ff43637d0dbd40b8cdfb))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44 ([#2017](https://github.com/tj-actions/changed-files/issues/2017))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([e4b8daf](https://github.com/tj-actions/changed-files/commit/e4b8dafc5d0002cc57a632e6a376df5c8c368481))  - (tj-actions[bot])
+
 # [44.0.0](https://github.com/tj-actions/changed-files/compare/v43.0.1...v44.0.0) - (2024-03-27)
 
 ## <!-- 1 -->🐛 Bug Fixes
