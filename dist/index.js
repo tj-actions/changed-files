@@ -130,7 +130,7 @@ const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({
     }
 });
 exports.processChangedFiles = processChangedFiles;
-const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inputs, workingDirectory, hasSubmodule, diffResult, submodulePaths }) {
+const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inputs, workingDirectory, diffSubmodule, diffResult, submodulePaths }) {
     const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -138,7 +138,7 @@ const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inp
         diff: diffResult.diff,
         oldNewSeparator: inputs.oldNewSeparator
     });
-    if (hasSubmodule) {
+    if (diffSubmodule) {
         for (const submodulePath of submodulePaths) {
             const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
@@ -199,7 +199,7 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ workingDirectory, hasSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) {
+const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ workingDirectory, diffSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) {
     const files = yield (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -208,7 +208,7 @@ const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ wor
         outputRenamedFilesAsDeletedAndAdded,
         failOnInitialDiffError
     });
-    if (hasSubmodule) {
+    if (diffSubmodule) {
         for (const submodulePath of submodulePaths) {
             const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
@@ -927,7 +927,7 @@ const getCurrentSHA = (_a) => __awaiter(void 0, [_a], void 0, function* ({ input
     core.debug(`Current SHA: ${currentSha}`);
     return currentSha;
 });
-const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, function* ({ inputs, env, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, isTag, remoteName }) {
+const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, function* ({ inputs, env, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, isTag, remoteName }) {
     var _k, _l, _m;
     let targetBranch = env.GITHUB_REF_NAME;
     let currentBranch = targetBranch;
@@ -968,7 +968,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
                     ]
                 });
             }
-            if (hasSubmodule) {
+            if (diffSubmodule) {
                 yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
@@ -981,7 +981,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
             }
         }
         else {
-            if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
+            if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
                 yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
@@ -1107,7 +1107,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
     };
 });
 exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
-const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, function* ({ inputs, workingDirectory, isShallow, hasSubmodule, gitFetchExtraArgs, remoteName }) {
+const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, function* ({ inputs, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, remoteName }) {
     var _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
     let targetBranch = (_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.base) === null || _q === void 0 ? void 0 : _q.ref;
     const currentBranch = (_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.head) === null || _s === void 0 ? void 0 : _s.ref;
@@ -1156,7 +1156,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                         `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
                     ]
                 });
-                if (hasSubmodule) {
+                if (diffSubmodule) {
                     yield (0, utils_1.gitFetchSubmodules)({
                         cwd: workingDirectory,
                         args: [
@@ -1170,7 +1170,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             }
         }
         else {
-            if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
+            if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
                 yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
@@ -1374,7 +1374,8 @@ exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
     oldNewFilesSeparator: ' ',
     skipInitialFetch: false,
     fetchAdditionalSubmoduleHistory: false,
-    dirNamesDeletedFilesIncludeOnlyDeletedDirs: false
+    dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
+    excludeSubmodules: false
 };
 
 
@@ -1589,6 +1590,9 @@ const getInputs = () => {
     const useRestApi = core.getBooleanInput('use_rest_api', {
         required: false
     });
+    const excludeSubmodules = core.getBooleanInput('exclude_submodules', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1628,6 +1632,7 @@ const getInputs = () => {
         skipInitialFetch,
         fetchAdditionalSubmoduleHistory,
         dirNamesDeletedFilesIncludeOnlyDeletedDirs,
+        excludeSubmodules,
         // End Not Supported via REST API
         dirNames,
         dirNamesExcludeCurrentDir,
@@ -1726,16 +1731,22 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
         });
     }
     const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
-    const hasSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
+    let diffSubmodule = false;
     let gitFetchExtraArgs = ['--no-tags', '--prune'];
-    if (hasSubmodule) {
+    if (inputs.excludeSubmodules) {
+        core.info('Excluding submodules from the diff');
+    }
+    else {
+        diffSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
+    }
+    if (diffSubmodule) {
         gitFetchExtraArgs.push('--recurse-submodules');
     }
     const isTag = (_b = env.GITHUB_REF) === null || _b === void 0 ? void 0 : _b.startsWith('refs/tags/');
     const remoteName = 'origin';
     const outputRenamedFilesAsDeletedAndAdded = inputs.outputRenamedFilesAsDeletedAndAdded;
     let submodulePaths = [];
-    if (hasSubmodule) {
+    if (diffSubmodule) {
         submodulePaths = yield (0, utils_1.getSubmodulePath)({ cwd: workingDirectory });
     }
     if (isTag) {
@@ -1749,7 +1760,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             env,
             workingDirectory,
             isShallow,
-            hasSubmodule,
+            diffSubmodule,
             gitFetchExtraArgs,
             isTag,
             remoteName
@@ -1761,7 +1772,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             inputs,
             workingDirectory,
             isShallow,
-            hasSubmodule,
+            diffSubmodule,
             gitFetchExtraArgs,
             remoteName
         });
@@ -1774,7 +1785,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
     core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
     const allDiffFiles = yield (0, changedFiles_1.getAllDiffFiles)({
         workingDirectory,
-        hasSubmodule,
+        diffSubmodule,
         diffResult,
         submodulePaths,
         outputRenamedFilesAsDeletedAndAdded,
@@ -1797,7 +1808,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
             recoverPatterns,
             diffResult,
-            hasSubmodule,
+            diffSubmodule,
             submodulePaths
         });
     }
@@ -1813,7 +1824,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
         const allOldNewRenamedFiles = yield (0, changedFiles_1.getRenamedFiles)({
             inputs,
             workingDirectory,
-            hasSubmodule,
+            diffSubmodule,
             diffResult,
             submodulePaths
         });
@@ -2900,7 +2911,7 @@ const getDeletedFileContents = (_13) => __awaiter(void 0, [_13], void 0, functio
     }
     return stdout;
 });
-const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, hasSubmodule, submodulePaths }) {
+const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, diffSubmodule, submodulePaths }) {
     let recoverableDeletedFiles = deletedFiles;
     core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
     if (recoverPatterns.length > 0) {
@@ -2918,7 +2929,7 @@ const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* 
         }
         let deletedFileContents;
         const submodulePath = submodulePaths.find(p => deletedFile.startsWith(p));
-        if (hasSubmodule && submodulePath) {
+        if (diffSubmodule && submodulePath) {
             const submoduleShaResult = yield (0, exports.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: diffResult.previousSha,
