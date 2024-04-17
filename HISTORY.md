@@ -1,5 +1,32 @@
 # Changelog
 
+# [44.1.0](https://github.com/tj-actions/changed-files/compare/v44.0.1...v44.1.0) - (2024-04-17)
+
+## <!-- 0 -->🚀 Features
+
+- Add option to exclude submodules when detecting changes ([#2047](https://github.com/tj-actions/changed-files/issues/2047)) ([e052d30](https://github.com/tj-actions/changed-files/commit/e052d30e1c0bdf27cd806b01ca3b393f47b50c62))  - (Tonye Jack)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([d477ae5](https://github.com/tj-actions/changed-files/commit/d477ae513d5b52384bbf032bcc395a548501f3fc))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update peter-evans/create-pull-request action to v6.0.4 ([23a4490](https://github.com/tj-actions/changed-files/commit/23a449039c6fee9756073fb578b2659e524ea07a))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.7.0 ([60e2739](https://github.com/tj-actions/changed-files/commit/60e2739e15ad6e8a2d5a3b2c8c2d420894687405))  - (renovate[bot])
+- **deps:** Lock file maintenance ([0f319d7](https://github.com/tj-actions/changed-files/commit/0f319d742554833419bdc95d68ecb50ccebcd39d))  - (renovate[bot])
+- **deps:** Lock file maintenance ([5891cbd](https://github.com/tj-actions/changed-files/commit/5891cbdfd5eb99762cc467c50ed8b39f26cc9d74))  - (renovate[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.7 ([c9eaa5c](https://github.com/tj-actions/changed-files/commit/c9eaa5c000b860baef243fabe5562a694dc58c0e))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v6.0.3 ([fd91508](https://github.com/tj-actions/changed-files/commit/fd91508dbb9a3cf89ed4b32684b6eeb925e0e157))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.4.5 ([e8a7e82](https://github.com/tj-actions/changed-files/commit/e8a7e822693e723321608f9be7209c66c3f74860))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.0.1 ([#2037](https://github.com/tj-actions/changed-files/issues/2037))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([159b053](https://github.com/tj-actions/changed-files/commit/159b05372c2d806218e9370a3e877b6d9db80737))  - (tj-actions[bot])
+
 # [44.0.1](https://github.com/tj-actions/changed-files/compare/v44.0.0...v44.0.1) - (2024-04-09)
 
 ## <!-- 1 -->🐛 Bug Fixes
