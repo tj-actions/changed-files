@@ -10,7 +10,7 @@ describe('getInputs', () => {
   })
 
   test('should return default values when no inputs are provided', () => {
-    ;(core.getBooleanInput as jest.Mock).mockImplementation(name => {
+    ;(core.getInput as jest.Mock).mockImplementation(name => {
       const camelCaseName = name.replace(/_([a-z])/g, (g: string[]) => {
         return g[1].toUpperCase()
       }) as keyof Inputs
@@ -30,7 +30,7 @@ describe('getInputs', () => {
   })
 
   test('should correctly parse boolean inputs', () => {
-    ;(core.getBooleanInput as jest.Mock).mockImplementation(name => {
+    ;(core.getInput as jest.Mock).mockImplementation(name => {
       const camelCaseName = name.replace(/_([a-z])/g, (g: string[]) => {
         return g[1].toUpperCase()
       }) as keyof Inputs
