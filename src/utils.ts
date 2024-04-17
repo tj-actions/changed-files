@@ -1413,7 +1413,7 @@ export const recoverDeletedFiles = async ({
   deletedFiles,
   recoverPatterns,
   diffResult,
-  hasSubmodule,
+  diffSubmodule,
   submodulePaths
 }: {
   inputs: Inputs
@@ -1421,7 +1421,7 @@ export const recoverDeletedFiles = async ({
   deletedFiles: string[]
   recoverPatterns: string[]
   diffResult: DiffResult
-  hasSubmodule: boolean
+  diffSubmodule: boolean
   submodulePaths: string[]
 }): Promise<void> => {
   let recoverableDeletedFiles = deletedFiles
@@ -1451,7 +1451,7 @@ export const recoverDeletedFiles = async ({
 
     const submodulePath = submodulePaths.find(p => deletedFile.startsWith(p))
 
-    if (hasSubmodule && submodulePath) {
+    if (diffSubmodule && submodulePath) {
       const submoduleShaResult = await gitSubmoduleDiffSHA({
         cwd: workingDirectory,
         parentSha1: diffResult.previousSha,

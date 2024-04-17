@@ -223,6 +223,10 @@ inputs:
     description: "Output changed files in a format that can be used for matrix jobs. Alias for setting inputs `json` to `true` and `escape_json` to `false`."
     required: false
     default: "false"
+  exclude_submodules:
+    description: "Exclude changes to submodules."
+    required: false
+    default: "false"
 
 outputs:
   added_files:

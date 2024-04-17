@@ -64,10 +64,16 @@ const getChangedFilesFromLocalGitHistory = async ({
   }
 
   const isShallow = await isRepoShallow({cwd: workingDirectory})
-  const hasSubmodule = await submoduleExists({cwd: workingDirectory})
+  let diffSubmodule = false
   let gitFetchExtraArgs = ['--no-tags', '--prune']
 
-  if (hasSubmodule) {
+  if (inputs.excludeSubmodules) {
+    core.info('Excluding submodules from the diff')
+  } else {
+    diffSubmodule = await submoduleExists({cwd: workingDirectory})
+  }
+
+  if (diffSubmodule) {
     gitFetchExtraArgs.push('--recurse-submodules')
   }
 
@@ -77,7 +83,7 @@ const getChangedFilesFromLocalGitHistory = async ({
     inputs.outputRenamedFilesAsDeletedAndAdded
   let submodulePaths: string[] = []
 
-  if (hasSubmodule) {
+  if (diffSubmodule) {
     submodulePaths = await getSubmodulePath({cwd: workingDirectory})
   }
 
@@ -94,7 +100,7 @@ const getChangedFilesFromLocalGitHistory = async ({
       env,
       workingDirectory,
       isShallow,
-      hasSubmodule,
+      diffSubmodule,
       gitFetchExtraArgs,
       isTag,
       remoteName
@@ -109,7 +115,7 @@ const getChangedFilesFromLocalGitHistory = async ({
       inputs,
       workingDirectory,
       isShallow,
-      hasSubmodule,
+      diffSubmodule,
       gitFetchExtraArgs,
       remoteName
     })
@@ -127,7 +133,7 @@ const getChangedFilesFromLocalGitHistory = async ({
 
   const allDiffFiles = await getAllDiffFiles({
     workingDirectory,
-    hasSubmodule,
+    diffSubmodule,
     diffResult,
     submodulePaths,
     outputRenamedFilesAsDeletedAndAdded,
@@ -153,7 +159,7 @@ const getChangedFilesFromLocalGitHistory = async ({
       deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
       recoverPatterns,
       diffResult,
-      hasSubmodule,
+      diffSubmodule,
       submodulePaths
     })
   }
@@ -171,7 +177,7 @@ const getChangedFilesFromLocalGitHistory = async ({
     const allOldNewRenamedFiles = await getRenamedFiles({
       inputs,
       workingDirectory,
-      hasSubmodule,
+      diffSubmodule,
       diffResult,
       submodulePaths
     })
