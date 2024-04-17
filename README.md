@@ -389,6 +389,11 @@ Support this project with a :star:
     # Default: "true"
     escape_json: ''
 
+    # Exclude changes to submodules.
+    # Type: boolean
+    # Default: "false"
+    exclude_submodules: ''
+
     # Fail when the initial diff fails.
     # Type: boolean
     # Default: "false"
