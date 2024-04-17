@@ -91,7 +91,7 @@ interface SHAForNonPullRequestEvent {
   env: Env
   workingDirectory: string
   isShallow: boolean
-  hasSubmodule: boolean
+  diffSubmodule: boolean
   gitFetchExtraArgs: string[]
   isTag: boolean
   remoteName: string
@@ -102,7 +102,7 @@ export const getSHAForNonPullRequestEvent = async ({
   env,
   workingDirectory,
   isShallow,
-  hasSubmodule,
+  diffSubmodule,
   gitFetchExtraArgs,
   isTag,
   remoteName
@@ -152,7 +152,7 @@ export const getSHAForNonPullRequestEvent = async ({
         })
       }
 
-      if (hasSubmodule) {
+      if (diffSubmodule) {
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
@@ -164,7 +164,7 @@ export const getSHAForNonPullRequestEvent = async ({
         })
       }
     } else {
-      if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
+      if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
@@ -323,7 +323,7 @@ interface SHAForPullRequestEvent {
   inputs: Inputs
   workingDirectory: string
   isShallow: boolean
-  hasSubmodule: boolean
+  diffSubmodule: boolean
   gitFetchExtraArgs: string[]
   remoteName: string
 }
@@ -332,7 +332,7 @@ export const getSHAForPullRequestEvent = async ({
   inputs,
   workingDirectory,
   isShallow,
-  hasSubmodule,
+  diffSubmodule,
   gitFetchExtraArgs,
   remoteName
 }: SHAForPullRequestEvent): Promise<DiffResult> => {
@@ -390,7 +390,7 @@ export const getSHAForPullRequestEvent = async ({
           ]
         })
 
-        if (hasSubmodule) {
+        if (diffSubmodule) {
           await gitFetchSubmodules({
             cwd: workingDirectory,
             args: [
@@ -403,7 +403,7 @@ export const getSHAForPullRequestEvent = async ({
         }
       }
     } else {
-      if (hasSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
+      if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
         await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [

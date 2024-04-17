@@ -54,6 +54,7 @@ export type Inputs = {
   failOnSubmoduleDiffError: boolean
   negationPatternsFirst: boolean
   useRestApi: boolean
+  excludeSubmodules: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -240,6 +241,10 @@ export const getInputs = (): Inputs => {
     required: false
   })
 
+  const excludeSubmodules = core.getBooleanInput('exclude_submodules', {
+    required: false
+  })
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -279,6 +284,7 @@ export const getInputs = (): Inputs => {
     skipInitialFetch,
     fetchAdditionalSubmoduleHistory,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs,
+    excludeSubmodules,
     // End Not Supported via REST API
     dirNames,
     dirNamesExcludeCurrentDir,
