@@ -690,6 +690,7 @@ jobs:
           base_sha: "85bd869"
           sha: "adde7bb"
           fetch_depth: 60000
+          exclude_submodules: true
 
       - name: Verify no added files
         if: steps.changed-files-exclude-submodule.outputs.added_files != ''
