@@ -682,6 +682,26 @@ jobs:
           echo "${{ toJSON(steps.changed-files.outputs) }}"
         shell:
           bash
+
+      - name: Run changed-files excluding submodule
+        id: changed-files-exclude-submodule
+        uses: ./
+        with:
+          base_sha: "85bd869"
+          sha: "adde7bb"
+          fetch_depth: 60000
+
+      - name: Verify no added files
+        if: steps.changed-files-exclude-submodule.outputs.added_files != ''
+        run: |
+          echo "Expected: ('') got ${{ steps.changed-files-exclude-submodule.outputs.added_files }}"
+          exit 1
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-exclude-submodule.outputs) }}"
+        shell:
+          bash
   test-yaml:
     name: Test changed-files with yaml
     runs-on: ubuntu-latest
