@@ -32,11 +32,13 @@ export const normalizeSeparators = (p: string): string => {
 
     // Remove redundant slashes
     const isUnc = /^\\\\+[^\\]/.test(p) // e.g. \\hello
-    return (isUnc ? '\\' : '') + p.replace(/\\\\+/g, '\\') // preserve leading \\ for UNC
+    p = (isUnc ? '\\' : '') + p.replace(/\\\\+/g, '\\') // preserve leading \\ for UNC
+  } else {
+    // Remove redundant slashes on Linux/macOS
+    p = p.replace(/\/\/+/g, '/')
   }
 
-  // Remove redundant slashes
-  return p.replace(/\/\/+/g, '/')
+  return p
 }
 
 /**
