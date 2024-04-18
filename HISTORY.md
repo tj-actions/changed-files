@@ -1,5 +1,21 @@
 # Changelog
 
+# [44.3.0](https://github.com/tj-actions/changed-files/compare/v44.2.0...v44.3.0) - (2024-04-18)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for returning posix path separator on windows ([#2056](https://github.com/tj-actions/changed-files/issues/2056)) ([0874344](https://github.com/tj-actions/changed-files/commit/0874344d6ebbaa00a27da73276ae7162fadcaf69))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Add a fallback value for the max number for retries to fetch missing history ([#2055](https://github.com/tj-actions/changed-files/issues/2055)) ([9f8300f](https://github.com/tj-actions/changed-files/commit/9f8300f8b45b8ddd3009f170957adfa5db4f3d5d))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.2.0 ([#2054](https://github.com/tj-actions/changed-files/issues/2054))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([a06b9e8](https://github.com/tj-actions/changed-files/commit/a06b9e80ae631cf6747b0ed4362a83f773ffaa40))  - (tj-actions[bot])
+
 # [44.2.0](https://github.com/tj-actions/changed-files/compare/v44.1.0...v44.2.0) - (2024-04-18)
 
 ## <!-- 0 -->🚀 Features
