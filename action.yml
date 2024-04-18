@@ -227,6 +227,10 @@ inputs:
     description: "Exclude changes to submodules."
     required: false
     default: "false"
+  fetch_missing_history_max_retries:
+    description: "Maximum number of retries to fetch missing history."
+    required: false
+    default: "10"
 
 outputs:
   added_files:
