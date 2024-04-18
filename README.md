@@ -415,6 +415,11 @@ Support this project with a :star:
     # Default: "50"
     fetch_depth: ''
 
+    # Maximum number of retries to fetch missing history.
+    # Type: string
+    # Default: "10"
+    fetch_missing_history_max_retries: ''
+
     # File and directory patterns used to detect changes (Defaults to the entire repo if unset). 
     # NOTE: Multiline file/directory patterns should not include quotes. 
     # Type: string
