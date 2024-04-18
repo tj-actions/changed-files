@@ -316,7 +316,12 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
         filePaths,
         dirNamesIncludeFilePatterns
     })) {
-        yield filePath;
+        if ((0, utils_1.isWindows)() && inputs.usePosixPathSeparator) {
+            yield (0, utils_convert_path_1.default)(filePath, 'mixed');
+        }
+        else {
+            yield filePath;
+        }
     }
 }
 const getAllChangeTypeFiles = (_e) => __awaiter(void 0, [_e], void 0, function* ({ inputs, changedFiles }) {
