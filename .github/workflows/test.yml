@@ -1021,7 +1021,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
-          ref: cd1e384723e4d1a184568182ac2b27c53ebf017f
+          ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
           fetch-depth: 2
@@ -1033,6 +1033,7 @@ jobs:
           sha: cd1e384723e4d1a184568182ac2b27c53ebf017f
           dir_names: true
           dir_names_deleted_files_include_only_deleted_dirs: true
+          fetch_depth: 60000
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs) }}'
@@ -1061,6 +1062,7 @@ jobs:
           dir_names: true
           dir_names_deleted_files_include_only_deleted_dirs: true
           use_posix_path_separator: true
+          fetch_depth: 60000
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator.outputs) }}'
