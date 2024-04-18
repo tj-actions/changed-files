@@ -627,6 +627,11 @@ Support this project with a :star:
     # Type: string
     until: ''
 
+    # Use POSIX path separator `/` for output filenames.
+    # Type: boolean
+    # Default: "false"
+    use_posix_path_separator: ''
+
     # Force the use of Github's REST API even when 
     # a local copy of the repository exists 
     # Type: boolean
