@@ -627,7 +627,8 @@ Support this project with a :star:
     # Type: string
     until: ''
 
-    # Use POSIX path separator `/` for output filenames.
+    # Use POSIX path separator `/` for output file paths 
+    # on windows. 
     # Type: boolean
     # Default: "false"
     use_posix_path_separator: ''
