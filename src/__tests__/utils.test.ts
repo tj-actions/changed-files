@@ -636,7 +636,8 @@ describe('utils test', () => {
         failOnSubmoduleDiffError: false,
         negationPatternsFirst: false,
         useRestApi: false,
-        excludeSubmodules: false
+        excludeSubmodules: false,
+        fetchMissingHistoryMaxRetries: 10
       }
 
       const coreWarningSpy = jest.spyOn(core, 'warning')
