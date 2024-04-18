@@ -407,7 +407,11 @@ function* getAllChangeTypeFilesGenerator({
     filePaths,
     dirNamesIncludeFilePatterns
   })) {
-    yield filePath
+    if (isWindows() && inputs.usePosixPathSeparator) {
+      yield convertPath(filePath, 'mixed')
+    } else {
+      yield filePath
+    }
   }
 }
 
