@@ -231,6 +231,10 @@ inputs:
     description: "Maximum number of retries to fetch missing history."
     required: false
     default: "10"
+  use_posix_path_separator:
+    description: "Use POSIX path separator `/` for output filenames."
+    required: false
+    default: "false"
 
 outputs:
   added_files:

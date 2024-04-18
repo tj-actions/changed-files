@@ -53,7 +53,8 @@ exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.g
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const flatten_1 = __importDefault(__nccwpck_require__(2394));
-const micromatch_1 = __importDefault(__nccwpck_require__(6228));
+const utils_convert_path_1 = __importDefault(__nccwpck_require__(4778));
+const micromatch_1 = __importDefault(__nccwpck_require__(7911));
 const path = __importStar(__nccwpck_require__(1017));
 const changedFilesOutput_1 = __nccwpck_require__(8930);
 const utils_1 = __nccwpck_require__(918);
@@ -286,7 +287,12 @@ function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
             filePaths,
             dirNamesIncludeFilePatterns
         })) {
-            yield filePath;
+            if ((0, utils_1.isWindows)() && inputs.usePosixPathSeparator) {
+                yield (0, utils_convert_path_1.default)(filePath, 'mixed');
+            }
+            else {
+                yield filePath;
+            }
         }
     }
 }
@@ -310,7 +316,12 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
         filePaths,
         dirNamesIncludeFilePatterns
     })) {
-        yield filePath;
+        if ((0, utils_1.isWindows)() && inputs.usePosixPathSeparator) {
+            yield (0, utils_convert_path_1.default)(filePath, 'mixed');
+        }
+        else {
+            yield filePath;
+        }
     }
 }
 const getAllChangeTypeFiles = (_e) => __awaiter(void 0, [_e], void 0, function* ({ inputs, changedFiles }) {
@@ -1376,7 +1387,8 @@ exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
     fetchAdditionalSubmoduleHistory: false,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
     excludeSubmodules: false,
-    fetchMissingHistoryMaxRetries: 10
+    fetchMissingHistoryMaxRetries: 10,
+    usePosixPathSeparator: false
 };
 
 
@@ -1595,6 +1607,9 @@ const getInputs = () => {
         required: false
     });
     const fetchMissingHistoryMaxRetries = core.getInput('fetch_missing_history_max_retries', { required: false });
+    const usePosixPathSeparator = core.getBooleanInput('use_posix_path_separator', {
+        required: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1635,6 +1650,7 @@ const getInputs = () => {
         fetchAdditionalSubmoduleHistory,
         dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         excludeSubmodules,
+        usePosixPathSeparator,
         // End Not Supported via REST API
         dirNames,
         dirNamesExcludeCurrentDir,
@@ -1996,11 +2012,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.warnUnsupportedRESTAPIInputs = exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(2186));
-const exec = __importStar(__nccwpck_require__(1514));
+const exec = __importStar(__nccwpck_require__(9990));
 const github = __importStar(__nccwpck_require__(5438));
 const fs_1 = __nccwpck_require__(7147);
 const lodash_1 = __nccwpck_require__(250);
-const micromatch_1 = __importDefault(__nccwpck_require__(6228));
+const micromatch_1 = __importDefault(__nccwpck_require__(7911));
 const path = __importStar(__nccwpck_require__(1017));
 const readline_1 = __nccwpck_require__(4521);
 const yaml_1 = __nccwpck_require__(4083);
@@ -2023,10 +2039,13 @@ const normalizeSeparators = (p) => {
         p = p.replace(/\//g, '\\');
         // Remove redundant slashes
         const isUnc = /^\\\\+[^\\]/.test(p); // e.g. \\hello
-        return (isUnc ? '\\' : '') + p.replace(/\\\\+/g, '\\'); // preserve leading \\ for UNC
+        p = (isUnc ? '\\' : '') + p.replace(/\\\\+/g, '\\'); // preserve leading \\ for UNC
     }
-    // Remove redundant slashes
-    return p.replace(/\/\/+/g, '/');
+    else {
+        // Remove redundant slashes on Linux/macOS
+        p = p.replace(/\/\/+/g, '/');
+    }
+    return p;
 };
 exports.normalizeSeparators = normalizeSeparators;
 /**
@@ -4002,7 +4021,7 @@ exports.toCommandProperties = toCommandProperties;
 
 /***/ }),
 
-/***/ 1514:
+/***/ 9990:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -10017,6 +10036,5874 @@ var request = withDefaults(import_endpoint.endpoint, {
 
 /***/ }),
 
+/***/ 2816:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test whether an object has a specified property.
+*
+* @module @stdlib/assert-has-own-property
+*
+* @example
+* var hasOwnProp = require( '@stdlib/assert-has-own-property' );
+*
+* var beep = {
+*     'boop': true
+* };
+*
+* var bool = hasOwnProp( beep, 'boop' );
+* // returns true
+*
+* bool = hasOwnProp( beep, 'bop' );
+* // returns false
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 5956 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 5956:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// FUNCTIONS //
+
+var has = Object.prototype.hasOwnProperty;
+
+
+// MAIN //
+
+/**
+* Tests if an object has a specified property.
+*
+* @param {*} value - value to test
+* @param {*} property - property to test
+* @returns {boolean} boolean indicating if an object has a specified property
+*
+* @example
+* var beep = {
+*     'boop': true
+* };
+*
+* var bool = hasOwnProp( beep, 'boop' );
+* // returns true
+*
+* @example
+* var beep = {
+*     'boop': true
+* };
+*
+* var bool = hasOwnProp( beep, 'bap' );
+* // returns false
+*/
+function hasOwnProp( value, property ) {
+	if (
+		value === void 0 ||
+		value === null
+	) {
+		return false;
+	}
+	return has.call( value, property );
+}
+
+
+// EXPORTS //
+
+module.exports = hasOwnProp;
+
+
+/***/ }),
+
+/***/ 9534:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test for native `Symbol` support.
+*
+* @module @stdlib/assert-has-symbol-support
+*
+* @example
+* var hasSymbolSupport = require( '@stdlib/assert-has-symbol-support' );
+*
+* var bool = hasSymbolSupport();
+* // returns <boolean>
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 6228 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 6228:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Tests for native `Symbol` support.
+*
+* @returns {boolean} boolean indicating if an environment has `Symbol` support
+*
+* @example
+* var bool = hasSymbolSupport();
+* // returns <boolean>
+*/
+function hasSymbolSupport() {
+	return (
+		typeof Symbol === 'function' &&
+		typeof Symbol( 'foo' ) === 'symbol'
+	);
+}
+
+
+// EXPORTS //
+
+module.exports = hasSymbolSupport;
+
+
+/***/ }),
+
+/***/ 4166:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test for native `toStringTag` support.
+*
+* @module @stdlib/assert-has-tostringtag-support
+*
+* @example
+* var hasToStringTagSupport = require( '@stdlib/assert-has-tostringtag-support' );
+*
+* var bool = hasToStringTagSupport();
+* // returns <boolean>
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 6839 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 6839:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var hasSymbols = __nccwpck_require__( 9534 );
+
+
+// VARIABLES //
+
+var FLG = hasSymbols();
+
+
+// MAIN //
+
+/**
+* Tests for native `toStringTag` support.
+*
+* @returns {boolean} boolean indicating if an environment has `toStringTag` support
+*
+* @example
+* var bool = hasToStringTagSupport();
+* // returns <boolean>
+*/
+function hasToStringTagSupport() {
+	return ( FLG && typeof Symbol.toStringTag === 'symbol' );
+}
+
+
+// EXPORTS //
+
+module.exports = hasToStringTagSupport;
+
+
+/***/ }),
+
+/***/ 9086:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is an array.
+*
+* @module @stdlib/assert-is-array
+*
+* @example
+* var isArray = require( '@stdlib/assert-is-array' );
+*
+* var bool = isArray( [] );
+* // returns true
+*
+* bool = isArray( {} );
+* // returns false
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 5826 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 5826:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var nativeClass = __nccwpck_require__( 2026 );
+
+
+// VARIABLES //
+
+var f;
+
+
+// FUNCTIONS //
+
+/**
+* Tests if a value is an array.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating whether value is an array
+*
+* @example
+* var bool = isArray( [] );
+* // returns true
+*
+* @example
+* var bool = isArray( {} );
+* // returns false
+*/
+function isArray( value ) {
+	return ( nativeClass( value ) === '[object Array]' );
+}
+
+
+// MAIN //
+
+if ( Array.isArray ) {
+	f = Array.isArray;
+} else {
+	f = isArray;
+}
+
+
+// EXPORTS //
+
+module.exports = f;
+
+
+/***/ }),
+
+/***/ 1247:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is a boolean.
+*
+* @module @stdlib/assert-is-boolean
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+* var isBoolean = require( '@stdlib/assert-is-boolean' );
+*
+* var bool = isBoolean( false );
+* // returns true
+*
+* bool = isBoolean( new Boolean( false ) );
+* // returns true
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+* var isBoolean = require( '@stdlib/assert-is-boolean' ).isPrimitive;
+*
+* var bool = isBoolean( false );
+* // returns true
+*
+* bool = isBoolean( new Boolean( true ) );
+* // returns false
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+* var isBoolean = require( '@stdlib/assert-is-boolean' ).isObject;
+*
+* var bool = isBoolean( true );
+* // returns false
+*
+* bool = isBoolean( new Boolean( false ) );
+* // returns true
+*/
+
+// MODULES //
+
+var setReadOnly = __nccwpck_require__( 7523 );
+var main = __nccwpck_require__( 609 );
+var isPrimitive = __nccwpck_require__( 486 );
+var isObject = __nccwpck_require__( 8507 );
+
+
+// MAIN //
+
+setReadOnly( main, 'isPrimitive', isPrimitive );
+setReadOnly( main, 'isObject', isObject );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 609:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isPrimitive = __nccwpck_require__( 486 );
+var isObject = __nccwpck_require__( 8507 );
+
+
+// MAIN //
+
+/**
+* Tests if a value is a boolean.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating whether value is a boolean
+*
+* @example
+* var bool = isBoolean( false );
+* // returns true
+*
+* @example
+* var bool = isBoolean( true );
+* // returns true
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+*
+* var bool = isBoolean( new Boolean( false ) );
+* // returns true
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+*
+* var bool = isBoolean( new Boolean( true ) );
+* // returns true
+*/
+function isBoolean( value ) {
+	return ( isPrimitive( value ) || isObject( value ) );
+}
+
+
+// EXPORTS //
+
+module.exports = isBoolean;
+
+
+/***/ }),
+
+/***/ 8507:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var hasToStringTag = __nccwpck_require__( 4166 );
+var nativeClass = __nccwpck_require__( 2026 );
+var Boolean = __nccwpck_require__( 729 );
+var test = __nccwpck_require__( 7 );
+
+
+// VARIABLES //
+
+var FLG = hasToStringTag();
+
+
+// MAIN //
+
+/**
+* Tests if a value is a boolean object.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a boolean object
+*
+* @example
+* var bool = isBoolean( true );
+* // returns false
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+*
+* var bool = isBoolean( new Boolean( false ) );
+* // returns true
+*/
+function isBoolean( value ) {
+	if ( typeof value === 'object' ) {
+		if ( value instanceof Boolean ) {
+			return true;
+		}
+		if ( FLG ) {
+			return test( value );
+		}
+		return ( nativeClass( value ) === '[object Boolean]' );
+	}
+	return false;
+}
+
+
+// EXPORTS //
+
+module.exports = isBoolean;
+
+
+/***/ }),
+
+/***/ 486:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tests if a value is a boolean primitive.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a boolean primitive
+*
+* @example
+* var bool = isBoolean( true );
+* // returns true
+*
+* @example
+* var bool = isBoolean( false );
+* // returns true
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+*
+* var bool = isBoolean( new Boolean( true ) );
+* // returns false
+*/
+function isBoolean( value ) {
+	return ( typeof value === 'boolean' );
+}
+
+
+// EXPORTS //
+
+module.exports = isBoolean;
+
+
+/***/ }),
+
+/***/ 8617:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// eslint-disable-next-line stdlib/no-redeclare
+var toString = Boolean.prototype.toString; // non-generic
+
+
+// EXPORTS //
+
+module.exports = toString;
+
+
+/***/ }),
+
+/***/ 7:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var toString = __nccwpck_require__( 8617 ); // eslint-disable-line stdlib/no-redeclare
+
+
+// MAIN //
+
+/**
+* Attempts to serialize a value to a string.
+*
+* @private
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value can be serialized
+*/
+function test( value ) {
+	try {
+		toString.call( value );
+		return true;
+	} catch ( err ) { // eslint-disable-line no-unused-vars
+		return false;
+	}
+}
+
+
+// EXPORTS //
+
+module.exports = test;
+
+
+/***/ }),
+
+/***/ 5350:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is a Buffer instance.
+*
+* @module @stdlib/assert-is-buffer
+*
+* @example
+* var isBuffer = require( '@stdlib/assert-is-buffer' );
+*
+* var v = isBuffer( new Buffer( 'beep' ) );
+* // returns true
+*
+* v = isBuffer( {} );
+* // returns false
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 3534 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 3534:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isObjectLike = __nccwpck_require__( 9032 );
+
+
+// MAIN //
+
+/**
+* Tests if a value is a Buffer instance.
+*
+* @param {*} value - value to validate
+* @returns {boolean} boolean indicating if a value is a Buffer instance
+*
+* @example
+* var v = isBuffer( new Buffer( 'beep' ) );
+* // returns true
+*
+* @example
+* var v = isBuffer( new Buffer( [1,2,3,4] ) );
+* // returns true
+*
+* @example
+* var v = isBuffer( {} );
+* // returns false
+*
+* @example
+* var v = isBuffer( [] );
+* // returns false
+*/
+function isBuffer( value ) {
+	return (
+		isObjectLike( value ) &&
+		(
+			// eslint-disable-next-line no-underscore-dangle
+			value._isBuffer || // for envs missing Object.prototype.constructor (e.g., Safari 5-7)
+			(
+				value.constructor &&
+
+				// WARNING: `typeof` is not a foolproof check, as certain envs consider RegExp and NodeList instances to be functions
+				typeof value.constructor.isBuffer === 'function' &&
+				value.constructor.isBuffer( value )
+			)
+		)
+	);
+}
+
+
+// EXPORTS //
+
+module.exports = isBuffer;
+
+
+/***/ }),
+
+/***/ 5035:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is a function.
+*
+* @module @stdlib/assert-is-function
+*
+* @example
+* var isFunction = require( '@stdlib/assert-is-function' );
+*
+* function beep() {
+*     return 'beep';
+* }
+*
+* var bool = isFunction( beep );
+* // returns true
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 7825 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 7825:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var typeOf = __nccwpck_require__( 2464 );
+
+
+// MAIN //
+
+/**
+* Tests if a value is a function.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating whether value is a function
+*
+* @example
+* function beep() {
+*     return 'beep';
+* }
+*
+* var bool = isFunction( beep );
+* // returns true
+*/
+function isFunction( value ) {
+	// Note: cannot use `typeof` directly, as various browser engines incorrectly return `'function'` when operating on non-function objects, such as regular expressions and NodeLists.
+	return ( typeOf( value ) === 'function' );
+}
+
+
+// EXPORTS //
+
+module.exports = isFunction;
+
+
+/***/ }),
+
+/***/ 9032:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is object-like.
+*
+* @module @stdlib/assert-is-object-like
+*
+* @example
+* var isObjectLike = require( '@stdlib/assert-is-object-like' );
+*
+* var bool = isObjectLike( {} );
+* // returns true
+*
+* bool = isObjectLike( [] );
+* // returns true
+*
+* bool = isObjectLike( null );
+* // returns false
+*
+* @example
+* var isObjectLike = require( '@stdlib/assert-is-object-like' ).isObjectLikeArray;
+*
+* var bool = isObjectLike( [ {}, [] ] );
+* // returns true
+*
+* bool = isObjectLike( [ {}, '3.0' ] );
+* // returns false
+*/
+
+// MODULES //
+
+var setReadOnly = __nccwpck_require__( 7523 );
+var arrayfun = __nccwpck_require__( 2256 );
+var main = __nccwpck_require__( 8217 );
+
+
+// VARIABLES //
+
+var isObjectLikeArray = arrayfun( main );
+
+
+// MAIN //
+
+setReadOnly( main, 'isObjectLikeArray', isObjectLikeArray );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 8217:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tests if a value is object-like.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating whether a value is object-like
+*
+* @example
+* var bool = isObjectLike( {} );
+* // returns true
+*
+* @example
+* var bool = isObjectLike( [] );
+* // returns true
+*
+* @example
+* var bool = isObjectLike( null );
+* // returns false
+*/
+function isObjectLike( value ) {
+	return (
+		value !== null &&
+		typeof value === 'object'
+	);
+}
+
+
+// EXPORTS //
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+
+/***/ 996:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+var exec = RegExp.prototype.exec; // non-generic
+
+
+// EXPORTS //
+
+module.exports = exec;
+
+
+/***/ }),
+
+/***/ 6530:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is a regular expression.
+*
+* @module @stdlib/assert-is-regexp
+*
+* @example
+* var isRegExp = require( '@stdlib/assert-is-regexp' );
+*
+* var bool = isRegExp( /\.+/ );
+* // returns true
+*
+* bool = isRegExp( {} );
+* // returns false
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 2430 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 2430:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var hasToStringTag = __nccwpck_require__( 4166 );
+var nativeClass = __nccwpck_require__( 2026 );
+var test = __nccwpck_require__( 1174 );
+
+
+// VARIABLES //
+
+var FLG = hasToStringTag();
+
+
+// MAIN //
+
+/**
+* Tests if a value is a regular expression.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating whether value is a regular expression
+*
+* @example
+* var bool = isRegExp( /\.+/ );
+* // returns true
+*
+* @example
+* var bool = isRegExp( {} );
+* // returns false
+*/
+function isRegExp( value ) {
+	if ( typeof value === 'object' ) {
+		if ( value instanceof RegExp ) {
+			return true;
+		}
+		if ( FLG ) {
+			return test( value );
+		}
+		return ( nativeClass( value ) === '[object RegExp]' );
+	}
+	return false;
+}
+
+
+// EXPORTS //
+
+module.exports = isRegExp;
+
+
+/***/ }),
+
+/***/ 1174:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var exec = __nccwpck_require__( 996 );
+
+
+// MAIN //
+
+/**
+* Attempts to call a `RegExp` method.
+*
+* @private
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if able to call a `RegExp` method
+*/
+function test( value ) {
+	try {
+		exec.call( value );
+		return true;
+	} catch ( err ) { // eslint-disable-line no-unused-vars
+		return false;
+	}
+}
+
+
+// EXPORTS //
+
+module.exports = test;
+
+
+/***/ }),
+
+/***/ 3513:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Test if a value is a string.
+*
+* @module @stdlib/assert-is-string
+*
+* @example
+* var isString = require( '@stdlib/assert-is-string' );
+*
+* var bool = isString( 'beep' );
+* // returns true
+*
+* bool = isString( new String( 'beep' ) );
+* // returns true
+*
+* bool = isString( 5 );
+* // returns false
+*
+* @example
+* var isString = require( '@stdlib/assert-is-string' ).isObject;
+*
+* var bool = isString( new String( 'beep' ) );
+* // returns true
+*
+* bool = isString( 'beep' );
+* // returns false
+*
+* @example
+* var isString = require( '@stdlib/assert-is-string' ).isPrimitive;
+*
+* var bool = isString( 'beep' );
+* // returns true
+*
+* bool = isString( new String( 'beep' ) );
+* // returns false
+*/
+
+// MODULES //
+
+var setReadOnly = __nccwpck_require__( 7523 );
+var main = __nccwpck_require__( 8800 );
+var isPrimitive = __nccwpck_require__( 7303 );
+var isObject = __nccwpck_require__( 6476 );
+
+
+// MAIN //
+
+setReadOnly( main, 'isPrimitive', isPrimitive );
+setReadOnly( main, 'isObject', isObject );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 8800:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isPrimitive = __nccwpck_require__( 7303 );
+var isObject = __nccwpck_require__( 6476 );
+
+
+// MAIN //
+
+/**
+* Tests if a value is a string.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating whether value is a string
+*
+* @example
+* var bool = isString( new String( 'beep' ) );
+* // returns true
+*
+* @example
+* var bool = isString( 'beep' );
+* // returns true
+*/
+function isString( value ) {
+	return ( isPrimitive( value ) || isObject( value ) );
+}
+
+
+// EXPORTS //
+
+module.exports = isString;
+
+
+/***/ }),
+
+/***/ 6476:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var hasToStringTag = __nccwpck_require__( 4166 );
+var nativeClass = __nccwpck_require__( 2026 );
+var test = __nccwpck_require__( 7988 );
+
+
+// VARIABLES //
+
+var FLG = hasToStringTag();
+
+
+// MAIN //
+
+/**
+* Tests if a value is a string object.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a string object
+*
+* @example
+* var bool = isString( new String( 'beep' ) );
+* // returns true
+*
+* @example
+* var bool = isString( 'beep' );
+* // returns false
+*/
+function isString( value ) {
+	if ( typeof value === 'object' ) {
+		if ( value instanceof String ) {
+			return true;
+		}
+		if ( FLG ) {
+			return test( value );
+		}
+		return ( nativeClass( value ) === '[object String]' );
+	}
+	return false;
+}
+
+
+// EXPORTS //
+
+module.exports = isString;
+
+
+/***/ }),
+
+/***/ 7303:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tests if a value is a string primitive.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a string primitive
+*
+* @example
+* var bool = isString( 'beep' );
+* // returns true
+*
+* @example
+* var bool = isString( new String( 'beep' ) );
+* // returns false
+*/
+function isString( value ) {
+	return ( typeof value === 'string' );
+}
+
+
+// EXPORTS //
+
+module.exports = isString;
+
+
+/***/ }),
+
+/***/ 7988:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var valueOf = __nccwpck_require__( 3530 ); // eslint-disable-line stdlib/no-redeclare
+
+
+// MAIN //
+
+/**
+* Attempts to extract a string value.
+*
+* @private
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a string can be extracted
+*/
+function test( value ) {
+	try {
+		valueOf.call( value );
+		return true;
+	} catch ( err ) { // eslint-disable-line no-unused-vars
+		return false;
+	}
+}
+
+
+// EXPORTS //
+
+module.exports = test;
+
+
+/***/ }),
+
+/***/ 3530:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// eslint-disable-next-line stdlib/no-redeclare
+var valueOf = String.prototype.valueOf; // non-generic
+
+
+// EXPORTS //
+
+module.exports = valueOf;
+
+
+/***/ }),
+
+/***/ 2256:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Return a function which tests if every element in an array passes a test condition.
+*
+* @module @stdlib/assert-tools-array-function
+*
+* @example
+* var isOdd = require( '@stdlib/assert-is-odd' );
+* var arrayfcn = require( '@stdlib/assert-tools-array-function' );
+*
+* var arr1 = [ 1, 3, 5, 7 ];
+* var arr2 = [ 3, 5, 8 ];
+*
+* var validate = arrayfcn( isOdd );
+*
+* var bool = validate( arr1 );
+* // returns true
+*
+* bool = validate( arr2 );
+* // returns false
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 8626 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 8626:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isArray = __nccwpck_require__( 9086 );
+var format = __nccwpck_require__( 5854 );
+
+
+// MAIN //
+
+/**
+* Returns a function which tests if every element in an array passes a test condition.
+*
+* @param {Function} predicate - function to apply
+* @throws {TypeError} must provide a function
+* @returns {Function} an array function
+*
+* @example
+* var isOdd = require( '@stdlib/assert-is-odd' );
+*
+* var arr1 = [ 1, 3, 5, 7 ];
+* var arr2 = [ 3, 5, 8 ];
+*
+* var validate = arrayfcn( isOdd );
+*
+* var bool = validate( arr1 );
+* // returns true
+*
+* bool = validate( arr2 );
+* // returns false
+*/
+function arrayfcn( predicate ) {
+	if ( typeof predicate !== 'function' ) {
+		throw new TypeError( format( 'invalid argument. Must provide a function. Value: `%s`.', predicate ) );
+	}
+	return every;
+
+	/**
+	* Tests if every element in an array passes a test condition.
+	*
+	* @private
+	* @param {*} value - value to test
+	* @returns {boolean} boolean indicating whether a value is an array for which all elements pass a test condition
+	*/
+	function every( value ) {
+		var len;
+		var i;
+		if ( !isArray( value ) ) {
+			return false;
+		}
+		len = value.length;
+		if ( len === 0 ) {
+			return false;
+		}
+		for ( i = 0; i < len; i++ ) {
+			if ( predicate( value[ i ] ) === false ) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+
+// EXPORTS //
+
+module.exports = arrayfcn;
+
+
+/***/ }),
+
+/***/ 729:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Boolean constructor.
+*
+* @module @stdlib/boolean-ctor
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+*
+* var b = Boolean( null );
+* // returns false
+*
+* b = Boolean( [] );
+* // returns true
+*
+* b = Boolean( {} );
+* // returns true
+*
+* @example
+* var Boolean = require( '@stdlib/boolean-ctor' );
+*
+* var b = new Boolean( false );
+* // returns <Boolean>
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 6194 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 6194:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Returns a boolean.
+*
+* @name Boolean
+* @constructor
+* @type {Function}
+* @param {*} value - input value
+* @returns {(boolean|Boolean)} boolean
+*
+* @example
+* var b = Boolean( null );
+* // returns false
+*
+* b = Boolean( [] );
+* // returns true
+*
+* b = Boolean( {} );
+* // returns true
+*
+* @example
+* var b = new Boolean( false );
+* // returns <Boolean>
+*/
+var Bool = Boolean; // eslint-disable-line stdlib/require-globals
+
+
+// EXPORTS //
+
+module.exports = Bool;
+
+
+/***/ }),
+
+/***/ 289:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2021 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Return a regular expression to test if a string is an extended-length path.
+*
+* @module @stdlib/regexp-extended-length-path
+*
+* @example
+* var reExtendedLengthPath = require( '@stdlib/regexp-extended-length-path' );
+* var RE_EXTENDED_LENGTH_PATH = reExtendedLengthPath();
+*
+* var bool = RE_EXTENDED_LENGTH_PATH.test( '\\\\?\\C:\\foo\\bar' );
+* // returns true
+*
+* bool = RE_EXTENDED_LENGTH_PATH.test( 'C:\\foo\\bar' );
+* // returns false
+*/
+
+// MODULES //
+
+var setReadOnly = __nccwpck_require__( 7523 );
+var main = __nccwpck_require__( 6185 );
+var REGEXP = __nccwpck_require__( 6728 );
+
+
+// MAIN //
+
+setReadOnly( main, 'REGEXP', REGEXP );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 6185:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Returns a regular expression that matches an extended-length path.
+*
+* @returns {RegExp} regular expression
+*/
+function reExtendedLengthPath() {
+	return /^\\\\\?\\.+/;
+}
+
+
+// EXPORTS //
+
+module.exports = reExtendedLengthPath;
+
+
+/***/ }),
+
+/***/ 6728:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var reExtendedLengthPath = __nccwpck_require__( 6185 );
+
+
+// MAIN //
+
+/**
+* Matches an extended-length path.
+*
+* Regular Expression: `/^\\\\\?\\.+/`
+*
+* -   `/^\\\\?\\`
+*     -   match a string that begins with two backward slashes `\\\\` followed by a `?` and then a backward slash `\\`
+*
+* -   `.+`
+*     -   match any character which occurs one or more times
+*
+* @constant
+* @type {RegExp}
+* @default /^\\\\\?\\.+/
+* @see [MSDN]{@link https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx}
+*/
+var REGEXP = reExtendedLengthPath();
+
+
+// EXPORTS //
+
+module.exports = REGEXP;
+
+
+/***/ }),
+
+/***/ 5010:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2021 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Regular expression to capture everything that is not a space immediately after the `function` keyword and before the first left parenthesis.
+*
+* @module @stdlib/regexp-function-name
+*
+* @example
+* var reFunctionName = require( '@stdlib/regexp-function-name' );
+* var RE_FUNCTION_NAME = reFunctionName();
+*
+* function fname( fcn ) {
+*     return RE_FUNCTION_NAME.exec( fcn.toString() )[ 1 ];
+* }
+*
+* var fn = fname( Math.sqrt );
+* // returns 'sqrt'
+*
+* fn = fname( Int8Array );
+* // returns 'Int8Array'
+*
+* fn = fname( Object.prototype.toString );
+* // returns 'toString'
+*
+* fn = fname( function(){} );
+* // returns ''
+*/
+
+// MODULES //
+
+var setReadOnly = __nccwpck_require__( 7523 );
+var main = __nccwpck_require__( 752 );
+var REGEXP = __nccwpck_require__( 191 );
+
+
+// MAIN //
+
+setReadOnly( main, 'REGEXP', REGEXP );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 752:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2021 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Returns a regular expression to capture everything that is not a space immediately after the `function` keyword and before the first left parenthesis.
+*
+* @returns {RegExp} regular expression
+*
+* @example
+* var RE_FUNCTION_NAME = reFunctionName();
+*
+* function fname( fcn ) {
+*     return RE_FUNCTION_NAME.exec( fcn.toString() )[ 1 ];
+* }
+*
+* var fn = fname( Math.sqrt );
+* // returns 'sqrt'
+*
+* fn = fname( Int8Array );
+* // returns 'Int8Array'
+*
+* fn = fname( Object.prototype.toString );
+* // returns 'toString'
+*
+* fn = fname( function(){} );
+* // returns ''
+*/
+function reFunctionName() {
+	return /^\s*function\s*([^(]*)/i;
+}
+
+
+// EXPORTS //
+
+module.exports = reFunctionName;
+
+
+/***/ }),
+
+/***/ 191:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var reFunctionName = __nccwpck_require__( 752 );
+
+
+// MAIN //
+
+/**
+* Captures everything that is not a space immediately after the `function` keyword and before the first left parenthesis.
+*
+* Regular expression: `/^\s*function\s*([^(]*)/i`
+*
+* -   `/^\s*`
+*     -   Match zero or more spaces at beginning
+*
+* -   `function`
+*     -   Match the word `function`
+*
+* -   `\s*`
+*     -   Match zero or more spaces after the word `function`
+*
+* -   `()`
+*     -   Capture
+*
+* -   `[^(]*`
+*     -   Match anything except a left parenthesis `(` zero or more times
+*
+* -   `/i`
+*     -   ignore case
+*
+* @constant
+* @type {RegExp}
+* @default /^\s*function\s*([^(]*)/i
+*/
+var RE_FUNCTION_NAME = reFunctionName();
+
+
+// EXPORTS //
+
+module.exports = RE_FUNCTION_NAME;
+
+
+/***/ }),
+
+/***/ 2650:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isNumber = __nccwpck_require__( 7555 );
+
+// NOTE: for the following, we explicitly avoid using stdlib packages in this particular package in order to avoid circular dependencies.
+var abs = Math.abs; // eslint-disable-line stdlib/no-builtin-math
+var lowercase = String.prototype.toLowerCase;
+var uppercase = String.prototype.toUpperCase;
+var replace = String.prototype.replace;
+
+
+// VARIABLES //
+
+var RE_EXP_POS_DIGITS = /e\+(\d)$/;
+var RE_EXP_NEG_DIGITS = /e-(\d)$/;
+var RE_ONLY_DIGITS = /^(\d+)$/;
+var RE_DIGITS_BEFORE_EXP = /^(\d+)e/;
+var RE_TRAILING_PERIOD_ZERO = /\.0$/;
+var RE_PERIOD_ZERO_EXP = /\.0*e/;
+var RE_ZERO_BEFORE_EXP = /(\..*[^0])0*e/;
+
+
+// MAIN //
+
+/**
+* Formats a token object argument as a floating-point number.
+*
+* @private
+* @param {Object} token - token object
+* @throws {Error} must provide a valid floating-point number
+* @returns {string} formatted token argument
+*/
+function formatDouble( token ) {
+	var digits;
+	var out;
+	var f = parseFloat( token.arg );
+	if ( !isFinite( f ) ) { // NOTE: We use the global `isFinite` function here instead of `@stdlib/math/base/assert/is-finite` in order to avoid circular dependencies.
+		if ( !isNumber( token.arg ) ) {
+			throw new Error( 'invalid floating-point number. Value: ' + out );
+		}
+		// Case: NaN, Infinity, or -Infinity
+		f = token.arg;
+	}
+	switch ( token.specifier ) {
+	case 'e':
+	case 'E':
+		out = f.toExponential( token.precision );
+		break;
+	case 'f':
+	case 'F':
+		out = f.toFixed( token.precision );
+		break;
+	case 'g':
+	case 'G':
+		if ( abs( f ) < 0.0001 ) {
+			digits = token.precision;
+			if ( digits > 0 ) {
+				digits -= 1;
+			}
+			out = f.toExponential( digits );
+		} else {
+			out = f.toPrecision( token.precision );
+		}
+		if ( !token.alternate ) {
+			out = replace.call( out, RE_ZERO_BEFORE_EXP, '$1e' );
+			out = replace.call( out, RE_PERIOD_ZERO_EXP, 'e');
+			out = replace.call( out, RE_TRAILING_PERIOD_ZERO, '' );
+		}
+		break;
+	default:
+		throw new Error( 'invalid double notation. Value: ' + token.specifier );
+	}
+	out = replace.call( out, RE_EXP_POS_DIGITS, 'e+0$1' );
+	out = replace.call( out, RE_EXP_NEG_DIGITS, 'e-0$1' );
+	if ( token.alternate ) {
+		out = replace.call( out, RE_ONLY_DIGITS, '$1.' );
+		out = replace.call( out, RE_DIGITS_BEFORE_EXP, '$1.e' );
+	}
+	if ( f >= 0 && token.sign ) {
+		out = token.sign + out;
+	}
+	out = ( token.specifier === uppercase.call( token.specifier ) ) ?
+		uppercase.call( out ) :
+		lowercase.call( out );
+	return out;
+}
+
+
+// EXPORTS //
+
+module.exports = formatDouble;
+
+
+/***/ }),
+
+/***/ 2420:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isNumber = __nccwpck_require__( 7555 );
+var zeroPad = __nccwpck_require__( 6267 );
+
+// NOTE: for the following, we explicitly avoid using stdlib packages in this particular package in order to avoid circular dependencies.
+var lowercase = String.prototype.toLowerCase;
+var uppercase = String.prototype.toUpperCase;
+
+
+// MAIN //
+
+/**
+* Formats a token object argument as an integer.
+*
+* @private
+* @param {Object} token - token object
+* @throws {Error} must provide a valid integer
+* @returns {string} formatted token argument
+*/
+function formatInteger( token ) {
+	var base;
+	var out;
+	var i;
+
+	switch ( token.specifier ) {
+	case 'b':
+		// Case: %b (binary)
+		base = 2;
+		break;
+	case 'o':
+		// Case: %o (octal)
+		base = 8;
+		break;
+	case 'x':
+	case 'X':
+		// Case: %x, %X (hexadecimal)
+		base = 16;
+		break;
+	case 'd':
+	case 'i':
+	case 'u':
+	default:
+		// Case: %d, %i, %u (decimal)
+		base = 10;
+		break;
+	}
+	out = token.arg;
+	i = parseInt( out, 10 );
+	if ( !isFinite( i ) ) { // NOTE: We use the global `isFinite` function here instead of `@stdlib/math/base/assert/is-finite` in order to avoid circular dependencies.
+		if ( !isNumber( out ) ) {
+			throw new Error( 'invalid integer. Value: ' + out );
+		}
+		i = 0;
+	}
+	if ( i < 0 && ( token.specifier === 'u' || base !== 10 ) ) {
+		i = 0xffffffff + i + 1;
+	}
+	if ( i < 0 ) {
+		out = ( -i ).toString( base );
+		if ( token.precision ) {
+			out = zeroPad( out, token.precision, token.padRight );
+		}
+		out = '-' + out;
+	} else {
+		out = i.toString( base );
+		if ( !i && !token.precision ) {
+			out = '';
+		} else if ( token.precision ) {
+			out = zeroPad( out, token.precision, token.padRight );
+		}
+		if ( token.sign ) {
+			out = token.sign + out;
+		}
+	}
+	if ( base === 16 ) {
+		if ( token.alternate ) {
+			out = '0x' + out;
+		}
+		out = ( token.specifier === uppercase.call( token.specifier ) ) ?
+			uppercase.call( out ) :
+			lowercase.call( out );
+	}
+	if ( base === 8 ) {
+		if ( token.alternate && out.charAt( 0 ) !== '0' ) {
+			out = '0' + out;
+		}
+	}
+	return out;
+}
+
+
+// EXPORTS //
+
+module.exports = formatInteger;
+
+
+/***/ }),
+
+/***/ 9676:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Generate string from a token array by interpolating values.
+*
+* @module @stdlib/string-base-format-interpolate
+*
+* @example
+* var formatInterpolate = require( '@stdlib/string-base-format-interpolate' );
+*
+* var tokens = ['Hello ', { 'specifier': 's' }, '!' ];
+* var out = formatInterpolate( tokens, 'World' );
+* // returns 'Hello World!'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 1344 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 7555:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tests if a value is a number primitive.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a number primitive
+*
+* @example
+* var bool = isNumber( 3.14 );
+* // returns true
+*
+* @example
+* var bool = isNumber( NaN );
+* // returns true
+*
+* @example
+* var bool = isNumber( new Number( 3.14 ) );
+* // returns false
+*/
+function isNumber( value ) {
+	return ( typeof value === 'number' );  // NOTE: we inline the `isNumber.isPrimitive` function from `@stdlib/assert/is-number` in order to avoid circular dependencies.
+}
+
+
+// EXPORTS //
+
+module.exports = isNumber;
+
+
+/***/ }),
+
+/***/ 7144:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tests if a value is a string primitive.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a string primitive
+*
+* @example
+* var bool = isString( 'beep' );
+* // returns true
+*
+* @example
+* var bool = isString( new String( 'beep' ) );
+* // returns false
+*/
+function isString( value ) {
+	return ( typeof value === 'string' ); // NOTE: we inline the `isString.isPrimitive` function from `@stdlib/assert/is-string` in order to avoid circular dependencies.
+}
+
+
+// EXPORTS //
+
+module.exports = isString;
+
+
+/***/ }),
+
+/***/ 1344:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var formatInteger = __nccwpck_require__( 2420 );
+var isString = __nccwpck_require__( 7144 );
+var formatDouble = __nccwpck_require__( 2650 );
+var spacePad = __nccwpck_require__( 2508 );
+var zeroPad = __nccwpck_require__( 6267 );
+
+
+// VARIABLES //
+
+var fromCharCode = String.fromCharCode;
+var isnan = isNaN; // NOTE: We use the global `isNaN` function here instead of `@stdlib/math/base/assert/is-nan` to avoid circular dependencies.
+var isArray = Array.isArray; // NOTE: We use the global `Array.isArray` function here instead of `@stdlib/assert/is-array` to avoid circular dependencies.
+
+
+// FUNCTIONS //
+
+/**
+* Initializes token object with properties of supplied format identifier object or default values if not present.
+*
+* @private
+* @param {Object} token - format identifier object
+* @returns {Object} token object
+*/
+function initialize( token ) {
+	var out = {};
+	out.specifier = token.specifier;
+	out.precision = ( token.precision === void 0 ) ? 1 : token.precision;
+	out.width = token.width;
+	out.flags = token.flags || '';
+	out.mapping = token.mapping;
+	return out;
+}
+
+
+// MAIN //
+
+/**
+* Generates string from a token array by interpolating values.
+*
+* @param {Array} tokens - string parts and format identifier objects
+* @param {Array} ...args - variable values
+* @throws {TypeError} first argument must be an array
+* @throws {Error} invalid flags
+* @returns {string} formatted string
+*
+* @example
+* var tokens = [ 'beep ', { 'specifier': 's' } ];
+* var out = formatInterpolate( tokens, 'boop' );
+* // returns 'beep boop'
+*/
+function formatInterpolate( tokens ) {
+	var hasPeriod;
+	var flags;
+	var token;
+	var flag;
+	var num;
+	var out;
+	var pos;
+	var i;
+	var j;
+
+	if ( !isArray( tokens ) ) {
+		throw new TypeError( 'invalid argument. First argument must be an array. Value: `' + tokens + '`.' );
+	}
+	out = '';
+	pos = 1;
+	for ( i = 0; i < tokens.length; i++ ) {
+		token = tokens[ i ];
+		if ( isString( token ) ) {
+			out += token;
+		} else {
+			hasPeriod = token.precision !== void 0;
+			token = initialize( token );
+			if ( !token.specifier ) {
+				throw new TypeError( 'invalid argument. Token is missing `specifier` property. Index: `'+ i +'`. Value: `' + token + '`.' );
+			}
+			if ( token.mapping ) {
+				pos = token.mapping;
+			}
+			flags = token.flags;
+			for ( j = 0; j < flags.length; j++ ) {
+				flag = flags.charAt( j );
+				switch ( flag ) {
+				case ' ':
+					token.sign = ' ';
+					break;
+				case '+':
+					token.sign = '+';
+					break;
+				case '-':
+					token.padRight = true;
+					token.padZeros = false;
+					break;
+				case '0':
+					token.padZeros = flags.indexOf( '-' ) < 0; // NOTE: We use built-in `Array.prototype.indexOf` here instead of `@stdlib/assert/contains` in order to avoid circular dependencies.
+					break;
+				case '#':
+					token.alternate = true;
+					break;
+				default:
+					throw new Error( 'invalid flag: ' + flag );
+				}
+			}
+			if ( token.width === '*' ) {
+				token.width = parseInt( arguments[ pos ], 10 );
+				pos += 1;
+				if ( isnan( token.width ) ) {
+					throw new TypeError( 'the argument for * width at position ' + pos + ' is not a number. Value: `' + token.width + '`.' );
+				}
+				if ( token.width < 0 ) {
+					token.padRight = true;
+					token.width = -token.width;
+				}
+			}
+			if ( hasPeriod ) {
+				if ( token.precision === '*' ) {
+					token.precision = parseInt( arguments[ pos ], 10 );
+					pos += 1;
+					if ( isnan( token.precision ) ) {
+						throw new TypeError( 'the argument for * precision at position ' + pos + ' is not a number. Value: `' + token.precision + '`.' );
+					}
+					if ( token.precision < 0 ) {
+						token.precision = 1;
+						hasPeriod = false;
+					}
+				}
+			}
+			token.arg = arguments[ pos ];
+			switch ( token.specifier ) {
+			case 'b':
+			case 'o':
+			case 'x':
+			case 'X':
+			case 'd':
+			case 'i':
+			case 'u':
+				// Case: %b (binary), %o (octal), %x, %X (hexadecimal), %d, %i (decimal), %u (unsigned decimal)
+				if ( hasPeriod ) {
+					token.padZeros = false;
+				}
+				token.arg = formatInteger( token );
+				break;
+			case 's':
+				// Case: %s (string)
+				token.maxWidth = ( hasPeriod ) ? token.precision : -1;
+				break;
+			case 'c':
+				// Case: %c (character)
+				if ( !isnan( token.arg ) ) {
+					num = parseInt( token.arg, 10 );
+					if ( num < 0 || num > 127 ) {
+						throw new Error( 'invalid character code. Value: ' + token.arg );
+					}
+					token.arg = ( isnan( num ) ) ?
+						String( token.arg ) :
+						fromCharCode( num );
+				}
+				break;
+			case 'e':
+			case 'E':
+			case 'f':
+			case 'F':
+			case 'g':
+			case 'G':
+				// Case: %e, %E (scientific notation), %f, %F (decimal floating point), %g, %G (uses the shorter of %e/E or %f/F)
+				if ( !hasPeriod ) {
+					token.precision = 6;
+				}
+				token.arg = formatDouble( token );
+				break;
+			default:
+				throw new Error( 'invalid specifier: ' + token.specifier );
+			}
+			// Fit argument into field width...
+			if ( token.maxWidth >= 0 && token.arg.length > token.maxWidth ) {
+				token.arg = token.arg.substring( 0, token.maxWidth );
+			}
+			if ( token.padZeros ) {
+				token.arg = zeroPad( token.arg, token.width || token.precision, token.padRight ); // eslint-disable-line max-len
+			} else if ( token.width ) {
+				token.arg = spacePad( token.arg, token.width, token.padRight );
+			}
+			out += token.arg || '';
+			pos += 1;
+		}
+	}
+	return out;
+}
+
+
+// EXPORTS //
+
+module.exports = formatInterpolate;
+
+
+/***/ }),
+
+/***/ 2508:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// FUNCTIONS //
+
+/**
+* Returns `n` spaces.
+*
+* @private
+* @param {number} n - number of spaces
+* @returns {string} string of spaces
+*/
+function spaces( n ) {
+	var out = '';
+	var i;
+	for ( i = 0; i < n; i++ ) {
+		out += ' ';
+	}
+	return out;
+}
+
+
+// MAIN //
+
+/**
+* Pads a token with spaces to the specified width.
+*
+* @private
+* @param {string} str - token argument
+* @param {number} width - token width
+* @param {boolean} [right=false] - boolean indicating whether to pad to the right
+* @returns {string} padded token argument
+*/
+function spacePad( str, width, right ) {
+	var pad = width - str.length;
+	if ( pad < 0 ) {
+		return str;
+	}
+	str = ( right ) ?
+		str + spaces( pad ) :
+		spaces( pad ) + str;
+	return str;
+}
+
+
+// EXPORTS //
+
+module.exports = spacePad;
+
+
+/***/ }),
+
+/***/ 6267:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// FUNCTIONS //
+
+/**
+* Tests if a string starts with a minus sign (`-`).
+*
+* @private
+* @param {string} str - input string
+* @returns {boolean} boolean indicating if a string starts with a minus sign (`-`)
+*/
+function startsWithMinus( str ) {
+	return str[ 0 ] === '-';
+}
+
+/**
+* Returns a string of `n` zeros.
+*
+* @private
+* @param {number} n - number of zeros
+* @returns {string} string of zeros
+*/
+function zeros( n ) {
+	var out = '';
+	var i;
+	for ( i = 0; i < n; i++ ) {
+		out += '0';
+	}
+	return out;
+}
+
+
+// MAIN //
+
+/**
+* Pads a token with zeros to the specified width.
+*
+* @private
+* @param {string} str - token argument
+* @param {number} width - token width
+* @param {boolean} [right=false] - boolean indicating whether to pad to the right
+* @returns {string} padded token argument
+*/
+function zeroPad( str, width, right ) {
+	var negative = false;
+	var pad = width - str.length;
+	if ( pad < 0 ) {
+		return str;
+	}
+	if ( startsWithMinus( str ) ) {
+		negative = true;
+		str = str.substr( 1 );
+	}
+	str = ( right ) ?
+		str + zeros( pad ) :
+		zeros( pad ) + str;
+	if ( negative ) {
+		str = '-' + str;
+	}
+	return str;
+}
+
+
+// EXPORTS //
+
+module.exports = zeroPad;
+
+
+/***/ }),
+
+/***/ 7922:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tokenize a string into an array of string parts and format identifier objects.
+*
+* @module @stdlib/string-base-format-tokenize
+*
+* @example
+* var formatTokenize = require( '@stdlib/string-base-format-tokenize' );
+*
+* var str = 'Hello %s!';
+* var tokens = formatTokenize( str );
+* // returns [ 'Hello ', {...}, '!' ]
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 2797 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 2797:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// VARIABLES //
+
+var RE = /%(?:([1-9]\d*)\$)?([0 +\-#]*)(\*|\d+)?(?:(\.)(\*|\d+)?)?[hlL]?([%A-Za-z])/g;
+
+
+// FUNCTIONS //
+
+/**
+* Parses a delimiter.
+*
+* @private
+* @param {Array} match - regular expression match
+* @returns {Object} delimiter token object
+*/
+function parse( match ) {
+	var token = {
+		'mapping': ( match[ 1 ] ) ? parseInt( match[ 1 ], 10 ) : void 0,
+		'flags': match[ 2 ],
+		'width': match[ 3 ],
+		'precision': match[ 5 ],
+		'specifier': match[ 6 ]
+	};
+	if ( match[ 4 ] === '.' && match[ 5 ] === void 0 ) {
+		token.precision = '1';
+	}
+	return token;
+}
+
+
+// MAIN //
+
+/**
+* Tokenizes a string into an array of string parts and format identifier objects.
+*
+* @param {string} str - input string
+* @returns {Array} tokens
+*
+* @example
+* var tokens = formatTokenize( 'Hello %s!' );
+* // returns [ 'Hello ', {...}, '!' ]
+*/
+function formatTokenize( str ) {
+	var content;
+	var tokens;
+	var match;
+	var prev;
+
+	tokens = [];
+	prev = 0;
+	match = RE.exec( str );
+	while ( match ) {
+		content = str.slice( prev, RE.lastIndex - match[ 0 ].length );
+		if ( content.length ) {
+			tokens.push( content );
+		}
+		tokens.push( parse( match ) );
+		prev = RE.lastIndex;
+		match = RE.exec( str );
+	}
+	content = str.slice( prev );
+	if ( content.length ) {
+		tokens.push( content );
+	}
+	return tokens;
+}
+
+
+// EXPORTS //
+
+module.exports = formatTokenize;
+
+
+/***/ }),
+
+/***/ 719:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Convert a string to lowercase.
+*
+* @module @stdlib/string-base-lowercase
+*
+* @example
+* var lowercase = require( '@stdlib/string-base-lowercase' );
+*
+* var str = lowercase( 'bEEp' );
+* // returns 'beep'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 5767 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 5767:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Converts a string to lowercase.
+*
+* @param {string} str - string to convert
+* @returns {string} lowercase string
+*
+* @example
+* var str = lowercase( 'bEEp' );
+* // returns 'beep'
+*/
+function lowercase( str ) {
+	return str.toLowerCase();
+}
+
+
+// EXPORTS //
+
+module.exports = lowercase;
+
+
+/***/ }),
+
+/***/ 2569:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Replace search occurrences with a replacement string.
+*
+* @module @stdlib/string-base-replace
+*
+* @example
+* var replace = require( '@stdlib/string-base-replace' );
+*
+* var str = 'Hello World';
+* var out = replace( str, /world/i, 'Mr. President' );
+* // returns 'Hello Mr. President'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 1418 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 1418:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Replaces search occurrences with a replacement string.
+*
+* @param {string} str - input string
+* @param {RegExp} search - search expression
+* @param {(string|Function)} newval - replacement value or function
+* @returns {string} new string containing replacement(s)
+*
+* @example
+* var str = 'Hello World';
+* var out = replace( str, /world/i, 'Mr. President' );
+* // returns 'Hello Mr. President'
+*
+* @example
+* var capitalize = require( '@stdlib/string-base-capitalize' );
+*
+* var str = 'Oranges and lemons say the bells of St. Clement\'s';
+*
+* function replacer( match, p1 ) {
+*     return capitalize( p1 );
+* }
+*
+* var out = replace( str, /([^\s]*)/gi, replacer);
+* // returns 'Oranges And Lemons Say The Bells Of St. Clement\'s'
+*/
+function replace( str, search, newval ) {
+	return str.replace( search, newval );
+}
+
+
+// EXPORTS //
+
+module.exports = replace;
+
+
+/***/ }),
+
+/***/ 5854:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Insert supplied variable values into a format string.
+*
+* @module @stdlib/string-format
+*
+* @example
+* var format = require( '@stdlib/string-format' );
+*
+* var out = format( '%s %s!', 'Hello', 'World' );
+* // returns 'Hello World!'
+*
+* out = format( 'Pi: ~%.2f', 3.141592653589793 );
+* // returns 'Pi: ~3.14'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 8808 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 3556:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Tests if a value is a string primitive.
+*
+* @param {*} value - value to test
+* @returns {boolean} boolean indicating if a value is a string primitive
+*
+* @example
+* var bool = isString( 'beep' );
+* // returns true
+*
+* @example
+* var bool = isString( new String( 'beep' ) );
+* // returns false
+*/
+function isString( value ) {
+	return ( typeof value === 'string' ); // NOTE: we inline the `isString.isPrimitive` function from `@stdlib/assert/is-string` in order to avoid circular dependencies.
+}
+
+
+// EXPORTS //
+
+module.exports = isString;
+
+
+/***/ }),
+
+/***/ 8808:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var interpolate = __nccwpck_require__( 9676 );
+var tokenize = __nccwpck_require__( 7922 );
+var isString = __nccwpck_require__( 3556 );
+
+
+// MAIN //
+
+/**
+* Inserts supplied variable values into a format string.
+*
+* @param {string} str - input string
+* @param {Array} ...args - variable values
+* @throws {TypeError} first argument must be a string
+* @throws {Error} invalid flags
+* @returns {string} formatted string
+*
+* @example
+* var str = format( 'Hello %s!', 'world' );
+* // returns 'Hello world!'
+*
+* @example
+* var str = format( 'Pi: ~%.2f', 3.141592653589793 );
+* // returns 'Pi: ~3.14'
+*/
+function format( str ) {
+	var args;
+	var i;
+
+	if ( !isString( str ) ) {
+		throw new TypeError( format( 'invalid argument. First argument must be a string. Value: `%s`.', str ) );
+	}
+	args = [ tokenize( str ) ];
+	for ( i = 1; i < arguments.length; i++ ) {
+		args.push( arguments[ i ] );
+	}
+	return interpolate.apply( null, args );
+}
+
+
+// EXPORTS //
+
+module.exports = format;
+
+
+/***/ }),
+
+/***/ 2763:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Replace search occurrences with a replacement string.
+*
+* @module @stdlib/string-replace
+*
+* @example
+* var replace = require( '@stdlib/string-replace' );
+*
+* var str = 'beep';
+* var out = replace( str, 'e', 'o' );
+* // returns 'boop'
+*
+* str = 'Hello World';
+* out = replace( str, /world/i, 'Mr. President' );
+* // returns 'Hello Mr. President'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 7269 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 7269:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var rescape = __nccwpck_require__( 9636 );
+var isFunction = __nccwpck_require__( 5035 );
+var isString = (__nccwpck_require__(3513).isPrimitive);
+var isRegExp = __nccwpck_require__( 6530 );
+var format = __nccwpck_require__( 5854 );
+var base = __nccwpck_require__( 2569 );
+
+
+// MAIN //
+
+/**
+* Replaces search occurrences with a replacement string.
+*
+* @param {string} str - input string
+* @param {(string|RegExp)} search - search expression
+* @param {(string|Function)} newval - replacement value or function
+* @throws {TypeError} first argument must be a string
+* @throws {TypeError} second argument argument must be a string or regular expression
+* @throws {TypeError} third argument must be a string or function
+* @returns {string} new string containing replacement(s)
+*
+* @example
+* var str = 'beep';
+* var out = replace( str, 'e', 'o' );
+* // returns 'boop'
+*
+* @example
+* var str = 'Hello World';
+* var out = replace( str, /world/i, 'Mr. President' );
+* // returns 'Hello Mr. President'
+*
+* @example
+* var capitalize = require( '@stdlib/string-capitalize' );
+*
+* var str = 'Oranges and lemons say the bells of St. Clement\'s';
+*
+* function replacer( match, p1 ) {
+*     return capitalize( p1 );
+* }
+*
+* var out = replace( str, /([^\s]*)/gi, replacer);
+* // returns 'Oranges And Lemons Say The Bells Of St. Clement\'s'
+*/
+function replace( str, search, newval ) {
+	if ( !isString( str ) ) {
+		throw new TypeError( format( 'invalid argument. First argument must be a string. Value: `%s`.', str ) );
+	}
+	if ( isString( search ) ) {
+		search = new RegExp( rescape( search ), 'g' );
+	} else if ( !isRegExp( search ) ) {
+		throw new TypeError( format( 'invalid argument. Second argument must be a string or regular expression. Value: `%s`.', search ) );
+	}
+	if ( !isString( newval ) && !isFunction( newval ) ) {
+		throw new TypeError( format( 'invalid argument. Third argument must be a string or replacement function. Value: `%s`.', newval ) );
+	}
+	return base( str, search, newval );
+}
+
+
+// EXPORTS //
+
+module.exports = replace;
+
+
+/***/ }),
+
+/***/ 8742:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Symbol factory.
+*
+* @module @stdlib/symbol-ctor
+*
+* @example
+* var Symbol = require( '@stdlib/symbol-ctor' );
+*
+* var s = Symbol( 'beep' );
+* // returns <symbol>
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 2752 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 2752:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var Sym = ( typeof Symbol === 'function' ) ? Symbol : void 0; // eslint-disable-line stdlib/require-globals
+
+
+// EXPORTS //
+
+module.exports = Sym;
+
+
+/***/ }),
+
+/***/ 453:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Determine the name of a value's constructor.
+*
+* @module @stdlib/utils-constructor-name
+*
+* @example
+* var constructorName = require( '@stdlib/utils-constructor-name' );
+*
+* var v = constructorName( 'a' );
+* // returns 'String'
+*
+* v = constructorName( {} );
+* // returns 'Object'
+*
+* v = constructorName( true );
+* // returns 'Boolean'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 4441 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 4441:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var nativeClass = __nccwpck_require__( 2026 );
+var RE = (__nccwpck_require__(5010).REGEXP);
+var isBuffer = __nccwpck_require__( 5350 );
+
+
+// MAIN //
+
+/**
+* Determines the name of a value's constructor.
+*
+* @param {*} v - input value
+* @returns {string} name of a value's constructor
+*
+* @example
+* var v = constructorName( 'a' );
+* // returns 'String'
+*
+* @example
+* var v = constructorName( 5 );
+* // returns 'Number'
+*
+* @example
+* var v = constructorName( null );
+* // returns 'Null'
+*
+* @example
+* var v = constructorName( undefined );
+* // returns 'Undefined'
+*
+* @example
+* var v = constructorName( function noop() {} );
+* // returns 'Function'
+*/
+function constructorName( v ) {
+	var match;
+	var name;
+	var ctor;
+	name = nativeClass( v ).slice( 8, -1 );
+	if ( (name === 'Object' || name === 'Error') && v.constructor ) {
+		ctor = v.constructor;
+		if ( typeof ctor.name === 'string' ) {
+			return ctor.name;
+		}
+		match = RE.exec( ctor.toString() );
+		if ( match ) {
+			return match[ 1 ];
+		}
+	}
+	if ( isBuffer( v ) ) {
+		return 'Buffer';
+	}
+	return name;
+}
+
+
+// EXPORTS //
+
+module.exports = constructorName;
+
+
+/***/ }),
+
+/***/ 4778:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Convert between POSIX and Windows paths.
+*
+* @module @stdlib/utils-convert-path
+*
+* @example
+* var convertPath = require( '@stdlib/utils-convert-path' );
+*
+* var p = convertPath( '/c/foo/bar/beep.c', 'win32' );
+* // returns 'c:\foo\bar\beep.c'
+*
+* p = convertPath( '/c/foo/bar/beep.c', 'mixed' );
+* // returns 'c:/foo/bar/beep.c'
+*
+* p = convertPath( 'C:\\foo\\bar\\beep.c', 'posix' );
+* // returns '/c/foo/bar/beep.c'
+*
+* p = convertPath( 'C:\\foo\\bar\\beep.c', 'mixed' );
+* // returns 'C:/foo/bar/beep.c'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 5670 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 5670:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isString = (__nccwpck_require__(3513).isPrimitive);
+var reExtendedLengthPath = __nccwpck_require__( 289 );
+var lowercase = __nccwpck_require__( 719 );
+var replace = __nccwpck_require__( 2763 );
+var format = __nccwpck_require__( 5854 );
+
+
+// VARIABLES //
+
+var RE_WIN_DEVICE_ROOT = /^([A-Za-z]):[\\\/]+/; // eslint-disable-line no-useless-escape
+var RE_POSIX_DEVICE_ROOT =/^\/([A-Za-z])\//;
+
+
+// MAIN //
+
+/**
+* Converts between POSIX and Windows paths.
+*
+* @param {string} from - path to convert
+* @param {string} to - output path convention
+* @throws {TypeError} first argument must be a string
+* @throws {TypeError} second argument must be a string
+* @throws {RangeError} second argument must be a recognized output path convention
+* @throws {Error} cannot convert a Windows extended-length path to a non-Windows path convention
+* @returns {string} converted path
+*
+* @example
+* var p = convertPath( '/c/foo/bar/beep.c', 'win32' );
+* // returns 'c:\foo\bar\beep.c'
+*
+* @example
+* var p = convertPath( '/c/foo/bar/beep.c', 'mixed' );
+* // returns 'c:/foo/bar/beep.c'
+*
+* @example
+* var p = convertPath( 'C:\\foo\\bar\\beep.c', 'posix' );
+* // returns '/c/foo/bar/beep.c'
+*
+* @example
+* var p = convertPath( 'C:\\foo\\bar\\beep.c', 'mixed' );
+* // returns 'C:/foo/bar/beep.c'
+*/
+function convertPath( from, to ) {
+	var device;
+	var parts;
+	var out;
+	if ( !isString( from ) ) {
+		throw new TypeError( format( 'invalid argument. First argument must be a string. Value: `%s`.', from ) );
+	}
+	if ( !isString( to ) ) {
+		throw new TypeError( format( 'invalid argument. Second argument must be a string. Value: `%s`.', to ) );
+	}
+	if (
+		to !== 'win32' &&
+		to !== 'mixed' &&
+		to !== 'posix'
+	) {
+		throw new Error( format( 'invalid argument. Second argument must be a recognized output path convention. Value: `%s`.', to ) );
+	}
+	out = from;
+
+	// Convert to a Windows path convention by transforming a POSIX device root (if present) and using a Windows path separator...
+	if ( to === 'win32' ) {
+		parts = RE_POSIX_DEVICE_ROOT.exec( out );
+		if ( parts ) {
+			device = parts[ 1 ]+':\\';
+			out = replace( out, RE_POSIX_DEVICE_ROOT, device );
+		}
+		return replace( out, '/', '\\' );
+	}
+	// Check for Windows extended-length paths...
+	if ( reExtendedLengthPath.REGEXP.test( from ) ) {
+		throw new Error( format( 'invalid argument. Cannot convert Windows extended-length paths to POSIX paths. Value: `%s`.', from ) );
+	}
+	// Convert to a mixed path convention by combining a Windows drive letter convention with a POSIX path separator...
+	if ( to === 'mixed' ) {
+		parts = RE_POSIX_DEVICE_ROOT.exec( out );
+		if ( parts ) {
+			device = parts[ 1 ]+':/';
+			out = replace( out, RE_POSIX_DEVICE_ROOT, device );
+		} else {
+			parts = RE_WIN_DEVICE_ROOT.exec( out );
+			if ( parts ) {
+				device = parts[ 1 ]+':/';
+				out = replace( out, RE_WIN_DEVICE_ROOT, device );
+			}
+		}
+		return replace( out, '\\', '/' );
+	}
+	// Convert to a POSIX path convention by transforming a Windows device root (if present) and using a POSIX path separator...
+	parts = RE_WIN_DEVICE_ROOT.exec( out );
+	if ( parts ) {
+		device = '/'+lowercase( parts[ 1 ] )+'/';
+		out = replace( out, RE_WIN_DEVICE_ROOT, device );
+	}
+	return replace( out, '\\', '/' );
+}
+
+
+// EXPORTS //
+
+module.exports = convertPath;
+
+
+/***/ }),
+
+/***/ 7523:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Define a non-enumerable read-only property.
+*
+* @module @stdlib/utils-define-nonenumerable-read-only-property
+*
+* @example
+* var setNonEnumerableReadOnly = require( '@stdlib/utils-define-nonenumerable-read-only-property' );
+*
+* var obj = {};
+*
+* setNonEnumerableReadOnly( obj, 'foo', 'bar' );
+*
+* try {
+*     obj.foo = 'boop';
+* } catch ( err ) {
+*     console.error( err.message );
+* }
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 9728 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 9728:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var defineProperty = __nccwpck_require__( 3260 );
+
+
+// MAIN //
+
+/**
+* Defines a non-enumerable read-only property.
+*
+* @param {Object} obj - object on which to define the property
+* @param {(string|symbol)} prop - property name
+* @param {*} value - value to set
+*
+* @example
+* var obj = {};
+*
+* setNonEnumerableReadOnly( obj, 'foo', 'bar' );
+*
+* try {
+*     obj.foo = 'boop';
+* } catch ( err ) {
+*     console.error( err.message );
+* }
+*/
+function setNonEnumerableReadOnly( obj, prop, value ) {
+	defineProperty( obj, prop, {
+		'configurable': false,
+		'enumerable': false,
+		'writable': false,
+		'value': value
+	});
+}
+
+
+// EXPORTS //
+
+module.exports = setNonEnumerableReadOnly;
+
+
+/***/ }),
+
+/***/ 6379:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Defines (or modifies) an object property.
+*
+* ## Notes
+*
+* -   Property descriptors come in two flavors: **data descriptors** and **accessor descriptors**. A data descriptor is a property that has a value, which may or may not be writable. An accessor descriptor is a property described by a getter-setter function pair. A descriptor must be one of these two flavors and cannot be both.
+*
+* @name defineProperty
+* @type {Function}
+* @param {Object} obj - object on which to define the property
+* @param {(string|symbol)} prop - property name
+* @param {Object} descriptor - property descriptor
+* @param {boolean} [descriptor.configurable=false] - boolean indicating if property descriptor can be changed and if the property can be deleted from the provided object
+* @param {boolean} [descriptor.enumerable=false] - boolean indicating if the property shows up when enumerating object properties
+* @param {boolean} [descriptor.writable=false] - boolean indicating if the value associated with the property can be changed with an assignment operator
+* @param {*} [descriptor.value] - property value
+* @param {(Function|void)} [descriptor.get=undefined] - function which serves as a getter for the property, or, if no getter, undefined. When the property is accessed, a getter function is called without arguments and with the `this` context set to the object through which the property is accessed (which may not be the object on which the property is defined due to inheritance). The return value will be used as the property value.
+* @param {(Function|void)} [descriptor.set=undefined] - function which serves as a setter for the property, or, if no setter, undefined. When assigning a property value, a setter function is called with one argument (the value being assigned to the property) and with the `this` context set to the object through which the property is assigned.
+* @throws {TypeError} first argument must be an object
+* @throws {TypeError} third argument must be an object
+* @throws {Error} property descriptor cannot have both a value and a setter and/or getter
+* @returns {Object} object with added property
+*
+* @example
+* var obj = {};
+*
+* defineProperty( obj, 'foo', {
+*     'value': 'bar'
+* });
+*
+* var str = obj.foo;
+* // returns 'bar'
+*/
+var defineProperty = Object.defineProperty;
+
+
+// EXPORTS //
+
+module.exports = defineProperty;
+
+
+/***/ }),
+
+/***/ 5484:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2021 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var main = ( typeof Object.defineProperty === 'function' ) ? Object.defineProperty : null;
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 2414:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2021 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var defineProperty = __nccwpck_require__( 5484 );
+
+
+// MAIN //
+
+/**
+* Tests for `Object.defineProperty` support.
+*
+* @private
+* @returns {boolean} boolean indicating if an environment has `Object.defineProperty` support
+*
+* @example
+* var bool = hasDefinePropertySupport();
+* // returns <boolean>
+*/
+function hasDefinePropertySupport() {
+	// Test basic support...
+	try {
+		defineProperty( {}, 'x', {} );
+		return true;
+	} catch ( err ) { // eslint-disable-line no-unused-vars
+		return false;
+	}
+}
+
+
+// EXPORTS //
+
+module.exports = hasDefinePropertySupport;
+
+
+/***/ }),
+
+/***/ 3260:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Define (or modify) an object property.
+*
+* @module @stdlib/utils-define-property
+*
+* @example
+* var defineProperty = require( '@stdlib/utils-define-property' );
+*
+* var obj = {};
+* defineProperty( obj, 'foo', {
+*     'value': 'bar',
+*     'writable': false,
+*     'configurable': false,
+*     'enumerable': false
+* });
+* obj.foo = 'boop'; // => throws
+*/
+
+// MODULES //
+
+var hasDefinePropertySupport = __nccwpck_require__( 2414 );
+var builtin = __nccwpck_require__( 6379 );
+var polyfill = __nccwpck_require__( 4003 );
+
+
+// MAIN //
+
+var defineProperty;
+if ( hasDefinePropertySupport() ) {
+	defineProperty = builtin;
+} else {
+	defineProperty = polyfill;
+}
+
+
+// EXPORTS //
+
+module.exports = defineProperty;
+
+
+/***/ }),
+
+/***/ 4003:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+/* eslint-disable no-underscore-dangle, no-proto */
+
+
+
+// MODULES //
+
+var format = __nccwpck_require__( 5854 );
+
+
+// VARIABLES //
+
+var objectProtoype = Object.prototype;
+var toStr = objectProtoype.toString;
+var defineGetter = objectProtoype.__defineGetter__;
+var defineSetter = objectProtoype.__defineSetter__;
+var lookupGetter = objectProtoype.__lookupGetter__;
+var lookupSetter = objectProtoype.__lookupSetter__;
+
+
+// MAIN //
+
+/**
+* Defines (or modifies) an object property.
+*
+* ## Notes
+*
+* -   Property descriptors come in two flavors: **data descriptors** and **accessor descriptors**. A data descriptor is a property that has a value, which may or may not be writable. An accessor descriptor is a property described by a getter-setter function pair. A descriptor must be one of these two flavors and cannot be both.
+*
+* @param {Object} obj - object on which to define the property
+* @param {string} prop - property name
+* @param {Object} descriptor - property descriptor
+* @param {boolean} [descriptor.configurable=false] - boolean indicating if property descriptor can be changed and if the property can be deleted from the provided object
+* @param {boolean} [descriptor.enumerable=false] - boolean indicating if the property shows up when enumerating object properties
+* @param {boolean} [descriptor.writable=false] - boolean indicating if the value associated with the property can be changed with an assignment operator
+* @param {*} [descriptor.value] - property value
+* @param {(Function|void)} [descriptor.get=undefined] - function which serves as a getter for the property, or, if no getter, undefined. When the property is accessed, a getter function is called without arguments and with the `this` context set to the object through which the property is accessed (which may not be the object on which the property is defined due to inheritance). The return value will be used as the property value.
+* @param {(Function|void)} [descriptor.set=undefined] - function which serves as a setter for the property, or, if no setter, undefined. When assigning a property value, a setter function is called with one argument (the value being assigned to the property) and with the `this` context set to the object through which the property is assigned.
+* @throws {TypeError} first argument must be an object
+* @throws {TypeError} third argument must be an object
+* @throws {Error} property descriptor cannot have both a value and a setter and/or getter
+* @returns {Object} object with added property
+*
+* @example
+* var obj = {};
+*
+* defineProperty( obj, 'foo', {
+*     'value': 'bar'
+* });
+*
+* var str = obj.foo;
+* // returns 'bar'
+*/
+function defineProperty( obj, prop, descriptor ) {
+	var prototype;
+	var hasValue;
+	var hasGet;
+	var hasSet;
+
+	if ( typeof obj !== 'object' || obj === null || toStr.call( obj ) === '[object Array]' ) {
+		throw new TypeError( format( 'invalid argument. First argument must be an object. Value: `%s`.', obj ) );
+	}
+	if ( typeof descriptor !== 'object' || descriptor === null || toStr.call( descriptor ) === '[object Array]' ) {
+		throw new TypeError( format( 'invalid argument. Property descriptor must be an object. Value: `%s`.', descriptor ) );
+	}
+	hasValue = ( 'value' in descriptor );
+	if ( hasValue ) {
+		if (
+			lookupGetter.call( obj, prop ) ||
+			lookupSetter.call( obj, prop )
+		) {
+			// Override `__proto__` to avoid touching inherited accessors:
+			prototype = obj.__proto__;
+			obj.__proto__ = objectProtoype;
+
+			// Delete property as existing getters/setters prevent assigning value to specified property:
+			delete obj[ prop ];
+			obj[ prop ] = descriptor.value;
+
+			// Restore original prototype:
+			obj.__proto__ = prototype;
+		} else {
+			obj[ prop ] = descriptor.value;
+		}
+	}
+	hasGet = ( 'get' in descriptor );
+	hasSet = ( 'set' in descriptor );
+
+	if ( hasValue && ( hasGet || hasSet ) ) {
+		throw new Error( 'invalid argument. Cannot specify one or more accessors and a value or writable attribute in the property descriptor.' );
+	}
+
+	if ( hasGet && defineGetter ) {
+		defineGetter.call( obj, prop, descriptor.get );
+	}
+	if ( hasSet && defineSetter ) {
+		defineSetter.call( obj, prop, descriptor.set );
+	}
+	return obj;
+}
+
+
+// EXPORTS //
+
+module.exports = defineProperty;
+
+
+/***/ }),
+
+/***/ 9636:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Escape a regular expression string or pattern.
+*
+* @module @stdlib/utils-escape-regexp-string
+*
+* @example
+* var rescape = require( '@stdlib/utils-escape-regexp-string' );
+*
+* var str = rescape( '[A-Z]*' );
+* // returns '\\[A\\-Z\\]\\*'
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 73 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 73:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isString = (__nccwpck_require__(3513).isPrimitive);
+var format = __nccwpck_require__( 5854 );
+
+
+// VARIABLES //
+
+var RE_CHARS = /[-\/\\^$*+?.()|[\]{}]/g; // eslint-disable-line no-useless-escape
+
+
+// MAIN //
+
+/**
+* Escapes a regular expression string.
+*
+* @param {string} str - regular expression string
+* @throws {TypeError} first argument must be a string
+* @returns {string} escaped string
+*
+* @example
+* var str = rescape( '[A-Z]*' );
+* // returns '\\[A\\-Z\\]\\*'
+*/
+function rescape( str ) {
+	var len;
+	var s;
+	var i;
+
+	if ( !isString( str ) ) {
+		throw new TypeError( format( 'invalid argument. Must provide a regular expression string. Value: `%s`.', str ) );
+	}
+	// Check if the string starts with a forward slash...
+	if ( str[ 0 ] === '/' ) {
+		// Find the last forward slash...
+		len = str.length;
+		for ( i = len-1; i >= 0; i-- ) {
+			if ( str[ i ] === '/' ) {
+				break;
+			}
+		}
+	}
+	// If we searched the string to no avail or if the first letter is not `/`, assume that the string is not of the form `/[...]/[guimy]`:
+	if ( i === void 0 || i <= 0 ) {
+		return str.replace( RE_CHARS, '\\$&' );
+	}
+	// We need to de-construct the string...
+	s = str.substring( 1, i );
+
+	// Only escape the characters between the `/`:
+	s = s.replace( RE_CHARS, '\\$&' );
+
+	// Reassemble:
+	str = str[ 0 ] + s + str.substring( i );
+
+	return str;
+}
+
+
+// EXPORTS //
+
+module.exports = rescape;
+
+
+/***/ }),
+
+/***/ 3410:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+/**
+* Returns the global object using code generation.
+*
+* @private
+* @returns {Object} global object
+*/
+function getGlobal() {
+	return new Function( 'return this;' )(); // eslint-disable-line no-new-func, stdlib/require-globals
+}
+
+
+// EXPORTS //
+
+module.exports = getGlobal;
+
+
+/***/ }),
+
+/***/ 8750:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var obj = ( typeof global === 'object' ) ? global : null;
+
+
+// EXPORTS //
+
+module.exports = obj;
+
+
+/***/ }),
+
+/***/ 5875:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2022 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var obj = ( typeof globalThis === 'object' ) ? globalThis : null; // eslint-disable-line no-undef
+
+
+// EXPORTS //
+
+module.exports = obj;
+
+
+/***/ }),
+
+/***/ 5571:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Return the global object.
+*
+* @module @stdlib/utils-global
+*
+* @example
+* var getGlobal = require( '@stdlib/utils-global' );
+*
+* var g = getGlobal();
+* // returns {...}
+*/
+
+// MODULES //
+
+var main = __nccwpck_require__( 2729 );
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 2729:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var isBoolean = (__nccwpck_require__(1247).isPrimitive);
+var format = __nccwpck_require__( 5854 );
+var getThis = __nccwpck_require__( 3410 );
+var Self = __nccwpck_require__( 8540 );
+var Win = __nccwpck_require__( 912 );
+var Global = __nccwpck_require__( 8750 );
+var GlobalThis = __nccwpck_require__( 5875 );
+
+
+// MAIN //
+
+/**
+* Returns the global object.
+*
+* ## Notes
+*
+* -   Using code generation is the **most** reliable way to resolve the global object; however, doing so is likely to violate content security policies (CSPs) in, e.g., Chrome Apps and elsewhere.
+*
+* @param {boolean} [codegen=false] - boolean indicating whether to use code generation to resolve the global object
+* @throws {TypeError} must provide a boolean
+* @throws {Error} unable to resolve global object
+* @returns {Object} global object
+*
+* @example
+* var g = getGlobal();
+* // returns {...}
+*/
+function getGlobal( codegen ) {
+	if ( arguments.length ) {
+		if ( !isBoolean( codegen ) ) {
+			throw new TypeError( format( 'invalid argument. Must provide a boolean. Value: `%s`.', codegen ) );
+		}
+		if ( codegen ) {
+			return getThis();
+		}
+		// Fall through...
+	}
+	// Case: 2020 revision of ECMAScript standard
+	if ( GlobalThis ) {
+		return GlobalThis;
+	}
+	// Case: browsers and web workers
+	if ( Self ) {
+		return Self;
+	}
+	// Case: browsers
+	if ( Win ) {
+		return Win;
+	}
+	// Case: Node.js
+	if ( Global ) {
+		return Global;
+	}
+	// Case: unknown
+	throw new Error( 'unexpected error. Unable to resolve global object.' );
+}
+
+
+// EXPORTS //
+
+module.exports = getGlobal;
+
+
+/***/ }),
+
+/***/ 8540:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var obj = ( typeof self === 'object' ) ? self : null;
+
+
+// EXPORTS //
+
+module.exports = obj;
+
+
+/***/ }),
+
+/***/ 912:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var obj = ( typeof window === 'object' ) ? window : null;
+
+
+// EXPORTS //
+
+module.exports = obj;
+
+
+/***/ }),
+
+/***/ 2026:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Return a string value indicating a specification defined classification of an object.
+*
+* @module @stdlib/utils-native-class
+*
+* @example
+* var nativeClass = require( '@stdlib/utils-native-class' );
+*
+* var str = nativeClass( 'a' );
+* // returns '[object String]'
+*
+* str = nativeClass( 5 );
+* // returns '[object Number]'
+*
+* function Beep() {
+*     return this;
+* }
+* str = nativeClass( new Beep() );
+* // returns '[object Object]'
+*/
+
+// MODULES //
+
+var hasToStringTag = __nccwpck_require__( 4166 );
+var builtin = __nccwpck_require__( 2864 );
+var polyfill = __nccwpck_require__( 1930 );
+
+
+// MAIN //
+
+var main;
+if ( hasToStringTag() ) {
+	main = polyfill;
+} else {
+	main = builtin;
+}
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 2864:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var toStr = __nccwpck_require__( 6841 );
+
+
+// MAIN //
+
+/**
+* Returns a string value indicating a specification defined classification (via the internal property `[[Class]]`) of an object.
+*
+* @param {*} v - input value
+* @returns {string} string value indicating a specification defined classification of the input value
+*
+* @example
+* var str = nativeClass( 'a' );
+* // returns '[object String]'
+*
+* @example
+* var str = nativeClass( 5 );
+* // returns '[object Number]'
+*
+* @example
+* function Beep() {
+*     return this;
+* }
+* var str = nativeClass( new Beep() );
+* // returns '[object Object]'
+*/
+function nativeClass( v ) {
+	return toStr.call( v );
+}
+
+
+// EXPORTS //
+
+module.exports = nativeClass;
+
+
+/***/ }),
+
+/***/ 1930:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var hasOwnProp = __nccwpck_require__( 2816 );
+var toStringTag = __nccwpck_require__( 4703 );
+var toStr = __nccwpck_require__( 6841 );
+
+
+// MAIN //
+
+/**
+* Returns a string value indicating a specification defined classification of an object in environments supporting `Symbol.toStringTag`.
+*
+* @param {*} v - input value
+* @returns {string} string value indicating a specification defined classification of the input value
+*
+* @example
+* var str = nativeClass( 'a' );
+* // returns '[object String]'
+*
+* @example
+* var str = nativeClass( 5 );
+* // returns '[object Number]'
+*
+* @example
+* function Beep() {
+*     return this;
+* }
+* var str = nativeClass( new Beep() );
+* // returns '[object Object]'
+*/
+function nativeClass( v ) {
+	var isOwn;
+	var tag;
+	var out;
+
+	if ( v === null || v === void 0 ) {
+		return toStr.call( v );
+	}
+	tag = v[ toStringTag ];
+	isOwn = hasOwnProp( v, toStringTag );
+
+	// Attempt to override the `toStringTag` property. For built-ins having a `Symbol.toStringTag` property (e.g., `JSON`, `Math`, etc), the `Symbol.toStringTag` property is read-only (e.g., , so we need to wrap in a `try/catch`.
+	try {
+		v[ toStringTag ] = void 0;
+	} catch ( err ) { // eslint-disable-line no-unused-vars
+		return toStr.call( v );
+	}
+	out = toStr.call( v );
+
+	if ( isOwn ) {
+		v[ toStringTag ] = tag;
+	} else {
+		delete v[ toStringTag ];
+	}
+	return out;
+}
+
+
+// EXPORTS //
+
+module.exports = nativeClass;
+
+
+/***/ }),
+
+/***/ 6841:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MAIN //
+
+var toStr = Object.prototype.toString;
+
+
+// EXPORTS //
+
+module.exports = toStr;
+
+
+/***/ }),
+
+/***/ 4703:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var Symbol = __nccwpck_require__( 8742 );
+
+
+// MAIN //
+
+var toStrTag = ( typeof Symbol === 'function' ) ? Symbol.toStringTag : '';
+
+
+// EXPORTS //
+
+module.exports = toStrTag;
+
+
+/***/ }),
+
+/***/ 1222:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var RE = __nccwpck_require__( 3438 );
+var nodeList = __nccwpck_require__( 451 );
+var typedarray = __nccwpck_require__( 1027 );
+
+
+// MAIN //
+
+/**
+* Checks whether a polyfill is needed when using the `typeof` operator.
+*
+* @private
+* @returns {boolean} boolean indicating whether a polyfill is needed
+*/
+function check() {
+	if (
+		// Chrome 1-12 returns 'function' for regular expression instances (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof):
+		typeof RE === 'function' ||
+
+		// Safari 8 returns 'object' for typed array and weak map constructors (underscore #1929):
+		typeof typedarray === 'object' ||
+
+		// PhantomJS 1.9 returns 'function' for `NodeList` instances (underscore #2236):
+		typeof nodeList === 'function'
+	) {
+		return true;
+	}
+	return false;
+}
+
+
+// EXPORTS //
+
+module.exports = check;
+
+
+/***/ }),
+
+/***/ 451:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var getGlobal = __nccwpck_require__( 5571 );
+
+
+// MAIN //
+
+var root = getGlobal();
+var nodeList = root.document && root.document.childNodes;
+
+
+// EXPORTS //
+
+module.exports = nodeList;
+
+
+/***/ }),
+
+/***/ 3438:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+var RE = /./;
+
+
+// EXPORTS //
+
+module.exports = RE;
+
+
+/***/ }),
+
+/***/ 1027:
+/***/ ((module) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+var typedarray = Int8Array; // eslint-disable-line stdlib/require-globals
+
+
+// EXPORTS //
+
+module.exports = typedarray;
+
+
+/***/ }),
+
+/***/ 2464:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+/**
+* Determine a value's type.
+*
+* @module @stdlib/utils-type-of
+*
+* @example
+* var typeOf = require( '@stdlib/utils-type-of' );
+*
+* var str = typeOf( 'a' );
+* // returns 'string'
+*
+* str = typeOf( 5 );
+* // returns 'number'
+*/
+
+// MODULES //
+
+var usePolyfill = __nccwpck_require__( 1222 );
+var builtin = __nccwpck_require__( 9389 );
+var polyfill = __nccwpck_require__( 8126 );
+
+
+// MAIN //
+
+var main = ( usePolyfill() ) ? polyfill : builtin;
+
+
+// EXPORTS //
+
+module.exports = main;
+
+
+/***/ }),
+
+/***/ 9389:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var ctorName = __nccwpck_require__( 453 );
+
+
+// NOTES //
+
+/*
+* Built-in `typeof` operator behavior:
+*
+* ```text
+* typeof null => 'object'
+* typeof undefined => 'undefined'
+* typeof 'a' => 'string'
+* typeof 5 => 'number'
+* typeof NaN => 'number'
+* typeof true => 'boolean'
+* typeof false => 'boolean'
+* typeof {} => 'object'
+* typeof [] => 'object'
+* typeof function foo(){} => 'function'
+* typeof function* foo(){} => 'object'
+* typeof Symbol() => 'symbol'
+* ```
+*
+*/
+
+
+// MAIN //
+
+/**
+* Determines a value's type.
+*
+* @param {*} v - input value
+* @returns {string} string indicating the value's type
+*/
+function typeOf( v ) {
+	var type;
+
+	// Address `typeof null` => `object` (see http://wiki.ecmascript.org/doku.php?id=harmony:typeof_null):
+	if ( v === null ) {
+		return 'null';
+	}
+	type = typeof v;
+
+	// If the `typeof` operator returned something other than `object`, we are done. Otherwise, we need to check for an internal class name or search for a constructor.
+	if ( type === 'object' ) {
+		return ctorName( v ).toLowerCase();
+	}
+	return type;
+}
+
+
+// EXPORTS //
+
+module.exports = typeOf;
+
+
+/***/ }),
+
+/***/ 8126:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+
+// MODULES //
+
+var ctorName = __nccwpck_require__( 453 );
+
+
+// MAIN //
+
+/**
+* Determines a value's type.
+*
+* @param {*} v - input value
+* @returns {string} string indicating the value's type
+*/
+function typeOf( v ) {
+	return ctorName( v ).toLowerCase();
+}
+
+
+// EXPORTS //
+
+module.exports = typeOf;
+
+
+/***/ }),
+
 /***/ 3682:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -10204,7 +16091,7 @@ function removeHook(state, name, method) {
 "use strict";
 
 
-const stringify = __nccwpck_require__(8750);
+const stringify = __nccwpck_require__(1514);
 const compile = __nccwpck_require__(9434);
 const expand = __nccwpck_require__(5873);
 const parse = __nccwpck_require__(6477);
@@ -10513,7 +16400,7 @@ module.exports = {
 
 
 const fill = __nccwpck_require__(6330);
-const stringify = __nccwpck_require__(8750);
+const stringify = __nccwpck_require__(1514);
 const utils = __nccwpck_require__(5207);
 
 const append = (queue = '', stash = '', enclose = false) => {
@@ -10633,7 +16520,7 @@ module.exports = expand;
 "use strict";
 
 
-const stringify = __nccwpck_require__(8750);
+const stringify = __nccwpck_require__(1514);
 
 /**
  * Constants
@@ -10968,7 +16855,7 @@ module.exports = parse;
 
 /***/ }),
 
-/***/ 8750:
+/***/ 1514:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -29078,7 +34965,7 @@ module.exports = isObjectLike;
 
 /***/ }),
 
-/***/ 6228:
+/***/ 7911:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
