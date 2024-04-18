@@ -1659,7 +1659,8 @@ const getInputs = () => {
         inputs.dirNamesMaxDepth = parseInt(dirNamesMaxDepth, 10);
     }
     if (fetchMissingHistoryMaxRetries) {
-        inputs.fetchMissingHistoryMaxRetries = parseInt(fetchMissingHistoryMaxRetries, 10);
+        // Fallback to at least 1 if the fetch_missing_history_max_retries is less than 1
+        inputs.fetchMissingHistoryMaxRetries = Math.max(parseInt(fetchMissingHistoryMaxRetries, 10), 1);
     }
     return inputs;
 };
