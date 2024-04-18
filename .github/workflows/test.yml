@@ -1009,11 +1009,11 @@ jobs:
           bash
   test-dir-names-deleted-files-include-only-deleted-dirs-directory:
     name: Test dir names deleted files include only deleted dirs
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.platform }}
     needs: build
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
     if: needs.build.outputs.files_changed != 'true'
     permissions:
       contents: read
