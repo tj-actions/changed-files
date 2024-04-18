@@ -1,5 +1,26 @@
 # Changelog
 
+# [44.2.0](https://github.com/tj-actions/changed-files/compare/v44.1.0...v44.2.0) - (2024-04-18)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for specifying the max number for retries to fetch missing history ([#2052](https://github.com/tj-actions/changed-files/issues/2052)) ([07c64e5](https://github.com/tj-actions/changed-files/commit/07c64e56185e44568aa942ce23164b22828747eb))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2053](https://github.com/tj-actions/changed-files/issues/2053))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([4c5f5d6](https://github.com/tj-actions/changed-files/commit/4c5f5d698fbf2d763d5f13815ac7c2ccbef1ff7f))  - (tj-actions[bot])
+- Updated README.md ([#2049](https://github.com/tj-actions/changed-files/issues/2049))
+
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([831e892](https://github.com/tj-actions/changed-files/commit/831e892562944fa1fa9356c6b6e231553148f7bc))  - (tj-actions[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.1.0 ([#2050](https://github.com/tj-actions/changed-files/issues/2050))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([5bd3332](https://github.com/tj-actions/changed-files/commit/5bd333239b5f6fc69dcea71aafdd8c9da21aa0a2))  - (tj-actions[bot])
+
 # [44.1.0](https://github.com/tj-actions/changed-files/compare/v44.0.1...v44.1.0) - (2024-04-17)
 
 ## <!-- 0 -->🚀 Features
