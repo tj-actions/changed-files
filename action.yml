@@ -232,7 +232,7 @@ inputs:
     required: false
     default: "10"
   use_posix_path_separator:
-    description: "Use POSIX path separator `/` for output filenames."
+    description: "Use POSIX path separator `/` for output file paths on windows."
     required: false
     default: "false"
 
