@@ -528,7 +528,11 @@ export const getSHAForPullRequestEvent = async ({
             'Merge base is not in the local history, fetching remote target branch...'
           )
 
-          for (let i = 1; i <= 10; i++) {
+          for (
+            let i = 1;
+            i <= (inputs.fetchMissingHistoryMaxRetries || 10);
+            i++
+          ) {
             await gitFetch({
               cwd: workingDirectory,
               args: [

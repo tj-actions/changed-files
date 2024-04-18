@@ -55,6 +55,7 @@ export type Inputs = {
   negationPatternsFirst: boolean
   useRestApi: boolean
   excludeSubmodules: boolean
+  fetchMissingHistoryMaxRetries?: number
 }
 
 export const getInputs = (): Inputs => {
@@ -245,6 +246,11 @@ export const getInputs = (): Inputs => {
     required: false
   })
 
+  const fetchMissingHistoryMaxRetries = core.getInput(
+    'fetch_missing_history_max_retries',
+    {required: false}
+  )
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -309,6 +315,13 @@ export const getInputs = (): Inputs => {
 
   if (dirNamesMaxDepth) {
     inputs.dirNamesMaxDepth = parseInt(dirNamesMaxDepth, 10)
+  }
+
+  if (fetchMissingHistoryMaxRetries) {
+    inputs.fetchMissingHistoryMaxRetries = parseInt(
+      fetchMissingHistoryMaxRetries,
+      10
+    )
   }
 
   return inputs

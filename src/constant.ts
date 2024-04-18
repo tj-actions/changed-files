@@ -21,5 +21,6 @@ export const DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS: Partial<Inputs> = {
   skipInitialFetch: false,
   fetchAdditionalSubmoduleHistory: false,
   dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
-  excludeSubmodules: false
+  excludeSubmodules: false,
+  fetchMissingHistoryMaxRetries: 10
 }
