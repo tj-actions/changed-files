@@ -55,6 +55,7 @@ exports[`getInputs should correctly parse boolean inputs 1`] = `
   "skipInitialFetch": "true",
   "token": "",
   "until": "",
+  "usePosixPathSeparator": "false",
   "useRestApi": "false",
   "writeOutputFiles": "false",
 }
@@ -114,6 +115,7 @@ exports[`getInputs should correctly parse numeric inputs 1`] = `
   "skipInitialFetch": false,
   "token": "",
   "until": "",
+  "usePosixPathSeparator": false,
   "useRestApi": false,
   "writeOutputFiles": false,
 }
@@ -171,6 +173,7 @@ exports[`getInputs should correctly parse string inputs 1`] = `
   "skipInitialFetch": false,
   "token": "token",
   "until": "",
+  "usePosixPathSeparator": false,
   "useRestApi": false,
   "writeOutputFiles": false,
 }
@@ -230,6 +233,7 @@ exports[`getInputs should handle invalid numeric inputs correctly 1`] = `
   "skipInitialFetch": false,
   "token": "",
   "until": "",
+  "usePosixPathSeparator": false,
   "useRestApi": false,
   "writeOutputFiles": false,
 }
@@ -289,6 +293,7 @@ exports[`getInputs should handle negative numeric inputs correctly 1`] = `
   "skipInitialFetch": false,
   "token": "",
   "until": "",
+  "usePosixPathSeparator": false,
   "useRestApi": false,
   "writeOutputFiles": false,
 }
@@ -349,6 +354,7 @@ exports[`getInputs should return default values when no inputs are provided 1`] 
   "skipInitialFetch": false,
   "token": "",
   "until": "",
+  "usePosixPathSeparator": false,
   "useRestApi": false,
   "writeOutputFiles": false,
 }

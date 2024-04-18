@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import type {RestEndpointMethodTypes} from '@octokit/rest'
 import flatten from 'lodash/flatten'
+import convertPath from '@stdlib/utils-convert-path'
 import mm from 'micromatch'
 import * as path from 'path'
 import {setOutputsAndGetModifiedAndChangedFilesStatus} from './changedFilesOutput'
@@ -355,7 +356,11 @@ function* getChangeTypeFilesGenerator({
       filePaths,
       dirNamesIncludeFilePatterns
     })) {
-      yield filePath
+      if (isWindows() && inputs.usePosixPathSeparator) {
+        yield convertPath(filePath, 'mixed')
+      } else {
+        yield filePath
+      }
     }
   }
 }
