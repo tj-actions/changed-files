@@ -1263,7 +1263,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                     diff
                 }))) {
                     core.info('Merge base is not in the local history, fetching remote target branch...');
-                    for (let i = 1; i <= 10; i++) {
+                    for (let i = 1; i <= (inputs.fetchMissingHistoryMaxRetries || 10); i++) {
                         yield (0, utils_1.gitFetch)({
                             cwd: workingDirectory,
                             args: [
@@ -1375,7 +1375,8 @@ exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
     skipInitialFetch: false,
     fetchAdditionalSubmoduleHistory: false,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
-    excludeSubmodules: false
+    excludeSubmodules: false,
+    fetchMissingHistoryMaxRetries: 10
 };
 
 
@@ -1593,6 +1594,7 @@ const getInputs = () => {
     const excludeSubmodules = core.getBooleanInput('exclude_submodules', {
         required: false
     });
+    const fetchMissingHistoryMaxRetries = core.getInput('fetch_missing_history_max_retries', { required: false });
     const inputs = {
         files,
         filesSeparator,
@@ -1655,6 +1657,9 @@ const getInputs = () => {
     }
     if (dirNamesMaxDepth) {
         inputs.dirNamesMaxDepth = parseInt(dirNamesMaxDepth, 10);
+    }
+    if (fetchMissingHistoryMaxRetries) {
+        inputs.fetchMissingHistoryMaxRetries = parseInt(fetchMissingHistoryMaxRetries, 10);
     }
     return inputs;
 };
