@@ -1009,8 +1009,11 @@ jobs:
           bash
   test-dir-names-deleted-files-include-only-deleted-dirs-directory:
     name: Test dir names deleted files include only deleted dirs
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: build
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     if: needs.build.outputs.files_changed != 'true'
     permissions:
       contents: read
@@ -1046,6 +1049,34 @@ jobs:
         if: "!contains(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs.deleted_files, 'test\\test3') && runner.os == 'Windows'"
         run: |
           echo "Invalid output: Expected (test\\test3) got (${{ steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with the test directory deleted returns posix path separator
+        id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator
+        uses: ./
+        with:
+          base_sha: a52f8621d26d5d9f54b80f74bda2d9eedff94693
+          sha: cd1e384723e4d1a184568182ac2b27c53ebf017f
+          dir_names: true
+          dir_names_deleted_files_include_only_deleted_dirs: true
+          use_posix_path_separator: true
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator.outputs) }}'
+        shell:
+          bash
+      - name: Check deleted_files output on non windows platform
+        if: steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator.outputs.deleted_files != 'test/test3' && runner.os != 'Windows'
+        run: |
+          echo "Invalid output: Expected (test/test3) got (${{ steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator.outputs.deleted_files }})"
+          exit 1
+        shell:
+          bash
+      - name: Check deleted_files output on windows platform
+        if: "!contains(steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator.outputs.deleted_files, 'test/test3') && runner.os == 'Windows'"
+        run: |
+          echo "Invalid output: Expected (test/test3) got (${{ steps.changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator.outputs.deleted_files }})"
           exit 1
         shell:
           bash

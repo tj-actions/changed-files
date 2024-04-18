@@ -56,6 +56,7 @@ export type Inputs = {
   useRestApi: boolean
   excludeSubmodules: boolean
   fetchMissingHistoryMaxRetries?: number
+  usePosixPathSeparator: boolean
 }
 
 export const getInputs = (): Inputs => {
@@ -251,6 +252,13 @@ export const getInputs = (): Inputs => {
     {required: false}
   )
 
+  const usePosixPathSeparator = core.getBooleanInput(
+    'use_posix_path_separator',
+    {
+      required: false
+    }
+  )
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -291,6 +299,7 @@ export const getInputs = (): Inputs => {
     fetchAdditionalSubmoduleHistory,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     excludeSubmodules,
+    usePosixPathSeparator,
     // End Not Supported via REST API
     dirNames,
     dirNamesExcludeCurrentDir,
