@@ -141,7 +141,7 @@ inputs:
   fetch_depth:
     description: "Depth of additional branch history fetched. NOTE: This can be adjusted to resolve errors with insufficient history."
     required: false
-    default: "20"
+    default: "25"
   skip_initial_fetch:
     description: |
       Skip initially fetching additional history to improve performance for shallow repositories.
@@ -230,9 +230,9 @@ inputs:
   fetch_missing_history_max_retries:
     description: "Maximum number of retries to fetch missing history."
     required: false
-    default: "10"
+    default: "20"
   use_posix_path_separator:
-    description: "Use POSIX path separator `/` for output file paths on windows."
+    description: "Use POSIX path separator `/` for output file paths on Windows."
     required: false
     default: "false"
 
