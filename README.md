@@ -412,12 +412,12 @@ Support this project with a :star:
     # Depth of additional branch history fetched. NOTE: This can 
     # be adjusted to resolve errors with insufficient history. 
     # Type: string
-    # Default: "50"
+    # Default: "25"
     fetch_depth: ''
 
     # Maximum number of retries to fetch missing history.
     # Type: string
-    # Default: "10"
+    # Default: "20"
     fetch_missing_history_max_retries: ''
 
     # File and directory patterns used to detect changes (Defaults to the entire repo if unset). 
@@ -628,7 +628,7 @@ Support this project with a :star:
     until: ''
 
     # Use POSIX path separator `/` for output file paths 
-    # on windows. 
+    # on Windows. 
     # Type: boolean
     # Default: "false"
     use_posix_path_separator: ''
