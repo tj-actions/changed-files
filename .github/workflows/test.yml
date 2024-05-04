@@ -72,7 +72,7 @@ jobs:
           yarn all
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v19
+        uses: tj-actions/verify-changed-files@v20
         id: changed_files
         with:
           files: |
