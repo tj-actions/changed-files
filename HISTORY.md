@@ -1,5 +1,66 @@
 # Changelog
 
+# [44.4.0](https://github.com/tj-actions/changed-files/compare/v44.3.0...v44.4.0) - (2024-05-08)
+
+## <!-- 0 -->🚀 Features
+
+- Reduce the default fetch_depth from 50 to 25 and increase fetch_missing_history_max_retries ([#2060](https://github.com/tj-actions/changed-files/issues/2060)) ([44ce9f4](https://github.com/tj-actions/changed-files/commit/44ce9f434167298fce8f9edf203176c014d51ed8))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @octokit/rest to v20.1.1 ([396e5a5](https://github.com/tj-actions/changed-files/commit/396e5a51d5444a68abd0ca86795e40144b22875a))  - (renovate[bot])
+- **deps:** Update dependency yaml to v2.4.2 ([1c5b7dc](https://github.com/tj-actions/changed-files/commit/1c5b7dc5f490a91e3ffe2a80a32b6ec53fee8627))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([c393672](https://github.com/tj-actions/changed-files/commit/c393672835f5e9934c60b73f14af88cbb3eb9d6d))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([15fa7fb](https://github.com/tj-actions/changed-files/commit/15fa7fb9550e318cd8c7889812750e3baf85741a))  - (GitHub Action)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2068](https://github.com/tj-actions/changed-files/issues/2068))
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com> ([0c82494](https://github.com/tj-actions/changed-files/commit/0c82494d634648c00ea121dc17d3c790888d84b7))  - (tj-actions[bot])
+- Updated README.md ([#2061](https://github.com/tj-actions/changed-files/issues/2061))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([cee950d](https://github.com/tj-actions/changed-files/commit/cee950d7423ea9b9e2f1398edb7c203aa8e3b6a8))  - (tj-actions[bot])
+- Updated README.md ([#2059](https://github.com/tj-actions/changed-files/issues/2059))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([7b65c37](https://github.com/tj-actions/changed-files/commit/7b65c377b1a5352050b3f1765e89e8c1498b7151))  - (tj-actions[bot])
+- Update action.yml ([532b66a](https://github.com/tj-actions/changed-files/commit/532b66aa5cdd78ac95381a5837593c4e2c1cc689))  - (Tonye Jack)
+- Updated README.md ([#2057](https://github.com/tj-actions/changed-files/issues/2057))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([461ea4f](https://github.com/tj-actions/changed-files/commit/461ea4f9bf72cc903116a1f7832c259517033c4f))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.12.11 ([a29e8b5](https://github.com/tj-actions/changed-files/commit/a29e8b565651ce417abb5db7164b4a2ad8b6155c))  - (renovate[bot])
+- **deps:** Update codacy/codacy-analysis-cli-action action to v4.4.1 ([5a12705](https://github.com/tj-actions/changed-files/commit/5a127050b23a670857f37c398ad95d4258ad2cd9))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.10 ([5819343](https://github.com/tj-actions/changed-files/commit/581934340b529e43033415c4777d68fef0a77728))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.9 ([5587afb](https://github.com/tj-actions/changed-files/commit/5587afbef7d18ac15b8dcb6728b4cef8dd65a3ca))  - (renovate[bot])
+- **deps:** Lock file maintenance ([0f039f3](https://github.com/tj-actions/changed-files/commit/0f039f361bfe87006120af15e65aca81bbf83a85))  - (renovate[bot])
+- **deps:** Update tj-actions/verify-changed-files action to v20 ([#2079](https://github.com/tj-actions/changed-files/issues/2079)) ([6d4230d](https://github.com/tj-actions/changed-files/commit/6d4230d4f04050b0b2748f51b7e45411c80556fb))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.1 ([1711887](https://github.com/tj-actions/changed-files/commit/1711887607a8b90e5a2c940b679d755bfb77d002))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.5.0 ([47a2d62](https://github.com/tj-actions/changed-files/commit/47a2d62412bf64a49abd7b7679f33b424ceca288))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.4.0 ([c73b12c](https://github.com/tj-actions/changed-files/commit/c73b12cc6d5217a79bf78cf8a07ffc67de3ee4ad))  - (renovate[bot])
+- **deps-dev:** Bump @types/node from 20.12.7 to 20.12.8 ([#2074](https://github.com/tj-actions/changed-files/issues/2074)) ([41ce994](https://github.com/tj-actions/changed-files/commit/41ce994be96a740b53ae11ecbf86d1619a7bd640))  - (dependabot[bot])
+- **deps:** Lock file maintenance ([192e174](https://github.com/tj-actions/changed-files/commit/192e174507517360f2917c06114bc29c1b6f87cc))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.8.0 ([5e85e31](https://github.com/tj-actions/changed-files/commit/5e85e31a0187e8df23b438284aa04f21b55f1510))  - (renovate[bot])
+- **deps:** Lock file maintenance ([7871e84](https://github.com/tj-actions/changed-files/commit/7871e848ad730c5f0f07beb4b552d981666d0113))  - (renovate[bot])
+- **deps:** Update tj-actions/eslint-changed-files action to v25 ([#2069](https://github.com/tj-actions/changed-files/issues/2069)) ([4765b9f](https://github.com/tj-actions/changed-files/commit/4765b9f7755d935bfd5b817fd54c1644a3e353e6))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.3.0 ([7d02310](https://github.com/tj-actions/changed-files/commit/7d02310f6e619682280fc882083625c6fdea15a8))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v6.0.5 ([0df48f8](https://github.com/tj-actions/changed-files/commit/0df48f84094b1c181560c74c366be7aa482f69f9))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.7.1 ([b76e23c](https://github.com/tj-actions/changed-files/commit/b76e23c88a5fd49bbf61e0ed56e3bf863400619c))  - (renovate[bot])
+- **deps:** Lock file maintenance ([549c203](https://github.com/tj-actions/changed-files/commit/549c203ec243ad37c57a0aacc725543b643c2c9b))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.3.0 ([#2058](https://github.com/tj-actions/changed-files/issues/2058))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([d9384bb](https://github.com/tj-actions/changed-files/commit/d9384bba72acecf39972b06ec7f323d370f357fb))  - (tj-actions[bot])
+
 # [44.3.0](https://github.com/tj-actions/changed-files/compare/v44.2.0...v44.3.0) - (2024-04-18)
 
 ## <!-- 0 -->🚀 Features
