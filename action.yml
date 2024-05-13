@@ -195,6 +195,10 @@ inputs:
     description: "Separator used to split the `recover_files_ignore` input"
     default: "\n"
     required: false
+  recover_files_change_type:
+    description: "Define the change types to recover files for. A string containing `\"D\"` (deleted) and/or `\"M\"` (modified)."
+    default: "D"
+    required: false
   token:
     description: "GitHub token used to fetch changed files from Github's API."
     required: false

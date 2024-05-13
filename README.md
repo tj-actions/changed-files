@@ -628,6 +628,12 @@ Support this project with a :star:
     # Default: "\n"
     recover_files_separator: ''
 
+    # Change types to recover files for,
+    # containing "D" (deleted) and/or "M" (modified).
+    # Type: string
+    # Default: "D"
+    recover_files_change_type: ''
+
     # Apply sanitization to output filenames 
     # before being set as output. 
     # Type: boolean

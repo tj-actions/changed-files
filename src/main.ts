@@ -153,10 +153,19 @@ const getChangedFilesFromLocalGitHistory = async ({
       recoverPatterns = filePatterns
     }
 
+    const deletedFiles = [
+      ...(inputs.RecoverFilesChangeType.includes('D')
+          ? allDiffFiles[ChangeTypeEnum.Deleted]
+          : []),
+      ...(inputs.RecoverFilesChangeType.includes('M')
+          ? allDiffFiles[ChangeTypeEnum.Modified]
+          : []),
+    ];
+
     await recoverDeletedFiles({
       inputs,
       workingDirectory,
-      deletedFiles: allDiffFiles[ChangeTypeEnum.Deleted],
+      deletedFiles,
       recoverPatterns,
       diffResult,
       diffSubmodule,

@@ -15,6 +15,7 @@ export const DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS: Partial<Inputs> = {
   recoverFilesSeparator: '\n',
   recoverFilesIgnore: '',
   recoverFilesIgnoreSeparator: '\n',
+  RecoverFilesChangeType: 'D',
   includeAllOldNewRenamedFiles: false,
   oldNewSeparator: ',',
   oldNewFilesSeparator: ' ',
