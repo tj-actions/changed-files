@@ -832,9 +832,13 @@ export const cleanShaInput = async ({
   return stdout.trim()
 }
 export const getPreviousGitTag = async ({
-  cwd
+  cwd,
+  tagsPattern,
+  tagsIgnorePattern
 }: {
   cwd: string
+  tagsPattern: string
+  tagsIgnorePattern?: string
 }): Promise<{tag: string; sha: string}> => {
   const {stdout} = await exec.getExecOutput(
     'git',
@@ -845,7 +849,15 @@ export const getPreviousGitTag = async ({
     }
   )
 
-  const tags = stdout.trim().split('\n')
+  let tags = stdout.trim().split('\n')
+
+  if (tagsPattern) {
+    tags = tags.filter(tag => mm.isMatch(tag, tagsPattern))
+  }
+
+  if (tagsIgnorePattern) {
+    tags = tags.filter(tag => !mm.isMatch(tag, tagsIgnorePattern))
+  }
 
   if (tags.length < 2) {
     core.warning('No previous tag found')

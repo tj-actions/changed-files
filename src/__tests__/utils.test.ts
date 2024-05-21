@@ -638,7 +638,9 @@ describe('utils test', () => {
         useRestApi: false,
         excludeSubmodules: false,
         fetchMissingHistoryMaxRetries: 10,
-        usePosixPathSeparator: false
+        usePosixPathSeparator: false,
+        tagsPattern: '*',
+        tagsIgnorePattern: ''
       }
 
       const coreWarningSpy = jest.spyOn(core, 'warning')
