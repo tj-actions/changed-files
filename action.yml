@@ -235,6 +235,15 @@ inputs:
     description: "Use POSIX path separator `/` for output file paths on Windows."
     required: false
     default: "false"
+  tags_pattern:
+    description: "Tags pattern to include."
+    required: false
+    default: "*"
+  tags_ignore_pattern:
+    description: "Tags pattern to ignore."
+    required: false
+    default: ""
+
 
 outputs:
   added_files:
