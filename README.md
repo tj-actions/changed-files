@@ -674,6 +674,15 @@ Support this project with a :star:
     # Default: "false"
     skip_initial_fetch: ''
 
+    # Tags pattern to ignore.
+    # Type: string
+    tags_ignore_pattern: ''
+
+    # Tags pattern to include.
+    # Type: string
+    # Default: "*"
+    tags_pattern: ''
+
     # GitHub token used to fetch 
     # changed files from Github's API. 
     # Type: string
