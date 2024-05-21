@@ -1,5 +1,32 @@
 # Changelog
 
+# [44.5.0](https://github.com/tj-actions/changed-files/compare/v44.4.0...v44.5.0) - (2024-05-21)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for providing patterns to match tags ([#2098](https://github.com/tj-actions/changed-files/issues/2098)) ([03c1842](https://github.com/tj-actions/changed-files/commit/03c184259aae3c160b1d7281389e51f97ea02e5e))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2099](https://github.com/tj-actions/changed-files/issues/2099))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([1754cd4](https://github.com/tj-actions/changed-files/commit/1754cd4b9e661d1f0eced3b33545a8d8b3bc46d8))  - (tj-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update typescript-eslint monorepo to v7.10.0 ([5f01393](https://github.com/tj-actions/changed-files/commit/5f0139347aeb65568e336f0250e84595c04c6c0a))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.4 ([58a9886](https://github.com/tj-actions/changed-files/commit/58a98867a77169ecf0438862d98cc9eb4bfb3511))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.3 ([9216b0c](https://github.com/tj-actions/changed-files/commit/9216b0cec231229441961c892fbdfcda247e6f59))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.12.12 ([0e3a6c3](https://github.com/tj-actions/changed-files/commit/0e3a6c3e99b91fdd487b056c372f55c0c28e7eaf))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.9.0 ([e86678f](https://github.com/tj-actions/changed-files/commit/e86678fe3aea7af0d378326a830158c186101136))  - (renovate[bot])
+- **deps:** Lock file maintenance ([35d5a4d](https://github.com/tj-actions/changed-files/commit/35d5a4d79f865a1a8db02b9f6fb4c5cd4b4809ef))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.4.0 ([#2086](https://github.com/tj-actions/changed-files/issues/2086))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([887f936](https://github.com/tj-actions/changed-files/commit/887f93673c5c7e05864f59ff35db2cc632163ce3))  - (tj-actions[bot])
+
 # [44.4.0](https://github.com/tj-actions/changed-files/compare/v44.3.0...v44.4.0) - (2024-05-08)
 
 ## <!-- 0 -->🚀 Features
