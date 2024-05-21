@@ -57,6 +57,8 @@ export type Inputs = {
   excludeSubmodules: boolean
   fetchMissingHistoryMaxRetries?: number
   usePosixPathSeparator: boolean
+  tagsPattern: string
+  tagsIgnorePattern?: string
 }
 
 export const getInputs = (): Inputs => {
@@ -259,6 +261,15 @@ export const getInputs = (): Inputs => {
     }
   )
 
+  const tagsPattern = core.getInput('tags_pattern', {
+    required: false,
+    trimWhitespace: false
+  })
+  const tagsIgnorePattern = core.getInput('tags_ignore_pattern', {
+    required: false,
+    trimWhitespace: false
+  })
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -300,6 +311,8 @@ export const getInputs = (): Inputs => {
     dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     excludeSubmodules,
     usePosixPathSeparator,
+    tagsPattern,
+    tagsIgnorePattern,
     // End Not Supported via REST API
     dirNames,
     dirNamesExcludeCurrentDir,

@@ -1055,7 +1055,11 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
         }
         else if (isTag) {
             core.debug('Getting previous SHA for tag...');
-            const { sha, tag } = yield (0, utils_1.getPreviousGitTag)({ cwd: workingDirectory });
+            const { sha, tag } = yield (0, utils_1.getPreviousGitTag)({
+                cwd: workingDirectory,
+                tagsPattern: inputs.tagsPattern,
+                tagsIgnorePattern: inputs.tagsIgnorePattern
+            });
             previousSha = sha;
             targetBranch = tag;
         }
@@ -1388,7 +1392,9 @@ exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
     dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
     excludeSubmodules: false,
     fetchMissingHistoryMaxRetries: 10,
-    usePosixPathSeparator: false
+    usePosixPathSeparator: false,
+    tagsPattern: '*',
+    tagsIgnorePattern: ''
 };
 
 
@@ -1610,6 +1616,14 @@ const getInputs = () => {
     const usePosixPathSeparator = core.getBooleanInput('use_posix_path_separator', {
         required: false
     });
+    const tagsPattern = core.getInput('tags_pattern', {
+        required: false,
+        trimWhitespace: false
+    });
+    const tagsIgnorePattern = core.getInput('tags_ignore_pattern', {
+        required: false,
+        trimWhitespace: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1651,6 +1665,8 @@ const getInputs = () => {
         dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         excludeSubmodules,
         usePosixPathSeparator,
+        tagsPattern,
+        tagsIgnorePattern,
         // End Not Supported via REST API
         dirNames,
         dirNamesExcludeCurrentDir,
@@ -2604,12 +2620,18 @@ const cleanShaInput = (_5) => __awaiter(void 0, [_5], void 0, function* ({ sha, 
     return stdout.trim();
 });
 exports.cleanShaInput = cleanShaInput;
-const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ cwd }) {
+const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ cwd, tagsPattern, tagsIgnorePattern }) {
     const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-creatordate'], {
         cwd,
         silent: !core.isDebug()
     });
-    const tags = stdout.trim().split('\n');
+    let tags = stdout.trim().split('\n');
+    if (tagsPattern) {
+        tags = tags.filter(tag => micromatch_1.default.isMatch(tag, tagsPattern));
+    }
+    if (tagsIgnorePattern) {
+        tags = tags.filter(tag => !micromatch_1.default.isMatch(tag, tagsIgnorePattern));
+    }
     if (tags.length < 2) {
         core.warning('No previous tag found');
         return { tag: '', sha: '' };
