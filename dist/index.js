@@ -35005,15 +35005,9 @@ module.exports = isObjectLike;
 
 const util = __nccwpck_require__(3837);
 const braces = __nccwpck_require__(610);
-const picomatch = __nccwpck_require__(1890);
-const utils = __nccwpck_require__(7426);
-
-const isEmptyString = v => v === '' || v === './';
-const isObject = v => v !== null && typeof v === 'object' && !Array.isArray(v);
-const hasBraces = v => {
-  const index = v.indexOf('{');
-  return index > -1 && v.indexOf('}', index) > -1;
-};
+const picomatch = __nccwpck_require__(8569);
+const utils = __nccwpck_require__(479);
+const isEmptyString = val => val === '' || val === './';
 
 /**
  * Returns an array of strings that match one or more glob patterns.
@@ -35037,12 +35031,12 @@ const micromatch = (list, patterns, options) => {
   patterns = [].concat(patterns);
   list = [].concat(list);
 
-  const omit = new Set();
-  const keep = new Set();
-  const items = new Set();
+  let omit = new Set();
+  let keep = new Set();
+  let items = new Set();
   let negatives = 0;
 
-  const onResult = state => {
+  let onResult = state => {
     items.add(state.output);
     if (options && options.onResult) {
       options.onResult(state);
@@ -35050,14 +35044,14 @@ const micromatch = (list, patterns, options) => {
   };
 
   for (let i = 0; i < patterns.length; i++) {
-    const isMatch = picomatch(String(patterns[i]), { windows: true, ...options, onResult }, true);
-    const negated = isMatch.state.negated || isMatch.state.negatedExtglob;
+    let isMatch = picomatch(String(patterns[i]), { ...options, onResult }, true);
+    let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
     if (negated) negatives++;
 
-    for (const item of list) {
-      const matched = isMatch(item, true);
+    for (let item of list) {
+      let matched = isMatch(item, true);
 
-      const match = negated ? !matched.isMatch : matched.isMatch;
+      let match = negated ? !matched.isMatch : matched.isMatch;
       if (!match) continue;
 
       if (negated) {
@@ -35069,8 +35063,8 @@ const micromatch = (list, patterns, options) => {
     }
   }
 
-  const result = negatives === patterns.length ? [...items] : [...keep];
-  const matches = result.filter(item => !omit.has(item));
+  let result = negatives === patterns.length ? [...items] : [...keep];
+  let matches = result.filter(item => !omit.has(item));
 
   if (options && matches.length === 0) {
     if (options.failglob === true) {
@@ -35103,17 +35097,14 @@ micromatch.match = micromatch;
  * const isMatch = mm.matcher('*.!(*a)');
  * console.log(isMatch('a.a')); //=> false
  * console.log(isMatch('a.b')); //=> true
- *
- * const isMatch = mm.matcher(['b.*', '*.a']);
- * console.log(isMatch('a.a')); //=> true
  * ```
- * @param {String|Array} `pattern` One or more glob patterns to use for matching.
+ * @param {String} `pattern` Glob pattern
  * @param {Object} `options`
  * @return {Function} Returns a matcher function.
  * @api public
  */
 
-micromatch.matcher = (pattern, options) => picomatch(pattern, { windows: true, ...options });
+micromatch.matcher = (pattern, options) => picomatch(pattern, options);
 
 /**
  * Returns true if **any** of the given glob `patterns` match the specified `string`.
@@ -35159,17 +35150,17 @@ micromatch.any = micromatch.isMatch;
 
 micromatch.not = (list, patterns, options = {}) => {
   patterns = [].concat(patterns).map(String);
-  const result = new Set();
-  const items = [];
+  let result = new Set();
+  let items = [];
 
-  const onResult = state => {
+  let onResult = state => {
     if (options.onResult) options.onResult(state);
     items.push(state.output);
   };
 
-  const matches = new Set(micromatch(list, patterns, { ...options, onResult }));
+  let matches = new Set(micromatch(list, patterns, { ...options, onResult }));
 
-  for (const item of items) {
+  for (let item of items) {
     if (!matches.has(item)) {
       result.add(item);
     }
@@ -35240,12 +35231,12 @@ micromatch.contains = (str, pattern, options) => {
  */
 
 micromatch.matchKeys = (obj, patterns, options) => {
-  if (!isObject(obj)) {
+  if (!utils.isObject(obj)) {
     throw new TypeError('Expected the first argument to be an object');
   }
-  const keys = micromatch(Object.keys(obj), patterns, options);
-  const res = {};
-  for (const key of keys) res[key] = obj[key];
+  let keys = micromatch(Object.keys(obj), patterns, options);
+  let res = {};
+  for (let key of keys) res[key] = obj[key];
   return res;
 };
 
@@ -35269,10 +35260,10 @@ micromatch.matchKeys = (obj, patterns, options) => {
  */
 
 micromatch.some = (list, patterns, options) => {
-  const items = [].concat(list);
+  let items = [].concat(list);
 
-  for (const pattern of [].concat(patterns)) {
-    const isMatch = picomatch(String(pattern), { windows: true, ...options });
+  for (let pattern of [].concat(patterns)) {
+    let isMatch = picomatch(String(pattern), options);
     if (items.some(item => isMatch(item))) {
       return true;
     }
@@ -35305,10 +35296,10 @@ micromatch.some = (list, patterns, options) => {
  */
 
 micromatch.every = (list, patterns, options) => {
-  const items = [].concat(list);
+  let items = [].concat(list);
 
-  for (const pattern of [].concat(patterns)) {
-    const isMatch = picomatch(String(pattern), { windows: true, ...options });
+  for (let pattern of [].concat(patterns)) {
+    let isMatch = picomatch(String(pattern), options);
     if (!items.every(item => isMatch(item))) {
       return false;
     }
@@ -35348,7 +35339,7 @@ micromatch.all = (str, patterns, options) => {
     throw new TypeError(`Expected a string: "${util.inspect(str)}"`);
   }
 
-  return [].concat(patterns).every(p => picomatch(p, { windows: true, ...options })(str));
+  return [].concat(patterns).every(p => picomatch(p, options)(str));
 };
 
 /**
@@ -35371,9 +35362,9 @@ micromatch.all = (str, patterns, options) => {
  */
 
 micromatch.capture = (glob, input, options) => {
-  const windows = utils.isWindows(options);
-  const regex = picomatch.makeRe(String(glob), { windows: true, ...options, capture: true });
-  const match = regex.exec(windows ? utils.toPosixSlashes(input) : input);
+  let posix = utils.isWindows(options);
+  let regex = picomatch.makeRe(String(glob), { ...options, capture: true });
+  let match = regex.exec(posix ? utils.toPosixSlashes(input) : input);
 
   if (match) {
     return match.slice(1).map(v => v === void 0 ? '' : v);
@@ -35396,7 +35387,7 @@ micromatch.capture = (glob, input, options) => {
  * @api public
  */
 
-micromatch.makeRe = (pattern, options) => picomatch.makeRe(pattern, { windows: true, ...options });
+micromatch.makeRe = (...args) => picomatch.makeRe(...args);
 
 /**
  * Scan a glob pattern to separate the pattern into segments. Used
@@ -35412,7 +35403,7 @@ micromatch.makeRe = (pattern, options) => picomatch.makeRe(pattern, { windows: t
  * @api public
  */
 
-micromatch.scan = (pattern, options) => picomatch.scan(pattern, { windows: true, ...options });
+micromatch.scan = (...args) => picomatch.scan(...args);
 
 /**
  * Parse a glob pattern to create the source string for a regular
@@ -35429,10 +35420,10 @@ micromatch.scan = (pattern, options) => picomatch.scan(pattern, { windows: true,
  */
 
 micromatch.parse = (patterns, options) => {
-  const res = [];
-  for (const pattern of [].concat(patterns || [])) {
-    for (const str of braces(String(pattern), options)) {
-      res.push(picomatch.parse(str, { windows: utils.isWindows(), ...options }));
+  let res = [];
+  for (let pattern of [].concat(patterns || [])) {
+    for (let str of braces(String(pattern), options)) {
+      res.push(picomatch.parse(str, options));
     }
   }
   return res;
@@ -35457,7 +35448,7 @@ micromatch.parse = (patterns, options) => {
 
 micromatch.braces = (pattern, options) => {
   if (typeof pattern !== 'string') throw new TypeError('Expected a string');
-  if ((options && options.nobrace === true) || !hasBraces(pattern)) {
+  if ((options && options.nobrace === true) || !/\{.*\}/.test(pattern)) {
     return [pattern];
   }
   return braces(pattern, options);
@@ -35476,44 +35467,78 @@ micromatch.braceExpand = (pattern, options) => {
  * Expose micromatch
  */
 
-// exposed for tests
-micromatch.hasBraces = hasBraces;
 module.exports = micromatch;
 
 
 /***/ }),
 
-/***/ 1890:
+/***/ 1223:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var wrappy = __nccwpck_require__(2940)
+module.exports = wrappy(once)
+module.exports.strict = wrappy(onceStrict)
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+
+  Object.defineProperty(Function.prototype, 'onceStrict', {
+    value: function () {
+      return onceStrict(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var f = function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  f.called = false
+  return f
+}
+
+function onceStrict (fn) {
+  var f = function () {
+    if (f.called)
+      throw new Error(f.onceError)
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  var name = fn.name || 'Function wrapped with `once`'
+  f.onceError = name + " shouldn't be called more than once"
+  f.called = false
+  return f
+}
+
+
+/***/ }),
+
+/***/ 8569:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const pico = __nccwpck_require__(555);
-const utils = __nccwpck_require__(7426);
-
-function picomatch(glob, options, returnState = false) {
-  // default to os.platform()
-  if (options && (options.windows === null || options.windows === undefined)) {
-    // don't mutate the original options object
-    options = { ...options, windows: utils.isWindows() };
-  }
-
-  return pico(glob, options, returnState);
-}
-
-Object.assign(picomatch, pico);
-module.exports = picomatch;
+module.exports = __nccwpck_require__(3322);
 
 
 /***/ }),
 
-/***/ 128:
-/***/ ((module) => {
+/***/ 6099:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
+const path = __nccwpck_require__(1017);
 const WIN_SLASH = '\\\\/';
 const WIN_NO_SLASH = `[^${WIN_SLASH}]`;
 
@@ -35536,7 +35561,6 @@ const NO_DOT_SLASH = `(?!${DOT_LITERAL}{0,1}${END_ANCHOR})`;
 const NO_DOTS_SLASH = `(?!${DOTS_SLASH})`;
 const QMARK_NO_DOT = `[^.${SLASH_LITERAL}]`;
 const STAR = `${QMARK}*?`;
-const SEP = '/';
 
 const POSIX_CHARS = {
   DOT_LITERAL,
@@ -35553,8 +35577,7 @@ const POSIX_CHARS = {
   NO_DOTS_SLASH,
   QMARK_NO_DOT,
   STAR,
-  START_ANCHOR,
-  SEP
+  START_ANCHOR
 };
 
 /**
@@ -35574,8 +35597,7 @@ const WINDOWS_CHARS = {
   NO_DOTS_SLASH: `(?!${DOT_LITERAL}{1,2}(?:[${WIN_SLASH}]|$))`,
   QMARK_NO_DOT: `[^.${WIN_SLASH}]`,
   START_ANCHOR: `(?:^|[${WIN_SLASH}])`,
-  END_ANCHOR: `(?:[${WIN_SLASH}]|$)`,
-  SEP: '\\'
+  END_ANCHOR: `(?:[${WIN_SLASH}]|$)`
 };
 
 /**
@@ -35669,6 +35691,8 @@ module.exports = {
   CHAR_VERTICAL_LINE: 124, /* | */
   CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279, /* \uFEFF */
 
+  SEP: path.sep,
+
   /**
    * Create EXTGLOB_CHARS
    */
@@ -35695,14 +35719,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 5961:
+/***/ 2139:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const constants = __nccwpck_require__(128);
-const utils = __nccwpck_require__(7426);
+const constants = __nccwpck_require__(6099);
+const utils = __nccwpck_require__(479);
 
 /**
  * Constants
@@ -35772,9 +35796,10 @@ const parse = (input, options) => {
   const tokens = [bos];
 
   const capture = opts.capture ? '' : '?:';
+  const win32 = utils.isWindows(options);
 
   // create constants based on platform, for windows or posix
-  const PLATFORM_CHARS = constants.globChars(opts.windows);
+  const PLATFORM_CHARS = constants.globChars(win32);
   const EXTGLOB_CHARS = constants.extglobChars(PLATFORM_CHARS);
 
   const {
@@ -35910,8 +35935,8 @@ const parse = (input, options) => {
 
     if (tok.value || tok.output) append(tok);
     if (prev && prev.type === 'text' && tok.type === 'text') {
-      prev.output = (prev.output || prev.value) + tok.value;
       prev.value += tok.value;
+      prev.output = (prev.output || '') + tok.value;
       return;
     }
 
@@ -36399,6 +36424,10 @@ const parse = (input, options) => {
         const next = peek();
         let output = value;
 
+        if (next === '<' && !utils.supportsLookbehinds()) {
+          throw new Error('Node.js v10 or higher is required for regex lookbehinds');
+        }
+
         if ((prev.value === '(' && !/[!=<:]/.test(next)) || (next === '<' && !/<([!=]|\w+>)/.test(remaining()))) {
           output = `\\${value}`;
         }
@@ -36706,6 +36735,7 @@ parse.fastpaths = (input, options) => {
   }
 
   input = REPLACEMENTS[input] || input;
+  const win32 = utils.isWindows(options);
 
   // create constants based on platform, for windows or posix
   const {
@@ -36718,7 +36748,7 @@ parse.fastpaths = (input, options) => {
     NO_DOTS_SLASH,
     STAR,
     START_ANCHOR
-  } = constants.globChars(opts.windows);
+  } = constants.globChars(win32);
 
   const nodot = opts.dot ? NO_DOTS : NO_DOT;
   const slashDot = opts.dot ? NO_DOTS_SLASH : NO_DOT;
@@ -36788,16 +36818,17 @@ module.exports = parse;
 
 /***/ }),
 
-/***/ 555:
+/***/ 3322:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const scan = __nccwpck_require__(7751);
-const parse = __nccwpck_require__(5961);
-const utils = __nccwpck_require__(7426);
-const constants = __nccwpck_require__(128);
+const path = __nccwpck_require__(1017);
+const scan = __nccwpck_require__(2429);
+const parse = __nccwpck_require__(2139);
+const utils = __nccwpck_require__(479);
+const constants = __nccwpck_require__(6099);
 const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
 
 /**
@@ -36842,7 +36873,7 @@ const picomatch = (glob, options, returnState = false) => {
   }
 
   const opts = options || {};
-  const posix = opts.windows;
+  const posix = utils.isWindows(options);
   const regex = isState
     ? picomatch.compileRe(glob, options)
     : picomatch.makeRe(glob, options, false, true);
@@ -36951,9 +36982,9 @@ picomatch.test = (input, regex, options, { glob, posix } = {}) => {
  * @api public
  */
 
-picomatch.matchBase = (input, glob, options) => {
+picomatch.matchBase = (input, glob, options, posix = utils.isWindows(options)) => {
   const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options);
-  return regex.test(utils.basename(input));
+  return regex.test(path.basename(input));
 };
 
 /**
@@ -37137,13 +37168,13 @@ module.exports = picomatch;
 
 /***/ }),
 
-/***/ 7751:
+/***/ 2429:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const utils = __nccwpck_require__(7426);
+const utils = __nccwpck_require__(479);
 const {
   CHAR_ASTERISK,             /* * */
   CHAR_AT,                   /* @ */
@@ -37160,7 +37191,7 @@ const {
   CHAR_RIGHT_CURLY_BRACE,    /* } */
   CHAR_RIGHT_PARENTHESES,    /* ) */
   CHAR_RIGHT_SQUARE_BRACKET  /* ] */
-} = __nccwpck_require__(128);
+} = __nccwpck_require__(6099);
 
 const isPathSeparator = code => {
   return code === CHAR_FORWARD_SLASH || code === CHAR_BACKWARD_SLASH;
@@ -37536,19 +37567,20 @@ module.exports = scan;
 
 /***/ }),
 
-/***/ 7426:
+/***/ 479:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
-/*global navigator*/
 
 
+const path = __nccwpck_require__(1017);
+const win32 = process.platform === 'win32';
 const {
   REGEX_BACKSLASH,
   REGEX_REMOVE_BACKSLASH,
   REGEX_SPECIAL_CHARS,
   REGEX_SPECIAL_CHARS_GLOBAL
-} = __nccwpck_require__(128);
+} = __nccwpck_require__(6099);
 
 exports.isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);
 exports.hasRegexChars = str => REGEX_SPECIAL_CHARS.test(str);
@@ -37556,23 +37588,25 @@ exports.isRegexChar = str => str.length === 1 && exports.hasRegexChars(str);
 exports.escapeRegex = str => str.replace(REGEX_SPECIAL_CHARS_GLOBAL, '\\$1');
 exports.toPosixSlashes = str => str.replace(REGEX_BACKSLASH, '/');
 
-exports.isWindows = () => {
-  if (typeof navigator !== 'undefined' && navigator.platform) {
-    const platform = navigator.platform.toLowerCase();
-    return platform === 'win32' || platform === 'windows';
-  }
-
-  if (typeof process !== 'undefined' && process.platform) {
-    return process.platform === 'win32';
-  }
-
-  return false;
-};
-
 exports.removeBackslashes = str => {
   return str.replace(REGEX_REMOVE_BACKSLASH, match => {
     return match === '\\' ? '' : match;
   });
+};
+
+exports.supportsLookbehinds = () => {
+  const segs = process.version.slice(1).split('.').map(Number);
+  if (segs.length === 3 && segs[0] >= 9 || (segs[0] === 8 && segs[1] >= 10)) {
+    return true;
+  }
+  return false;
+};
+
+exports.isWindows = options => {
+  if (options && typeof options.windows === 'boolean') {
+    return options.windows;
+  }
+  return win32 === true || path.sep === '\\';
 };
 
 exports.escapeLast = (input, char, lastIdx) => {
@@ -37601,66 +37635,6 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
   }
   return output;
 };
-
-exports.basename = (path, { windows } = {}) => {
-  const segs = path.split(windows ? /[\\/]/ : '/');
-  const last = segs[segs.length - 1];
-
-  if (last === '') {
-    return segs[segs.length - 2];
-  }
-
-  return last;
-};
-
-
-/***/ }),
-
-/***/ 1223:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-var wrappy = __nccwpck_require__(2940)
-module.exports = wrappy(once)
-module.exports.strict = wrappy(onceStrict)
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-
-  Object.defineProperty(Function.prototype, 'onceStrict', {
-    value: function () {
-      return onceStrict(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var f = function () {
-    if (f.called) return f.value
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  f.called = false
-  return f
-}
-
-function onceStrict (fn) {
-  var f = function () {
-    if (f.called)
-      throw new Error(f.onceError)
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  var name = fn.name || 'Function wrapped with `once`'
-  f.onceError = name + " shouldn't be called more than once"
-  f.called = false
-  return f
-}
 
 
 /***/ }),
