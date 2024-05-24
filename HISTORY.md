@@ -1,5 +1,31 @@
 # Changelog
 
+# [44.5.1](https://github.com/tj-actions/changed-files/compare/v44.5.0...v44.5.1) - (2024-05-24)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug detecting previous tag when workflow is rerun ([#2107](https://github.com/tj-actions/changed-files/issues/2107)) ([03334d0](https://github.com/tj-actions/changed-files/commit/03334d095e2739fa9ac4034ec16f66d5d01e9eba))  - (Tonye Jack)
+- **deps:** Update dependency micromatch to v4.0.7 ([98e187e](https://github.com/tj-actions/changed-files/commit/98e187efcdfa77f01efb485b093a97a21d8281cd))  - (renovate[bot])
+- **deps:** Update dependency micromatch to v4.0.6 ([bf548e4](https://github.com/tj-actions/changed-files/commit/bf548e4af2ea13d28cd8b89f84d3ec31f27f66dc))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([8a0655f](https://github.com/tj-actions/changed-files/commit/8a0655f075f752a7fcf8fedd1e6b976d8a3d4454))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([96f6572](https://github.com/tj-actions/changed-files/commit/96f65726eae8888afa41617580af5882e4e197f5))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency ts-jest to v29.1.3 ([d195e6e](https://github.com/tj-actions/changed-files/commit/d195e6e7c2774fc8d3941acb2e6be1d38077eb47))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.0 ([#2101](https://github.com/tj-actions/changed-files/issues/2101))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com>
+Co-authored-by: repo-ranger[bot] <39074581+repo-ranger[bot]@users.noreply.github.com> ([8b07fd3](https://github.com/tj-actions/changed-files/commit/8b07fd3b111677cb50907731b0af597475af6bec))  - (tj-actions[bot])
+
 # [44.5.0](https://github.com/tj-actions/changed-files/compare/v44.4.0...v44.5.0) - (2024-05-21)
 
 ## <!-- 0 -->🚀 Features
