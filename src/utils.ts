@@ -831,53 +831,80 @@ export const cleanShaInput = async ({
 
   return stdout.trim()
 }
+
 export const getPreviousGitTag = async ({
   cwd,
   tagsPattern,
+  currentBranch,
   tagsIgnorePattern
 }: {
   cwd: string
   tagsPattern: string
+  currentBranch: string
   tagsIgnorePattern?: string
 }): Promise<{tag: string; sha: string}> => {
+  const ignorePatterns: string[] = []
+  let currentShaDate: Date | null = null
+
   const {stdout} = await exec.getExecOutput(
     'git',
-    ['tag', '--sort=-creatordate'],
+    [
+      'tag',
+      '--sort=-creatordate',
+      '--format=%(refname:short)|%(objectname)|%(creatordate:iso)'
+    ],
     {
       cwd,
       silent: !core.isDebug()
     }
   )
-
-  let tags = stdout.trim().split('\n')
-
-  if (tagsPattern) {
-    tags = tags.filter(tag => mm.isMatch(tag, tagsPattern))
-  }
 
   if (tagsIgnorePattern) {
-    tags = tags.filter(tag => !mm.isMatch(tag, tagsIgnorePattern))
+    ignorePatterns.push(tagsIgnorePattern)
   }
 
-  if (tags.length < 2) {
-    core.warning('No previous tag found')
-    return {tag: '', sha: ''}
-  }
-
-  const previousTag = tags[1]
-
-  const {stdout: stdout2} = await exec.getExecOutput(
-    'git',
-    ['rev-parse', previousTag],
-    {
-      cwd,
-      silent: !core.isDebug()
+  if (currentBranch) {
+    ignorePatterns.push(currentBranch)
+    try {
+      const {stdout: currentShaDateOutput} = await exec.getExecOutput(
+        'git',
+        ['show', '-s', '--format=%ai', currentBranch],
+        {
+          cwd,
+          silent: !core.isDebug()
+        }
+      )
+      currentShaDate = new Date(currentShaDateOutput.trim())
+    } catch (error) {
+      // Handle the case where the current branch doesn't exist
+      // This might happen in detached head state
+      core.warning(`Failed to get date for current branch ${currentBranch}`)
     }
-  )
+  }
 
-  const sha = stdout2.trim()
+  const previousTag: {tag: string; sha: string} = {tag: '', sha: ''}
 
-  return {tag: previousTag, sha}
+  const tags = stdout.trim().split('\n')
+  for (const tagData of tags) {
+    const [tag, sha, dateString] = tagData.split('|')
+    if (!mm.isMatch(tag, tagsPattern) || mm.isMatch(tag, ignorePatterns)) {
+      continue
+    }
+    const date = new Date(dateString)
+    if (currentShaDate && date >= currentShaDate) {
+      continue
+    }
+    // Found a suitable tag, no need to continue
+    previousTag.tag = tag
+    previousTag.sha = sha
+    break
+  }
+
+  if (!previousTag.tag) {
+    core.warning('No previous tag found')
+  }
+
+  return previousTag
 }
 
 export const canDiffCommits = async ({

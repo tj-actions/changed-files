@@ -243,7 +243,8 @@ export const getSHAForNonPullRequestEvent = async ({
       const {sha, tag} = await getPreviousGitTag({
         cwd: workingDirectory,
         tagsPattern: inputs.tagsPattern,
-        tagsIgnorePattern: inputs.tagsIgnorePattern
+        tagsIgnorePattern: inputs.tagsIgnorePattern,
+        currentBranch
       })
       previousSha = sha
       targetBranch = tag

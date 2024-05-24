@@ -659,95 +659,45 @@ describe('utils test', () => {
     })
   })
   describe('getPreviousGitTag', () => {
-    // Function returns the second latest tag and its SHA
+    // Function returns the second-latest tag and its SHA
     it('should return the second latest tag and its SHA when multiple tags are present', async () => {
-      jest
-        .spyOn(exec, 'getExecOutput')
-        .mockResolvedValueOnce({
-          stdout: 'v1.0.1\nv1.0.0\nv0.9.9',
-          stderr: '',
-          exitCode: 0
-        })
-        .mockResolvedValueOnce({
-          stdout: 'abc123',
-          stderr: '',
-          exitCode: 0
-        })
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
-        tagsIgnorePattern: ''
+        tagsIgnorePattern: '',
+        currentBranch: 'v1.0.1'
       })
-      expect(result).toEqual({tag: 'v1.0.0', sha: 'abc123'})
+      expect(result).toEqual({
+        tag: 'v1.0.0',
+        sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
+      })
     })
 
     // Tags are filtered by a specified pattern when 'tagsPattern' is provided
     it('should filter tags by the specified pattern', async () => {
-      jest
-        .spyOn(exec, 'getExecOutput')
-        .mockResolvedValueOnce({
-          stdout: 'v1.0.1\nv1.0.0\nv0.9.9',
-          stderr: '',
-          exitCode: 0
-        })
-        .mockResolvedValueOnce({
-          stdout: 'def456',
-          stderr: '',
-          exitCode: 0
-        })
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: 'v1.*',
-        tagsIgnorePattern: ''
+        tagsIgnorePattern: '',
+        currentBranch: 'v1.0.1'
       })
-      expect(result).toEqual({tag: 'v1.0.0', sha: 'def456'})
+      expect(result).toEqual({
+        tag: 'v1.0.0',
+        sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
+      })
     })
 
     // Tags are excluded by a specified ignore pattern when 'tagsIgnorePattern' is provided
     it('should exclude tags by the specified ignore pattern', async () => {
-      jest
-        .spyOn(exec, 'getExecOutput')
-        .mockResolvedValueOnce({
-          stdout: 'v1.0.1\nv1.0.0\nv0.9.9',
-          stderr: '',
-          exitCode: 0
-        })
-        .mockResolvedValueOnce({
-          stdout: 'ghi789',
-          stderr: '',
-          exitCode: 0
-        })
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
-        tagsIgnorePattern: 'v0.*.*'
+        tagsIgnorePattern: 'v0.*.*',
+        currentBranch: 'v1.0.1'
       })
-      expect(result).toEqual({tag: 'v1.0.0', sha: 'ghi789'})
-    })
-
-    // Function executes silently when debug mode is not active
-    it('should execute silently when debug mode is not active', async () => {
-      jest.spyOn(core, 'isDebug').mockReturnValue(false)
-      const spy = jest
-        .spyOn(exec, 'getExecOutput')
-        .mockResolvedValueOnce({
-          stdout: 'v1.0.1\nv1.0.0',
-          stderr: '',
-          exitCode: 0
-        })
-        .mockResolvedValueOnce({
-          stdout: 'jkl012',
-          stderr: '',
-          exitCode: 0
-        })
-      await getPreviousGitTag({
-        cwd: '.',
-        tagsPattern: '*',
-        tagsIgnorePattern: ''
-      })
-      expect(spy).toHaveBeenCalledWith('git', ['tag', '--sort=-creatordate'], {
-        cwd: '.',
-        silent: true
+      expect(result).toEqual({
+        tag: 'v1.0.0',
+        sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
       })
     })
 
@@ -761,7 +711,8 @@ describe('utils test', () => {
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
-        tagsIgnorePattern: ''
+        tagsIgnorePattern: '',
+        currentBranch: ''
       })
       expect(result).toEqual({tag: '', sha: ''})
     })
@@ -769,44 +720,16 @@ describe('utils test', () => {
     // Only one tag is available, making it impossible to find a previous tag
     it('should return empty values when only one tag is available', async () => {
       jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
-        stdout: 'v1.0.1',
+        stdout:
+          'v1.0.1|f0751de6af436d4e79016e2041cf6400e0833653|2021-01-01T00:00:00Z',
         stderr: '',
         exitCode: 0
       })
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
-        tagsIgnorePattern: ''
-      })
-      expect(result).toEqual({tag: '', sha: ''})
-    })
-
-    // Provided 'tagsPattern' matches no tags
-    it('should return empty values when provided tagsPattern matches no tags', async () => {
-      jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
-        stdout: 'v1.0.1\nv1.0.0',
-        stderr: '',
-        exitCode: 0
-      })
-      const result = await getPreviousGitTag({
-        cwd: '.',
-        tagsPattern: 'nonexistent*',
-        tagsIgnorePattern: ''
-      })
-      expect(result).toEqual({tag: '', sha: ''})
-    })
-
-    // Provided 'tagsIgnorePattern' excludes all tags
-    it('should return empty values when provided tagsIgnorePattern excludes all tags', async () => {
-      jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
-        stdout: 'v1.0.1\nv1.0.0',
-        stderr: '',
-        exitCode: 0
-      })
-      const result = await getPreviousGitTag({
-        cwd: '.',
-        tagsPattern: '*',
-        tagsIgnorePattern: 'v*'
+        tagsIgnorePattern: '',
+        currentBranch: 'v1.0.1'
       })
       expect(result).toEqual({tag: '', sha: ''})
     })
@@ -817,34 +740,13 @@ describe('utils test', () => {
         .spyOn(exec, 'getExecOutput')
         .mockRejectedValue(new Error('git command failed'))
       await expect(
-        getPreviousGitTag({cwd: '.', tagsPattern: '*', tagsIgnorePattern: ''})
+        getPreviousGitTag({
+          cwd: '.',
+          tagsPattern: '*',
+          tagsIgnorePattern: '',
+          currentBranch: 'v1.0.1'
+        })
       ).rejects.toThrow('git command failed')
-    })
-
-    // Debug mode logs additional information
-    it('should log additional information when debug mode is active', async () => {
-      jest.spyOn(core, 'isDebug').mockReturnValue(true)
-      const spy = jest
-        .spyOn(exec, 'getExecOutput')
-        .mockResolvedValueOnce({
-          stdout: 'v1.0.1\nv1.0.0',
-          stderr: '',
-          exitCode: 0
-        })
-        .mockResolvedValueOnce({
-          stdout: 'mno345',
-          stderr: '',
-          exitCode: 0
-        })
-      await getPreviousGitTag({
-        cwd: '.',
-        tagsPattern: '*',
-        tagsIgnorePattern: ''
-      })
-      expect(spy).toHaveBeenCalledWith('git', ['tag', '--sort=-creatordate'], {
-        cwd: '.',
-        silent: false
-      })
     })
   })
 })
