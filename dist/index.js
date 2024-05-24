@@ -1058,7 +1058,8 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
             const { sha, tag } = yield (0, utils_1.getPreviousGitTag)({
                 cwd: workingDirectory,
                 tagsPattern: inputs.tagsPattern,
-                tagsIgnorePattern: inputs.tagsIgnorePattern
+                tagsIgnorePattern: inputs.tagsIgnorePattern,
+                currentBranch
             });
             previousSha = sha;
             targetBranch = tag;
@@ -2620,29 +2621,55 @@ const cleanShaInput = (_5) => __awaiter(void 0, [_5], void 0, function* ({ sha, 
     return stdout.trim();
 });
 exports.cleanShaInput = cleanShaInput;
-const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ cwd, tagsPattern, tagsIgnorePattern }) {
-    const { stdout } = yield exec.getExecOutput('git', ['tag', '--sort=-creatordate'], {
+const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ cwd, tagsPattern, currentBranch, tagsIgnorePattern }) {
+    const ignorePatterns = [];
+    let currentShaDate = null;
+    const { stdout } = yield exec.getExecOutput('git', [
+        'tag',
+        '--sort=-creatordate',
+        '--format=%(refname:short)|%(objectname)|%(creatordate:iso)'
+    ], {
         cwd,
         silent: !core.isDebug()
     });
-    let tags = stdout.trim().split('\n');
-    if (tagsPattern) {
-        tags = tags.filter(tag => micromatch_1.default.isMatch(tag, tagsPattern));
-    }
     if (tagsIgnorePattern) {
-        tags = tags.filter(tag => !micromatch_1.default.isMatch(tag, tagsIgnorePattern));
+        ignorePatterns.push(tagsIgnorePattern);
     }
-    if (tags.length < 2) {
+    if (currentBranch) {
+        ignorePatterns.push(currentBranch);
+        try {
+            const { stdout: currentShaDateOutput } = yield exec.getExecOutput('git', ['show', '-s', '--format=%ai', currentBranch], {
+                cwd,
+                silent: !core.isDebug()
+            });
+            currentShaDate = new Date(currentShaDateOutput.trim());
+        }
+        catch (error) {
+            // Handle the case where the current branch doesn't exist
+            // This might happen in detached head state
+            core.warning(`Failed to get date for current branch ${currentBranch}`);
+        }
+    }
+    const previousTag = { tag: '', sha: '' };
+    const tags = stdout.trim().split('\n');
+    for (const tagData of tags) {
+        const [tag, sha, dateString] = tagData.split('|');
+        if (!micromatch_1.default.isMatch(tag, tagsPattern) || micromatch_1.default.isMatch(tag, ignorePatterns)) {
+            continue;
+        }
+        const date = new Date(dateString);
+        if (currentShaDate && date >= currentShaDate) {
+            continue;
+        }
+        // Found a suitable tag, no need to continue
+        previousTag.tag = tag;
+        previousTag.sha = sha;
+        break;
+    }
+    if (!previousTag.tag) {
         core.warning('No previous tag found');
-        return { tag: '', sha: '' };
     }
-    const previousTag = tags[1];
-    const { stdout: stdout2 } = yield exec.getExecOutput('git', ['rev-parse', previousTag], {
-        cwd,
-        silent: !core.isDebug()
-    });
-    const sha = stdout2.trim();
-    return { tag: previousTag, sha };
+    return previousTag;
 });
 exports.getPreviousGitTag = getPreviousGitTag;
 const canDiffCommits = (_7) => __awaiter(void 0, [_7], void 0, function* ({ cwd, sha1, sha2, diff }) {
