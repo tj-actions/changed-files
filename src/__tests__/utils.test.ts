@@ -639,7 +639,7 @@ describe('utils test', () => {
         negationPatternsFirst: false,
         useRestApi: false,
         excludeSubmodules: false,
-        fetchMissingHistoryMaxRetries: 10,
+        fetchMissingHistoryMaxRetries: 20,
         usePosixPathSeparator: false,
         tagsPattern: '*',
         tagsIgnorePattern: ''
