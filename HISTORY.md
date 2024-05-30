@@ -1,5 +1,25 @@
 # Changelog
 
+# [44.5.2](https://github.com/tj-actions/changed-files/compare/v44.5.1...v44.5.2) - (2024-05-30)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Warning with fetch_missing_history_max_retries using REST API ([#2114](https://github.com/tj-actions/changed-files/issues/2114)) ([d6babd6](https://github.com/tj-actions/changed-files/commit/d6babd6899969df1a11d14c368283ea4436bca78))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.12.13 ([0a79e54](https://github.com/tj-actions/changed-files/commit/0a79e54e1f77956a7c39c12ebad4e8f62ce0e6fb))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.1.4 ([9d06a2a](https://github.com/tj-actions/changed-files/commit/9d06a2a6a9aaef4e329865c87541e4fb2c36c7b2))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.11.0 ([7e8e88b](https://github.com/tj-actions/changed-files/commit/7e8e88bd3537fcf190ad772c0a96f30febd0734a))  - (renovate[bot])
+- **deps:** Lock file maintenance ([b510737](https://github.com/tj-actions/changed-files/commit/b510737b966ce69c576f08abf8206fb222e4d4da))  - (renovate[bot])
+- **deps:** Lock file maintenance ([2e70979](https://github.com/tj-actions/changed-files/commit/2e7097935335571e0182fd95a8b7607d74248c2a))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.1 ([#2108](https://github.com/tj-actions/changed-files/issues/2108))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([625929d](https://github.com/tj-actions/changed-files/commit/625929d27d5d9362ce949a0dc367bfbaf4689115))  - (tj-actions[bot])
+
 # [44.5.1](https://github.com/tj-actions/changed-files/compare/v44.5.0...v44.5.1) - (2024-05-24)
 
 ## <!-- 1 -->🐛 Bug Fixes
