@@ -1997,10 +1997,10 @@ eslint-plugin-filenames@^1.3.2:
     lodash.snakecase "4.1.1"
     lodash.upperfirst "4.3.1"
 
-eslint-plugin-github@^4.8.0:
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-github/-/eslint-plugin-github-4.10.2.tgz#04bee657d4813f2d0f74831658cf5b036168e367"
-  integrity sha512-F1F5aAFgi1Y5hYoTFzGQACBkw5W1hu2Fu5FSTrMlXqrojJnKl1S2pWO/rprlowRQpt+hzHhqSpsfnodJEVd5QA==
+eslint-plugin-github@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-github/-/eslint-plugin-github-5.0.0.tgz#369f0d74cc3f9fed38bce03b99735f423957b985"
+  integrity sha512-11xKeGGdY42z1e6ZcsNXasjY9Gei4u2Em5Sl/iWPqVzrqYfb/93vvikhp5zS+OBZp+yoH1IPGpevIKxBIbMfEw==
   dependencies:
     "@github/browserslist-config" "^1.0.0"
     "@typescript-eslint/eslint-plugin" "^7.0.1"
