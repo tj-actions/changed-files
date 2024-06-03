@@ -60,7 +60,7 @@ jobs:
           yarn install
 
       - name: Run eslint on changed files
-        uses: tj-actions/eslint-changed-files@v24
+        uses: tj-actions/eslint-changed-files@v25
         if: github.event_name == 'pull_request'
         with:
           token: ${{ secrets.PAT_TOKEN }}
