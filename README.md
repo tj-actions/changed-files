@@ -21,7 +21,7 @@ Effortlessly track all changed files and directories relative to a target branch
 >
 > *   This action solely identifies files that have changed for events such as [`pull_request*`, `push`, `merge_group`, `release`, and many more](#other-supported-events-electron). However, it doesn't detect pending uncommitted changes created during the workflow execution.
 >
->     See: https://github.com/tj-actions/verify-changed-files instead
+>     See: https://github.com/tj-actions/verify-changed-files instead.
 
 ## Table of contents
 
