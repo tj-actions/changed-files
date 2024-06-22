@@ -383,9 +383,9 @@ export const getSHAForPullRequestEvent = async ({
       core.debug('Fetching target branch...')
       await gitFetch({
         cwd: workingDirectory,
-          args: [
-            ...gitFetchExtraArgs,
-            '-u',
+        args: [
+          ...gitFetchExtraArgs,
+          '-u',
           '--progress',
           `--deepen=${inputs.fetchDepth}`,
           remoteName,
@@ -393,14 +393,14 @@ export const getSHAForPullRequestEvent = async ({
         ]
       })
 
-        if (diffSubmodule) {
-          await gitFetchSubmodules({
+      if (diffSubmodule) {
+        await gitFetchSubmodules({
             cwd: workingDirectory,
             args: [
               ...gitFetchExtraArgs,
-              '-u',
-              '--progress',
-              `--deepen=${inputs.fetchDepth}`
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`
           ]
         })
       }
