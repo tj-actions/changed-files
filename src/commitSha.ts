@@ -380,32 +380,29 @@ export const getSHAForPullRequestEvent = async ({
           'Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage'
         )
       }
+      core.debug('Fetching target branch...')
+      await gitFetch({
+        cwd: workingDirectory,
+        args: [
+          ...gitFetchExtraArgs,
+          '-u',
+          '--progress',
+          `--deepen=${inputs.fetchDepth}`,
+          remoteName,
+          `+refs/heads/${github.context.payload.pull_request?.base?.ref}:refs/remotes/${remoteName}/${github.context.payload.pull_request?.base?.ref}`
+        ]
+      })
 
-      if (!inputs.sinceLastRemoteCommit) {
-        core.debug('Fetching target branch...')
-        await gitFetch({
+      if (diffSubmodule) {
+        await gitFetchSubmodules({
           cwd: workingDirectory,
           args: [
             ...gitFetchExtraArgs,
             '-u',
             '--progress',
-            `--deepen=${inputs.fetchDepth}`,
-            remoteName,
-            `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
+            `--deepen=${inputs.fetchDepth}`
           ]
         })
-
-        if (diffSubmodule) {
-          await gitFetchSubmodules({
-            cwd: workingDirectory,
-            args: [
-              ...gitFetchExtraArgs,
-              '-u',
-              '--progress',
-              `--deepen=${inputs.fetchDepth}`
-            ]
-          })
-        }
       }
     } else {
       if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
