@@ -1124,7 +1124,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
 });
 exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
 const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, function* ({ inputs, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, remoteName }) {
-    var _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
+    var _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3;
     let targetBranch = (_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.base) === null || _q === void 0 ? void 0 : _q.ref;
     const currentBranch = (_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.head) === null || _s === void 0 ? void 0 : _s.ref;
     if (inputs.sinceLastRemoteCommit) {
@@ -1159,30 +1159,28 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             if (prFetchExitCode !== 0) {
                 throw new Error('Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage');
             }
-            if (!inputs.sinceLastRemoteCommit) {
-                core.debug('Fetching target branch...');
-                yield (0, utils_1.gitFetch)({
+            core.debug('Fetching target branch...');
+            yield (0, utils_1.gitFetch)({
+                cwd: workingDirectory,
+                args: [
+                    ...gitFetchExtraArgs,
+                    '-u',
+                    '--progress',
+                    `--deepen=${inputs.fetchDepth}`,
+                    remoteName,
+                    `+refs/heads/${(_v = (_u = github.context.payload.pull_request) === null || _u === void 0 ? void 0 : _u.base) === null || _v === void 0 ? void 0 : _v.ref}:refs/remotes/${remoteName}/${(_x = (_w = github.context.payload.pull_request) === null || _w === void 0 ? void 0 : _w.base) === null || _x === void 0 ? void 0 : _x.ref}`
+                ]
+            });
+            if (diffSubmodule) {
+                yield (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
                         '-u',
                         '--progress',
-                        `--deepen=${inputs.fetchDepth}`,
-                        remoteName,
-                        `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
+                        `--deepen=${inputs.fetchDepth}`
                     ]
                 });
-                if (diffSubmodule) {
-                    yield (0, utils_1.gitFetchSubmodules)({
-                        cwd: workingDirectory,
-                        args: [
-                            ...gitFetchExtraArgs,
-                            '-u',
-                            '--progress',
-                            `--deepen=${inputs.fetchDepth}`
-                        ]
-                    });
-                }
             }
         }
         else {
@@ -1222,7 +1220,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             diff
         };
     }
-    if (!((_v = (_u = github.context.payload.pull_request) === null || _u === void 0 ? void 0 : _u.base) === null || _v === void 0 ? void 0 : _v.ref)) {
+    if (!((_z = (_y = github.context.payload.pull_request) === null || _y === void 0 ? void 0 : _y.base) === null || _z === void 0 ? void 0 : _z.ref)) {
         diff = '..';
     }
     if (!previousSha || previousSha === currentSha) {
@@ -1263,7 +1261,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             }
         }
         else {
-            previousSha = (_x = (_w = github.context.payload.pull_request) === null || _w === void 0 ? void 0 : _w.base) === null || _x === void 0 ? void 0 : _x.sha;
+            previousSha = (_1 = (_0 = github.context.payload.pull_request) === null || _0 === void 0 ? void 0 : _0.base) === null || _1 === void 0 ? void 0 : _1.sha;
             if (!previousSha) {
                 previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
                     cwd: workingDirectory,
@@ -1306,7 +1304,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             }
         }
         if (!previousSha || previousSha === currentSha) {
-            previousSha = (_z = (_y = github.context.payload.pull_request) === null || _y === void 0 ? void 0 : _y.base) === null || _z === void 0 ? void 0 : _z.sha;
+            previousSha = (_3 = (_2 = github.context.payload.pull_request) === null || _2 === void 0 ? void 0 : _2.base) === null || _3 === void 0 ? void 0 : _3.sha;
         }
     }
     if (!(yield (0, utils_1.canDiffCommits)({
