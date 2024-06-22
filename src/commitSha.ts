@@ -395,9 +395,9 @@ export const getSHAForPullRequestEvent = async ({
 
       if (diffSubmodule) {
         await gitFetchSubmodules({
-            cwd: workingDirectory,
-            args: [
-              ...gitFetchExtraArgs,
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
             '-u',
             '--progress',
             `--deepen=${inputs.fetchDepth}`
