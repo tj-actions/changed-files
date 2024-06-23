@@ -17,6 +17,7 @@
 
 Effortlessly track all changed files and directories relative to a target branch, the current branch (preceding commit or the last remote commit), multiple branches, or custom commits returning **relative paths** from the project root using this GitHub action.
 
+
 > \[!NOTE]
 >
 > *   This action solely identifies files that have changed for events such as [`pull_request*`, `push`, `merge_group`, `release`, and many more](#other-supported-events-electron). However, it doesn't detect pending uncommitted changes created during the workflow execution.
