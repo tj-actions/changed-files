@@ -1,5 +1,3 @@
-import * as core from '@actions/core'
-
 export type Env = {
   GITHUB_REF_NAME: string
   GITHUB_REF: string
