@@ -1,5 +1,3 @@
-import * as core from '@actions/core'
-
 export type Env = {
   GITHUB_REF_NAME: string
   GITHUB_REF: string
@@ -7,8 +5,6 @@ export type Env = {
 }
 
 export const getEnv = async (): Promise<Env> => {
-  core.debug(`Env: ${JSON.stringify(process.env, null, 2)}`)
-
   return {
     GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
     GITHUB_REF: process.env.GITHUB_REF || '',

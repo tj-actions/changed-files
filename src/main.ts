@@ -234,8 +234,6 @@ export async function run(): Promise<void> {
   const inputs = getInputs()
   core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
 
-  core.debug(`Github Context: ${JSON.stringify(github.context, null, 2)}`)
-
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
     inputs.useRestApi ? '.' : inputs.path
