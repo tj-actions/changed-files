@@ -1,5 +1,24 @@
 # Changelog
 
+# [44.5.4](https://github.com/tj-actions/changed-files/compare/v44.5.3...v44.5.4) - (2024-06-23)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Error using since_last_remote_commit with the first PR commit ([#2163](https://github.com/tj-actions/changed-files/issues/2163)) ([cc3bbb0](https://github.com/tj-actions/changed-files/commit/cc3bbb0c526f8ee1d282f8c5f9f4e50745a5b457))  - (Tonye Jack)
+- **deps:** Update dependency @octokit/rest to v21 ([#2158](https://github.com/tj-actions/changed-files/issues/2158)) ([7891350](https://github.com/tj-actions/changed-files/commit/7891350b8e5530e6284113b15f753f9673276d1c))  - (renovate[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v20.14.8 ([373db58](https://github.com/tj-actions/changed-files/commit/373db58d9d98a3002e86f6881421378d7be4de26))  - (renovate[bot])
+- **deps-dev:** Bump @types/uuid from 9.0.8 to 10.0.0 ([#2160](https://github.com/tj-actions/changed-files/issues/2160)) ([9161a8d](https://github.com/tj-actions/changed-files/commit/9161a8dcde05a2a3b845745c47574885a33fd5e5))  - (dependabot[bot])
+- **deps:** Update dependency @types/node to v20.14.7 ([457e041](https://github.com/tj-actions/changed-files/commit/457e041909e8e6db7872dbc85f43d3fea4a72f72))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.3 ([#2154](https://github.com/tj-actions/changed-files/issues/2154))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([e13fb92](https://github.com/tj-actions/changed-files/commit/e13fb92d451df65cea1041a85dd4a3b24153d155))  - (tj-actions[bot])
+
 # [44.5.3](https://github.com/tj-actions/changed-files/compare/v44.5.2...v44.5.3) - (2024-06-19)
 
 ## <!-- 1 -->🐛 Bug Fixes
