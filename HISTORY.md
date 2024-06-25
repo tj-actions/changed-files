@@ -1,5 +1,17 @@
 # Changelog
 
+# [44.5.5](https://github.com/tj-actions/changed-files/compare/v44.5.4...v44.5.5) - (2024-06-24)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Remove debug lines ([#2166](https://github.com/tj-actions/changed-files/issues/2166)) ([cc73385](https://github.com/tj-actions/changed-files/commit/cc733854b1f224978ef800d29e4709d5ee2883e4))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.4 ([#2165](https://github.com/tj-actions/changed-files/issues/2165))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([0b99ecf](https://github.com/tj-actions/changed-files/commit/0b99ecfd4efe684550ba7ef222cdf6b36964c890))  - (tj-actions[bot])
+
 # [44.5.4](https://github.com/tj-actions/changed-files/compare/v44.5.3...v44.5.4) - (2024-06-23)
 
 ## <!-- 1 -->🐛 Bug Fixes
