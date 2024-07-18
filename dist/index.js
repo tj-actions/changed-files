@@ -1925,14 +1925,11 @@ function run() {
     });
 }
 exports.run = run;
-/* istanbul ignore if */
-if (!process.env.TESTING) {
-    // eslint-disable-next-line github/no-then
-    run().catch(e => {
-        core.setFailed(e.message || e);
-        process.exit(1);
-    });
-}
+// eslint-disable-next-line github/no-then
+run().catch(e => {
+    core.setFailed(e.message || e);
+    process.exit(1);
+});
 
 
 /***/ }),
