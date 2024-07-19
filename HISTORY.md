@@ -1,5 +1,45 @@
 # Changelog
 
+# [44.5.6](https://github.com/tj-actions/changed-files/compare/v44.5.5...v44.5.6) - (2024-07-18)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Remove unused code ([#2202](https://github.com/tj-actions/changed-files/issues/2202)) ([6b2903b](https://github.com/tj-actions/changed-files/commit/6b2903bdce6310cfbddd87c418f253cf29b2dec9))  - (Tonye Jack)
+- **deps:** Update dependency @octokit/rest to v21.0.1 ([56b5e13](https://github.com/tj-actions/changed-files/commit/56b5e13a32a8099659d9f0de4b06bc1fe9b60d3b))  - (renovate[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency ts-jest to v29.2.3 ([dc82617](https://github.com/tj-actions/changed-files/commit/dc82617b247f7d2e5734aa9c0a0e5b800e58c1d8))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.2.1 ([1797e9a](https://github.com/tj-actions/changed-files/commit/1797e9a1ea6596c1ae24e354e3d27b60332efcda))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.14.11 ([9e63ef5](https://github.com/tj-actions/changed-files/commit/9e63ef55ed3d63a5d2a83c405c415505f18fc6ea))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.7 ([f1afcac](https://github.com/tj-actions/changed-files/commit/f1afcaced6b0126bdec60471b68db60065446b50))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.16.1 ([e42a3d1](https://github.com/tj-actions/changed-files/commit/e42a3d1b0ac3775d2029e7f164e9969b2d0b70a3))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.3.3 ([f0eedff](https://github.com/tj-actions/changed-files/commit/f0eedff3627914fdcdf6458fad3b3d27fdff3f4a))  - (renovate[bot])
+- **deps:** Update codacy/codacy-analysis-cli-action action to v4.4.5 ([f6d7b72](https://github.com/tj-actions/changed-files/commit/f6d7b721fdaf52c025f2ffecd8ed077ef7dbb8a8))  - (renovate[bot])
+- **deps:** Update codacy/codacy-analysis-cli-action action to v4.4.4 ([6f59461](https://github.com/tj-actions/changed-files/commit/6f59461624f15e6b5588a64c5e2e6116135e331b))  - (renovate[bot])
+- **deps:** Update codacy/codacy-analysis-cli-action action to v4.4.2 ([443dcaf](https://github.com/tj-actions/changed-files/commit/443dcaf814b84471f1737342017b67aee4917773))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.2.2 ([6f8dfa8](https://github.com/tj-actions/changed-files/commit/6f8dfa84e8e84bd9098c4348fbe396887cdd0f38))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.2.1 ([df7dd40](https://github.com/tj-actions/changed-files/commit/df7dd40375e33c41b6fe2cd958a804c547147279))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v4.0.3 ([07a5a99](https://github.com/tj-actions/changed-files/commit/07a5a993446b4205ab95d7f4eb2d1e435548a102))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.16.0 ([02a0746](https://github.com/tj-actions/changed-files/commit/02a07463378d7af3098bbce6750f7b64e20ef461))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.2.0 ([75ed46d](https://github.com/tj-actions/changed-files/commit/75ed46d2351d95449bc2a73d22be97b3e298ebd8))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.14.10 ([c8c9e91](https://github.com/tj-actions/changed-files/commit/c8c9e91b4862f4ad5a37964c137c76718a4cfa6f))  - (renovate[bot])
+- **deps:** Update dependency @typescript-eslint/eslint-plugin to v7.15.0 ([8ead8a4](https://github.com/tj-actions/changed-files/commit/8ead8a4214dd9c5a55cd8c8bee76d160924658d4))  - (renovate[bot])
+- **deps-dev:** Bump @typescript-eslint/parser from 7.14.1 to 7.15.0 ([#2181](https://github.com/tj-actions/changed-files/issues/2181)) ([0f83d09](https://github.com/tj-actions/changed-files/commit/0f83d0935656d43bd0b883e10837a93197efaaf0))  - (dependabot[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.9 ([c3dcd3e](https://github.com/tj-actions/changed-files/commit/c3dcd3e758397022af9086c80ca350d4877c8c3b))  - (renovate[bot])
+- **deps:** Update actions/checkout action to v4 ([#2174](https://github.com/tj-actions/changed-files/issues/2174)) ([0e9a58e](https://github.com/tj-actions/changed-files/commit/0e9a58eebf6df74057d390987e9c2ac0f213183f))  - (renovate[bot])
+- **deps:** Update actions/checkout action to v3 ([2295558](https://github.com/tj-actions/changed-files/commit/2295558b65fbca90682dd481b6933055f2f50dbb))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.6 ([6844796](https://github.com/tj-actions/changed-files/commit/68447960fff679ad642c837ddfa08b9602eb3b1a))  - (renovate[bot])
+- **deps:** Update dependency @types/micromatch to v4.0.8 ([00518ab](https://github.com/tj-actions/changed-files/commit/00518ab39d971ba44ba6fe89e10452323fd2674b))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.14.9 ([2c2260e](https://github.com/tj-actions/changed-files/commit/2c2260e690d9c41c2c6045723778793e2552561d))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.14.1 ([d1d479f](https://github.com/tj-actions/changed-files/commit/d1d479f03cc2b2e212605632b30c91f85857eb16))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.5 ([#2168](https://github.com/tj-actions/changed-files/issues/2168))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([9adb915](https://github.com/tj-actions/changed-files/commit/9adb9156b8a8e8484b0c33cb2fdd63f3287b0e89))  - (tj-actions[bot])
+
 # [44.5.5](https://github.com/tj-actions/changed-files/compare/v44.5.4...v44.5.5) - (2024-06-24)
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
