@@ -62987,10 +62987,23 @@ function resolveCollection(CN, ctx, token, onError, tagName, tag) {
         coll.tag = tagName;
     return coll;
 }
-function composeCollection(CN, ctx, token, tagToken, onError) {
+function composeCollection(CN, ctx, token, props, onError) {
+    const tagToken = props.tag;
     const tagName = !tagToken
         ? null
         : ctx.directives.tagName(tagToken.source, msg => onError(tagToken, 'TAG_RESOLVE_FAILED', msg));
+    if (token.type === 'block-seq') {
+        const { anchor, newlineAfterProp: nl } = props;
+        const lastProp = anchor && tagToken
+            ? anchor.offset > tagToken.offset
+                ? anchor
+                : tagToken
+            : (anchor ?? tagToken);
+        if (lastProp && (!nl || nl.offset < lastProp.offset)) {
+            const message = 'Missing newline after block sequence props';
+            onError(lastProp, 'MISSING_CHAR', message);
+        }
+    }
     const expType = token.type === 'block-map'
         ? 'map'
         : token.type === 'block-seq'
@@ -63004,8 +63017,7 @@ function composeCollection(CN, ctx, token, tagToken, onError) {
         !tagName ||
         tagName === '!' ||
         (tagName === YAMLMap.YAMLMap.tagName && expType === 'map') ||
-        (tagName === YAMLSeq.YAMLSeq.tagName && expType === 'seq') ||
-        !expType) {
+        (tagName === YAMLSeq.YAMLSeq.tagName && expType === 'seq')) {
         return resolveCollection(CN, ctx, token, onError, tagName);
     }
     let tag = ctx.schema.tags.find(t => t.tag === tagName && t.collection === expType);
@@ -63128,7 +63140,7 @@ function composeNode(ctx, token, props, onError) {
         case 'block-map':
         case 'block-seq':
         case 'flow-collection':
-            node = composeCollection.composeCollection(CN, ctx, token, tag, onError);
+            node = composeCollection.composeCollection(CN, ctx, token, props, onError);
             if (anchor)
                 node.anchor = anchor.source.substring(1);
             break;
@@ -63566,7 +63578,7 @@ function resolveBlockMap({ composeNode, composeEmptyNode }, ctx, bm, onError, ta
                 }
                 continue;
             }
-            if (keyProps.hasNewlineAfterProp || utilContainsNewline.containsNewline(key)) {
+            if (keyProps.newlineAfterProp || utilContainsNewline.containsNewline(key)) {
                 onError(key ?? start[start.length - 1], 'MULTILINE_IMPLICIT_KEY', 'Implicit keys need to be on a single line');
             }
         }
@@ -64408,11 +64420,11 @@ function resolveProps(tokens, { flow, indicator, next, offset, onError, parentIn
     let comment = '';
     let commentSep = '';
     let hasNewline = false;
-    let hasNewlineAfterProp = false;
     let reqSpace = false;
     let tab = null;
     let anchor = null;
     let tag = null;
+    let newlineAfterProp = null;
     let comma = null;
     let found = null;
     let start = null;
@@ -64466,7 +64478,7 @@ function resolveProps(tokens, { flow, indicator, next, offset, onError, parentIn
                 atNewline = true;
                 hasNewline = true;
                 if (anchor || tag)
-                    hasNewlineAfterProp = true;
+                    newlineAfterProp = token;
                 hasSpace = true;
                 break;
             case 'anchor':
@@ -64540,9 +64552,9 @@ function resolveProps(tokens, { flow, indicator, next, offset, onError, parentIn
         spaceBefore,
         comment,
         hasNewline,
-        hasNewlineAfterProp,
         anchor,
         tag,
+        newlineAfterProp,
         end,
         start: start ?? end
     };
@@ -65881,7 +65893,6 @@ class Collection extends Node.NodeBase {
         }
     }
 }
-Collection.maxFlowStringSingleLineLength = 60;
 
 exports.Collection = Collection;
 exports.collectionFromPath = collectionFromPath;
@@ -67342,15 +67353,11 @@ class Lexer {
             if (!this.atEnd && !this.hasChars(4))
                 return this.setNext('line-start');
             const s = this.peek(3);
-            if (s === '---' && isEmpty(this.charAt(3))) {
+            if ((s === '---' || s === '...') && isEmpty(this.charAt(3))) {
                 yield* this.pushCount(3);
                 this.indentValue = 0;
                 this.indentNext = 0;
-                return 'doc';
-            }
-            else if (s === '...' && isEmpty(this.charAt(3))) {
-                yield* this.pushCount(3);
-                return 'stream';
+                return s === '---' ? 'doc' : 'stream';
             }
         }
         this.indentValue = yield* this.pushSpaces(false);
@@ -70095,6 +70102,8 @@ const FOLD_QUOTED = 'quoted';
 function foldFlowLines(text, indent, mode = 'flow', { indentAtStart, lineWidth = 80, minContentWidth = 20, onFold, onOverflow } = {}) {
     if (!lineWidth || lineWidth < 0)
         return text;
+    if (lineWidth < minContentWidth)
+        minContentWidth = 0;
     const endStep = Math.max(1 + minContentWidth, 1 + lineWidth - indent.length);
     if (text.length <= endStep)
         return text;
