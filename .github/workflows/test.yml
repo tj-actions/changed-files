@@ -1117,7 +1117,7 @@ jobs:
         with:
           since_last_remote_commit: true
 
-      - name: Verify failed
+      - name: Verify succeeded pull_request(closed)
         if: steps.changed-files-since-last-remote-commit.outcome != 'failure' && matrix.fetch-depth == 1 && github.event.action == 'closed' && github.event_name == 'pull_request'
         run: |
           echo "Expected: (failure) got ${{ steps.changed-files-since-last-remote-commit.outcome }}"
