@@ -1,5 +1,34 @@
 # Changelog
 
+# [44.5.7](https://github.com/tj-actions/changed-files/compare/v44.5.6...v44.5.7) - (2024-07-30)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @stdlib/utils-convert-path to v0.2.2 ([e4fe134](https://github.com/tj-actions/changed-files/commit/e4fe134b735e3c67d244091a6c505cbb39b32212))  - (renovate[bot])
+- Error with pull_request closed test ([#2211](https://github.com/tj-actions/changed-files/issues/2211)) ([f5a7145](https://github.com/tj-actions/changed-files/commit/f5a7145f2ba7e6d42d799f0270017afc09189f64))  - (Tonye Jack)
+- **deps:** Update dependency yaml to v2.5.0 ([28fd03b](https://github.com/tj-actions/changed-files/commit/28fd03b28d647c18884fa609756e9aa323da9598))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([a77ecbc](https://github.com/tj-actions/changed-files/commit/a77ecbc238d92fd078cf5deee43b895a3a5b3fef))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([1047179](https://github.com/tj-actions/changed-files/commit/10471793b2c8356c90f4ddf302561e23d57582ac))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps-dev:** Bump @types/node from 20.14.13 to 22.0.0 ([#2215](https://github.com/tj-actions/changed-files/issues/2215)) ([c65cd88](https://github.com/tj-actions/changed-files/commit/c65cd883420fd2eb864698a825fc4162dd94482c))  - (dependabot[bot])
+- **deps:** Update typescript-eslint monorepo to v7.18.0 ([9f928e3](https://github.com/tj-actions/changed-files/commit/9f928e3005748ed5c45dcdb97c101a4547f612d0))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.14.13 ([fb1b47b](https://github.com/tj-actions/changed-files/commit/fb1b47b72779e62a69dc98934f3e07e01eb78735))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v20.14.12 ([4db04c7](https://github.com/tj-actions/changed-files/commit/4db04c76fac5b37cc0308020af9c651f2447a026))  - (renovate[bot])
+- **deps:** Update typescript-eslint monorepo to v7.17.0 ([f79274f](https://github.com/tj-actions/changed-files/commit/f79274f27befa7e1bf6d5eb1c4964c0f65cea226))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.6 ([#2204](https://github.com/tj-actions/changed-files/issues/2204))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([f1d2215](https://github.com/tj-actions/changed-files/commit/f1d2215d5d3ce1f57b3ad38a3db65d0e2cfbdb38))  - (tj-actions[bot])
+
 # [44.5.6](https://github.com/tj-actions/changed-files/compare/v44.5.5...v44.5.6) - (2024-07-18)
 
 ## <!-- 1 -->🐛 Bug Fixes
