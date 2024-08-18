@@ -29,22 +29,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -58,15 +42,15 @@ const micromatch_1 = __importDefault(__nccwpck_require__(7911));
 const path = __importStar(__nccwpck_require__(1017));
 const changedFilesOutput_1 = __nccwpck_require__(8930);
 const utils_1 = __nccwpck_require__(918);
-const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns, workingDirectory }) {
+const processChangedFiles = async ({ filePatterns, allDiffFiles, inputs, yamlFilePatterns, workingDirectory }) => {
     if (filePatterns.length > 0) {
         core.startGroup('changed-files-patterns');
-        const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+        const allFilteredDiffFiles = await (0, utils_1.getFilteredChangedFiles)({
             allDiffFiles,
             filePatterns
         });
         core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
-        yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
+        await (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
             allDiffFiles,
             allFilteredDiffFiles,
             inputs,
@@ -81,12 +65,12 @@ const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({
         const changedKeys = [];
         for (const key of Object.keys(yamlFilePatterns)) {
             core.startGroup(`changed-files-yaml-${key}`);
-            const allFilteredDiffFiles = yield (0, utils_1.getFilteredChangedFiles)({
+            const allFilteredDiffFiles = await (0, utils_1.getFilteredChangedFiles)({
                 allDiffFiles,
                 filePatterns: yamlFilePatterns[key]
             });
             core.debug(`All filtered diff files for ${key}: ${JSON.stringify(allFilteredDiffFiles)}`);
-            const { anyChanged, anyModified } = yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
+            const { anyChanged, anyModified } = await (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
                 allDiffFiles,
                 allFilteredDiffFiles,
                 inputs,
@@ -104,14 +88,14 @@ const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({
             core.endGroup();
         }
         if (modifiedKeys.length > 0) {
-            yield (0, utils_1.setArrayOutput)({
+            await (0, utils_1.setArrayOutput)({
                 key: 'modified_keys',
                 inputs,
                 value: modifiedKeys
             });
         }
         if (changedKeys.length > 0) {
-            yield (0, utils_1.setArrayOutput)({
+            await (0, utils_1.setArrayOutput)({
                 key: 'changed_keys',
                 inputs,
                 value: changedKeys
@@ -120,7 +104,7 @@ const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({
     }
     if (filePatterns.length === 0 && Object.keys(yamlFilePatterns).length === 0) {
         core.startGroup('changed-files-all');
-        yield (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
+        await (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
             allDiffFiles,
             allFilteredDiffFiles: allDiffFiles,
             inputs,
@@ -129,10 +113,10 @@ const processChangedFiles = (_a) => __awaiter(void 0, [_a], void 0, function* ({
         core.info('All Done!');
         core.endGroup();
     }
-});
+};
 exports.processChangedFiles = processChangedFiles;
-const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inputs, workingDirectory, diffSubmodule, diffResult, submodulePaths }) {
-    const renamedFiles = yield (0, utils_1.gitRenamedFiles)({
+const getRenamedFiles = async ({ inputs, workingDirectory, diffSubmodule, diffResult, submodulePaths }) => {
+    const renamedFiles = await (0, utils_1.gitRenamedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
         sha2: diffResult.currentSha,
@@ -141,7 +125,7 @@ const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inp
     });
     if (diffSubmodule) {
         for (const submodulePath of submodulePaths) {
-            const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
+            const submoduleShaResult = await (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: diffResult.previousSha,
                 parentSha2: diffResult.currentSha,
@@ -151,7 +135,7 @@ const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inp
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
                 let diff = '...';
-                if (!(yield (0, utils_1.canDiffCommits)({
+                if (!(await (0, utils_1.canDiffCommits)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
@@ -164,7 +148,7 @@ const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inp
                     core.info(message);
                     diff = '..';
                 }
-                const submoduleRenamedFiles = yield (0, utils_1.gitRenamedFiles)({
+                const submoduleRenamedFiles = await (0, utils_1.gitRenamedFiles)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
@@ -187,7 +171,7 @@ const getRenamedFiles = (_b) => __awaiter(void 0, [_b], void 0, function* ({ inp
         paths: renamedFiles.join(inputs.oldNewFilesSeparator),
         count: renamedFiles.length.toString()
     };
-});
+};
 exports.getRenamedFiles = getRenamedFiles;
 var ChangeTypeEnum;
 (function (ChangeTypeEnum) {
@@ -200,8 +184,8 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ workingDirectory, diffSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) {
-    const files = yield (0, utils_1.getAllChangedFiles)({
+const getAllDiffFiles = async ({ workingDirectory, diffSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) => {
+    const files = await (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
         sha2: diffResult.currentSha,
@@ -211,7 +195,7 @@ const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ wor
     });
     if (diffSubmodule) {
         for (const submodulePath of submodulePaths) {
-            const submoduleShaResult = yield (0, utils_1.gitSubmoduleDiffSHA)({
+            const submoduleShaResult = await (0, utils_1.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: diffResult.previousSha,
                 parentSha2: diffResult.currentSha,
@@ -221,7 +205,7 @@ const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ wor
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
                 let diff = '...';
-                if (!(yield (0, utils_1.canDiffCommits)({
+                if (!(await (0, utils_1.canDiffCommits)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
@@ -234,7 +218,7 @@ const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ wor
                     core.warning(message);
                     diff = '..';
                 }
-                const submoduleFiles = yield (0, utils_1.getAllChangedFiles)({
+                const submoduleFiles = await (0, utils_1.getAllChangedFiles)({
                     cwd: submoduleWorkingDirectory,
                     sha1: submoduleShaResult.previousSha,
                     sha2: submoduleShaResult.currentSha,
@@ -254,7 +238,7 @@ const getAllDiffFiles = (_c) => __awaiter(void 0, [_c], void 0, function* ({ wor
         }
     }
     return files;
-});
+};
 exports.getAllDiffFiles = getAllDiffFiles;
 function* getFilePaths({ inputs, filePaths, dirNamesIncludeFilePatterns }) {
     for (const filePath of filePaths) {
@@ -296,7 +280,7 @@ function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
         }
     }
 }
-const getChangeTypeFiles = (_d) => __awaiter(void 0, [_d], void 0, function* ({ inputs, changedFiles, changeTypes }) {
+const getChangeTypeFiles = async ({ inputs, changedFiles, changeTypes }) => {
     const files = [
         ...new Set(getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }))
     ].filter(Boolean);
@@ -305,7 +289,7 @@ const getChangeTypeFiles = (_d) => __awaiter(void 0, [_d], void 0, function* ({ 
         paths,
         count: files.length.toString()
     };
-});
+};
 exports.getChangeTypeFiles = getChangeTypeFiles;
 function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
     const dirNamesIncludeFilePatterns = (0, utils_1.getDirNamesIncludeFilesPattern)({ inputs });
@@ -324,7 +308,7 @@ function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
         }
     }
 }
-const getAllChangeTypeFiles = (_e) => __awaiter(void 0, [_e], void 0, function* ({ inputs, changedFiles }) {
+const getAllChangeTypeFiles = async ({ inputs, changedFiles }) => {
     const files = [
         ...new Set(getAllChangeTypeFilesGenerator({ inputs, changedFiles }))
     ].filter(Boolean);
@@ -333,11 +317,10 @@ const getAllChangeTypeFiles = (_e) => __awaiter(void 0, [_e], void 0, function* 
         paths,
         count: files.length.toString()
     };
-});
+};
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
-const getChangedFilesFromGithubAPI = (_f) => __awaiter(void 0, [_f], void 0, function* ({ inputs }) {
-    var _g, e_1, _h, _j;
-    var _k;
+const getChangedFilesFromGithubAPI = async ({ inputs }) => {
+    var _a;
     const octokit = github.getOctokit(inputs.token, {
         baseUrl: inputs.apiUrl
     });
@@ -355,10 +338,10 @@ const getChangedFilesFromGithubAPI = (_f) => __awaiter(void 0, [_f], void 0, fun
     const options = octokit.rest.pulls.listFiles.endpoint.merge({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        pull_number: (_k = github.context.payload.pull_request) === null || _k === void 0 ? void 0 : _k.number,
+        pull_number: (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number,
         per_page: 100
     });
-    const paginatedResponse = yield octokit.paginate(options);
+    const paginatedResponse = await octokit.paginate(options);
     core.info(`Found ${paginatedResponse.length} changed files from GitHub API`);
     const statusMap = {
         added: ChangeTypeEnum.Added,
@@ -369,35 +352,23 @@ const getChangedFilesFromGithubAPI = (_f) => __awaiter(void 0, [_f], void 0, fun
         changed: ChangeTypeEnum.TypeChanged,
         unchanged: ChangeTypeEnum.Unmerged
     };
-    try {
-        for (var _l = true, paginatedResponse_1 = __asyncValues(paginatedResponse), paginatedResponse_1_1; paginatedResponse_1_1 = yield paginatedResponse_1.next(), _g = paginatedResponse_1_1.done, !_g; _l = true) {
-            _j = paginatedResponse_1_1.value;
-            _l = false;
-            const item = _j;
-            const changeType = statusMap[item.status] || ChangeTypeEnum.Unknown;
-            if (changeType === ChangeTypeEnum.Renamed) {
-                if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-                    changedFiles[ChangeTypeEnum.Deleted].push(item.filename);
-                    changedFiles[ChangeTypeEnum.Added].push(item.filename);
-                }
-                else {
-                    changedFiles[ChangeTypeEnum.Renamed].push(item.filename);
-                }
+    for await (const item of paginatedResponse) {
+        const changeType = statusMap[item.status] || ChangeTypeEnum.Unknown;
+        if (changeType === ChangeTypeEnum.Renamed) {
+            if (inputs.outputRenamedFilesAsDeletedAndAdded) {
+                changedFiles[ChangeTypeEnum.Deleted].push(item.filename);
+                changedFiles[ChangeTypeEnum.Added].push(item.filename);
             }
             else {
-                changedFiles[changeType].push(item.filename);
+                changedFiles[ChangeTypeEnum.Renamed].push(item.filename);
             }
         }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (!_l && !_g && (_h = paginatedResponse_1.return)) yield _h.call(paginatedResponse_1);
+        else {
+            changedFiles[changeType].push(item.filename);
         }
-        finally { if (e_1) throw e_1.error; }
     }
     return changedFiles;
-});
+};
 exports.getChangedFilesFromGithubAPI = getChangedFilesFromGithubAPI;
 
 
@@ -431,15 +402,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -452,14 +414,14 @@ const utils_1 = __nccwpck_require__(918);
 const getArrayFromPaths = (paths, inputs) => {
     return Array.isArray(paths) ? paths : paths.split(inputs.separator);
 };
-const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, [_a], void 0, function* ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '', workingDirectory }) {
-    const addedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, allFilteredDiffFiles, inputs, filePatterns = [], outputPrefix = '', workingDirectory }) => {
+    const addedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Added]
     });
     core.debug(`Added files: ${JSON.stringify(addedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('added_files', outputPrefix),
         value: addedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -468,19 +430,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('added_files_count', outputPrefix),
         value: addedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const copiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const copiedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Copied]
     });
     core.debug(`Copied files: ${JSON.stringify(copiedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('copied_files', outputPrefix),
         value: copiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -489,19 +451,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('copied_files_count', outputPrefix),
         value: copiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const modifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const modifiedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Modified]
     });
     core.debug(`Modified files: ${JSON.stringify(modifiedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('modified_files', outputPrefix),
         value: modifiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -510,19 +472,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('modified_files_count', outputPrefix),
         value: modifiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const renamedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const renamedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Renamed]
     });
     core.debug(`Renamed files: ${JSON.stringify(renamedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('renamed_files', outputPrefix),
         value: renamedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -531,19 +493,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('renamed_files_count', outputPrefix),
         value: renamedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const typeChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const typeChangedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.TypeChanged]
     });
     core.debug(`Type changed files: ${JSON.stringify(typeChangedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('type_changed_files', outputPrefix),
         value: typeChangedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -552,19 +514,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('type_changed_files_count', outputPrefix),
         value: typeChangedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const unmergedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const unmergedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Unmerged]
     });
     core.debug(`Unmerged files: ${JSON.stringify(unmergedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unmerged_files', outputPrefix),
         value: unmergedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -573,19 +535,19 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unmerged_files_count', outputPrefix),
         value: unmergedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const unknownFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const unknownFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Unknown]
     });
     core.debug(`Unknown files: ${JSON.stringify(unknownFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unknown_files', outputPrefix),
         value: unknownFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -594,18 +556,18 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unknown_files_count', outputPrefix),
         value: unknownFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const allChangedAndModifiedFiles = yield (0, changedFiles_1.getAllChangeTypeFiles)({
+    const allChangedAndModifiedFiles = await (0, changedFiles_1.getAllChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles
     });
     core.debug(`All changed and modified files: ${JSON.stringify(allChangedAndModifiedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_and_modified_files', outputPrefix),
         value: allChangedAndModifiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -614,13 +576,13 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_and_modified_files_count', outputPrefix),
         value: allChangedAndModifiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const allChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const allChangedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [
@@ -631,7 +593,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         ]
     });
     core.debug(`All changed files: ${JSON.stringify(allChangedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_files', outputPrefix),
         value: allChangedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -640,20 +602,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_files_count', outputPrefix),
         value: allChangedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_changed', outputPrefix),
         value: allChangedFiles.paths.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    const allOtherChangedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const allOtherChangedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allDiffFiles,
         changeTypes: [
@@ -670,26 +632,26 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
     const onlyChanged = otherChangedFiles.length === 0 &&
         allChangedFiles.paths.length > 0 &&
         filePatterns.length > 0;
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('only_changed', outputPrefix),
         value: onlyChanged,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    yield (0, utils_1.setArrayOutput)({
+    await (0, utils_1.setArrayOutput)({
         key: 'other_changed_files',
         inputs,
         value: otherChangedFiles,
         outputPrefix
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('other_changed_files_count', outputPrefix),
         value: otherChangedFiles.length.toString(),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const allModifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const allModifiedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [
@@ -701,7 +663,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         ]
     });
     core.debug(`All modified files: ${JSON.stringify(allModifiedFiles)}`);
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_modified_files', outputPrefix),
         value: allModifiedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -710,20 +672,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_modified_files_count', outputPrefix),
         value: allModifiedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_modified', outputPrefix),
         value: allModifiedFiles.paths.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    const allOtherModifiedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const allOtherModifiedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allDiffFiles,
         changeTypes: [
@@ -740,26 +702,26 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
     const onlyModified = otherModifiedFiles.length === 0 &&
         allModifiedFiles.paths.length > 0 &&
         filePatterns.length > 0;
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('only_modified', outputPrefix),
         value: onlyModified,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    yield (0, utils_1.setArrayOutput)({
+    await (0, utils_1.setArrayOutput)({
         key: 'other_modified_files',
         inputs,
         value: otherModifiedFiles,
         outputPrefix
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('other_modified_files_count', outputPrefix),
         value: otherModifiedFiles.length.toString(),
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    const deletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const deletedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
@@ -772,7 +734,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         for (const deletedPath of getArrayFromPaths(deletedFiles.paths, inputs)) {
             const dirPath = path_1.default.join(workingDirectory, deletedPath);
             core.debug(`Checking if directory exists: ${dirPath}`);
-            if (!(yield (0, utils_1.exists)(dirPath))) {
+            if (!(await (0, utils_1.exists)(dirPath))) {
                 core.debug(`Directory not found: ${dirPath}`);
                 newDeletedFilesPaths.push(deletedPath);
             }
@@ -783,7 +745,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         deletedFiles.count = newDeletedFilesPaths.length.toString();
         core.debug(`New deleted files: ${JSON.stringify(deletedFiles)}`);
     }
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files', outputPrefix),
         value: deletedFiles.paths,
         writeOutputFiles: inputs.writeOutputFiles,
@@ -792,20 +754,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files_count', outputPrefix),
         value: deletedFiles.count,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('any_deleted', outputPrefix),
         value: deletedFiles.paths.length > 0,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    const allOtherDeletedFiles = yield (0, changedFiles_1.getChangeTypeFiles)({
+    const allOtherDeletedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
@@ -816,20 +778,20 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
     const onlyDeleted = otherDeletedFiles.length === 0 &&
         deletedFiles.paths.length > 0 &&
         filePatterns.length > 0;
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('only_deleted', outputPrefix),
         value: onlyDeleted,
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir,
         json: inputs.json
     });
-    yield (0, utils_1.setArrayOutput)({
+    await (0, utils_1.setArrayOutput)({
         key: 'other_deleted_files',
         inputs,
         value: otherDeletedFiles,
         outputPrefix
     });
-    yield (0, utils_1.setOutput)({
+    await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('other_deleted_files_count', outputPrefix),
         value: otherDeletedFiles.length.toString(),
         writeOutputFiles: inputs.writeOutputFiles,
@@ -839,7 +801,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = (_a) => __awaiter(void 0, 
         anyModified: allModifiedFiles.paths.length > 0,
         anyChanged: allChangedFiles.paths.length > 0
     };
-});
+};
 exports.setOutputsAndGetModifiedAndChangedFilesStatus = setOutputsAndGetModifiedAndChangedFilesStatus;
 
 
@@ -873,23 +835,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getSHAForPullRequestEvent = exports.getSHAForNonPullRequestEvent = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
-const getCurrentSHA = (_a) => __awaiter(void 0, [_a], void 0, function* ({ inputs, workingDirectory }) {
-    var _b, _c, _d, _e, _f, _g, _h;
-    let currentSha = yield (0, utils_1.cleanShaInput)({
+const getCurrentSHA = async ({ inputs, workingDirectory }) => {
+    var _a, _b, _c, _d, _e, _f, _g;
+    let currentSha = await (0, utils_1.cleanShaInput)({
         sha: inputs.sha,
         cwd: workingDirectory,
         token: inputs.token
@@ -898,7 +851,7 @@ const getCurrentSHA = (_a) => __awaiter(void 0, [_a], void 0, function* ({ input
     if (inputs.until) {
         core.debug(`Getting base SHA for '${inputs.until}'...`);
         try {
-            currentSha = yield (0, utils_1.gitLog)({
+            currentSha = await (0, utils_1.gitLog)({
                 cwd: workingDirectory,
                 args: [
                     '--format=%H',
@@ -918,28 +871,28 @@ const getCurrentSHA = (_a) => __awaiter(void 0, [_a], void 0, function* ({ input
     }
     else {
         if (!currentSha) {
-            if (((_c = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head) === null || _c === void 0 ? void 0 : _c.sha) &&
-                (yield (0, utils_1.verifyCommitSha)({
-                    sha: (_e = (_d = github.context.payload.pull_request) === null || _d === void 0 ? void 0 : _d.head) === null || _e === void 0 ? void 0 : _e.sha,
+            if (((_b = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha) &&
+                (await (0, utils_1.verifyCommitSha)({
+                    sha: (_d = (_c = github.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.sha,
                     cwd: workingDirectory,
                     showAsErrorMessage: false
                 })) === 0) {
-                currentSha = (_g = (_f = github.context.payload.pull_request) === null || _f === void 0 ? void 0 : _f.head) === null || _g === void 0 ? void 0 : _g.sha;
+                currentSha = (_f = (_e = github.context.payload.pull_request) === null || _e === void 0 ? void 0 : _e.head) === null || _f === void 0 ? void 0 : _f.sha;
             }
             else if (github.context.eventName === 'merge_group') {
-                currentSha = (_h = github.context.payload.merge_group) === null || _h === void 0 ? void 0 : _h.head_sha;
+                currentSha = (_g = github.context.payload.merge_group) === null || _g === void 0 ? void 0 : _g.head_sha;
             }
             else {
-                currentSha = yield (0, utils_1.getHeadSha)({ cwd: workingDirectory });
+                currentSha = await (0, utils_1.getHeadSha)({ cwd: workingDirectory });
             }
         }
     }
-    yield (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
+    await (0, utils_1.verifyCommitSha)({ sha: currentSha, cwd: workingDirectory });
     core.debug(`Current SHA: ${currentSha}`);
     return currentSha;
-});
-const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, function* ({ inputs, env, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, isTag, remoteName }) {
-    var _k, _l, _m;
+};
+const getSHAForNonPullRequestEvent = async ({ inputs, env, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, isTag, remoteName }) => {
+    var _a, _b, _c;
     let targetBranch = env.GITHUB_REF_NAME;
     let currentBranch = targetBranch;
     let initialCommit = false;
@@ -951,10 +904,10 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
                 if (github.context.payload.base_ref) {
                     sourceBranch = github.context.payload.base_ref.replace('refs/heads/', '');
                 }
-                else if ((_k = github.context.payload.release) === null || _k === void 0 ? void 0 : _k.target_commitish) {
-                    sourceBranch = (_l = github.context.payload.release) === null || _l === void 0 ? void 0 : _l.target_commitish;
+                else if ((_a = github.context.payload.release) === null || _a === void 0 ? void 0 : _a.target_commitish) {
+                    sourceBranch = (_b = github.context.payload.release) === null || _b === void 0 ? void 0 : _b.target_commitish;
                 }
-                yield (0, utils_1.gitFetch)({
+                await (0, utils_1.gitFetch)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -967,7 +920,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
                 });
             }
             else {
-                yield (0, utils_1.gitFetch)({
+                await (0, utils_1.gitFetch)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -980,7 +933,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
                 });
             }
             if (diffSubmodule) {
-                yield (0, utils_1.gitFetchSubmodules)({
+                await (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -993,7 +946,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
         }
         else {
             if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
-                yield (0, utils_1.gitFetchSubmodules)({
+                await (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -1005,14 +958,14 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
             }
         }
     }
-    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
-    let previousSha = yield (0, utils_1.cleanShaInput)({
+    const currentSha = await getCurrentSHA({ inputs, workingDirectory });
+    let previousSha = await (0, utils_1.cleanShaInput)({
         sha: inputs.baseSha,
         cwd: workingDirectory,
         token: inputs.token
     });
     const diff = '..';
-    const currentBranchName = yield (0, utils_1.getCurrentBranchName)({ cwd: workingDirectory });
+    const currentBranchName = await (0, utils_1.getCurrentBranchName)({ cwd: workingDirectory });
     if (currentBranchName &&
         currentBranchName !== 'HEAD' &&
         (currentBranchName !== targetBranch || currentBranchName !== currentBranch)) {
@@ -1039,7 +992,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
         if (inputs.since) {
             core.debug(`Getting base SHA for '${inputs.since}'...`);
             try {
-                const allCommitsFrom = yield (0, utils_1.gitLog)({
+                const allCommitsFrom = await (0, utils_1.gitLog)({
                     cwd: workingDirectory,
                     args: ['--format=%H', '--date', 'local', '--since', inputs.since]
                 });
@@ -1055,7 +1008,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
         }
         else if (isTag) {
             core.debug('Getting previous SHA for tag...');
-            const { sha, tag } = yield (0, utils_1.getPreviousGitTag)({
+            const { sha, tag } = await (0, utils_1.getPreviousGitTag)({
                 cwd: workingDirectory,
                 tagsPattern: inputs.tagsPattern,
                 tagsIgnorePattern: inputs.tagsIgnorePattern,
@@ -1067,7 +1020,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
         else {
             if (github.context.eventName === 'merge_group') {
                 core.debug('Getting previous SHA for merge group...');
-                previousSha = (_m = github.context.payload.merge_group) === null || _m === void 0 ? void 0 : _m.base_sha;
+                previousSha = (_c = github.context.payload.merge_group) === null || _c === void 0 ? void 0 : _c.base_sha;
             }
             else {
                 core.debug('Getting previous SHA for last remote commit...');
@@ -1078,22 +1031,22 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
             }
             if (!previousSha ||
                 previousSha === '0000000000000000000000000000000000000000') {
-                previousSha = yield (0, utils_1.getParentSha)({
+                previousSha = await (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
             }
-            else if ((yield (0, utils_1.verifyCommitSha)({
+            else if ((await (0, utils_1.verifyCommitSha)({
                 sha: previousSha,
                 cwd: workingDirectory,
                 showAsErrorMessage: false
             })) !== 0) {
                 core.warning(`Previous commit ${previousSha} is not valid. Using parent commit.`);
-                previousSha = yield (0, utils_1.getParentSha)({
+                previousSha = await (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
             }
             if (!previousSha || previousSha === currentSha) {
-                previousSha = yield (0, utils_1.getParentSha)({
+                previousSha = await (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
                 if (!previousSha) {
@@ -1104,7 +1057,7 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
             }
         }
     }
-    yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
+    await (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
     core.debug(`Previous SHA: ${previousSha}`);
     core.debug(`Target branch: ${targetBranch}`);
     core.debug(`Current branch: ${currentBranch}`);
@@ -1121,30 +1074,30 @@ const getSHAForNonPullRequestEvent = (_j) => __awaiter(void 0, [_j], void 0, fun
         diff,
         initialCommit
     };
-});
+};
 exports.getSHAForNonPullRequestEvent = getSHAForNonPullRequestEvent;
-const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, function* ({ inputs, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, remoteName }) {
-    var _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3;
-    let targetBranch = (_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.base) === null || _q === void 0 ? void 0 : _q.ref;
-    const currentBranch = (_s = (_r = github.context.payload.pull_request) === null || _r === void 0 ? void 0 : _r.head) === null || _s === void 0 ? void 0 : _s.ref;
+const getSHAForPullRequestEvent = async ({ inputs, workingDirectory, isShallow, diffSubmodule, gitFetchExtraArgs, remoteName }) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+    let targetBranch = (_b = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base) === null || _b === void 0 ? void 0 : _b.ref;
+    const currentBranch = (_d = (_c = github.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.ref;
     if (inputs.sinceLastRemoteCommit) {
         targetBranch = currentBranch;
     }
     if (!inputs.skipInitialFetch) {
         core.info('Repository is shallow, fetching more history...');
         if (isShallow) {
-            let prFetchExitCode = yield (0, utils_1.gitFetch)({
+            let prFetchExitCode = await (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
                     ...gitFetchExtraArgs,
                     '-u',
                     '--progress',
                     remoteName,
-                    `pull/${(_t = github.context.payload.pull_request) === null || _t === void 0 ? void 0 : _t.number}/head:${currentBranch}`
+                    `pull/${(_e = github.context.payload.pull_request) === null || _e === void 0 ? void 0 : _e.number}/head:${currentBranch}`
                 ]
             });
             if (prFetchExitCode !== 0) {
-                prFetchExitCode = yield (0, utils_1.gitFetch)({
+                prFetchExitCode = await (0, utils_1.gitFetch)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -1160,7 +1113,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                 throw new Error('Failed to fetch pull request branch. Please ensure "persist-credentials" is set to "true" when checking out the repository. See: https://github.com/actions/checkout#usage');
             }
             core.debug('Fetching target branch...');
-            yield (0, utils_1.gitFetch)({
+            await (0, utils_1.gitFetch)({
                 cwd: workingDirectory,
                 args: [
                     ...gitFetchExtraArgs,
@@ -1168,11 +1121,11 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                     '--progress',
                     `--deepen=${inputs.fetchDepth}`,
                     remoteName,
-                    `+refs/heads/${(_v = (_u = github.context.payload.pull_request) === null || _u === void 0 ? void 0 : _u.base) === null || _v === void 0 ? void 0 : _v.ref}:refs/remotes/${remoteName}/${(_x = (_w = github.context.payload.pull_request) === null || _w === void 0 ? void 0 : _w.base) === null || _x === void 0 ? void 0 : _x.ref}`
+                    `+refs/heads/${(_g = (_f = github.context.payload.pull_request) === null || _f === void 0 ? void 0 : _f.base) === null || _g === void 0 ? void 0 : _g.ref}:refs/remotes/${remoteName}/${(_j = (_h = github.context.payload.pull_request) === null || _h === void 0 ? void 0 : _h.base) === null || _j === void 0 ? void 0 : _j.ref}`
                 ]
             });
             if (diffSubmodule) {
-                yield (0, utils_1.gitFetchSubmodules)({
+                await (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -1185,7 +1138,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
         }
         else {
             if (diffSubmodule && inputs.fetchAdditionalSubmoduleHistory) {
-                yield (0, utils_1.gitFetchSubmodules)({
+                await (0, utils_1.gitFetchSubmodules)({
                     cwd: workingDirectory,
                     args: [
                         ...gitFetchExtraArgs,
@@ -1198,8 +1151,8 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
         }
         core.info('Completed fetching more history.');
     }
-    const currentSha = yield getCurrentSHA({ inputs, workingDirectory });
-    let previousSha = yield (0, utils_1.cleanShaInput)({
+    const currentSha = await getCurrentSHA({ inputs, workingDirectory });
+    let previousSha = await (0, utils_1.cleanShaInput)({
         sha: inputs.baseSha,
         cwd: workingDirectory,
         token: inputs.token
@@ -1220,7 +1173,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             diff
         };
     }
-    if (!((_z = (_y = github.context.payload.pull_request) === null || _y === void 0 ? void 0 : _y.base) === null || _z === void 0 ? void 0 : _z.ref)) {
+    if (!((_l = (_k = github.context.payload.pull_request) === null || _k === void 0 ? void 0 : _k.base) === null || _l === void 0 ? void 0 : _l.ref)) {
         diff = '..';
     }
     if (!previousSha || previousSha === currentSha) {
@@ -1228,13 +1181,13 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             previousSha = github.context.payload.before;
             if (!previousSha ||
                 (previousSha &&
-                    (yield (0, utils_1.verifyCommitSha)({
+                    (await (0, utils_1.verifyCommitSha)({
                         sha: previousSha,
                         cwd: workingDirectory,
                         showAsErrorMessage: false
                     })) !== 0)) {
                 core.info(`Unable to locate the previous commit in the local history for ${github.context.eventName} (${github.context.payload.action}) event. Falling back to the previous commit in the local history.`);
-                previousSha = yield (0, utils_1.getParentSha)({
+                previousSha = await (0, utils_1.getParentSha)({
                     cwd: workingDirectory
                 });
                 if (github.context.payload.action &&
@@ -1242,7 +1195,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                     previousSha &&
                     (!previousSha ||
                         (previousSha &&
-                            (yield (0, utils_1.verifyCommitSha)({
+                            (await (0, utils_1.verifyCommitSha)({
                                 sha: previousSha,
                                 cwd: workingDirectory,
                                 showAsErrorMessage: false
@@ -1251,7 +1204,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                 }
                 if (!previousSha ||
                     (previousSha &&
-                        (yield (0, utils_1.verifyCommitSha)({
+                        (await (0, utils_1.verifyCommitSha)({
                             sha: previousSha,
                             cwd: workingDirectory,
                             showAsErrorMessage: false
@@ -1261,16 +1214,16 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             }
         }
         else {
-            previousSha = (_1 = (_0 = github.context.payload.pull_request) === null || _0 === void 0 ? void 0 : _0.base) === null || _1 === void 0 ? void 0 : _1.sha;
+            previousSha = (_o = (_m = github.context.payload.pull_request) === null || _m === void 0 ? void 0 : _m.base) === null || _o === void 0 ? void 0 : _o.sha;
             if (!previousSha) {
-                previousSha = yield (0, utils_1.getRemoteBranchHeadSha)({
+                previousSha = await (0, utils_1.getRemoteBranchHeadSha)({
                     cwd: workingDirectory,
                     remoteName,
                     branch: targetBranch
                 });
             }
             if (isShallow) {
-                if (!(yield (0, utils_1.canDiffCommits)({
+                if (!(await (0, utils_1.canDiffCommits)({
                     cwd: workingDirectory,
                     sha1: previousSha,
                     sha2: currentSha,
@@ -1278,7 +1231,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                 }))) {
                     core.info('Merge base is not in the local history, fetching remote target branch...');
                     for (let i = 1; i <= (inputs.fetchMissingHistoryMaxRetries || 10); i++) {
-                        yield (0, utils_1.gitFetch)({
+                        await (0, utils_1.gitFetch)({
                             cwd: workingDirectory,
                             args: [
                                 ...gitFetchExtraArgs,
@@ -1289,7 +1242,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
                                 `+refs/heads/${targetBranch}:refs/remotes/${remoteName}/${targetBranch}`
                             ]
                         });
-                        if (yield (0, utils_1.canDiffCommits)({
+                        if (await (0, utils_1.canDiffCommits)({
                             cwd: workingDirectory,
                             sha1: previousSha,
                             sha2: currentSha,
@@ -1304,10 +1257,10 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
             }
         }
         if (!previousSha || previousSha === currentSha) {
-            previousSha = (_3 = (_2 = github.context.payload.pull_request) === null || _2 === void 0 ? void 0 : _2.base) === null || _3 === void 0 ? void 0 : _3.sha;
+            previousSha = (_q = (_p = github.context.payload.pull_request) === null || _p === void 0 ? void 0 : _p.base) === null || _q === void 0 ? void 0 : _q.sha;
         }
     }
-    if (!(yield (0, utils_1.canDiffCommits)({
+    if (!(await (0, utils_1.canDiffCommits)({
         cwd: workingDirectory,
         sha1: previousSha,
         sha2: currentSha,
@@ -1315,9 +1268,9 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
     }))) {
         diff = '..';
     }
-    yield (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
+    await (0, utils_1.verifyCommitSha)({ sha: previousSha, cwd: workingDirectory });
     core.debug(`Previous SHA: ${previousSha}`);
-    if (!(yield (0, utils_1.canDiffCommits)({
+    if (!(await (0, utils_1.canDiffCommits)({
         cwd: workingDirectory,
         sha1: previousSha,
         sha2: currentSha,
@@ -1355,7 +1308,7 @@ const getSHAForPullRequestEvent = (_o) => __awaiter(void 0, [_o], void 0, functi
         targetBranch,
         diff
     };
-});
+};
 exports.getSHAForPullRequestEvent = getSHAForPullRequestEvent;
 
 
@@ -1400,28 +1353,19 @@ exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
 /***/ }),
 
 /***/ 9763:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getEnv = void 0;
-const getEnv = () => __awaiter(void 0, void 0, void 0, function* () {
+const getEnv = async () => {
     return {
         GITHUB_REF_NAME: process.env.GITHUB_REF_NAME || '',
         GITHUB_REF: process.env.GITHUB_REF || '',
         GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE || ''
     };
-});
+};
 exports.getEnv = getEnv;
 
 
@@ -1703,20 +1647,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.run = void 0;
+exports.run = run;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const path_1 = __importDefault(__nccwpck_require__(1017));
@@ -1725,49 +1660,49 @@ const commitSha_1 = __nccwpck_require__(8613);
 const env_1 = __nccwpck_require__(9763);
 const inputs_1 = __nccwpck_require__(6180);
 const utils_1 = __nccwpck_require__(918);
-const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 0, function* ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) {
-    var _b, _c, _d;
-    yield (0, utils_1.verifyMinimumGitVersion)();
+const getChangedFilesFromLocalGitHistory = async ({ inputs, env, workingDirectory, filePatterns, yamlFilePatterns }) => {
+    var _a, _b, _c;
+    await (0, utils_1.verifyMinimumGitVersion)();
     let quotepathValue = 'on';
     if (!inputs.quotepath) {
         quotepathValue = 'off';
     }
-    yield (0, utils_1.updateGitGlobalConfig)({
+    await (0, utils_1.updateGitGlobalConfig)({
         name: 'core.quotepath',
         value: quotepathValue
     });
     if (inputs.diffRelative) {
-        yield (0, utils_1.updateGitGlobalConfig)({
+        await (0, utils_1.updateGitGlobalConfig)({
             name: 'diff.relative',
             value: 'true'
         });
     }
-    const isShallow = yield (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
+    const isShallow = await (0, utils_1.isRepoShallow)({ cwd: workingDirectory });
     let diffSubmodule = false;
     let gitFetchExtraArgs = ['--no-tags', '--prune'];
     if (inputs.excludeSubmodules) {
         core.info('Excluding submodules from the diff');
     }
     else {
-        diffSubmodule = yield (0, utils_1.submoduleExists)({ cwd: workingDirectory });
+        diffSubmodule = await (0, utils_1.submoduleExists)({ cwd: workingDirectory });
     }
     if (diffSubmodule) {
         gitFetchExtraArgs.push('--recurse-submodules');
     }
-    const isTag = (_b = env.GITHUB_REF) === null || _b === void 0 ? void 0 : _b.startsWith('refs/tags/');
+    const isTag = (_a = env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.startsWith('refs/tags/');
     const remoteName = 'origin';
     const outputRenamedFilesAsDeletedAndAdded = inputs.outputRenamedFilesAsDeletedAndAdded;
     let submodulePaths = [];
     if (diffSubmodule) {
-        submodulePaths = yield (0, utils_1.getSubmodulePath)({ cwd: workingDirectory });
+        submodulePaths = await (0, utils_1.getSubmodulePath)({ cwd: workingDirectory });
     }
     if (isTag) {
         gitFetchExtraArgs = ['--prune', '--no-recurse-submodules'];
     }
     let diffResult;
-    if (!((_d = (_c = github.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.base) === null || _d === void 0 ? void 0 : _d.ref)) {
+    if (!((_c = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.base) === null || _c === void 0 ? void 0 : _c.ref)) {
         core.info(`Running on a ${github.context.eventName || 'push'} event...`);
-        diffResult = yield (0, commitSha_1.getSHAForNonPullRequestEvent)({
+        diffResult = await (0, commitSha_1.getSHAForNonPullRequestEvent)({
             inputs,
             env,
             workingDirectory,
@@ -1780,7 +1715,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
     }
     else {
         core.info(`Running on a ${github.context.eventName || 'pull_request'} (${github.context.payload.action}) event...`);
-        diffResult = yield (0, commitSha_1.getSHAForPullRequestEvent)({
+        diffResult = await (0, commitSha_1.getSHAForPullRequestEvent)({
             inputs,
             workingDirectory,
             isShallow,
@@ -1795,7 +1730,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
         return;
     }
     core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
-    const allDiffFiles = yield (0, changedFiles_1.getAllDiffFiles)({
+    const allDiffFiles = await (0, changedFiles_1.getAllDiffFiles)({
         workingDirectory,
         diffSubmodule,
         diffResult,
@@ -1814,7 +1749,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             core.info('No recover patterns found; defaulting to file patterns');
             recoverPatterns = filePatterns;
         }
-        yield (0, utils_1.recoverDeletedFiles)({
+        await (0, utils_1.recoverDeletedFiles)({
             inputs,
             workingDirectory,
             deletedFiles: allDiffFiles[changedFiles_1.ChangeTypeEnum.Deleted],
@@ -1824,7 +1759,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             submodulePaths
         });
     }
-    yield (0, changedFiles_1.processChangedFiles)({
+    await (0, changedFiles_1.processChangedFiles)({
         filePatterns,
         allDiffFiles,
         inputs,
@@ -1833,7 +1768,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
     });
     if (inputs.includeAllOldNewRenamedFiles) {
         core.startGroup('changed-files-all-old-new-renamed-files');
-        const allOldNewRenamedFiles = yield (0, changedFiles_1.getRenamedFiles)({
+        const allOldNewRenamedFiles = await (0, changedFiles_1.getRenamedFiles)({
             inputs,
             workingDirectory,
             diffSubmodule,
@@ -1841,7 +1776,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             submodulePaths
         });
         core.debug(`All old new renamed files: ${allOldNewRenamedFiles}`);
-        yield (0, utils_1.setOutput)({
+        await (0, utils_1.setOutput)({
             key: 'all_old_new_renamed_files',
             value: allOldNewRenamedFiles.paths,
             writeOutputFiles: inputs.writeOutputFiles,
@@ -1849,7 +1784,7 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
             json: inputs.json,
             safeOutput: inputs.safeOutput
         });
-        yield (0, utils_1.setOutput)({
+        await (0, utils_1.setOutput)({
             key: 'all_old_new_renamed_files_count',
             value: allOldNewRenamedFiles.count,
             writeOutputFiles: inputs.writeOutputFiles,
@@ -1859,72 +1794,69 @@ const getChangedFilesFromLocalGitHistory = (_a) => __awaiter(void 0, [_a], void 
         core.info('All Done!');
         core.endGroup();
     }
-});
-const getChangedFilesFromRESTAPI = (_e) => __awaiter(void 0, [_e], void 0, function* ({ inputs, filePatterns, yamlFilePatterns }) {
-    const allDiffFiles = yield (0, changedFiles_1.getChangedFilesFromGithubAPI)({
+};
+const getChangedFilesFromRESTAPI = async ({ inputs, filePatterns, yamlFilePatterns }) => {
+    const allDiffFiles = await (0, changedFiles_1.getChangedFilesFromGithubAPI)({
         inputs
     });
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
-    yield (0, changedFiles_1.processChangedFiles)({
+    await (0, changedFiles_1.processChangedFiles)({
         filePatterns,
         allDiffFiles,
         inputs,
         yamlFilePatterns
     });
-});
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b;
-        core.startGroup('changed-files');
-        const env = yield (0, env_1.getEnv)();
-        core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
-        const inputs = (0, inputs_1.getInputs)();
-        core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
-        const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.useRestApi ? '.' : inputs.path);
-        core.debug(`Working directory: ${workingDirectory}`);
-        const hasGitDirectory = yield (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
-        core.debug(`Has git directory: ${hasGitDirectory}`);
-        const filePatterns = yield (0, utils_1.getFilePatterns)({
-            inputs,
-            workingDirectory
-        });
-        core.debug(`File patterns: ${filePatterns}`);
-        const yamlFilePatterns = yield (0, utils_1.getYamlFilePatterns)({
-            inputs,
-            workingDirectory
-        });
-        core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
-        if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
-            throw new Error("Only pull_request* events are supported when using GitHub's REST API.");
-        }
-        if (inputs.token &&
-            ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
-            (!hasGitDirectory || inputs.useRestApi)) {
-            core.info("Using GitHub's REST API to get changed files");
-            yield (0, utils_1.warnUnsupportedRESTAPIInputs)({ inputs });
-            yield getChangedFilesFromRESTAPI({
-                inputs,
-                filePatterns,
-                yamlFilePatterns
-            });
-        }
-        else {
-            if (!hasGitDirectory) {
-                throw new Error(`Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`);
-            }
-            core.info('Using local .git directory');
-            yield getChangedFilesFromLocalGitHistory({
-                inputs,
-                env,
-                workingDirectory,
-                filePatterns,
-                yamlFilePatterns
-            });
-        }
+};
+async function run() {
+    var _a, _b;
+    core.startGroup('changed-files');
+    const env = await (0, env_1.getEnv)();
+    core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
+    const inputs = (0, inputs_1.getInputs)();
+    core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
+    const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.useRestApi ? '.' : inputs.path);
+    core.debug(`Working directory: ${workingDirectory}`);
+    const hasGitDirectory = await (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
+    core.debug(`Has git directory: ${hasGitDirectory}`);
+    const filePatterns = await (0, utils_1.getFilePatterns)({
+        inputs,
+        workingDirectory
     });
+    core.debug(`File patterns: ${filePatterns}`);
+    const yamlFilePatterns = await (0, utils_1.getYamlFilePatterns)({
+        inputs,
+        workingDirectory
+    });
+    core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+    if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
+        throw new Error("Only pull_request* events are supported when using GitHub's REST API.");
+    }
+    if (inputs.token &&
+        ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
+        (!hasGitDirectory || inputs.useRestApi)) {
+        core.info("Using GitHub's REST API to get changed files");
+        await (0, utils_1.warnUnsupportedRESTAPIInputs)({ inputs });
+        await getChangedFilesFromRESTAPI({
+            inputs,
+            filePatterns,
+            yamlFilePatterns
+        });
+    }
+    else {
+        if (!hasGitDirectory) {
+            throw new Error(`Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`);
+        }
+        core.info('Using local .git directory');
+        await getChangedFilesFromLocalGitHistory({
+            inputs,
+            env,
+            workingDirectory,
+            filePatterns,
+            yamlFilePatterns
+        });
+    }
 }
-exports.run = run;
 // eslint-disable-next-line github/no-then
 run().catch(e => {
     core.setFailed(e.message || e);
@@ -1961,35 +1893,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
-var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
-var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
-    function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 };
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -2100,8 +2003,8 @@ const versionToNumber = (version) => {
  * @throws Git is not found in PATH
  * @throws An unexpected error occurred
  */
-const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['--version'], { silent: !core.isDebug() });
+const verifyMinimumGitVersion = async () => {
+    const { exitCode, stdout, stderr } = await exec.getExecOutput('git', ['--version'], { silent: !core.isDebug() });
     if (exitCode !== 0) {
         throw new Error(stderr || 'An unexpected error occurred');
     }
@@ -2109,104 +2012,76 @@ const verifyMinimumGitVersion = () => __awaiter(void 0, void 0, void 0, function
     if (versionToNumber(gitVersion) < versionToNumber(MINIMUM_GIT_VERSION)) {
         throw new Error(`Minimum required git version is ${MINIMUM_GIT_VERSION}, your version is ${gitVersion}`);
     }
-});
+};
 exports.verifyMinimumGitVersion = verifyMinimumGitVersion;
 /**
  * Checks if a path exists
  * @param filePath - path to check
  * @returns path exists
  */
-const exists = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
+const exists = async (filePath) => {
     try {
-        yield fs_1.promises.access(filePath);
+        await fs_1.promises.access(filePath);
         return true;
     }
     catch (_a) {
         return false;
     }
-});
+};
 exports.exists = exists;
 /**
  * Generates lines of a file as an async iterable iterator
  * @param filePath - path of file to read
  * @param excludedFiles - whether to exclude files
  */
-function lineOfFileGenerator(_a) {
-    return __asyncGenerator(this, arguments, function* lineOfFileGenerator_1({ filePath, excludedFiles }) {
-        var _b, e_1, _c, _d;
-        const fileStream = (0, fs_1.createReadStream)(filePath);
-        /* istanbul ignore next */
-        fileStream.on('error', error => {
-            throw error;
-        });
-        const rl = (0, readline_1.createInterface)({
-            input: fileStream,
-            crlfDelay: Infinity
-        });
-        try {
-            for (var _e = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield __await(rl_1.next()), _b = rl_1_1.done, !_b; _e = true) {
-                _d = rl_1_1.value;
-                _e = false;
-                let line = _d;
-                if (!line.startsWith('#') && line !== '') {
-                    if (excludedFiles) {
-                        line = line.startsWith('!') ? line : `!${line}`;
-                        if (line.endsWith(path.sep)) {
-                            line = `${line}**`;
-                        }
-                        yield yield __await(line);
-                    }
-                    else {
-                        line = line.endsWith(path.sep) ? `${line}**` : line;
-                        yield yield __await(line);
-                    }
-                }
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (!_e && !_b && (_c = rl_1.return)) yield __await(_c.call(rl_1));
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
+async function* lineOfFileGenerator({ filePath, excludedFiles }) {
+    const fileStream = (0, fs_1.createReadStream)(filePath);
+    /* istanbul ignore next */
+    fileStream.on('error', error => {
+        throw error;
     });
+    const rl = (0, readline_1.createInterface)({
+        input: fileStream,
+        crlfDelay: Infinity
+    });
+    for await (let line of rl) {
+        if (!line.startsWith('#') && line !== '') {
+            if (excludedFiles) {
+                line = line.startsWith('!') ? line : `!${line}`;
+                if (line.endsWith(path.sep)) {
+                    line = `${line}**`;
+                }
+                yield line;
+            }
+            else {
+                line = line.endsWith(path.sep) ? `${line}**` : line;
+                yield line;
+            }
+        }
+    }
 }
 /**
  * Gets the file patterns from a source file
  * @param filePaths - paths of files to read
  * @param excludedFiles - whether to exclude the file patterns
  */
-const getFilesFromSourceFile = (_b) => __awaiter(void 0, [_b], void 0, function* ({ filePaths, excludedFiles = false }) {
-    var _c, e_2, _d, _e;
+const getFilesFromSourceFile = async ({ filePaths, excludedFiles = false }) => {
     const lines = [];
     for (const filePath of filePaths) {
-        try {
-            for (var _f = true, _g = (e_2 = void 0, __asyncValues(lineOfFileGenerator({ filePath, excludedFiles }))), _h; _h = yield _g.next(), _c = _h.done, !_c; _f = true) {
-                _e = _h.value;
-                _f = false;
-                const line = _e;
-                lines.push(line);
-            }
-        }
-        catch (e_2_1) { e_2 = { error: e_2_1 }; }
-        finally {
-            try {
-                if (!_f && !_c && (_d = _g.return)) yield _d.call(_g);
-            }
-            finally { if (e_2) throw e_2.error; }
+        for await (const line of lineOfFileGenerator({ filePath, excludedFiles })) {
+            lines.push(line);
         }
     }
     return lines;
-});
+};
 /**
  * Sets the global git configs
  * @param name - name of config
  * @param value - value of config
  * @throws Couldn't update git global config
  */
-const updateGitGlobalConfig = (_j) => __awaiter(void 0, [_j], void 0, function* ({ name, value }) {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['config', '--global', name, value], {
+const updateGitGlobalConfig = async ({ name, value }) => {
+    const { exitCode, stderr } = await exec.getExecOutput('git', ['config', '--global', name, value], {
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
@@ -2214,28 +2089,28 @@ const updateGitGlobalConfig = (_j) => __awaiter(void 0, [_j], void 0, function* 
     if (exitCode !== 0 || stderr) {
         core.warning(stderr || `Couldn't update git global config ${name}`);
     }
-});
+};
 exports.updateGitGlobalConfig = updateGitGlobalConfig;
 /**
  * Checks if a git repository is shallow
  * @param cwd - working directory
  * @returns repository is shallow
  */
-const isRepoShallow = (_k) => __awaiter(void 0, [_k], void 0, function* ({ cwd }) {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
+const isRepoShallow = async ({ cwd }) => {
+    const { stdout } = await exec.getExecOutput('git', ['rev-parse', '--is-shallow-repository'], {
         cwd,
         silent: !core.isDebug()
     });
     return stdout.trim() === 'true';
-});
+};
 exports.isRepoShallow = isRepoShallow;
 /**
  * Checks if a submodule exists
  * @param cwd - working directory
  * @returns submodule exists
  */
-const submoduleExists = (_l) => __awaiter(void 0, [_l], void 0, function* ({ cwd }) {
-    const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
+const submoduleExists = async ({ cwd }) => {
+    const { stdout, exitCode, stderr } = await exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2245,7 +2120,7 @@ const submoduleExists = (_l) => __awaiter(void 0, [_l], void 0, function* ({ cwd
         return false;
     }
     return stdout.trim() !== '';
-});
+};
 exports.submoduleExists = submoduleExists;
 /**
  * Fetches the git repository
@@ -2253,22 +2128,22 @@ exports.submoduleExists = submoduleExists;
  * @param cwd - working directory
  * @returns exit code
  */
-const gitFetch = (_m) => __awaiter(void 0, [_m], void 0, function* ({ args, cwd }) {
-    const { exitCode } = yield exec.getExecOutput('git', ['fetch', '-q', ...args], {
+const gitFetch = async ({ args, cwd }) => {
+    const { exitCode } = await exec.getExecOutput('git', ['fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
     return exitCode;
-});
+};
 exports.gitFetch = gitFetch;
 /**
  * Fetches the git repository submodules
  * @param args - arguments for fetch command
  * @param cwd - working directory
  */
-const gitFetchSubmodules = (_o) => __awaiter(void 0, [_o], void 0, function* ({ args, cwd }) {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
+const gitFetchSubmodules = async ({ args, cwd }) => {
+    const { exitCode, stderr } = await exec.getExecOutput('git', ['submodule', 'foreach', 'git', 'fetch', '-q', ...args], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2277,15 +2152,15 @@ const gitFetchSubmodules = (_o) => __awaiter(void 0, [_o], void 0, function* ({ 
     if (exitCode !== 0) {
         core.warning(stderr || "Couldn't fetch submodules");
     }
-});
+};
 exports.gitFetchSubmodules = gitFetchSubmodules;
 /**
  * Retrieves all the submodule paths
  * @param cwd - working directory
  * @returns submodule paths
  */
-const getSubmodulePath = (_p) => __awaiter(void 0, [_p], void 0, function* ({ cwd }) {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', ['submodule', 'status'], {
+const getSubmodulePath = async ({ cwd }) => {
+    const { exitCode, stdout, stderr } = await exec.getExecOutput('git', ['submodule', 'status'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2298,7 +2173,7 @@ const getSubmodulePath = (_p) => __awaiter(void 0, [_p], void 0, function* ({ cw
         .trim()
         .split('\n')
         .map((line) => (0, exports.normalizeSeparators)(line.trim().split(' ')[1]));
-});
+};
 exports.getSubmodulePath = getSubmodulePath;
 /**
  * Retrieves commit sha of a submodule from a parent commit
@@ -2309,26 +2184,26 @@ exports.getSubmodulePath = getSubmodulePath;
  * @param diff - diff type between parent commits (`..` or `...`)
  * @returns commit sha of submodule
  */
-const gitSubmoduleDiffSHA = (_q) => __awaiter(void 0, [_q], void 0, function* ({ cwd, parentSha1, parentSha2, submodulePath, diff }) {
-    var _r, _s, _t, _u;
-    const { stdout } = yield exec.getExecOutput('git', ['diff', `${parentSha1}${diff}${parentSha2}`, '--', submodulePath], {
+const gitSubmoduleDiffSHA = async ({ cwd, parentSha1, parentSha2, submodulePath, diff }) => {
+    var _a, _b, _c, _d;
+    const { stdout } = await exec.getExecOutput('git', ['diff', `${parentSha1}${diff}${parentSha2}`, '--', submodulePath], {
         cwd,
         silent: !core.isDebug()
     });
     const subprojectCommitPreRegex = /^(?<preCommit>-)Subproject commit (?<commitHash>.+)$/m;
     const subprojectCommitCurRegex = /^(?<curCommit>\+)Subproject commit (?<commitHash>.+)$/m;
-    const previousSha = ((_s = (_r = subprojectCommitPreRegex.exec(stdout)) === null || _r === void 0 ? void 0 : _r.groups) === null || _s === void 0 ? void 0 : _s.commitHash) ||
+    const previousSha = ((_b = (_a = subprojectCommitPreRegex.exec(stdout)) === null || _a === void 0 ? void 0 : _a.groups) === null || _b === void 0 ? void 0 : _b.commitHash) ||
         '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
-    const currentSha = (_u = (_t = subprojectCommitCurRegex.exec(stdout)) === null || _t === void 0 ? void 0 : _t.groups) === null || _u === void 0 ? void 0 : _u.commitHash;
+    const currentSha = (_d = (_c = subprojectCommitCurRegex.exec(stdout)) === null || _c === void 0 ? void 0 : _c.groups) === null || _d === void 0 ? void 0 : _d.commitHash;
     if (currentSha) {
         return { previousSha, currentSha };
     }
     core.debug(`No submodule commit found for ${submodulePath} between ${parentSha1}${diff}${parentSha2}`);
     return {};
-});
+};
 exports.gitSubmoduleDiffSHA = gitSubmoduleDiffSHA;
-const gitRenamedFiles = (_v) => __awaiter(void 0, [_v], void 0, function* ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false, parentDir = '' }) {
-    const { exitCode, stderr, stdout } = yield exec.getExecOutput('git', [
+const gitRenamedFiles = async ({ cwd, sha1, sha2, diff, oldNewSeparator, isSubmodule = false, parentDir = '' }) => {
+    const { exitCode, stderr, stdout } = await exec.getExecOutput('git', [
         'diff',
         '--name-status',
         '--ignore-submodules=all',
@@ -2363,7 +2238,7 @@ const gitRenamedFiles = (_v) => __awaiter(void 0, [_v], void 0, function* ({ cwd
         }
         return `${(0, exports.normalizeSeparators)(oldPath)}${oldNewSeparator}${(0, exports.normalizeSeparators)(newPath)}`;
     });
-});
+};
 exports.gitRenamedFiles = gitRenamedFiles;
 /**
  * Retrieves all the changed files between two commits
@@ -2377,8 +2252,8 @@ exports.gitRenamedFiles = gitRenamedFiles;
  * @param failOnInitialDiffError - fail if the initial diff fails
  * @param failOnSubmoduleDiffError - fail if the submodule diff fails
  */
-const getAllChangedFiles = (_w) => __awaiter(void 0, [_w], void 0, function* ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false, failOnInitialDiffError = false, failOnSubmoduleDiffError = false }) {
-    const { exitCode, stdout, stderr } = yield exec.getExecOutput('git', [
+const getAllChangedFiles = async ({ cwd, sha1, sha2, diff, isSubmodule = false, parentDir = '', outputRenamedFilesAsDeletedAndAdded = false, failOnInitialDiffError = false, failOnSubmoduleDiffError = false }) => {
+    const { exitCode, stdout, stderr } = await exec.getExecOutput('git', [
         'diff',
         '--name-status',
         '--ignore-submodules=all',
@@ -2441,14 +2316,14 @@ const getAllChangedFiles = (_w) => __awaiter(void 0, [_w], void 0, function* ({ 
         }
     }
     return changedFiles;
-});
+};
 exports.getAllChangedFiles = getAllChangedFiles;
 /**
  * Filters the changed files by the file patterns
  * @param allDiffFiles - all the changed files
  * @param filePatterns - file patterns to filter by
  */
-const getFilteredChangedFiles = (_x) => __awaiter(void 0, [_x], void 0, function* ({ allDiffFiles, filePatterns }) {
+const getFilteredChangedFiles = async ({ allDiffFiles, filePatterns }) => {
     const changedFiles = {
         [changedFiles_1.ChangeTypeEnum.Added]: [],
         [changedFiles_1.ChangeTypeEnum.Copied]: [],
@@ -2475,43 +2350,43 @@ const getFilteredChangedFiles = (_x) => __awaiter(void 0, [_x], void 0, function
         }
     }
     return changedFiles;
-});
+};
 exports.getFilteredChangedFiles = getFilteredChangedFiles;
-const gitLog = (_y) => __awaiter(void 0, [_y], void 0, function* ({ args, cwd }) {
-    const { stdout } = yield exec.getExecOutput('git', ['log', ...args], {
+const gitLog = async ({ args, cwd }) => {
+    const { stdout } = await exec.getExecOutput('git', ['log', ...args], {
         cwd,
         silent: !core.isDebug()
     });
     return stdout.trim();
-});
+};
 exports.gitLog = gitLog;
-const getHeadSha = (_z) => __awaiter(void 0, [_z], void 0, function* ({ cwd }) {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
+const getHeadSha = async ({ cwd }) => {
+    const { stdout } = await exec.getExecOutput('git', ['rev-parse', 'HEAD'], {
         cwd,
         silent: !core.isDebug()
     });
     return stdout.trim();
-});
+};
 exports.getHeadSha = getHeadSha;
-const isInsideWorkTree = (_0) => __awaiter(void 0, [_0], void 0, function* ({ cwd }) {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', '--is-inside-work-tree'], {
+const isInsideWorkTree = async ({ cwd }) => {
+    const { stdout } = await exec.getExecOutput('git', ['rev-parse', '--is-inside-work-tree'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
     });
     return stdout.trim() === 'true';
-});
+};
 exports.isInsideWorkTree = isInsideWorkTree;
-const getRemoteBranchHeadSha = (_1) => __awaiter(void 0, [_1], void 0, function* ({ cwd, branch, remoteName }) {
-    const { stdout } = yield exec.getExecOutput('git', ['rev-parse', `${remoteName}/${branch}`], {
+const getRemoteBranchHeadSha = async ({ cwd, branch, remoteName }) => {
+    const { stdout } = await exec.getExecOutput('git', ['rev-parse', `${remoteName}/${branch}`], {
         cwd,
         silent: !core.isDebug()
     });
     return stdout.trim();
-});
+};
 exports.getRemoteBranchHeadSha = getRemoteBranchHeadSha;
-const getCurrentBranchName = (_2) => __awaiter(void 0, [_2], void 0, function* ({ cwd }) {
-    const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+const getCurrentBranchName = async ({ cwd }) => {
+    const { stdout, exitCode } = await exec.getExecOutput('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2520,10 +2395,10 @@ const getCurrentBranchName = (_2) => __awaiter(void 0, [_2], void 0, function* (
         return '';
     }
     return stdout.trim();
-});
+};
 exports.getCurrentBranchName = getCurrentBranchName;
-const getParentSha = (_3) => __awaiter(void 0, [_3], void 0, function* ({ cwd }) {
-    const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
+const getParentSha = async ({ cwd }) => {
+    const { stdout, exitCode } = await exec.getExecOutput('git', ['rev-list', '-n', '1', 'HEAD^'], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2532,10 +2407,10 @@ const getParentSha = (_3) => __awaiter(void 0, [_3], void 0, function* ({ cwd })
         return '';
     }
     return stdout.trim();
-});
+};
 exports.getParentSha = getParentSha;
-const verifyCommitSha = (_4) => __awaiter(void 0, [_4], void 0, function* ({ sha, cwd, showAsErrorMessage = true }) {
-    const { exitCode, stderr } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
+const verifyCommitSha = async ({ sha, cwd, showAsErrorMessage = true }) => {
+    const { exitCode, stderr } = await exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2552,7 +2427,7 @@ const verifyCommitSha = (_4) => __awaiter(void 0, [_4], void 0, function* ({ sha
         }
     }
     return exitCode;
-});
+};
 exports.verifyCommitSha = verifyCommitSha;
 /**
  * Clean the sha from the input which could be a branch name or a commit sha.
@@ -2566,13 +2441,13 @@ exports.verifyCommitSha = verifyCommitSha;
  * @param token The GitHub token.
  * @returns The cleaned SHA string.
  */
-const cleanShaInput = (_5) => __awaiter(void 0, [_5], void 0, function* ({ sha, cwd, token }) {
+const cleanShaInput = async ({ sha, cwd, token }) => {
     // Check if the input is a valid commit sha
     if (!sha) {
         return sha;
     }
     // Check if the input is a valid commit sha
-    const { stdout, exitCode } = yield exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
+    const { stdout, exitCode } = await exec.getExecOutput('git', ['rev-parse', '--verify', `${sha}^{commit}`], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2580,7 +2455,7 @@ const cleanShaInput = (_5) => __awaiter(void 0, [_5], void 0, function* ({ sha, 
     if (exitCode !== 0) {
         const octokit = github.getOctokit(token);
         // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
-        const { data: refData } = yield octokit.rest.git.getRef({
+        const { data: refData } = await octokit.rest.git.getRef({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             ref: `heads/${sha}`
@@ -2588,12 +2463,12 @@ const cleanShaInput = (_5) => __awaiter(void 0, [_5], void 0, function* ({ sha, 
         return refData.object.sha;
     }
     return stdout.trim();
-});
+};
 exports.cleanShaInput = cleanShaInput;
-const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ cwd, tagsPattern, currentBranch, tagsIgnorePattern }) {
+const getPreviousGitTag = async ({ cwd, tagsPattern, currentBranch, tagsIgnorePattern }) => {
     const ignorePatterns = [];
     let currentShaDate = null;
-    const { stdout } = yield exec.getExecOutput('git', [
+    const { stdout } = await exec.getExecOutput('git', [
         'tag',
         '--sort=-creatordate',
         '--format=%(refname:short)|%(objectname)|%(creatordate:iso)'
@@ -2607,7 +2482,7 @@ const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ c
     if (currentBranch) {
         ignorePatterns.push(currentBranch);
         try {
-            const { stdout: currentShaDateOutput } = yield exec.getExecOutput('git', ['show', '-s', '--format=%ai', currentBranch], {
+            const { stdout: currentShaDateOutput } = await exec.getExecOutput('git', ['show', '-s', '--format=%ai', currentBranch], {
                 cwd,
                 silent: !core.isDebug()
             });
@@ -2639,16 +2514,16 @@ const getPreviousGitTag = (_6) => __awaiter(void 0, [_6], void 0, function* ({ c
         core.warning('No previous tag found');
     }
     return previousTag;
-});
+};
 exports.getPreviousGitTag = getPreviousGitTag;
-const canDiffCommits = (_7) => __awaiter(void 0, [_7], void 0, function* ({ cwd, sha1, sha2, diff }) {
+const canDiffCommits = async ({ cwd, sha1, sha2, diff }) => {
     if (diff === '...') {
-        const mergeBase = yield getMergeBase(cwd, sha1, sha2);
+        const mergeBase = await getMergeBase(cwd, sha1, sha2);
         if (!mergeBase) {
             core.warning(`Unable to find merge base between ${sha1} and ${sha2}`);
             return false;
         }
-        const { exitCode, stderr } = yield exec.getExecOutput('git', ['log', '--format=%H', `${mergeBase}..${sha2}`], {
+        const { exitCode, stderr } = await exec.getExecOutput('git', ['log', '--format=%H', `${mergeBase}..${sha2}`], {
             cwd,
             ignoreReturnCode: true,
             silent: !core.isDebug()
@@ -2660,7 +2535,7 @@ const canDiffCommits = (_7) => __awaiter(void 0, [_7], void 0, function* ({ cwd,
         return true;
     }
     else {
-        const { exitCode, stderr } = yield exec.getExecOutput('git', ['diff', '--no-patch', sha1, sha2], {
+        const { exitCode, stderr } = await exec.getExecOutput('git', ['diff', '--no-patch', sha1, sha2], {
             cwd,
             ignoreReturnCode: true,
             silent: !core.isDebug()
@@ -2671,10 +2546,10 @@ const canDiffCommits = (_7) => __awaiter(void 0, [_7], void 0, function* ({ cwd,
         }
         return true;
     }
-});
+};
 exports.canDiffCommits = canDiffCommits;
-const getMergeBase = (cwd, sha1, sha2) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exitCode, stdout } = yield exec.getExecOutput('git', ['merge-base', sha1, sha2], {
+const getMergeBase = async (cwd, sha1, sha2) => {
+    const { exitCode, stdout } = await exec.getExecOutput('git', ['merge-base', sha1, sha2], {
         cwd,
         ignoreReturnCode: true,
         silent: !core.isDebug()
@@ -2683,7 +2558,7 @@ const getMergeBase = (cwd, sha1, sha2) => __awaiter(void 0, void 0, void 0, func
         return null;
     }
     return stdout.trim();
-});
+};
 const getDirnameMaxDepth = ({ relativePath, dirNamesMaxDepth, excludeCurrentDir }) => {
     const pathArr = (0, exports.getDirname)(relativePath).split(path.sep);
     const maxDepth = Math.min(dirNamesMaxDepth || pathArr.length, pathArr.length);
@@ -2708,7 +2583,7 @@ const getDirNamesIncludeFilesPattern = ({ inputs }) => {
         .filter(Boolean);
 };
 exports.getDirNamesIncludeFilesPattern = getDirNamesIncludeFilesPattern;
-const getFilePatterns = (_8) => __awaiter(void 0, [_8], void 0, function* ({ inputs, workingDirectory }) {
+const getFilePatterns = async ({ inputs, workingDirectory }) => {
     let cleanedFilePatterns = [];
     if (inputs.files) {
         const filesPatterns = inputs.files
@@ -2724,7 +2599,7 @@ const getFilePatterns = (_8) => __awaiter(void 0, [_8], void 0, function* ({ inp
             .filter(Boolean)
             .map(p => path.join(workingDirectory, p));
         core.debug(`files from source file: ${inputFilesFromSourceFile}`);
-        const filesFromSourceFiles = yield getFilesFromSourceFile({
+        const filesFromSourceFiles = await getFilesFromSourceFile({
             filePaths: inputFilesFromSourceFile
         });
         core.debug(`files from source files patterns: ${filesFromSourceFiles.join('\n')}`);
@@ -2750,7 +2625,7 @@ const getFilePatterns = (_8) => __awaiter(void 0, [_8], void 0, function* ({ inp
             .filter(Boolean)
             .map(p => path.join(workingDirectory, p));
         core.debug(`files ignore from source file: ${inputFilesIgnoreFromSourceFile}`);
-        const filesIgnoreFromSourceFiles = yield getFilesFromSourceFile({
+        const filesIgnoreFromSourceFiles = await getFilesFromSourceFile({
             filePaths: inputFilesIgnoreFromSourceFile,
             excludedFiles: true
         });
@@ -2773,17 +2648,17 @@ const getFilePatterns = (_8) => __awaiter(void 0, [_8], void 0, function* ({ inp
     }
     core.debug(`Input file patterns: \n${cleanedFilePatterns.join('\n')}`);
     return cleanedFilePatterns;
-});
+};
 exports.getFilePatterns = getFilePatterns;
-const getYamlFilePatternsFromContents = (_9) => __awaiter(void 0, [_9], void 0, function* ({ content = '', filePath = '', excludedFiles = false }) {
+const getYamlFilePatternsFromContents = async ({ content = '', filePath = '', excludedFiles = false }) => {
     const filePatterns = {};
     let source = '';
     if (filePath) {
-        if (!(yield (0, exports.exists)(filePath))) {
+        if (!(await (0, exports.exists)(filePath))) {
             core.error(`File does not exist: ${filePath}`);
             throw new Error(`File does not exist: ${filePath}`);
         }
-        source = yield fs_1.promises.readFile(filePath, 'utf8');
+        source = await fs_1.promises.readFile(filePath, 'utf8');
     }
     else {
         source = content;
@@ -2831,11 +2706,13 @@ const getYamlFilePatternsFromContents = (_9) => __awaiter(void 0, [_9], void 0, 
         }
     }
     return filePatterns;
-});
-const getYamlFilePatterns = (_10) => __awaiter(void 0, [_10], void 0, function* ({ inputs, workingDirectory }) {
+};
+const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
     let filePatterns = {};
     if (inputs.filesYaml) {
-        filePatterns = Object.assign({}, (yield getYamlFilePatternsFromContents({ content: inputs.filesYaml })));
+        filePatterns = {
+            ...(await getYamlFilePatternsFromContents({ content: inputs.filesYaml }))
+        };
     }
     if (inputs.filesYamlFromSourceFile) {
         const inputFilesYamlFromSourceFile = inputs.filesYamlFromSourceFile
@@ -2844,17 +2721,20 @@ const getYamlFilePatterns = (_10) => __awaiter(void 0, [_10], void 0, function* 
             .map(p => path.join(workingDirectory, p));
         core.debug(`files yaml from source file: ${inputFilesYamlFromSourceFile}`);
         for (const filePath of inputFilesYamlFromSourceFile) {
-            const newFilePatterns = yield getYamlFilePatternsFromContents({ filePath });
+            const newFilePatterns = await getYamlFilePatternsFromContents({ filePath });
             for (const key in newFilePatterns) {
                 if (key in filePatterns) {
                     core.warning(`files_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newFilePatterns[key]}.`);
                 }
             }
-            filePatterns = Object.assign(Object.assign({}, filePatterns), newFilePatterns);
+            filePatterns = {
+                ...filePatterns,
+                ...newFilePatterns
+            };
         }
     }
     if (inputs.filesIgnoreYaml) {
-        const newIgnoreFilePatterns = yield getYamlFilePatternsFromContents({
+        const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
             content: inputs.filesIgnoreYaml,
             excludedFiles: true
         });
@@ -2871,7 +2751,7 @@ const getYamlFilePatterns = (_10) => __awaiter(void 0, [_10], void 0, function* 
             .map(p => path.join(workingDirectory, p));
         core.debug(`files ignore yaml from source file: ${inputFilesIgnoreYamlFromSourceFile}`);
         for (const filePath of inputFilesIgnoreYamlFromSourceFile) {
-            const newIgnoreFilePatterns = yield getYamlFilePatternsFromContents({
+            const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
                 filePath,
                 excludedFiles: true
             });
@@ -2880,11 +2760,14 @@ const getYamlFilePatterns = (_10) => __awaiter(void 0, [_10], void 0, function* 
                     core.warning(`files_ignore_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`);
                 }
             }
-            filePatterns = Object.assign(Object.assign({}, filePatterns), newIgnoreFilePatterns);
+            filePatterns = {
+                ...filePatterns,
+                ...newIgnoreFilePatterns
+            };
         }
     }
     return filePatterns;
-});
+};
 exports.getYamlFilePatterns = getYamlFilePatterns;
 const getRecoverFilePatterns = ({ inputs }) => {
     let filePatterns = inputs.recoverFiles.split(inputs.recoverFilesSeparator);
@@ -2907,9 +2790,9 @@ const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
 exports.getOutputKey = getOutputKey;
-const setArrayOutput = (_11) => __awaiter(void 0, [_11], void 0, function* ({ key, inputs, value, outputPrefix }) {
+const setArrayOutput = async ({ key, inputs, value, outputPrefix }) => {
     core.debug(`${key}: ${JSON.stringify(value)}`);
-    yield (0, exports.setOutput)({
+    await (0, exports.setOutput)({
         key: outputPrefix ? (0, exports.getOutputKey)(key, outputPrefix) : key,
         value: inputs.json ? value : value.join(inputs.separator),
         writeOutputFiles: inputs.writeOutputFiles,
@@ -2918,9 +2801,9 @@ const setArrayOutput = (_11) => __awaiter(void 0, [_11], void 0, function* ({ ke
         shouldEscape: inputs.escapeJson,
         safeOutput: inputs.safeOutput
     });
-});
+};
 exports.setArrayOutput = setArrayOutput;
-const setOutput = (_12) => __awaiter(void 0, [_12], void 0, function* ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) {
+const setOutput = async ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) => {
     let cleanedValue;
     if (json) {
         cleanedValue = (0, exports.jsonOutput)({ value, shouldEscape });
@@ -2936,15 +2819,15 @@ const setOutput = (_12) => __awaiter(void 0, [_12], void 0, function* ({ key, va
     if (writeOutputFiles) {
         const extension = json ? 'json' : 'txt';
         const outputFilePath = path.join(outputDir, `${key}.${extension}`);
-        if (!(yield (0, exports.exists)(outputDir))) {
-            yield fs_1.promises.mkdir(outputDir, { recursive: true });
+        if (!(await (0, exports.exists)(outputDir))) {
+            await fs_1.promises.mkdir(outputDir, { recursive: true });
         }
-        yield fs_1.promises.writeFile(outputFilePath, cleanedValue.replace(/\\"/g, '"'));
+        await fs_1.promises.writeFile(outputFilePath, cleanedValue.replace(/\\"/g, '"'));
     }
-});
+};
 exports.setOutput = setOutput;
-const getDeletedFileContents = (_13) => __awaiter(void 0, [_13], void 0, function* ({ cwd, filePath, sha }) {
-    const { stdout, exitCode, stderr } = yield exec.getExecOutput('git', ['show', `${sha}:${filePath}`], {
+const getDeletedFileContents = async ({ cwd, filePath, sha }) => {
+    const { stdout, exitCode, stderr } = await exec.getExecOutput('git', ['show', `${sha}:${filePath}`], {
         cwd,
         silent: !core.isDebug(),
         ignoreReturnCode: true
@@ -2953,8 +2836,8 @@ const getDeletedFileContents = (_13) => __awaiter(void 0, [_13], void 0, functio
         throw new Error(`Error getting file content from git history "${filePath}": ${stderr}`);
     }
     return stdout;
-});
-const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, diffSubmodule, submodulePaths }) {
+};
+const recoverDeletedFiles = async ({ inputs, workingDirectory, deletedFiles, recoverPatterns, diffResult, diffSubmodule, submodulePaths }) => {
     let recoverableDeletedFiles = deletedFiles;
     core.debug(`recoverable deleted files: ${recoverableDeletedFiles}`);
     if (recoverPatterns.length > 0) {
@@ -2973,7 +2856,7 @@ const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* 
         let deletedFileContents;
         const submodulePath = submodulePaths.find(p => deletedFile.startsWith(p));
         if (diffSubmodule && submodulePath) {
-            const submoduleShaResult = yield (0, exports.gitSubmoduleDiffSHA)({
+            const submoduleShaResult = await (0, exports.gitSubmoduleDiffSHA)({
                 cwd: workingDirectory,
                 parentSha1: diffResult.previousSha,
                 parentSha2: diffResult.currentSha,
@@ -2982,7 +2865,7 @@ const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* 
             });
             if (submoduleShaResult.previousSha) {
                 core.debug(`recovering deleted file "${deletedFile}" from submodule ${submodulePath} from ${submoduleShaResult.previousSha}`);
-                deletedFileContents = yield getDeletedFileContents({
+                deletedFileContents = await getDeletedFileContents({
                     cwd: path.join(workingDirectory, submodulePath),
                     // E.g. submodulePath = test/demo and deletedFile = test/demo/.github/README.md => filePath => .github/README.md
                     filePath: deletedFile.replace(submodulePath, '').substring(1),
@@ -2996,22 +2879,22 @@ const recoverDeletedFiles = (_14) => __awaiter(void 0, [_14], void 0, function* 
         }
         else {
             core.debug(`recovering deleted file "${deletedFile}" from ${diffResult.previousSha}`);
-            deletedFileContents = yield getDeletedFileContents({
+            deletedFileContents = await getDeletedFileContents({
                 cwd: workingDirectory,
                 filePath: deletedFile,
                 sha: diffResult.previousSha
             });
         }
         core.debug(`recovered deleted file "${deletedFile}"`);
-        if (!(yield (0, exports.exists)(path.dirname(target)))) {
+        if (!(await (0, exports.exists)(path.dirname(target)))) {
             core.debug(`creating directory "${path.dirname(target)}"`);
-            yield fs_1.promises.mkdir(path.dirname(target), { recursive: true });
+            await fs_1.promises.mkdir(path.dirname(target), { recursive: true });
         }
         core.debug(`writing file "${target}"`);
-        yield fs_1.promises.writeFile(target, deletedFileContents);
+        await fs_1.promises.writeFile(target, deletedFileContents);
         core.debug(`wrote file "${target}"`);
     }
-});
+};
 exports.recoverDeletedFiles = recoverDeletedFiles;
 /**
  * Determines whether the specified working directory has a local Git directory.
@@ -3019,28 +2902,28 @@ exports.recoverDeletedFiles = recoverDeletedFiles;
  * @param workingDirectory - The path of the working directory.
  * @returns A boolean value indicating whether the working directory has a local Git directory.
  */
-const hasLocalGitDirectory = (_15) => __awaiter(void 0, [_15], void 0, function* ({ workingDirectory }) {
-    return yield (0, exports.isInsideWorkTree)({
+const hasLocalGitDirectory = async ({ workingDirectory }) => {
+    return await (0, exports.isInsideWorkTree)({
         cwd: workingDirectory
     });
-});
+};
 exports.hasLocalGitDirectory = hasLocalGitDirectory;
 /**
  * Warns about unsupported inputs when using the REST API.
  *
  * @param inputs - The inputs object.
  */
-const warnUnsupportedRESTAPIInputs = (_16) => __awaiter(void 0, [_16], void 0, function* ({ inputs }) {
-    var _17, _18;
+const warnUnsupportedRESTAPIInputs = async ({ inputs }) => {
+    var _a, _b;
     for (const key of Object.keys(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS)) {
         const defaultValue = Object.hasOwnProperty.call(constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS, key)
-            ? (_17 = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _17 === void 0 ? void 0 : _17.toString()
+            ? (_a = constant_1.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[key]) === null || _a === void 0 ? void 0 : _a.toString()
             : '';
-        if (defaultValue !== ((_18 = inputs[key]) === null || _18 === void 0 ? void 0 : _18.toString())) {
+        if (defaultValue !== ((_b = inputs[key]) === null || _b === void 0 ? void 0 : _b.toString())) {
             core.warning(`Input "${(0, lodash_1.snakeCase)(key)}" is not supported when using GitHub's REST API to get changed files`);
         }
     }
-});
+};
 exports.warnUnsupportedRESTAPIInputs = warnUnsupportedRESTAPIInputs;
 
 
@@ -8960,11 +8843,11 @@ function getProxyUrl(reqUrl) {
     })();
     if (proxyVar) {
         try {
-            return new URL(proxyVar);
+            return new DecodedURL(proxyVar);
         }
         catch (_a) {
             if (!proxyVar.startsWith('http://') && !proxyVar.startsWith('https://'))
-                return new URL(`http://${proxyVar}`);
+                return new DecodedURL(`http://${proxyVar}`);
         }
     }
     else {
@@ -9022,6 +8905,19 @@ function isLoopbackAddress(host) {
         hostLower.startsWith('127.') ||
         hostLower.startsWith('[::1]') ||
         hostLower.startsWith('[0:0:0:0:0:0:0:1]'));
+}
+class DecodedURL extends URL {
+    constructor(url, base) {
+        super(url, base);
+        this._decodedUsername = decodeURIComponent(super.username);
+        this._decodedPassword = decodeURIComponent(super.password);
+    }
+    get username() {
+        return this._decodedUsername;
+    }
+    get password() {
+        return this._decodedPassword;
+    }
 }
 //# sourceMappingURL=proxy.js.map
 
