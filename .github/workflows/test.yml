@@ -69,7 +69,7 @@ jobs:
 
       - name: Run build and test
         run: |
-          yarn all
+          yarn build && yarn format && yarn lint && yarn package
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v20
