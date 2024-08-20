@@ -468,6 +468,7 @@ export const getChangedFilesFromGithubAPI = async ({
     >(options)
 
   core.info(`Found ${paginatedResponse.length} changed files from GitHub API`)
+  core.info(paginatedResponse)
   const statusMap: Record<string, ChangeTypeEnum> = {
     added: ChangeTypeEnum.Added,
     removed: ChangeTypeEnum.Deleted,
