@@ -59,17 +59,17 @@ jobs:
         run: |
           yarn install
 
-      # - name: Run eslint on changed files
-      #   uses: tj-actions/eslint-changed-files@v25
-      #   if: github.event_name == 'pull_request'
-      #   with:
-      #     token: ${{ secrets.PAT_TOKEN }}
-      #     config_path: ".eslintrc.json"
-      #     ignore_path: ".eslintignore"
+      - name: Run eslint on changed files
+        uses: tj-actions/eslint-changed-files@v25
+        if: github.event_name == 'pull_request'
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          config_path: ".eslintrc.json"
+          ignore_path: ".eslintignore"
 
       - name: Run build and test
         run: |
-          yarn build && yarn format && yarn lint && yarn package
+          yarn all
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v20
