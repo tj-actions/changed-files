@@ -482,7 +482,6 @@ export const getChangedFilesFromGithubAPI = async ({
   for await (const item of paginatedResponse) {
     const changeType: ChangeTypeEnum =
       statusMap[item.status] || ChangeTypeEnum.Unknown
-    core.info(item)
     if (changeType === ChangeTypeEnum.Renamed) {
       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
         changedFiles[ChangeTypeEnum.Deleted].push(item.previous_filename)
