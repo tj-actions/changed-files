@@ -467,7 +467,7 @@ export const getChangedFilesFromGithubAPI = async ({
       RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
     >(options)
 
-    
+
   core.info(`Found ${paginatedResponse.length} changed files from GitHub API`)
   const statusMap: Record<string, ChangeTypeEnum> = {
     added: ChangeTypeEnum.Added,
@@ -484,7 +484,7 @@ export const getChangedFilesFromGithubAPI = async ({
       statusMap[item.status] || ChangeTypeEnum.Unknown
     if (changeType === ChangeTypeEnum.Renamed) {
       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-        changedFiles[ChangeTypeEnum.Deleted].push(item.previous_filename)
+        changedFiles[ChangeTypeEnum.Deleted].push(item.previous_filename || "")
         changedFiles[ChangeTypeEnum.Added].push(item.filename)
       } else {
         changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
