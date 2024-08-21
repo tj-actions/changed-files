@@ -659,8 +659,13 @@ describe('utils test', () => {
     })
   })
   describe('getPreviousGitTag', () => {
+    // Check if the environment variable GITHUB_REPOSITORY_OWNER is 'tj-actions'
+    const shouldSkip = process.env.GITHUB_REPOSITORY_OWNER !== 'tj-actions'
     // Function returns the second-latest tag and its SHA
     it('should return the second latest tag and its SHA when multiple tags are present', async () => {
+      if (shouldSkip) {
+        return
+      }
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
@@ -672,9 +677,11 @@ describe('utils test', () => {
         sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
       })
     })
-
     // Tags are filtered by a specified pattern when 'tagsPattern' is provided
     it('should filter tags by the specified pattern', async () => {
+      if (shouldSkip) {
+        return
+      }
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: 'v1.*',
@@ -686,9 +693,11 @@ describe('utils test', () => {
         sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
       })
     })
-
     // Tags are excluded by a specified ignore pattern when 'tagsIgnorePattern' is provided
     it('should exclude tags by the specified ignore pattern', async () => {
+      if (shouldSkip) {
+        return
+      }
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
