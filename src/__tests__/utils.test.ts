@@ -660,7 +660,7 @@ describe('utils test', () => {
   })
   describe('getPreviousGitTag', () => {
     // Check if the environment variable GITHUB_REPOSITORY_OWNER is 'tj-actions'
-    const shouldSkip = process.env.GITHUB_REPOSITORY_OWNER !== 'tj-actions'
+    const shouldSkip = !!process.env.GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK
     // Function returns the second-latest tag and its SHA
     it('should return the second latest tag and its SHA when multiple tags are present', async () => {
       if (shouldSkip) {

@@ -68,8 +68,9 @@ jobs:
 
       - name: Run build and test
         run: |
-          env
           yarn all
+        env:
+          GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v20
