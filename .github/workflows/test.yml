@@ -68,6 +68,7 @@ jobs:
 
       - name: Run build and test
         run: |
+          env
           yarn all
 
       - name: Verify Changed files
