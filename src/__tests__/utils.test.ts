@@ -662,12 +662,13 @@ describe('utils test', () => {
     // Check if the environment variable GITHUB_REPOSITORY_OWNER is 'tj-actions'
     const shouldSkip = process.env.GITHUB_REPOSITORY_OWNER !== 'tj-actions'
     // Function returns the second-latest tag and its SHA
-    ;(shouldSkip ? test.skip : test)(
-      'should return the second latest tag and its SHA when multiple tags are present',
-      async () => {
-        const result = await getPreviousGitTag({
-          cwd: '.',
-          tagsPattern: '*',
+    it('should return the second latest tag and its SHA when multiple tags are present', async () => {
+      if (shouldSkip) {
+        return
+      }
+      const result = await getPreviousGitTag({
+        cwd: '.',
+        tagsPattern: '*',
         tagsIgnorePattern: '',
         currentBranch: 'v1.0.1'
       })
@@ -675,11 +676,12 @@ describe('utils test', () => {
         tag: 'v1.0.0',
         sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
       })
+    })
+    // Tags are filtered by a specified pattern when 'tagsPattern' is provided
+    it('should filter tags by the specified pattern', async () => {
+      if (shouldSkip) {
+        return
       }
-    )(
-      // Tags are filtered by a specified pattern when 'tagsPattern' is provided
-      shouldSkip ? test.skip : test
-    )('should filter tags by the specified pattern', async () => {
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: 'v1.*',
@@ -690,10 +692,12 @@ describe('utils test', () => {
         tag: 'v1.0.0',
         sha: 'f0751de6af436d4e79016e2041cf6400e0833653'
       })
-    })(
-      // Tags are excluded by a specified ignore pattern when 'tagsIgnorePattern' is provided
-      shouldSkip ? test.skip : test
-    )('should exclude tags by the specified ignore pattern', async () => {
+    })
+    // Tags are excluded by a specified ignore pattern when 'tagsIgnorePattern' is provided
+    it('should exclude tags by the specified ignore pattern', async () => {
+      if (shouldSkip) {
+        return
+      }
       const result = await getPreviousGitTag({
         cwd: '.',
         tagsPattern: '*',
