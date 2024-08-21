@@ -245,6 +245,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Whadup",
+      "name": "Lukas Pfahler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2308119?v=4",
+      "profile": "https://lukaspfahler.de",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
