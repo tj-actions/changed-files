@@ -1,5 +1,59 @@
 # Changelog
 
+# [45.0.0](https://github.com/tj-actions/changed-files/compare/v44.5.7...v45.0.0) - (2024-08-21)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update test skip logic to use custom env ([#2242](https://github.com/tj-actions/changed-files/issues/2242)) ([b4c0974](https://github.com/tj-actions/changed-files/commit/b4c09741612c0d0d09129949a5b838bc5a2ca2db))  - (Tonye Jack)
+- Remove unsupported input ([#2238](https://github.com/tj-actions/changed-files/issues/2238)) ([525aabb](https://github.com/tj-actions/changed-files/commit/525aabbe28ff90085d9d8a5196aaefb2d45212ea))  - (Tonye Jack)
+- **deps:** Update dependency @octokit/rest to v21.0.2 ([3ea85a1](https://github.com/tj-actions/changed-files/commit/3ea85a1c0dd328358b2b2dc3c64096bb53c6b0c1))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([598b721](https://github.com/tj-actions/changed-files/commit/598b7212f2ea640716051eb2fa047bf7bfa0d14e))  - (GitHub Action)
+
+## <!-- 18 -->📝 Rename
+
+- Renamed Files decomposed into Deleted: previous_filename and Added:filename ([#2236](https://github.com/tj-actions/changed-files/issues/2236))
+
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([f8034fb](https://github.com/tj-actions/changed-files/commit/f8034fbb842b9375f55c102cf30df481f2e6890a))  - (Lukas Pfahler)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2243](https://github.com/tj-actions/changed-files/issues/2243))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com>
+Co-authored-by: GitHub Action <action@github.com> ([40853de](https://github.com/tj-actions/changed-files/commit/40853de9f8ce2d6cfdc73c1b96f14e22ba44aec4))  - (tj-actions[bot])
+- Update tsconfig.json ([88201be](https://github.com/tj-actions/changed-files/commit/88201be733611971b8d283536afbadb94acacbec))  - (Tonye Jack)
+
+## <!-- 3 -->📚 Documentation
+
+- Add Whadup as a contributor for code ([#2239](https://github.com/tj-actions/changed-files/issues/2239)) ([94b94fe](https://github.com/tj-actions/changed-files/commit/94b94fea1356122b6e0c23eefdf1c2bdb78aa1f3))  - (allcontributors[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Debug env vars ([#2241](https://github.com/tj-actions/changed-files/issues/2241)) ([246859d](https://github.com/tj-actions/changed-files/commit/246859db916b59b25edd053a219d9f3ae97c9ef3))  - (Tonye Jack)
+- Conditionally skip certain test for foked prs ([#2240](https://github.com/tj-actions/changed-files/issues/2240)) ([46a4c02](https://github.com/tj-actions/changed-files/commit/46a4c027a6ca424288bffcec07df0f9c6a22ad04))  - (Tonye Jack)
+- **deps:** Update dependency @types/node to v22.4.2 ([25b2562](https://github.com/tj-actions/changed-files/commit/25b256207da93370b637d0cb8ca6b1eadefa416c))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.4.1 ([257f12c](https://github.com/tj-actions/changed-files/commit/257f12c17b624944a118c0ee4f1328d1db751f04))  - (renovate[bot])
+- **deps:** Lock file maintenance ([9b7ba7b](https://github.com/tj-actions/changed-files/commit/9b7ba7b107e24ce3b2ea1fabc6e8ee24badbe2fb))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.4.0 ([50693d8](https://github.com/tj-actions/changed-files/commit/50693d8df5efed5c6f330925483b04c1c1208702))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.3.0 ([87d8f94](https://github.com/tj-actions/changed-files/commit/87d8f9488bd2369daea87e3280365d43cf582486))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.2.0 ([950331d](https://github.com/tj-actions/changed-files/commit/950331d47c80d51fcac43586b6fd549ba048614c))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.8.0 ([ed00b69](https://github.com/tj-actions/changed-files/commit/ed00b69562f42e9decbca768638a37bf0b543dcc))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.7.0 ([9d768c3](https://github.com/tj-actions/changed-files/commit/9d768c3d4e4dec1f7f27e777ac95d18cf1e54baa))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.1.0 ([6b79c79](https://github.com/tj-actions/changed-files/commit/6b79c799809342f040f1919cc45679db9d22d5e6))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.0.3 ([99b60a2](https://github.com/tj-actions/changed-files/commit/99b60a2a91bd1229647c3e538ac3a9efe20ba48f))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.2.4 ([8ae850f](https://github.com/tj-actions/changed-files/commit/8ae850f05251403b348acd43c6f8a53442e761ea))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.0.1 ([03d95b0](https://github.com/tj-actions/changed-files/commit/03d95b07db4bab30a09af1f3844d0d8b5d603475))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v44.5.7 ([#2218](https://github.com/tj-actions/changed-files/issues/2218))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([7103800](https://github.com/tj-actions/changed-files/commit/71038002e0421311a633d95eb36fe5cb4f0152c6))  - (tj-actions[bot])
+
 # [44.5.7](https://github.com/tj-actions/changed-files/compare/v44.5.6...v44.5.7) - (2024-07-30)
 
 ## <!-- 1 -->🐛 Bug Fixes
