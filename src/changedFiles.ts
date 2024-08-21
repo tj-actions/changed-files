@@ -484,7 +484,7 @@ export const getChangedFilesFromGithubAPI = async ({
 
     if (changeType === ChangeTypeEnum.Renamed) {
       if (inputs.outputRenamedFilesAsDeletedAndAdded) {
-        changedFiles[ChangeTypeEnum.Deleted].push(item.filename)
+        changedFiles[ChangeTypeEnum.Deleted].push(item.previous_filename || '')
         changedFiles[ChangeTypeEnum.Added].push(item.filename)
       } else {
         changedFiles[ChangeTypeEnum.Renamed].push(item.filename)
