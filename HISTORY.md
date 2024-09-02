@@ -1,5 +1,33 @@
 # Changelog
 
+# [45.0.1](https://github.com/tj-actions/changed-files/compare/v45.0.0...v45.0.1) - (2024-09-01)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency micromatch to v4.0.8 ([17107f4](https://github.com/tj-actions/changed-files/commit/17107f43d742d4faa6ecb0e261fb75250c89a7f8))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([696bea0](https://github.com/tj-actions/changed-files/commit/696bea0addf7f44a8d99e728a204a3b0b8e49472))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([305db88](https://github.com/tj-actions/changed-files/commit/305db886e7f6c5d1a4515c3376074243a228b52f))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/node to v22.5.2 ([e9772d1](https://github.com/tj-actions/changed-files/commit/e9772d140489982e0e3704fea5ee93d536f1e275))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.8.1 ([880354d](https://github.com/tj-actions/changed-files/commit/880354d0c6198f223384e7971cf8e4eb319d12e3))  - (renovate[bot])
+- **deps-dev:** Bump @types/node from 22.5.0 to 22.5.1 ([#2252](https://github.com/tj-actions/changed-files/issues/2252)) ([8d5497e](https://github.com/tj-actions/changed-files/commit/8d5497eb10aaffcff15941fd5203c6bef3f516ed))  - (dependabot[bot])
+- **deps:** Lock file maintenance ([bd7d572](https://github.com/tj-actions/changed-files/commit/bd7d572708b33d884157231d2bd72fa1ce4a4e08))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.2.5 ([2d4c94f](https://github.com/tj-actions/changed-files/commit/2d4c94f4882dbaf95c6fa4becffa9f1bd1475607))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.5.0 ([bf02379](https://github.com/tj-actions/changed-files/commit/bf02379775384401af67d6404d7fabad80698b94))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v45 ([#2244](https://github.com/tj-actions/changed-files/issues/2244))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([0d32038](https://github.com/tj-actions/changed-files/commit/0d320382bce2b7e23c664418989dd61f466e7343))  - (tj-actions[bot])
+
 # [45.0.0](https://github.com/tj-actions/changed-files/compare/v44.5.7...v45.0.0) - (2024-08-21)
 
 ## <!-- 1 -->🐛 Bug Fixes
