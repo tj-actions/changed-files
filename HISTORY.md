@@ -1,5 +1,41 @@
 # Changelog
 
+# [45.0.2](https://github.com/tj-actions/changed-files/compare/v45.0.1...v45.0.2) - (2024-09-16)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency yaml to v2.5.1 ([c7114f6](https://github.com/tj-actions/changed-files/commit/c7114f61a18a89477ae75bf8f896d395bc8b76ea))  - (renovate[bot])
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([e73bb10](https://github.com/tj-actions/changed-files/commit/e73bb10d965c52e7b2e7b5b0d93bfbf9e8ae5d34))  - (GitHub Action)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update peter-evans/create-pull-request action to v7.0.3 ([48d8f15](https://github.com/tj-actions/changed-files/commit/48d8f15b2aaa3d255ca5af3eba4870f807ce6b3c))  - (renovate[bot])
+- **deps:** Lock file maintenance ([f4e0652](https://github.com/tj-actions/changed-files/commit/f4e06529f19b1626df5c1083eee9140820d0c7c6))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.5.5 ([9b5f7d7](https://github.com/tj-actions/changed-files/commit/9b5f7d7ff59e28c77b62c2091733ea658c695293))  - (renovate[bot])
+- **deps:** Update dependency @types/jest to v29.5.13 ([80dc584](https://github.com/tj-actions/changed-files/commit/80dc58425e90c26fbbeac2d09067f0989dcdae7f))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v7.0.2 ([f9216b6](https://github.com/tj-actions/changed-files/commit/f9216b6d972c29698d917e21341f2e9c6d37f97b))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v5.0.2 ([fef272d](https://github.com/tj-actions/changed-files/commit/fef272dc404c435b95e1afa1cc506e5082c9b6b0))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.6.2 ([a236bf5](https://github.com/tj-actions/changed-files/commit/a236bf57ea511b6dd5450da8c6ea3988a0320142))  - (renovate[bot])
+- **deps:** Lock file maintenance ([0cb58de](https://github.com/tj-actions/changed-files/commit/0cb58dec12dc9b3638ed02bb3e7dc0ba179bd3d5))  - (renovate[bot])
+- **deps:** Lock file maintenance ([44f3356](https://github.com/tj-actions/changed-files/commit/44f335629614fb45bd4bd15fee8daf049cba956b))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v7.0.1 ([1d9fdda](https://github.com/tj-actions/changed-files/commit/1d9fdda44c9da3604e9be858b3edb3e0501302af))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.8.3 ([ca746c1](https://github.com/tj-actions/changed-files/commit/ca746c1dbed9fbac2942967158c8ec335aa21a85))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.5.4 ([2414c5b](https://github.com/tj-actions/changed-files/commit/2414c5b0011abed79c1ab7e29209e64086d1b378))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v7 ([#2261](https://github.com/tj-actions/changed-files/issues/2261)) ([38cc85f](https://github.com/tj-actions/changed-files/commit/38cc85fd7951de4c0caf6ecff32f43cea1dc27c2))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.5.3 ([834406f](https://github.com/tj-actions/changed-files/commit/834406f3618603966f05a31836c786991bfa37ab))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.8.2 ([a78c1f5](https://github.com/tj-actions/changed-files/commit/a78c1f5db417f9986ba46981f060877995312d9b))  - (renovate[bot])
+- **deps:** Lock file maintenance ([5977012](https://github.com/tj-actions/changed-files/commit/5977012387b5164ebae4e4b71f76b108056ed114))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v45.0.1 ([#2258](https://github.com/tj-actions/changed-files/issues/2258))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([5d8e41f](https://github.com/tj-actions/changed-files/commit/5d8e41f17cbfc2f796554bcc23314b0d769f14d3))  - (tj-actions[bot])
+
 # [45.0.1](https://github.com/tj-actions/changed-files/compare/v45.0.0...v45.0.1) - (2024-09-01)
 
 ## <!-- 1 -->🐛 Bug Fixes
