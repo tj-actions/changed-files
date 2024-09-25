@@ -60,7 +60,7 @@ Effortlessly track all changed files and directories relative to a target branch
     *   Optionally excludes the current directory.
 *   Writes outputs to a designated `.txt` or `.json` file for further processing.
 *   Restores deleted files to their previous location or a newly specified location.
-*   Supports fetching a fixed number of commits which improves performance.
+*   Supports fetching a fixed number of commits, which improves performance.
 *   Compatible with all platforms (Linux, MacOS, Windows).
 *   Supports [GitHub-hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners).
 *   Supports [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.3/admin/github-actions/getting-started-with-github-actions-for-your-enterprise/getting-started-with-github-actions-for-github-enterprise-server).
