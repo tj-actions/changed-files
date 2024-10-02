@@ -1284,6 +1284,10 @@ export const getYamlFilePatterns = async ({
         )
       }
     }
+    filePatterns = {
+      ...filePatterns,
+      ...newIgnoreFilePatterns
+    }
   }
 
   if (inputs.filesIgnoreYamlFromSourceFile) {

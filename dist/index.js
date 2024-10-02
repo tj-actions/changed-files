@@ -2743,6 +2743,10 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
                 core.warning(`files_ignore_yaml: Duplicated key ${key} detected, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`);
             }
         }
+        filePatterns = {
+            ...filePatterns,
+            ...newIgnoreFilePatterns
+        };
     }
     if (inputs.filesIgnoreYamlFromSourceFile) {
         const inputFilesIgnoreYamlFromSourceFile = inputs.filesIgnoreYamlFromSourceFile
