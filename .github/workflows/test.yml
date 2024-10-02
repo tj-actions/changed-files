@@ -758,6 +758,24 @@ jobs:
         shell:
           bash
 
+      - name: Run changed-files with files_yaml, files_ignore_yaml
+        id: changed-files-ignore
+        uses: ./
+        with:
+          files_yaml: |
+            test:
+              - test/**.txt
+              - test/**.md
+          files_ignore_yaml: |
+            test:
+              - test/test.txt 
+
+      - name: Show output
+        run: |
+          echo "${{ toJSON(steps.changed-files-ignore.outputs) }}"
+        shell:
+          bash
+
       - name: Run changed-files with files_yaml, json and write_output_files
         id: changed-files-json-write-output-files
         uses: ./
