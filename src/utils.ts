@@ -1274,7 +1274,10 @@ export const getYamlFilePatterns = async ({
 
     for (const key in newIgnoreFilePatterns) {
       if (key in filePatterns) {
-        filePatterns[key] = [...filePatterns[key], ...newIgnoreFilePatterns[key]]
+        filePatterns[key] = [
+          ...filePatterns[key],
+          ...newIgnoreFilePatterns[key]
+        ]
       } else {
         filePatterns[key] = newIgnoreFilePatterns[key]
       }
@@ -1300,7 +1303,10 @@ export const getYamlFilePatterns = async ({
 
       for (const key in newIgnoreFilePatterns) {
         if (key in filePatterns) {
-          filePatterns[key] = [...filePatterns[key], ...newIgnoreFilePatterns[key]]
+          filePatterns[key] = [
+            ...filePatterns[key],
+            ...newIgnoreFilePatterns[key]
+          ]
         } else {
           filePatterns[key] = newIgnoreFilePatterns[key]
         }
