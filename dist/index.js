@@ -2724,13 +2724,12 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
             const newFilePatterns = await getYamlFilePatternsFromContents({ filePath });
             for (const key in newFilePatterns) {
                 if (key in filePatterns) {
-                    core.warning(`files_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newFilePatterns[key]}.`);
+                    filePatterns[key] = [...filePatterns[key], ...newFilePatterns[key]];
+                }
+                else {
+                    filePatterns[key] = newFilePatterns[key];
                 }
             }
-            filePatterns = {
-                ...filePatterns,
-                ...newFilePatterns
-            };
         }
     }
     if (inputs.filesIgnoreYaml) {
@@ -2740,13 +2739,15 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
         });
         for (const key in newIgnoreFilePatterns) {
             if (key in filePatterns) {
-                core.warning(`files_ignore_yaml: Duplicated key ${key} detected, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`);
+                filePatterns[key] = [
+                    ...filePatterns[key],
+                    ...newIgnoreFilePatterns[key]
+                ];
+            }
+            else {
+                filePatterns[key] = newIgnoreFilePatterns[key];
             }
         }
-        filePatterns = {
-            ...filePatterns,
-            ...newIgnoreFilePatterns
-        };
     }
     if (inputs.filesIgnoreYamlFromSourceFile) {
         const inputFilesIgnoreYamlFromSourceFile = inputs.filesIgnoreYamlFromSourceFile
@@ -2761,13 +2762,15 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
             });
             for (const key in newIgnoreFilePatterns) {
                 if (key in filePatterns) {
-                    core.warning(`files_ignore_yaml_from_source_file: Duplicated key ${key} detected in ${filePath}, the ${filePatterns[key]} will be overwritten by ${newIgnoreFilePatterns[key]}.`);
+                    filePatterns[key] = [
+                        ...filePatterns[key],
+                        ...newIgnoreFilePatterns[key]
+                    ];
+                }
+                else {
+                    filePatterns[key] = newIgnoreFilePatterns[key];
                 }
             }
-            filePatterns = {
-                ...filePatterns,
-                ...newIgnoreFilePatterns
-            };
         }
     }
     return filePatterns;
