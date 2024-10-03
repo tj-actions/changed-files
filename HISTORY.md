@@ -1,5 +1,48 @@
 # Changelog
 
+# [45.0.3](https://github.com/tj-actions/changed-files/compare/v45.0.2...v45.0.3) - (2024-10-03)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Overwriting yaml filter patterns ([#2307](https://github.com/tj-actions/changed-files/issues/2307)) ([c3a1bb2](https://github.com/tj-actions/changed-files/commit/c3a1bb2c992d77180ae65be6ae6c166cf40f857c))  - (Tonye Jack)
+- **deps:** Update dependency @actions/core to v1.11.0 ([9d4f8fe](https://github.com/tj-actions/changed-files/commit/9d4f8fea5842800088922c102ca4538178833673))  - (renovate[bot])
+- Bug with files ignore yaml patterns not filtering the list of files ([#2304](https://github.com/tj-actions/changed-files/issues/2304)) ([d0cf164](https://github.com/tj-actions/changed-files/commit/d0cf1645b795cec63a72fbe846e317bf9178b010))  - (Tonye Jack)
+- Test for since last remote commit check on pull_request closed ([#2295](https://github.com/tj-actions/changed-files/issues/2295)) ([e753fb0](https://github.com/tj-actions/changed-files/commit/e753fb0a6337371498559e2a3aba56403f65b949))  - (Tonye Jack)
+
+## <!-- 16 -->➕ Add
+
+- Added missing changes and modified dist assets.
+ ([36d5b9d](https://github.com/tj-actions/changed-files/commit/36d5b9dda5f13e931f09f5033a176efb2f03e605))  - (GitHub Action)
+- Added missing changes and modified dist assets.
+ ([4dbe54f](https://github.com/tj-actions/changed-files/commit/4dbe54f96e17faab8feb2c0c323ff84faa4512d2))  - (GitHub Action)
+
+## <!-- 3 -->📚 Documentation
+
+- Update README.md ([#2300](https://github.com/tj-actions/changed-files/issues/2300)) ([641e22a](https://github.com/tj-actions/changed-files/commit/641e22af4a94c93fb947ec20045f1ea036579b71))  - (Tonye Jack)
+- Update README.md ([#2296](https://github.com/tj-actions/changed-files/issues/2296)) ([1a71128](https://github.com/tj-actions/changed-files/commit/1a71128b6a67056616a4284adea37ae02b564f16))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency @types/lodash to v4.17.10 ([27843f1](https://github.com/tj-actions/changed-files/commit/27843f166754bb92655dfb6102aaa76ee2faf762))  - (renovate[bot])
+- **deps:** Lock file maintenance ([8a4a975](https://github.com/tj-actions/changed-files/commit/8a4a9757b70fd0abbb3230709dd2efe832689c93))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.7.4 ([6bfa9e7](https://github.com/tj-actions/changed-files/commit/6bfa9e7a9a0cf32f41834ac67d934c8930978a10))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.7.3 ([625dbd6](https://github.com/tj-actions/changed-files/commit/625dbd682e29fb911c89c6a72b0e723206519c2c))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.7.2 ([c29c1d3](https://github.com/tj-actions/changed-files/commit/c29c1d3dd08b5aa5936b4f5eb5916104e8eb028b))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.7.0 ([e21f1a3](https://github.com/tj-actions/changed-files/commit/e21f1a3077058afe256713170452e771df5b8693))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.6.1 ([792230f](https://github.com/tj-actions/changed-files/commit/792230fcedfb6be06f8b82405336b8c64d072307))  - (renovate[bot])
+- **deps:** Update dependency @vercel/ncc to v0.38.2 ([537f1c6](https://github.com/tj-actions/changed-files/commit/537f1c63183dc57ec71788609090fd4eb34d0645))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.9 ([82587d8](https://github.com/tj-actions/changed-files/commit/82587d885833b45b38f65922b2bab11734b2e666))  - (renovate[bot])
+- **deps:** Lock file maintenance ([eda64a6](https://github.com/tj-actions/changed-files/commit/eda64a62bda002f91918e506fa907562d648e723))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v4.0.4 ([4d5444c](https://github.com/tj-actions/changed-files/commit/4d5444c2c31b579919a04a4452abc5d87e4646ad))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v7.0.5 ([c2e104b](https://github.com/tj-actions/changed-files/commit/c2e104be2f2a434709460be32ce45f24994f8bd4))  - (renovate[bot])
+- **deps:** Update dependency eslint to v8.57.1 ([eed685a](https://github.com/tj-actions/changed-files/commit/eed685a419db057cbbbc6590e9ecec893f8e5c27))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v45.0.2 ([#2282](https://github.com/tj-actions/changed-files/issues/2282))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([6f538bb](https://github.com/tj-actions/changed-files/commit/6f538bb83f28b3289d5cd90d638bbdca3e478ebe))  - (tj-actions[bot])
+
 # [45.0.2](https://github.com/tj-actions/changed-files/compare/v45.0.1...v45.0.2) - (2024-09-16)
 
 ## <!-- 1 -->🐛 Bug Fixes
