@@ -74,6 +74,7 @@ jobs:
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v20
+        if: github.actor != 'dependabot[bot]'
         id: changed_files
         with:
           files: |
