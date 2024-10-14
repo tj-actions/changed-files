@@ -65,6 +65,7 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           config_path: ".eslintrc.json"
+          ignore_path: ".eslintignore"
 
       - name: Run build and test
         run: |
