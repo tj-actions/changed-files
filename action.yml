@@ -322,6 +322,8 @@ outputs:
     description: "Returns all modified YAML keys when the `files_yaml` input is used. i.e. key that contains any path that has either been added, copied, modified, and deleted (ACMRD)"
   changed_keys:
     description: "Returns all changed YAML keys when the `files_yaml` input is used. i.e. key that contains any path that has either been added, copied, modified, and renamed (ACMR)"
+  previous_commit_sha:
+    description: "Returns previous commit sha"
 
 runs:
   using: 'node20'

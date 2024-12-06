@@ -131,6 +131,15 @@ const getChangedFilesFromLocalGitHistory = async ({
     `Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`
   )
 
+  await setOutput({
+    key: 'previous_commit_sha',
+    value: diffResult.previousSha,
+    writeOutputFiles: inputs.writeOutputFiles,
+    outputDir: inputs.outputDir,
+    json: inputs.json,
+    safeOutput: inputs.safeOutput
+  })
+
   const allDiffFiles = await getAllDiffFiles({
     workingDirectory,
     diffSubmodule,
