@@ -1,5 +1,44 @@
 # Changelog
 
+# [45.0.7](https://github.com/tj-actions/changed-files/compare/v45.0.6...v45.0.7) - (2025-02-04)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- **deps:** Update dependency @octokit/rest to v21.1.0 ([#2394](https://github.com/tj-actions/changed-files/issues/2394)) ([7b72c97](https://github.com/tj-actions/changed-files/commit/7b72c97d739f955f5cadca0d59799d826ae9f6c9))  - (renovate[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Update dependency eslint-plugin-github to v5.1.8 ([#2424](https://github.com/tj-actions/changed-files/issues/2424)) ([dcc7a0c](https://github.com/tj-actions/changed-files/commit/dcc7a0cba800f454d79fff4b993e8c3555bcc0a8))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.1 ([#2422](https://github.com/tj-actions/changed-files/issues/2422)) ([364748a](https://github.com/tj-actions/changed-files/commit/364748aaa8a1ba2cd0a06c35e27f0b736cce57d1))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2420](https://github.com/tj-actions/changed-files/issues/2420)) ([301bed6](https://github.com/tj-actions/changed-files/commit/301bed650e89313e46f9582591f9a1f4839f2826))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.0 ([#2419](https://github.com/tj-actions/changed-files/issues/2419)) ([be1c470](https://github.com/tj-actions/changed-files/commit/be1c47003f1f9dedb4436e1e87dfdedd6f97f4c9))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v5.1.7 ([#2417](https://github.com/tj-actions/changed-files/issues/2417)) ([81785a6](https://github.com/tj-actions/changed-files/commit/81785a6716d8354b3886445dd0c2f91e44a0af5a))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.15 ([#2415](https://github.com/tj-actions/changed-files/issues/2415)) ([065e671](https://github.com/tj-actions/changed-files/commit/065e671731666959f9ea1bbbb7ddb8363a8ae9cd))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.12.0 ([#2414](https://github.com/tj-actions/changed-files/issues/2414)) ([45cd7f3](https://github.com/tj-actions/changed-files/commit/45cd7f3ddd3d2ba2e885acb6245710a72c096704))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v5.1.6 ([#2413](https://github.com/tj-actions/changed-files/issues/2413)) ([47f21ba](https://github.com/tj-actions/changed-files/commit/47f21ba55840bf5f5d6ed605352ecd7f2508cbe2))  - (renovate[bot])
+- **deps:** Update actions/setup-node action to v4.2.0 ([#2411](https://github.com/tj-actions/changed-files/issues/2411)) ([3b30412](https://github.com/tj-actions/changed-files/commit/3b3041225bddb25fd9637f44aa4e9a5178c6792e))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2410](https://github.com/tj-actions/changed-files/issues/2410)) ([eec6665](https://github.com/tj-actions/changed-files/commit/eec6665cfdd8cb363f41d1adb498ad670105e5ea))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.10.10 ([#2409](https://github.com/tj-actions/changed-files/issues/2409)) ([cefd9aa](https://github.com/tj-actions/changed-files/commit/cefd9aa22075c8bbc7dc90a20e82a5badce77e7c))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.10.9 ([#2408](https://github.com/tj-actions/changed-files/issues/2408)) ([6296564](https://github.com/tj-actions/changed-files/commit/6296564d94be89c91b9c9a893e3b1381b8083dfa))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.10.8 ([#2407](https://github.com/tj-actions/changed-files/issues/2407)) ([203f0af](https://github.com/tj-actions/changed-files/commit/203f0af1aa531319a2af43d70205e12b5f73cb05))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2406](https://github.com/tj-actions/changed-files/issues/2406)) ([8b82442](https://github.com/tj-actions/changed-files/commit/8b824429a7b52d43be4884a6be2dea134870d55d))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.2.3 ([#2405](https://github.com/tj-actions/changed-files/issues/2405)) ([2b7a1ec](https://github.com/tj-actions/changed-files/commit/2b7a1ec20ef743b7bb78d0a5e55012dfb04a8f78))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.10.7 ([#2403](https://github.com/tj-actions/changed-files/issues/2403)) ([a2600ce](https://github.com/tj-actions/changed-files/commit/a2600ce61d4b9f7074622ca3a2f5e497524e6532))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-jest to v28.11.0 ([#2400](https://github.com/tj-actions/changed-files/issues/2400)) ([5dc51d3](https://github.com/tj-actions/changed-files/commit/5dc51d34076557d9ab904ba22d0107a7aa9c73c6))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-prettier to v5.2.2 ([#2399](https://github.com/tj-actions/changed-files/issues/2399)) ([18de9f3](https://github.com/tj-actions/changed-files/commit/18de9f341fddb527d74abcea6acaa9430e392a60))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.10.6 ([#2397](https://github.com/tj-actions/changed-files/issues/2397)) ([467e548](https://github.com/tj-actions/changed-files/commit/467e54813892b0cf302b0bba54d233c861b97f1a))  - (renovate[bot])
+- **deps:** Update dependency eslint-config-prettier to v10 ([#2396](https://github.com/tj-actions/changed-files/issues/2396)) ([556e62a](https://github.com/tj-actions/changed-files/commit/556e62ac760c4112189f816a829a2e61965d76a0))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2395](https://github.com/tj-actions/changed-files/issues/2395)) ([4f1e6b0](https://github.com/tj-actions/changed-files/commit/4f1e6b0db0fb6a8f464793eed5c37ec4a4d76011))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.7.3 ([#2393](https://github.com/tj-actions/changed-files/issues/2393)) ([82deec7](https://github.com/tj-actions/changed-files/commit/82deec73be8984405676feff8f0a4562b60df95c))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v5.1.5 ([#2392](https://github.com/tj-actions/changed-files/issues/2392)) ([ef7202d](https://github.com/tj-actions/changed-files/commit/ef7202db4d23bd79d2fb79d667a7a43ddb08b783))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2390](https://github.com/tj-actions/changed-files/issues/2390)) ([01c978c](https://github.com/tj-actions/changed-files/commit/01c978c0f8cace666c3b0102d1c2c59bf698acdf))  - (renovate[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v45.0.6 ([#2389](https://github.com/tj-actions/changed-files/issues/2389))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([ed8e9f6](https://github.com/tj-actions/changed-files/commit/ed8e9f69eea433e8fca92ad9b928ca6520d79c2a))  - (tj-actions[bot])
+
 # [45.0.6](https://github.com/tj-actions/changed-files/compare/v45.0.5...v45.0.6) - (2025-01-03)
 
 ## <!-- 1 -->🐛 Bug Fixes
