@@ -1,18 +1,11 @@
 {
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:recommended"],
   "enabled": true,
   "prHourlyLimit": 10,
   "prConcurrentLimit": 5,
   "rebaseWhen": "behind-base-branch",
-  "addLabels": [
-    "dependencies",
-    "merge when passing"
-  ],
-  "assignees": [
-    "jackton1"
-  ],
+  "addLabels": ["dependencies", "merge when passing"],
+  "assignees": ["jackton1"],
   "assignAutomerge": true,
   "dependencyDashboard": true,
   "dependencyDashboardAutoclose": true,
@@ -25,33 +18,17 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true,
       "rebaseWhen": "behind-base-branch",
-      "addLabels": [
-        "merge when passing"
-      ]
+      "addLabels": ["merge when passing"]
     },
     {
       "description": "docker images",
-      "matchLanguages": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
+      "matchCategories": ["docker"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "rebaseWhen": "behind-base-branch",
-      "addLabels": [
-        "merge when passing"
-      ],
+      "addLabels": ["merge when passing"],
       "automerge": true
     }
   ]
