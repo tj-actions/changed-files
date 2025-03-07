@@ -2085,9 +2085,9 @@ escape-string-regexp@^4.0.0:
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
 eslint-config-prettier@>=8.0.0, eslint-config-prettier@^10.0.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-10.1.0.tgz#6fd7a6d1938ac53909b36151008e6946abdcf0c1"
-  integrity sha512-EZxtSSOjkmuRfrDZxcnRgLy8ea/hVGcsCj1zFIKiAZ3SJJOz0Pdusq2FFj0qJrFcpg2KzCo8j8bjInYpgMsdgA==
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-10.1.1.tgz#cf0ff6e5c4e7e15f129f1f1ce2a5ecba92dec132"
+  integrity sha512-4EQQr6wXwS+ZJSzaR5ZCrYgLxqvUjdXctaEtBqHcbkW944B1NQyO4qpdHQbXBONfwxXdkAY81HH4+LUfrg+zPw==
 
 eslint-import-resolver-node@^0.3.9:
   version "0.3.9"
