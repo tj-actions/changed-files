@@ -48,7 +48,7 @@ jobs:
         uses: actions/setup-node@v4.2.0
         with:
           cache: 'yarn'
-          node-version: '20.x'
+          node-version: '22.x'
 
       - name: Create coverage directory and clover.xml
         run: |
