@@ -49,4 +49,4 @@ jobs:
           branch: "chore/update-readme"
           commit-message: "Updated README.md"
           body: "Updated README.md"
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
