@@ -24,9 +24,12 @@ Effortlessly track all changed files and directories relative to a target branch
 >
 > #### **Action Required:**
 >
-> *   Double check your all your actions output from Mar 14, under `changed-files` section, if there's a long string, decode it using `echo 'xxx' | base64 -d | base64 -d`, and revoke those token immediately.
+> * **Review your workflows executed between March 14 and March 15.** If you notice unexpected output under the `changed-files` section, decode  it using the following command:  ```echo 'xxx' | base64 -d | base64 -d```  
+>  If the output contains sensitive information (e.g., tokens or secrets), **revoke and rotate those secrets immediately**.  
 > *   **If your workflows reference this commit directly by its SHA**, you must update them immediately to avoid using the compromised version.
 > *   **If you are using tagged versions** (e.g., `v35`, `v44.5.1`), no action is required as these tags have been updated and are now safe to use.
+> 
+> Additionally, as a precaution, we recommend rotating any secrets that may have been exposed during this timeframe to ensure the continued security of your workflows.
 
 > \[!NOTE]
 >
