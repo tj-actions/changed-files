@@ -1,10 +1,44 @@
 # Changelog
 
-# [45.0.8](https://github.com/tj-actions/changed-files/compare/v45.0.7...v45.0.8) - (2025-03-10)
+# [46.0.1](https://github.com/tj-actions/changed-files/compare/v46.0.0...v46.0.1) - (2025-03-16)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2473](https://github.com/tj-actions/changed-files/issues/2473))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([2f7c5bf](https://github.com/tj-actions/changed-files/commit/2f7c5bfce28377bc069a65ba478de0a74aa0ca32))  - (github-actions[bot])
+- Sync-release-version.yml to use signed commits ([#2472](https://github.com/tj-actions/changed-files/issues/2472)) ([4189ec6](https://github.com/tj-actions/changed-files/commit/4189ec62c445484531e9ad97157d990be96e88ee))  - (Tonye Jack)
+
+# [46.0.0](https://github.com/tj-actions/changed-files/compare/v45.0.9...v46.0.0) - (2025-03-16)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update update-readme.yml to sign-commits ([#2468](https://github.com/tj-actions/changed-files/issues/2468)) ([0f1ffe6](https://github.com/tj-actions/changed-files/commit/0f1ffe61855cb317d5fd66122c14dc0627eab141))  - (Tonye Jack)
+- Update permission in update-readme.yml workflow ([#2467](https://github.com/tj-actions/changed-files/issues/2467)) ([ddef03e](https://github.com/tj-actions/changed-files/commit/ddef03e37c84cfb9ee89fa055b86359aaf949c86))  - (Tonye Jack)
+- Update github workflow update-readme.yml ([#2466](https://github.com/tj-actions/changed-files/issues/2466)) ([9c2df0d](https://github.com/tj-actions/changed-files/commit/9c2df0d54a911c819d7368d7e5ed7c01c0796e0a))  - (Tonye Jack)
+
+## <!-- 17 -->➖ Remove
+
+- Deleted renovate.json ([e37e952](https://github.com/tj-actions/changed-files/commit/e37e952786556966c1fb6183c5937b3966bab099))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Sync-release-version.yml ([#2471](https://github.com/tj-actions/changed-files/issues/2471)) ([4cd184a](https://github.com/tj-actions/changed-files/commit/4cd184a1dd542b79cca1d4d7938e4154a6520ca7))  - (Tonye Jack)
+- Updated README.md ([#2469](https://github.com/tj-actions/changed-files/issues/2469))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([5cbf220](https://github.com/tj-actions/changed-files/commit/5cbf22026d05fbef0c027d1b1f118fe3a1b6e435))  - (github-actions[bot])
+
+## <!-- 3 -->📚 Documentation
+
+- Update docs to highlight security issues ([#2465](https://github.com/tj-actions/changed-files/issues/2465)) ([6525332](https://github.com/tj-actions/changed-files/commit/65253327cf47481b4b1b4b9fea78e143a1353147))  - (Tonye Jack)
+
+# [45.0.9](https://github.com/tj-actions/changed-files/compare/v45.0.4...v45.0.9) - (2025-03-15)
 
 ## <!-- 1 -->🐛 Bug Fixes
 
 - **deps:** Update dependency @octokit/rest to v21.1.1 ([#2435](https://github.com/tj-actions/changed-files/issues/2435)) ([fb8dcda](https://github.com/tj-actions/changed-files/commit/fb8dcda5fb8954cec37773d2b275a8579c86c781))  - (renovate[bot])
+- **deps:** Update dependency @octokit/rest to v21.1.0 ([#2394](https://github.com/tj-actions/changed-files/issues/2394)) ([7b72c97](https://github.com/tj-actions/changed-files/commit/7b72c97d739f955f5cadca0d59799d826ae9f6c9))  - (renovate[bot])
+- **deps:** Update dependency yaml to v2.7.0 ([#2383](https://github.com/tj-actions/changed-files/issues/2383)) ([5f974c2](https://github.com/tj-actions/changed-files/commit/5f974c28f5044c411f0c9e7becf3f172029cf9cf))  - (renovate[bot])
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
 
@@ -34,21 +68,6 @@
 - **deps:** Update dependency prettier to v3.5.0 ([#2428](https://github.com/tj-actions/changed-files/issues/2428)) ([045c541](https://github.com/tj-actions/changed-files/commit/045c5414a33ccf6ca33c27a799f6571f8ef74114))  - (renovate[bot])
 - **deps:** Lock file maintenance ([#2426](https://github.com/tj-actions/changed-files/issues/2426)) ([563041e](https://github.com/tj-actions/changed-files/commit/563041e49cdb9d8729f08b4c2d3129dbb25cf2f6))  - (renovate[bot])
 - **config:** Migrate renovate config ([#2427](https://github.com/tj-actions/changed-files/issues/2427)) ([809f04b](https://github.com/tj-actions/changed-files/commit/809f04b20ab5525fb99637d624b6c721d55e01db))  - (renovate[bot])
-
-## <!-- 9 -->⬆️ Upgrades
-
-- Upgraded to v45.0.7 ([#2425](https://github.com/tj-actions/changed-files/issues/2425))
-
-Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([b1ba699](https://github.com/tj-actions/changed-files/commit/b1ba699b304f2083b602164e06a89b868c84f076))  - (tj-actions[bot])
-
-# [45.0.7](https://github.com/tj-actions/changed-files/compare/v45.0.6...v45.0.7) - (2025-02-04)
-
-## <!-- 1 -->🐛 Bug Fixes
-
-- **deps:** Update dependency @octokit/rest to v21.1.0 ([#2394](https://github.com/tj-actions/changed-files/issues/2394)) ([7b72c97](https://github.com/tj-actions/changed-files/commit/7b72c97d739f955f5cadca0d59799d826ae9f6c9))  - (renovate[bot])
-
-## <!-- 7 -->⚙️ Miscellaneous Tasks
-
 - **deps:** Update dependency eslint-plugin-github to v5.1.8 ([#2424](https://github.com/tj-actions/changed-files/issues/2424)) ([dcc7a0c](https://github.com/tj-actions/changed-files/commit/dcc7a0cba800f454d79fff4b993e8c3555bcc0a8))  - (renovate[bot])
 - **deps:** Update dependency @types/node to v22.13.1 ([#2422](https://github.com/tj-actions/changed-files/issues/2422)) ([364748a](https://github.com/tj-actions/changed-files/commit/364748aaa8a1ba2cd0a06c35e27f0b736cce57d1))  - (renovate[bot])
 - **deps:** Lock file maintenance ([#2420](https://github.com/tj-actions/changed-files/issues/2420)) ([301bed6](https://github.com/tj-actions/changed-files/commit/301bed650e89313e46f9582591f9a1f4839f2826))  - (renovate[bot])
@@ -73,21 +92,6 @@ Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([b1ba699]
 - **deps:** Update dependency typescript to v5.7.3 ([#2393](https://github.com/tj-actions/changed-files/issues/2393)) ([82deec7](https://github.com/tj-actions/changed-files/commit/82deec73be8984405676feff8f0a4562b60df95c))  - (renovate[bot])
 - **deps:** Update dependency eslint-plugin-github to v5.1.5 ([#2392](https://github.com/tj-actions/changed-files/issues/2392)) ([ef7202d](https://github.com/tj-actions/changed-files/commit/ef7202db4d23bd79d2fb79d667a7a43ddb08b783))  - (renovate[bot])
 - **deps:** Lock file maintenance ([#2390](https://github.com/tj-actions/changed-files/issues/2390)) ([01c978c](https://github.com/tj-actions/changed-files/commit/01c978c0f8cace666c3b0102d1c2c59bf698acdf))  - (renovate[bot])
-
-## <!-- 9 -->⬆️ Upgrades
-
-- Upgraded to v45.0.6 ([#2389](https://github.com/tj-actions/changed-files/issues/2389))
-
-Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([ed8e9f6](https://github.com/tj-actions/changed-files/commit/ed8e9f69eea433e8fca92ad9b928ca6520d79c2a))  - (tj-actions[bot])
-
-# [45.0.6](https://github.com/tj-actions/changed-files/compare/v45.0.5...v45.0.6) - (2025-01-03)
-
-## <!-- 1 -->🐛 Bug Fixes
-
-- **deps:** Update dependency yaml to v2.7.0 ([#2383](https://github.com/tj-actions/changed-files/issues/2383)) ([5f974c2](https://github.com/tj-actions/changed-files/commit/5f974c28f5044c411f0c9e7becf3f172029cf9cf))  - (renovate[bot])
-
-## <!-- 7 -->⚙️ Miscellaneous Tasks
-
 - **deps:** Update dependency @types/lodash to v4.17.14 ([#2388](https://github.com/tj-actions/changed-files/issues/2388)) ([d6e91a2](https://github.com/tj-actions/changed-files/commit/d6e91a2266cdb9d62096cebf1e8546899c6aa18f))  - (renovate[bot])
 - **deps:** Update dependency @types/node to v22.10.5 ([#2387](https://github.com/tj-actions/changed-files/issues/2387)) ([73401cd](https://github.com/tj-actions/changed-files/commit/73401cd67665346cf3a3370dc3cdea80f86ae5a0))  - (renovate[bot])
 - **deps:** Update dependency @types/node to v22.10.4 ([#2386](https://github.com/tj-actions/changed-files/issues/2386)) ([7f28b2b](https://github.com/tj-actions/changed-files/commit/7f28b2be82d24be06a22503ab3cc3b462ca18212))  - (renovate[bot])
@@ -99,17 +103,6 @@ Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([ed8e9f6]
 - **deps:** Lock file maintenance ([#2377](https://github.com/tj-actions/changed-files/issues/2377)) ([515a6b3](https://github.com/tj-actions/changed-files/commit/515a6b35d1d0948f7da6d5cdb347ed1600859795))  - (renovate[bot])
 - **deps:** Update dependency @types/node to v22.10.2 ([#2376](https://github.com/tj-actions/changed-files/issues/2376)) ([ac47125](https://github.com/tj-actions/changed-files/commit/ac47125d2d05ea616734c7e19a125149a325d43f))  - (renovate[bot])
 - **deps:** Lock file maintenance ([#2375](https://github.com/tj-actions/changed-files/issues/2375)) ([ef3b6f1](https://github.com/tj-actions/changed-files/commit/ef3b6f1fa5eccdc95d915ec0f87a16535a73d0ca))  - (renovate[bot])
-
-## <!-- 9 -->⬆️ Upgrades
-
-- Upgraded to v45.0.5 ([#2374](https://github.com/tj-actions/changed-files/issues/2374))
-
-Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([8082fbc](https://github.com/tj-actions/changed-files/commit/8082fbc636f98079ae92dc93aaadbfb9105a24e0))  - (tj-actions[bot])
-
-# [45.0.5](https://github.com/tj-actions/changed-files/compare/v45.0.4...v45.0.5) - (2024-12-05)
-
-## <!-- 7 -->⚙️ Miscellaneous Tasks
-
 - **deps:** Update dependency eslint-plugin-github to v5.1.4 ([#2372](https://github.com/tj-actions/changed-files/issues/2372)) ([bab30c2](https://github.com/tj-actions/changed-files/commit/bab30c2299617f6615ec02a68b9a40d10bd21366))  - (renovate[bot])
 - **deps:** Update dependency prettier to v3.4.2 ([#2370](https://github.com/tj-actions/changed-files/issues/2370)) ([657a3f9](https://github.com/tj-actions/changed-files/commit/657a3f914f8c3dc9d8e541c1c2173057072d94f1))  - (renovate[bot])
 - **deps:** Lock file maintenance ([#2369](https://github.com/tj-actions/changed-files/issues/2369)) ([05f0aba](https://github.com/tj-actions/changed-files/commit/05f0aba931687dcad284e6c7f2e049c258a53fb8))  - (renovate[bot])
@@ -132,6 +125,18 @@ Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([8082fbc]
 
 ## <!-- 9 -->⬆️ Upgrades
 
+- Upgraded to v45.0.8 ([#2462](https://github.com/tj-actions/changed-files/issues/2462))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([a284dc1](https://github.com/tj-actions/changed-files/commit/a284dc1814e3fd07f2e34267fc8f81227ed29fb8))  - (tj-actions[bot])
+- Upgraded to v45.0.7 ([#2425](https://github.com/tj-actions/changed-files/issues/2425))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([b1ba699](https://github.com/tj-actions/changed-files/commit/b1ba699b304f2083b602164e06a89b868c84f076))  - (tj-actions[bot])
+- Upgraded to v45.0.6 ([#2389](https://github.com/tj-actions/changed-files/issues/2389))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([ed8e9f6](https://github.com/tj-actions/changed-files/commit/ed8e9f69eea433e8fca92ad9b928ca6520d79c2a))  - (tj-actions[bot])
+- Upgraded to v45.0.5 ([#2374](https://github.com/tj-actions/changed-files/issues/2374))
+
+Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([8082fbc](https://github.com/tj-actions/changed-files/commit/8082fbc636f98079ae92dc93aaadbfb9105a24e0))  - (tj-actions[bot])
 - Upgraded to v45.0.4 ([#2344](https://github.com/tj-actions/changed-files/issues/2344))
 
 Co-authored-by: jackton1 <17484350+jackton1@users.noreply.github.com> ([6809677](https://github.com/tj-actions/changed-files/commit/6809677b7a5911221b35d87417198c8a289e34ec))  - (tj-actions[bot])
@@ -2772,7 +2777,14 @@ Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([648f9c1](https://
 
 Co-authored-by: jackton1 <jackton1@users.noreply.github.com> ([d6d7cb2](https://github.com/tj-actions/changed-files/commit/d6d7cb291e28bba32464fbbf0d13c7f6c2c75de1))  - (tj-actions[bot])
 
-# [37.0.0](https://github.com/tj-actions/changed-files/compare/v36.4.1...v37.0.0) - (2023-06-23)
+# [37.0.0](https://github.com/tj-actions/changed-files/compare/v36.4.2...v37.0.0) - (2023-06-23)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update README.md ([5817a9e](https://github.com/tj-actions/changed-files/commit/5817a9efb0d7cc34b917d8146ea10b9f32044968))  - (Tonye Jack)
+- **deps:** Lock file maintenance ([#1297](https://github.com/tj-actions/changed-files/issues/1297)) ([33d50af](https://github.com/tj-actions/changed-files/commit/33d50af03f5e8e0914e7ddea9455ca6cde2033b1))  - (renovate[bot])
+
+# [36.4.2](https://github.com/tj-actions/changed-files/compare/v36.4.1...v36.4.2) - (2023-06-23)
 
 ## <!-- 0 -->🚀 Features
 
@@ -2793,8 +2805,6 @@ Co-authored-by: repo-ranger[bot] <repo-ranger[bot]@users.noreply.github.com> ([6
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
 
-- Update README.md ([5817a9e](https://github.com/tj-actions/changed-files/commit/5817a9efb0d7cc34b917d8146ea10b9f32044968))  - (Tonye Jack)
-- **deps:** Lock file maintenance ([#1297](https://github.com/tj-actions/changed-files/issues/1297)) ([33d50af](https://github.com/tj-actions/changed-files/commit/33d50af03f5e8e0914e7ddea9455ca6cde2033b1))  - (renovate[bot])
 - Use input api url ([#1293](https://github.com/tj-actions/changed-files/issues/1293)) ([a4cd522](https://github.com/tj-actions/changed-files/commit/a4cd522ee2e5d7999bb102867e6d806e59861c52))  - (Tonye Jack)
 - **deps:** Lock file maintenance ([#1290](https://github.com/tj-actions/changed-files/issues/1290)) ([c4a394a](https://github.com/tj-actions/changed-files/commit/c4a394a9cfbbfcea1d864b5d6c9f9aa2b7960a9b))  - (renovate[bot])
 - **deps:** Update tj-actions/verify-changed-files action to v16 ([#1288](https://github.com/tj-actions/changed-files/issues/1288)) ([50ae49b](https://github.com/tj-actions/changed-files/commit/50ae49b0e4dc2c5bdccb7aad26373561c753b17f))  - (renovate[bot])
