@@ -49,4 +49,5 @@ jobs:
           branch: "chore/update-readme"
           commit-message: "Updated README.md"
           body: "Updated README.md"
+          sign-commits: true
           token: ${{ secrets.GITHUB_TOKEN }}
