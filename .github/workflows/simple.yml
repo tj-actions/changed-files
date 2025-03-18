@@ -12,3 +12,9 @@ jobs:
         
       - name: changed-files action
         uses: ./ # Uses an action in the root directory
+
+      - shell: bash
+        env:
+          SUPER_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          example-command "$SUPER_SECRET"
