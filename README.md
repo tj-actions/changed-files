@@ -20,7 +20,7 @@ Effortlessly track all changed files and directories relative to a target branch
 > \[!WARNING]\
 > **Security Alert:** A critical security issue was identified in this action due to a compromised commit.
 >
-> The affected has been **removed** from all tags and branches, and necessary measures have been implemented to prevent similar issues in the future.
+> The affected commit has been **removed** from all tags and branches, and necessary measures have been implemented to prevent similar issues in the future.
 >
 > #### **Action Required:**
 >
