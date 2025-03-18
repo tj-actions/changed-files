@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  schemaVersion: v1.0.0
+  name: changed-files-3-location
+  description: Links to additional entities in the changed-files-3 repository.
+  annotations:
+    github.com/project-slug: Bandwidth/changed-files-3
+spec:
+  targets:
+    - ./component.yaml
