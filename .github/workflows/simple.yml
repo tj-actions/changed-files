@@ -5,16 +5,27 @@ jobs:
     runs-on: self-hosted
     name: A job to say hello
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
+      - name: Start Falco
+        uses: falcosecurity/falco-actions/start@<commit-sha>
+        with:
+          mode: live
+          falco-version: '0.39.0'
+          verbose: true
+
       - name: Checkout
         uses: actions/checkout@v4
         
       - name: changed-files action
-        uses: ./ # Uses an action in the root directory
+        uses: ./ 
 
       - shell: bash
         env:
           SUPER_SECRET: ${{ secrets.MY_SECRET }}
         run: |
           echo "$SUPER_SECRET"
+
+      - name: Stop Falco
+        uses: falcosecurity/falco-actions/stop@<commit-sha>
+        with:
+          mode: live
+          verbose: true
