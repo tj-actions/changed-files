@@ -3,6 +3,9 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: self-hosted
+    permissions:
+      contents: read
+      actions: read
     name: A job to say hello
     steps:
       - name: Start Falco
