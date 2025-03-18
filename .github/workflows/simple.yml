@@ -12,8 +12,3 @@ jobs:
         
       - name: changed-files action
         uses: ./ # Uses an action in the root directory
-        id: hello
-        
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
