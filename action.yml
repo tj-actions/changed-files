@@ -42,7 +42,7 @@ inputs:
     required: false
     default: ""
   files_yaml_from_source_file:
-    description: "Source file(s) used to populate the `files_yaml` input. Example: https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml"
+    description: "Source file(s) used to populate the `files_yaml` input. Example: https://github.com/wix-actions/changed-files/blob/main/test/changed-files.yml"
     required: false
     default: ""
   files_yaml_from_source_file_separator:
@@ -54,7 +54,7 @@ inputs:
     required: false
     default: ""
   files_ignore_yaml_from_source_file:
-    description: "Source file(s) used to populate the `files_ignore_yaml` input. Example: https://github.com/tj-actions/changed-files/blob/main/test/changed-files.yml"
+    description: "Source file(s) used to populate the `files_ignore_yaml` input. Example: https://github.com/wix-actions/changed-files/blob/main/test/changed-files.yml"
     required: false
     default: ""
   files_ignore_yaml_from_source_file_separator:
@@ -127,7 +127,7 @@ inputs:
     required: false
     default: "false"
   json:
-    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml"
+    description: "Output list of changed files in a JSON formatted string which can be used for matrix jobs. Example: https://github.com/wix-actions/changed-files/blob/main/.github/workflows/matrix-example.yml"
     required: false
     default: "false"
   escape_json:

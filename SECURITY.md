@@ -27,6 +27,6 @@ Upon confirmation of a breach, reporters will receive full credit and recognitio
 
 ## Communication of Security Breaches
 
-We will utilize the [GitHub Security Advisory](https://github.com/tj-actions/changed-files/security/advisories) to communicate any security breaches. The advisory will be made public once a patch has been released to rectify the issue.
+We will utilize the [GitHub Security Advisory](https://github.com/wix-actions/changed-files/security/advisories) to communicate any security breaches. The advisory will be made public once a patch has been released to rectify the issue.
 
 We appreciate your cooperation and contribution to maintaining the security of our software. Remember, a secure community is a strong community.

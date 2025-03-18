@@ -1,80 +1,80 @@
 # Changelog
 
-# [46.0.1](https://github.com/tj-actions/changed-files/compare/v46.0.0...v46.0.1) - (2025-03-16)
+# [46.0.1](https://github.com/wix-actions/changed-files/compare/v46.0.0...v46.0.1) - (2025-03-16)
 
 ## <!-- 26 -->🔄 Update
 
-- Updated README.md ([#2473](https://github.com/tj-actions/changed-files/issues/2473))
+- Updated README.md ([#2473](https://github.com/wix-actions/changed-files/issues/2473))
 
-Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([2f7c5bf](https://github.com/tj-actions/changed-files/commit/2f7c5bfce28377bc069a65ba478de0a74aa0ca32))  - (github-actions[bot])
-- Sync-release-version.yml to use signed commits ([#2472](https://github.com/tj-actions/changed-files/issues/2472)) ([4189ec6](https://github.com/tj-actions/changed-files/commit/4189ec62c445484531e9ad97157d990be96e88ee))  - (Tonye Jack)
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([2f7c5bf](https://github.com/wix-actions/changed-files/commit/2f7c5bfce28377bc069a65ba478de0a74aa0ca32))  - (github-actions[bot])
+- Sync-release-version.yml to use signed commits ([#2472](https://github.com/wix-actions/changed-files/issues/2472)) ([4189ec6](https://github.com/wix-actions/changed-files/commit/4189ec62c445484531e9ad97157d990be96e88ee))  - (Tonye Jack)
 
-# [46.0.0](https://github.com/tj-actions/changed-files/compare/v45.0.9...v46.0.0) - (2025-03-16)
+# [46.0.0](https://github.com/wix-actions/changed-files/compare/v45.0.9...v46.0.0) - (2025-03-16)
 
 ## <!-- 1 -->🐛 Bug Fixes
 
-- Update update-readme.yml to sign-commits ([#2468](https://github.com/tj-actions/changed-files/issues/2468)) ([0f1ffe6](https://github.com/tj-actions/changed-files/commit/0f1ffe61855cb317d5fd66122c14dc0627eab141))  - (Tonye Jack)
-- Update permission in update-readme.yml workflow ([#2467](https://github.com/tj-actions/changed-files/issues/2467)) ([ddef03e](https://github.com/tj-actions/changed-files/commit/ddef03e37c84cfb9ee89fa055b86359aaf949c86))  - (Tonye Jack)
-- Update github workflow update-readme.yml ([#2466](https://github.com/tj-actions/changed-files/issues/2466)) ([9c2df0d](https://github.com/tj-actions/changed-files/commit/9c2df0d54a911c819d7368d7e5ed7c01c0796e0a))  - (Tonye Jack)
+- Update update-readme.yml to sign-commits ([#2468](https://github.com/wix-actions/changed-files/issues/2468)) ([0f1ffe6](https://github.com/wix-actions/changed-files/commit/0f1ffe61855cb317d5fd66122c14dc0627eab141))  - (Tonye Jack)
+- Update permission in update-readme.yml workflow ([#2467](https://github.com/wix-actions/changed-files/issues/2467)) ([ddef03e](https://github.com/wix-actions/changed-files/commit/ddef03e37c84cfb9ee89fa055b86359aaf949c86))  - (Tonye Jack)
+- Update github workflow update-readme.yml ([#2466](https://github.com/wix-actions/changed-files/issues/2466)) ([9c2df0d](https://github.com/wix-actions/changed-files/commit/9c2df0d54a911c819d7368d7e5ed7c01c0796e0a))  - (Tonye Jack)
 
 ## <!-- 17 -->➖ Remove
 
-- Deleted renovate.json ([e37e952](https://github.com/tj-actions/changed-files/commit/e37e952786556966c1fb6183c5937b3966bab099))  - (Tonye Jack)
+- Deleted renovate.json ([e37e952](https://github.com/wix-actions/changed-files/commit/e37e952786556966c1fb6183c5937b3966bab099))  - (Tonye Jack)
 
 ## <!-- 26 -->🔄 Update
 
-- Sync-release-version.yml ([#2471](https://github.com/tj-actions/changed-files/issues/2471)) ([4cd184a](https://github.com/tj-actions/changed-files/commit/4cd184a1dd542b79cca1d4d7938e4154a6520ca7))  - (Tonye Jack)
-- Updated README.md ([#2469](https://github.com/tj-actions/changed-files/issues/2469))
+- Sync-release-version.yml ([#2471](https://github.com/wix-actions/changed-files/issues/2471)) ([4cd184a](https://github.com/wix-actions/changed-files/commit/4cd184a1dd542b79cca1d4d7938e4154a6520ca7))  - (Tonye Jack)
+- Updated README.md ([#2469](https://github.com/wix-actions/changed-files/issues/2469))
 
-Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([5cbf220](https://github.com/tj-actions/changed-files/commit/5cbf22026d05fbef0c027d1b1f118fe3a1b6e435))  - (github-actions[bot])
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([5cbf220](https://github.com/wix-actions/changed-files/commit/5cbf22026d05fbef0c027d1b1f118fe3a1b6e435))  - (github-actions[bot])
 
 ## <!-- 3 -->📚 Documentation
 
-- Update docs to highlight security issues ([#2465](https://github.com/tj-actions/changed-files/issues/2465)) ([6525332](https://github.com/tj-actions/changed-files/commit/65253327cf47481b4b1b4b9fea78e143a1353147))  - (Tonye Jack)
+- Update docs to highlight security issues ([#2465](https://github.com/wix-actions/changed-files/issues/2465)) ([6525332](https://github.com/wix-actions/changed-files/commit/65253327cf47481b4b1b4b9fea78e143a1353147))  - (Tonye Jack)
 
-# [45.0.9](https://github.com/tj-actions/changed-files/compare/v45.0.4...v45.0.9) - (2025-03-15)
+# [45.0.9](https://github.com/wix-actions/changed-files/compare/v45.0.4...v45.0.9) - (2025-03-15)
 
 ## <!-- 1 -->🐛 Bug Fixes
 
-- **deps:** Update dependency @octokit/rest to v21.1.1 ([#2435](https://github.com/tj-actions/changed-files/issues/2435)) ([fb8dcda](https://github.com/tj-actions/changed-files/commit/fb8dcda5fb8954cec37773d2b275a8579c86c781))  - (renovate[bot])
-- **deps:** Update dependency @octokit/rest to v21.1.0 ([#2394](https://github.com/tj-actions/changed-files/issues/2394)) ([7b72c97](https://github.com/tj-actions/changed-files/commit/7b72c97d739f955f5cadca0d59799d826ae9f6c9))  - (renovate[bot])
-- **deps:** Update dependency yaml to v2.7.0 ([#2383](https://github.com/tj-actions/changed-files/issues/2383)) ([5f974c2](https://github.com/tj-actions/changed-files/commit/5f974c28f5044c411f0c9e7becf3f172029cf9cf))  - (renovate[bot])
+- **deps:** Update dependency @octokit/rest to v21.1.1 ([#2435](https://github.com/wix-actions/changed-files/issues/2435)) ([fb8dcda](https://github.com/wix-actions/changed-files/commit/fb8dcda5fb8954cec37773d2b275a8579c86c781))  - (renovate[bot])
+- **deps:** Update dependency @octokit/rest to v21.1.0 ([#2394](https://github.com/wix-actions/changed-files/issues/2394)) ([7b72c97](https://github.com/wix-actions/changed-files/commit/7b72c97d739f955f5cadca0d59799d826ae9f6c9))  - (renovate[bot])
+- **deps:** Update dependency yaml to v2.7.0 ([#2383](https://github.com/wix-actions/changed-files/issues/2383)) ([5f974c2](https://github.com/wix-actions/changed-files/commit/5f974c28f5044c411f0c9e7becf3f172029cf9cf))  - (renovate[bot])
 
 ## <!-- 7 -->⚙️ Miscellaneous Tasks
 
-- **deps:** Lock file maintenance ([#2460](https://github.com/tj-actions/changed-files/issues/2460)) ([9200e69](https://github.com/tj-actions/changed-files/commit/9200e69727eb73eb060652b19946b8a2fdfb654b))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.10 ([#2459](https://github.com/tj-actions/changed-files/issues/2459)) ([e650cfd](https://github.com/tj-actions/changed-files/commit/e650cfdae513481a20f538e88d98b39106523006))  - (renovate[bot])
-- **deps:** Update dependency eslint-config-prettier to v10.1.1 ([#2458](https://github.com/tj-actions/changed-files/issues/2458)) ([82af21f](https://github.com/tj-actions/changed-files/commit/82af21f4a05896ca18c950539469bee225c45a89))  - (renovate[bot])
-- **deps:** Update dependency eslint-config-prettier to v10.1.0 ([#2457](https://github.com/tj-actions/changed-files/issues/2457)) ([82fa4a6](https://github.com/tj-actions/changed-files/commit/82fa4a6402582d5c8c9c0e95b7ff7cc88992bbb4))  - (renovate[bot])
-- **deps:** Update peter-evans/create-pull-request action to v7.0.8 ([#2455](https://github.com/tj-actions/changed-files/issues/2455)) ([315505a](https://github.com/tj-actions/changed-files/commit/315505acf41d2913b71af48080fb158cd01f79e7))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.9 ([#2454](https://github.com/tj-actions/changed-files/issues/2454)) ([c8e1cdb](https://github.com/tj-actions/changed-files/commit/c8e1cdb9ea135ee549963c167ffaec5e7d4a71cd))  - (renovate[bot])
-- **deps:** Update dependency prettier to v3.5.3 ([#2453](https://github.com/tj-actions/changed-files/issues/2453)) ([bb6d1aa](https://github.com/tj-actions/changed-files/commit/bb6d1aa0029f6d912eccbd2daf94dbccf5c008b4))  - (renovate[bot])
-- **deps:** Lock file maintenance ([#2451](https://github.com/tj-actions/changed-files/issues/2451)) ([1f74fc9](https://github.com/tj-actions/changed-files/commit/1f74fc96532a3560189153049046a9ac7f436f80))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.8 ([#2450](https://github.com/tj-actions/changed-files/issues/2450)) ([6f0fde1](https://github.com/tj-actions/changed-files/commit/6f0fde1f0c49ab5a61517920346ab54b09fa8fd5))  - (renovate[bot])
-- **deps:** Update dependency @types/lodash to v4.17.16 ([#2449](https://github.com/tj-actions/changed-files/issues/2449)) ([056cdb7](https://github.com/tj-actions/changed-files/commit/056cdb7fc89edb7ad68c33c50570ef1110e5d207))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.7 ([#2448](https://github.com/tj-actions/changed-files/issues/2448)) ([4bc8595](https://github.com/tj-actions/changed-files/commit/4bc859529c1081b5df410fcc50ba0cacb1d4d782))  - (renovate[bot])
-- **deps:** Update dependency typescript to v5.8.2 ([#2446](https://github.com/tj-actions/changed-files/issues/2446)) ([86d954f](https://github.com/tj-actions/changed-files/commit/86d954fb8e6717efaea8be9b7fae7956e662b3f7))  - (renovate[bot])
-- **deps:** Update dependency eslint-config-prettier to v10.0.2 ([#2444](https://github.com/tj-actions/changed-files/issues/2444)) ([33dce23](https://github.com/tj-actions/changed-files/commit/33dce23cbf273a366eaa6119624f98c0d4f62258))  - (renovate[bot])
-- **deps:** Update peter-evans/create-pull-request action to v7.0.7 ([#2443](https://github.com/tj-actions/changed-files/issues/2443)) ([422be01](https://github.com/tj-actions/changed-files/commit/422be0138abd5273e9754b21596d339792214322))  - (renovate[bot])
-- **deps:** Lock file maintenance ([#2442](https://github.com/tj-actions/changed-files/issues/2442)) ([601adb1](https://github.com/tj-actions/changed-files/commit/601adb19b693527d2c25440b8c953e1b9023948f))  - (renovate[bot])
-- **deps:** Update dependency ts-jest to v29.2.6 ([#2441](https://github.com/tj-actions/changed-files/issues/2441)) ([09f0e69](https://github.com/tj-actions/changed-files/commit/09f0e695d43e3214f556278c5d7f5c4a6fed9ef4))  - (renovate[bot])
-- **deps:** Update dependency prettier to v3.5.2 ([#2440](https://github.com/tj-actions/changed-files/issues/2440)) ([c7e81c8](https://github.com/tj-actions/changed-files/commit/c7e81c896704ad9588dfddbe7d8cc641d0f2c843))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.5 ([#2439](https://github.com/tj-actions/changed-files/issues/2439)) ([02e0175](https://github.com/tj-actions/changed-files/commit/02e0175004314f8c1bcf897b77f408e48264c0d9))  - (renovate[bot])
-- **deps:** Lock file maintenance ([#2436](https://github.com/tj-actions/changed-files/issues/2436)) ([251f07e](https://github.com/tj-actions/changed-files/commit/251f07ed5250f0c01a1745b77a54289a678b3928))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.4 ([#2434](https://github.com/tj-actions/changed-files/issues/2434)) ([6fe3586](https://github.com/tj-actions/changed-files/commit/6fe358690943ba4d06c483143d69451afda3e7c2))  - (renovate[bot])
-- **deps:** Update dependency prettier to v3.5.1 ([#2433](https://github.com/tj-actions/changed-files/issues/2433)) ([df76a83](https://github.com/tj-actions/changed-files/commit/df76a83fcbf4a5fe1035efa950c841f1ee09dcaf))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.2 ([#2432](https://github.com/tj-actions/changed-files/issues/2432)) ([faaeb86](https://github.com/tj-actions/changed-files/commit/faaeb86b22212d8c31c44037e58ab47932205284))  - (renovate[bot])
-- **deps:** Lock file maintenance ([#2429](https://github.com/tj-actions/changed-files/issues/2429)) ([4919c5a](https://github.com/tj-actions/changed-files/commit/4919c5ae14b195ff9972c9856273df6d20b8c508))  - (renovate[bot])
-- **deps:** Update dependency prettier to v3.5.0 ([#2428](https://github.com/tj-actions/changed-files/issues/2428)) ([045c541](https://github.com/tj-actions/changed-files/commit/045c5414a33ccf6ca33c27a799f6571f8ef74114))  - (renovate[bot])
-- **deps:** Lock file maintenance ([#2426](https://github.com/tj-actions/changed-files/issues/2426)) ([563041e](https://github.com/tj-actions/changed-files/commit/563041e49cdb9d8729f08b4c2d3129dbb25cf2f6))  - (renovate[bot])
-- **config:** Migrate renovate config ([#2427](https://github.com/tj-actions/changed-files/issues/2427)) ([809f04b](https://github.com/tj-actions/changed-files/commit/809f04b20ab5525fb99637d624b6c721d55e01db))  - (renovate[bot])
-- **deps:** Update dependency eslint-plugin-github to v5.1.8 ([#2424](https://github.com/tj-actions/changed-files/issues/2424)) ([dcc7a0c](https://github.com/tj-actions/changed-files/commit/dcc7a0cba800f454d79fff4b993e8c3555bcc0a8))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.1 ([#2422](https://github.com/tj-actions/changed-files/issues/2422)) ([364748a](https://github.com/tj-actions/changed-files/commit/364748aaa8a1ba2cd0a06c35e27f0b736cce57d1))  - (renovate[bot])
-- **deps:** Lock file maintenance ([#2420](https://github.com/tj-actions/changed-files/issues/2420)) ([301bed6](https://github.com/tj-actions/changed-files/commit/301bed650e89313e46f9582591f9a1f4839f2826))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.13.0 ([#2419](https://github.com/tj-actions/changed-files/issues/2419)) ([be1c470](https://github.com/tj-actions/changed-files/commit/be1c47003f1f9dedb4436e1e87dfdedd6f97f4c9))  - (renovate[bot])
-- **deps:** Update dependency eslint-plugin-github to v5.1.7 ([#2417](https://github.com/tj-actions/changed-files/issues/2417)) ([81785a6](https://github.com/tj-actions/changed-files/commit/81785a6716d8354b3886445dd0c2f91e44a0af5a))  - (renovate[bot])
-- **deps:** Update dependency @types/lodash to v4.17.15 ([#2415](https://github.com/tj-actions/changed-files/issues/2415)) ([065e671](https://github.com/tj-actions/changed-files/commit/065e671731666959f9ea1bbbb7ddb8363a8ae9cd))  - (renovate[bot])
-- **deps:** Update dependency @types/node to v22.12.0 ([#2414](https://github.com/tj-actions/changed-files/issues/2414)) ([45cd7f3](https://github.com/tj-actions/changed-files/commit/45cd7f3ddd3d2ba2e885acb6245710a72c096704))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2460](https://github.com/wix-actions/changed-files/issues/2460)) ([9200e69](https://github.com/wix-actions/changed-files/commit/9200e69727eb73eb060652b19946b8a2fdfb654b))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.10 ([#2459](https://github.com/wix-actions/changed-files/issues/2459)) ([e650cfd](https://github.com/wix-actions/changed-files/commit/e650cfdae513481a20f538e88d98b39106523006))  - (renovate[bot])
+- **deps:** Update dependency eslint-config-prettier to v10.1.1 ([#2458](https://github.com/wix-actions/changed-files/issues/2458)) ([82af21f](https://github.com/wix-actions/changed-files/commit/82af21f4a05896ca18c950539469bee225c45a89))  - (renovate[bot])
+- **deps:** Update dependency eslint-config-prettier to v10.1.0 ([#2457](https://github.com/wix-actions/changed-files/issues/2457)) ([82fa4a6](https://github.com/wix-actions/changed-files/commit/82fa4a6402582d5c8c9c0e95b7ff7cc88992bbb4))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v7.0.8 ([#2455](https://github.com/wix-actions/changed-files/issues/2455)) ([315505a](https://github.com/wix-actions/changed-files/commit/315505acf41d2913b71af48080fb158cd01f79e7))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.9 ([#2454](https://github.com/wix-actions/changed-files/issues/2454)) ([c8e1cdb](https://github.com/wix-actions/changed-files/commit/c8e1cdb9ea135ee549963c167ffaec5e7d4a71cd))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.5.3 ([#2453](https://github.com/wix-actions/changed-files/issues/2453)) ([bb6d1aa](https://github.com/wix-actions/changed-files/commit/bb6d1aa0029f6d912eccbd2daf94dbccf5c008b4))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2451](https://github.com/wix-actions/changed-files/issues/2451)) ([1f74fc9](https://github.com/wix-actions/changed-files/commit/1f74fc96532a3560189153049046a9ac7f436f80))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.8 ([#2450](https://github.com/wix-actions/changed-files/issues/2450)) ([6f0fde1](https://github.com/wix-actions/changed-files/commit/6f0fde1f0c49ab5a61517920346ab54b09fa8fd5))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.16 ([#2449](https://github.com/wix-actions/changed-files/issues/2449)) ([056cdb7](https://github.com/wix-actions/changed-files/commit/056cdb7fc89edb7ad68c33c50570ef1110e5d207))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.7 ([#2448](https://github.com/wix-actions/changed-files/issues/2448)) ([4bc8595](https://github.com/wix-actions/changed-files/commit/4bc859529c1081b5df410fcc50ba0cacb1d4d782))  - (renovate[bot])
+- **deps:** Update dependency typescript to v5.8.2 ([#2446](https://github.com/wix-actions/changed-files/issues/2446)) ([86d954f](https://github.com/wix-actions/changed-files/commit/86d954fb8e6717efaea8be9b7fae7956e662b3f7))  - (renovate[bot])
+- **deps:** Update dependency eslint-config-prettier to v10.0.2 ([#2444](https://github.com/wix-actions/changed-files/issues/2444)) ([33dce23](https://github.com/wix-actions/changed-files/commit/33dce23cbf273a366eaa6119624f98c0d4f62258))  - (renovate[bot])
+- **deps:** Update peter-evans/create-pull-request action to v7.0.7 ([#2443](https://github.com/wix-actions/changed-files/issues/2443)) ([422be01](https://github.com/wix-actions/changed-files/commit/422be0138abd5273e9754b21596d339792214322))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2442](https://github.com/wix-actions/changed-files/issues/2442)) ([601adb1](https://github.com/wix-actions/changed-files/commit/601adb19b693527d2c25440b8c953e1b9023948f))  - (renovate[bot])
+- **deps:** Update dependency ts-jest to v29.2.6 ([#2441](https://github.com/wix-actions/changed-files/issues/2441)) ([09f0e69](https://github.com/wix-actions/changed-files/commit/09f0e695d43e3214f556278c5d7f5c4a6fed9ef4))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.5.2 ([#2440](https://github.com/wix-actions/changed-files/issues/2440)) ([c7e81c8](https://github.com/wix-actions/changed-files/commit/c7e81c896704ad9588dfddbe7d8cc641d0f2c843))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.5 ([#2439](https://github.com/wix-actions/changed-files/issues/2439)) ([02e0175](https://github.com/wix-actions/changed-files/commit/02e0175004314f8c1bcf897b77f408e48264c0d9))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2436](https://github.com/wix-actions/changed-files/issues/2436)) ([251f07e](https://github.com/wix-actions/changed-files/commit/251f07ed5250f0c01a1745b77a54289a678b3928))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.4 ([#2434](https://github.com/wix-actions/changed-files/issues/2434)) ([6fe3586](https://github.com/wix-actions/changed-files/commit/6fe358690943ba4d06c483143d69451afda3e7c2))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.5.1 ([#2433](https://github.com/wix-actions/changed-files/issues/2433)) ([df76a83](https://github.com/wix-actions/changed-files/commit/df76a83fcbf4a5fe1035efa950c841f1ee09dcaf))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.2 ([#2432](https://github.com/wix-actions/changed-files/issues/2432)) ([faaeb86](https://github.com/wix-actions/changed-files/commit/faaeb86b22212d8c31c44037e58ab47932205284))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2429](https://github.com/wix-actions/changed-files/issues/2429)) ([4919c5a](https://github.com/wix-actions/changed-files/commit/4919c5ae14b195ff9972c9856273df6d20b8c508))  - (renovate[bot])
+- **deps:** Update dependency prettier to v3.5.0 ([#2428](https://github.com/wix-actions/changed-files/issues/2428)) ([045c541](https://github.com/wix-actions/changed-files/commit/045c5414a33ccf6ca33c27a799f6571f8ef74114))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2426](https://github.com/wix-actions/changed-files/issues/2426)) ([563041e](https://github.com/wix-actions/changed-files/commit/563041e49cdb9d8729f08b4c2d3129dbb25cf2f6))  - (renovate[bot])
+- **config:** Migrate renovate config ([#2427](https://github.com/wix-actions/changed-files/issues/2427)) ([809f04b](https://github.com/wix-actions/changed-files/commit/809f04b20ab5525fb99637d624b6c721d55e01db))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v5.1.8 ([#2424](https://github.com/wix-actions/changed-files/issues/2424)) ([dcc7a0c](https://github.com/wix-actions/changed-files/commit/dcc7a0cba800f454d79fff4b993e8c3555bcc0a8))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.1 ([#2422](https://github.com/wix-actions/changed-files/issues/2422)) ([364748a](https://github.com/wix-actions/changed-files/commit/364748aaa8a1ba2cd0a06c35e27f0b736cce57d1))  - (renovate[bot])
+- **deps:** Lock file maintenance ([#2420](https://github.com/wix-actions/changed-files/issues/2420)) ([301bed6](https://github.com/wix-actions/changed-files/commit/301bed650e89313e46f9582591f9a1f4839f2826))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.13.0 ([#2419](https://github.com/wix-actions/changed-files/issues/2419)) ([be1c470](https://github.com/wix-actions/changed-files/commit/be1c47003f1f9dedb4436e1e87dfdedd6f97f4c9))  - (renovate[bot])
+- **deps:** Update dependency eslint-plugin-github to v5.1.7 ([#2417](https://github.com/wix-actions/changed-files/issues/2417)) ([81785a6](https://github.com/wix-actions/changed-files/commit/81785a6716d8354b3886445dd0c2f91e44a0af5a))  - (renovate[bot])
+- **deps:** Update dependency @types/lodash to v4.17.15 ([#2415](https://github.com/wix-actions/changed-files/issues/2415)) ([065e671](https://github.com/wix-actions/changed-files/commit/065e671731666959f9ea1bbbb7ddb8363a8ae9cd))  - (renovate[bot])
+- **deps:** Update dependency @types/node to v22.12.0 ([#2414](https://github.com/wix-actions/changed-files/issues/2414)) ([45cd7f3](https://github.com/wix-actions/changed-files/commit/45cd7f3ddd3d2ba2e885acb6245710a72c096704))  - (renovate[bot])
 - **deps:** Update dependency eslint-plugin-github to v5.1.6 ([#2413](https://github.com/tj-actions/changed-files/issues/2413)) ([47f21ba](https://github.com/tj-actions/changed-files/commit/47f21ba55840bf5f5d6ed605352ecd7f2508cbe2))  - (renovate[bot])
 - **deps:** Update actions/setup-node action to v4.2.0 ([#2411](https://github.com/tj-actions/changed-files/issues/2411)) ([3b30412](https://github.com/tj-actions/changed-files/commit/3b3041225bddb25fd9637f44aa4e9a5178c6792e))  - (renovate[bot])
 - **deps:** Lock file maintenance ([#2410](https://github.com/tj-actions/changed-files/issues/2410)) ([eec6665](https://github.com/tj-actions/changed-files/commit/eec6665cfdd8cb363f41d1adb498ad670105e5ea))  - (renovate[bot])

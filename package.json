@@ -1,5 +1,5 @@
 {
-  "name": "@tj-actions/changed-files",
+  "name": "@wix-actions/changed-files",
   "version": "45.0.8",
   "description": "Github action to retrieve all (added, copied, modified, deleted, renamed, type changed, unmerged, unknown) files and directories.",
   "main": "lib/main.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tj-actions/changed-files.git"
+    "url": "git+https://github.com/wix-actions/changed-files.git"
   },
   "keywords": [
     "actions",
@@ -29,9 +29,9 @@
   "author": "Tonye Jack",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tj-actions/changed-files/issues"
+    "url": "https://github.com/wix-actions/changed-files/issues"
   },
-  "homepage": "https://github.com/tj-actions/changed-files#readme",
+  "homepage": "https://github.com/wix-actions/changed-files#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/exec": "^1.1.1",
