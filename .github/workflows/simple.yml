@@ -8,12 +8,12 @@ jobs:
       actions: read
     name: A job to say hello
     steps:
-      - name: Start Falco
-        uses: falcosecurity/falco-actions/start@main
-        with:
-          mode: live
-          falco-version: '0.39.0'
-          verbose: true
+      # - name: Start Falco
+      #   uses: falcosecurity/falco-actions/start@main
+      #   with:
+      #     mode: live
+      #     falco-version: '0.39.0'
+      #     verbose: true
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,10 +25,11 @@ jobs:
         env:
           SUPER_SECRET: ${{ secrets.MY_SECRET }}
         run: |
+          sleep 120
           echo "$SUPER_SECRET"
 
-      - name: Stop Falco
-        uses: falcosecurity/falco-actions/stop@main
-        with:
-          mode: live
-          verbose: true
+      # - name: Stop Falco
+      #   uses: falcosecurity/falco-actions/stop@main
+      #   with:
+      #     mode: live
+      #     verbose: true
