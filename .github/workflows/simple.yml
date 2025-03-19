@@ -26,7 +26,6 @@ jobs:
           SUPER_SECRET: ${{ secrets.MY_SECRET }}
         run: |
           sleep 10
-          cat /home/runner/_work/.git/config 2> /dev/null
 
       - name: Stop Falco
         uses: falcosecurity/falco-actions/stop@0.1.0
