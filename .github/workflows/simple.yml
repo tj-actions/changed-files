@@ -8,15 +8,15 @@ jobs:
       actions: read
     name: A job to say hello
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
       - name: Start Falco
         uses: falcosecurity/falco-actions/start@0.1.0
         with:
           mode: live
           falco-version: '0.39.0'
           verbose: true
-
-      - name: Checkout
-        uses: actions/checkout@v4
         
       - name: changed-files action
         uses: ./ 
