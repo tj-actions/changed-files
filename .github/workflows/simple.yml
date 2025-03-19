@@ -2,7 +2,7 @@ on: [push]
 
 jobs:
   hello_world_job:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       actions: read
