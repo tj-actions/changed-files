@@ -1,4 +1,5 @@
-on: [push]
+on: 
+ pull_request:
 
 jobs:
   hello_world_job:
@@ -11,12 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Start Falco
-        uses: falcosecurity/falco-actions/start@0.1.0
-        with:
-          mode: live
-          falco-version: '0.39.0'
-          verbose: true
+      # - name: Start Falco
+      #   uses: falcosecurity/falco-actions/start@0.1.0
+      #   with:
+      #     mode: live
+      #     falco-version: '0.39.0'
+      #     verbose: true
         
       - name: changed-files action
         uses: ./ 
@@ -27,8 +28,8 @@ jobs:
         run: |
           sleep 10
 
-      - name: Stop Falco
-        uses: falcosecurity/falco-actions/stop@0.1.0
-        with:
-          mode: live
-          verbose: true
+      # - name: Stop Falco
+      #   uses: falcosecurity/falco-actions/stop@0.1.0
+      #   with:
+      #     mode: live
+      #     verbose: true
