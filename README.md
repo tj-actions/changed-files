@@ -8,9 +8,7 @@
 [![Update release version.](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml/badge.svg)](https://github.com/tj-actions/changed-files/actions/workflows/sync-release-version.yml)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-27-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## changed-files
@@ -1419,11 +1417,8 @@ If you are reporting a bug, please include:
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
 <!-- prettier-ignore-start -->
-
 <!-- markdownlint-disable -->
-
 <table>
   <tbody>
     <tr>
@@ -1460,12 +1455,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://keisukeyamashita.com"><img src="https://avatars.githubusercontent.com/u/23056537?v=4?s=100" width="100px;" alt="KeisukeYamashita"/><br /><sub><b>KeisukeYamashita</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=KeisukeYamashita" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/codesculpture"><img src="https://avatars.githubusercontent.com/u/63452117?v=4?s=100" width="100px;" alt="Aravind"/><br /><sub><b>Aravind</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=codesculpture" title="Code">💻</a> <a href="https://github.com/tj-actions/changed-files/issues?q=author%3Acodesculpture" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://lukaspfahler.de"><img src="https://avatars.githubusercontent.com/u/2308119?v=4?s=100" width="100px;" alt="Lukas Pfahler"/><br /><sub><b>Lukas Pfahler</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=Whadup" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/RajendraP"><img src="https://avatars.githubusercontent.com/u/8928165?v=4?s=100" width="100px;" alt="Rajendra Pandey"/><br /><sub><b>Rajendra Pandey</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=RajendraP" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
 
 <!-- markdownlint-restore -->
-
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
