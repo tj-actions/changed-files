@@ -263,6 +263,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "undefined-moe",
+      "name": "undefined",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29992205?v=4",
+      "profile": "https://undefined.moe/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
