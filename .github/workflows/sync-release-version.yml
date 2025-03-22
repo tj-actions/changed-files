@@ -13,13 +13,13 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       - name: Run release-tagger
-        uses: tj-actions/release-tagger@v4
+        uses: tj-actions/release-tagger@1a9264b0fd99a1ef92c4fd2f077f292900cc79b6 # v4.0.0
       - name: Sync release version.
-        uses: tj-actions/sync-release-version@v13
+        uses: tj-actions/sync-release-version@2c909a7cf69905388d998101c40edb26d0882ea2 # v13.12
         id: sync-release-version
         with:
           pattern: '${{ github.repository }}@'
@@ -28,7 +28,7 @@ jobs:
           paths: |
             README.md
       - name: Sync release package version.
-        uses: tj-actions/sync-release-version@v13
+        uses: tj-actions/sync-release-version@2c909a7cf69905388d998101c40edb26d0882ea2 # v13.12
         id: sync-release-package-version
         with:
           pattern: '"version": "'
@@ -36,9 +36,9 @@ jobs:
           paths: |
             package.json
       - name: Run git-cliff
-        uses: tj-actions/git-cliff@v1
+        uses: tj-actions/git-cliff@75599f745633e29f99bd9e14a30865b7d2fcbe84 # v1.5.0
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7.0.8
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           base: "main"
           labels: "merge when passing"
