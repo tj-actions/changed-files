@@ -342,7 +342,7 @@ Support this project with a :star:
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
 ```yaml
-- uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32 # v46
+- uses: tj-actions/changed-files@26a38635fc1173cc5820336ce97be6188d0de9f5 # v46
   id: changed-files
   with:
     # Github API URL.
