@@ -1281,7 +1281,7 @@ const getSHAForPullRequestEvent = async ({ inputs, workingDirectory, isShallow, 
                             break;
                         }
                         core.info('Merge base is not in the local history, fetching remote target branch again...');
-                        core.info(`Attempt ${i}/10`);
+                        core.info(`Attempt ${i}/${inputs.fetchMissingHistoryMaxRetries || 10}`);
                     }
                 }
             }
