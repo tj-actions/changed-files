@@ -13,21 +13,22 @@ jobs:
   sync-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
 
       - name: Run auto-doc
-        uses: tj-actions/auto-doc@v3
+        uses: tj-actions/auto-doc@b10ceedffd794ec29a8fa8700529f40c1b64a951 # v3.6.0
         with:
           use_code_blocks: true
           use_major_version: true
+          use_tag_commit_hash: true
 
       - name: Run remark
-        uses: tj-actions/remark@v3
+        uses: tj-actions/remark@10fc40701928cbafcc4a2d241679579d218144ff # v3
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v20
+        uses: tj-actions/verify-changed-files@6ed7632824d235029086612d4330d659005af687 # v20.0.1
         id: verify_changed_files
         with:
           files: |
@@ -41,7 +42,7 @@ jobs:
 
       - name: Create Pull Request
         if: failure()
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           base: "main"
           labels: "merge when passing"

@@ -9,27 +9,13 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-27-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-29-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## changed-files
 
 Effortlessly track all changed files and directories relative to a target branch, the current branch (preceding commit or the last remote commit), multiple branches, or custom commits returning **relative paths** from the project root using this GitHub action.
-
-> \[!WARNING]\
-> **Security Alert:** A critical security issue was identified in this action due to a compromised commit.
->
-> This commit has been **removed** from all tags and branches, and necessary measures have been implemented to prevent similar issues in the future.
->
-> #### **Action Required:**
->
-> *   **Review your workflows executed between March 14 and March 15.** If you notice unexpected output under the `changed-files` section, decode  it using the following command:  `echo 'xxx' | base64 -d | base64 -d`\
->     If the output contains sensitive information (e.g., tokens or secrets), **revoke and rotate those secrets immediately**.
-> *   **If your workflows reference this commit directly by its SHA**, you must update them immediately to avoid using the compromised version.
-> *   **If you are using tagged versions** (e.g., `v35`, `v44.5.1`), no action is required as these tags have been updated and are now safe to use.
->
-> Additionally, as a precaution, we recommend rotating any secrets that may have been exposed during this timeframe to ensure the continued security of your workflows.
 
 > \[!NOTE]
 >
@@ -136,7 +122,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
         # with:
         #   since_last_remote_commit: true 
@@ -154,7 +140,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get all changed markdown files
         id: changed-markdown-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
           # Avoid using single or double quotes for multiline patterns
           files: |
@@ -175,7 +161,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
           files_yaml: |
             doc:
@@ -210,7 +196,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get changed files in the docs folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
           files: docs/*.{js,html}  # Alternatively using: `docs/**`
           files_ignore: docs/static.js
@@ -252,7 +238,7 @@ jobs:
     steps:
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
 
       - name: List all changed files
         env:
@@ -295,7 +281,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
 
       - name: List all changed files
@@ -342,7 +328,7 @@ Support this project with a :star:
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
 ```yaml
-- uses: tj-actions/changed-files@v46
+- uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
   id: changed-files
   with:
     # Github API URL.
@@ -827,7 +813,7 @@ The format of the version string is as follows:
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
 ...
 ```
 
@@ -840,7 +826,7 @@ The format of the version string is as follows:
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         safe_output: false # set to false because we are using an environment variable to store the output and avoid command injection.
 
@@ -863,7 +849,7 @@ The format of the version string is as follows:
 ...
     - name: Get all changed files and use a comma separator in the output
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         separator: ","
 ...
@@ -880,7 +866,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
 
     - name: List all added files
       env:
@@ -903,7 +889,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
 
     - name: Run a step if my-file.txt was modified
       if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
@@ -924,7 +910,7 @@ See [outputs](#outputs) for a list of all available outputs.
 
    - name: Get changed files and write the outputs to a Txt file
      id: changed-files-write-output-files-txt
-     uses: tj-actions/changed-files@v45
+     uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
      with:
        write_output_files: true
 
@@ -943,7 +929,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
    - name: Get changed files and write the outputs to a JSON file
      id: changed-files-write-output-files-json
-     uses: tj-actions/changed-files@v45
+     uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
      with:
        json: true
        write_output_files: true
@@ -963,7 +949,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         files: |
           my-file.txt
@@ -986,7 +972,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files
       id: changed-files-specific
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         files: |
           my-file.txt
@@ -1037,7 +1023,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files using a source file or list of file(s) to populate to files input.
       id: changed-files-specific-source-file
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         files_from_source_file: test/changed-files-list.txt
 ...
@@ -1054,7 +1040,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a source file or list of file(s) to populate to files input and optionally specify more files.
       id: changed-files-specific-source-file-and-specify-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         files_from_source_file: |
           test/changed-files-list.txt
@@ -1075,7 +1061,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a different SHA
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         sha: ${{ github.event.pull_request.head.sha }}
 ...
@@ -1092,7 +1078,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a different base SHA
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         base_sha: ${{ github.event.pull_request.base.sha }}
 ...
@@ -1124,7 +1110,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
 
       - name: List changed files
         env:
@@ -1134,7 +1120,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
           files: .github/**
 
@@ -1165,7 +1151,7 @@ See [inputs](#inputs) for more information.
 
     - name: Run changed-files with defaults in dir1
       id: changed-files-for-dir1
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         path: dir1
 
@@ -1190,13 +1176,13 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with quotepath disabled
       id: changed-files-quotepath
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         quotepath: "false"
 
     - name: Run changed-files with quotepath disabled for a specified list of file(s)
       id: changed-files-quotepath-specific
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         files: test/test-è.txt
         quotepath: "false"
@@ -1229,7 +1215,7 @@ See [inputs](#inputs) for more information.
 
       - name: Run changed-files with the commit of the last successful test workflow run
         id: changed-files-base-sha-push
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
           base_sha: ${{ steps.last_successful_commit_push.outputs.base }}
 ...
@@ -1256,7 +1242,7 @@ See [inputs](#inputs) for more information.
 
       - name: Run changed-files with the commit of the last successful test workflow run on the main branch
         id: changed-files-base-sha-pull-request
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
           base_sha: ${{ steps.last_successful_commit_pull_request.outputs.base }}
 ...
@@ -1282,7 +1268,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with dir_names
       id: changed-files-dir-names
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         dir_names: "true"
 ...
@@ -1299,7 +1285,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with JSON output
       id: changed-files-json
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         json: "true"
 ...
@@ -1316,13 +1302,13 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed-files since 2022-08-19
       id: changed-files-since
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         since: "2022-08-19"
 
     - name: Get changed-files until 2022-08-20
       id: changed-files-until
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
       with:
         until: "2022-08-20"
 ...
@@ -1460,6 +1446,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://keisukeyamashita.com"><img src="https://avatars.githubusercontent.com/u/23056537?v=4?s=100" width="100px;" alt="KeisukeYamashita"/><br /><sub><b>KeisukeYamashita</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=KeisukeYamashita" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/codesculpture"><img src="https://avatars.githubusercontent.com/u/63452117?v=4?s=100" width="100px;" alt="Aravind"/><br /><sub><b>Aravind</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=codesculpture" title="Code">💻</a> <a href="https://github.com/tj-actions/changed-files/issues?q=author%3Acodesculpture" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://lukaspfahler.de"><img src="https://avatars.githubusercontent.com/u/2308119?v=4?s=100" width="100px;" alt="Lukas Pfahler"/><br /><sub><b>Lukas Pfahler</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=Whadup" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/RajendraP"><img src="https://avatars.githubusercontent.com/u/8928165?v=4?s=100" width="100px;" alt="Rajendra Pandey"/><br /><sub><b>Rajendra Pandey</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=RajendraP" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://undefined.moe/"><img src="https://avatars.githubusercontent.com/u/29992205?v=4?s=100" width="100px;" alt="undefined"/><br /><sub><b>undefined</b></sub></a><br /><a href="https://github.com/tj-actions/changed-files/commits?author=undefined-moe" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>

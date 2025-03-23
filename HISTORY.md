@@ -1,5 +1,80 @@
 # Changelog
 
+# [46.0.3](https://github.com/tj-actions/changed-files/compare/v46.0.2...v46.0.3) - (2025-03-23)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2501](https://github.com/tj-actions/changed-files/issues/2501))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([41e0de5](https://github.com/tj-actions/changed-files/commit/41e0de576a0f2b64d9f06f2773f539109e55a70a))  - (github-actions[bot])
+- Updated README.md ([#2499](https://github.com/tj-actions/changed-files/issues/2499))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([9457878](https://github.com/tj-actions/changed-files/commit/945787811a795cd840a1157ac590dd7827a05c8e))  - (github-actions[bot])
+
+## <!-- 3 -->📚 Documentation
+
+- Remove warning ([#2504](https://github.com/tj-actions/changed-files/issues/2504)) ([8132356](https://github.com/tj-actions/changed-files/commit/813235684248c47a3518575ef56906084b59e7e8))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump test/demo from `5dfac2e` to `c6bd3b3` ([#2505](https://github.com/tj-actions/changed-files/issues/2505)) ([823fceb](https://github.com/tj-actions/changed-files/commit/823fcebdb31bb35fdf2229d9f769b400309430d0))  - (dependabot[bot])
+- Pin github actions ([#2503](https://github.com/tj-actions/changed-files/issues/2503)) ([7a369a7](https://github.com/tj-actions/changed-files/commit/7a369a71758acce79205e5145cb728a08ae607fb))  - (Tonye Jack)
+- **deps-dev:** Bump @types/node from 22.13.10 to 22.13.11 ([#2502](https://github.com/tj-actions/changed-files/issues/2502)) ([9468856](https://github.com/tj-actions/changed-files/commit/9468856c2214566e4f7d96d3a018fb3e889a4d6d))  - (dependabot[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v46.0.2 ([#2500](https://github.com/tj-actions/changed-files/issues/2500))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([401c722](https://github.com/tj-actions/changed-files/commit/401c7227d10aad0ed26ab13735f1b290c3bcc919))  - (github-actions[bot])
+
+# [46.0.2](https://github.com/tj-actions/changed-files/compare/v46.0.1...v46.0.2) - (2025-03-22)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update log message when attempting to locate merge base ([#2493](https://github.com/tj-actions/changed-files/issues/2493)) ([a5cad85](https://github.com/tj-actions/changed-files/commit/a5cad85977a53287a694f9509c03feb50ac58428))  - (Tonye Jack)
+
+## <!-- 16 -->➕ Add
+
+- Add hint to revoke leaked token ([#2475](https://github.com/tj-actions/changed-files/issues/2475))
+
+ ([d52b942](https://github.com/tj-actions/changed-files/commit/d52b942ee0c535798f0df9e1c05683f8e818c79b))  - (undefined)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2496](https://github.com/tj-actions/changed-files/issues/2496))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([9cc867c](https://github.com/tj-actions/changed-files/commit/9cc867cd4a5df418b1538ffecaaef26144a0e51f))  - (github-actions[bot])
+- Updated README.md ([#2492](https://github.com/tj-actions/changed-files/issues/2492))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([f2f439b](https://github.com/tj-actions/changed-files/commit/f2f439bb2f890f0ec22e3ca95985b46003688a8f))  - (github-actions[bot])
+- Updated README.md ([#2479](https://github.com/tj-actions/changed-files/issues/2479))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([531f5f7](https://github.com/tj-actions/changed-files/commit/531f5f7d163941f0c1c04e0ff4d8bb243ac4366f))  - (github-actions[bot])
+- Updated README.md ([#2476](https://github.com/tj-actions/changed-files/issues/2476))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([9237eb7](https://github.com/tj-actions/changed-files/commit/9237eb7a0f95c801719e6224d45095d4dda0f9bd))  - (github-actions[bot])
+
+## <!-- 3 -->📚 Documentation
+
+- Add undefined-moe as a contributor for doc ([#2498](https://github.com/tj-actions/changed-files/issues/2498)) ([26a3863](https://github.com/tj-actions/changed-files/commit/26a38635fc1173cc5820336ce97be6188d0de9f5))  - (allcontributors[bot])
+- Update update-readme.yml to use commit hashes in the docs ([#2495](https://github.com/tj-actions/changed-files/issues/2495)) ([3a33fa9](https://github.com/tj-actions/changed-files/commit/3a33fa99abc9ece6c239626365fb8bead3882018))  - (Tonye Jack)
+- Add RajendraP as a contributor for doc ([#2491](https://github.com/tj-actions/changed-files/issues/2491)) ([678ecec](https://github.com/tj-actions/changed-files/commit/678ecec17288a6a0f240e421c22d5641e0d4e8d7))  - (allcontributors[bot])
+- Update versions ([#2488](https://github.com/tj-actions/changed-files/issues/2488)) ([6482371](https://github.com/tj-actions/changed-files/commit/6482371e862961013f9584015cf362c4f664b20c))  - (Tonye Jack)
+- Remove link to commit ([#2481](https://github.com/tj-actions/changed-files/issues/2481)) ([0fee5fb](https://github.com/tj-actions/changed-files/commit/0fee5fb278312d962ff465bb38dc4cae9f446de2))  - (Tonye Jack)
+- Update README.md ([#2478](https://github.com/tj-actions/changed-files/issues/2478)) ([dccd194](https://github.com/tj-actions/changed-files/commit/dccd1949addfa3d93d458019c5495581c620b00c))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Update sync-release-version.yml to use commit hash for tags in docs ([#2497](https://github.com/tj-actions/changed-files/issues/2497)) ([a530a27](https://github.com/tj-actions/changed-files/commit/a530a27a793d93d428bac022c621a9ed52f75efd))  - (Tonye Jack)
+- **deps:** Bump actions/setup-node from 4.2.0 to 4.3.0 ([#2484](https://github.com/tj-actions/changed-files/issues/2484)) ([0b975f6](https://github.com/tj-actions/changed-files/commit/0b975f61488402a699abcebd6a1e25924cf85218))  - (dependabot[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v46.0.1 ([#2474](https://github.com/tj-actions/changed-files/issues/2474))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([45fb12d](https://github.com/tj-actions/changed-files/commit/45fb12d7a8bedb4da42342e52fe054c6c2c3fd73))  - (github-actions[bot])
+
 # [46.0.1](https://github.com/tj-actions/changed-files/compare/v46.0.0...v46.0.1) - (2025-03-16)
 
 ## <!-- 26 -->🔄 Update
