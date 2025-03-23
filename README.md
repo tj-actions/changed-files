@@ -17,20 +17,6 @@
 
 Effortlessly track all changed files and directories relative to a target branch, the current branch (preceding commit or the last remote commit), multiple branches, or custom commits returning **relative paths** from the project root using this GitHub action.
 
-> \[!WARNING]\
-> **Security Alert:** A critical security issue was identified in this action due to a compromised commit.
->
-> This commit has been **removed** from all tags and branches, and necessary measures have been implemented to prevent similar issues in the future.
->
-> #### **Action Required:**
->
-> *   **Review your workflows executed between March 14 and March 15.** If you notice unexpected output under the `changed-files` section, decode  it using the following command:  `echo 'xxx' | base64 -d | base64 -d`\
->     If the output contains sensitive information (e.g., tokens or secrets), **revoke and rotate those secrets immediately**.
-> *   **If your workflows reference this commit directly by its SHA**, you must update them immediately to avoid using the compromised version.
-> *   **If you are using tagged versions** (e.g., `v35`, `v44.5.1`), no action is required as these tags have been updated and are now safe to use.
->
-> Additionally, as a precaution, we recommend rotating any secrets that may have been exposed during this timeframe to ensure the continued security of your workflows.
-
 > \[!NOTE]
 >
 > *   This action solely identifies files that have changed for events such as [`pull_request*`, `push`, `merge_group`, `release`, and many more](#other-supported-events-electron). However, it doesn't detect pending uncommitted changes created during the workflow execution.
