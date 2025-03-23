@@ -19,7 +19,7 @@ jobs:
       - name: Run release-tagger
         uses: tj-actions/release-tagger@1a9264b0fd99a1ef92c4fd2f077f292900cc79b6 # v4.0.0
       - name: Sync release version.
-        uses: tj-actions/sync-release-version@2c909a7cf69905388d998101c40edb26d0882ea2 # v13.12
+        uses: tj-actions/sync-release-version@2a7ef0deb39b3ecce887ee99d2261c6cef989d84 # v13.16
         id: sync-release-version
         with:
           pattern: '${{ github.repository }}@'
@@ -28,7 +28,7 @@ jobs:
           paths: |
             README.md
       - name: Sync release package version.
-        uses: tj-actions/sync-release-version@2c909a7cf69905388d998101c40edb26d0882ea2 # v13.12
+        uses: tj-actions/sync-release-version@2a7ef0deb39b3ecce887ee99d2261c6cef989d84 # v13.16
         id: sync-release-package-version
         with:
           pattern: '"version": "'
