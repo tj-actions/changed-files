@@ -1,5 +1,22 @@
 # Changelog
 
+# [46.0.4](https://github.com/tj-actions/changed-files/compare/v46.0.3...v46.0.4) - (2025-04-03)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Bug modified_keys and changed_key outputs not set when no changes detected ([#2509](https://github.com/tj-actions/changed-files/issues/2509)) ([6cb76d0](https://github.com/tj-actions/changed-files/commit/6cb76d07bee4c9772c6882c06c37837bf82a04d3))  - (Tonye Jack)
+
+## <!-- 3 -->📚 Documentation
+
+- Update readme ([#2508](https://github.com/tj-actions/changed-files/issues/2508)) ([b74df86](https://github.com/tj-actions/changed-files/commit/b74df86ccb65173a8e33ba5492ac1a2ca6b216fd))  - (Tonye Jack)
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v46.0.3 ([#2506](https://github.com/tj-actions/changed-files/issues/2506))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([27ae6b3](https://github.com/tj-actions/changed-files/commit/27ae6b33eaed7bf87272fdeb9f1c54f9facc9d99))  - (github-actions[bot])
+
 # [46.0.3](https://github.com/tj-actions/changed-files/compare/v46.0.2...v46.0.3) - (2025-03-23)
 
 ## <!-- 26 -->🔄 Update
