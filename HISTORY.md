@@ -1,5 +1,24 @@
 # Changelog
 
+# [46.0.5](https://github.com/tj-actions/changed-files/compare/v46.0.4...v46.0.5) - (2025-04-09)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump yaml from 2.7.0 to 2.7.1 ([#2520](https://github.com/tj-actions/changed-files/issues/2520)) ([ed68ef8](https://github.com/tj-actions/changed-files/commit/ed68ef82c095e0d48ec87eccea555d944a631a4c))  - (dependabot[bot])
+- **deps-dev:** Bump typescript from 5.8.2 to 5.8.3 ([#2516](https://github.com/tj-actions/changed-files/issues/2516)) ([a7bc14b](https://github.com/tj-actions/changed-files/commit/a7bc14b808f23d3b467a4079c69a81f1a4500fd5))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 22.13.11 to 22.14.0 ([#2517](https://github.com/tj-actions/changed-files/issues/2517)) ([3d751f6](https://github.com/tj-actions/changed-files/commit/3d751f6b6d84071a17e1b9cf4ed79a80a27dd0ab))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-prettier from 5.2.3 to 5.2.6 ([#2519](https://github.com/tj-actions/changed-files/issues/2519)) ([e2fda4e](https://github.com/tj-actions/changed-files/commit/e2fda4ec3cb0bc2a353843cae823430b3124db8f))  - (dependabot[bot])
+- **deps-dev:** Bump ts-jest from 29.2.6 to 29.3.1 ([#2518](https://github.com/tj-actions/changed-files/issues/2518)) ([0bed1b1](https://github.com/tj-actions/changed-files/commit/0bed1b1132ec4879a39a2d624cf82a00d0bcfa48))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 3.28.12 to 3.28.15 ([#2530](https://github.com/tj-actions/changed-files/issues/2530)) ([6802458](https://github.com/tj-actions/changed-files/commit/68024587dc36f49685c96d59d3f1081830f968bb))  - (dependabot[bot])
+- **deps:** Bump tj-actions/branch-names from 8.0.1 to 8.1.0 ([#2521](https://github.com/tj-actions/changed-files/issues/2521)) ([cf2e39e](https://github.com/tj-actions/changed-files/commit/cf2e39e86bf842d1f9bc5bca56c0a6b207cca792))  - (dependabot[bot])
+- **deps:** Bump tj-actions/verify-changed-files from 20.0.1 to 20.0.4 ([#2523](https://github.com/tj-actions/changed-files/issues/2523)) ([6abeaa5](https://github.com/tj-actions/changed-files/commit/6abeaa506a419f85fa9e681260b443adbeebb3d4))  - (dependabot[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v46.0.4 ([#2511](https://github.com/tj-actions/changed-files/issues/2511))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([6f67ee9](https://github.com/tj-actions/changed-files/commit/6f67ee9ac810f0192ea7b3d2086406f97847bcf9))  - (github-actions[bot])
+
 # [46.0.4](https://github.com/tj-actions/changed-files/compare/v46.0.3...v46.0.4) - (2025-04-03)
 
 ## <!-- 1 -->🐛 Bug Fixes
