@@ -2162,7 +2162,7 @@ jobs:
           bash
       - name: Get branch name
         id: branch-name
-        uses: tj-actions/branch-names@f44339b51f74753b57583fbbd124e18a81170ab1 # v8.1.0
+        uses: tj-actions/branch-names@dde14ac574a8b9b1cedc59a1cf312788af43d8d8 # v8.2.1
         if: github.event_name == 'pull_request' && matrix.fetch-depth == 0
       - uses: nrwl/nx-set-shas@dbe0650947e5f2c81f59190a38512cf49126fe6b # v4.3.0
         id: last_successful_commit
