@@ -63,7 +63,6 @@ jobs:
         uses: tj-actions/eslint-changed-files@0cfcd35949a961d13e964a7c2a4971c0e89b68fc # v25.3.1
         if: github.event_name == 'pull_request'
         with:
-          token: ${{ secrets.PAT_TOKEN }}
           config_path: ".eslintrc.json"
           ignore_path: ".eslintignore"
 
@@ -76,26 +75,16 @@ jobs:
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20.0.4
         if: github.actor != 'dependabot[bot]'
-        id: changed_files
+        id: verify_changed_files
         with:
           files: |
             src
             dist
 
       - name: Commit files
-        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
+        if: steps.verify_changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add src dist
-          git commit -m "Added missing changes and modified dist assets."
-
-      - name: Push changes
-        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
+          echo "Uncommitted build/lint changes detected. Please run 'yarn all' locally and push the changes for review."
 
       - name: Upload build assets
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
