@@ -81,7 +81,7 @@ jobs:
             src
             dist
 
-      - name: Commit files
+      - name: Verify outstanding changes
         if: steps.verify_changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         run: |
           echo "Uncommitted build/lint changes detected. Please run 'yarn all' locally and push the changes for review."
