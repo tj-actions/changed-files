@@ -122,7 +122,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
         # with:
         #   since_last_remote_commit: true 
@@ -140,7 +140,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get all changed markdown files
         id: changed-markdown-files
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           # Avoid using single or double quotes for multiline patterns
           files: |
@@ -161,7 +161,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get all test, doc and src files that have changed
         id: changed-files-yaml
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files_yaml: |
             doc:
@@ -196,7 +196,7 @@ jobs:
       # -----------------------------------------------------------------------------------------------------------
       - name: Get changed files in the docs folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files: docs/*.{js,html}  # Alternatively using: `docs/**`
           files_ignore: docs/static.js
@@ -238,7 +238,7 @@ jobs:
     steps:
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
 
       - name: List all changed files
         env:
@@ -281,7 +281,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
 
       - name: List all changed files
@@ -328,7 +328,7 @@ Support this project with a :star:
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
 ```yaml
-- uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+- uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
   id: changed-files
   with:
     # Github API URL.
@@ -813,7 +813,7 @@ The format of the version string is as follows:
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
 ...
 ```
 
@@ -826,7 +826,7 @@ The format of the version string is as follows:
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         safe_output: false # set to false because we are using an environment variable to store the output and avoid command injection.
 
@@ -849,7 +849,7 @@ The format of the version string is as follows:
 ...
     - name: Get all changed files and use a comma separator in the output
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         separator: ","
 ...
@@ -866,7 +866,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
 
     - name: List all added files
       env:
@@ -889,7 +889,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
 
     - name: Run a step if my-file.txt was modified
       if: contains(steps.changed-files.outputs.modified_files, 'my-file.txt')
@@ -910,7 +910,7 @@ See [outputs](#outputs) for a list of all available outputs.
 
    - name: Get changed files and write the outputs to a Txt file
      id: changed-files-write-output-files-txt
-     uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+     uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
      with:
        write_output_files: true
 
@@ -929,7 +929,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
    - name: Get changed files and write the outputs to a JSON file
      id: changed-files-write-output-files-json
-     uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+     uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
      with:
        json: true
        write_output_files: true
@@ -949,7 +949,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         files: |
           my-file.txt
@@ -972,7 +972,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files
       id: changed-files-specific
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         files: |
           my-file.txt
@@ -1023,7 +1023,7 @@ See [outputs](#outputs) for a list of all available outputs.
 ...
     - name: Get changed files using a source file or list of file(s) to populate to files input.
       id: changed-files-specific-source-file
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         files_from_source_file: test/changed-files-list.txt
 ...
@@ -1040,7 +1040,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a source file or list of file(s) to populate to files input and optionally specify more files.
       id: changed-files-specific-source-file-and-specify-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         files_from_source_file: |
           test/changed-files-list.txt
@@ -1061,7 +1061,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a different SHA
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         sha: ${{ github.event.pull_request.head.sha }}
 ...
@@ -1078,7 +1078,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed files using a different base SHA
       id: changed-files
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         base_sha: ${{ github.event.pull_request.base.sha }}
 ...
@@ -1110,7 +1110,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
 
       - name: List changed files
         env:
@@ -1120,7 +1120,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files: .github/**
 
@@ -1151,7 +1151,7 @@ See [inputs](#inputs) for more information.
 
     - name: Run changed-files with defaults in dir1
       id: changed-files-for-dir1
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         path: dir1
 
@@ -1176,13 +1176,13 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with quotepath disabled
       id: changed-files-quotepath
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         quotepath: "false"
 
     - name: Run changed-files with quotepath disabled for a specified list of file(s)
       id: changed-files-quotepath-specific
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         files: test/test-è.txt
         quotepath: "false"
@@ -1215,7 +1215,7 @@ See [inputs](#inputs) for more information.
 
       - name: Run changed-files with the commit of the last successful test workflow run
         id: changed-files-base-sha-push
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           base_sha: ${{ steps.last_successful_commit_push.outputs.base }}
 ...
@@ -1242,7 +1242,7 @@ See [inputs](#inputs) for more information.
 
       - name: Run changed-files with the commit of the last successful test workflow run on the main branch
         id: changed-files-base-sha-pull-request
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           base_sha: ${{ steps.last_successful_commit_pull_request.outputs.base }}
 ...
@@ -1268,7 +1268,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with dir_names
       id: changed-files-dir-names
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         dir_names: "true"
 ...
@@ -1285,7 +1285,7 @@ See [inputs](#inputs) for more information.
 ...
     - name: Run changed-files with JSON output
       id: changed-files-json
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         json: "true"
 ...
@@ -1302,13 +1302,13 @@ See [inputs](#inputs) for more information.
 ...
     - name: Get changed-files since 2022-08-19
       id: changed-files-since
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         since: "2022-08-19"
 
     - name: Get changed-files until 2022-08-20
       id: changed-files-until
-      uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
       with:
         until: "2022-08-20"
 ...
@@ -1326,13 +1326,9 @@ See [inputs](#inputs) for more information.
 
 *   [qgis/QGIS: uses tj-actions/changed-files to automate spell checking](https://github.com/qgis/QGIS/blob/a5333497e90ac9de4ca70463d8e0b64c3f294d63/.github/workflows/code_layout.yml#L147)
 
-*   [coder/code-server: uses tj-actions/changed-files to automate detecting changes and run steps based on the outcome](https://github.com/coder/code-server/blob/c32a31d802f679846876b8ad9aacff6cf7b5361d/.github/workflows/build.yaml#L48)
-
 *   [tldr-pages/tldr: uses tj-actions/changed-files to automate detecting spelling errors](https://github.com/tldr-pages/tldr/blob/c1b714c55cb0048037b79a681a10d7f3ddb0164c/.github/workflows/codespell.yml#L18-L26)
 
 *   [nodejs/docker-node: uses tj-actions/changed-files to generate matrix jobs based on changes detected](https://github.com/nodejs/docker-node/blob/3c4fa6daf06a4786d202f2f610351837806a0380/.github/workflows/build-test.yml#L29)
-
-*   [refined-github: uses tj-actions/changed-files to automate test URL validation in added/edited files](https://github.com/refined-github/refined-github/blob/b754bfe58904da8a599d7876fdaaf18302785629/.github/workflows/features.yml#L35)
 
 *   [aws-doc-sdk-examples: uses tj-actions/changed-files to automate testing](https://github.com/awsdocs/aws-doc-sdk-examples/blob/2393723ef6b0cad9502f4852f5c72f7be58ca89d/.github/workflows/javascript.yml#L22)
 
