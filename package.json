@@ -36,7 +36,7 @@
     "@actions/core": "^1.10.0",
     "@actions/exec": "^1.1.1",
     "@actions/github": "^6.0.0",
-    "@octokit/rest": "^21.0.0",
+    "@octokit/rest": "^22.0.0",
     "@stdlib/utils-convert-path": "^0.2.1",
     "lodash": "^4.17.21",
     "micromatch": "^4.0.5",

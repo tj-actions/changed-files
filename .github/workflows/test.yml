@@ -85,6 +85,7 @@ jobs:
         if: steps.verify_changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         run: |
           echo "Uncommitted build/lint changes detected. Please run 'yarn all' locally and push the changes for review."
+          exit 1
 
       - name: Upload build assets
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
