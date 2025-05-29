@@ -272,6 +272,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Jellyfrog",
+      "name": "Jellyfrog",
+      "avatar_url": "https://avatars.githubusercontent.com/u/759887?v=4",
+      "profile": "https://github.com/Jellyfrog",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
