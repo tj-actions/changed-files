@@ -52,6 +52,13 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     writeOutputFiles: inputs.writeOutputFiles,
     outputDir: inputs.outputDir
   })
+  await setOutput({
+    key: getOutputKey('any_added', outputPrefix),
+    value: addedFiles.paths.length > 0,
+    writeOutputFiles: inputs.writeOutputFiles,
+    outputDir: inputs.outputDir,
+    json: inputs.json
+  })
 
   const copiedFiles = await getChangeTypeFiles({
     inputs,
