@@ -1266,6 +1266,38 @@ export const getYamlFilePatterns = async ({
     }
   }
 
+  
+
+  if (inputs.solutionFilters) {
+    const solutionFilterFilesArray = inputs.solutionFilters.split(',').map(s => s.trim()).filter(s => s != '')
+    core.debug(`solution filters: ${solutionFilterFilesArray}`)
+    const solutionFiltersArray = solutionFilterFilesArray
+      .map(file => async () => {
+          const fileContents = await fs.readFile(file, 'utf8');
+          return JSON.parse(fileContents);
+      });
+
+    for (let i=0;i<solutionFiltersArray.length;i++) {
+      const jsonData:any = solutionFiltersArray[i];
+      jsonData.solution.projects.forEach((project:string) => {
+
+        core.debug(`Found project: ${project}`)
+        // Exclude the project name so we can get the directory name
+        let directoryName = project.substring(0, project.lastIndexOf('\\'));
+        core.debug(`Found directory name: ${directoryName}`)
+
+        // If the project item ends with a .csproj (just extra safety)
+        if (project.endsWith('.csproj') && project.lastIndexOf('\\') !== -1) {
+          let includeString:string = directoryName.replace(/\\/g, '/') + "/**";
+          let key:string = solutionFilterFilesArray[i].replace(".slnf", "").replace(".","-");
+
+          core.debug(`  Adding ${key} with include string: ${includeString}`)
+          filePatterns[key] = [includeString];
+        }
+      })
+    }
+  }
+    
   if (inputs.filesIgnoreYaml) {
     const newIgnoreFilePatterns = await getYamlFilePatternsFromContents({
       content: inputs.filesIgnoreYaml,
