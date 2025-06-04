@@ -1645,7 +1645,7 @@ const getInputs = () => {
         negationPatternsFirst,
         useRestApi,
         solutionFilters,
-        solutionFiltersPrefix,
+        solutionFiltersPrefix
     };
     if (fetchDepth) {
         // Fallback to at least 2 if the fetch_depth is less than 2
@@ -2775,9 +2775,10 @@ const getYamlFilePatternsFromContents = async ({ content = '', filePath = '', ex
 };
 const readSolutionFilters = async (solutionFilterFilesArray) => {
     const results = [];
-    for (const file of solutionFilterFilesArray) {
-        const fileContents = await fs_1.promises.readFile(file, 'utf8');
+    for (const filename of solutionFilterFilesArray) {
+        const fileContents = await fs_1.promises.readFile(filename, 'utf8');
         const solutionFilter = JSON.parse(fileContents);
+        solutionFilter.filename = filename;
         results.push(solutionFilter);
     }
     return results;
@@ -2814,7 +2815,6 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
             .filter(s => s !== '');
         core.debug(`solution filters: ${solutionFilterFilesArray}`);
         const solutionFiltersArray = await readSolutionFilters(solutionFilterFilesArray);
-        let i = 0;
         for (const solutionFilter of solutionFiltersArray) {
             for (const project of solutionFilter.solution.projects) {
                 core.debug(`Found project: ${project}`);
@@ -2824,18 +2824,18 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
                 // If the project item ends with a .csproj (just extra safety)
                 if (project.endsWith('.csproj') && project.lastIndexOf('\\') !== -1) {
                     let includeString = `${directoryName.replace(/\\/g, '/')}/**`;
-                    let key = solutionFilterFilesArray[i]
+                    let key = solutionFilter.filename
                         .replace('.slnf', '')
-                        .replace('.', '-');
+                        .replace('.', '-')
+                        .toLowerCase();
                     if (inputs.solutionFiltersPrefix) {
                         includeString = inputs.solutionFiltersPrefix + includeString;
-                        key = key.replace(inputs.solutionFiltersPrefix, "");
+                        key = key.replace(inputs.solutionFiltersPrefix, '');
                     }
                     core.debug(`  Adding ${key} with include string: ${includeString}`);
                     filePatterns[key] = [includeString];
                 }
             }
-            i++;
         }
     }
     if (inputs.filesIgnoreYaml) {
