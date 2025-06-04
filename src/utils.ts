@@ -1233,6 +1233,7 @@ const getYamlFilePatternsFromContents = async ({
 }
 
 interface SolutionFilter {
+  filename: string
   solution: {
     projects: string[]
     // add other properties if needed
@@ -1244,9 +1245,10 @@ const readSolutionFilters = async (
   solutionFilterFilesArray: string[]
 ): Promise<SolutionFilter[]> => {
   const results: SolutionFilter[] = []
-  for (const file of solutionFilterFilesArray) {
-    const fileContents = await fs.readFile(file, 'utf8')
+  for (const filename of solutionFilterFilesArray) {
+    const fileContents = await fs.readFile(filename, 'utf8')
     const solutionFilter: SolutionFilter = JSON.parse(fileContents)
+    solutionFilter.filename = filename
     results.push(solutionFilter)
   }
   return results
@@ -1297,7 +1299,6 @@ export const getYamlFilePatterns = async ({
       solutionFilterFilesArray
     )
 
-    let i = 0
     for (const solutionFilter of solutionFiltersArray) {
       for (const project of solutionFilter.solution.projects) {
         core.debug(`Found project: ${project}`)
@@ -1308,9 +1309,10 @@ export const getYamlFilePatterns = async ({
         // If the project item ends with a .csproj (just extra safety)
         if (project.endsWith('.csproj') && project.lastIndexOf('\\') !== -1) {
           let includeString = `${directoryName.replace(/\\/g, '/')}/**`
-          let key: string = solutionFilterFilesArray[i]
+          let key: string = solutionFilter.filename
             .replace('.slnf', '')
             .replace('.', '-')
+            .toLowerCase()
 
           if (inputs.solutionFiltersPrefix) {
             includeString = inputs.solutionFiltersPrefix + includeString
@@ -1320,7 +1322,6 @@ export const getYamlFilePatterns = async ({
           filePatterns[key] = [includeString]
         }
       }
-      i++
     }
   }
 
