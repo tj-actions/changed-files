@@ -243,6 +243,10 @@ inputs:
     description: "Tags pattern to ignore."
     required: false
     default: ""
+  solution_filters:
+    description: "Solution filters to read"
+    required: false
+    default: ""
 
 
 outputs:
