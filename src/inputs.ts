@@ -60,6 +60,7 @@ export type Inputs = {
   tagsPattern: string
   tagsIgnorePattern?: string
   solutionFilters?: string
+  solutionFiltersPrefix?: string
 }
 
 export const getInputs = (): Inputs => {
@@ -276,6 +277,11 @@ export const getInputs = (): Inputs => {
     trimWhitespace: false
   })
 
+  const solutionFiltersPrefix = core.getInput('solution_filters_prefix', {
+    required: false,
+    trimWhitespace: false
+  })
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -334,7 +340,8 @@ export const getInputs = (): Inputs => {
     apiUrl,
     negationPatternsFirst,
     useRestApi,
-    solutionFilters
+    solutionFilters,
+    solutionFiltersPrefix
   }
 
   if (fetchDepth) {

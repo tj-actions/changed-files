@@ -1582,6 +1582,10 @@ const getInputs = () => {
         required: false,
         trimWhitespace: false
     });
+    const solutionFiltersPrefix = core.getInput('solution_filters_prefix', {
+        required: false,
+        trimWhitespace: false
+    });
     const inputs = {
         files,
         filesSeparator,
@@ -1640,7 +1644,8 @@ const getInputs = () => {
         apiUrl,
         negationPatternsFirst,
         useRestApi,
-        solutionFilters
+        solutionFilters,
+        solutionFiltersPrefix,
     };
     if (fetchDepth) {
         // Fallback to at least 2 if the fetch_depth is less than 2
@@ -2818,10 +2823,14 @@ const getYamlFilePatterns = async ({ inputs, workingDirectory }) => {
                 core.debug(`Found directory name: ${directoryName}`);
                 // If the project item ends with a .csproj (just extra safety)
                 if (project.endsWith('.csproj') && project.lastIndexOf('\\') !== -1) {
-                    const includeString = `${directoryName.replace(/\\/g, '/')}/**`;
-                    const key = solutionFilterFilesArray[i]
+                    let includeString = `${directoryName.replace(/\\/g, '/')}/**`;
+                    let key = solutionFilterFilesArray[i]
                         .replace('.slnf', '')
                         .replace('.', '-');
+                    if (inputs.solutionFiltersPrefix) {
+                        includeString = inputs.solutionFiltersPrefix + includeString;
+                        key = key.replace(inputs.solutionFiltersPrefix, "");
+                    }
                     core.debug(`  Adding ${key} with include string: ${includeString}`);
                     filePatterns[key] = [includeString];
                 }

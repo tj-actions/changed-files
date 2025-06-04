@@ -1307,11 +1307,15 @@ export const getYamlFilePatterns = async ({
 
         // If the project item ends with a .csproj (just extra safety)
         if (project.endsWith('.csproj') && project.lastIndexOf('\\') !== -1) {
-          const includeString = `${directoryName.replace(/\\/g, '/')}/**`
-          const key: string = solutionFilterFilesArray[i]
+          let includeString = `${directoryName.replace(/\\/g, '/')}/**`
+          let key: string = solutionFilterFilesArray[i]
             .replace('.slnf', '')
             .replace('.', '-')
 
+          if (inputs.solutionFiltersPrefix) {
+            includeString = inputs.solutionFiltersPrefix + includeString
+            key = key.replace(inputs.solutionFiltersPrefix, '')
+          }
           core.debug(`  Adding ${key} with include string: ${includeString}`)
           filePatterns[key] = [includeString]
         }
