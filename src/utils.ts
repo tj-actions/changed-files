@@ -1314,9 +1314,17 @@ export const getYamlFilePatterns = async ({
             .replace('.', '-')
             .toLowerCase()
 
-          if (inputs.solutionFiltersPrefix) {
-            includeString = inputs.solutionFiltersPrefix + includeString
-            key = key.replace(inputs.solutionFiltersPrefix, '')
+          // check if the solution filter is in a subdirectory
+          const lastSlash = solutionFilter.filename.lastIndexOf('/')
+          if (lastSlash !== -1) {
+            const subDirectory = solutionFilter.filename.substring(0, lastSlash+1)
+
+            core.debug(`  Found subdirectory ${subDirectory}`)
+            // Add the subdirectory to the include string
+            includeString = subDirectory + includeString
+
+            // Remove the subdirectory from the key as it's not what you'd expect
+            key = key.replace(subDirectory, '')
           }
           core.debug(`  Adding ${key} with include string: ${includeString}`)
           filePatterns[key] = [includeString]
