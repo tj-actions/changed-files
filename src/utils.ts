@@ -1246,11 +1246,17 @@ const readSolutionFilters = async (
 ): Promise<SolutionFilter[]> => {
   const results: SolutionFilter[] = []
   for (const filename of solutionFilterFilesArray) {
+    if (!(await exists(filename))) {
+      core.error(`File does not exist: ${filename}`)
+      throw new Error(`File does not exist: ${filename}`)
+    }
+
     const fileContents = await fs.readFile(filename, 'utf8')
     const solutionFilter: SolutionFilter = JSON.parse(fileContents)
     solutionFilter.filename = filename
     results.push(solutionFilter)
   }
+
   return results
 }
 
@@ -1317,7 +1323,10 @@ export const getYamlFilePatterns = async ({
           // check if the solution filter is in a subdirectory
           const lastSlash = solutionFilter.filename.lastIndexOf('/')
           if (lastSlash !== -1) {
-            const subDirectory = solutionFilter.filename.substring(0, lastSlash+1)
+            const subDirectory = solutionFilter.filename.substring(
+              0,
+              lastSlash + 1
+            )
 
             core.debug(`  Found subdirectory ${subDirectory}`)
             // Add the subdirectory to the include string

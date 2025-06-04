@@ -2771,6 +2771,10 @@ const getYamlFilePatternsFromContents = async ({ content = '', filePath = '', ex
 const readSolutionFilters = async (solutionFilterFilesArray) => {
     const results = [];
     for (const filename of solutionFilterFilesArray) {
+        if (!(await (0, exports.exists)(filename))) {
+            core.error(`File does not exist: ${filename}`);
+            throw new Error(`File does not exist: ${filename}`);
+        }
         const fileContents = await fs_1.promises.readFile(filename, 'utf8');
         const solutionFilter = JSON.parse(fileContents);
         solutionFilter.filename = filename;
