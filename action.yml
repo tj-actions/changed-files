@@ -247,6 +247,10 @@ inputs:
     description: "Solution filters to read"
     required: false
     default: ""
+  solution_filters_prefix:
+    description: "Prefix to add to solution filters"
+    required: false
+    default: ""
 
 
 outputs:
