@@ -1232,6 +1232,34 @@ const getYamlFilePatternsFromContents = async ({
   return filePatterns
 }
 
+interface SolutionFilter {
+  filename: string
+  solution: {
+    projects: string[]
+    // add other properties if needed
+  }
+  // add other properties if needed
+}
+
+const readSolutionFilters = async (
+  solutionFilterFilesArray: string[]
+): Promise<SolutionFilter[]> => {
+  const results: SolutionFilter[] = []
+  for (const filename of solutionFilterFilesArray) {
+    if (!(await exists(filename))) {
+      core.error(`File does not exist: ${filename}`)
+      throw new Error(`File does not exist: ${filename}`)
+    }
+
+    const fileContents = await fs.readFile(filename, 'utf8')
+    const solutionFilter: SolutionFilter = JSON.parse(fileContents)
+    solutionFilter.filename = filename
+    results.push(solutionFilter)
+  }
+
+  return results
+}
+
 export const getYamlFilePatterns = async ({
   inputs,
   workingDirectory
@@ -1261,6 +1289,54 @@ export const getYamlFilePatterns = async ({
           filePatterns[key] = [...filePatterns[key], ...newFilePatterns[key]]
         } else {
           filePatterns[key] = newFilePatterns[key]
+        }
+      }
+    }
+  }
+
+  if (inputs.solutionFilters) {
+    const solutionFilterFilesArray = inputs.solutionFilters
+      .split(',')
+      .map(s => s.trim())
+      .filter(s => s !== '')
+    core.debug(`solution filters: ${solutionFilterFilesArray}`)
+
+    const solutionFiltersArray: SolutionFilter[] = await readSolutionFilters(
+      solutionFilterFilesArray
+    )
+
+    for (const solutionFilter of solutionFiltersArray) {
+      for (const project of solutionFilter.solution.projects) {
+        core.debug(`Found project: ${project}`)
+        // Exclude the project name so we can get the directory name
+        const directoryName = project.substring(0, project.lastIndexOf('\\'))
+        core.debug(`Found directory name: ${directoryName}`)
+
+        // If the project item ends with a .csproj (just extra safety)
+        if (project.endsWith('.csproj') && project.lastIndexOf('\\') !== -1) {
+          let includeString = `${directoryName.replace(/\\/g, '/')}/**`
+          let key: string = solutionFilter.filename
+            .replace('.slnf', '')
+            .replace('.', '-')
+            .toLowerCase()
+
+          // check if the solution filter is in a subdirectory
+          const lastSlash = solutionFilter.filename.lastIndexOf('/')
+          if (lastSlash !== -1) {
+            const subDirectory = solutionFilter.filename.substring(
+              0,
+              lastSlash + 1
+            )
+
+            core.debug(`  Found subdirectory ${subDirectory}`)
+            // Add the subdirectory to the include string
+            includeString = subDirectory + includeString
+
+            // Remove the subdirectory from the key as it's not what you'd expect
+            key = key.replace(subDirectory, '')
+          }
+          core.debug(`  Adding ${key} with include string: ${includeString}`)
+          filePatterns[key] = [includeString]
         }
       }
     }

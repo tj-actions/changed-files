@@ -59,6 +59,7 @@ export type Inputs = {
   usePosixPathSeparator: boolean
   tagsPattern: string
   tagsIgnorePattern?: string
+  solutionFilters?: string
 }
 
 export const getInputs = (): Inputs => {
@@ -270,6 +271,11 @@ export const getInputs = (): Inputs => {
     trimWhitespace: false
   })
 
+  const solutionFilters = core.getInput('solution_filters', {
+    required: false,
+    trimWhitespace: false
+  })
+
   const inputs: Inputs = {
     files,
     filesSeparator,
@@ -327,7 +333,8 @@ export const getInputs = (): Inputs => {
     token,
     apiUrl,
     negationPatternsFirst,
-    useRestApi
+    useRestApi,
+    solutionFilters
   }
 
   if (fetchDepth) {
