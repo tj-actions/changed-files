@@ -452,6 +452,13 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         writeOutputFiles: inputs.writeOutputFiles,
         outputDir: inputs.outputDir
     });
+    await (0, utils_1.setOutput)({
+        key: (0, utils_1.getOutputKey)('any_added', outputPrefix),
+        value: addedFiles.paths.length > 0,
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json
+    });
     const copiedFiles = await (0, changedFiles_1.getChangeTypeFiles)({
         inputs,
         changedFiles: allFilteredDiffFiles,
