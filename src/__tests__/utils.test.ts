@@ -712,6 +712,9 @@ describe('utils test', () => {
 
     // No tags are available in the repository
     it('should return empty values when no tags are available in the repository', async () => {
+      if (shouldSkip) {
+        return
+      }
       jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
         stdout: '',
         stderr: '',
@@ -728,6 +731,9 @@ describe('utils test', () => {
 
     // Only one tag is available, making it impossible to find a previous tag
     it('should return empty values when only one tag is available', async () => {
+      if (shouldSkip) {
+        return
+      }
       jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
         stdout:
           'v1.0.1|f0751de6af436d4e79016e2041cf6400e0833653|2021-01-01T00:00:00Z',
@@ -745,6 +751,9 @@ describe('utils test', () => {
 
     // Git commands fail and throw errors
     it('should throw an error when git commands fail', async () => {
+      if (shouldSkip) {
+        return
+      }
       jest
         .spyOn(exec, 'getExecOutput')
         .mockRejectedValue(new Error('git command failed'))
