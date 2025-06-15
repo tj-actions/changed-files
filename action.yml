@@ -250,6 +250,8 @@ outputs:
     description: "Returns only files that are Added (A)."
   added_files_count:
     description: "Returns the number of `added_files`"
+  any_added:
+    description: "Returns `true` when any of the filenames provided using the `files*` or `files_ignore*` inputs have been added."
   copied_files:
     description: "Returns only files that are Copied (C)."
   copied_files_count:
