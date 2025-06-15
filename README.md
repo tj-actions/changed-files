@@ -71,7 +71,7 @@ Effortlessly track all changed files and directories relative to a target branch
     *   Between the last remote branch commit and the current HEAD.
 *   Restricts change detection to a subset of files and directories:
     *   Provides boolean output indicating changes in specific files.
-    *   Uses [Glob pattern](https://codepen.io/mrmlnc/pen/OXQjMe) matching.
+    *   Uses [Glob pattern](https://en.wikipedia.org/wiki/Glob_(programming)) matching.
         *   Supports Globstar.
         *   Supports brace expansion.
         *   Supports negation.
