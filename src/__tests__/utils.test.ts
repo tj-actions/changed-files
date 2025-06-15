@@ -712,9 +712,6 @@ describe('utils test', () => {
 
     // No tags are available in the repository
     it('should return empty values when no tags are available in the repository', async () => {
-      if (shouldSkip) {
-        return
-      }
       jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
         stdout: '',
         stderr: '',
