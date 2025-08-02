@@ -42,7 +42,7 @@ jobs:
         uses: ./
         with:
           files: ${{ inputs.files }}
-          files_separator: " "  # Space delimited files (default)
+          files_separator: " "  # Space delimited files (default is "\n")
 
       - name: Show output
         run: |
