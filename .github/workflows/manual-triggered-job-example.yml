@@ -10,9 +10,7 @@ on:
         required: false
         type: string
         default: |
-          **.md
-          **/**.md
-          test/*.txt
+          **.md\n**/**.md\ntest/*.txt
 
 jobs:
   test:
