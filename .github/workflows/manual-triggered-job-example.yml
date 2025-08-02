@@ -5,6 +5,14 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      files:
+        required: false
+        type: string
+        default: |
+          **.md
+          **/**.md
+          test/*.txt
 
 jobs:
   test:
@@ -35,8 +43,7 @@ jobs:
         id: changed-files-glob
         uses: ./
         with:
-          files: |
-            test/*.txt
+          files: ${{ inputs.files }}
 
       - name: Show output
         run: |
