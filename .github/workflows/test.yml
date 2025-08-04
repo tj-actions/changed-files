@@ -60,7 +60,7 @@ jobs:
           yarn install
 
       - name: Run eslint on changed files
-        uses: tj-actions/eslint-changed-files@0cfcd35949a961d13e964a7c2a4971c0e89b68fc # v25.3.1
+        uses: tj-actions/eslint-changed-files@536c35c8184b8bbd361d3703aa63439e0895c340 # v25.3.2
         if: github.event_name == 'pull_request'
         with:
           config_path: ".eslintrc.json"
