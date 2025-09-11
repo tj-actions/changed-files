@@ -65,6 +65,8 @@ const getCurrentSHA = async ({
         currentSha = github.context.payload.pull_request?.head?.sha
       } else if (github.context.eventName === 'merge_group') {
         currentSha = github.context.payload.merge_group?.head_sha
+      } else if (github.context.eventName === 'deployment') {
+        currentSha = github.context.payload.deployment?.sha
       } else {
         currentSha = await getHeadSha({cwd: workingDirectory})
       }
@@ -126,6 +128,21 @@ export const getSHAForNonPullRequestEvent = async ({
         } else if (github.context.payload.release?.target_commitish) {
           sourceBranch = github.context.payload.release?.target_commitish
         }
+
+        await gitFetch({
+          cwd: workingDirectory,
+          args: [
+            ...gitFetchExtraArgs,
+            '-u',
+            '--progress',
+            `--deepen=${inputs.fetchDepth}`,
+            remoteName,
+            `+refs/heads/${sourceBranch}:refs/remotes/${remoteName}/${sourceBranch}`
+          ]
+        })
+      } else if (github.context.eventName === 'deployment') {
+        // Fetch the default branch of the repository for deployment events
+        const sourceBranch = github.context.payload.repository?.default_branch
 
         await gitFetch({
           cwd: workingDirectory,
@@ -252,6 +269,9 @@ export const getSHAForNonPullRequestEvent = async ({
       if (github.context.eventName === 'merge_group') {
         core.debug('Getting previous SHA for merge group...')
         previousSha = github.context.payload.merge_group?.base_sha
+      } else if (github.context.eventName === 'deployment') {
+        core.debug('Getting previous SHA for deployment...')
+        previousSha = github.context.payload.deployment?.payload?.previous_sha
       } else {
         core.debug('Getting previous SHA for last remote commit...')
         if (
