@@ -326,7 +326,7 @@ outputs:
     description: "Returns all changed YAML keys when the `files_yaml` input is used. i.e. key that contains any path that has either been added, copied, modified, and renamed (ACMR)"
 
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
 
 branding:
