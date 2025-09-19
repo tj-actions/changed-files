@@ -47,7 +47,7 @@
     "@types/lodash": "^4.14.195",
     "@types/micromatch": "^4.0.2",
     "@types/node": "^24.0.1",
-    "@types/uuid": "^10.0.0",
+    "@types/uuid": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "@vercel/ncc": "^0.38.0",
