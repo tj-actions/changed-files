@@ -12,7 +12,7 @@ on:
 jobs:
   changed-files:
     name: Get changed files
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
@@ -30,7 +30,7 @@ jobs:
 
   matrix-job:
     name: Run Matrix Job
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [changed-files]
     strategy:
       matrix: 

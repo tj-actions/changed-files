@@ -31,7 +31,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       files_changed: ${{ steps.changed_files.outputs.files_changed }}
     permissions:
@@ -102,7 +102,7 @@ jobs:
 
   test-multiple-repositories:
     name: Test with multiple repositories
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -179,7 +179,7 @@ jobs:
   test-using-since-and-until:
     name: Test changed-files using since and until
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
       contents: read
@@ -237,7 +237,7 @@ jobs:
 
   test-similar-base-and-commit-sha:
     name: Test changed-files similar base and commit sha
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -277,7 +277,7 @@ jobs:
 
   test-using-branch-names-for-base-sha-and-sha-inputs:
     name: Test using branch names for base_sha and sha inputs
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: |
       ( 
@@ -313,7 +313,7 @@ jobs:
 
   test-limited-commit-history:
     name: Test changed-files with limited commit history
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -354,7 +354,7 @@ jobs:
 
   test-pull-request-head-ref:
     name: Test changed-files with pull request head ref
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
@@ -383,7 +383,7 @@ jobs:
 
   test-pull-request-without-persist-credentials:
     name: Test changed-files with pull request without persist credentials
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
@@ -419,7 +419,7 @@ jobs:
 
   test-non-existent-base-sha:
     name: Test changed-files non existent base sha
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -474,7 +474,7 @@ jobs:
 
   test-non-existent-sha:
     name: Test changed-files non existent sha
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -529,7 +529,7 @@ jobs:
 
   test-rest-api:
     name: Test changed-files with REST API
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: github.event_name != 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
@@ -561,7 +561,7 @@ jobs:
 
   test-dir-names-nested-folder:
     name: Test changed-files with dir-names in a nested folder
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -598,7 +598,7 @@ jobs:
 
   test-non-existing-repository:
     name: Test changed-files with non existing repository
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: github.event_name == 'push' && needs.build.outputs.files_changed != 'true'
     permissions:
@@ -631,7 +631,7 @@ jobs:
 
   test-submodules:
     name: Test changed-files with submodule
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -697,7 +697,7 @@ jobs:
           bash
   test-yaml:
     name: Test changed-files with yaml
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -792,7 +792,7 @@ jobs:
 
   test-recover-deleted-file:
     name: Test changed-files recover deleted file
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -984,7 +984,7 @@ jobs:
 
   test-dir-names-deleted-files-include-only-deleted-dirs-single-file:
     name: Test dir names deleted files include only deleted dirs single file
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:
@@ -1095,7 +1095,7 @@ jobs:
 
   test-since-last-remote-commit:
     name: Test changed-files since last remote commit
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     if: needs.build.outputs.files_changed != 'true'
     permissions:

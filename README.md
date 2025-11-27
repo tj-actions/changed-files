@@ -112,7 +112,7 @@ jobs:
   # Event `pull_request`: Compare the last commit of the main branch or last remote commit of the PR branch -> to the current commit of a PR branch.
   # ------------------------------------------------------------------------------------------------------------------------------------------------
   changed_files:
-    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    runs-on: self-hosted
     name: Test changed-files
     steps:
       - uses: actions/checkout@v4
@@ -230,7 +230,7 @@ jobs:
     # - A maximum of 3000 files can be returned.
     # - For more flexibility and no limitations see "Using local .git directory" above.
 
-    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    runs-on: self-hosted
     name: Test changed-files
     permissions:
       pull-requests: read
@@ -272,7 +272,7 @@ jobs:
   # Event `push`: Compare the preceding remote commit -> to the current commit of the main branch 
   # ----------------------------------------------------------------------------------------------
   changed_files:
-    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    runs-on: self-hosted
     name: Test changed-files
     steps:
       - uses: actions/checkout@v4
@@ -1102,7 +1102,7 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
