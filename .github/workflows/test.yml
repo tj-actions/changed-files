@@ -1023,7 +1023,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
+        platform: [self-hosted]
     if: needs.build.outputs.files_changed != 'true'
     permissions:
       contents: read
@@ -1156,7 +1156,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
+        platform: [self-hosted]
         fetch-depth: [0, 1, 2]
 
     steps:
