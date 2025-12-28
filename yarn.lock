@@ -3,19 +3,12 @@
 
 
 "@actions/core@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-2.0.0.tgz#ab985a153dbf2c84e13c50cf1b559e3ca15f0c5e"
-  integrity sha512-iGW52/zqhPUFnYl0s1ioXfJu86LGs7b+GYuO38JMPpsh14FQrNj3n2JBpC+vZ2CFS4lERQyn5koLDopY+6V/PQ==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-2.0.1.tgz#fc4961acb04f6253bcdf83ad356e013ba29fc218"
+  integrity sha512-oBfqT3GwkvLlo1fjvhQLQxuwZCGTarTE5OuZ2Wg10hvhBj7LRIlF611WT4aZS6fDhO5ZKlY7lCAZTlpmyaHaeg==
   dependencies:
-    "@actions/exec" "^1.1.1"
+    "@actions/exec" "^2.0.0"
     "@actions/http-client" "^3.0.0"
-
-"@actions/exec@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.1.1.tgz#2e43f28c54022537172819a7cf886c844221a611"
-  integrity sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==
-  dependencies:
-    "@actions/io" "^1.0.1"
 
 "@actions/exec@^2.0.0":
   version "2.0.0"
@@ -52,11 +45,6 @@
   dependencies:
     tunnel "^0.0.6"
     undici "^5.28.5"
-
-"@actions/io@^1.0.1":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.1.3.tgz#4cdb6254da7962b07473ff5c335f3da485d94d71"
-  integrity sha512-wi9JjgKLYS7U/z8PPbco+PvTb/nRWjeoFlJ1Qer83k/3C5PHQi28hiVdeE2kHXmIL99mQFawx8qt/JPjZilJ8Q==
 
 "@actions/io@^2.0.0":
   version "2.0.0"
