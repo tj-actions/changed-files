@@ -1459,3 +1459,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+---
+
+## 💼 Automate Your Job Search Too
+
+You automate your CI/CD. Automate your job applications too.
+
+**[ApplySmart AI](https://applysmart.ai)** helps you:
+- Generate tailored resumes & cover letters in seconds
+- Extract job details from any posting automatically  
+- Track applications like you track deployments
+
+**Free tier available** → [applysmart.ai](https://applysmart.ai)
