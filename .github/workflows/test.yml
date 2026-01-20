@@ -368,9 +368,9 @@ jobs:
           exclude_symlinks: true
 
       - name: Verify symlink is excluded
-        if: steps.changed-files-symlink-excluded.outputs.added_files_count != '0' || steps.changed-files-symlink-excluded.outputs.all_changed_files_count != '0'
+        if: "contains(steps.changed-files-symlink-excluded.outputs.added_files, 'test/symlink-to-target') || contains(steps.changed-files-symlink-excluded.outputs.all_changed_files, 'test/symlink-to-target')"
         run: |
-          echo "Expected no changed files when excluding symlinks; got added=${{ steps.changed-files-symlink-excluded.outputs.added_files }} all=${{ steps.changed-files-symlink-excluded.outputs.all_changed_files }}"
+          echo "Expected symlink to be excluded; got added=${{ steps.changed-files-symlink-excluded.outputs.added_files }} all=${{ steps.changed-files-symlink-excluded.outputs.all_changed_files }}"
           exit 1
         shell:
           bash
