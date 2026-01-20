@@ -5,8 +5,10 @@ import {
   processChangedFiles,
   ChangeTypeEnum,
   getAllDiffFiles,
+  filterSymlinksFromChangedFiles,
   getChangedFilesFromGithubAPI,
-  getRenamedFiles
+  getRenamedFiles,
+  ChangedFiles
 } from './changedFiles'
 import {
   DiffResult,
@@ -127,11 +129,57 @@ const getChangedFilesFromLocalGitHistory = async ({
     return
   }
 
+  if (diffResult.sameSha) {
+    core.info('Base and head SHAs are identical; no changed files to report.')
+    const emptyChangedFiles: ChangedFiles = {
+      [ChangeTypeEnum.Added]: [],
+      [ChangeTypeEnum.Copied]: [],
+      [ChangeTypeEnum.Deleted]: [],
+      [ChangeTypeEnum.Modified]: [],
+      [ChangeTypeEnum.Renamed]: [],
+      [ChangeTypeEnum.TypeChanged]: [],
+      [ChangeTypeEnum.Unmerged]: [],
+      [ChangeTypeEnum.Unknown]: []
+    }
+    await processChangedFiles({
+      filePatterns,
+      allDiffFiles: emptyChangedFiles,
+      inputs,
+      yamlFilePatterns,
+      workingDirectory
+    })
+
+    if (inputs.includeAllOldNewRenamedFiles) {
+      await setOutput({
+        key: 'all_old_new_renamed_files',
+        value: inputs.json ? [] : '',
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json,
+        safeOutput: inputs.safeOutput
+      })
+      await setOutput({
+        key: 'all_old_new_renamed_files_count',
+        value: '0',
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json
+      })
+    }
+    core.info('All Done!')
+    core.endGroup()
+    return
+  }
+
   core.info(
     `Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`
   )
 
-  const allDiffFiles = await getAllDiffFiles({
+  const submoduleShas: Record<
+    string,
+    {previousSha?: string; currentSha?: string}
+  > = {}
+  let allDiffFiles = await getAllDiffFiles({
     workingDirectory,
     diffSubmodule,
     diffResult,
@@ -139,8 +187,20 @@ const getChangedFilesFromLocalGitHistory = async ({
     outputRenamedFilesAsDeletedAndAdded,
     fetchAdditionalSubmoduleHistory: inputs.fetchAdditionalSubmoduleHistory,
     failOnInitialDiffError: inputs.failOnInitialDiffError,
-    failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError
+    failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError,
+    submoduleShas
   })
+
+  if (inputs.excludeSymlinks) {
+    core.info('Excluding symlinks from the diff')
+    allDiffFiles = await filterSymlinksFromChangedFiles({
+      changedFiles: allDiffFiles,
+      workingDirectory,
+      diffResult,
+      submodulePaths,
+      submoduleShas
+    })
+  }
   core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
   core.info('All Done!')
   core.endGroup()

@@ -153,6 +153,69 @@ export const exists = async (filePath: string): Promise<boolean> => {
 }
 
 /**
+ * Checks if a file is a symlink on disk
+ * @param cwd - working directory
+ * @param filePath - path to check
+ * @returns file is a symlink
+ */
+export const isSymlinkOnDisk = async ({
+  cwd,
+  filePath
+}: {
+  cwd: string
+  filePath: string
+}): Promise<boolean> => {
+  try {
+    const stat = await fs.lstat(path.join(cwd, filePath))
+    return stat.isSymbolicLink()
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Checks if a file is a symlink in a git tree
+ * @param cwd - working directory
+ * @param sha - commit sha
+ * @param filePath - path to check
+ * @returns file is a symlink
+ */
+export const isSymlinkInGitTree = async ({
+  cwd,
+  sha,
+  filePath
+}: {
+  cwd: string
+  sha: string
+  filePath: string
+}): Promise<boolean> => {
+  if (!sha) {
+    return false
+  }
+  const {stdout, exitCode} = await exec.getExecOutput(
+    'git',
+    ['ls-tree', '-r', sha, '--', filePath],
+    {
+      cwd,
+      ignoreReturnCode: true,
+      silent: !core.isDebug()
+    }
+  )
+
+  if (exitCode !== 0) {
+    return false
+  }
+
+  const line = stdout.split('\n').find(Boolean)
+  if (!line) {
+    return false
+  }
+
+  const [mode] = line.split(/\s+/)
+  return mode === '120000'
+}
+
+/**
  * Generates lines of a file as an async iterable iterator
  * @param filePath - path of file to read
  * @param excludedFiles - whether to exclude files
@@ -819,14 +882,49 @@ export const cleanShaInput = async ({
 
   if (exitCode !== 0) {
     const octokit = github.getOctokit(token)
-    // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
-    const {data: refData} = await octokit.rest.git.getRef({
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      ref: `heads/${sha}`
+    const owner = github.context.repo.owner
+    const repo = github.context.repo.repo
+    const isNotFoundError = (error: unknown): boolean =>
+      typeof error === 'object' &&
+      error !== null &&
+      'status' in error &&
+      (error as {status?: number}).status === 404
+    // If it's not a valid commit sha, assume it's a ref name first.
+    try {
+      const {data: refData} = await octokit.rest.git.getRef({
+        owner,
+        repo,
+        ref: `heads/${sha}`
+      })
+
+      return refData.object.sha
+    } catch (error) {
+      if (!isNotFoundError(error)) {
+        throw error
+      }
+    }
+
+    try {
+      const {data: refData} = await octokit.rest.git.getRef({
+        owner,
+        repo,
+        ref: `tags/${sha}`
+      })
+
+      return refData.object.sha
+    } catch (error) {
+      if (!isNotFoundError(error)) {
+        throw error
+      }
+    }
+
+    const {data: commitData} = await octokit.rest.git.getCommit({
+      owner,
+      repo,
+      commit_sha: sha
     })
 
-    return refData.object.sha
+    return commitData.sha
   }
 
   return stdout.trim()
