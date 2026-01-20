@@ -43,7 +43,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = exports.processChangedFiles = void 0;
+exports.getChangedFilesFromGithubAPI = exports.getAllChangeTypeFiles = exports.getChangeTypeFiles = exports.filterSymlinksFromChangedFiles = exports.getAllDiffFiles = exports.ChangeTypeEnum = exports.getRenamedFiles = exports.processChangedFiles = void 0;
 const core = __importStar(__nccwpck_require__(7484));
 const github = __importStar(__nccwpck_require__(3228));
 const flatten_1 = __importDefault(__nccwpck_require__(7047));
@@ -190,7 +190,7 @@ var ChangeTypeEnum;
     ChangeTypeEnum["Unmerged"] = "U";
     ChangeTypeEnum["Unknown"] = "X";
 })(ChangeTypeEnum || (exports.ChangeTypeEnum = ChangeTypeEnum = {}));
-const getAllDiffFiles = async ({ workingDirectory, diffSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError }) => {
+const getAllDiffFiles = async ({ workingDirectory, diffSubmodule, diffResult, submodulePaths, outputRenamedFilesAsDeletedAndAdded, fetchAdditionalSubmoduleHistory, failOnInitialDiffError, failOnSubmoduleDiffError, submoduleShas }) => {
     const files = await (0, utils_1.getAllChangedFiles)({
         cwd: workingDirectory,
         sha1: diffResult.previousSha,
@@ -210,6 +210,9 @@ const getAllDiffFiles = async ({ workingDirectory, diffSubmodule, diffResult, su
             });
             const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
             if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+                if (submoduleShas) {
+                    submoduleShas[submodulePath] = submoduleShaResult;
+                }
                 let diff = '...';
                 if (!(await (0, utils_1.canDiffCommits)({
                     cwd: submoduleWorkingDirectory,
@@ -246,6 +249,96 @@ const getAllDiffFiles = async ({ workingDirectory, diffSubmodule, diffResult, su
     return files;
 };
 exports.getAllDiffFiles = getAllDiffFiles;
+const filterSymlinksFromChangedFiles = async ({ changedFiles, workingDirectory, diffResult, submodulePaths, submoduleShas }) => {
+    const filtered = {
+        [ChangeTypeEnum.Added]: [],
+        [ChangeTypeEnum.Copied]: [],
+        [ChangeTypeEnum.Deleted]: [],
+        [ChangeTypeEnum.Modified]: [],
+        [ChangeTypeEnum.Renamed]: [],
+        [ChangeTypeEnum.TypeChanged]: [],
+        [ChangeTypeEnum.Unmerged]: [],
+        [ChangeTypeEnum.Unknown]: []
+    };
+    const cache = new Map();
+    const diskCache = new Map();
+    const getSubmoduleContext = (filePath) => {
+        const submodulePath = submodulePaths.find(p => filePath.startsWith(`${p}${path.sep}`));
+        if (!submodulePath) {
+            return {
+                cwd: workingDirectory,
+                relativePath: filePath,
+                currentSha: diffResult.currentSha,
+                previousSha: diffResult.previousSha,
+                isSubmoduleRoot: false
+            };
+        }
+        if (filePath === submodulePath) {
+            return {
+                cwd: workingDirectory,
+                relativePath: filePath,
+                currentSha: diffResult.currentSha,
+                previousSha: diffResult.previousSha,
+                isSubmoduleRoot: true
+            };
+        }
+        const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath);
+        const relativePath = filePath.substring(submodulePath.length + 1);
+        const submoduleSha = submoduleShas === null || submoduleShas === void 0 ? void 0 : submoduleShas[submodulePath];
+        return {
+            cwd: submoduleWorkingDirectory,
+            relativePath,
+            currentSha: (submoduleSha === null || submoduleSha === void 0 ? void 0 : submoduleSha.currentSha) || diffResult.currentSha,
+            previousSha: (submoduleSha === null || submoduleSha === void 0 ? void 0 : submoduleSha.previousSha) || diffResult.previousSha,
+            isSubmoduleRoot: false
+        };
+    };
+    const isSymlinkCached = async ({ cwd, filePath, sha, preferDisk }) => {
+        if (preferDisk) {
+            const diskKey = `${cwd}|disk|${filePath}`;
+            const cachedDisk = diskCache.get(diskKey);
+            if (cachedDisk !== undefined) {
+                return cachedDisk;
+            }
+            const diskResult = await (0, utils_1.isSymlinkOnDisk)({ cwd, filePath });
+            diskCache.set(diskKey, diskResult);
+            if (diskResult) {
+                return true;
+            }
+        }
+        const treeKey = `${cwd}|${sha}|${filePath}`;
+        const cachedTree = cache.get(treeKey);
+        if (cachedTree !== undefined) {
+            return cachedTree;
+        }
+        const treeResult = await (0, utils_1.isSymlinkInGitTree)({ cwd, sha, filePath });
+        cache.set(treeKey, treeResult);
+        return treeResult;
+    };
+    for (const changeType of Object.keys(changedFiles)) {
+        const files = changedFiles[changeType] || [];
+        for (const filePath of files) {
+            const context = getSubmoduleContext(filePath);
+            if (context.isSubmoduleRoot) {
+                filtered[changeType].push(filePath);
+                continue;
+            }
+            const isDeleted = changeType === ChangeTypeEnum.Deleted;
+            const sha = isDeleted ? context.previousSha : context.currentSha;
+            const isSymlink = await isSymlinkCached({
+                cwd: context.cwd,
+                filePath: context.relativePath,
+                sha,
+                preferDisk: !isDeleted
+            });
+            if (!isSymlink) {
+                filtered[changeType].push(filePath);
+            }
+        }
+    }
+    return filtered;
+};
+exports.filterSymlinksFromChangedFiles = filterSymlinksFromChangedFiles;
 function* getFilePaths({ inputs, filePaths, dirNamesIncludeFilePatterns }) {
     for (const filePath of filePaths) {
         if (inputs.dirNames) {
@@ -1007,6 +1100,17 @@ const getSHAForNonPullRequestEvent = async ({ inputs, env, workingDirectory, isS
     }
     if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
+            if (inputs.skipSameSha) {
+                core.info(`Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`);
+                return {
+                    previousSha,
+                    currentSha,
+                    currentBranch,
+                    targetBranch,
+                    diff,
+                    sameSha: true
+                };
+            }
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
             core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
             throw new Error('Similar commit hashes detected.');
@@ -1095,6 +1199,17 @@ const getSHAForNonPullRequestEvent = async ({ inputs, env, workingDirectory, isS
     core.debug(`Target branch: ${targetBranch}`);
     core.debug(`Current branch: ${currentBranch}`);
     if (!initialCommit && previousSha === currentSha) {
+        if (inputs.skipSameSha) {
+            core.info(`Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`);
+            return {
+                previousSha,
+                currentSha,
+                currentBranch,
+                targetBranch,
+                diff,
+                sameSha: true
+            };
+        }
         core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
         core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
         throw new Error('Similar commit hashes detected.');
@@ -1193,6 +1308,17 @@ const getSHAForPullRequestEvent = async ({ inputs, workingDirectory, isShallow, 
     let diff = '...';
     if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
         if (previousSha === currentSha) {
+            if (inputs.skipSameSha) {
+                core.info(`Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`);
+                return {
+                    previousSha,
+                    currentSha,
+                    currentBranch,
+                    targetBranch,
+                    diff,
+                    sameSha: true
+                };
+            }
             core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
             core.error(`Please verify that both commits are valid, and increase the fetch_depth to a number higher than ${inputs.fetchDepth}.`);
             throw new Error('Similar commit hashes detected.');
@@ -1314,6 +1440,17 @@ const getSHAForPullRequestEvent = async ({ inputs, workingDirectory, isShallow, 
         throw new Error(`Unable to determine a difference between ${previousSha}${diff}${currentSha}`);
     }
     if (previousSha === currentSha) {
+        if (inputs.skipSameSha) {
+            core.info(`Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`);
+            return {
+                previousSha,
+                currentSha,
+                currentBranch,
+                targetBranch,
+                diff,
+                sameSha: true
+            };
+        }
         core.error(`Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`);
         // This occurs if a PR is created from a forked repository and the event is pull_request_target.
         //  - name: Checkout to branch
@@ -1376,6 +1513,8 @@ exports.DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS = {
     fetchAdditionalSubmoduleHistory: false,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
     excludeSubmodules: false,
+    excludeSymlinks: false,
+    skipSameSha: false,
     fetchMissingHistoryMaxRetries: 20,
     usePosixPathSeparator: false,
     tagsPattern: '*',
@@ -1573,6 +1712,12 @@ const getInputs = () => {
     const excludeSubmodules = core.getBooleanInput('exclude_submodules', {
         required: false
     });
+    const excludeSymlinks = core.getBooleanInput('exclude_symlinks', {
+        required: false
+    });
+    const skipSameSha = core.getBooleanInput('skip_same_sha', {
+        required: false
+    });
     const fetchMissingHistoryMaxRetries = core.getInput('fetch_missing_history_max_retries', { required: false });
     const usePosixPathSeparator = core.getBooleanInput('use_posix_path_separator', {
         required: false
@@ -1625,6 +1770,8 @@ const getInputs = () => {
         fetchAdditionalSubmoduleHistory,
         dirNamesDeletedFilesIncludeOnlyDeletedDirs,
         excludeSubmodules,
+        excludeSymlinks,
+        skipSameSha,
         usePosixPathSeparator,
         tagsPattern,
         tagsIgnorePattern,
@@ -1782,8 +1929,49 @@ const getChangedFilesFromLocalGitHistory = async ({ inputs, env, workingDirector
         core.endGroup();
         return;
     }
+    if (diffResult.sameSha) {
+        core.info('Base and head SHAs are identical; no changed files to report.');
+        const emptyChangedFiles = {
+            [changedFiles_1.ChangeTypeEnum.Added]: [],
+            [changedFiles_1.ChangeTypeEnum.Copied]: [],
+            [changedFiles_1.ChangeTypeEnum.Deleted]: [],
+            [changedFiles_1.ChangeTypeEnum.Modified]: [],
+            [changedFiles_1.ChangeTypeEnum.Renamed]: [],
+            [changedFiles_1.ChangeTypeEnum.TypeChanged]: [],
+            [changedFiles_1.ChangeTypeEnum.Unmerged]: [],
+            [changedFiles_1.ChangeTypeEnum.Unknown]: []
+        };
+        await (0, changedFiles_1.processChangedFiles)({
+            filePatterns,
+            allDiffFiles: emptyChangedFiles,
+            inputs,
+            yamlFilePatterns,
+            workingDirectory
+        });
+        if (inputs.includeAllOldNewRenamedFiles) {
+            await (0, utils_1.setOutput)({
+                key: 'all_old_new_renamed_files',
+                value: inputs.json ? [] : '',
+                writeOutputFiles: inputs.writeOutputFiles,
+                outputDir: inputs.outputDir,
+                json: inputs.json,
+                safeOutput: inputs.safeOutput
+            });
+            await (0, utils_1.setOutput)({
+                key: 'all_old_new_renamed_files_count',
+                value: '0',
+                writeOutputFiles: inputs.writeOutputFiles,
+                outputDir: inputs.outputDir,
+                json: inputs.json
+            });
+        }
+        core.info('All Done!');
+        core.endGroup();
+        return;
+    }
     core.info(`Retrieving changes between ${diffResult.previousSha} (${diffResult.targetBranch}) → ${diffResult.currentSha} (${diffResult.currentBranch})`);
-    const allDiffFiles = await (0, changedFiles_1.getAllDiffFiles)({
+    const submoduleShas = {};
+    let allDiffFiles = await (0, changedFiles_1.getAllDiffFiles)({
         workingDirectory,
         diffSubmodule,
         diffResult,
@@ -1791,8 +1979,19 @@ const getChangedFilesFromLocalGitHistory = async ({ inputs, env, workingDirector
         outputRenamedFilesAsDeletedAndAdded,
         fetchAdditionalSubmoduleHistory: inputs.fetchAdditionalSubmoduleHistory,
         failOnInitialDiffError: inputs.failOnInitialDiffError,
-        failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError
+        failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError,
+        submoduleShas
     });
+    if (inputs.excludeSymlinks) {
+        core.info('Excluding symlinks from the diff');
+        allDiffFiles = await (0, changedFiles_1.filterSymlinksFromChangedFiles)({
+            changedFiles: allDiffFiles,
+            workingDirectory,
+            diffResult,
+            submodulePaths,
+            submoduleShas
+        });
+    }
     core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
     core.info('All Done!');
     core.endGroup();
@@ -1961,7 +2160,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.warnUnsupportedRESTAPIInputs = exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.warnUnsupportedRESTAPIInputs = exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.isSymlinkInGitTree = exports.isSymlinkOnDisk = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(7484));
 const exec = __importStar(__nccwpck_require__(5236));
@@ -2092,6 +2291,49 @@ const exists = async (filePath) => {
     }
 };
 exports.exists = exists;
+/**
+ * Checks if a file is a symlink on disk
+ * @param cwd - working directory
+ * @param filePath - path to check
+ * @returns file is a symlink
+ */
+const isSymlinkOnDisk = async ({ cwd, filePath }) => {
+    try {
+        const stat = await fs_1.promises.lstat(path.join(cwd, filePath));
+        return stat.isSymbolicLink();
+    }
+    catch (_a) {
+        return false;
+    }
+};
+exports.isSymlinkOnDisk = isSymlinkOnDisk;
+/**
+ * Checks if a file is a symlink in a git tree
+ * @param cwd - working directory
+ * @param sha - commit sha
+ * @param filePath - path to check
+ * @returns file is a symlink
+ */
+const isSymlinkInGitTree = async ({ cwd, sha, filePath }) => {
+    if (!sha) {
+        return false;
+    }
+    const { stdout, exitCode } = await exec.getExecOutput('git', ['ls-tree', '-r', sha, '--', filePath], {
+        cwd,
+        ignoreReturnCode: true,
+        silent: !core.isDebug()
+    });
+    if (exitCode !== 0) {
+        return false;
+    }
+    const line = stdout.split('\n').find(Boolean);
+    if (!line) {
+        return false;
+    }
+    const [mode] = line.split(/\s+/);
+    return mode === '120000';
+};
+exports.isSymlinkInGitTree = isSymlinkInGitTree;
 /**
  * Generates lines of a file as an async iterable iterator
  * @param filePath - path of file to read

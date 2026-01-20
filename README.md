@@ -417,6 +417,11 @@ Support this project with a :star:
     # Default: "false"
     exclude_symlinks: ''
 
+    # Do not fail when base and head SHAs are identical.
+    # Type: boolean
+    # Default: "false"
+    skip_same_sha: ''
+
     # Fail when the initial diff 
     # fails. 
     # Type: boolean

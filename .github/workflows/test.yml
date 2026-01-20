@@ -275,6 +275,113 @@ jobs:
         shell:
           bash
 
+  test-skip-same-base-and-commit-sha:
+    name: Test changed-files skip same base and commit sha
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          fetch-depth: 0
+
+      - name: Download build assets
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: build-assets
+
+      - name: Get head SHA
+        id: head-sha
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        shell:
+          bash
+
+      - name: Run changed-files with same base and commit sha
+        id: changed-files
+        uses: ./
+        with:
+          base_sha: ${{ steps.head-sha.outputs.sha }}
+          sha: ${{ steps.head-sha.outputs.sha }}
+          skip_same_sha: true
+
+      - name: Verify empty outputs
+        if: steps.changed-files.outputs.all_changed_files_count != '0' || steps.changed-files.outputs.any_changed != 'false'
+        run: |
+          echo "Expected empty outputs; got count=${{ steps.changed-files.outputs.all_changed_files_count }} any_changed=${{ steps.changed-files.outputs.any_changed }}"
+          exit 1
+        shell:
+          bash
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
+
+  test-exclude-symlinks:
+    name: Test changed-files exclude symlinks
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.outputs.files_changed != 'true'
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          fetch-depth: 0
+
+      - name: Download build assets
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: build-assets
+
+      - name: Run changed-files without symlink exclusion
+        id: changed-files-symlink-included
+        uses: ./
+        with:
+          base_sha: ${{ steps.symlink-range.outputs.base_sha }}
+          sha: ${{ steps.symlink-range.outputs.sha }}
+
+      - name: Verify symlink is present
+        if: "!contains(steps.changed-files-symlink-included.outputs.added_files, 'test/symlink-to-target')"
+        run: |
+          echo "Expected symlink to be present in added_files; got ${{ steps.changed-files-symlink-included.outputs.added_files }}"
+          exit 1
+        shell:
+          bash
+
+      - name: Run changed-files excluding symlinks
+        id: changed-files-symlink-excluded
+        uses: ./
+        with:
+          base_sha: ${{ steps.symlink-range.outputs.base_sha }}
+          sha: ${{ steps.symlink-range.outputs.sha }}
+          exclude_symlinks: true
+
+      - name: Verify symlink is excluded
+        if: steps.changed-files-symlink-excluded.outputs.added_files_count != '0' || steps.changed-files-symlink-excluded.outputs.all_changed_files_count != '0'
+        run: |
+          echo "Expected no changed files when excluding symlinks; got added=${{ steps.changed-files-symlink-excluded.outputs.added_files }} all=${{ steps.changed-files-symlink-excluded.outputs.all_changed_files }}"
+          exit 1
+        shell:
+          bash
+
+      - name: Show output
+        run: |
+          echo '${{ toJSON(steps.changed-files-symlink-included.outputs) }}'
+          echo '${{ toJSON(steps.changed-files-symlink-excluded.outputs) }}'
+        shell:
+          bash
+
   test-using-branch-names-for-base-sha-and-sha-inputs:
     name: Test using branch names for base_sha and sha inputs
     runs-on: ubuntu-latest

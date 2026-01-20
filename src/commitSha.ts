@@ -84,6 +84,7 @@ export interface DiffResult {
   targetBranch: string
   diff: string
   initialCommit?: boolean
+  sameSha?: boolean
 }
 
 interface SHAForNonPullRequestEvent {
@@ -198,6 +199,19 @@ export const getSHAForNonPullRequestEvent = async ({
 
   if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
+      if (inputs.skipSameSha) {
+        core.info(
+          `Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`
+        )
+        return {
+          previousSha,
+          currentSha,
+          currentBranch,
+          targetBranch,
+          diff,
+          sameSha: true
+        }
+      }
       core.error(
         `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
       )
@@ -305,6 +319,19 @@ export const getSHAForNonPullRequestEvent = async ({
   core.debug(`Current branch: ${currentBranch}`)
 
   if (!initialCommit && previousSha === currentSha) {
+    if (inputs.skipSameSha) {
+      core.info(
+        `Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`
+      )
+      return {
+        previousSha,
+        currentSha,
+        currentBranch,
+        targetBranch,
+        diff,
+        sameSha: true
+      }
+    }
     core.error(
       `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
     )
@@ -430,6 +457,19 @@ export const getSHAForPullRequestEvent = async ({
 
   if (inputs.baseSha && inputs.sha && currentBranch && targetBranch) {
     if (previousSha === currentSha) {
+      if (inputs.skipSameSha) {
+        core.info(
+          `Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`
+        )
+        return {
+          previousSha,
+          currentSha,
+          currentBranch,
+          targetBranch,
+          diff,
+          sameSha: true
+        }
+      }
       core.error(
         `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
       )
@@ -608,6 +648,19 @@ export const getSHAForPullRequestEvent = async ({
   }
 
   if (previousSha === currentSha) {
+    if (inputs.skipSameSha) {
+      core.info(
+        `Skipping diff because previous sha ${previousSha} is equivalent to the current sha ${currentSha}.`
+      )
+      return {
+        previousSha,
+        currentSha,
+        currentBranch,
+        targetBranch,
+        diff,
+        sameSha: true
+      }
+    }
     core.error(
       `Similar commit hashes detected: previous sha: ${previousSha} is equivalent to the current sha: ${currentSha}.`
     )

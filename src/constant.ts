@@ -23,6 +23,7 @@ export const DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS: Partial<Inputs> = {
   dirNamesDeletedFilesIncludeOnlyDeletedDirs: false,
   excludeSubmodules: false,
   excludeSymlinks: false,
+  skipSameSha: false,
   fetchMissingHistoryMaxRetries: 20,
   usePosixPathSeparator: false,
   tagsPattern: '*',

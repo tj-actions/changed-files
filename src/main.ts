@@ -7,7 +7,8 @@ import {
   getAllDiffFiles,
   filterSymlinksFromChangedFiles,
   getChangedFilesFromGithubAPI,
-  getRenamedFiles
+  getRenamedFiles,
+  ChangedFiles
 } from './changedFiles'
 import {
   DiffResult,
@@ -124,6 +125,48 @@ const getChangedFilesFromLocalGitHistory = async ({
 
   if (diffResult.initialCommit) {
     core.info('This is the first commit for this repository; exiting...')
+    core.endGroup()
+    return
+  }
+
+  if (diffResult.sameSha) {
+    core.info('Base and head SHAs are identical; no changed files to report.')
+    const emptyChangedFiles: ChangedFiles = {
+      [ChangeTypeEnum.Added]: [],
+      [ChangeTypeEnum.Copied]: [],
+      [ChangeTypeEnum.Deleted]: [],
+      [ChangeTypeEnum.Modified]: [],
+      [ChangeTypeEnum.Renamed]: [],
+      [ChangeTypeEnum.TypeChanged]: [],
+      [ChangeTypeEnum.Unmerged]: [],
+      [ChangeTypeEnum.Unknown]: []
+    }
+    await processChangedFiles({
+      filePatterns,
+      allDiffFiles: emptyChangedFiles,
+      inputs,
+      yamlFilePatterns,
+      workingDirectory
+    })
+
+    if (inputs.includeAllOldNewRenamedFiles) {
+      await setOutput({
+        key: 'all_old_new_renamed_files',
+        value: inputs.json ? [] : '',
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json,
+        safeOutput: inputs.safeOutput
+      })
+      await setOutput({
+        key: 'all_old_new_renamed_files_count',
+        value: '0',
+        writeOutputFiles: inputs.writeOutputFiles,
+        outputDir: inputs.outputDir,
+        json: inputs.json
+      })
+    }
+    core.info('All Done!')
     core.endGroup()
     return
   }

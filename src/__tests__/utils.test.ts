@@ -640,6 +640,7 @@ describe('utils test', () => {
         useRestApi: false,
         excludeSubmodules: false,
         excludeSymlinks: false,
+        skipSameSha: false,
         fetchMissingHistoryMaxRetries: 20,
         usePosixPathSeparator: false,
         tagsPattern: '*',

@@ -334,7 +334,9 @@ export const filterSymlinksFromChangedFiles = async ({
   const cache = new Map<string, boolean>()
   const diskCache = new Map<string, boolean>()
 
-  const getSubmoduleContext = (filePath: string): {
+  const getSubmoduleContext = (
+    filePath: string
+  ): {
     cwd: string
     relativePath: string
     currentSha: string
@@ -364,10 +366,7 @@ export const filterSymlinksFromChangedFiles = async ({
       }
     }
 
-    const submoduleWorkingDirectory = path.join(
-      workingDirectory,
-      submodulePath
-    )
+    const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath)
     const relativePath = filePath.substring(submodulePath.length + 1)
     const submoduleSha = submoduleShas?.[submodulePath]
 

@@ -231,6 +231,10 @@ inputs:
     description: "Exclude symlinks from changed files."
     required: false
     default: "false"
+  skip_same_sha:
+    description: "Do not fail when base and head SHAs are identical."
+    required: false
+    default: "false"
   fetch_missing_history_max_retries:
     description: "Maximum number of retries to fetch missing history."
     required: false
