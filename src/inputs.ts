@@ -55,6 +55,7 @@ export type Inputs = {
   negationPatternsFirst: boolean
   useRestApi: boolean
   excludeSubmodules: boolean
+  excludeSymlinks: boolean
   fetchMissingHistoryMaxRetries?: number
   usePosixPathSeparator: boolean
   tagsPattern: string
@@ -249,6 +250,10 @@ export const getInputs = (): Inputs => {
     required: false
   })
 
+  const excludeSymlinks = core.getBooleanInput('exclude_symlinks', {
+    required: false
+  })
+
   const fetchMissingHistoryMaxRetries = core.getInput(
     'fetch_missing_history_max_retries',
     {required: false}
@@ -310,6 +315,7 @@ export const getInputs = (): Inputs => {
     fetchAdditionalSubmoduleHistory,
     dirNamesDeletedFilesIncludeOnlyDeletedDirs,
     excludeSubmodules,
+    excludeSymlinks,
     usePosixPathSeparator,
     tagsPattern,
     tagsIgnorePattern,

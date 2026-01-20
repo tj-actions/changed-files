@@ -412,6 +412,11 @@ Support this project with a :star:
     # Default: "false"
     exclude_submodules: ''
 
+    # Exclude symlinks from changed files.
+    # Type: boolean
+    # Default: "false"
+    exclude_symlinks: ''
+
     # Fail when the initial diff 
     # fails. 
     # Type: boolean

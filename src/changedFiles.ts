@@ -16,6 +16,8 @@ import {
   getFilteredChangedFiles,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
+  isSymlinkInGitTree,
+  isSymlinkOnDisk,
   isWindows,
   jsonOutput,
   setArrayOutput
@@ -220,7 +222,8 @@ export const getAllDiffFiles = async ({
   outputRenamedFilesAsDeletedAndAdded,
   fetchAdditionalSubmoduleHistory,
   failOnInitialDiffError,
-  failOnSubmoduleDiffError
+  failOnSubmoduleDiffError,
+  submoduleShas
 }: {
   workingDirectory: string
   diffSubmodule: boolean
@@ -230,6 +233,7 @@ export const getAllDiffFiles = async ({
   fetchAdditionalSubmoduleHistory: boolean
   failOnInitialDiffError: boolean
   failOnSubmoduleDiffError: boolean
+  submoduleShas?: Record<string, {previousSha?: string; currentSha?: string}>
 }): Promise<ChangedFiles> => {
   const files = await getAllChangedFiles({
     cwd: workingDirectory,
@@ -256,6 +260,9 @@ export const getAllDiffFiles = async ({
       )
 
       if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
+        if (submoduleShas) {
+          submoduleShas[submodulePath] = submoduleShaResult
+        }
         let diff = '...'
 
         if (
@@ -298,6 +305,140 @@ export const getAllDiffFiles = async ({
   }
 
   return files
+}
+
+export const filterSymlinksFromChangedFiles = async ({
+  changedFiles,
+  workingDirectory,
+  diffResult,
+  submodulePaths,
+  submoduleShas
+}: {
+  changedFiles: ChangedFiles
+  workingDirectory: string
+  diffResult: DiffResult
+  submodulePaths: string[]
+  submoduleShas?: Record<string, {previousSha?: string; currentSha?: string}>
+}): Promise<ChangedFiles> => {
+  const filtered: ChangedFiles = {
+    [ChangeTypeEnum.Added]: [],
+    [ChangeTypeEnum.Copied]: [],
+    [ChangeTypeEnum.Deleted]: [],
+    [ChangeTypeEnum.Modified]: [],
+    [ChangeTypeEnum.Renamed]: [],
+    [ChangeTypeEnum.TypeChanged]: [],
+    [ChangeTypeEnum.Unmerged]: [],
+    [ChangeTypeEnum.Unknown]: []
+  }
+
+  const cache = new Map<string, boolean>()
+  const diskCache = new Map<string, boolean>()
+
+  const getSubmoduleContext = (filePath: string): {
+    cwd: string
+    relativePath: string
+    currentSha: string
+    previousSha: string
+    isSubmoduleRoot: boolean
+  } => {
+    const submodulePath = submodulePaths.find(p =>
+      filePath.startsWith(`${p}${path.sep}`)
+    )
+    if (!submodulePath) {
+      return {
+        cwd: workingDirectory,
+        relativePath: filePath,
+        currentSha: diffResult.currentSha,
+        previousSha: diffResult.previousSha,
+        isSubmoduleRoot: false
+      }
+    }
+
+    if (filePath === submodulePath) {
+      return {
+        cwd: workingDirectory,
+        relativePath: filePath,
+        currentSha: diffResult.currentSha,
+        previousSha: diffResult.previousSha,
+        isSubmoduleRoot: true
+      }
+    }
+
+    const submoduleWorkingDirectory = path.join(
+      workingDirectory,
+      submodulePath
+    )
+    const relativePath = filePath.substring(submodulePath.length + 1)
+    const submoduleSha = submoduleShas?.[submodulePath]
+
+    return {
+      cwd: submoduleWorkingDirectory,
+      relativePath,
+      currentSha: submoduleSha?.currentSha || diffResult.currentSha,
+      previousSha: submoduleSha?.previousSha || diffResult.previousSha,
+      isSubmoduleRoot: false
+    }
+  }
+
+  const isSymlinkCached = async ({
+    cwd,
+    filePath,
+    sha,
+    preferDisk
+  }: {
+    cwd: string
+    filePath: string
+    sha: string
+    preferDisk: boolean
+  }): Promise<boolean> => {
+    if (preferDisk) {
+      const diskKey = `${cwd}|disk|${filePath}`
+      const cachedDisk = diskCache.get(diskKey)
+      if (cachedDisk !== undefined) {
+        return cachedDisk
+      }
+      const diskResult = await isSymlinkOnDisk({cwd, filePath})
+      diskCache.set(diskKey, diskResult)
+      if (diskResult) {
+        return true
+      }
+    }
+
+    const treeKey = `${cwd}|${sha}|${filePath}`
+    const cachedTree = cache.get(treeKey)
+    if (cachedTree !== undefined) {
+      return cachedTree
+    }
+    const treeResult = await isSymlinkInGitTree({cwd, sha, filePath})
+    cache.set(treeKey, treeResult)
+    return treeResult
+  }
+
+  for (const changeType of Object.keys(changedFiles) as ChangeTypeEnum[]) {
+    const files = changedFiles[changeType] || []
+    for (const filePath of files) {
+      const context = getSubmoduleContext(filePath)
+      if (context.isSubmoduleRoot) {
+        filtered[changeType].push(filePath)
+        continue
+      }
+
+      const isDeleted = changeType === ChangeTypeEnum.Deleted
+      const sha = isDeleted ? context.previousSha : context.currentSha
+      const isSymlink = await isSymlinkCached({
+        cwd: context.cwd,
+        filePath: context.relativePath,
+        sha,
+        preferDisk: !isDeleted
+      })
+
+      if (!isSymlink) {
+        filtered[changeType].push(filePath)
+      }
+    }
+  }
+
+  return filtered
 }
 
 function* getFilePaths({

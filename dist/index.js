@@ -2517,13 +2517,45 @@ const cleanShaInput = async ({ sha, cwd, token }) => {
     });
     if (exitCode !== 0) {
         const octokit = github.getOctokit(token);
-        // If it's not a valid commit sha, assume it's a branch name and get the HEAD sha
-        const { data: refData } = await octokit.rest.git.getRef({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            ref: `heads/${sha}`
+        const owner = github.context.repo.owner;
+        const repo = github.context.repo.repo;
+        const isNotFoundError = (error) => typeof error === 'object' &&
+            error !== null &&
+            'status' in error &&
+            error.status === 404;
+        // If it's not a valid commit sha, assume it's a ref name first.
+        try {
+            const { data: refData } = await octokit.rest.git.getRef({
+                owner,
+                repo,
+                ref: `heads/${sha}`
+            });
+            return refData.object.sha;
+        }
+        catch (error) {
+            if (!isNotFoundError(error)) {
+                throw error;
+            }
+        }
+        try {
+            const { data: refData } = await octokit.rest.git.getRef({
+                owner,
+                repo,
+                ref: `tags/${sha}`
+            });
+            return refData.object.sha;
+        }
+        catch (error) {
+            if (!isNotFoundError(error)) {
+                throw error;
+            }
+        }
+        const { data: commitData } = await octokit.rest.git.getCommit({
+            owner,
+            repo,
+            commit_sha: sha
         });
-        return refData.object.sha;
+        return commitData.sha;
     }
     return stdout.trim();
 };
