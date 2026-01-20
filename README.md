@@ -45,6 +45,7 @@ Effortlessly track all changed files and directories relative to a target branch
 *   [Credits 👏](#credits-)
 *   [Report Bugs 🐛](#report-bugs-)
 *   [Contributors ✨](#contributors-)
+*   [💼 Automate Your Job Search Too](#-automate-your-job-search-too)
 
 ## Features 🚀
 
@@ -1460,15 +1461,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
----
+***
 
 ## 💼 Automate Your Job Search Too
 
 You automate your CI/CD. Automate your job applications too.
 
 **[ApplySmart AI](https://applysmart.ai)** helps you:
-- Generate tailored resumes & cover letters in seconds
-- Extract job details from any posting automatically  
-- Track applications like you track deployments
+
+*   Generate tailored resumes & cover letters in seconds
+*   Extract job details from any posting automatically
+*   Track applications like you track deployments
 
 **Free tier available** → [applysmart.ai](https://applysmart.ai)
