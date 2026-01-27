@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run release-tagger
-        uses: tj-actions/release-tagger@1a9264b0fd99a1ef92c4fd2f077f292900cc79b6 # v4.0.0
+        uses: tj-actions/release-tagger@8576dad34b92e91f6f69100b3966e76ff9226f5b # v5.0.1
       - name: Sync release version.
         uses: tj-actions/sync-release-version@2a7ef0deb39b3ecce887ee99d2261c6cef989d84 # v13.16
         id: sync-release-version
