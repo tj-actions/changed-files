@@ -348,8 +348,8 @@ jobs:
         id: changed-files-symlink-included
         uses: ./
         with:
-          base_sha: 955f38aa4f30f1ec92d08049b26e6d736ffea013
-          sha: ddde96a55848a649c09322c7094b22ef4b4abe23
+          base_sha: 2f2f6cf099167fa7d7c6aba8fc0421327e181a5a
+          sha: 8c4da285a3cb8b621b4a5cc251d6282b4b0a67a5
 
       - name: Verify symlink is present
         if: "!contains(steps.changed-files-symlink-included.outputs.added_files, 'test/symlink-to-target')"
@@ -363,8 +363,8 @@ jobs:
         id: changed-files-symlink-excluded
         uses: ./
         with:
-          base_sha: 955f38aa4f30f1ec92d08049b26e6d736ffea013
-          sha: ddde96a55848a649c09322c7094b22ef4b4abe23
+          base_sha: 2f2f6cf099167fa7d7c6aba8fc0421327e181a5a
+          sha: 8c4da285a3cb8b621b4a5cc251d6282b4b0a67a5
           exclude_symlinks: true
 
       - name: Verify symlink is excluded
