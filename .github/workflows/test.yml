@@ -38,7 +38,7 @@ jobs:
       contents: write
       pull-requests: read
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -109,7 +109,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -149,7 +149,7 @@ jobs:
           path: dir2/dist
 
       - name: Checkout into dir2
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -185,7 +185,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
@@ -245,7 +245,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
@@ -285,7 +285,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
@@ -334,7 +334,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
@@ -396,7 +396,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
@@ -435,7 +435,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: ${{ matrix.fetch-depth }}
@@ -469,7 +469,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -503,7 +503,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
           persist-credentials: false
@@ -533,7 +533,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Download build assets
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -588,7 +588,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Download build assets
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -643,7 +643,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -675,7 +675,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -712,7 +712,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -751,7 +751,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
@@ -817,7 +817,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
@@ -912,7 +912,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
@@ -1098,7 +1098,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -1136,7 +1136,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -1215,7 +1215,7 @@ jobs:
         
     steps:
       - name: Checkout branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -1268,7 +1268,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           submodules: true
           repository: ${{ github.event.pull_request.head.repo.full_name }}
