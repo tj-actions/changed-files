@@ -1,5 +1,118 @@
 # Changelog
 
+# [47.0.4](https://github.com/tj-actions/changed-files/compare/v47.0.3...v47.0.4) - (2026-02-17)
+
+## <!-- 26 -->🔄 Update
+
+- Release-tagger action to version 6.0.6 ([#2801](https://github.com/tj-actions/changed-files/issues/2801)) ([7dee1b0](https://github.com/tj-actions/changed-files/commit/7dee1b0c1557f278e5c7dc244927139d78c0e22a))  - (Tonye Jack)
+
+# [47.0.3](https://github.com/tj-actions/changed-files/compare/v47.0.2...v47.0.3) - (2026-02-17)
+
+## <!-- 26 -->🔄 Update
+
+- Release-tagger action to version 6.0.0 ([#2800](https://github.com/tj-actions/changed-files/issues/2800)) ([28b28f6](https://github.com/tj-actions/changed-files/commit/28b28f6e4e9e3d997beb9dce86cfd8cf0ce7c7f6))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump github/codeql-action from 4.31.10 to 4.32.2 ([#2790](https://github.com/tj-actions/changed-files/issues/2790)) ([875e6e5](https://github.com/tj-actions/changed-files/commit/875e6e5df8b8b00995fe6f0afd7ff1531ac1c47d))  - (dependabot[bot])
+
+# [47.0.2](https://github.com/tj-actions/changed-files/compare/v47.0.1...v47.0.2) - (2026-02-09)
+
+## <!-- 0 -->🚀 Features
+
+- Add support for excluding symlinks and fix bug with commit not found ([#2770](https://github.com/tj-actions/changed-files/issues/2770)) ([8c4da28](https://github.com/tj-actions/changed-files/commit/8c4da285a3cb8b621b4a5cc251d6282b4b0a67a5))  - (Tonye Jack)
+
+## <!-- 1 -->🐛 Bug Fixes
+
+- Update test.yml ([#2781](https://github.com/tj-actions/changed-files/issues/2781)) ([caee9d9](https://github.com/tj-actions/changed-files/commit/caee9d94cec72c6797349cc07842c787d2cc9f74))  - (Tonye Jack)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2771](https://github.com/tj-actions/changed-files/issues/2771))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([7d5bbf4](https://github.com/tj-actions/changed-files/commit/7d5bbf4e8d5c63a42c94e1c1bff2394247117e96))  - (github-actions[bot])
+- Updated README.md ([#2768](https://github.com/tj-actions/changed-files/issues/2768))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([b3bb1f8](https://github.com/tj-actions/changed-files/commit/b3bb1f875362fa8c43662ad2fe58e3649eef37ac))  - (github-actions[bot])
+- Update README.md ([c6a5847](https://github.com/tj-actions/changed-files/commit/c6a5847dac4514198bf58e6181f70e2e83e8c49a))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump actions/setup-node from 6.1.0 to 6.2.0 ([#2766](https://github.com/tj-actions/changed-files/issues/2766)) ([8cba46e](https://github.com/tj-actions/changed-files/commit/8cba46e29c11878d930bca7870bb54394d3e8b21))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 25.0.0 to 25.2.2 ([#2793](https://github.com/tj-actions/changed-files/issues/2793)) ([925972f](https://github.com/tj-actions/changed-files/commit/925972f627ac3ba50ec787d29479d19d5fd76899))  - (dependabot[bot])
+- **deps:** Bump @stdlib/utils-convert-path from 0.2.2 to 0.2.3 ([#2795](https://github.com/tj-actions/changed-files/issues/2795)) ([a98754b](https://github.com/tj-actions/changed-files/commit/a98754bb6adb8a47a1fc3d33dc1c465efdbb5ff8))  - (dependabot[bot])
+- **deps:** Bump actions/checkout from 6.0.1 to 6.0.2 ([#2777](https://github.com/tj-actions/changed-files/issues/2777)) ([9c13e73](https://github.com/tj-actions/changed-files/commit/9c13e73478ad1bfebb10d95fdbaa6e62f519ddf8))  - (dependabot[bot])
+- **deps-dev:** Bump @types/lodash from 4.17.21 to 4.17.23 ([#2759](https://github.com/tj-actions/changed-files/issues/2759)) ([16d791c](https://github.com/tj-actions/changed-files/commit/16d791cc10d1511516254b9487f4f3b5e2b7c7fe))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-jest from 29.11.0 to 29.12.1 ([#2756](https://github.com/tj-actions/changed-files/issues/2756)) ([8e056de](https://github.com/tj-actions/changed-files/commit/8e056dec7d4b91f5a0f30055750dd52cad27f8c2))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.31.7 to 4.31.10 ([#2761](https://github.com/tj-actions/changed-files/issues/2761)) ([078e2bc](https://github.com/tj-actions/changed-files/commit/078e2bcd1ef8f09b23d21604c2a9e3c26173126d))  - (dependabot[bot])
+- Update matrix-example.yml ([#2752](https://github.com/tj-actions/changed-files/issues/2752)) ([2f2f6cf](https://github.com/tj-actions/changed-files/commit/2f2f6cf099167fa7d7c6aba8fc0421327e181a5a))  - (Tonye Jack)
+- Update dist ([#2769](https://github.com/tj-actions/changed-files/issues/2769)) ([8262acc](https://github.com/tj-actions/changed-files/commit/8262acc55927280c6067c697c63355e0fed93fe3))  - (Tonye Jack)
+- **deps:** Bump @actions/core from 2.0.0 to 2.0.2 ([#2757](https://github.com/tj-actions/changed-files/issues/2757)) ([daf9d2d](https://github.com/tj-actions/changed-files/commit/daf9d2d49788d229faa7bd34252ab8ded7f087f3))  - (dependabot[bot])
+- **deps:** Bump actions/download-artifact from 6.0.0 to 7.0.0 ([#2743](https://github.com/tj-actions/changed-files/issues/2743)) ([3c4bc6f](https://github.com/tj-actions/changed-files/commit/3c4bc6fa0ca4718d438e0a4bd3ea81fbb0e6e2be))  - (dependabot[bot])
+- **deps:** Bump actions/upload-artifact from 5.0.0 to 6.0.0 ([#2741](https://github.com/tj-actions/changed-files/issues/2741)) ([cd7fbbc](https://github.com/tj-actions/changed-files/commit/cd7fbbcebba7beb1540c870b9c46a6cbde115b14))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-jest from 29.2.1 to 29.11.0 ([#2751](https://github.com/tj-actions/changed-files/issues/2751)) ([60a1a28](https://github.com/tj-actions/changed-files/commit/60a1a28396b0c1d4aad5140d0b51b82451114f8b))  - (dependabot[bot])
+
+# [47.0.1](https://github.com/tj-actions/changed-files/compare/v47.0.0...v47.0.1) - (2025-12-11)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2723](https://github.com/tj-actions/changed-files/issues/2723))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([043285e](https://github.com/tj-actions/changed-files/commit/043285ef6ceb955e13e0ecc67f4cba137ea96922))  - (github-actions[bot])
+- Update README.md ([4206138](https://github.com/tj-actions/changed-files/commit/4206138f174379c379efaa0f5c1d1f82a96eac0a))  - (Tonye Jack)
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps:** Bump actions/checkout from 6.0.0 to 6.0.1 ([#2729](https://github.com/tj-actions/changed-files/issues/2729)) ([e002140](https://github.com/tj-actions/changed-files/commit/e0021407031f5be11a464abee9a0776171c79891))  - (dependabot[bot])
+- **deps:** Bump @actions/core from 1.11.1 to 2.0.0 ([#2736](https://github.com/tj-actions/changed-files/issues/2736)) ([01ddfae](https://github.com/tj-actions/changed-files/commit/01ddfae411b529a02e2d03077b041f6b41474069))  - (dependabot[bot])
+- **deps-dev:** Bump prettier from 3.7.1 to 3.7.4 ([#2731](https://github.com/tj-actions/changed-files/issues/2731)) ([a364493](https://github.com/tj-actions/changed-files/commit/a364493bbb5332cdb9b07a6cb637a79ebf052ddf))  - (dependabot[bot])
+- **deps:** Bump actions/setup-node from 6.0.0 to 6.1.0 ([#2730](https://github.com/tj-actions/changed-files/issues/2730)) ([45a2aae](https://github.com/tj-actions/changed-files/commit/45a2aae7eeec78636ada59594c9d58df5c5d8ba8))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.31.5 to 4.31.7 ([#2732](https://github.com/tj-actions/changed-files/issues/2732)) ([a4f6de3](https://github.com/tj-actions/changed-files/commit/a4f6de32d53e0995453c14713fda9f8dd09bc182))  - (dependabot[bot])
+- **deps:** Bump peter-evans/create-pull-request from 7.0.9 to 8.0.0 ([#2735](https://github.com/tj-actions/changed-files/issues/2735)) ([95fbe9b](https://github.com/tj-actions/changed-files/commit/95fbe9b431e702ea6dfadf3f1811923495dc1eac))  - (dependabot[bot])
+- **deps-dev:** Bump ts-jest from 29.4.5 to 29.4.6 ([#2727](https://github.com/tj-actions/changed-files/issues/2727)) ([b3b9724](https://github.com/tj-actions/changed-files/commit/b3b97244a99c6d2992291fbcecae86f413bd8e6e))  - (dependabot[bot])
+- **deps:** Bump @actions/exec from 1.1.1 to 2.0.0 ([#2737](https://github.com/tj-actions/changed-files/issues/2737)) ([503bc3e](https://github.com/tj-actions/changed-files/commit/503bc3e7d783e7b28f62b3e3dede0ba735d9a9b2))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.10.1 to 25.0.0 ([#2738](https://github.com/tj-actions/changed-files/issues/2738)) ([3e9e5a2](https://github.com/tj-actions/changed-files/commit/3e9e5a2aa243322d676bdd4f95e443b2cc82f6ee))  - (dependabot[bot])
+- **deps:** Bump yaml from 2.8.1 to 2.8.2 ([#2724](https://github.com/tj-actions/changed-files/issues/2724)) ([2b6c719](https://github.com/tj-actions/changed-files/commit/2b6c71984539e47a42c54691abdbccf92ac13d5b))  - (dependabot[bot])
+- **deps:** Bump peter-evans/create-pull-request from 7.0.8 to 7.0.9 ([#2717](https://github.com/tj-actions/changed-files/issues/2717)) ([abdd2f6](https://github.com/tj-actions/changed-files/commit/abdd2f68ea150cee8f236d4a9fb4e0f2491abf1b))  - (dependabot[bot])
+- **deps-dev:** Bump @types/lodash from 4.17.20 to 4.17.21 ([#2718](https://github.com/tj-actions/changed-files/issues/2718)) ([1d08ab2](https://github.com/tj-actions/changed-files/commit/1d08ab228c06cfdb5c92a6be6fb2e03654e2410c))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-jest from 29.1.0 to 29.2.1 ([#2719](https://github.com/tj-actions/changed-files/issues/2719)) ([085eb10](https://github.com/tj-actions/changed-files/commit/085eb10d7ef84ec5ab690becdd4072966e781924))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.31.4 to 4.31.5 ([#2720](https://github.com/tj-actions/changed-files/issues/2720)) ([72321d1](https://github.com/tj-actions/changed-files/commit/72321d1f003ac6191c4d5c7781eed4241a728447))  - (dependabot[bot])
+- **deps-dev:** Bump prettier from 3.6.2 to 3.7.1 ([#2722](https://github.com/tj-actions/changed-files/issues/2722)) ([8c66df4](https://github.com/tj-actions/changed-files/commit/8c66df4f78c44069a58c4517f775d02211a2b06b))  - (dependabot[bot])
+- **deps:** Bump nrwl/nx-set-shas from 4.3.3 to 4.4.0 ([#2712](https://github.com/tj-actions/changed-files/issues/2712)) ([6da3c88](https://github.com/tj-actions/changed-files/commit/6da3c88b60ebf09464ada9b06fba5b6f2d34bb94))  - (dependabot[bot])
+- **deps:** Bump actions/checkout from 5.0.0 to 5.0.1 ([#2714](https://github.com/tj-actions/changed-files/issues/2714)) ([48b6e97](https://github.com/tj-actions/changed-files/commit/48b6e9756da9107e9b08fcb676b292caaac1140b))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.31.2 to 4.31.4 ([#2715](https://github.com/tj-actions/changed-files/issues/2715)) ([31e663c](https://github.com/tj-actions/changed-files/commit/31e663cd71ad1f011b9f9e87f3a710e5ebb9a658))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.10.0 to 24.10.1 ([#2711](https://github.com/tj-actions/changed-files/issues/2711)) ([46fd332](https://github.com/tj-actions/changed-files/commit/46fd332157a59040c95f13a55162240a4b789b6c))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-jest from 29.0.1 to 29.1.0 ([#2710](https://github.com/tj-actions/changed-files/issues/2710)) ([2d752ab](https://github.com/tj-actions/changed-files/commit/2d752abc95ba0255af33a2b4d5de03df3954cdf2))  - (dependabot[bot])
+- **deps:** Bump @octokit/rest from 22.0.0 to 22.0.1 ([#2705](https://github.com/tj-actions/changed-files/issues/2705)) ([7006987](https://github.com/tj-actions/changed-files/commit/70069877f29101175ed2b055d210fe8b1d54d7d7))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.9.2 to 24.10.0 ([#2707](https://github.com/tj-actions/changed-files/issues/2707)) ([5df1bad](https://github.com/tj-actions/changed-files/commit/5df1bad3a527ede089326306d1296297ab0d58d2))  - (dependabot[bot])
+- **deps-dev:** Bump ts-jest from 29.4.4 to 29.4.5 ([#2688](https://github.com/tj-actions/changed-files/issues/2688)) ([0ff001d](https://github.com/tj-actions/changed-files/commit/0ff001de0805038ff3f118de4875002200057732))  - (dependabot[bot])
+- **deps-dev:** Bump @types/micromatch from 4.0.9 to 4.0.10 ([#2699](https://github.com/tj-actions/changed-files/issues/2699)) ([52b808a](https://github.com/tj-actions/changed-files/commit/52b808ab08e9b9ef06f5af6d3fea1d639da110e0))  - (dependabot[bot])
+- **deps:** Bump actions/download-artifact from 5.0.0 to 6.0.0 ([#2697](https://github.com/tj-actions/changed-files/issues/2697)) ([d6388b7](https://github.com/tj-actions/changed-files/commit/d6388b78bdbccf5326651d609098231d6e08f14a))  - (dependabot[bot])
+- **deps:** Bump actions/upload-artifact from 4.6.2 to 5.0.0 ([#2698](https://github.com/tj-actions/changed-files/issues/2698)) ([cf5e80a](https://github.com/tj-actions/changed-files/commit/cf5e80aa29743eb7ed7921b82bf9209a55d09fcd))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.9.1 to 24.9.2 ([#2700](https://github.com/tj-actions/changed-files/issues/2700)) ([cff4543](https://github.com/tj-actions/changed-files/commit/cff45432265e1bbeebeaf038878246c6749a68b5))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.30.9 to 4.31.2 ([#2702](https://github.com/tj-actions/changed-files/issues/2702)) ([9dc1b5f](https://github.com/tj-actions/changed-files/commit/9dc1b5f80eeefcffeb145deb4dcc0def0d8cae70))  - (dependabot[bot])
+- **deps:** Bump actions/setup-node from 5.0.0 to 6.0.0 ([#2690](https://github.com/tj-actions/changed-files/issues/2690)) ([dbf178c](https://github.com/tj-actions/changed-files/commit/dbf178ceecb9304128c8e0648591d71208c6e2c9))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 3.30.6 to 4.30.9 ([#2693](https://github.com/tj-actions/changed-files/issues/2693)) ([1900262](https://github.com/tj-actions/changed-files/commit/19002623031eba72900680c5deed5ee6333dbc12))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.6.2 to 24.9.1 ([#2695](https://github.com/tj-actions/changed-files/issues/2695)) ([27e5d78](https://github.com/tj-actions/changed-files/commit/27e5d78f9b6a61e3160a2fe263cca91675c08fa0))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 3.30.5 to 3.30.6 ([#2680](https://github.com/tj-actions/changed-files/issues/2680)) ([d03a93c](https://github.com/tj-actions/changed-files/commit/d03a93c0dbfac6d6dd6a0d8a5e7daff992b07449))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.6.1 to 24.6.2 ([#2681](https://github.com/tj-actions/changed-files/issues/2681)) ([df9aabc](https://github.com/tj-actions/changed-files/commit/df9aabcdefd7f1fb2dced9bd92194d9589ca6cdd))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.5.2 to 24.6.1 ([#2679](https://github.com/tj-actions/changed-files/issues/2679)) ([d6f020b](https://github.com/tj-actions/changed-files/commit/d6f020b1d9d7992dcf07f03b14d42832f866b495))  - (dependabot[bot])
+- **deps-dev:** Bump jest from 30.1.3 to 30.2.0 ([#2677](https://github.com/tj-actions/changed-files/issues/2677)) ([212f9a7](https://github.com/tj-actions/changed-files/commit/212f9a7760ad2b8eb511185b841f3725a62c2ae0))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 3.30.4 to 3.30.5 ([#2676](https://github.com/tj-actions/changed-files/issues/2676)) ([0dc2215](https://github.com/tj-actions/changed-files/commit/0dc2215e58306bc41cf2326fa5a2e207ea3a7e57))  - (dependabot[bot])
+- **deps-dev:** Bump ts-jest from 29.4.3 to 29.4.4 ([#2672](https://github.com/tj-actions/changed-files/issues/2672)) ([28cf3ad](https://github.com/tj-actions/changed-files/commit/28cf3adc4b6dbff2746d5216da021a10e53b4f58))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 3.30.3 to 3.30.4 ([#2675](https://github.com/tj-actions/changed-files/issues/2675)) ([0b7adf7](https://github.com/tj-actions/changed-files/commit/0b7adf79637fa585fd14734e9ed06d9036a67c3d))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.4.0 to 24.5.2 ([#2669](https://github.com/tj-actions/changed-files/issues/2669)) ([4563c72](https://github.com/tj-actions/changed-files/commit/4563c729c555b4141fac99c80f699f571219b836))  - (dependabot[bot])
+- **deps-dev:** Bump @types/uuid from 10.0.0 to 11.0.0 ([#2668](https://github.com/tj-actions/changed-files/issues/2668)) ([257f3ac](https://github.com/tj-actions/changed-files/commit/257f3acedc7e3cf12510ef211c6d89d140bd64aa))  - (dependabot[bot])
+- **deps-dev:** Bump @vercel/ncc from 0.38.3 to 0.38.4 ([#2670](https://github.com/tj-actions/changed-files/issues/2670)) ([cac596e](https://github.com/tj-actions/changed-files/commit/cac596ed08f1624de93e8c83fa36f0a0aff72311))  - (dependabot[bot])
+- **deps-dev:** Bump ts-jest from 29.4.1 to 29.4.3 ([#2671](https://github.com/tj-actions/changed-files/issues/2671)) ([4fb6914](https://github.com/tj-actions/changed-files/commit/4fb6914af96ff7e05cc41c37b85b528daf830762))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 24.3.1 to 24.4.0 ([#2664](https://github.com/tj-actions/changed-files/issues/2664)) ([2371aa7](https://github.com/tj-actions/changed-files/commit/2371aa7cd265d2e8a0213dc9e2a70dfcfb8fa114))  - (dependabot[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v47 ([#2663](https://github.com/tj-actions/changed-files/issues/2663))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([1ac6096](https://github.com/tj-actions/changed-files/commit/1ac60965030588f3b867cdd4a3900f37ec99970c))  - (github-actions[bot])
+
 # [47.0.0](https://github.com/tj-actions/changed-files/compare/v46.0.5...v47.0.0) - (2025-09-13)
 
 ## <!-- 0 -->🚀 Features
