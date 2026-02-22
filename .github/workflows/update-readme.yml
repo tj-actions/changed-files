@@ -21,7 +21,6 @@ jobs:
         uses: tj-actions/auto-doc@b10ceedffd794ec29a8fa8700529f40c1b64a951 # v3.6.0
         with:
           use_code_blocks: true
-          use_major_version: true
           use_tag_commit_hash: true
 
       - name: Run remark
