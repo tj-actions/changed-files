@@ -11919,9 +11919,9 @@ var FLG = hasSymbols();
 // MAIN //
 
 /**
-* Tests for native `toStringTag` support.
+* Tests for native `Symbol.toStringTag` support.
 *
-* @returns {boolean} boolean indicating if an environment has `toStringTag` support
+* @returns {boolean} boolean indicating if an environment has `Symbol.toStringTag` support
 *
 * @example
 * var bool = hasToStringTagSupport();
@@ -13998,7 +13998,7 @@ module.exports = RE_FUNCTION_NAME;
 /***/ }),
 
 /***/ 2029:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module) => {
 
 "use strict";
 /**
@@ -14022,8 +14022,6 @@ module.exports = RE_FUNCTION_NAME;
 
 
 // MODULES //
-
-var isNumber = __nccwpck_require__( 6392 );
 
 // NOTE: for the following, we explicitly avoid using stdlib packages in this particular package in order to avoid circular dependencies.
 var abs = Math.abs; // eslint-disable-line stdlib/no-builtin-math
@@ -14049,21 +14047,15 @@ var RE_ZERO_BEFORE_EXP = /(\..*[^0])0*e/;
 * Formats a token object argument as a floating-point number.
 *
 * @private
+* @param {number} f - parsed number
 * @param {Object} token - token object
 * @throws {Error} must provide a valid floating-point number
 * @returns {string} formatted token argument
 */
-function formatDouble( token ) {
+function formatDouble( f, token ) {
 	var digits;
 	var out;
-	var f = parseFloat( token.arg );
-	if ( !isFinite( f ) ) { // NOTE: We use the global `isFinite` function here instead of `@stdlib/math/base/assert/is-finite` in order to avoid circular dependencies.
-		if ( !isNumber( token.arg ) ) {
-			throw new Error( 'invalid floating-point number. Value: ' + out );
-		}
-		// Case: NaN, Infinity, or -Infinity
-		f = token.arg;
-	}
+
 	switch ( token.specifier ) {
 	case 'e':
 	case 'E':
@@ -14420,6 +14412,7 @@ module.exports = isString;
 
 var formatInteger = __nccwpck_require__( 1836 );
 var isString = __nccwpck_require__( 7852 );
+var isNumber = __nccwpck_require__( 6392 );
 var formatDouble = __nccwpck_require__( 2029 );
 var spacePad = __nccwpck_require__( 4484 );
 var zeroPad = __nccwpck_require__( 122 );
@@ -14494,6 +14487,7 @@ function formatInterpolate( tokens ) {
 	var num;
 	var out;
 	var pos;
+	var f;
 	var i;
 	var j;
 
@@ -14603,7 +14597,16 @@ function formatInterpolate( tokens ) {
 				if ( !hasPeriod ) {
 					token.precision = 6;
 				}
-				token.arg = formatDouble( token );
+				f = parseFloat( token.arg );
+				if ( !isFinite( f ) ) { // NOTE: We use the global `isFinite` function here instead of `@stdlib/math/base/assert/is-finite` in order to avoid circular dependencies.
+					if ( !isNumber( token.arg ) ) {
+						throw new Error( 'invalid floating-point number. Value: ' + out );
+					}
+					// Case: NaN, Infinity, or -Infinity
+					f = token.arg;
+					token.padZeros = false;
+				}
+				token.arg = formatDouble( f, token );
 				break;
 			default:
 				throw new Error( 'invalid specifier: ' + token.specifier );
@@ -14925,7 +14928,12 @@ function formatTokenize( str ) {
 		if ( content.length ) {
 			tokens.push( content );
 		}
-		tokens.push( parse( match ) );
+		// Check for an escaped percent sign `%%`...
+		if ( match[ 6 ] === '%' ) {
+			tokens.push( '%' );
+		} else {
+			tokens.push( parse( match ) );
+		}
 		prev = RE.lastIndex;
 		match = RE.exec( str );
 	}
@@ -15421,7 +15429,7 @@ var base = __nccwpck_require__( 3163 );
 * @param {(string|RegExp)} search - search expression
 * @param {(string|Function)} newval - replacement value or function
 * @throws {TypeError} first argument must be a string
-* @throws {TypeError} second argument argument must be a string or regular expression
+* @throws {TypeError} second argument must be a string or regular expression
 * @throws {TypeError} third argument must be a string or function
 * @returns {string} new string containing replacement(s)
 *
@@ -16399,7 +16407,7 @@ module.exports = defineProperty;
 * var rescape = require( '@stdlib/utils-escape-regexp-string' );
 *
 * var str = rescape( '[A-Z]*' );
-* // returns '\\[A\\-Z\\]\\*'
+* // returns '\[A\-Z\]\*'
 */
 
 // MODULES //
@@ -16460,7 +16468,7 @@ var RE_CHARS = /[-\/\\^$*+?.()|[\]{}]/g; // eslint-disable-line no-useless-escap
 *
 * @example
 * var str = rescape( '[A-Z]*' );
-* // returns '\\[A\\-Z\\]\\*'
+* // returns '\[A\-Z\]\*'
 */
 function rescape( str ) {
 	var len;
