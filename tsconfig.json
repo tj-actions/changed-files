@@ -10,5 +10,5 @@
     "isolatedModules": true,                  /* Ensure each file can be safely transpiled without relying on other imports. */
     "esModuleInterop": true                   /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
   },
-  "exclude": ["node_modules", "jest/setEnvVars.cjs"]
+  "exclude": ["node_modules", "jest/setEnvVars.cjs", "src/__tests__"]
 }
