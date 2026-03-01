@@ -1,4 +1,4 @@
-import {Inputs} from './inputs'
+import {Inputs} from './inputs.js'
 
 export const DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS: Partial<Inputs> = {
   sha: '',

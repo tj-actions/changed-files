@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
-import {Env} from './env'
-import {Inputs} from './inputs'
+import {Env} from './env.js'
+import {Inputs} from './inputs.js'
 import {
   canDiffCommits,
   cleanShaInput,
@@ -15,7 +15,7 @@ import {
   gitFetchSubmodules,
   gitLog,
   verifyCommitSha
-} from './utils'
+} from './utils.js'
 
 const getCurrentSHA = async ({
   inputs,

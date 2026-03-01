@@ -1,13 +1,14 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import type {RestEndpointMethodTypes} from '@octokit/rest'
-import flatten from 'lodash/flatten'
+import lodash from 'lodash'
+const {flatten} = lodash
 import convertPath from '@stdlib/utils-convert-path'
 import mm from 'micromatch'
 import * as path from 'path'
-import {setOutputsAndGetModifiedAndChangedFilesStatus} from './changedFilesOutput'
-import {DiffResult} from './commitSha'
-import {Inputs} from './inputs'
+import {setOutputsAndGetModifiedAndChangedFilesStatus} from './changedFilesOutput.js'
+import {DiffResult} from './commitSha.js'
+import {Inputs} from './inputs.js'
 import {
   canDiffCommits,
   getAllChangedFiles,
@@ -21,7 +22,7 @@ import {
   isWindows,
   jsonOutput,
   setArrayOutput
-} from './utils'
+} from './utils.js'
 
 export const processChangedFiles = async ({
   filePatterns,

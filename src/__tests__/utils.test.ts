@@ -1,15 +1,27 @@
-import * as core from '@actions/core'
-import * as exec from '@actions/exec'
-import {ChangeTypeEnum} from '../changedFiles'
-import {Inputs} from '../inputs'
-import {
+import {jest} from '@jest/globals'
+import type {Inputs} from '../inputs.js'
+
+jest.unstable_mockModule('@actions/core', () => ({
+  warning: jest.fn(),
+  isDebug: jest.fn()
+}))
+
+jest.unstable_mockModule('@actions/exec', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getExecOutput: (jest.fn() as jest.Mock<any>).mockResolvedValue({stdout: '', stderr: '', exitCode: 0})
+}))
+
+const core = await import('@actions/core')
+const exec = await import('@actions/exec')
+const {ChangeTypeEnum} = await import('../changedFiles.js')
+const {
   getDirname,
   getDirnameMaxDepth,
   getFilteredChangedFiles,
   getPreviousGitTag,
   normalizeSeparators,
   warnUnsupportedRESTAPIInputs
-} from '../utils'
+} = await import('../utils.js')
 
 const originalPlatform = process.platform
 
@@ -647,7 +659,7 @@ describe('utils test', () => {
         tagsIgnorePattern: ''
       }
 
-      const coreWarningSpy = jest.spyOn(core, 'warning')
+      const coreWarningSpy = jest.mocked(core.warning)
 
       await warnUnsupportedRESTAPIInputs({
         inputs
@@ -714,7 +726,7 @@ describe('utils test', () => {
 
     // No tags are available in the repository
     it('should return empty values when no tags are available in the repository', async () => {
-      jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
+      jest.mocked(exec.getExecOutput).mockResolvedValueOnce({
         stdout: '',
         stderr: '',
         exitCode: 0
@@ -730,7 +742,7 @@ describe('utils test', () => {
 
     // Only one tag is available, making it impossible to find a previous tag
     it('should return empty values when only one tag is available', async () => {
-      jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
+      jest.mocked(exec.getExecOutput).mockResolvedValueOnce({
         stdout:
           'v1.0.1|f0751de6af436d4e79016e2041cf6400e0833653|2021-01-01T00:00:00Z',
         stderr: '',
@@ -748,7 +760,7 @@ describe('utils test', () => {
     // Git commands fail and throw errors
     it('should throw an error when git commands fail', async () => {
       jest
-        .spyOn(exec, 'getExecOutput')
+        .mocked(exec.getExecOutput)
         .mockRejectedValue(new Error('git command failed'))
       await expect(
         getPreviousGitTag({
