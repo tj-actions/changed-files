@@ -2,6 +2,7 @@
   "name": "@tj-actions/changed-files",
   "version": "45.0.8",
   "description": "Github action to retrieve all (added, copied, modified, deleted, renamed, type changed, unmerged, unknown) files and directories.",
+  "type": "module",
   "main": "lib/main.js",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -13,8 +14,8 @@
     "lint": "eslint src/*.ts src/**/*.ts --max-warnings 0",
     "lint:fix": "eslint --fix src/*.ts src/**/*.ts",
     "package": "ncc build lib/main.js --source-map --license licenses.txt",
-    "test": "jest --coverage",
-    "update-snapshot": "jest -u",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+    "update-snapshot": "NODE_OPTIONS='--experimental-vm-modules' jest -u",
     "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
   },
   "repository": {

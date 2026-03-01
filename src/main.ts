@@ -9,14 +9,14 @@ import {
   getChangedFilesFromGithubAPI,
   getRenamedFiles,
   ChangedFiles
-} from './changedFiles'
+} from './changedFiles.js'
 import {
   DiffResult,
   getSHAForNonPullRequestEvent,
   getSHAForPullRequestEvent
-} from './commitSha'
-import {Env, getEnv} from './env'
-import {getInputs, Inputs} from './inputs'
+} from './commitSha.js'
+import {Env, getEnv} from './env.js'
+import {getInputs, Inputs} from './inputs.js'
 import {
   getFilePatterns,
   getRecoverFilePatterns,
@@ -30,7 +30,7 @@ import {
   updateGitGlobalConfig,
   verifyMinimumGitVersion,
   warnUnsupportedRESTAPIInputs
-} from './utils'
+} from './utils.js'
 
 const getChangedFilesFromLocalGitHistory = async ({
   inputs,
