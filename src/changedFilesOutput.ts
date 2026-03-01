@@ -5,9 +5,9 @@ import {
   ChangeTypeEnum,
   getAllChangeTypeFiles,
   getChangeTypeFiles
-} from './changedFiles'
-import {Inputs} from './inputs'
-import {getOutputKey, setArrayOutput, setOutput, exists} from './utils'
+} from './changedFiles.js'
+import {Inputs} from './inputs.js'
+import {getOutputKey, setArrayOutput, setOutput, exists} from './utils.js'
 
 const getArrayFromPaths = (
   paths: string | string[],
