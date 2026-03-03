@@ -1,5 +1,38 @@
 # Changelog
 
+# [47.0.5](https://github.com/tj-actions/changed-files/compare/v47.0.4...v47.0.5) - (2026-03-03)
+
+## <!-- 26 -->🔄 Update
+
+- Updated README.md ([#2805](https://github.com/tj-actions/changed-files/issues/2805))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> ([35dace0](https://github.com/tj-actions/changed-files/commit/35dace0375d89e25e78db5f0a44127b61f4e5c20))  - (github-actions[bot])
+- Updated README.md ([#2803](https://github.com/tj-actions/changed-files/issues/2803))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([9ee99eb](https://github.com/tj-actions/changed-files/commit/9ee99eb5bda5d6a67fedcd50ecd24fb10add2f41))  - (github-actions[bot])
+
+## <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- **deps-dev:** Bump @types/node from 25.3.2 to 25.3.3 ([#2814](https://github.com/tj-actions/changed-files/issues/2814)) ([22103cc](https://github.com/tj-actions/changed-files/commit/22103cc46bda19c2b464ffe86db46df6922fd323))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.32.4 to 4.32.5 ([#2815](https://github.com/tj-actions/changed-files/issues/2815)) ([6c02e90](https://github.com/tj-actions/changed-files/commit/6c02e900a24488df269842eb1cf6ffe3391ce182))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-prettier from 5.5.4 to 5.5.5 ([#2764](https://github.com/tj-actions/changed-files/issues/2764)) ([05f9457](https://github.com/tj-actions/changed-files/commit/05f9457d921137103bb9687b6b571075f75a65f2))  - (dependabot[bot])
+- **deps:** Bump lodash and @types/lodash ([#2807](https://github.com/tj-actions/changed-files/issues/2807)) ([52ed872](https://github.com/tj-actions/changed-files/commit/52ed872dd71bea01a73ce5c7c595e78cb9566401))  - (dependabot[bot])
+- **deps:** Bump peter-evans/create-pull-request from 8.0.0 to 8.1.0 ([#2774](https://github.com/tj-actions/changed-files/issues/2774)) ([1cc5746](https://github.com/tj-actions/changed-files/commit/1cc574637935a98713e34cbd4e8cf01a985f942c))  - (dependabot[bot])
+- **deps-dev:** Bump prettier from 3.7.4 to 3.8.1 ([#2775](https://github.com/tj-actions/changed-files/issues/2775)) ([de2962f](https://github.com/tj-actions/changed-files/commit/de2962f9f408abd241f7c1a8b6cac3ab44358d1a))  - (dependabot[bot])
+- **deps:** Bump github/codeql-action from 4.32.2 to 4.32.4 ([#2806](https://github.com/tj-actions/changed-files/issues/2806)) ([37e96cc](https://github.com/tj-actions/changed-files/commit/37e96ccbfefb9100f34f87d75c890c50c6e78d15))  - (dependabot[bot])
+- **deps-dev:** Bump eslint-plugin-jest from 29.12.1 to 29.15.0 ([#2799](https://github.com/tj-actions/changed-files/issues/2799)) ([2180b0f](https://github.com/tj-actions/changed-files/commit/2180b0f05d03655e0bedd1657d13f6abc6313014))  - (dependabot[bot])
+- **deps:** Bump actions/upload-artifact from 6.0.0 to 7.0.0 ([#2809](https://github.com/tj-actions/changed-files/issues/2809)) ([cf021c1](https://github.com/tj-actions/changed-files/commit/cf021c158c722f81dea97fe5edc8bd2de1cc2bc1))  - (dependabot[bot])
+- **deps:** Bump actions/download-artifact from 7.0.0 to 8.0.0 ([#2810](https://github.com/tj-actions/changed-files/issues/2810)) ([b54ac6f](https://github.com/tj-actions/changed-files/commit/b54ac6f17f95fdc4ec5ee3bf355ea7c354dc9c53))  - (dependabot[bot])
+- **deps-dev:** Bump @types/node from 25.2.2 to 25.3.2 ([#2811](https://github.com/tj-actions/changed-files/issues/2811)) ([0f2a510](https://github.com/tj-actions/changed-files/commit/0f2a510bd7ac84bc12cdc52c2094298bc26b1692))  - (dependabot[bot])
+
+## <!-- 9 -->⬆️ Upgrades
+
+- Upgraded to v47.0.4 ([#2802](https://github.com/tj-actions/changed-files/issues/2802))
+
+Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Tonye Jack <jtonye@ymail.com> ([b7ac303](https://github.com/tj-actions/changed-files/commit/b7ac303c8684d5e668c6c810e61a6fe32a53fe25))  - (github-actions[bot])
+
 # [47.0.4](https://github.com/tj-actions/changed-files/compare/v47.0.3...v47.0.4) - (2026-02-17)
 
 ## <!-- 26 -->🔄 Update
