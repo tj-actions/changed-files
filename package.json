@@ -35,7 +35,7 @@
   "dependencies": {
     "@actions/core": "^2.0.0",
     "@actions/exec": "^2.0.0",
-    "@actions/github": "^6.0.0",
+    "@actions/github": "^9.0.0",
     "@octokit/rest": "^22.0.0",
     "@stdlib/utils-convert-path": "^0.2.1",
     "lodash": "^4.17.21",
