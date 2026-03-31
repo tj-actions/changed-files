@@ -418,8 +418,50 @@ const getAllChangeTypeFiles = async ({ inputs, changedFiles }) => {
     };
 };
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
-const getChangedFilesFromGithubAPI = async ({ inputs }) => {
+const NULL_SHA = '0000000000000000000000000000000000000000';
+/**
+ * Resolves the GitHub API endpoint options for fetching changed files based on
+ * the current event type. Returns null for push events with a null base SHA
+ * (force push / initial branch push) where comparison is not possible.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getApiEndpointOptions = (octokit) => {
     var _a, _b, _c;
+    const { owner, repo } = github.context.repo;
+    const perPage = { per_page: 100 };
+    if ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) {
+        return octokit.rest.pulls.listFiles.endpoint.merge({
+            owner,
+            repo,
+            pull_number: github.context.payload.pull_request.number,
+            ...perPage
+        });
+    }
+    if (github.context.eventName === 'push') {
+        if (github.context.payload.before === NULL_SHA ||
+            !github.context.payload.before) {
+            return null;
+        }
+        return octokit.rest.repos.compareCommits.endpoint.merge({
+            owner,
+            repo,
+            base: github.context.payload.before,
+            head: github.context.payload.after,
+            ...perPage
+        });
+    }
+    if (github.context.eventName === 'merge_group') {
+        return octokit.rest.repos.compareCommits.endpoint.merge({
+            owner,
+            repo,
+            base: (_b = github.context.payload.merge_group) === null || _b === void 0 ? void 0 : _b.base_sha,
+            head: (_c = github.context.payload.merge_group) === null || _c === void 0 ? void 0 : _c.head_sha,
+            ...perPage
+        });
+    }
+    throw new Error(`Event "${github.context.eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`);
+};
+const getChangedFilesFromGithubAPI = async ({ inputs }) => {
     const octokit = github.getOctokit(inputs.token, {
         baseUrl: inputs.apiUrl
     });
@@ -434,42 +476,10 @@ const getChangedFilesFromGithubAPI = async ({ inputs }) => {
         [ChangeTypeEnum.Unknown]: []
     };
     core.info('Getting changed files from GitHub API...');
-    let options;
-    const eventName = github.context.eventName;
-    if ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) {
-        options = octokit.rest.pulls.listFiles.endpoint.merge({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            pull_number: github.context.payload.pull_request.number,
-            per_page: 100
-        });
-    }
-    else if (eventName === 'push') {
-        const nullSha = '0000000000000000000000000000000000000000';
-        if (github.context.payload.before === nullSha ||
-            !github.context.payload.before) {
-            core.warning('Unable to determine changed files for initial push or force push with no prior commit. Returning empty results.');
-            return changedFiles;
-        }
-        options = octokit.rest.repos.compareCommits.endpoint.merge({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            base: github.context.payload.before,
-            head: github.context.payload.after,
-            per_page: 100
-        });
-    }
-    else if (eventName === 'merge_group') {
-        options = octokit.rest.repos.compareCommits.endpoint.merge({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            base: (_b = github.context.payload.merge_group) === null || _b === void 0 ? void 0 : _b.base_sha,
-            head: (_c = github.context.payload.merge_group) === null || _c === void 0 ? void 0 : _c.head_sha,
-            per_page: 100
-        });
-    }
-    else {
-        throw new Error(`Event "${eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`);
+    const options = getApiEndpointOptions(octokit);
+    if (options === null) {
+        core.warning('Unable to determine changed files for initial push or force push with no prior commit. Returning empty results.');
+        return changedFiles;
     }
     // Note: pulls.listFiles and repos.compareCommits both return files with the
     // same shape (filename, status, previous_filename), so we reuse the listFiles
