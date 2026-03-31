@@ -445,6 +445,12 @@ const getChangedFilesFromGithubAPI = async ({ inputs }) => {
         });
     }
     else if (eventName === 'push') {
+        const nullSha = '0000000000000000000000000000000000000000';
+        if (github.context.payload.before === nullSha ||
+            !github.context.payload.before) {
+            core.warning('Unable to determine changed files for initial push or force push with no prior commit. Returning empty results.');
+            return changedFiles;
+        }
         options = octokit.rest.repos.compareCommits.endpoint.merge({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
@@ -465,6 +471,9 @@ const getChangedFilesFromGithubAPI = async ({ inputs }) => {
     else {
         throw new Error(`Event "${eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`);
     }
+    // Note: pulls.listFiles and repos.compareCommits both return files with the
+    // same shape (filename, status, previous_filename), so we reuse the listFiles
+    // type for both endpoints.
     const paginatedResponse = await octokit.paginate(options);
     core.info(`Found ${paginatedResponse.length} changed files from GitHub API`);
     const statusMap = {

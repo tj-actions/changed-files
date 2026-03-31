@@ -226,6 +226,21 @@ describe('getChangedFilesFromGithubAPI', () => {
       expect(mockListFilesEndpointMerge).not.toHaveBeenCalled()
     })
 
+    it('returns empty results for force push with null SHA', async () => {
+      mutableContext.payload = {
+        before: '0000000000000000000000000000000000000000',
+        after: 'head-sha-push'
+      }
+
+      const result = await getChangedFilesFromGithubAPI({inputs: baseInputs})
+
+      expect(result[ChangeTypeEnum.Added]).toEqual([])
+      expect(result[ChangeTypeEnum.Modified]).toEqual([])
+      expect(result[ChangeTypeEnum.Deleted]).toEqual([])
+      expect(mockPaginate).not.toHaveBeenCalled()
+      expect(mockCompareCommitsEndpointMerge).not.toHaveBeenCalled()
+    })
+
     it('maps file statuses correctly for push events', async () => {
       mockPaginate.mockResolvedValue([
         {filename: 'added.ts', status: 'added'},
