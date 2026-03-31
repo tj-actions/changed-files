@@ -315,15 +315,20 @@ export async function run(): Promise<void> {
   })
   core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
 
-  if (inputs.useRestApi && !github.context.payload.pull_request?.number) {
+  const isRestApiSupportedEvent =
+    !!github.context.payload.pull_request?.number ||
+    github.context.eventName === 'push' ||
+    github.context.eventName === 'merge_group'
+
+  if (inputs.useRestApi && !isRestApiSupportedEvent) {
     throw new Error(
-      "Only pull_request* events are supported when using GitHub's REST API."
+      `Event "${github.context.eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`
     )
   }
 
   if (
     inputs.token &&
-    github.context.payload.pull_request?.number &&
+    isRestApiSupportedEvent &&
     (!hasGitDirectory || inputs.useRestApi)
   ) {
     core.info("Using GitHub's REST API to get changed files")
@@ -336,7 +341,7 @@ export async function run(): Promise<void> {
   } else {
     if (!hasGitDirectory) {
       throw new Error(
-        `Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`
+        `Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that pull_request*, push, and merge_group events are supported. Current event is "${github.context.eventName}".`
       )
     }
 
