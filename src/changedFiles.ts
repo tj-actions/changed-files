@@ -570,6 +570,58 @@ export const getAllChangeTypeFiles = async ({
   }
 }
 
+const NULL_SHA = '0000000000000000000000000000000000000000'
+
+/**
+ * Resolves the GitHub API endpoint options for fetching changed files based on
+ * the current event type. Returns null for push events with a null base SHA
+ * (force push / initial branch push) where comparison is not possible.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getApiEndpointOptions = (octokit: any): any | null => {
+  const {owner, repo} = github.context.repo
+  const perPage = {per_page: 100}
+
+  if (github.context.payload.pull_request?.number) {
+    return octokit.rest.pulls.listFiles.endpoint.merge({
+      owner,
+      repo,
+      pull_number: github.context.payload.pull_request.number,
+      ...perPage
+    })
+  }
+
+  if (github.context.eventName === 'push') {
+    if (
+      github.context.payload.before === NULL_SHA ||
+      !github.context.payload.before
+    ) {
+      return null
+    }
+    return octokit.rest.repos.compareCommits.endpoint.merge({
+      owner,
+      repo,
+      base: github.context.payload.before,
+      head: github.context.payload.after,
+      ...perPage
+    })
+  }
+
+  if (github.context.eventName === 'merge_group') {
+    return octokit.rest.repos.compareCommits.endpoint.merge({
+      owner,
+      repo,
+      base: github.context.payload.merge_group?.base_sha,
+      head: github.context.payload.merge_group?.head_sha,
+      ...perPage
+    })
+  }
+
+  throw new Error(
+    `Event "${github.context.eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`
+  )
+}
+
 export const getChangedFilesFromGithubAPI = async ({
   inputs
 }: {
@@ -591,13 +643,17 @@ export const getChangedFilesFromGithubAPI = async ({
 
   core.info('Getting changed files from GitHub API...')
 
-  const options = octokit.rest.pulls.listFiles.endpoint.merge({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    pull_number: github.context.payload.pull_request?.number,
-    per_page: 100
-  })
+  const options = getApiEndpointOptions(octokit)
+  if (options === null) {
+    core.warning(
+      'Unable to determine changed files for initial push or force push with no prior commit. Returning empty results.'
+    )
+    return changedFiles
+  }
 
+  // Note: pulls.listFiles and repos.compareCommits both return files with the
+  // same shape (filename, status, previous_filename), so we reuse the listFiles
+  // type for both endpoints.
   const paginatedResponse =
     await octokit.paginate<
       RestEndpointMethodTypes['pulls']['listFiles']['response']['data'][0]
