@@ -591,12 +591,37 @@ export const getChangedFilesFromGithubAPI = async ({
 
   core.info('Getting changed files from GitHub API...')
 
-  const options = octokit.rest.pulls.listFiles.endpoint.merge({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    pull_number: github.context.payload.pull_request?.number,
-    per_page: 100
-  })
+  let options
+  const eventName = github.context.eventName
+
+  if (github.context.payload.pull_request?.number) {
+    options = octokit.rest.pulls.listFiles.endpoint.merge({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      pull_number: github.context.payload.pull_request.number,
+      per_page: 100
+    })
+  } else if (eventName === 'push') {
+    options = octokit.rest.repos.compareCommits.endpoint.merge({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      base: github.context.payload.before,
+      head: github.context.payload.after,
+      per_page: 100
+    })
+  } else if (eventName === 'merge_group') {
+    options = octokit.rest.repos.compareCommits.endpoint.merge({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      base: github.context.payload.merge_group?.base_sha,
+      head: github.context.payload.merge_group?.head_sha,
+      per_page: 100
+    })
+  } else {
+    throw new Error(
+      `Event "${eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`
+    )
+  }
 
   const paginatedResponse =
     await octokit.paginate<
