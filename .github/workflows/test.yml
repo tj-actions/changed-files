@@ -38,11 +38,15 @@ jobs:
       contents: write
       pull-requests: read
     steps:
+      # ref is required for fork PRs: without it, checkout defaults to the
+      # fork's main branch instead of the PR head, causing eslint to fail
+      # when files only exist on the feature branch.
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.head_ref }}
 
       - name: Use Node.js 24.x
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
