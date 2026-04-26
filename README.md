@@ -219,6 +219,7 @@ on:
   pull_request:
     branches:
       - main
+  merge_group:
 
 jobs:
   # -------------------------------------------------------------
