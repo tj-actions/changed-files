@@ -418,8 +418,50 @@ const getAllChangeTypeFiles = async ({ inputs, changedFiles }) => {
     };
 };
 exports.getAllChangeTypeFiles = getAllChangeTypeFiles;
+const NULL_SHA = '0000000000000000000000000000000000000000';
+/**
+ * Resolves the GitHub API endpoint options for fetching changed files based on
+ * the current event type. Returns null for push events with a null base SHA
+ * (force push / initial branch push) where comparison is not possible.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getApiEndpointOptions = (octokit) => {
+    var _a, _b, _c;
+    const { owner, repo } = github.context.repo;
+    const perPage = { per_page: 100 };
+    if ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) {
+        return octokit.rest.pulls.listFiles.endpoint.merge({
+            owner,
+            repo,
+            pull_number: github.context.payload.pull_request.number,
+            ...perPage
+        });
+    }
+    if (github.context.eventName === 'push') {
+        if (github.context.payload.before === NULL_SHA ||
+            !github.context.payload.before) {
+            return null;
+        }
+        return octokit.rest.repos.compareCommits.endpoint.merge({
+            owner,
+            repo,
+            base: github.context.payload.before,
+            head: github.context.payload.after,
+            ...perPage
+        });
+    }
+    if (github.context.eventName === 'merge_group') {
+        return octokit.rest.repos.compareCommits.endpoint.merge({
+            owner,
+            repo,
+            base: (_b = github.context.payload.merge_group) === null || _b === void 0 ? void 0 : _b.base_sha,
+            head: (_c = github.context.payload.merge_group) === null || _c === void 0 ? void 0 : _c.head_sha,
+            ...perPage
+        });
+    }
+    throw new Error(`Event "${github.context.eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`);
+};
 const getChangedFilesFromGithubAPI = async ({ inputs }) => {
-    var _a;
     const octokit = github.getOctokit(inputs.token, {
         baseUrl: inputs.apiUrl
     });
@@ -434,12 +476,14 @@ const getChangedFilesFromGithubAPI = async ({ inputs }) => {
         [ChangeTypeEnum.Unknown]: []
     };
     core.info('Getting changed files from GitHub API...');
-    const options = octokit.rest.pulls.listFiles.endpoint.merge({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        pull_number: (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number,
-        per_page: 100
-    });
+    const options = getApiEndpointOptions(octokit);
+    if (options === null) {
+        core.warning('Unable to determine changed files for initial push or force push with no prior commit. Returning empty results.');
+        return changedFiles;
+    }
+    // Note: pulls.listFiles and repos.compareCommits both return files with the
+    // same shape (filename, status, previous_filename), so we reuse the listFiles
+    // type for both endpoints.
     const paginatedResponse = await octokit.paginate(options);
     core.info(`Found ${paginatedResponse.length} changed files from GitHub API`);
     const statusMap = {
@@ -2061,7 +2105,7 @@ const getChangedFilesFromRESTAPI = async ({ inputs, filePatterns, yamlFilePatter
     });
 };
 async function run() {
-    var _a, _b;
+    var _a;
     core.startGroup('changed-files');
     const env = await (0, env_1.getEnv)();
     core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
@@ -2081,11 +2125,14 @@ async function run() {
         workingDirectory
     });
     core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
-    if (inputs.useRestApi && !((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number)) {
-        throw new Error("Only pull_request* events are supported when using GitHub's REST API.");
+    const isRestApiSupportedEvent = !!((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) ||
+        github.context.eventName === 'push' ||
+        github.context.eventName === 'merge_group';
+    if (inputs.useRestApi && !isRestApiSupportedEvent) {
+        throw new Error(`Event "${github.context.eventName}" is not supported when using GitHub's REST API. Supported events: pull_request*, push, merge_group.`);
     }
     if (inputs.token &&
-        ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.number) &&
+        isRestApiSupportedEvent &&
         (!hasGitDirectory || inputs.useRestApi)) {
         core.info("Using GitHub's REST API to get changed files");
         await (0, utils_1.warnUnsupportedRESTAPIInputs)({ inputs });
@@ -2097,7 +2144,7 @@ async function run() {
     }
     else {
         if (!hasGitDirectory) {
-            throw new Error(`Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that only pull_request* events are supported. Current event is "${github.context.eventName}".`);
+            throw new Error(`Unable to locate the git repository in the given path: ${workingDirectory}.\n Please run actions/checkout before this action (Make sure the 'path' input is correct).\n If you intend to use Github's REST API note that pull_request*, push, and merge_group events are supported. Current event is "${github.context.eventName}".`);
         }
         core.info('Using local .git directory');
         await getChangedFilesFromLocalGitHistory({
@@ -11919,9 +11966,9 @@ var FLG = hasSymbols();
 // MAIN //
 
 /**
-* Tests for native `toStringTag` support.
+* Tests for native `Symbol.toStringTag` support.
 *
-* @returns {boolean} boolean indicating if an environment has `toStringTag` support
+* @returns {boolean} boolean indicating if an environment has `Symbol.toStringTag` support
 *
 * @example
 * var bool = hasToStringTagSupport();
@@ -13998,7 +14045,7 @@ module.exports = RE_FUNCTION_NAME;
 /***/ }),
 
 /***/ 2029:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module) => {
 
 "use strict";
 /**
@@ -14022,8 +14069,6 @@ module.exports = RE_FUNCTION_NAME;
 
 
 // MODULES //
-
-var isNumber = __nccwpck_require__( 6392 );
 
 // NOTE: for the following, we explicitly avoid using stdlib packages in this particular package in order to avoid circular dependencies.
 var abs = Math.abs; // eslint-disable-line stdlib/no-builtin-math
@@ -14049,21 +14094,15 @@ var RE_ZERO_BEFORE_EXP = /(\..*[^0])0*e/;
 * Formats a token object argument as a floating-point number.
 *
 * @private
+* @param {number} f - parsed number
 * @param {Object} token - token object
 * @throws {Error} must provide a valid floating-point number
 * @returns {string} formatted token argument
 */
-function formatDouble( token ) {
+function formatDouble( f, token ) {
 	var digits;
 	var out;
-	var f = parseFloat( token.arg );
-	if ( !isFinite( f ) ) { // NOTE: We use the global `isFinite` function here instead of `@stdlib/math/base/assert/is-finite` in order to avoid circular dependencies.
-		if ( !isNumber( token.arg ) ) {
-			throw new Error( 'invalid floating-point number. Value: ' + out );
-		}
-		// Case: NaN, Infinity, or -Infinity
-		f = token.arg;
-	}
+
 	switch ( token.specifier ) {
 	case 'e':
 	case 'E':
@@ -14420,6 +14459,7 @@ module.exports = isString;
 
 var formatInteger = __nccwpck_require__( 1836 );
 var isString = __nccwpck_require__( 7852 );
+var isNumber = __nccwpck_require__( 6392 );
 var formatDouble = __nccwpck_require__( 2029 );
 var spacePad = __nccwpck_require__( 4484 );
 var zeroPad = __nccwpck_require__( 122 );
@@ -14494,6 +14534,7 @@ function formatInterpolate( tokens ) {
 	var num;
 	var out;
 	var pos;
+	var f;
 	var i;
 	var j;
 
@@ -14603,7 +14644,16 @@ function formatInterpolate( tokens ) {
 				if ( !hasPeriod ) {
 					token.precision = 6;
 				}
-				token.arg = formatDouble( token );
+				f = parseFloat( token.arg );
+				if ( !isFinite( f ) ) { // NOTE: We use the global `isFinite` function here instead of `@stdlib/math/base/assert/is-finite` in order to avoid circular dependencies.
+					if ( !isNumber( token.arg ) ) {
+						throw new Error( 'invalid floating-point number. Value: ' + out );
+					}
+					// Case: NaN, Infinity, or -Infinity
+					f = token.arg;
+					token.padZeros = false;
+				}
+				token.arg = formatDouble( f, token );
 				break;
 			default:
 				throw new Error( 'invalid specifier: ' + token.specifier );
@@ -14925,7 +14975,12 @@ function formatTokenize( str ) {
 		if ( content.length ) {
 			tokens.push( content );
 		}
-		tokens.push( parse( match ) );
+		// Check for an escaped percent sign `%%`...
+		if ( match[ 6 ] === '%' ) {
+			tokens.push( '%' );
+		} else {
+			tokens.push( parse( match ) );
+		}
 		prev = RE.lastIndex;
 		match = RE.exec( str );
 	}
@@ -15421,7 +15476,7 @@ var base = __nccwpck_require__( 3163 );
 * @param {(string|RegExp)} search - search expression
 * @param {(string|Function)} newval - replacement value or function
 * @throws {TypeError} first argument must be a string
-* @throws {TypeError} second argument argument must be a string or regular expression
+* @throws {TypeError} second argument must be a string or regular expression
 * @throws {TypeError} third argument must be a string or function
 * @returns {string} new string containing replacement(s)
 *
@@ -16399,7 +16454,7 @@ module.exports = defineProperty;
 * var rescape = require( '@stdlib/utils-escape-regexp-string' );
 *
 * var str = rescape( '[A-Z]*' );
-* // returns '\\[A\\-Z\\]\\*'
+* // returns '\[A\-Z\]\*'
 */
 
 // MODULES //
@@ -16460,7 +16515,7 @@ var RE_CHARS = /[-\/\\^$*+?.()|[\]{}]/g; // eslint-disable-line no-useless-escap
 *
 * @example
 * var str = rescape( '[A-Z]*' );
-* // returns '\\[A\\-Z\\]\\*'
+* // returns '\[A\-Z\]\*'
 */
 function rescape( str ) {
 	var len;
@@ -19185,7 +19240,7 @@ module.exports = isObjectLike;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.21';
+  var VERSION = '4.18.1';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -19193,7 +19248,8 @@ module.exports = isObjectLike;
   /** Error message constants. */
   var CORE_ERROR_TEXT = 'Unsupported core-js use. Try https://npms.io/search?q=ponyfill.',
       FUNC_ERROR_TEXT = 'Expected a function',
-      INVALID_TEMPL_VAR_ERROR_TEXT = 'Invalid `variable` option passed into `_.template`';
+      INVALID_TEMPL_VAR_ERROR_TEXT = 'Invalid `variable` option passed into `_.template`',
+      INVALID_TEMPL_IMPORTS_ERROR_TEXT = 'Invalid `imports` option passed into `_.template`';
 
   /** Used to stand-in for `undefined` hash values. */
   var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -20925,6 +20981,10 @@ module.exports = isObjectLike;
      * embedded Ruby (ERB) as well as ES2015 template strings. Change the
      * following template settings to use alternative delimiters.
      *
+     * **Security:** See
+     * [threat model](https://github.com/lodash/lodash/blob/main/threat-model.md)
+     * — `_.template` is insecure and will be removed in v5.
+     *
      * @static
      * @memberOf _
      * @type {Object}
@@ -21473,7 +21533,7 @@ module.exports = isObjectLike;
      * @name has
      * @memberOf SetCache
      * @param {*} value The value to search for.
-     * @returns {number} Returns `true` if `value` is found, else `false`.
+     * @returns {boolean} Returns `true` if `value` is found, else `false`.
      */
     function setCacheHas(value) {
       return this.__data__.has(value);
@@ -22939,7 +22999,7 @@ module.exports = isObjectLike;
           if (isArray(iteratee)) {
             return function(value) {
               return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
-            }
+            };
           }
           return iteratee;
         });
@@ -23543,8 +23603,34 @@ module.exports = isObjectLike;
      */
     function baseUnset(object, path) {
       path = castPath(path, object);
-      object = parent(object, path);
-      return object == null || delete object[toKey(last(path))];
+
+      // Prevent prototype pollution:
+      // https://github.com/lodash/lodash/security/advisories/GHSA-xxjr-mmjv-4gpg
+      // https://github.com/lodash/lodash/security/advisories/GHSA-f23m-r3pf-42rh
+      var index = -1,
+          length = path.length;
+
+      if (!length) {
+        return true;
+      }
+
+      while (++index < length) {
+        var key = toKey(path[index]);
+
+        // Always block "__proto__" anywhere in the path if it's not expected
+        if (key === '__proto__' && !hasOwnProperty.call(object, '__proto__')) {
+          return false;
+        }
+
+        // Block constructor/prototype as non-terminal traversal keys to prevent
+        // escaping the object graph into built-in constructors and prototypes.
+        if ((key === 'constructor' || key === 'prototype') && index < length - 1) {
+          return false;
+        }
+      }
+
+      var obj = parent(object, path);
+      return obj == null || delete obj[toKey(last(path))];
     }
 
     /**
@@ -26095,7 +26181,7 @@ module.exports = isObjectLike;
 
     /**
      * Creates an array with all falsey values removed. The values `false`, `null`,
-     * `0`, `""`, `undefined`, and `NaN` are falsey.
+     * `0`, `-0`, `0n`, `""`, `undefined`, and `NaN` are falsy.
      *
      * @static
      * @memberOf _
@@ -26634,7 +26720,7 @@ module.exports = isObjectLike;
 
       while (++index < length) {
         var pair = pairs[index];
-        result[pair[0]] = pair[1];
+        baseAssignValue(result, pair[0], pair[1]);
       }
       return result;
     }
@@ -33294,6 +33380,8 @@ module.exports = isObjectLike;
      * **Note:** JavaScript follows the IEEE-754 standard for resolving
      * floating-point values which can produce unexpected results.
      *
+     * **Note:** If `lower` is greater than `upper`, the values are swapped.
+     *
      * @static
      * @memberOf _
      * @since 0.7.0
@@ -33307,8 +33395,15 @@ module.exports = isObjectLike;
      * _.random(0, 5);
      * // => an integer between 0 and 5
      *
+     * // when lower is greater than upper the values are swapped
+     * _.random(5, 0);
+     * // => an integer between 0 and 5
+     *
      * _.random(5);
      * // => also an integer between 0 and 5
+     *
+     * _.random(-5);
+     * // => an integer between -5 and 0
      *
      * _.random(5, true);
      * // => a floating-point number between 0 and 5
@@ -33911,6 +34006,10 @@ module.exports = isObjectLike;
      * properties may be accessed as free variables in the template. If a setting
      * object is given, it takes precedence over `_.templateSettings` values.
      *
+     * **Security:** `_.template` is insecure and should not be used. It will be
+     * removed in Lodash v5. Avoid untrusted input. See
+     * [threat model](https://github.com/lodash/lodash/blob/main/threat-model.md).
+     *
      * **Note:** In the development build `_.template` utilizes
      * [sourceURLs](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl)
      * for easier debugging.
@@ -34018,11 +34117,17 @@ module.exports = isObjectLike;
         options = undefined;
       }
       string = toString(string);
-      options = assignInWith({}, options, settings, customDefaultsAssignIn);
+      options = assignWith({}, options, settings, customDefaultsAssignIn);
 
-      var imports = assignInWith({}, options.imports, settings.imports, customDefaultsAssignIn),
+      var imports = assignWith({}, options.imports, settings.imports, customDefaultsAssignIn),
           importsKeys = keys(imports),
           importsValues = baseValues(imports, importsKeys);
+
+      arrayEach(importsKeys, function(key) {
+        if (reForbiddenIdentifierChars.test(key)) {
+          throw new Error(INVALID_TEMPL_IMPORTS_ERROR_TEXT);
+        }
+      });
 
       var isEscaping,
           isEvaluating,
@@ -36392,8 +36497,8 @@ module.exports = isObjectLike;
 
 const util = __nccwpck_require__(9023);
 const braces = __nccwpck_require__(748);
-const picomatch = __nccwpck_require__(4006);
-const utils = __nccwpck_require__(4059);
+const picomatch = __nccwpck_require__(6377);
+const utils = __nccwpck_require__(8604);
 
 const isEmptyString = v => v === '' || v === './';
 const hasBraces = v => {
@@ -36866,67 +36971,18 @@ module.exports = micromatch;
 
 /***/ }),
 
-/***/ 5560:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-var wrappy = __nccwpck_require__(8264)
-module.exports = wrappy(once)
-module.exports.strict = wrappy(onceStrict)
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-
-  Object.defineProperty(Function.prototype, 'onceStrict', {
-    value: function () {
-      return onceStrict(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var f = function () {
-    if (f.called) return f.value
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  f.called = false
-  return f
-}
-
-function onceStrict (fn) {
-  var f = function () {
-    if (f.called)
-      throw new Error(f.onceError)
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  var name = fn.name || 'Function wrapped with `once`'
-  f.onceError = name + " shouldn't be called more than once"
-  f.called = false
-  return f
-}
-
-
-/***/ }),
-
-/***/ 4006:
+/***/ 6377:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-module.exports = __nccwpck_require__(8016);
+module.exports = __nccwpck_require__(9639);
 
 
 /***/ }),
 
-/***/ 5595:
+/***/ 9560:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -37113,14 +37169,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 8265:
+/***/ 7430:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const constants = __nccwpck_require__(5595);
-const utils = __nccwpck_require__(4059);
+const constants = __nccwpck_require__(9560);
+const utils = __nccwpck_require__(8604);
 
 /**
  * Constants
@@ -38212,17 +38268,17 @@ module.exports = parse;
 
 /***/ }),
 
-/***/ 8016:
+/***/ 9639:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
 const path = __nccwpck_require__(6928);
-const scan = __nccwpck_require__(1781);
-const parse = __nccwpck_require__(8265);
-const utils = __nccwpck_require__(4059);
-const constants = __nccwpck_require__(5595);
+const scan = __nccwpck_require__(6028);
+const parse = __nccwpck_require__(7430);
+const utils = __nccwpck_require__(8604);
+const constants = __nccwpck_require__(9560);
 const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
 
 /**
@@ -38562,13 +38618,13 @@ module.exports = picomatch;
 
 /***/ }),
 
-/***/ 1781:
+/***/ 6028:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const utils = __nccwpck_require__(4059);
+const utils = __nccwpck_require__(8604);
 const {
   CHAR_ASTERISK,             /* * */
   CHAR_AT,                   /* @ */
@@ -38585,7 +38641,7 @@ const {
   CHAR_RIGHT_CURLY_BRACE,    /* } */
   CHAR_RIGHT_PARENTHESES,    /* ) */
   CHAR_RIGHT_SQUARE_BRACKET  /* ] */
-} = __nccwpck_require__(5595);
+} = __nccwpck_require__(9560);
 
 const isPathSeparator = code => {
   return code === CHAR_FORWARD_SLASH || code === CHAR_BACKWARD_SLASH;
@@ -38961,7 +39017,7 @@ module.exports = scan;
 
 /***/ }),
 
-/***/ 4059:
+/***/ 8604:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -38974,7 +39030,7 @@ const {
   REGEX_REMOVE_BACKSLASH,
   REGEX_SPECIAL_CHARS,
   REGEX_SPECIAL_CHARS_GLOBAL
-} = __nccwpck_require__(5595);
+} = __nccwpck_require__(9560);
 
 exports.isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);
 exports.hasRegexChars = str => REGEX_SPECIAL_CHARS.test(str);
@@ -39029,6 +39085,55 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
   }
   return output;
 };
+
+
+/***/ }),
+
+/***/ 5560:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var wrappy = __nccwpck_require__(8264)
+module.exports = wrappy(once)
+module.exports.strict = wrappy(onceStrict)
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+
+  Object.defineProperty(Function.prototype, 'onceStrict', {
+    value: function () {
+      return onceStrict(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var f = function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  f.called = false
+  return f
+}
+
+function onceStrict (fn) {
+  var f = function () {
+    if (f.called)
+      throw new Error(f.onceError)
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  var name = fn.name || 'Function wrapped with `once`'
+  f.onceError = name + " shouldn't be called more than once"
+  f.called = false
+  return f
+}
 
 
 /***/ }),
@@ -63919,19 +64024,26 @@ function composeNode(ctx, token, props, onError) {
         case 'block-map':
         case 'block-seq':
         case 'flow-collection':
-            node = composeCollection.composeCollection(CN, ctx, token, props, onError);
-            if (anchor)
-                node.anchor = anchor.source.substring(1);
+            try {
+                node = composeCollection.composeCollection(CN, ctx, token, props, onError);
+                if (anchor)
+                    node.anchor = anchor.source.substring(1);
+            }
+            catch (error) {
+                // Almost certainly here due to a stack overflow
+                const message = error instanceof Error ? error.message : String(error);
+                onError(token, 'RESOURCE_EXHAUSTION', message);
+            }
             break;
         default: {
             const message = token.type === 'error'
                 ? token.message
                 : `Unsupported token (type: ${token.type})`;
             onError(token, 'UNEXPECTED_TOKEN', message);
-            node = composeEmptyNode(ctx, token.offset, undefined, null, props, onError);
             isSrcToken = false;
         }
     }
+    node ?? (node = composeEmptyNode(ctx, token.offset, undefined, null, props, onError));
     if (anchor && node.anchor === '')
         onError(anchor, 'BAD_ALIAS', 'Anchor cannot be an empty string');
     if (atKey &&
@@ -71152,6 +71264,7 @@ function createStringifyContext(doc, options) {
         nullStr: 'null',
         simpleKeys: false,
         singleQuote: null,
+        trailingComma: false,
         trueStr: 'true',
         verifyAliasOrder: true
     }, doc.schema.toStringOptions, options);
@@ -71373,12 +71486,22 @@ function stringifyFlowCollection({ items }, ctx, { flowChars, itemIndent }) {
         if (comment)
             reqNewline = true;
         let str = stringify.stringify(item, itemCtx, () => (comment = null));
-        if (i < items.length - 1)
+        reqNewline || (reqNewline = lines.length > linesAtValue || str.includes('\n'));
+        if (i < items.length - 1) {
             str += ',';
+        }
+        else if (ctx.options.trailingComma) {
+            if (ctx.options.lineWidth > 0) {
+                reqNewline || (reqNewline = lines.reduce((sum, line) => sum + line.length + 2, 2) +
+                    (str.length + 2) >
+                    ctx.options.lineWidth);
+            }
+            if (reqNewline) {
+                str += ',';
+            }
+        }
         if (comment)
             str += stringifyComment.lineComment(str, itemIndent, commentString(comment));
-        if (!reqNewline && (lines.length > linesAtValue || str.includes('\n')))
-            reqNewline = true;
         lines.push(str);
         linesAtValue = lines.length;
     }
