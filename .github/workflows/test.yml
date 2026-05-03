@@ -779,10 +779,10 @@ jobs:
         continue-on-error: true
         uses: ./dir1
 
-      - name: Verify failed
-        if: steps.changed-files.outcome != 'failure'
+      - name: Verify REST API fallback succeeded
+        if: steps.changed-files.outcome != 'success'
         run: |
-          echo "Expected: (failure) got ${{ steps.changed-files.outcome }}"
+          echo "Expected: (success via REST API fallback) got ${{ steps.changed-files.outcome }}"
           exit 1
 
   test-submodules:
