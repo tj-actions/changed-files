@@ -18,6 +18,7 @@ import {
 import {Env, getEnv} from './env'
 import {getInputs, Inputs} from './inputs'
 import {
+  debugJson,
   getFilePatterns,
   getRecoverFilePatterns,
   getSubmodulePath,
@@ -201,7 +202,7 @@ const getChangedFilesFromLocalGitHistory = async ({
       submoduleShas
     })
   }
-  core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
+  debugJson('All diff files', allDiffFiles)
   core.info('All Done!')
   core.endGroup()
 
@@ -274,7 +275,7 @@ const getChangedFilesFromRESTAPI = async ({
   const allDiffFiles = await getChangedFilesFromGithubAPI({
     inputs
   })
-  core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`)
+  debugJson('All diff files', allDiffFiles)
   core.info('All Done!')
 
   await processChangedFiles({
@@ -289,10 +290,10 @@ export async function run(): Promise<void> {
   core.startGroup('changed-files')
 
   const env = await getEnv()
-  core.debug(`Env: ${JSON.stringify(env, null, 2)}`)
+  debugJson('Env', env, 2)
 
   const inputs = getInputs()
-  core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`)
+  debugJson('Inputs', inputs, 2)
 
   const workingDirectory = path.resolve(
     env.GITHUB_WORKSPACE || process.cwd(),
@@ -313,7 +314,7 @@ export async function run(): Promise<void> {
     inputs,
     workingDirectory
   })
-  core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`)
+  debugJson('Yaml file patterns', yamlFilePatterns)
 
   const isRestApiSupportedEvent =
     !!github.context.payload.pull_request?.number ||

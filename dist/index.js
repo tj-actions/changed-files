@@ -59,7 +59,7 @@ const processChangedFiles = async ({ filePatterns, allDiffFiles, inputs, yamlFil
             allDiffFiles,
             filePatterns
         });
-        core.debug(`All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`);
+        (0, utils_1.debugJson)('All filtered diff files', allFilteredDiffFiles);
         await (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
             allDiffFiles,
             allFilteredDiffFiles,
@@ -79,7 +79,7 @@ const processChangedFiles = async ({ filePatterns, allDiffFiles, inputs, yamlFil
                 allDiffFiles,
                 filePatterns: yamlFilePatterns[key]
             });
-            core.debug(`All filtered diff files for ${key}: ${JSON.stringify(allFilteredDiffFiles)}`);
+            (0, utils_1.debugJson)(`All filtered diff files for ${key}`, allFilteredDiffFiles);
             const { anyChanged, anyModified } = await (0, changedFilesOutput_1.setOutputsAndGetModifiedAndChangedFilesStatus)({
                 allDiffFiles,
                 allFilteredDiffFiles,
@@ -362,7 +362,7 @@ function* getFilePaths({ inputs, filePaths, dirNamesIncludeFilePatterns }) {
 }
 function* getChangeTypeFilesGenerator({ inputs, changedFiles, changeTypes }) {
     const dirNamesIncludeFilePatterns = (0, utils_1.getDirNamesIncludeFilesPattern)({ inputs });
-    core.debug(`Dir names include file patterns: ${JSON.stringify(dirNamesIncludeFilePatterns)}`);
+    (0, utils_1.debugJson)('Dir names include file patterns', dirNamesIncludeFilePatterns);
     for (const changeType of changeTypes) {
         const filePaths = changedFiles[changeType] || [];
         for (const filePath of getFilePaths({
@@ -392,7 +392,7 @@ const getChangeTypeFiles = async ({ inputs, changedFiles, changeTypes }) => {
 exports.getChangeTypeFiles = getChangeTypeFiles;
 function* getAllChangeTypeFilesGenerator({ inputs, changedFiles }) {
     const dirNamesIncludeFilePatterns = (0, utils_1.getDirNamesIncludeFilesPattern)({ inputs });
-    core.debug(`Dir names include file patterns: ${JSON.stringify(dirNamesIncludeFilePatterns)}`);
+    (0, utils_1.debugJson)('Dir names include file patterns', dirNamesIncludeFilePatterns);
     const filePaths = (0, flatten_1.default)(Object.values(changedFiles));
     for (const filePath of getFilePaths({
         inputs,
@@ -573,7 +573,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Added]
     });
-    core.debug(`Added files: ${JSON.stringify(addedFiles)}`);
+    (0, utils_1.debugJson)('Added files', addedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('added_files', outputPrefix),
         value: addedFiles.paths,
@@ -601,7 +601,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Copied]
     });
-    core.debug(`Copied files: ${JSON.stringify(copiedFiles)}`);
+    (0, utils_1.debugJson)('Copied files', copiedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('copied_files', outputPrefix),
         value: copiedFiles.paths,
@@ -622,7 +622,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Modified]
     });
-    core.debug(`Modified files: ${JSON.stringify(modifiedFiles)}`);
+    (0, utils_1.debugJson)('Modified files', modifiedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('modified_files', outputPrefix),
         value: modifiedFiles.paths,
@@ -643,7 +643,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Renamed]
     });
-    core.debug(`Renamed files: ${JSON.stringify(renamedFiles)}`);
+    (0, utils_1.debugJson)('Renamed files', renamedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('renamed_files', outputPrefix),
         value: renamedFiles.paths,
@@ -664,7 +664,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.TypeChanged]
     });
-    core.debug(`Type changed files: ${JSON.stringify(typeChangedFiles)}`);
+    (0, utils_1.debugJson)('Type changed files', typeChangedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('type_changed_files', outputPrefix),
         value: typeChangedFiles.paths,
@@ -685,7 +685,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Unmerged]
     });
-    core.debug(`Unmerged files: ${JSON.stringify(unmergedFiles)}`);
+    (0, utils_1.debugJson)('Unmerged files', unmergedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unmerged_files', outputPrefix),
         value: unmergedFiles.paths,
@@ -706,7 +706,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Unknown]
     });
-    core.debug(`Unknown files: ${JSON.stringify(unknownFiles)}`);
+    (0, utils_1.debugJson)('Unknown files', unknownFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unknown_files', outputPrefix),
         value: unknownFiles.paths,
@@ -726,7 +726,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         inputs,
         changedFiles: allFilteredDiffFiles
     });
-    core.debug(`All changed and modified files: ${JSON.stringify(allChangedAndModifiedFiles)}`);
+    (0, utils_1.debugJson)('All changed and modified files', allChangedAndModifiedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_and_modified_files', outputPrefix),
         value: allChangedAndModifiedFiles.paths,
@@ -752,7 +752,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
             changedFiles_1.ChangeTypeEnum.Renamed
         ]
     });
-    core.debug(`All changed files: ${JSON.stringify(allChangedFiles)}`);
+    (0, utils_1.debugJson)('All changed files', allChangedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_files', outputPrefix),
         value: allChangedFiles.paths,
@@ -785,10 +785,11 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
             changedFiles_1.ChangeTypeEnum.Renamed
         ]
     });
-    core.debug(`All other changed files: ${JSON.stringify(allOtherChangedFiles)}`);
+    (0, utils_1.debugJson)('All other changed files', allOtherChangedFiles);
     const allOtherChangedFilesPaths = getArrayFromPaths(allOtherChangedFiles.paths, inputs);
     const allChangedFilesPaths = getArrayFromPaths(allChangedFiles.paths, inputs);
-    const otherChangedFiles = allOtherChangedFilesPaths.filter((filePath) => !allChangedFilesPaths.includes(filePath));
+    const changedFilesPathSet = new Set(allChangedFilesPaths);
+    const otherChangedFiles = allOtherChangedFilesPaths.filter((filePath) => !changedFilesPathSet.has(filePath));
     const onlyChanged = otherChangedFiles.length === 0 &&
         allChangedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -822,7 +823,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
             changedFiles_1.ChangeTypeEnum.Deleted
         ]
     });
-    core.debug(`All modified files: ${JSON.stringify(allModifiedFiles)}`);
+    (0, utils_1.debugJson)('All modified files', allModifiedFiles);
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_modified_files', outputPrefix),
         value: allModifiedFiles.paths,
@@ -858,7 +859,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
     });
     const allOtherModifiedFilesPaths = getArrayFromPaths(allOtherModifiedFiles.paths, inputs);
     const allModifiedFilesPaths = getArrayFromPaths(allModifiedFiles.paths, inputs);
-    const otherModifiedFiles = allOtherModifiedFilesPaths.filter((filePath) => !allModifiedFilesPaths.includes(filePath));
+    const modifiedFilesPathSet = new Set(allModifiedFilesPaths);
+    const otherModifiedFiles = allOtherModifiedFilesPaths.filter((filePath) => !modifiedFilesPathSet.has(filePath));
     const onlyModified = otherModifiedFiles.length === 0 &&
         allModifiedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -886,7 +888,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         changedFiles: allFilteredDiffFiles,
         changeTypes: [changedFiles_1.ChangeTypeEnum.Deleted]
     });
-    core.debug(`Deleted files: ${JSON.stringify(deletedFiles)}`);
+    (0, utils_1.debugJson)('Deleted files', deletedFiles);
     if (inputs.dirNamesDeletedFilesIncludeOnlyDeletedDirs &&
         inputs.dirNames &&
         workingDirectory) {
@@ -903,7 +905,7 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
             ? newDeletedFilesPaths
             : newDeletedFilesPaths.join(inputs.separator);
         deletedFiles.count = newDeletedFilesPaths.length.toString();
-        core.debug(`New deleted files: ${JSON.stringify(deletedFiles)}`);
+        (0, utils_1.debugJson)('New deleted files', deletedFiles);
     }
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files', outputPrefix),
@@ -934,7 +936,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
     });
     const allOtherDeletedFilesPaths = getArrayFromPaths(allOtherDeletedFiles.paths, inputs);
     const deletedFilesPaths = getArrayFromPaths(deletedFiles.paths, inputs);
-    const otherDeletedFiles = allOtherDeletedFilesPaths.filter(filePath => !deletedFilesPaths.includes(filePath));
+    const deletedFilesPathSet = new Set(deletedFilesPaths);
+    const otherDeletedFiles = allOtherDeletedFilesPaths.filter(filePath => !deletedFilesPathSet.has(filePath));
     const onlyDeleted = otherDeletedFiles.length === 0 &&
         deletedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -2036,7 +2039,7 @@ const getChangedFilesFromLocalGitHistory = async ({ inputs, env, workingDirector
             submoduleShas
         });
     }
-    core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
+    (0, utils_1.debugJson)('All diff files', allDiffFiles);
     core.info('All Done!');
     core.endGroup();
     if (inputs.recoverDeletedFiles) {
@@ -2095,7 +2098,7 @@ const getChangedFilesFromRESTAPI = async ({ inputs, filePatterns, yamlFilePatter
     const allDiffFiles = await (0, changedFiles_1.getChangedFilesFromGithubAPI)({
         inputs
     });
-    core.debug(`All diff files: ${JSON.stringify(allDiffFiles)}`);
+    (0, utils_1.debugJson)('All diff files', allDiffFiles);
     core.info('All Done!');
     await (0, changedFiles_1.processChangedFiles)({
         filePatterns,
@@ -2108,9 +2111,9 @@ async function run() {
     var _a;
     core.startGroup('changed-files');
     const env = await (0, env_1.getEnv)();
-    core.debug(`Env: ${JSON.stringify(env, null, 2)}`);
+    (0, utils_1.debugJson)('Env', env, 2);
     const inputs = (0, inputs_1.getInputs)();
-    core.debug(`Inputs: ${JSON.stringify(inputs, null, 2)}`);
+    (0, utils_1.debugJson)('Inputs', inputs, 2);
     const workingDirectory = path_1.default.resolve(env.GITHUB_WORKSPACE || process.cwd(), inputs.useRestApi ? '.' : inputs.path);
     core.debug(`Working directory: ${workingDirectory}`);
     const hasGitDirectory = await (0, utils_1.hasLocalGitDirectory)({ workingDirectory });
@@ -2124,7 +2127,7 @@ async function run() {
         inputs,
         workingDirectory
     });
-    core.debug(`Yaml file patterns: ${JSON.stringify(yamlFilePatterns)}`);
+    (0, utils_1.debugJson)('Yaml file patterns', yamlFilePatterns);
     const isRestApiSupportedEvent = !!((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) ||
         github.context.eventName === 'push' ||
         github.context.eventName === 'merge_group';
@@ -2207,7 +2210,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.warnUnsupportedRESTAPIInputs = exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.isSymlinkInGitTree = exports.isSymlinkOnDisk = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.isWindows = void 0;
+exports.warnUnsupportedRESTAPIInputs = exports.hasLocalGitDirectory = exports.recoverDeletedFiles = exports.setOutput = exports.setArrayOutput = exports.getOutputKey = exports.getRecoverFilePatterns = exports.getYamlFilePatterns = exports.getFilePatterns = exports.getDirNamesIncludeFilesPattern = exports.jsonOutput = exports.getDirnameMaxDepth = exports.canDiffCommits = exports.getPreviousGitTag = exports.cleanShaInput = exports.verifyCommitSha = exports.getParentSha = exports.getCurrentBranchName = exports.getRemoteBranchHeadSha = exports.isInsideWorkTree = exports.getHeadSha = exports.gitLog = exports.getFilteredChangedFiles = exports.getAllChangedFiles = exports.gitRenamedFiles = exports.gitSubmoduleDiffSHA = exports.getSubmodulePath = exports.gitFetchSubmodules = exports.gitFetch = exports.submoduleExists = exports.isRepoShallow = exports.updateGitGlobalConfig = exports.isSymlinkInGitTree = exports.isSymlinkOnDisk = exports.exists = exports.verifyMinimumGitVersion = exports.getDirname = exports.normalizeSeparators = exports.debugJson = exports.isWindows = void 0;
 /*global AsyncIterableIterator*/
 const core = __importStar(__nccwpck_require__(7484));
 const exec = __importStar(__nccwpck_require__(5236));
@@ -2225,6 +2228,19 @@ const isWindows = () => {
     return process.platform === 'win32';
 };
 exports.isWindows = isWindows;
+/**
+ * Write a debug line holding a serialized value, doing nothing when debug is off.
+ *
+ * @param label - text placed before the serialized value
+ * @param value - value to serialize
+ * @param space - indentation passed to JSON.stringify
+ */
+const debugJson = (label, value, space) => {
+    if (!core.isDebug())
+        return;
+    core.debug(`${label}: ${JSON.stringify(value, null, space)}`);
+};
+exports.debugJson = debugJson;
 /**
  * Normalize file path separators to '/' on Linux/macOS and '\\' on Windows
  * @param p - file path
@@ -3182,7 +3198,7 @@ const getOutputKey = (key, outputPrefix) => {
 };
 exports.getOutputKey = getOutputKey;
 const setArrayOutput = async ({ key, inputs, value, outputPrefix }) => {
-    core.debug(`${key}: ${JSON.stringify(value)}`);
+    (0, exports.debugJson)(key, value);
     await (0, exports.setOutput)({
         key: outputPrefix ? (0, exports.getOutputKey)(key, outputPrefix) : key,
         value: inputs.json ? value : value.join(inputs.separator),
@@ -64307,8 +64323,10 @@ class Composer {
             }
         }
         if (afterDoc) {
-            Array.prototype.push.apply(doc.errors, this.errors);
-            Array.prototype.push.apply(doc.warnings, this.warnings);
+            for (let i = 0; i < this.errors.length; ++i)
+                doc.errors.push(this.errors[i]);
+            for (let i = 0; i < this.warnings.length; ++i)
+                doc.warnings.push(this.warnings[i]);
         }
         else {
             doc.errors = this.errors;
@@ -65240,7 +65258,7 @@ function doubleQuotedValue(source, onError) {
                     next = source[++i + 1];
             }
             else if (next === 'x' || next === 'u' || next === 'U') {
-                const length = { x: 2, u: 4, U: 8 }[next];
+                const length = next === 'x' ? 2 : next === 'u' ? 4 : 8;
                 res += parseCharCode(source, i + 1, length, onError);
                 i += length;
             }
@@ -65310,12 +65328,14 @@ function parseCharCode(source, offset, length, onError) {
     const cc = source.substr(offset, length);
     const ok = cc.length === length && /^[0-9a-fA-F]+$/.test(cc);
     const code = ok ? parseInt(cc, 16) : NaN;
-    if (isNaN(code)) {
+    try {
+        return String.fromCodePoint(code);
+    }
+    catch {
         const raw = source.substr(offset - 2, length + 2);
         onError(offset - 2, 'BAD_DQ_ESCAPE', `Invalid escape sequence ${raw}`);
         return raw;
     }
-    return String.fromCodePoint(code);
 }
 
 exports.resolveFlowScalar = resolveFlowScalar;
@@ -66567,6 +66587,8 @@ class Alias extends Node.NodeBase {
      * instance of the `source` anchor before this node.
      */
     resolve(doc, ctx) {
+        if (ctx?.maxAliasCount === 0)
+            throw new ReferenceError('Alias resolution is disabled');
         let nodes;
         if (ctx?.aliasResolveCache) {
             nodes = ctx.aliasResolveCache;
@@ -68254,7 +68276,7 @@ class Lexer {
             const n = (yield* this.pushCount(1)) + (yield* this.pushSpaces(true));
             this.indentNext = this.indentValue + 1;
             this.indentValue += n;
-            return yield* this.parseBlockStart();
+            return 'block-start';
         }
         return 'doc';
     }
@@ -68575,32 +68597,36 @@ class Lexer {
         return 0;
     }
     *pushIndicators() {
-        switch (this.charAt(0)) {
-            case '!':
-                return ((yield* this.pushTag()) +
-                    (yield* this.pushSpaces(true)) +
-                    (yield* this.pushIndicators()));
-            case '&':
-                return ((yield* this.pushUntil(isNotAnchorChar)) +
-                    (yield* this.pushSpaces(true)) +
-                    (yield* this.pushIndicators()));
-            case '-': // this is an error
-            case '?': // this is an error outside flow collections
-            case ':': {
-                const inFlow = this.flowLevel > 0;
-                const ch1 = this.charAt(1);
-                if (isEmpty(ch1) || (inFlow && flowIndicatorChars.has(ch1))) {
-                    if (!inFlow)
-                        this.indentNext = this.indentValue + 1;
-                    else if (this.flowKey)
-                        this.flowKey = false;
-                    return ((yield* this.pushCount(1)) +
-                        (yield* this.pushSpaces(true)) +
-                        (yield* this.pushIndicators()));
+        let n = 0;
+        loop: while (true) {
+            switch (this.charAt(0)) {
+                case '!':
+                    n += yield* this.pushTag();
+                    n += yield* this.pushSpaces(true);
+                    continue loop;
+                case '&':
+                    n += yield* this.pushUntil(isNotAnchorChar);
+                    n += yield* this.pushSpaces(true);
+                    continue loop;
+                case '-': // this is an error
+                case '?': // this is an error outside flow collections
+                case ':': {
+                    const inFlow = this.flowLevel > 0;
+                    const ch1 = this.charAt(1);
+                    if (isEmpty(ch1) || (inFlow && flowIndicatorChars.has(ch1))) {
+                        if (!inFlow)
+                            this.indentNext = this.indentValue + 1;
+                        else if (this.flowKey)
+                            this.flowKey = false;
+                        n += yield* this.pushCount(1);
+                        n += yield* this.pushSpaces(true);
+                        continue loop;
+                    }
                 }
             }
+            break loop;
         }
-        return 0;
+        return n;
     }
     *pushTag() {
         if (this.charAt(1) === '<') {
@@ -68788,6 +68814,14 @@ function getFirstKeyStartProps(prev) {
     }
     return prev.splice(i, prev.length);
 }
+function arrayPushArray(target, source) {
+    // May exhaust call stack with large `source` array
+    if (source.length < 1e5)
+        Array.prototype.push.apply(target, source);
+    else
+        for (let i = 0; i < source.length; ++i)
+            target.push(source[i]);
+}
 function fixFlowSeqItems(fc) {
     if (fc.start.type === 'flow-seq-start') {
         for (const it of fc.items) {
@@ -68800,12 +68834,12 @@ function fixFlowSeqItems(fc) {
                 delete it.key;
                 if (isFlowToken(it.value)) {
                     if (it.value.end)
-                        Array.prototype.push.apply(it.value.end, it.sep);
+                        arrayPushArray(it.value.end, it.sep);
                     else
                         it.value.end = it.sep;
                 }
                 else
-                    Array.prototype.push.apply(it.start, it.sep);
+                    arrayPushArray(it.start, it.sep);
                 delete it.sep;
             }
         }
@@ -69225,7 +69259,7 @@ class Parser {
                         const prev = map.items[map.items.length - 2];
                         const end = prev?.value?.end;
                         if (Array.isArray(end)) {
-                            Array.prototype.push.apply(end, it.start);
+                            arrayPushArray(end, it.start);
                             end.push(this.sourceToken);
                             map.items.pop();
                             return;
@@ -69440,7 +69474,7 @@ class Parser {
                         const prev = seq.items[seq.items.length - 2];
                         const end = prev?.value?.end;
                         if (Array.isArray(end)) {
-                            Array.prototype.push.apply(end, it.start);
+                            arrayPushArray(end, it.start);
                             end.push(this.sourceToken);
                             seq.items.pop();
                             return;
@@ -70594,18 +70628,18 @@ const isMergeKey = (ctx, key) => (merge.identify(key) ||
         merge.identify(key.value))) &&
     ctx?.doc.schema.tags.some(tag => tag.tag === merge.tag && tag.default);
 function addMergeToJSMap(ctx, map, value) {
-    value = ctx && identity.isAlias(value) ? value.resolve(ctx.doc) : value;
-    if (identity.isSeq(value))
-        for (const it of value.items)
+    const source = resolveAliasValue(ctx, value);
+    if (identity.isSeq(source))
+        for (const it of source.items)
             mergeValue(ctx, map, it);
-    else if (Array.isArray(value))
-        for (const it of value)
+    else if (Array.isArray(source))
+        for (const it of source)
             mergeValue(ctx, map, it);
     else
-        mergeValue(ctx, map, value);
+        mergeValue(ctx, map, source);
 }
 function mergeValue(ctx, map, value) {
-    const source = ctx && identity.isAlias(value) ? value.resolve(ctx.doc) : value;
+    const source = resolveAliasValue(ctx, value);
     if (!identity.isMap(source))
         throw new Error('Merge sources must be maps or map aliases');
     const srcMap = source.toJSON(null, ctx, Map);
@@ -70627,6 +70661,9 @@ function mergeValue(ctx, map, value) {
         }
     }
     return map;
+}
+function resolveAliasValue(ctx, value) {
+    return ctx && identity.isAlias(value) ? value.resolve(ctx.doc, ctx) : value;
 }
 
 exports.addMergeToJSMap = addMergeToJSMap;
@@ -71682,7 +71719,8 @@ function stringifyNumber({ format, minFractionDigits, tag, value }) {
     if (!format &&
         minFractionDigits &&
         (!tag || tag === 'tag:yaml.org,2002:float') &&
-        /^\d/.test(n)) {
+        /^-?\d/.test(n) &&
+        !n.includes('e')) {
         let i = n.indexOf('.');
         if (i < 0) {
             i = n.length;
