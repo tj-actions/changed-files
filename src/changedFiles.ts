@@ -10,6 +10,7 @@ import {DiffResult} from './commitSha'
 import {Inputs} from './inputs'
 import {
   canDiffCommits,
+  debugJson,
   getAllChangedFiles,
   getDirnameMaxDepth,
   getDirNamesIncludeFilesPattern,
@@ -42,9 +43,7 @@ export const processChangedFiles = async ({
       allDiffFiles,
       filePatterns
     })
-    core.debug(
-      `All filtered diff files: ${JSON.stringify(allFilteredDiffFiles)}`
-    )
+    debugJson('All filtered diff files', allFilteredDiffFiles)
     await setOutputsAndGetModifiedAndChangedFilesStatus({
       allDiffFiles,
       allFilteredDiffFiles,
@@ -66,11 +65,7 @@ export const processChangedFiles = async ({
         allDiffFiles,
         filePatterns: yamlFilePatterns[key]
       })
-      core.debug(
-        `All filtered diff files for ${key}: ${JSON.stringify(
-          allFilteredDiffFiles
-        )}`
-      )
+      debugJson(`All filtered diff files for ${key}`, allFilteredDiffFiles)
       const {anyChanged, anyModified} =
         await setOutputsAndGetModifiedAndChangedFilesStatus({
           allDiffFiles,
@@ -479,11 +474,7 @@ function* getChangeTypeFilesGenerator({
   changeTypes: ChangeTypeEnum[]
 }): Generator<string> {
   const dirNamesIncludeFilePatterns = getDirNamesIncludeFilesPattern({inputs})
-  core.debug(
-    `Dir names include file patterns: ${JSON.stringify(
-      dirNamesIncludeFilePatterns
-    )}`
-  )
+  debugJson('Dir names include file patterns', dirNamesIncludeFilePatterns)
 
   for (const changeType of changeTypes) {
     const filePaths = changedFiles[changeType] || []
@@ -530,11 +521,7 @@ function* getAllChangeTypeFilesGenerator({
   changedFiles: ChangedFiles
 }): Generator<string> {
   const dirNamesIncludeFilePatterns = getDirNamesIncludeFilesPattern({inputs})
-  core.debug(
-    `Dir names include file patterns: ${JSON.stringify(
-      dirNamesIncludeFilePatterns
-    )}`
-  )
+  debugJson('Dir names include file patterns', dirNamesIncludeFilePatterns)
 
   const filePaths = flatten(Object.values(changedFiles))
 
