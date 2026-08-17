@@ -283,8 +283,9 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     inputs
   )
 
+  const changedFilesPathSet = new Set(allChangedFilesPaths)
   const otherChangedFiles = allOtherChangedFilesPaths.filter(
-    (filePath: string) => !allChangedFilesPaths.includes(filePath)
+    (filePath: string) => !changedFilesPathSet.has(filePath)
   )
 
   const onlyChanged =
@@ -373,8 +374,9 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     inputs
   )
 
+  const modifiedFilesPathSet = new Set(allModifiedFilesPaths)
   const otherModifiedFiles = allOtherModifiedFilesPaths.filter(
-    (filePath: string) => !allModifiedFilesPaths.includes(filePath)
+    (filePath: string) => !modifiedFilesPathSet.has(filePath)
   )
 
   const onlyModified =
@@ -473,8 +475,9 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     inputs
   )
 
+  const deletedFilesPathSet = new Set(deletedFilesPaths)
   const otherDeletedFiles = allOtherDeletedFilesPaths.filter(
-    filePath => !deletedFilesPaths.includes(filePath)
+    filePath => !deletedFilesPathSet.has(filePath)
   )
 
   const onlyDeleted =

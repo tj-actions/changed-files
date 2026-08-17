@@ -788,7 +788,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
     (0, utils_1.debugJson)('All other changed files', allOtherChangedFiles);
     const allOtherChangedFilesPaths = getArrayFromPaths(allOtherChangedFiles.paths, inputs);
     const allChangedFilesPaths = getArrayFromPaths(allChangedFiles.paths, inputs);
-    const otherChangedFiles = allOtherChangedFilesPaths.filter((filePath) => !allChangedFilesPaths.includes(filePath));
+    const changedFilesPathSet = new Set(allChangedFilesPaths);
+    const otherChangedFiles = allOtherChangedFilesPaths.filter((filePath) => !changedFilesPathSet.has(filePath));
     const onlyChanged = otherChangedFiles.length === 0 &&
         allChangedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -858,7 +859,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
     });
     const allOtherModifiedFilesPaths = getArrayFromPaths(allOtherModifiedFiles.paths, inputs);
     const allModifiedFilesPaths = getArrayFromPaths(allModifiedFiles.paths, inputs);
-    const otherModifiedFiles = allOtherModifiedFilesPaths.filter((filePath) => !allModifiedFilesPaths.includes(filePath));
+    const modifiedFilesPathSet = new Set(allModifiedFilesPaths);
+    const otherModifiedFiles = allOtherModifiedFilesPaths.filter((filePath) => !modifiedFilesPathSet.has(filePath));
     const onlyModified = otherModifiedFiles.length === 0 &&
         allModifiedFiles.paths.length > 0 &&
         filePatterns.length > 0;
@@ -934,7 +936,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
     });
     const allOtherDeletedFilesPaths = getArrayFromPaths(allOtherDeletedFiles.paths, inputs);
     const deletedFilesPaths = getArrayFromPaths(deletedFiles.paths, inputs);
-    const otherDeletedFiles = allOtherDeletedFilesPaths.filter(filePath => !deletedFilesPaths.includes(filePath));
+    const deletedFilesPathSet = new Set(deletedFilesPaths);
+    const otherDeletedFiles = allOtherDeletedFilesPaths.filter(filePath => !deletedFilesPathSet.has(filePath));
     const onlyDeleted = otherDeletedFiles.length === 0 &&
         deletedFiles.paths.length > 0 &&
         filePatterns.length > 0;
