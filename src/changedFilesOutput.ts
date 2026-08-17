@@ -7,7 +7,13 @@ import {
   getChangeTypeFiles
 } from './changedFiles'
 import {Inputs} from './inputs'
-import {getOutputKey, setArrayOutput, setOutput, exists} from './utils'
+import {
+  debugJson,
+  getOutputKey,
+  setArrayOutput,
+  setOutput,
+  exists
+} from './utils'
 
 const getArrayFromPaths = (
   paths: string | string[],
@@ -36,7 +42,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Added]
   })
-  core.debug(`Added files: ${JSON.stringify(addedFiles)}`)
+  debugJson('Added files', addedFiles)
   await setOutput({
     key: getOutputKey('added_files', outputPrefix),
     value: addedFiles.paths,
@@ -65,7 +71,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Copied]
   })
-  core.debug(`Copied files: ${JSON.stringify(copiedFiles)}`)
+  debugJson('Copied files', copiedFiles)
   await setOutput({
     key: getOutputKey('copied_files', outputPrefix),
     value: copiedFiles.paths,
@@ -88,7 +94,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Modified]
   })
-  core.debug(`Modified files: ${JSON.stringify(modifiedFiles)}`)
+  debugJson('Modified files', modifiedFiles)
   await setOutput({
     key: getOutputKey('modified_files', outputPrefix),
     value: modifiedFiles.paths,
@@ -111,7 +117,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Renamed]
   })
-  core.debug(`Renamed files: ${JSON.stringify(renamedFiles)}`)
+  debugJson('Renamed files', renamedFiles)
   await setOutput({
     key: getOutputKey('renamed_files', outputPrefix),
     value: renamedFiles.paths,
@@ -134,7 +140,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.TypeChanged]
   })
-  core.debug(`Type changed files: ${JSON.stringify(typeChangedFiles)}`)
+  debugJson('Type changed files', typeChangedFiles)
   await setOutput({
     key: getOutputKey('type_changed_files', outputPrefix),
     value: typeChangedFiles.paths,
@@ -157,7 +163,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Unmerged]
   })
-  core.debug(`Unmerged files: ${JSON.stringify(unmergedFiles)}`)
+  debugJson('Unmerged files', unmergedFiles)
   await setOutput({
     key: getOutputKey('unmerged_files', outputPrefix),
     value: unmergedFiles.paths,
@@ -180,7 +186,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Unknown]
   })
-  core.debug(`Unknown files: ${JSON.stringify(unknownFiles)}`)
+  debugJson('Unknown files', unknownFiles)
   await setOutput({
     key: getOutputKey('unknown_files', outputPrefix),
     value: unknownFiles.paths,
@@ -202,11 +208,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     inputs,
     changedFiles: allFilteredDiffFiles
   })
-  core.debug(
-    `All changed and modified files: ${JSON.stringify(
-      allChangedAndModifiedFiles
-    )}`
-  )
+  debugJson('All changed and modified files', allChangedAndModifiedFiles)
   await setOutput({
     key: getOutputKey('all_changed_and_modified_files', outputPrefix),
     value: allChangedAndModifiedFiles.paths,
@@ -234,7 +236,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
       ChangeTypeEnum.Renamed
     ]
   })
-  core.debug(`All changed files: ${JSON.stringify(allChangedFiles)}`)
+  debugJson('All changed files', allChangedFiles)
   await setOutput({
     key: getOutputKey('all_changed_files', outputPrefix),
     value: allChangedFiles.paths,
@@ -270,7 +272,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
       ChangeTypeEnum.Renamed
     ]
   })
-  core.debug(`All other changed files: ${JSON.stringify(allOtherChangedFiles)}`)
+  debugJson('All other changed files', allOtherChangedFiles)
 
   const allOtherChangedFilesPaths: string[] = getArrayFromPaths(
     allOtherChangedFiles.paths,
@@ -323,7 +325,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
       ChangeTypeEnum.Deleted
     ]
   })
-  core.debug(`All modified files: ${JSON.stringify(allModifiedFiles)}`)
+  debugJson('All modified files', allModifiedFiles)
   await setOutput({
     key: getOutputKey('all_modified_files', outputPrefix),
     value: allModifiedFiles.paths,
@@ -407,7 +409,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
     changedFiles: allFilteredDiffFiles,
     changeTypes: [ChangeTypeEnum.Deleted]
   })
-  core.debug(`Deleted files: ${JSON.stringify(deletedFiles)}`)
+  debugJson('Deleted files', deletedFiles)
 
   if (
     inputs.dirNamesDeletedFilesIncludeOnlyDeletedDirs &&
@@ -427,7 +429,7 @@ export const setOutputsAndGetModifiedAndChangedFilesStatus = async ({
       ? newDeletedFilesPaths
       : newDeletedFilesPaths.join(inputs.separator)
     deletedFiles.count = newDeletedFilesPaths.length.toString()
-    core.debug(`New deleted files: ${JSON.stringify(deletedFiles)}`)
+    debugJson('New deleted files', deletedFiles)
   }
 
   await setOutput({
