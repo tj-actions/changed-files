@@ -40,6 +40,7 @@ const baseInputs: Inputs = {
   fetchAdditionalSubmoduleHistory: false,
   sinceLastRemoteCommit: false,
   writeOutputFiles: false,
+  writeOutputFilesOnly: false,
   outputDir: '.github/outputs',
   outputRenamedFilesAsDeletedAndAdded: false,
   recoverDeletedFiles: false,
