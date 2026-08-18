@@ -1453,12 +1453,14 @@ export const setArrayOutput = async ({
   key,
   inputs,
   value,
-  outputPrefix
+  outputPrefix,
+  skipGithubOutput = false
 }: {
   key: string
   inputs: Inputs
   value: string[]
   outputPrefix?: string
+  skipGithubOutput?: boolean
 }): Promise<void> => {
   core.debug(`${key}: ${JSON.stringify(value)}`)
   await setOutput({
@@ -1468,7 +1470,8 @@ export const setArrayOutput = async ({
     outputDir: inputs.outputDir,
     json: inputs.json,
     shouldEscape: inputs.escapeJson,
-    safeOutput: inputs.safeOutput
+    safeOutput: inputs.safeOutput,
+    skipGithubOutput
   })
 }
 
@@ -1479,7 +1482,8 @@ export const setOutput = async ({
   outputDir,
   json = false,
   shouldEscape = false,
-  safeOutput = false
+  safeOutput = false,
+  skipGithubOutput = false
 }: {
   key: string
   value: string | string[] | boolean
@@ -1488,6 +1492,7 @@ export const setOutput = async ({
   json?: boolean
   shouldEscape?: boolean
   safeOutput?: boolean
+  skipGithubOutput?: boolean
 }): Promise<void> => {
   let cleanedValue
   if (json) {
@@ -1501,7 +1506,7 @@ export const setOutput = async ({
     cleanedValue = cleanedValue.replace(/[^\x20-\x7E]|[:*?<>|;`$()&!]/g, '\\$&')
   }
 
-  core.setOutput(key, cleanedValue)
+  if (!skipGithubOutput) core.setOutput(key, cleanedValue)
 
   if (writeOutputFiles) {
     const extension = json ? 'json' : 'txt'

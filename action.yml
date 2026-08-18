@@ -160,6 +160,15 @@ inputs:
     description: "Write outputs to the `output_dir` defaults to `.github/outputs` folder. NOTE: This creates a `.txt` file by default and a `.json` file if `json` is set to `true`."
     required: false
     default: "false"
+  write_output_files_only:
+    description: |
+      Keep the changed file lists out of `$GITHUB_OUTPUT` and write them only to files in
+      `output_dir`. Counts and the `any_*` and `only_*` flags are still set as outputs, so
+      steps can keep gating on them. Implies `write_output_files`, so it can be used on its own.
+      NOTE: Useful on large diffs, where the file lists can grow big enough to exhaust the
+      runner while it processes the output file.
+    required: false
+    default: "false"
   output_dir:
     description: "Directory to store output files."
     required: false
