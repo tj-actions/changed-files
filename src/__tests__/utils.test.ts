@@ -8,6 +8,7 @@ import {
   getFilteredChangedFiles,
   getPreviousGitTag,
   normalizeSeparators,
+  setOutput,
   warnUnsupportedRESTAPIInputs
 } from '../utils'
 
@@ -623,6 +624,7 @@ describe('utils test', () => {
         fetchAdditionalSubmoduleHistory: false,
         sinceLastRemoteCommit: false,
         writeOutputFiles: false,
+        writeOutputFilesOnly: false,
         outputDir: '.github/outputs',
         outputRenamedFilesAsDeletedAndAdded: false,
         recoverDeletedFiles: false,
@@ -660,6 +662,44 @@ describe('utils test', () => {
       expect(coreWarningSpy).toHaveBeenCalledTimes(1)
     })
   })
+  describe('setOutput', () => {
+    afterEach(() => {
+      jest.restoreAllMocks()
+    })
+
+    it('sets the output by default', async () => {
+      const setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+
+      await setOutput({
+        key: 'all_changed_files',
+        value: ['a.txt', 'b.txt'],
+        writeOutputFiles: false,
+        outputDir: '.github/outputs',
+        json: true
+      })
+
+      expect(setOutputMock).toHaveBeenCalledWith(
+        'all_changed_files',
+        '["a.txt","b.txt"]'
+      )
+    })
+
+    it('skips the output when skipGithubOutput is set', async () => {
+      const setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+
+      await setOutput({
+        key: 'all_changed_files',
+        value: ['a.txt', 'b.txt'],
+        writeOutputFiles: false,
+        outputDir: '.github/outputs',
+        json: true,
+        skipGithubOutput: true
+      })
+
+      expect(setOutputMock).not.toHaveBeenCalled()
+    })
+  })
+
   describe('getPreviousGitTag', () => {
     // Check if the environment variable GITHUB_REPOSITORY_OWNER is 'tj-actions'
     const shouldSkip = !!process.env.GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK
