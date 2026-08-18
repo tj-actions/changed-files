@@ -21,6 +21,7 @@ export type Inputs = {
   oldNewFilesSeparator: string
   sha: string
   baseSha: string
+  mergeBaseRef: string
   since: string
   until: string
   path: string
@@ -136,6 +137,7 @@ export const getInputs = (): Inputs => {
   })
   const sha = core.getInput('sha', {required: false})
   const baseSha = core.getInput('base_sha', {required: false})
+  const mergeBaseRef = core.getInput('merge_base_ref', {required: false})
   const since = core.getInput('since', {required: false})
   const until = core.getInput('until', {required: false})
   const path = core.getInput('path', {required: false})
@@ -301,6 +303,7 @@ export const getInputs = (): Inputs => {
     // Not Supported via REST API
     sha,
     baseSha,
+    mergeBaseRef,
     since,
     until,
     path,

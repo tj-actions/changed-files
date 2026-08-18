@@ -83,6 +83,15 @@ inputs:
   base_sha:
     description: "Specify a different base commit SHA or branch used for comparing changes"
     required: false
+  merge_base_ref:
+    description: |
+      Branch, tag or ref to compare against using its merge base with the current commit,
+      instead of comparing the two commits directly. Only applies to events other than
+      Pull Requests, which already compare with a merge base.
+      NOTE: Requires enough history to locate the merge base. For example, set `fetch-depth: 0`.
+      Cannot be combined with `base_sha`.
+    required: false
+    default: ""
   since:
     description: "Get changed files for commits whose timestamp is older than the given time."
     required: false
