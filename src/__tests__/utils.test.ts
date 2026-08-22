@@ -631,6 +631,7 @@ describe('utils test', () => {
         recoverFilesSeparator: '\n',
         recoverFilesIgnore: '',
         recoverFilesIgnoreSeparator: '\n',
+        recurseSubmodules: true,
         token: '${{ github.token }}',
         apiUrl: '${{ github.api_url }}',
         skipInitialFetch: false,
