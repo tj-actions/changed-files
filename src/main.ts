@@ -188,7 +188,8 @@ const getChangedFilesFromLocalGitHistory = async ({
     fetchAdditionalSubmoduleHistory: inputs.fetchAdditionalSubmoduleHistory,
     failOnInitialDiffError: inputs.failOnInitialDiffError,
     failOnSubmoduleDiffError: inputs.failOnSubmoduleDiffError,
-    submoduleShas
+    submoduleShas,
+    recurseSubmodules: inputs.recurseSubmodules
   })
 
   if (inputs.excludeSymlinks) {
