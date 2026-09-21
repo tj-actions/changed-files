@@ -47,6 +47,7 @@ export type Inputs = {
   recoverFilesSeparator: string
   recoverFilesIgnore: string
   recoverFilesIgnoreSeparator: string
+  recurseSubmodules: boolean
   token: string
   apiUrl: string
   skipInitialFetch: boolean
@@ -206,6 +207,9 @@ export const getInputs = (): Inputs => {
       trimWhitespace: false
     }
   )
+  const recurseSubmodules = core.getBooleanInput('recurse_submodules', {
+    required: false
+  })
   const token = core.getInput('token', {required: false})
   const apiUrl = core.getInput('api_url', {required: false})
   const skipInitialFetch = core.getBooleanInput('skip_initial_fetch', {
@@ -313,6 +317,7 @@ export const getInputs = (): Inputs => {
     recoverFilesSeparator,
     recoverFilesIgnore,
     recoverFilesIgnoreSeparator,
+    recurseSubmodules,
     includeAllOldNewRenamedFiles,
     oldNewSeparator,
     oldNewFilesSeparator,
