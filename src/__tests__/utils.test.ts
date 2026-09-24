@@ -6,6 +6,7 @@ import {
   getDirname,
   getDirnameMaxDepth,
   getFilteredChangedFiles,
+  getMergeBase,
   getPreviousGitTag,
   normalizeSeparators,
   warnUnsupportedRESTAPIInputs
@@ -605,6 +606,7 @@ describe('utils test', () => {
         oldNewFilesSeparator: ' ',
         sha: '1313123',
         baseSha: '',
+        mergeBaseRef: '',
         since: '',
         until: '',
         path: '.',
@@ -660,6 +662,36 @@ describe('utils test', () => {
       expect(coreWarningSpy).toHaveBeenCalledTimes(1)
     })
   })
+  describe('getMergeBase', () => {
+    afterEach(() => {
+      jest.restoreAllMocks()
+    })
+
+    it('should return the merge base of the two committishes', async () => {
+      jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
+        stdout: '6dc766a4874e30a1e0a5b0e0e5b0e0e5b0e0e5b0\n',
+        stderr: '',
+        exitCode: 0
+      })
+
+      const result = await getMergeBase('.', 'main', 'HEAD')
+
+      expect(result).toEqual('6dc766a4874e30a1e0a5b0e0e5b0e0e5b0e0e5b0')
+    })
+
+    it('should return null when no merge base exists', async () => {
+      jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({
+        stdout: '',
+        stderr: 'fatal: Not a valid object name main',
+        exitCode: 128
+      })
+
+      const result = await getMergeBase('.', 'main', 'HEAD')
+
+      expect(result).toBeNull()
+    })
+  })
+
   describe('getPreviousGitTag', () => {
     // Check if the environment variable GITHUB_REPOSITORY_OWNER is 'tj-actions'
     const shouldSkip = !!process.env.GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK

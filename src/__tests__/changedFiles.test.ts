@@ -24,6 +24,7 @@ const baseInputs: Inputs = {
   oldNewFilesSeparator: ' ',
   sha: '',
   baseSha: '',
+  mergeBaseRef: '',
   since: '',
   until: '',
   path: '.',

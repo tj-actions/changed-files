@@ -1060,7 +1060,7 @@ export const canDiffCommits = async ({
   }
 }
 
-const getMergeBase = async (
+export const getMergeBase = async (
   cwd: string,
   sha1: string,
   sha2: string
