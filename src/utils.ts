@@ -20,6 +20,22 @@ export const isWindows = (): boolean => {
 }
 
 /**
+ * Write a debug line holding a serialized value, doing nothing when debug is off.
+ *
+ * @param label - text placed before the serialized value
+ * @param value - value to serialize
+ * @param space - indentation passed to JSON.stringify
+ */
+export const debugJson = (
+  label: string,
+  value: unknown,
+  space?: number
+): void => {
+  if (!core.isDebug()) return
+  core.debug(`${label}: ${JSON.stringify(value, null, space)}`)
+}
+
+/**
  * Normalize file path separators to '/' on Linux/macOS and '\\' on Windows
  * @param p - file path
  * @returns file path with normalized separators
@@ -1460,7 +1476,7 @@ export const setArrayOutput = async ({
   value: string[]
   outputPrefix?: string
 }): Promise<void> => {
-  core.debug(`${key}: ${JSON.stringify(value)}`)
+  debugJson(key, value)
   await setOutput({
     key: outputPrefix ? getOutputKey(key, outputPrefix) : key,
     value: inputs.json ? value : value.join(inputs.separator),
