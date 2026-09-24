@@ -9,6 +9,33 @@ describe('getInputs', () => {
     jest.clearAllMocks()
   })
 
+  test('write_output_files_only implies write_output_files', () => {
+    ;(core.getInput as jest.Mock).mockImplementation(name => {
+      const camelCaseName = name.replace(/_([a-z])/g, (g: string[]) => {
+        return g[1].toUpperCase()
+      }) as keyof Inputs
+
+      return (DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[camelCaseName] ||
+        '') as string
+    })
+    ;(core.getBooleanInput as jest.Mock).mockImplementation(name => {
+      if (name === 'write_output_files_only') return true
+      if (name === 'write_output_files') return false
+
+      const camelCaseName = name.replace(/_([a-z])/g, (g: string[]) => {
+        return g[1].toUpperCase()
+      }) as keyof Inputs
+
+      return (DEFAULT_VALUES_OF_UNSUPPORTED_API_INPUTS[camelCaseName] ||
+        false) as boolean
+    })
+
+    const inputs = getInputs()
+
+    expect(inputs.writeOutputFilesOnly).toBe(true)
+    expect(inputs.writeOutputFiles).toBe(true)
+  })
+
   test('should return default values when no inputs are provided', () => {
     ;(core.getInput as jest.Mock).mockImplementation(name => {
       const camelCaseName = name.replace(/_([a-z])/g, (g: string[]) => {

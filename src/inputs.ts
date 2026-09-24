@@ -39,6 +39,7 @@ export type Inputs = {
   fetchAdditionalSubmoduleHistory: boolean
   sinceLastRemoteCommit: boolean
   writeOutputFiles: boolean
+  writeOutputFilesOnly: boolean
   outputDir: string
   outputRenamedFilesAsDeletedAndAdded: boolean
   recoverDeletedFiles: boolean
@@ -177,6 +178,9 @@ export const getInputs = (): Inputs => {
     {required: false}
   )
   const writeOutputFiles = core.getBooleanInput('write_output_files', {
+    required: false
+  })
+  const writeOutputFilesOnly = core.getBooleanInput('write_output_files_only', {
     required: false
   })
   const outputDir = core.getInput('output_dir', {required: false})
@@ -333,7 +337,9 @@ export const getInputs = (): Inputs => {
     json,
     escapeJson,
     safeOutput,
-    writeOutputFiles,
+    // Writing only to files still requires the files to be written.
+    writeOutputFiles: writeOutputFiles || writeOutputFilesOnly,
+    writeOutputFilesOnly,
     outputDir,
     outputRenamedFilesAsDeletedAndAdded,
     token,

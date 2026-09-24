@@ -581,7 +581,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('added_files_count', outputPrefix),
@@ -609,7 +610,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('copied_files_count', outputPrefix),
@@ -630,7 +632,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('modified_files_count', outputPrefix),
@@ -651,7 +654,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('renamed_files_count', outputPrefix),
@@ -672,7 +676,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('type_changed_files_count', outputPrefix),
@@ -693,7 +698,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unmerged_files_count', outputPrefix),
@@ -714,7 +720,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('unknown_files_count', outputPrefix),
@@ -734,7 +741,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_and_modified_files_count', outputPrefix),
@@ -760,7 +768,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_changed_files_count', outputPrefix),
@@ -803,7 +812,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         key: 'other_changed_files',
         inputs,
         value: otherChangedFiles,
-        outputPrefix
+        outputPrefix,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('other_changed_files_count', outputPrefix),
@@ -830,7 +840,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('all_modified_files_count', outputPrefix),
@@ -873,7 +884,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         key: 'other_modified_files',
         inputs,
         value: otherModifiedFiles,
-        outputPrefix
+        outputPrefix,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('other_modified_files_count', outputPrefix),
@@ -912,7 +924,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('deleted_files_count', outputPrefix),
@@ -949,7 +962,8 @@ const setOutputsAndGetModifiedAndChangedFilesStatus = async ({ allDiffFiles, all
         key: 'other_deleted_files',
         inputs,
         value: otherDeletedFiles,
-        outputPrefix
+        outputPrefix,
+        skipGithubOutput: inputs.writeOutputFilesOnly
     });
     await (0, utils_1.setOutput)({
         key: (0, utils_1.getOutputKey)('other_deleted_files_count', outputPrefix),
@@ -1712,6 +1726,9 @@ const getInputs = () => {
     const writeOutputFiles = core.getBooleanInput('write_output_files', {
         required: false
     });
+    const writeOutputFilesOnly = core.getBooleanInput('write_output_files_only', {
+        required: false
+    });
     const outputDir = core.getInput('output_dir', { required: false });
     const outputRenamedFilesAsDeletedAndAdded = core.getBooleanInput('output_renamed_files_as_deleted_and_added', { required: false });
     const recoverDeletedFiles = core.getBooleanInput('recover_deleted_files', {
@@ -1827,7 +1844,9 @@ const getInputs = () => {
         json,
         escapeJson,
         safeOutput,
-        writeOutputFiles,
+        // Writing only to files still requires the files to be written.
+        writeOutputFiles: writeOutputFiles || writeOutputFilesOnly,
+        writeOutputFilesOnly,
         outputDir,
         outputRenamedFilesAsDeletedAndAdded,
         token,
@@ -3181,7 +3200,7 @@ const getOutputKey = (key, outputPrefix) => {
     return outputPrefix ? `${outputPrefix}_${key}` : key;
 };
 exports.getOutputKey = getOutputKey;
-const setArrayOutput = async ({ key, inputs, value, outputPrefix }) => {
+const setArrayOutput = async ({ key, inputs, value, outputPrefix, skipGithubOutput = false }) => {
     core.debug(`${key}: ${JSON.stringify(value)}`);
     await (0, exports.setOutput)({
         key: outputPrefix ? (0, exports.getOutputKey)(key, outputPrefix) : key,
@@ -3190,11 +3209,12 @@ const setArrayOutput = async ({ key, inputs, value, outputPrefix }) => {
         outputDir: inputs.outputDir,
         json: inputs.json,
         shouldEscape: inputs.escapeJson,
-        safeOutput: inputs.safeOutput
+        safeOutput: inputs.safeOutput,
+        skipGithubOutput
     });
 };
 exports.setArrayOutput = setArrayOutput;
-const setOutput = async ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false }) => {
+const setOutput = async ({ key, value, writeOutputFiles, outputDir, json = false, shouldEscape = false, safeOutput = false, skipGithubOutput = false }) => {
     let cleanedValue;
     if (json) {
         cleanedValue = (0, exports.jsonOutput)({ value, shouldEscape });
@@ -3206,7 +3226,8 @@ const setOutput = async ({ key, value, writeOutputFiles, outputDir, json = false
     if (safeOutput) {
         cleanedValue = cleanedValue.replace(/[^\x20-\x7E]|[:*?<>|;`$()&!]/g, '\\$&');
     }
-    core.setOutput(key, cleanedValue);
+    if (!skipGithubOutput)
+        core.setOutput(key, cleanedValue);
     if (writeOutputFiles) {
         const extension = json ? 'json' : 'txt';
         const outputFilePath = path.join(outputDir, `${key}.${extension}`);
@@ -64307,8 +64328,10 @@ class Composer {
             }
         }
         if (afterDoc) {
-            Array.prototype.push.apply(doc.errors, this.errors);
-            Array.prototype.push.apply(doc.warnings, this.warnings);
+            for (let i = 0; i < this.errors.length; ++i)
+                doc.errors.push(this.errors[i]);
+            for (let i = 0; i < this.warnings.length; ++i)
+                doc.warnings.push(this.warnings[i]);
         }
         else {
             doc.errors = this.errors;
@@ -65240,7 +65263,7 @@ function doubleQuotedValue(source, onError) {
                     next = source[++i + 1];
             }
             else if (next === 'x' || next === 'u' || next === 'U') {
-                const length = { x: 2, u: 4, U: 8 }[next];
+                const length = next === 'x' ? 2 : next === 'u' ? 4 : 8;
                 res += parseCharCode(source, i + 1, length, onError);
                 i += length;
             }
@@ -65310,12 +65333,14 @@ function parseCharCode(source, offset, length, onError) {
     const cc = source.substr(offset, length);
     const ok = cc.length === length && /^[0-9a-fA-F]+$/.test(cc);
     const code = ok ? parseInt(cc, 16) : NaN;
-    if (isNaN(code)) {
+    try {
+        return String.fromCodePoint(code);
+    }
+    catch {
         const raw = source.substr(offset - 2, length + 2);
         onError(offset - 2, 'BAD_DQ_ESCAPE', `Invalid escape sequence ${raw}`);
         return raw;
     }
-    return String.fromCodePoint(code);
 }
 
 exports.resolveFlowScalar = resolveFlowScalar;
@@ -66567,6 +66592,8 @@ class Alias extends Node.NodeBase {
      * instance of the `source` anchor before this node.
      */
     resolve(doc, ctx) {
+        if (ctx?.maxAliasCount === 0)
+            throw new ReferenceError('Alias resolution is disabled');
         let nodes;
         if (ctx?.aliasResolveCache) {
             nodes = ctx.aliasResolveCache;
@@ -68254,7 +68281,7 @@ class Lexer {
             const n = (yield* this.pushCount(1)) + (yield* this.pushSpaces(true));
             this.indentNext = this.indentValue + 1;
             this.indentValue += n;
-            return yield* this.parseBlockStart();
+            return 'block-start';
         }
         return 'doc';
     }
@@ -68575,32 +68602,36 @@ class Lexer {
         return 0;
     }
     *pushIndicators() {
-        switch (this.charAt(0)) {
-            case '!':
-                return ((yield* this.pushTag()) +
-                    (yield* this.pushSpaces(true)) +
-                    (yield* this.pushIndicators()));
-            case '&':
-                return ((yield* this.pushUntil(isNotAnchorChar)) +
-                    (yield* this.pushSpaces(true)) +
-                    (yield* this.pushIndicators()));
-            case '-': // this is an error
-            case '?': // this is an error outside flow collections
-            case ':': {
-                const inFlow = this.flowLevel > 0;
-                const ch1 = this.charAt(1);
-                if (isEmpty(ch1) || (inFlow && flowIndicatorChars.has(ch1))) {
-                    if (!inFlow)
-                        this.indentNext = this.indentValue + 1;
-                    else if (this.flowKey)
-                        this.flowKey = false;
-                    return ((yield* this.pushCount(1)) +
-                        (yield* this.pushSpaces(true)) +
-                        (yield* this.pushIndicators()));
+        let n = 0;
+        loop: while (true) {
+            switch (this.charAt(0)) {
+                case '!':
+                    n += yield* this.pushTag();
+                    n += yield* this.pushSpaces(true);
+                    continue loop;
+                case '&':
+                    n += yield* this.pushUntil(isNotAnchorChar);
+                    n += yield* this.pushSpaces(true);
+                    continue loop;
+                case '-': // this is an error
+                case '?': // this is an error outside flow collections
+                case ':': {
+                    const inFlow = this.flowLevel > 0;
+                    const ch1 = this.charAt(1);
+                    if (isEmpty(ch1) || (inFlow && flowIndicatorChars.has(ch1))) {
+                        if (!inFlow)
+                            this.indentNext = this.indentValue + 1;
+                        else if (this.flowKey)
+                            this.flowKey = false;
+                        n += yield* this.pushCount(1);
+                        n += yield* this.pushSpaces(true);
+                        continue loop;
+                    }
                 }
             }
+            break loop;
         }
-        return 0;
+        return n;
     }
     *pushTag() {
         if (this.charAt(1) === '<') {
@@ -68788,6 +68819,14 @@ function getFirstKeyStartProps(prev) {
     }
     return prev.splice(i, prev.length);
 }
+function arrayPushArray(target, source) {
+    // May exhaust call stack with large `source` array
+    if (source.length < 1e5)
+        Array.prototype.push.apply(target, source);
+    else
+        for (let i = 0; i < source.length; ++i)
+            target.push(source[i]);
+}
 function fixFlowSeqItems(fc) {
     if (fc.start.type === 'flow-seq-start') {
         for (const it of fc.items) {
@@ -68800,12 +68839,12 @@ function fixFlowSeqItems(fc) {
                 delete it.key;
                 if (isFlowToken(it.value)) {
                     if (it.value.end)
-                        Array.prototype.push.apply(it.value.end, it.sep);
+                        arrayPushArray(it.value.end, it.sep);
                     else
                         it.value.end = it.sep;
                 }
                 else
-                    Array.prototype.push.apply(it.start, it.sep);
+                    arrayPushArray(it.start, it.sep);
                 delete it.sep;
             }
         }
@@ -69225,7 +69264,7 @@ class Parser {
                         const prev = map.items[map.items.length - 2];
                         const end = prev?.value?.end;
                         if (Array.isArray(end)) {
-                            Array.prototype.push.apply(end, it.start);
+                            arrayPushArray(end, it.start);
                             end.push(this.sourceToken);
                             map.items.pop();
                             return;
@@ -69440,7 +69479,7 @@ class Parser {
                         const prev = seq.items[seq.items.length - 2];
                         const end = prev?.value?.end;
                         if (Array.isArray(end)) {
-                            Array.prototype.push.apply(end, it.start);
+                            arrayPushArray(end, it.start);
                             end.push(this.sourceToken);
                             seq.items.pop();
                             return;
@@ -70594,18 +70633,18 @@ const isMergeKey = (ctx, key) => (merge.identify(key) ||
         merge.identify(key.value))) &&
     ctx?.doc.schema.tags.some(tag => tag.tag === merge.tag && tag.default);
 function addMergeToJSMap(ctx, map, value) {
-    value = ctx && identity.isAlias(value) ? value.resolve(ctx.doc) : value;
-    if (identity.isSeq(value))
-        for (const it of value.items)
+    const source = resolveAliasValue(ctx, value);
+    if (identity.isSeq(source))
+        for (const it of source.items)
             mergeValue(ctx, map, it);
-    else if (Array.isArray(value))
-        for (const it of value)
+    else if (Array.isArray(source))
+        for (const it of source)
             mergeValue(ctx, map, it);
     else
-        mergeValue(ctx, map, value);
+        mergeValue(ctx, map, source);
 }
 function mergeValue(ctx, map, value) {
-    const source = ctx && identity.isAlias(value) ? value.resolve(ctx.doc) : value;
+    const source = resolveAliasValue(ctx, value);
     if (!identity.isMap(source))
         throw new Error('Merge sources must be maps or map aliases');
     const srcMap = source.toJSON(null, ctx, Map);
@@ -70627,6 +70666,9 @@ function mergeValue(ctx, map, value) {
         }
     }
     return map;
+}
+function resolveAliasValue(ctx, value) {
+    return ctx && identity.isAlias(value) ? value.resolve(ctx.doc, ctx) : value;
 }
 
 exports.addMergeToJSMap = addMergeToJSMap;
@@ -71682,7 +71724,8 @@ function stringifyNumber({ format, minFractionDigits, tag, value }) {
     if (!format &&
         minFractionDigits &&
         (!tag || tag === 'tag:yaml.org,2002:float') &&
-        /^\d/.test(n)) {
+        /^-?\d/.test(n) &&
+        !n.includes('e')) {
         let i = n.indexOf('.');
         if (i < 0) {
             i = n.length;
