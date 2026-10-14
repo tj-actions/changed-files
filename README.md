@@ -820,6 +820,35 @@ The format of the version string is as follows:
 ## Examples 📄
 
 <details>
+<summary>Safely consume the list of changed files (recommended)</summary>
+
+> **Recommended:** When forwarding the list of changed files to another command, read the JSON
+> output into a bash array and pass it after the `--` end-of-options separator. This prevents a
+> file whose name starts with `-` (e.g. `--config=evil.cjs`) from being interpreted as a
+> command-line option. See: [#2880](https://github.com/tj-actions/changed-files/issues/2880)
+
+```yaml
+...
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+      with:
+        json: true
+        escape_json: false
+
+    - name: Run a command safely on all changed files
+      if: steps.changed-files.outputs.any_changed == 'true'
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |
+        mapfile -t changed_files < <(printf '%s' "$ALL_CHANGED_FILES" | jq -r '.[]')
+        npx prettier --check -- "${changed_files[@]}"
+...
+```
+
+</details>
+
+<details>
 <summary>Get all changed files in the current branch</summary>
 
 ```yaml
@@ -1367,6 +1396,8 @@ And many more...
 >     However, this action will handle spaces in file names, with a recommendation of using a separator to prevent any hidden issues.
 >
 >     ![Screen Shot 2021-10-23 at 9 37 34 AM](https://user-images.githubusercontent.com/17484350/138558767-b13c90bf-a1ae-4e86-9520-70a6a4624f41.png)
+>
+> *   Forwarding changed file names directly to another command can let a file named like a flag (e.g. `--config=evil.cjs`) inject options into that command. Prefer the JSON output (`json: true`) consumed into a bash array with the `--` separator. See: [#2880](https://github.com/tj-actions/changed-files/issues/2880)
 
 ## Migration guide 🔄
 
