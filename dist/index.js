@@ -34727,36 +34727,38 @@ var require_Alias = __commonJS({
           if (node.anchor === this.source)
             found = node;
         }
+        if (found && ctx) {
+          const { anchors: anchors2, doc: doc2, maxAliasCount } = ctx;
+          let data = anchors2.get(found);
+          if (!data) {
+            toJS.toJS(found, null, ctx);
+            data = anchors2.get(found);
+          }
+          if (data?.res === void 0) {
+            const msg = "This should not happen: Alias anchor was not resolved?";
+            throw new ReferenceError(msg);
+          }
+          if (maxAliasCount >= 0) {
+            data.count += 1;
+            if (data.aliasCount === 0)
+              data.aliasCount = getAliasCount(doc2, found, anchors2);
+            if (data.count * data.aliasCount > maxAliasCount) {
+              const msg = "Excessive alias count indicates a resource exhaustion attack";
+              throw new ReferenceError(msg);
+            }
+          }
+        }
         return found;
       }
       toJSON(_arg, ctx) {
         if (!ctx)
           return { source: this.source };
-        const { anchors: anchors2, doc, maxAliasCount } = ctx;
-        const source = this.resolve(doc, ctx);
+        const source = this.resolve(ctx.doc, ctx);
         if (!source) {
           const msg = `Unresolved alias (the anchor must be set before the alias): ${this.source}`;
           throw new ReferenceError(msg);
         }
-        let data = anchors2.get(source);
-        if (!data) {
-          toJS.toJS(source, null, ctx);
-          data = anchors2.get(source);
-        }
-        if (data?.res === void 0) {
-          const msg = "This should not happen: Alias anchor was not resolved?";
-          throw new ReferenceError(msg);
-        }
-        if (maxAliasCount >= 0) {
-          data.count += 1;
-          if (data.aliasCount === 0)
-            data.aliasCount = getAliasCount(doc, source, anchors2);
-          if (data.count * data.aliasCount > maxAliasCount) {
-            const msg = "Excessive alias count indicates a resource exhaustion attack";
-            throw new ReferenceError(msg);
-          }
-        }
-        return data.res;
+        return ctx.anchors.get(source).res;
       }
       toString(ctx, _onComment, _onChompKeep) {
         const src = `*${this.source}`;
@@ -38758,37 +38760,38 @@ var require_resolve_flow_scalar = __commonJS({
       }
       if (badChar)
         onError(0, "BAD_SCALAR_START", `Plain value cannot start with ${badChar}`);
-      return foldLines(source);
+      return unfoldLines(source);
     }
     function singleQuotedValue(source, onError) {
       if (source[source.length - 1] !== "'" || source.length === 1)
         onError(source.length, "MISSING_CHAR", "Missing closing 'quote");
-      return foldLines(source.slice(1, -1)).replace(/''/g, "'");
+      return unfoldLines(source.slice(1, -1)).replace(/''/g, "'");
     }
-    function foldLines(source) {
-      let first, line;
-      try {
-        first = new RegExp("(.*?)(?<![ 	])[ 	]*\r?\n", "sy");
-        line = new RegExp("[ 	]*(.*?)(?:(?<![ 	])[ 	]*)?\r?\n", "sy");
-      } catch {
-        first = /(.*?)[ \t]*\r?\n/sy;
-        line = /[ \t]*(.*?)[ \t]*\r?\n/sy;
-      }
-      let match = first.exec(source);
+    function unfoldLines(source) {
+      const line = /(.*?)\r?\n/sy;
+      let match = line.exec(source);
       if (!match)
         return source;
-      let res = match[1];
+      let trimEnd, trimBoth;
+      try {
+        trimEnd = new RegExp("(?<![ 	])[ 	]+$");
+        trimBoth = new RegExp("^[ 	]+|(?<![ 	])[ 	]+$", "g");
+      } catch {
+        trimEnd = /[ \t]+$/;
+        trimBoth = /^[ \t]+|[ \t]+$/g;
+      }
+      let res = match[1].replace(trimEnd, "");
       let sep4 = " ";
-      let pos = first.lastIndex;
-      line.lastIndex = pos;
+      let pos = line.lastIndex;
       while (match = line.exec(source)) {
-        if (match[1] === "") {
+        const lm = match[1].replace(trimBoth, "");
+        if (lm === "") {
           if (sep4 === "\n")
             res += sep4;
           else
             sep4 = "\n";
         } else {
-          res += sep4 + match[1];
+          res += sep4 + lm;
           sep4 = " ";
         }
         pos = line.lastIndex;
