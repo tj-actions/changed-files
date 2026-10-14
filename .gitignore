@@ -1,6 +1,9 @@
 # Dependency directory
 node_modules
 
+# CommonJS test shims generated from ESM-only @actions/* packages
+jest/shims/
+
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
 logs
