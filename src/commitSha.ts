@@ -8,6 +8,7 @@ import {
   cleanShaInput,
   getCurrentBranchName,
   getHeadSha,
+  getMergeBase,
   getParentSha,
   getPreviousGitTag,
   getRemoteBranchHeadSha,
@@ -188,6 +189,32 @@ export const getSHAForNonPullRequestEvent = async ({
   const diff = '..'
   const currentBranchName = await getCurrentBranchName({cwd: workingDirectory})
 
+  if (inputs.mergeBaseRef) {
+    if (inputs.baseSha) {
+      throw new Error(
+        "Inputs 'base_sha' and 'merge_base_ref' cannot be used together. Use 'base_sha' to compare with a specific commit, or 'merge_base_ref' to compare with the merge base of a ref."
+      )
+    }
+
+    const mergeBase = await getMergeBase(
+      workingDirectory,
+      inputs.mergeBaseRef,
+      currentSha
+    )
+
+    if (!mergeBase) {
+      throw new Error(
+        `Unable to locate the merge base of '${inputs.mergeBaseRef}' and ${currentSha}. Verify that '${inputs.mergeBaseRef}' has been fetched and that enough history is available. For example, set 'fetch-depth: 0' on actions/checkout.`
+      )
+    }
+
+    core.debug(
+      `Merge base of ${inputs.mergeBaseRef} and ${currentSha}: ${mergeBase}`
+    )
+    previousSha = mergeBase
+    targetBranch = inputs.mergeBaseRef
+  }
+
   if (
     currentBranchName &&
     currentBranchName !== 'HEAD' &&
@@ -232,7 +259,7 @@ export const getSHAForNonPullRequestEvent = async ({
     }
   }
 
-  if (!previousSha || previousSha === currentSha) {
+  if (!inputs.mergeBaseRef && (!previousSha || previousSha === currentSha)) {
     core.debug('Getting previous SHA...')
     if (inputs.since) {
       core.debug(`Getting base SHA for '${inputs.since}'...`)
