@@ -31,6 +31,7 @@ import {
   verifyMinimumGitVersion,
   warnUnsupportedRESTAPIInputs
 } from './utils'
+import {sendTelemetry, TelemetryStatus} from './telemetry'
 
 const getChangedFilesFromLocalGitHistory = async ({
   inputs,
@@ -285,6 +286,9 @@ const getChangedFilesFromRESTAPI = async ({
   })
 }
 
+// Tracks whether the REST API path was used, for opt-in telemetry only.
+let telemetryUsedRestApi = false
+
 export async function run(): Promise<void> {
   core.startGroup('changed-files')
 
@@ -332,6 +336,7 @@ export async function run(): Promise<void> {
     (!hasGitDirectory || inputs.useRestApi)
   ) {
     core.info("Using GitHub's REST API to get changed files")
+    telemetryUsedRestApi = true
     await warnUnsupportedRESTAPIInputs({inputs})
     await getChangedFilesFromRESTAPI({
       inputs,
@@ -356,8 +361,24 @@ export async function run(): Promise<void> {
   }
 }
 
-// eslint-disable-next-line github/no-then
-run().catch(e => {
-  core.setFailed(e.message || e)
-  process.exit(1)
-})
+const telemetryStartMs = Date.now()
+
+async function emitTelemetry(status: TelemetryStatus): Promise<void> {
+  await sendTelemetry({
+    durationMs: Date.now() - telemetryStartMs,
+    status,
+    usedRestApi: telemetryUsedRestApi
+  })
+}
+
+/* eslint-disable github/no-then */
+run()
+  .then(async () => {
+    await emitTelemetry('success')
+  })
+  .catch(async e => {
+    await emitTelemetry('failure')
+    core.setFailed(e.message || e)
+    process.exit(1)
+  })
+/* eslint-enable github/no-then */

@@ -251,6 +251,15 @@ inputs:
     description: "Tags pattern to ignore."
     required: false
     default: ""
+  telemetry:
+    description: |
+      Opt-in to send anonymized CI telemetry to ApplySmart CI (https://ci.applysmart.ai).
+      No file paths, branch names, commit content, or tokens are ever sent — only one-way
+      hashed repo/owner identifiers, step duration, success/failure, and runner metadata.
+      Override the endpoint with the `APPLYSMART_TELEMETRY_URL` env var, or disable globally
+      with `TJ_ACTIONS_TELEMETRY=0`.
+    required: false
+    default: "false"
 
 
 outputs:
