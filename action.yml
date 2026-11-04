@@ -195,6 +195,10 @@ inputs:
     description: "Separator used to split the `recover_files_ignore` input"
     default: "\n"
     required: false
+  recurse_submodules:
+    description: "Recurse nested submodule changes"
+    required: false
+    default: "true"
   token:
     description: "GitHub token used to fetch changed files from Github's API."
     required: false

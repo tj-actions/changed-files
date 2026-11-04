@@ -14,6 +14,7 @@ import {
   getDirnameMaxDepth,
   getDirNamesIncludeFilesPattern,
   getFilteredChangedFiles,
+  getSubmodulePath,
   gitRenamedFiles,
   gitSubmoduleDiffSHA,
   isSymlinkInGitTree,
@@ -214,6 +215,115 @@ export type ChangedFiles = {
   [key in ChangeTypeEnum]: string[]
 }
 
+export const getAllSubmoduleDiffFiles = async ({
+  submodulePath,
+  workingDirectory,
+  previousSha,
+  currentSha,
+  diffType,
+  outputRenamedFilesAsDeletedAndAdded,
+  fetchAdditionalSubmoduleHistory,
+  failOnSubmoduleDiffError,
+  submoduleShas,
+  recurseSubmodules
+}: {
+  submodulePath: string
+  workingDirectory: string
+  previousSha: string
+  currentSha: string
+  diffType: string
+  outputRenamedFilesAsDeletedAndAdded: boolean
+  fetchAdditionalSubmoduleHistory: boolean
+  failOnSubmoduleDiffError: boolean
+  submoduleShas?: Record<string, {previousSha?: string; currentSha?: string}>
+  recurseSubmodules: boolean
+}): Promise<ChangedFiles> => {
+  const submoduleShaResult = await gitSubmoduleDiffSHA({
+    cwd: workingDirectory,
+    parentSha1: previousSha,
+    parentSha2: currentSha,
+    submodulePath,
+    diff: diffType
+  })
+
+  const submoduleWorkingDirectory = path.join(workingDirectory, submodulePath)
+
+  if (!(submoduleShaResult.currentSha && submoduleShaResult.previousSha)) {
+    return {
+      [ChangeTypeEnum.Added]: [],
+      [ChangeTypeEnum.Copied]: [],
+      [ChangeTypeEnum.Deleted]: [],
+      [ChangeTypeEnum.Modified]: [],
+      [ChangeTypeEnum.Renamed]: [],
+      [ChangeTypeEnum.TypeChanged]: [],
+      [ChangeTypeEnum.Unmerged]: [],
+      [ChangeTypeEnum.Unknown]: []
+    }
+  }
+
+  if (submoduleShas) {
+    submoduleShas[submodulePath] = submoduleShaResult
+  }
+  let diff = '...'
+
+  if (
+    !(await canDiffCommits({
+      cwd: submoduleWorkingDirectory,
+      sha1: submoduleShaResult.previousSha,
+      sha2: submoduleShaResult.currentSha,
+      diff
+    }))
+  ) {
+    let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
+    if (fetchAdditionalSubmoduleHistory) {
+      message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`
+    }
+    core.warning(message)
+    diff = '..'
+  }
+
+  const files = await getAllChangedFiles({
+    cwd: submoduleWorkingDirectory,
+    sha1: submoduleShaResult.previousSha,
+    sha2: submoduleShaResult.currentSha,
+    diff,
+    isSubmodule: true,
+    parentDir: submodulePath,
+    outputRenamedFilesAsDeletedAndAdded,
+    failOnSubmoduleDiffError
+  })
+
+  if (!recurseSubmodules) {
+    return files
+  }
+
+  for (const innerSubmodulePath of await getSubmodulePath({
+    cwd: submoduleWorkingDirectory
+  })) {
+    const submoduleFiles = await getAllSubmoduleDiffFiles({
+      submodulePath: innerSubmodulePath,
+      workingDirectory: submoduleWorkingDirectory,
+      previousSha: submoduleShaResult.previousSha,
+      currentSha: submoduleShaResult.currentSha,
+      diffType,
+      outputRenamedFilesAsDeletedAndAdded,
+      fetchAdditionalSubmoduleHistory,
+      failOnSubmoduleDiffError,
+      submoduleShas,
+      recurseSubmodules
+    })
+
+    for (const changeType of Object.keys(submoduleFiles) as ChangeTypeEnum[]) {
+      if (!files[changeType]) {
+        files[changeType] = []
+      }
+      files[changeType].push(...submoduleFiles[changeType])
+    }
+  }
+
+  return files
+}
+
 export const getAllDiffFiles = async ({
   workingDirectory,
   diffSubmodule,
@@ -223,7 +333,8 @@ export const getAllDiffFiles = async ({
   fetchAdditionalSubmoduleHistory,
   failOnInitialDiffError,
   failOnSubmoduleDiffError,
-  submoduleShas
+  submoduleShas,
+  recurseSubmodules
 }: {
   workingDirectory: string
   diffSubmodule: boolean
@@ -234,6 +345,7 @@ export const getAllDiffFiles = async ({
   failOnInitialDiffError: boolean
   failOnSubmoduleDiffError: boolean
   submoduleShas?: Record<string, {previousSha?: string; currentSha?: string}>
+  recurseSubmodules: boolean
 }): Promise<ChangedFiles> => {
   const files = await getAllChangedFiles({
     cwd: workingDirectory,
@@ -246,60 +358,26 @@ export const getAllDiffFiles = async ({
 
   if (diffSubmodule) {
     for (const submodulePath of submodulePaths) {
-      const submoduleShaResult = await gitSubmoduleDiffSHA({
-        cwd: workingDirectory,
-        parentSha1: diffResult.previousSha,
-        parentSha2: diffResult.currentSha,
+      const submoduleFiles = await getAllSubmoduleDiffFiles({
         submodulePath,
-        diff: diffResult.diff
+        workingDirectory,
+        previousSha: diffResult.previousSha,
+        currentSha: diffResult.currentSha,
+        diffType: diffResult.diff,
+        outputRenamedFilesAsDeletedAndAdded,
+        fetchAdditionalSubmoduleHistory,
+        failOnSubmoduleDiffError,
+        submoduleShas,
+        recurseSubmodules
       })
 
-      const submoduleWorkingDirectory = path.join(
-        workingDirectory,
-        submodulePath
-      )
-
-      if (submoduleShaResult.currentSha && submoduleShaResult.previousSha) {
-        if (submoduleShas) {
-          submoduleShas[submodulePath] = submoduleShaResult
+      for (const changeType of Object.keys(
+        submoduleFiles
+      ) as ChangeTypeEnum[]) {
+        if (!files[changeType]) {
+          files[changeType] = []
         }
-        let diff = '...'
-
-        if (
-          !(await canDiffCommits({
-            cwd: submoduleWorkingDirectory,
-            sha1: submoduleShaResult.previousSha,
-            sha2: submoduleShaResult.currentSha,
-            diff
-          }))
-        ) {
-          let message = `Set 'fetch_additional_submodule_history: true' to fetch additional submodule history for: ${submodulePath}`
-          if (fetchAdditionalSubmoduleHistory) {
-            message = `To fetch additional submodule history for: ${submodulePath} you can increase history depth using 'fetch_depth' input`
-          }
-          core.warning(message)
-          diff = '..'
-        }
-
-        const submoduleFiles = await getAllChangedFiles({
-          cwd: submoduleWorkingDirectory,
-          sha1: submoduleShaResult.previousSha,
-          sha2: submoduleShaResult.currentSha,
-          diff,
-          isSubmodule: true,
-          parentDir: submodulePath,
-          outputRenamedFilesAsDeletedAndAdded,
-          failOnSubmoduleDiffError
-        })
-
-        for (const changeType of Object.keys(
-          submoduleFiles
-        ) as ChangeTypeEnum[]) {
-          if (!files[changeType]) {
-            files[changeType] = []
-          }
-          files[changeType].push(...submoduleFiles[changeType])
-        }
+        files[changeType].push(...submoduleFiles[changeType])
       }
     }
   }

@@ -48,6 +48,7 @@ const baseInputs: Inputs = {
   recoverFilesSeparator: '\n',
   recoverFilesIgnore: '',
   recoverFilesIgnoreSeparator: '\n',
+  recurseSubmodules: true,
   token: 'fake-token',
   apiUrl: 'https://api.github.com',
   skipInitialFetch: false,
